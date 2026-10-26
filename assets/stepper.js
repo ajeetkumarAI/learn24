@@ -10,7 +10,7 @@
   class Abort extends Error {}
   if (L.color) document.documentElement.style.setProperty('--ac', L.color);
 
-  function setSpeed(s) { speed = s; document.documentElement.style.setProperty('--d', (reduce ? .05 : .45 / s) + 's'); $$('.seg button').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.s === s))); }
+  function setSpeed(s) { speed = s; document.documentElement.style.setProperty('--d', (reduce ? .05 : Math.min(.9, .45 / s)) + 's'); $$('.seg button').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.s === s))); }
   async function wait(ms) { const id = runId; let t = 0; const eff = reduce ? ms / 10 : ms; while (t < eff) { if (id !== runId) throw new Abort(); await new Promise(r => setTimeout(r, 16)); if (!paused) t += 16 * speed; } if (id !== runId) throw new Abort(); }
   async function type(el, text, cps = 60) { el.textContent = ''; el.classList.add('typing'); for (const ch of text) { el.textContent += ch; await wait(1000 / cps); } el.classList.remove('typing'); }
   async function seq(els, gap = 260, cls = 'show') { for (const e of els) { e.classList.add(cls); await wait(gap); } }
@@ -105,7 +105,7 @@
     document.body.insertAdjacentHTML('afterbegin', `<div class="wrap">
       <div class="eyebrow">${esc(L.eyebrow || '')}</div><h1>${esc(L.title)}</h1><p class="lede">${esc(L.lede || '')}</p>
       <div class="ctl"><button id="btn-pause" type="button">❚❚ Pause</button><button id="btn-restart" type="button">↺ Restart</button>
-        <div class="seg" role="group" aria-label="Speed"><button type="button" data-s="0.5">0.5×</button><button type="button" data-s="1" aria-pressed="true">1×</button><button type="button" data-s="2">2×</button></div></div>
+        <div class="seg" role="group" aria-label="Speed"><button type="button" data-s="0.25" aria-pressed="true">0.25×</button><button type="button" data-s="0.5">0.5×</button><button type="button" data-s="1">1×</button><button type="button" data-s="2">2×</button></div></div>
       <div class="panel" id="panel">${steps}</div>
       <div class="take rv" id="take"><h2>Key takeaways</h2><ul class="list">${(L.takeaways || []).map(([a, d]) => `<li><div><b>${esc(a)}</b>${d ? ` <span>· ${esc(d)}</span>` : ''}</div></li>`).join('')}</ul></div>
       <div class="foot rv" id="foot"><div class="credit">Created by <b>Ajeetkumar</b></div>${L.fine ? `<div class="fine">${esc(L.fine)}</div>` : ''}</div>
@@ -134,7 +134,7 @@
   $('#btn-restart').onclick = () => { window.scrollTo({ top: 0 }); run(); };
   $('#btn-pause').onclick = e => { paused = !paused; e.currentTarget.textContent = paused ? '▶ Play' : '❚❚ Pause'; };
   $$('.seg button').forEach(b => b.onclick = () => setSpeed(+b.dataset.s));
-  setSpeed(1);
+  setSpeed(0.25);
   window.lessonRun = run;
   run();
 })();

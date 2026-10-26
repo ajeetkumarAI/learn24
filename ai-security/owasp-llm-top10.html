@@ -112,8 +112,9 @@ h1{margin:0;font-size:clamp(22px,4vw,30px);font-weight:700;text-align:center;tex
     <button id="btn-pause" type="button">❚❚ Pause</button>
     <button id="btn-restart" type="button">↺ Restart</button>
     <div class="seg" role="group" aria-label="Speed">
+      <button type="button" id="sp-025" data-s="0.25" aria-pressed="true">0.25×</button>
       <button type="button" id="sp-05" data-s="0.5">0.5×</button>
-      <button type="button" id="sp-1" data-s="1" aria-pressed="true">1×</button>
+      <button type="button" id="sp-1" data-s="1">1×</button>
       <button type="button" id="sp-2" data-s="2">2×</button>
     </div>
   </div>
@@ -232,7 +233,7 @@ const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'
 const reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
 let runId=0,paused=false,speed=1,cur=0;
 class Abort extends Error{}
-function setSpeed(s){speed=s;document.documentElement.style.setProperty('--d',(reduce?0.05:0.45/s)+'s');$$('.seg button').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.s===s)));}
+function setSpeed(s){speed=s;document.documentElement.style.setProperty('--d',(reduce?0.05:Math.min(0.9,0.45/s))+'s');$$('.seg button').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.s===s)));}
 async function wait(ms){const id=runId;let t=0;const eff=reduce?ms/10:ms;while(t<eff){if(id!==runId)throw new Abort();await new Promise(r=>setTimeout(r,16));if(!paused)t+=16*speed;}if(id!==runId)throw new Abort();}
 async function type(el,text,cps=55){el.textContent='';el.classList.add('typing');for(const ch of text){el.textContent+=ch;await wait(1000/cps);}el.classList.remove('typing');}
 async function showAll(st,sel,gap=260){for(const el of $$(sel,st)){el.classList.add('show');await wait(gap);}}
@@ -290,7 +291,7 @@ async function run(){
       els[i].classList.remove('on');els[i].classList.add('done');
     }
     $$('#foot .rv').forEach(e=>e.classList.add('show'));
-    await wait(9000);if(id===runId)run();
+    
   }catch(e){if(!(e instanceof Abort))console.error(e);}
 }
 function go(i){cur=i;try{history.replaceState(null,'','#'+R[i].id);}catch(e){}window.scrollTo({top:0});run();}
@@ -300,7 +301,7 @@ $$('.tab').forEach(t=>t.onclick=()=>go(+t.dataset.i));
 $('#btn-restart').onclick=()=>{window.scrollTo({top:0});run();};
 $('#btn-pause').onclick=e=>{paused=!paused;e.currentTarget.textContent=paused?'▶ Play':'❚❚ Pause';};
 $$('.seg button').forEach(b=>b.onclick=()=>setSpeed(+b.dataset.s));
-setSpeed(1);
+setSpeed(0.25);
 const hi=R.findIndex(r=>'#'+r.id===location.hash);if(hi>=0)cur=hi;
 run();
 </script>
