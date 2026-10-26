@@ -112,8 +112,9 @@ h1{margin:0;font-size:clamp(22px,4vw,30px);font-weight:700;text-align:center;tex
     <button id="btn-pause" type="button">❚❚ Pause</button>
     <button id="btn-restart" type="button">↺ Restart</button>
     <div class="seg" role="group" aria-label="Speed">
-      <button type="button" id="sp-025" data-s="0.25" aria-pressed="true">0.25×</button>
-      <button type="button" id="sp-05" data-s="0.5">0.5×</button>
+      <button type="button" id="sp-025" data-s="0.25">0.25×</button>
+      <button type="button" id="sp-05" data-s="0.5" aria-pressed="true">0.5×</button>
+      <button type="button" id="sp-075" data-s="0.75">0.75×</button>
       <button type="button" id="sp-1" data-s="1">1×</button>
       <button type="button" id="sp-2" data-s="2">2×</button>
     </div>
@@ -303,7 +304,7 @@ $$('.tab').forEach(t=>t.onclick=()=>go(+t.dataset.i));
 $('#btn-restart').onclick=()=>{window.scrollTo({top:0});run();};
 $('#btn-pause').onclick=e=>{paused=!paused;e.currentTarget.textContent=paused?'▶ Play':'❚❚ Pause';};
 $$('.seg button').forEach(b=>b.onclick=()=>setSpeed(+b.dataset.s));
-setSpeed(0.25);
+setSpeed(0.5);
 const hi=R.findIndex(r=>'#'+r.id===location.hash);if(hi>=0)cur=hi;
 run();
 </script>

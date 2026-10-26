@@ -11,5 +11,27 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/agentic",
+      "destination": "/ai-security/owasp-agentic-top10",
+      "permanent": false
+    },
+    {
+      "source": "/llm",
+      "destination": "/ai-security/owasp-llm-top10",
+      "permanent": false
+    },
+    {
+      "source": "/redteam",
+      "destination": "/ai-security/red-teaming",
+      "permanent": false
+    },
+    {
+      "source": "/security",
+      "destination": "/ai-security",
+      "permanent": false
+    }
   ]
 }

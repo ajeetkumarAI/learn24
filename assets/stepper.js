@@ -105,7 +105,7 @@
     document.body.insertAdjacentHTML('afterbegin', `<div class="wrap">
       <div class="eyebrow">${esc(L.eyebrow || '')}</div><h1>${esc(L.title)}</h1><p class="lede">${esc(L.lede || '')}</p>
       <div class="ctl"><button id="btn-pause" type="button">❚❚ Pause</button><button id="btn-restart" type="button">↺ Restart</button>
-        <div class="seg" role="group" aria-label="Speed"><button type="button" data-s="0.25" aria-pressed="true">0.25×</button><button type="button" data-s="0.5">0.5×</button><button type="button" data-s="1">1×</button><button type="button" data-s="2">2×</button></div></div>
+        <div class="seg" role="group" aria-label="Speed"><button type="button" data-s="0.25">0.25×</button><button type="button" data-s="0.5" aria-pressed="true">0.5×</button><button type="button" data-s="0.75">0.75×</button><button type="button" data-s="1">1×</button><button type="button" data-s="2">2×</button></div></div>
       <div class="panel" id="panel">${steps}</div>
       <div class="take rv" id="take"><h2>Key takeaways</h2><ul class="list">${(L.takeaways || []).map(([a, d]) => `<li><div><b>${esc(a)}</b>${d ? ` <span>· ${esc(d)}</span>` : ''}</div></li>`).join('')}</ul></div>
       <div class="foot rv" id="foot"><div class="credit">Created by <b>Ajeetkumar</b></div>${L.fine ? `<div class="fine">${esc(L.fine)}</div>` : ''}</div>
@@ -134,7 +134,7 @@
   $('#btn-restart').onclick = () => { window.scrollTo({ top: 0 }); run(); };
   $('#btn-pause').onclick = e => { paused = !paused; e.currentTarget.textContent = paused ? '▶ Play' : '❚❚ Pause'; };
   $$('.seg button').forEach(b => b.onclick = () => setSpeed(+b.dataset.s));
-  setSpeed(0.25);
+  setSpeed(0.5);
   window.lessonRun = run;
   run();
 })();
