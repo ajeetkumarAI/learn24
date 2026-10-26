@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dynamic Prompting with LangChain · GenAI Course · Learn24</title>
+<meta name="description" content="Prompt templates and output parsers, the LangChain Expression Language (LCEL) pipe syntax, Runnables (invoke, batch, stream), and sequential and parallel chains, with code tested on langchain-core.">
+<meta property="og:title" content="Dynamic Prompting with LangChain · Learn24">
+<meta property="og:description" content="Prompt templates and output parsers, the LangChain Expression Language (LCEL) pipe syntax, Runnables (invoke, batch, stream), and sequential and parallel chains, with code tested on langchain-core.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#b38cff}</style>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article>
+  <div class="kicker">GenAI Course · Module 8 · Session 29</div>
+  <h1>Dynamic Prompting with LangChain</h1>
+  <div class="meta"><span>⏱ 12 min read</span><span>🎯 Intermediate</span><span>🖼 2 diagrams</span><span>🧪 1 live demo</span><span>🐍 Python code</span></div>
+<p class="lead">Writing one prompt by hand is easy. Building an app that fills prompts with live data, calls a model, cleans the reply and passes it to the next step is harder. <strong>LangChain</strong> gives you small building blocks that snap together with a simple <code>|</code> pipe, like Lego.</p>
+  <div class="tldr"><h4>In this session</h4><ul>
+    <li>Prompt templates and output parsers</li>
+    <li>LCEL: joining steps with the <code>|</code> operator</li>
+    <li>Runnables: <code>invoke</code>, <code>batch</code> and <code>stream</code></li>
+    <li>Sequential chains and parallel chains</li>
+  </ul></div>
+
+  <h2 id="templates"><span class="n">01</span>Prompt templates</h2>
+  <p>A prompt template is a prompt with <strong>blanks</strong> to fill at run time. It keeps your prompt text in one place and makes it reusable.</p>
+  <div class="codebox"><div class="cap"><span>template.py</span><button class="copy" type="button">Copy</button></div><pre># pip install langchain-core langchain-openai
+from langchain_core.prompts import ChatPromptTemplate
+
+prompt = ChatPromptTemplate.from_messages([
+    ("system", "You are a helpful banking tutor."),
+    ("user", "Explain {topic} in one line."),
+])
+print(prompt.invoke({"topic": "UPI"}).to_messages())</pre></div>
+  <div class="out">[SystemMessage(content='You are a helpful banking tutor.', …), HumanMessage(content='Explain UPI in one line.', …)]</div>
+  <div class="analogy"><span class="ic">📮</span><p><b>Like a printed bank form.</b> The text is fixed; you only fill in the blanks (name, account number). One form, used thousands of times.</p></div>
+
+  <h2 id="parsers"><span class="n">02</span>Output parsers</h2>
+  <p>A chat model returns a message object. An <strong>output parser</strong> turns it into what your code needs:</p>
+  <ul>
+    <li><code>StrOutputParser</code>: just the text.</li>
+    <li><code>JsonOutputParser</code>: a Python dict.</li>
+    <li><code>PydanticOutputParser</code> or <code>llm.with_structured_output(Model)</code>: a validated object (Session 28).</li>
+  </ul>
+
+  <h2 id="lcel"><span class="n">03</span>LCEL: the pipe operator</h2>
+  <p>The <strong>LangChain Expression Language</strong> joins steps with <code>|</code>. The output of each step becomes the input of the next:</p>
+  <figure class="fig">
+    <div class="kflow" data-nodes='[["{\"topic\": \"UPI\"}","input dict",""],["prompt","fills the template","am"],["llm","calls the model","ac"],["StrOutputParser","message → text","gr"],["“UPI lets you…”","final string","solid"]]'></div>
+    <figcaption><code>chain = prompt | llm | StrOutputParser()</code></figcaption>
+  </figure>
+  <div class="codebox"><div class="cap"><span>first_chain.py</span><button class="copy" type="button">Copy</button></div><pre>from langchain_core.output_parsers import StrOutputParser
+from langchain_openai import ChatOpenAI
+
+llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+chain = prompt | llm | StrOutputParser()
+
+print(chain.invoke({"topic": "UPI"}))</pre></div>
+  <div class="callout tip"><b>No API key? Practise for free.</b> Swap in a fake model that returns fixed replies: <code>from langchain_core.language_models.fake_chat_models import FakeListChatModel</code> then <code>llm = FakeListChatModel(responses=["UPI lets you send money instantly using a phone number or QR code."])</code>. The chain works exactly the same.</div>
+
+  <h2 id="runnables"><span class="n">04</span>Runnables: one interface for everything</h2>
+  <p>Prompts, models, parsers and whole chains are all <strong>Runnables</strong>, so they share the same methods:</p>
+  <div class="tw"><table>
+    <thead><tr><th>Method</th><th>What it does</th><th>Use it for</th></tr></thead>
+    <tbody>
+      <tr><td><code>invoke(x)</code></td><td>Run once on one input</td><td>A single request</td></tr>
+      <tr><td><code>batch([x1, x2, …])</code></td><td>Run on many inputs, in parallel</td><td>Processing a file of 1,000 tickets</td></tr>
+      <tr><td><code>stream(x)</code></td><td>Yield the answer piece by piece</td><td>Chat UIs that show text as it is typed</td></tr>
+      <tr><td><code>ainvoke</code>, <code>abatch</code>, <code>astream</code></td><td>Async versions</td><td>Web servers (FastAPI)</td></tr>
+    </tbody></table></div>
+  <div class="codebox"><div class="cap"><span>runnables.py</span><button class="copy" type="button">Copy</button></div><pre>answers = chain.batch([{"topic": "UPI"}, {"topic": "NEFT"}, {"topic": "IMPS"}])
+
+for piece in chain.stream({"topic": "RTGS"}):
+    print(piece, end="", flush=True)</pre></div>
+  <p>You can also turn any Python function into a Runnable with <code>RunnableLambda</code>, and pass input through unchanged with <code>RunnablePassthrough</code>.</p>
+
+  <h2 id="chains"><span class="n">05</span>Sequential and parallel chains</h2>
+  <h3>Sequential: one step feeds the next</h3>
+  <p>Example: summarise a customer complaint in English, then translate the summary into Hindi for the branch team.</p>
+  <figure class="fig">
+    <div class="kflow" data-nodes='[["Complaint","long text",""],["Summarise chain","→ 1-line English summary","ac"],["Translate chain","→ Hindi","gr"],["Branch team","reads it","solid"]]'></div>
+    <figcaption>The output of the first chain becomes the input of the second.</figcaption>
+  </figure>
+  <div class="codebox"><div class="cap"><span>sequential.py</span><button class="copy" type="button">Copy</button></div><pre>summarise = ChatPromptTemplate.from_template("Summarise this complaint in one line:\n{complaint}") | llm | StrOutputParser()
+translate = ChatPromptTemplate.from_template("Translate to Hindi:\n{summary}") | llm | StrOutputParser()
+
+pipeline = {"summary": summarise} | translate     # the dict maps the first output into {summary}
+print(pipeline.invoke({"complaint": "I was charged twice for my electricity bill payment on 3 Oct…"}))</pre></div>
+  <h3>Parallel: several jobs on the same input</h3>
+  <p><code>RunnableParallel</code> runs branches at the same time and returns a dict, which saves waiting time.</p>
+  <div class="demo" data-demo="par">
+    <div class="demo-h"><b>Demo · Sequential vs parallel timing</b><button class="btn" type="button" data-run>▶ Run both</button></div>
+    <p class="note-s" style="margin-top:0">Three model calls (sentiment, keywords, summary), each taking about 1.2 seconds.</p>
+    <div class="bars" data-bars></div>
+  </div>
+  <div class="codebox"><div class="cap"><span>parallel.py</span><button class="copy" type="button">Copy</button></div><pre>from langchain_core.runnables import RunnableParallel, RunnablePassthrough
+
+sentiment = ChatPromptTemplate.from_template("Sentiment (positive/negative/neutral) of: {text}") | llm | StrOutputParser()
+keywords  = ChatPromptTemplate.from_template("3 keywords from: {text}") | llm | StrOutputParser()
+
+analyse = RunnableParallel(sentiment=sentiment, keywords=keywords, original=RunnablePassthrough())
+print(analyse.invoke({"text": "Got my refund after a delay, thanks!"}))</pre></div>
+  <div class="out">{'sentiment': 'positive', 'keywords': 'refund, delay', 'original': {'text': 'Got my refund after a delay, thanks!'}}</div>
+  <p class="note-s">Output above from running with a fake model on langchain-core; a real model’s wording will differ.</p>
+
+  <h2 id="summary"><span class="n">06</span>Summary</h2>
+  <ul>
+    <li><strong>Prompt templates</strong> hold reusable prompts with blanks.</li>
+    <li><strong>Output parsers</strong> turn model messages into text, dicts or validated objects.</li>
+    <li><strong>LCEL</strong> joins steps with <code>|</code>: <code>prompt | llm | parser</code>.</li>
+    <li>Every piece is a <strong>Runnable</strong> with <code>invoke</code>, <code>batch</code> and <code>stream</code>.</li>
+    <li>Chain steps <strong>sequentially</strong> or run them in <strong>parallel</strong> with <code>RunnableParallel</code>.</li>
+  </ul>
+
+  <h2 id="quiz"><span class="n">07</span>Quick quiz</h2>
+  <div class="quiz">
+    <div class="q" data-answer="0" data-why="In LCEL, | passes the output of the left step as input to the right step."><p>1. In <code>prompt | llm | parser</code>, what does <code>|</code> do?</p><div class="opts"><button class="opt" type="button">Passes each step’s output to the next step</button><button class="opt" type="button">Runs all steps in parallel</button><button class="opt" type="button">Means logical OR</button></div></div>
+    <div class="q" data-answer="2" data-why="stream() yields the output in pieces as it is generated."><p>2. Which method shows the answer word by word in a chat UI?</p><div class="opts"><button class="opt" type="button">invoke</button><button class="opt" type="button">batch</button><button class="opt" type="button">stream</button></div></div>
+    <div class="q" data-answer="1" data-why="StrOutputParser converts the model’s message object into a plain string."><p>3. What does StrOutputParser return?</p><div class="opts"><button class="opt" type="button">A Pydantic object</button><button class="opt" type="button">Plain text</button><button class="opt" type="button">A list of tokens</button></div></div>
+    <div class="q" data-answer="1" data-why="RunnableParallel runs branches at the same time and returns a dict of results."><p>4. You need sentiment and keywords for the same review, fast. Use…</p><div class="opts"><button class="opt" type="button">Two sequential chains</button><button class="opt" type="button">RunnableParallel</button><button class="opt" type="button">A higher temperature</button></div></div>
+    <div class="q" data-answer="0" data-why="batch runs many inputs, in parallel where possible."><p>5. To process 1,000 tickets with one chain, use…</p><div class="opts"><button class="opt" type="button">chain.batch(list_of_inputs)</button><button class="opt" type="button">chain.stream()</button><button class="opt" type="button">1,000 separate scripts</button></div></div>
+    <p class="score" aria-live="polite"></p>
+  </div>
+
+  <h2 id="references"><span class="n">08</span>References</h2>
+  <ul>
+    <li><a href="https://python.langchain.com/docs/concepts/lcel/" target="_blank" rel="noopener">LangChain Expression Language (LCEL)</a></li>
+    <li><a href="https://python.langchain.com/docs/concepts/runnables/" target="_blank" rel="noopener">Runnable interface</a></li>
+  </ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+
+<script src="../assets/article.js"></script>
+<script src="../assets/course-kit.js"></script>
+<script>
+(function () {
+  const { demo, $ } = window.Article;
+  demo('par', el => {
+    const b = $('[data-bars]', el);
+    const run = async () => {
+      let s = 0, p = 0; const t0 = performance.now();
+      const tick = () => { const t = (performance.now() - t0) / 1000; s = Math.min(3.6, t); p = Math.min(1.2, t);
+        b.innerHTML = [['Sequential', s, 3.6], ['Parallel', p, 1.2]].map(([l, v, end]) => `<div class="bar${l === 'Parallel' ? ' top' : ''}"><span>${l}</span><div class="track"><div class="fill" style="transition:none;width:${(v / 3.6 * 100).toFixed(1)}%"></div></div><span class="v">${v.toFixed(1)} s${v >= end ? ' ✓' : ''}</span></div>`).join('');
+        if (t < 3.6) requestAnimationFrame(tick); };
+      tick();
+    };
+    $('[data-run]', el).onclick = run;
+    Kit.bars(b, [['Sequential', 3.6, '3.6 s'], ['Parallel', 1.2, '1.2 s']], 3.6);
+  });
+})();
+</script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="genai-course/s29-langchain-lcel"></script>
+</body>
+</html>

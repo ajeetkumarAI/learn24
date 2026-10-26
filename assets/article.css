@@ -176,3 +176,4 @@ article code{overflow-wrap:anywhere}
 .kstep.cur .kno{background:var(--ac);color:var(--bg)}
 .kstep p{margin:0 0 6px}
 .formula{text-align:center;font-family:var(--mono);font-size:18px;color:var(--fg);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px;margin:14px 0;overflow-x:auto}
+.stepbox{margin-bottom:10px}.stepbox:last-child{margin-bottom:0}

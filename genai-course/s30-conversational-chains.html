@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Conversational Chains & Tracing · GenAI Course · Learn24</title>
+<meta name="description" content="Document chains (Stuff, Map-Reduce, Refine, Map-Rerank) for working with many documents, managing conversation memory with LangGraph persistence and trimming, and tracing every step with LangSmith.">
+<meta property="og:title" content="Conversational Chains &amp; Tracing · Learn24">
+<meta property="og:description" content="Document chains (Stuff, Map-Reduce, Refine, Map-Rerank) for working with many documents, managing conversation memory with LangGraph persistence and trimming, and tracing every step with LangSmith.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#b38cff}</style>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article>
+  <div class="kicker">GenAI Course · Module 8 · Session 30</div>
+  <h1>Conversational Chains & Tracing</h1>
+  <div class="meta"><span>⏱ 13 min read</span><span>🎯 Intermediate</span><span>🖼 2 diagrams</span><span>🧪 2 live demos</span><span>🐍 Python code</span></div>
+<p class="lead">Real apps work with <strong>many documents</strong> and <strong>long conversations</strong>. A model’s context window is limited, so we need patterns to combine documents, ways to remember what the user said earlier, and a way to see what is happening inside every chain. That is this session.</p>
+  <div class="tldr"><h4>In this session</h4><ul>
+    <li>Four document chains: Stuff, Map-Reduce, Refine and Map-Rerank</li>
+    <li>Managing conversation memory: full history, windows, summaries and trimming</li>
+    <li>The modern way to add memory: LangGraph persistence (tested code)</li>
+    <li>Tracing and debugging with LangSmith</li>
+  </ul></div>
+
+  <h2 id="doc-chains"><span class="n">01</span>Four ways to work with many documents</h2>
+  <p>Suppose you must summarise 50 customer-call transcripts, or answer a question from 20 retrieved chunks. Here are the classic patterns:</p>
+  <div class="demo" data-demo="pick"><script type="application/json">{"title":"Pick a document chain","options":[
+    {"label":"Stuff","html":"<div class='kflow' style='margin:6px 0 10px'><div class='kn'><b>All docs</b></div><span class='kar'>→</span><div class='kn ac'><b>1 prompt</b></div><span class='kar'>→</span><div class='kn solid'><b>Answer</b></div></div>","note":"Put every document into one prompt. <b>1 call</b>, simplest and best quality when everything fits in the context window."},
+    {"label":"Map-Reduce","html":"<div class='kflow' style='margin:6px 0 10px'><div class='kn'><b>Doc 1 · Doc 2 · Doc 3</b></div><span class='kar'>→</span><div class='kn ac'><b>Map</b><span>summarise each, in parallel</span></div><span class='kar'>→</span><div class='kn gr'><b>Reduce</b><span>combine the summaries</span></div><span class='kar'>→</span><div class='kn solid'><b>Answer</b></div></div>","note":"Works for any number of documents and runs in parallel. <b>N + 1 calls</b>. Small details can be lost in the map step."},
+    {"label":"Refine","html":"<div class='kflow' style='margin:6px 0 10px'><div class='kn'><b>Doc 1</b><span>draft answer</span></div><span class='kar'>→</span><div class='kn ac'><b>+ Doc 2</b><span>improve draft</span></div><span class='kar'>→</span><div class='kn ac'><b>+ Doc 3</b><span>improve again</span></div><span class='kar'>→</span><div class='kn solid'><b>Answer</b></div></div>","note":"Builds the answer step by step. Keeps more context than map-reduce, but <b>N calls in sequence</b> (slow) and order matters."},
+    {"label":"Map-Rerank","html":"<div class='kflow' style='margin:6px 0 10px'><div class='kn'><b>Each doc</b></div><span class='kar'>→</span><div class='kn ac'><b>Answer + confidence score</b></div><span class='kar'>→</span><div class='kn gr'><b>Pick highest score</b></div><span class='kar'>→</span><div class='kn solid'><b>Answer</b></div></div>","note":"Good when the answer is in <b>one</b> document (e.g. which policy covers my case). It cannot combine facts across documents."}]}</script></div>
+  <div class="tw"><table>
+    <thead><tr><th>Chain</th><th>LLM calls</th><th>Parallel?</th><th>Best for</th></tr></thead>
+    <tbody>
+      <tr><td>Stuff</td><td>1</td><td>–</td><td>Small sets that fit in context</td></tr>
+      <tr><td>Map-Reduce</td><td>N + 1</td><td>Yes</td><td>Summarising many long documents</td></tr>
+      <tr><td>Refine</td><td>N</td><td>No</td><td>Building a detailed answer that needs context</td></tr>
+      <tr><td>Map-Rerank</td><td>N</td><td>Yes</td><td>Finding the single best answer source</td></tr>
+    </tbody></table></div>
+  <div class="analogy"><span class="ic">🗂️</span><p><b>Map-Reduce is like a class project.</b> Each student summarises one chapter (map), then the group leader combines them into one report (reduce). Refine is one student reading chapter by chapter and updating the same notes.</p></div>
+  <p>Older LangChain versions had ready-made <code>load_summarize_chain</code> and <code>load_qa_chain</code> helpers for these. Today it is simpler to write them yourself with LCEL:</p>
+  <div class="codebox"><div class="cap"><span>map_reduce.py</span><button class="copy" type="button">Copy</button></div><pre>from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+
+map_chain = ChatPromptTemplate.from_template("Summarise this support call in one line:\n{chunk}") | llm | StrOutputParser()
+reduce_chain = ChatPromptTemplate.from_template("Combine these summaries into the top issues:\n{summaries}") | llm | StrOutputParser()
+
+partials = map_chain.batch([{"chunk": c} for c in call_transcripts])     # map, in parallel
+print(reduce_chain.invoke({"summaries": "\n".join(partials)}))         # reduce</pre></div>
+  <div class="out">['Card blocked after ATM failure.', 'Refund delayed by 10 days.', 'App login OTP not received.']
+Top issues: card blocks, refund delays, OTP failures.</div>
+  <p class="note-s">Output from a test run with a fake model on langchain-core.</p>
+
+  <h2 id="memory"><span class="n">02</span>Managing conversation memory</h2>
+  <p>LLMs are <strong>stateless</strong>: each call knows nothing about earlier calls. “Memory” simply means sending the relevant past messages again with each new question. The art is choosing <em>which</em> messages to send.</p>
+  <figure class="fig">
+    <div class="kgrid" data-cards='[["Full history","Send every message. Perfect recall, but cost and context grow without limit.","rd"],["Window (last k)","Send only the last k turns. Cheap and simple; forgets older details.","am"],["Summary","Keep a running summary of older turns + recent messages. Remembers the gist for long chats.","ac"],["Token-limited trim","Keep as many recent messages as fit in a token budget. The practical default.","gr"]]'></div>
+    <figcaption>For long-term facts (name, preferences across sessions), store them separately and fetch when needed.</figcaption>
+  </figure>
+  <div class="demo" data-demo="stepper"><script type="application/json">{"title":"How memory works in a chat","steps":[
+    "<p>Turn 1, user: <i>“Hi, my name is Priya.”</i> → stored in thread <code>customer-42</code></p>",
+    "<p>Turn 1, assistant: <i>“Nice to meet you, Priya!”</i> → stored</p>",
+    "<p>Turn 2, user: <i>“What is my name?”</i> The app loads the thread and sends <b>all 3 messages</b> to the model.</p>",
+    "<p>Turn 2, assistant: <i>“Your name is Priya.”</i> The model didn’t remember; the app reminded it.</p>"]}</script></div>
+  <h3>The modern way: LangGraph persistence</h3>
+  <p>In current LangChain, the old memory classes (like <code>ConversationBufferMemory</code> and <code>RunnableWithMessageHistory</code>) are deprecated. The recommended approach is a small <strong>LangGraph</strong> app with a <strong>checkpointer</strong> that saves each conversation thread. We will learn LangGraph properly in Session 37.</p>
+  <div class="codebox"><div class="cap"><span>chat_memory.py</span><button class="copy" type="button">Copy</button></div><pre># pip install langgraph langchain-openai
+from langgraph.graph import StateGraph, MessagesState, START, END
+from langgraph.checkpoint.memory import MemorySaver
+from langchain_core.messages import SystemMessage, trim_messages
+
+def chatbot(state: MessagesState):
+    history = trim_messages(state["messages"], max_tokens=2000, token_counter=llm, strategy="last")
+    reply = llm.invoke([SystemMessage("You are a bank support assistant.")] + history)
+    return {"messages": [reply]}
+
+graph = StateGraph(MessagesState)
+graph.add_node("chatbot", chatbot)
+graph.add_edge(START, "chatbot")
+graph.add_edge("chatbot", END)
+app = graph.compile(checkpointer=MemorySaver())       # use a database checkpointer in production
+
+cfg = {"configurable": {"thread_id": "customer-42"}}
+app.invoke({"messages": [("user", "Hi, my name is Priya.")]}, cfg)
+out = app.invoke({"messages": [("user", "What is my name?")]}, cfg)
+print(out["messages"][-1].content, "|", len(out["messages"]), "messages in thread")</pre></div>
+  <div class="out">Your name is Priya. | 4 messages in thread</div>
+  <div class="callout warn"><b>Privacy:</b> memory stores what customers say. Decide what you are allowed to keep, mask sensitive data like account numbers, and set an expiry for stored threads.</div>
+
+  <h2 id="tracing"><span class="n">03</span>Tracing with LangSmith</h2>
+  <p>When a chain gives a bad answer, you need to see <em>which step</em> went wrong. <strong>LangSmith</strong> records every run as a tree: each prompt, model call and parser, with inputs, outputs, tokens, cost and time.</p>
+  <figure class="fig">
+    <div class="kflow" data-dir="col" data-nodes='[["▶ support_chain · 2.4 s · 1,180 tokens","the whole run","solid"],["  ├ ChatPromptTemplate · 2 ms","see the exact prompt that was sent","am"],["  ├ ChatOpenAI · 2.3 s · 1,150 tokens · ₹0.09","input messages, output, model settings","ac"],["  └ StrOutputParser · 1 ms","final answer",""]]'></div>
+    <figcaption>A trace shows where the time, tokens and errors are.</figcaption>
+  </figure>
+  <p>Turning it on needs only environment variables; your chain code does not change:</p>
+  <div class="codebox"><div class="cap"><span>.env</span><button class="copy" type="button">Copy</button></div><pre>LANGSMITH_TRACING=true
+LANGSMITH_API_KEY=your-key-here
+LANGSMITH_PROJECT=bank-support-bot</pre></div>
+  <p>What to use traces for:</p>
+  <ul>
+    <li><strong>Debugging:</strong> see the exact filled prompt and the raw model output.</li>
+    <li><strong>Cost and latency:</strong> find the slow or expensive step.</li>
+    <li><strong>Datasets:</strong> save good and bad runs as test cases for evaluation (Session 36).</li>
+    <li><strong>Monitoring:</strong> watch error rates and user feedback in production.</li>
+  </ul>
+  <p class="note-s">Open-source alternatives include Langfuse, Arize Phoenix and OpenTelemetry-based tools.</p>
+
+  <h2 id="summary"><span class="n">04</span>Summary</h2>
+  <ul>
+    <li><strong>Stuff</strong> (one prompt), <strong>Map-Reduce</strong> (parallel then combine), <strong>Refine</strong> (step by step) and <strong>Map-Rerank</strong> (best single source) handle many documents.</li>
+    <li>LLMs are stateless; memory means <strong>re-sending chosen history</strong>: window, summary or token-trimmed.</li>
+    <li>Use <strong>LangGraph with a checkpointer</strong> for conversation memory in modern LangChain.</li>
+    <li><strong>LangSmith</strong> traces every step for debugging, cost tracking and evaluation.</li>
+  </ul>
+
+  <h2 id="quiz"><span class="n">05</span>Quick quiz</h2>
+  <div class="quiz">
+    <div class="q" data-answer="1" data-why="Map-reduce summarises each document in parallel, then combines the results."><p>1. You must summarise 200 long transcripts quickly. Best chain?</p><div class="opts"><button class="opt" type="button">Stuff</button><button class="opt" type="button">Map-Reduce</button><button class="opt" type="button">Refine</button></div></div>
+    <div class="q" data-answer="0" data-why="Stuff puts all documents into one prompt, so it needs only one call."><p>2. Which chain makes only one LLM call?</p><div class="opts"><button class="opt" type="button">Stuff</button><button class="opt" type="button">Refine</button><button class="opt" type="button">Map-Rerank</button></div></div>
+    <div class="q" data-answer="2" data-why="Models are stateless; the app re-sends previous messages."><p>3. How does a chatbot “remember” your name?</p><div class="opts"><button class="opt" type="button">The model stores it in its weights</button><button class="opt" type="button">The API provider learns it</button><button class="opt" type="button">The app re-sends earlier messages each turn</button></div></div>
+    <div class="q" data-answer="1" data-why="A window keeps only the last k turns, so older details drop out."><p>4. A downside of window memory (last k turns)?</p><div class="opts"><button class="opt" type="button">It is very expensive</button><button class="opt" type="button">It forgets older details</button><button class="opt" type="button">It cannot be used with chat models</button></div></div>
+    <div class="q" data-answer="2" data-why="LangSmith records each step’s inputs, outputs, tokens and latency."><p>5. What does LangSmith tracing show you?</p><div class="opts"><button class="opt" type="button">Only the final answer</button><button class="opt" type="button">The model’s weights</button><button class="opt" type="button">Each step’s inputs, outputs, tokens and time</button></div></div>
+    <p class="score" aria-live="polite"></p>
+  </div>
+
+  <h2 id="references"><span class="n">06</span>References</h2>
+  <ul>
+    <li><a href="https://docs.langchain.com/oss/python/langchain/short-term-memory" target="_blank" rel="noopener">LangChain: short-term memory</a></li>
+    <li><a href="https://langchain-ai.github.io/langgraph/concepts/persistence/" target="_blank" rel="noopener">LangGraph persistence</a></li>
+    <li><a href="https://docs.smith.langchain.com/" target="_blank" rel="noopener">LangSmith documentation</a></li>
+  </ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+
+<script src="../assets/article.js"></script>
+<script src="../assets/course-kit.js"></script>
+<script>
+
+</script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="genai-course/s30-conversational-chains"></script>
+</body>
+</html>

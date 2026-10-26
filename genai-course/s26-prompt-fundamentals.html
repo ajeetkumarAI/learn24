@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Prompt Fundamentals · GenAI Course · Learn24</title>
+<meta name="description" content="Why prompt engineering matters, the six elements of an effective prompt, system/user/assistant roles, and zero-shot vs few-shot prompting, with before-and-after examples and Python code.">
+<meta property="og:title" content="Prompt Fundamentals · Learn24">
+<meta property="og:description" content="Why prompt engineering matters, the six elements of an effective prompt, system/user/assistant roles, and zero-shot vs few-shot prompting, with before-and-after examples and Python code.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#b38cff}</style>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article>
+  <div class="kicker">GenAI Course · Module 8 · Session 26</div>
+  <h1>Prompt Fundamentals</h1>
+  <div class="meta"><span>⏱ 11 min read</span><span>🎯 Beginner friendly</span><span>🖼 2 diagrams</span><span>🧪 2 live demos</span><span>🐍 Python code</span></div>
+<p class="lead">The same model can give a useless answer or a brilliant one. Very often, the only difference is the <strong>prompt</strong>. Prompt engineering is the skill of telling an LLM exactly what you want, clearly enough that it gets it right the first time.</p>
+  <div class="tldr"><h4>In this session</h4><ul>
+    <li>Why prompt engineering matters, with a before-and-after example</li>
+    <li>The six elements of an effective prompt</li>
+    <li>System, user and assistant roles</li>
+    <li>Zero-shot and few-shot prompting</li>
+  </ul></div>
+
+  <h2 id="why"><span class="n">01</span>Why prompts matter</h2>
+  <p>An LLM only knows what you put in the prompt (plus what it learned in training). It cannot read your mind about the audience, length, format or rules. Compare these two prompts:</p>
+  <div class="demo" data-demo="pick"><script type="application/json">{"title":"Weak prompt vs strong prompt","options":[
+    {"label":"Weak prompt","html":"<div class='codebox'><pre>Write about credit cards.</pre></div><div class='callout warn'><b>Typical result:</b> a long, generic essay about the history of credit cards. Wrong audience, wrong length, no clear use.</div>"},
+    {"label":"Strong prompt","html":"<div class='codebox'><pre>You are a friendly bank advisor.\nWrite 3 short tips for college students in India getting their first credit card.\nFocus on avoiding debt and building a good CIBIL score.\nUse simple English, one line per tip, no jargon.</pre></div><div class='callout tip'><b>Typical result:</b> exactly 3 clear, useful tips for the right reader. Ready to post.</div>"}]}</script></div>
+  <div class="analogy"><span class="ic">🧵</span><p><b>Like giving instructions to a tailor.</b> “Make me a shirt” gets you <em>a</em> shirt. Your measurements, fabric, colour, collar style and the date you need it get you <em>your</em> shirt.</p></div>
+
+  <h2 id="elements"><span class="n">02</span>Six elements of an effective prompt</h2>
+  <figure class="fig">
+    <div class="kgrid" data-cards='[["1 · Role","Who should the model act as? <i>“You are a fraud analyst.”</i>","ac"],["2 · Task","What exactly to do, with a clear verb. <i>“Classify this SMS.”</i>","gr"],["3 · Context","Background it needs. <i>“Users are bank customers in India.”</i>","am"],["4 · Format","Shape of the answer. <i>“Reply as JSON with label and reason.”</i>","ac"],["5 · Constraints","Rules and limits. <i>“Max 30 words. If unsure, say unknown.”</i>","rd"],["6 · Examples","One or more sample inputs with ideal outputs (few-shot).","gr"]]'></div>
+    <figcaption>You don’t always need all six, but missing ones are the usual reason for bad answers.</figcaption>
+  </figure>
+  <p>A few practical tips:</p>
+  <ul>
+    <li><strong>Be specific and positive:</strong> say what to do (“reply in 3 bullet points”) rather than only what not to do.</li>
+    <li><strong>Separate instructions from data</strong> with clear markers like triple quotes or XML-style tags, e.g. <code>&lt;sms&gt;…&lt;/sms&gt;</code>. This also reduces prompt-injection risk.</li>
+    <li><strong>Give the model a way out:</strong> “If the answer is not in the text, say ‘not found’.” This reduces made-up answers.</li>
+    <li><strong>Iterate:</strong> test on 10–20 real inputs, look at failures, and refine. Prompting is an experiment, not a one-shot activity.</li>
+  </ul>
+
+  <h2 id="roles"><span class="n">03</span>System, user and assistant roles</h2>
+  <p>Chat models receive a list of messages, each with a role:</p>
+  <figure class="fig">
+    <div class="kflow" data-dir="col" data-nodes='[["system","Standing instructions: persona, rules, format. Set once by the developer.","am"],["user","What the person asks.","ac"],["assistant","The model’s previous replies (or examples you write for it).","gr"],["user","The next question…","ac"]]'></div>
+    <figcaption>The model reads the whole list every time and writes the next assistant message.</figcaption>
+  </figure>
+  <ul>
+    <li><strong>System</strong> messages are the best place for rules that must always hold (tone, safety, output format).</li>
+    <li><strong>User</strong> messages carry the request and any data.</li>
+    <li><strong>Assistant</strong> messages hold earlier replies. You can also write fake assistant turns as examples, which is one way to do few-shot prompting.</li>
+  </ul>
+  <div class="codebox"><div class="cap"><span>roles.py</span><button class="copy" type="button">Copy</button></div><pre># pip install openai   (works with any OpenAI-compatible API)
+from openai import OpenAI
+client = OpenAI()   # reads OPENAI_API_KEY from the environment
+
+messages = [
+    {"role": "system", "content": "You are a polite support assistant for an Indian bank. Answer in at most 2 sentences."},
+    {"role": "user", "content": "How long does a NEFT transfer take?"},
+]
+reply = client.chat.completions.create(model="gpt-4o-mini", messages=messages, temperature=0.2)
+print(reply.choices[0].message.content)</pre></div>
+
+  <h2 id="shots"><span class="n">04</span>Zero-shot and few-shot prompting</h2>
+  <p><strong>Zero-shot</strong> means you describe the task with no examples. Modern LLMs are good at this for common tasks. <strong>Few-shot</strong> means you include a few input → output examples. This helps a lot when the task has your own labels, a special format, or tricky edge cases.</p>
+  <div class="demo" data-demo="stepper"><script type="application/json">{"title":"Build a few-shot prompt","steps":[
+    "<p><b>Instruction:</b> <code>Classify each complaint as CARD, UPI, LOAN or OTHER. Reply with the label only.</code></p>",
+    "<p><b>Example 1:</b> <code>Complaint: My debit card was swallowed by the ATM. → CARD</code></p>",
+    "<p><b>Example 2:</b> <code>Complaint: Money debited but UPI payment failed. → UPI</code></p>",
+    "<p><b>Example 3:</b> <code>Complaint: EMI deducted twice this month. → LOAN</code></p>",
+    "<p><b>New input:</b> <code>Complaint: QR payment to the kirana store is stuck. →</code> the model replies <span class='tok mask'>UPI</span></p><p class='note-s'>The examples taught the labels, the format (label only) and an edge case (a QR payment counts as UPI).</p>"]}</script></div>
+  <div class="tw"><table>
+    <thead><tr><th></th><th>Zero-shot</th><th>Few-shot</th></tr></thead>
+    <tbody>
+      <tr><td>Examples in the prompt</td><td>None</td><td>Usually 2–8</td></tr>
+      <tr><td>Best for</td><td>Common, well-defined tasks</td><td>Custom labels, strict formats, edge cases</td></tr>
+      <tr><td>Cost</td><td>Fewer tokens</td><td>More tokens per call</td></tr>
+      <tr><td>Watch out</td><td>Format may drift</td><td>Model may copy the examples too closely; keep them varied and balanced</td></tr>
+    </tbody></table></div>
+
+  <h2 id="summary"><span class="n">05</span>Summary</h2>
+  <ul>
+    <li>Clear prompts are the cheapest way to improve output quality.</li>
+    <li>Use the six elements: <strong>role, task, context, format, constraints, examples</strong>.</li>
+    <li>Put lasting rules in the <strong>system</strong> message; the request goes in the <strong>user</strong> message.</li>
+    <li>Start <strong>zero-shot</strong>; add <strong>few-shot</strong> examples for custom labels and formats.</li>
+  </ul>
+
+  <h2 id="quiz"><span class="n">06</span>Quick quiz</h2>
+  <div class="quiz">
+    <div class="q" data-answer="1" data-why="System messages hold standing instructions such as tone, rules and format."><p>1. Where should “always reply in Hindi, max 50 words” go?</p><div class="opts"><button class="opt" type="button">An assistant message</button><button class="opt" type="button">The system message</button><button class="opt" type="button">Nowhere; models already know</button></div></div>
+    <div class="q" data-answer="2" data-why="Few-shot means including input-output examples in the prompt."><p>2. Few-shot prompting means…</p><div class="opts"><button class="opt" type="button">using a smaller model</button><button class="opt" type="button">asking only a few questions</button><button class="opt" type="button">including a few worked examples in the prompt</button></div></div>
+    <div class="q" data-answer="0" data-why="Giving the model an explicit way out reduces made-up answers."><p>3. Which line helps reduce made-up answers?</p><div class="opts"><button class="opt" type="button">“If the answer is not in the text, say ‘not found’.”</button><button class="opt" type="button">“Be creative.”</button><button class="opt" type="button">“Answer quickly.”</button></div></div>
+    <div class="q" data-answer="1" data-why="Clear delimiters separate instructions from data and reduce prompt-injection risk."><p>4. Why wrap user data in tags like &lt;sms&gt;…&lt;/sms&gt;?</p><div class="opts"><button class="opt" type="button">It makes the prompt shorter</button><button class="opt" type="button">It separates data from instructions</button><button class="opt" type="button">It is required by all APIs</button></div></div>
+    <div class="q" data-answer="2" data-why="Format describes the shape of the answer, such as JSON fields or bullet points."><p>5. “Reply as JSON with label and reason” is which element?</p><div class="opts"><button class="opt" type="button">Role</button><button class="opt" type="button">Context</button><button class="opt" type="button">Format</button></div></div>
+    <p class="score" aria-live="polite"></p>
+  </div>
+
+  <h2 id="references"><span class="n">07</span>References</h2>
+  <ul>
+    <li><a href="https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview" target="_blank" rel="noopener">Anthropic prompt engineering guide</a></li>
+    <li><a href="https://platform.openai.com/docs/guides/prompt-engineering" target="_blank" rel="noopener">OpenAI prompt engineering guide</a></li>
+    <li>Brown et al., <a href="https://arxiv.org/abs/2005.14165" target="_blank" rel="noopener">Language Models are Few-Shot Learners</a> (2020)</li>
+  </ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+
+<script src="../assets/article.js"></script>
+<script src="../assets/course-kit.js"></script>
+<script>
+
+</script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="genai-course/s26-prompt-fundamentals"></script>
+</body>
+</html>

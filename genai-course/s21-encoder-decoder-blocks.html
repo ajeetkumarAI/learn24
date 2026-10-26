@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Inside the Encoder and Decoder Blocks · GenAI Course · Learn24</title>
-<meta name="description" content="Self-attention, feed-forward networks, layer normalisation and residual connections in the encoder; masked attention, cross-attention and the output head in the decoder; and how training differs from inference.">
+<meta name="description" content="What happens inside a transformer encoder and decoder block: self-attention, feed-forward, layer normalization, residuals, masked and cross attention, the output head, and training vs inference.">
 <meta property="og:title" content="Inside the Encoder and Decoder Blocks · Learn24">
-<meta property="og:description" content="Self-attention, feed-forward networks, layer normalisation and residual connections in the encoder; masked attention, cross-attention and the output head in the decoder; and how training differs from inference.">
+<meta property="og:description" content="What happens inside a transformer encoder and decoder block: self-attention, feed-forward, layer normalization, residuals, masked and cross attention, the output head, and training vs inference.">
 <meta name="theme-color" content="#0d1420">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
@@ -19,125 +19,39 @@
 <article>
   <div class="kicker">GenAI Course · Module 6 · Session 21</div>
   <h1>Inside the Encoder and Decoder Blocks</h1>
-  <div class="meta"><span>⏱ 13 min read</span><span>🎯 Intermediate</span><span>🖼 3 diagrams</span><span>🧪 2 live demos</span><span>🐍 Python code</span></div>
-<p class="lead">In Session 20 we saw the transformer from far away. Now let us open each block and look at every part inside it: what it does, why it is there, and how the same model behaves differently while <strong>training</strong> and while <strong>answering</strong>.</p>
-  <div class="tldr"><h4>In this session</h4><ul>
-    <li>Encoder block: self-attention, feed-forward network, layer norm and residual connections</li>
-    <li>Decoder block: masked self-attention, cross-attention and the output head</li>
-    <li>Training (teacher forcing, all at once) vs inference (one token at a time)</li>
-    <li>A working encoder layer in PyTorch</li>
-  </ul></div>
-
-  <h2 id="encoder"><span class="n">01</span>The encoder block</h2>
-  <p>One encoder block has two sub-layers, each wrapped with a residual connection and layer normalisation:</p>
-  <figure class="fig">
-    <div class="kflow" data-dir="col" data-nodes='[["Input vectors","one per token",""],["Multi-head self-attention","tokens share information","ac"],["Add & LayerNorm","x + attention(x), then normalise",""],["Feed-forward network","each token processed alone","gr"],["Add & LayerNorm","x + ffn(x), then normalise",""],["Output vectors","same shape as input","solid"]]'></div>
-    <figcaption>Input and output have the same shape, so blocks can be stacked again and again.</figcaption>
-  </figure>
-  <h3>Feed-forward network (FFN)</h3>
-  <p>After attention mixes information <em>between</em> tokens, the FFN thinks about each token <em>on its own</em>. It is a small two-layer network: expand, apply an activation, shrink back.</p>
-  <div class="formula">FFN(x) = W₂ · GELU( W₁ · x + b₁ ) + b₂&nbsp;&nbsp;&nbsp;(512 → 2048 → 512)</div>
-  <div class="tw"><table>
-    <thead><tr><th>Part of one layer (d = 512)</th><th>Parameters</th><th>Share</th></tr></thead>
-    <tbody><tr><td>Attention (W_Q, W_K, W_V, W_O)</td><td>~1.05 million</td><td>~1/3</td></tr><tr><td>Feed-forward (512 → 2048 → 512)</td><td>~2.1 million</td><td>~2/3</td></tr></tbody></table></div>
-  <p>Surprise: most of a transformer’s parameters live in the FFNs, not in attention. Many researchers think the FFNs store a lot of the model’s factual knowledge.</p>
-  <h3>Residual connections</h3>
-  <p>Each sub-layer’s output is <strong>added back</strong> to its input: <code>x + SubLayer(x)</code>. This gives gradients a direct path through deep networks, so even 100-layer models can be trained.</p>
-  <div class="analogy"><span class="ic">🛣️</span><p><b>Like a highway bypass.</b> Traffic can go through the city (the sub-layer) or take the bypass straight ahead (the residual). Information never gets stuck in a jam.</p></div>
-  <h3>Layer normalisation</h3>
-  <p>LayerNorm rescales each token’s vector to mean 0 and spread 1 (then applies a learned scale and shift). This keeps numbers in a healthy range layer after layer. The original paper put it <em>after</em> the addition (Post-LN). Most modern LLMs put it <em>before</em> each sub-layer (<strong>Pre-LN</strong>), which trains more stably; many also use a lighter version called RMSNorm.</p>
-
-  <h2 id="decoder"><span class="n">02</span>The decoder block</h2>
-  <p>The decoder block has <strong>three</strong> sub-layers:</p>
-  <figure class="fig">
-    <div class="kflow" data-dir="col" data-nodes='[["Tokens written so far","&lt;start&gt; मुझे चाय",""],["Masked self-attention","can only look at earlier output tokens","ac"],["Add & LayerNorm","",""],["Cross-attention","Q from decoder · K, V from encoder","am"],["Add & LayerNorm","",""],["Feed-forward network","","gr"],["Add & LayerNorm","",""],["Linear + softmax","probability of every word in the vocabulary","solid"]]'></div>
-    <figcaption>Masked self-attention looks back at its own output; cross-attention looks across at the input sentence.</figcaption>
-  </figure>
-  <ul>
-    <li><strong>Masked self-attention:</strong> the causal mask from <a href="s18-multi-head-attention.html">Session 18</a> stops a token from seeing future tokens.</li>
-    <li><strong>Cross-attention:</strong> queries come from the decoder, but keys and values come from the encoder’s output. This is how the decoder “reads” the source sentence.</li>
-    <li><strong>Output head:</strong> a linear layer turns the final vector into one score per vocabulary word, and softmax turns scores into probabilities. Many models <strong>tie</strong> this layer’s weights to the input embedding table to save parameters.</li>
-  </ul>
-  <p>Watch cross-attention at work. When the decoder writes each Hindi word, where does it look in the English sentence?</p>
-  <div class="demo" data-demo="pick"><script type="application/json">{"title":"Cross-attention while translating","options":[
-    {"label":"writing मुझे","tokens":[["I","src"],["love",""],["chai",""]],"rows":[["I",0.78],["love",0.15],["chai",0.07]],"note":"“मुझे” (to me) comes from “I”."},
-    {"label":"writing चाय","tokens":[["I",""],["love",""],["chai","src"]],"rows":[["chai",0.86],["love",0.09],["I",0.05]],"note":"“चाय” comes straight from “chai”."},
-    {"label":"writing पसंद","tokens":[["I",""],["love","src"],["chai",""]],"rows":[["love",0.81],["chai",0.11],["I",0.08]],"note":"“पसंद है” (is liked) comes from “love”. Notice Hindi puts it at the end; cross-attention handles the reordering. (Illustrative weights.)"}]}</script></div>
-
-  <h2 id="training"><span class="n">03</span>Training vs inference</h2>
-  <p>The same model works in two very different ways depending on whether it is learning or answering.</p>
-  <figure class="fig">
-    <div class="kgrid" data-cards='[["Training: teacher forcing","The full correct answer is fed in at once, shifted by one. Thanks to the causal mask, all positions are predicted <b>in parallel</b> and the loss is computed for every token in one pass.","ac"],["Inference: autoregressive","There is no answer yet. The model predicts one token, appends it, and runs again, <b>one token at a time</b>, until it emits &lt;end&gt;. A KV cache avoids recomputing earlier tokens.","gr"]]'></div>
-    <figcaption>Training is fast and parallel; generation is step by step.</figcaption>
-  </figure>
-  <div class="demo" data-demo="stepper"><script type="application/json">{"title":"Inference, one token at a time","steps":[
-    "<p>Encoder reads <span class='tok'>I love chai</span> once and keeps its output.</p>",
-    "<p>Decoder input: <span class='tok sp'>&lt;start&gt;</span> → predicts <span class='tok mask'>मुझे</span></p>",
-    "<p>Decoder input: <span class='tok sp'>&lt;start&gt;</span> <span class='tok'>मुझे</span> → predicts <span class='tok mask'>चाय</span></p>",
-    "<p>Decoder input: <span class='tok sp'>&lt;start&gt;</span> <span class='tok'>मुझे</span> <span class='tok'>चाय</span> → predicts <span class='tok mask'>पसंद</span></p>",
-    "<p>… → predicts <span class='tok mask'>है</span>, then <span class='tok sp'>&lt;end&gt;</span>. Done: <b>मुझे चाय पसंद है</b></p>"]}</script></div>
-  <div class="tw"><table>
-    <thead><tr><th></th><th>Training</th><th>Inference</th></tr></thead>
-    <tbody>
-      <tr><td>Decoder input</td><td>The correct answer (shifted right)</td><td>The model’s own previous outputs</td></tr>
-      <tr><td>Speed</td><td>All positions in parallel</td><td>One forward pass per new token</td></tr>
-      <tr><td>Dropout</td><td>On</td><td>Off (<code>model.eval()</code>)</td></tr>
-      <tr><td>Memory trick</td><td>None needed</td><td>KV cache of past keys and values</td></tr>
-      <tr><td>Risk</td><td>None from its own mistakes</td><td>One wrong token can lead the rest astray</td></tr>
-    </tbody></table></div>
-
-  <h2 id="code"><span class="n">04</span>Code: an encoder layer in PyTorch</h2>
-  <div class="codebox"><div class="cap"><span>encoder_layer.py</span><button class="copy" type="button">Copy</button></div><pre>import torch
+  <div class="meta"><span>⏱ 12 min read</span><span>🎯 Intermediate</span><span>🖼 2 diagrams</span><span>🧪 1 live demos</span><span>🐍 Python code</span></div>
+  <p class="lead">Let us open the boxes. In this session we look inside one <strong>encoder block</strong> and one <strong>decoder block</strong>, understand each small part, and see why the model behaves differently during <strong>training</strong> and when you actually <strong>use</strong> it.</p>
+  <div class="tldr"><h4>In this session</h4><ul><li>The four parts of an encoder block</li><li>The decoder’s extra parts: masked attention, cross-attention and the output head</li><li>Training with teacher forcing vs generating at inference time</li><li>PyTorch code for a block and a causal mask</li></ul></div>
+<h2 id="encoder"><span class="n">01</span>Inside the encoder block</h2>
+<p>Every encoder layer has the same four parts, in this order:</p><figure class="fig"><svg viewBox="0 0 700 392" role="img" aria-label="One encoder block. The original transformer stacks six of these."><g class="an" style="--dl:0.00s"><rect class="bx " x="200" y="316" width="300" height="48" rx="10"/><text x="350" y="338" text-anchor="middle" class="" style="font-weight:600;font-size:14.0px">Input vectors</text><text x="350" y="355" text-anchor="middle" class="tm" style="font-size:11.5px">one per token</text></g><g class="an" style="--dl:0.10s"><path class="ln" d="M 350 316 L 350 304"/><path class="ln" d="M 353.5 311.2 L 350 304 L 346.5 311.2"/></g><g class="an" style="--dl:0.22s"><rect class="bx ac" x="200" y="254" width="300" height="48" rx="10"/><text x="350" y="276" text-anchor="middle" class="tac" style="font-weight:600;font-size:14.0px">Multi-head self-attention</text><text x="350" y="293" text-anchor="middle" class="tm" style="font-size:11.5px">tokens share information</text></g><g class="an" style="--dl:0.32s"><path class="ln" d="M 350 254 L 350 242"/><path class="ln" d="M 353.5 249.2 L 350 242 L 346.5 249.2"/></g><g class="an" style="--dl:0.44s"><rect class="bx " x="200" y="192" width="300" height="48" rx="10"/><text x="350" y="214" text-anchor="middle" class="" style="font-weight:600;font-size:14.0px">Add &amp; LayerNorm</text><text x="350" y="231" text-anchor="middle" class="tm" style="font-size:11.5px">residual + normalise</text></g><g class="an" style="--dl:0.54s"><path class="ln" d="M 350 192 L 350 180"/><path class="ln" d="M 353.5 187.2 L 350 180 L 346.5 187.2"/></g><g class="an" style="--dl:0.66s"><rect class="bx gr" x="200" y="130" width="300" height="48" rx="10"/><text x="350" y="152" text-anchor="middle" class="tgr" style="font-weight:600;font-size:14.0px">Feed-forward network</text><text x="350" y="169" text-anchor="middle" class="tm" style="font-size:11.5px">512 → 2048 → 512</text></g><g class="an" style="--dl:0.76s"><path class="ln" d="M 350 130 L 350 118"/><path class="ln" d="M 353.5 125.2 L 350 118 L 346.5 125.2"/></g><g class="an" style="--dl:0.88s"><rect class="bx " x="200" y="68" width="300" height="48" rx="10"/><text x="350" y="90" text-anchor="middle" class="" style="font-weight:600;font-size:14.0px">Add &amp; LayerNorm</text><text x="350" y="107" text-anchor="middle" class="tm" style="font-size:11.5px">residual + normalise</text></g><g class="an" style="--dl:0.98s"><path class="ln" d="M 350 68 L 350 56"/><path class="ln" d="M 353.5 63.2 L 350 56 L 346.5 63.2"/></g><g class="an" style="--dl:1.10s"><rect class="bx solid" x="200" y="6" width="300" height="48" rx="10"/><text x="350" y="35" text-anchor="middle" class="tbg" style="font-weight:600;font-size:14.0px">Output → next layer</text></g><g class="an" style="--dl:1.32s"><path class="ln dash" d="M 505 278 L 540 278"/><text x="548" y="282" class="tm">mixes across tokens</text></g><g class="an" style="--dl:1.32s"><path class="ln dash" d="M 505 154 L 540 154"/><text x="548" y="158" class="tm">thinks per token</text></g></svg><figcaption>One encoder block. The original transformer stacks six of these.</figcaption></figure><div class="tw"><table><thead><tr><th>Part</th><th>Job in simple words</th></tr></thead><tbody><tr><td>Self-attention</td><td>each token collects information from the other tokens</td></tr><tr><td>Feed-forward network (FFN)</td><td>a small 2-layer network applied to each token separately; it “thinks” about what was collected</td></tr><tr><td>Residual connection</td><td>adds the block’s input back to its output, so information and gradients flow easily through many layers</td></tr><tr><td>Layer normalization</td><td>keeps the numbers in a stable range so training doesn’t blow up</td></tr></tbody></table></div><div class="analogy"><span class="ic">🍲</span><p><b>Like a group study session.</b> First everyone discusses together (attention). Then each student goes home and thinks it over alone (feed-forward). Their notes from before are never thrown away (residual).</p></div><div class="callout "><b>Pre-LN vs Post-LN:</b> the original paper normalised <em>after</em> adding the residual. Most modern LLMs normalise <em>before</em> each sub-layer (Pre-LN), which trains more stably in very deep models.</div>
+<h2 id="decoder"><span class="n">02</span>Inside the decoder block</h2>
+<p>The decoder block has <strong>three</strong> sub-layers instead of two:</p><figure class="fig"><svg viewBox="0 0 700 330" role="img" aria-label="A decoder block (Add &amp; LayerNorm after each sub-layer not shown). The final block feeds the output head."><g class="an" style="--dl:0.00s"><rect class="bx " x="200" y="254" width="300" height="48" rx="10"/><text x="350" y="276" text-anchor="middle" class="" style="font-weight:600;font-size:14.0px">Previous output tokens</text><text x="350" y="293" text-anchor="middle" class="tm" style="font-size:11.5px">“&lt;start&gt; मुझे”</text></g><g class="an" style="--dl:0.10s"><path class="ln" d="M 350 254 L 350 242"/><path class="ln" d="M 353.5 249.2 L 350 242 L 346.5 249.2"/></g><g class="an" style="--dl:0.22s"><rect class="bx am" x="200" y="192" width="300" height="48" rx="10"/><text x="350" y="214" text-anchor="middle" class="tam" style="font-weight:600;font-size:14.0px">Masked self-attention</text><text x="350" y="231" text-anchor="middle" class="tm" style="font-size:11.5px">can’t see future tokens</text></g><g class="an" style="--dl:0.32s"><path class="ln" d="M 350 192 L 350 180"/><path class="ln" d="M 353.5 187.2 L 350 180 L 346.5 187.2"/></g><g class="an" style="--dl:0.44s"><rect class="bx ac" x="200" y="130" width="300" height="48" rx="10"/><text x="350" y="152" text-anchor="middle" class="tac" style="font-weight:600;font-size:14.0px">Cross-attention</text><text x="350" y="169" text-anchor="middle" class="tm" style="font-size:11.5px">Q from decoder · K, V from encoder</text></g><g class="an" style="--dl:0.54s"><path class="ln" d="M 350 130 L 350 118"/><path class="ln" d="M 353.5 125.2 L 350 118 L 346.5 125.2"/></g><g class="an" style="--dl:0.66s"><rect class="bx gr" x="200" y="68" width="300" height="48" rx="10"/><text x="350" y="97" text-anchor="middle" class="tgr" style="font-weight:600;font-size:14.0px">Feed-forward network</text></g><g class="an" style="--dl:0.76s"><path class="ln" d="M 350 68 L 350 56"/><path class="ln" d="M 353.5 63.2 L 350 56 L 346.5 63.2"/></g><g class="an" style="--dl:0.88s"><rect class="bx solid" x="200" y="6" width="300" height="48" rx="10"/><text x="350" y="28" text-anchor="middle" class="tbg" style="font-weight:600;font-size:14.0px">Linear + Softmax</text><text x="350" y="45" text-anchor="middle" class="tbg" style="font-size:11.5px">probability for every word</text></g><g class="an" style="--dl:1.10s"><path class="ln dash" d="M 505 216 L 540 216"/><text x="548" y="220" class="tm">look at what I wrote</text></g><g class="an" style="--dl:1.10s"><path class="ln dash" d="M 505 154 L 540 154"/><text x="548" y="158" class="tm">look at the source sentence</text></g><g class="an" style="--dl:1.10s"><path class="ln dash" d="M 505 30 L 540 30"/><text x="548" y="34" class="tm">pick the next word</text></g></svg><figcaption>A decoder block (Add & LayerNorm after each sub-layer not shown). The final block feeds the output head.</figcaption></figure><ul><li><strong>Masked self-attention:</strong> while writing word 3, the decoder may only look at words 1 and 2. The causal mask (Session 18) hides the future.</li><li><strong>Cross-attention:</strong> the queries come from the decoder, but the keys and values come from the encoder’s output. This is how the decoder “looks at” the input sentence.</li><li><strong>Output head:</strong> a linear layer turns the final vector into one score per vocabulary word, and softmax turns scores into probabilities.</li></ul>
+<h2 id="train-infer"><span class="n">03</span>Training vs inference</h2>
+<p>The same model behaves differently when learning and when being used:</p><div class="tw"><table><thead><tr><th></th><th>Training</th><th>Inference (using the model)</th></tr></thead><tbody><tr><td>Decoder input</td><td>the correct previous words (teacher forcing)</td><td>its own previous predictions</td></tr><tr><td>Positions processed</td><td>all at once, in parallel</td><td>one new token per step</td></tr><tr><td>Speed</td><td>fast</td><td>slower: one step per token</td></tr><tr><td>Dropout</td><td>on</td><td>off</td></tr><tr><td>KV cache</td><td>not needed</td><td>used to avoid recomputing old tokens</td></tr></tbody></table></div><div class="analogy"><span class="ic">🚲</span><p><b>Teacher forcing is like learning to ride with support wheels.</b> During training, the model is always given the correct previous word, even if it guessed wrong. At inference, the support wheels come off and it must use its own guesses.</p></div><div class="demo" data-demo="steps"><div class="demo-h"><b>Demo · Translating at inference time, one token per step</b></div><script type="application/json">{"steps": ["<p class=\"note-s\"><b>Encoder<\/b> reads “I love chai” once and keeps its output.<\/p><div class=\"row\"><span class=\"tok \">I<\/span><span class=\"tok \">love<\/span><span class=\"tok \">chai<\/span><\/div>", "<p class=\"note-s\"><b>Step 1:<\/b> decoder input <code>&lt;start&gt;<\/code> → predicts <b>मुझे<\/b><\/p><div class=\"bars\"><div class=\"bar top\"><span>मुझे<\/span><div class=\"track\"><div class=\"fill\" data-w=\"1.000\"><\/div><\/div><span class=\"v\">0.81<\/span><\/div><div class=\"bar\"><span>मैं<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.148\"><\/div><\/div><span class=\"v\">0.12<\/span><\/div><div class=\"bar\"><span>चाय<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.037\"><\/div><\/div><span class=\"v\">0.03<\/span><\/div><\/div>", "<p class=\"note-s\"><b>Step 2:<\/b> input <code>&lt;start&gt; मुझे<\/code> → predicts <b>चाय<\/b><\/p><div class=\"bars\"><div class=\"bar top\"><span>चाय<\/span><div class=\"track\"><div class=\"fill\" data-w=\"1.000\"><\/div><\/div><span class=\"v\">0.77<\/span><\/div><div class=\"bar\"><span>पसंद<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.182\"><\/div><\/div><span class=\"v\">0.14<\/span><\/div><div class=\"bar\"><span>है<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.052\"><\/div><\/div><span class=\"v\">0.04<\/span><\/div><\/div>", "<p class=\"note-s\"><b>Step 3:<\/b> input <code>&lt;start&gt; मुझे चाय<\/code> → predicts <b>पसंद<\/b><\/p><div class=\"bars\"><div class=\"bar top\"><span>पसंद<\/span><div class=\"track\"><div class=\"fill\" data-w=\"1.000\"><\/div><\/div><span class=\"v\">0.88<\/span><\/div><div class=\"bar\"><span>है<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.068\"><\/div><\/div><span class=\"v\">0.06<\/span><\/div><div class=\"bar\"><span>अच्छी<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.034\"><\/div><\/div><span class=\"v\">0.03<\/span><\/div><\/div>", "<p class=\"note-s\"><b>Step 4:<\/b> → predicts <b>है<\/b>, then <b>&lt;end&gt;<\/b>. Done!<\/p><div class=\"row\"><span class=\"tok \">मुझे<\/span><span class=\"tok \">चाय<\/span><span class=\"tok \">पसंद<\/span><span class=\"tok \">है<\/span><span class=\"tok mask\">&lt;end&gt;<\/span><\/div><p class=\"note-s\">Illustrative probabilities.<\/p>"]}</script></div>
+<h2 id="code"><span class="n">04</span>Code: one block and a causal mask</h2>
+<div class="codebox"><div class="cap"><span>blocks.py</span><button class="copy" type="button">Copy</button></div><pre>import torch
 import torch.nn as nn
 
-layer = nn.TransformerEncoderLayer(d_model=512, nhead=8, dim_feedforward=2048,
-                                   batch_first=True, norm_first=True)   # Pre-LN
-encoder = nn.TransformerEncoder(layer, num_layers=6)
+layer = nn.TransformerEncoderLayer(d_model=512, nhead=8, dim_feedforward=2048, batch_first=True)
+x = torch.randn(1, 4, 512)                 # 1 sentence, 4 tokens
+print(layer(x).shape)                      # same shape in and out
 
-x = torch.randn(2, 10, 512)          # 2 sentences, 10 tokens, 512 numbers each
-out = encoder(x)
-print(out.shape)                     # same shape in, same shape out
-
-params = sum(p.numel() for p in layer.parameters())
-print(f"{params:,} parameters per layer")</pre></div>
-  <div class="out">torch.Size([2, 10, 512])
-3,152,384 parameters per layer</div>
-  <p>That is about 1.05 M for attention + 2.1 M for the FFN + a few thousand for the two LayerNorms, matching the table above.</p>
-
-  <h2 id="summary"><span class="n">05</span>Summary</h2>
-  <ul>
-    <li>Encoder block = <strong>self-attention + FFN</strong>, each with <strong>residual + LayerNorm</strong>.</li>
-    <li>The <strong>FFN</strong> holds about two-thirds of the parameters and works on each token separately.</li>
-    <li>Decoder block adds <strong>masked self-attention</strong> and <strong>cross-attention</strong>, then an <strong>output head</strong> over the vocabulary.</li>
-    <li>Training uses <strong>teacher forcing</strong> in parallel; inference generates <strong>one token at a time</strong> with a KV cache.</li>
-  </ul>
-
-  <h2 id="quiz"><span class="n">06</span>Quick quiz</h2>
-  <div class="quiz">
-    <div class="q" data-answer="2" data-why="With d=512 and a 2048 FFN, the FFN has about 2.1 M parameters vs about 1.05 M for attention."><p>1. In a standard layer, which part has the most parameters?</p><div class="opts"><button class="opt" type="button">Attention</button><button class="opt" type="button">LayerNorm</button><button class="opt" type="button">Feed-forward network</button></div></div>
-    <div class="q" data-answer="0" data-why="In cross-attention, queries come from the decoder; keys and values come from the encoder."><p>2. In cross-attention, where do the keys and values come from?</p><div class="opts"><button class="opt" type="button">The encoder output</button><button class="opt" type="button">The decoder’s previous layer</button><button class="opt" type="button">The vocabulary</button></div></div>
-    <div class="q" data-answer="1" data-why="x + SubLayer(x) gives gradients a direct path, which makes deep networks trainable."><p>3. Main job of residual connections?</p><div class="opts"><button class="opt" type="button">Hide future tokens</button><button class="opt" type="button">Give gradients a direct path through deep networks</button><button class="opt" type="button">Reduce vocabulary size</button></div></div>
-    <div class="q" data-answer="1" data-why="Teacher forcing feeds the correct previous tokens so all positions are trained in parallel."><p>4. What is teacher forcing?</p><div class="opts"><button class="opt" type="button">Removing dropout at test time</button><button class="opt" type="button">Feeding the correct answer as decoder input during training</button><button class="opt" type="button">Training only the output head</button></div></div>
-    <div class="q" data-answer="2" data-why="During generation each new token needs another forward pass."><p>5. During inference, a model generates…</p><div class="opts"><button class="opt" type="button">the whole answer in one pass</button><button class="opt" type="button">only the last word</button><button class="opt" type="button">one token per forward pass</button></div></div>
-    <p class="score" aria-live="polite"></p>
-  </div>
-
-  <h2 id="references"><span class="n">07</span>References</h2>
-  <ul>
-    <li>Vaswani et al., <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">Attention Is All You Need</a> (2017), section 3.1–3.3</li>
-    <li>Xiong et al., <a href="https://arxiv.org/abs/2002.04745" target="_blank" rel="noopener">On Layer Normalization in the Transformer Architecture</a> (2020)</li>
-    <li>PyTorch docs: <a href="https://pytorch.org/docs/stable/generated/torch.nn.TransformerEncoderLayer.html" target="_blank" rel="noopener">nn.TransformerEncoderLayer</a></li>
-  </ul>
+mask = nn.Transformer.generate_square_subsequent_mask(4)
+print(mask)                                # -inf = &quot;cannot look here&quot;</pre></div><div class="out">torch.Size([1, 4, 512])
+tensor([[0., -inf, -inf, -inf],
+        [0., 0., -inf, -inf],
+        [0., 0., 0., -inf],
+        [0., 0., 0., 0.]])</div><p>Notice that a block keeps the shape the same: 4 tokens of 512 numbers in, 4 tokens of 512 numbers out. That is why we can stack as many blocks as we like.</p>
+<h2 id="summary"><span class="n">05</span>Summary</h2><ul><li>Encoder block = <strong>self-attention → Add & Norm → FFN → Add & Norm</strong>.</li><li>Decoder adds <strong>masked self-attention</strong> and <strong>cross-attention</strong> to the encoder.</li><li>The <strong>output head</strong> turns the final vector into probabilities over the vocabulary.</li><li>Training uses <strong>teacher forcing</strong> in parallel; inference generates <strong>one token at a time</strong>.</li></ul>
+<h2 id="quiz"><span class="n">06</span>Quick quiz</h2><div class="quiz"><div class="q" data-answer="1" data-why="Queries come from the decoder; keys and values come from the encoder."><p>1. In cross-attention, where do the keys and values come from?</p><div class="opts"><button class="opt" type="button">The decoder</button><button class="opt" type="button">The encoder output</button><button class="opt" type="button">The output head</button></div></div><div class="q" data-answer="0" data-why="Residuals keep information and gradients flowing through deep stacks."><p>2. What does the residual connection do?</p><div class="opts"><button class="opt" type="button">Adds the block’s input back to its output</button><button class="opt" type="button">Removes padding</button><button class="opt" type="button">Picks the next word</button></div></div><div class="q" data-answer="2" data-why="The correct previous tokens are fed in, so all positions can be trained in parallel."><p>3. Teacher forcing means during training the decoder gets…</p><div class="opts"><button class="opt" type="button">its own previous guesses</button><button class="opt" type="button">random words</button><button class="opt" type="button">the correct previous words</button></div></div><div class="q" data-answer="0" data-why="The causal (look-ahead) mask sets future scores to −∞."><p>4. Why can’t the decoder see future tokens?</p><div class="opts"><button class="opt" type="button">A causal mask hides them</button><button class="opt" type="button">They are deleted from memory</button><button class="opt" type="button">The encoder blocks them</button></div></div><div class="q" data-answer="1" data-why="The FFN is applied position by position."><p>5. The feed-forward network works…</p><div class="opts"><button class="opt" type="button">across all tokens together</button><button class="opt" type="button">on each token separately</button><button class="opt" type="button">only in the decoder</button></div></div><p class="score" aria-live="polite"></p></div>
+<h2 id="references"><span class="n">07</span>References</h2><ul><li><a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">Attention Is All You Need</a> (2017)</li><li><a href="https://nlp.seas.harvard.edu/annotated-transformer/" target="_blank" rel="noopener">The Annotated Transformer</a> (Harvard NLP)</li><li><a href="https://pytorch.org/docs/stable/generated/torch.nn.TransformerEncoderLayer.html" target="_blank" rel="noopener">PyTorch nn.TransformerEncoderLayer</a></li></ul>
   <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
 </article>
 <aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
 </div>
-
 <script src="../assets/article.js"></script>
-<script src="../assets/course-kit.js"></script>
-<script>
+<script src="../assets/course.js"></script>
 
-</script>
 <script src="../assets/data.js"></script>
 <script src="../assets/lesson.js" data-lesson="genai-course/s21-encoder-decoder-blocks"></script>
 </body>

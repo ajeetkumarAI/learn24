@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>RAG Evaluation · GenAI Course · Learn24</title>
+<meta name="description" content="How to measure a RAG system: building a golden question-answer dataset, retrieval metrics (hit rate, MRR, context precision and recall), generation metrics (faithfulness, groundedness, answer relevancy), and RAGAS / DeepEval.">
+<meta property="og:title" content="RAG Evaluation · Learn24">
+<meta property="og:description" content="How to measure a RAG system: building a golden question-answer dataset, retrieval metrics (hit rate, MRR, context precision and recall), generation metrics (faithfulness, groundedness, answer relevancy), and RAGAS / DeepEval.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#b38cff}</style>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article>
+  <div class="kicker">GenAI Course · Module 9 · Session 36</div>
+  <h1>RAG Evaluation</h1>
+  <div class="meta"><span>⏱ 13 min read</span><span>🎯 Advanced</span><span>🖼 2 diagrams</span><span>🧪 1 live demos</span><span>🐍 Python code</span></div>
+  <p class="lead">“It looks good in the demo” is not evaluation. Before a RAG system goes live, you need numbers: is it finding the right chunks, and is it answering faithfully from them? In this session, let us build a test set and compute real metrics.</p>
+  <div class="tldr"><h4>In this session</h4><ul><li>Building a golden question–answer dataset</li><li>Retrieval metrics: hit rate, MRR, context precision and recall (with real numbers)</li><li>Generation metrics: faithfulness, groundedness, answer relevancy</li><li>RAGAS and DeepEval in code</li></ul></div>
+<h2 id="golden"><span class="n">01</span>Build a golden dataset</h2>
+<p>A <strong>golden dataset</strong> is a list of real questions with the correct answer and the correct source chunk. It is your exam paper for the RAG system.</p><ul><li>Start with <strong>100–300 questions</strong> from real user logs and from subject experts.</li><li>For each: the <strong>question</strong>, the <strong>expected answer</strong>, and the <strong>relevant chunk id(s)</strong>.</li><li>Include hard cases: vague questions, Hinglish, numbers, questions with <em>no</em> answer in the documents.</li><li>Keep it versioned; re-run it after every change to chunking, embeddings, prompts or models.</li></ul><div class="codebox"><div class="cap"><span>golden.jsonl</span><button class="copy" type="button">Copy</button></div><pre>{&quot;question&quot;: &quot;What is the penalty for breaking an FD early?&quot;, &quot;answer&quot;: &quot;The interest rate is reduced by 1%.&quot;, &quot;relevant&quot;: [&quot;fd_p4&quot;]}
+{&quot;question&quot;: &quot;Do senior citizens get extra interest?&quot;, &quot;answer&quot;: &quot;Yes, an extra 0.50% on all tenures.&quot;, &quot;relevant&quot;: [&quot;fd_p2&quot;]}
+{&quot;question&quot;: &quot;What is the home loan rate for NRIs?&quot;, &quot;answer&quot;: &quot;NOT_IN_DOCS&quot;, &quot;relevant&quot;: []}</pre></div>
+<h2 id="loop"><span class="n">02</span>The evaluation loop</h2>
+<figure class="fig"><svg viewBox="0 0 700 94" role="img" aria-label="Every change to chunking, embeddings, prompts or models goes round this loop before release."><g class="an" style="--dl:0.00s"><rect class="bx am" x="20" y="14" width="105" height="60" rx="10"/><text x="72" y="42" text-anchor="middle" class="tam" style="font-weight:600;font-size:14.0px">Golden set</text><text x="72" y="59" text-anchor="middle" class="tm" style="font-size:11.5px">100–300 Q&amp;A</text></g><g class="an" style="--dl:0.10s"><path class="la" d="M 129 44 L 155 44"/><path class="la" d="M 147.6 47.5 L 155 44 L 147.6 40.5"/></g><g class="an" style="--dl:0.25s"><rect class="bx ac" x="159" y="14" width="105" height="60" rx="10"/><text x="211" y="42" text-anchor="middle" class="tac" style="font-weight:600;font-size:14.0px">Run RAG</text><text x="211" y="59" text-anchor="middle" class="tm" style="font-size:9.9px">retrieve + answer</text></g><g class="an" style="--dl:0.35s"><path class="la" d="M 268 44 L 294 44"/><path class="la" d="M 286.4 47.5 L 294 44 L 286.4 40.5"/></g><g class="an" style="--dl:0.50s"><rect class="bx rd" x="298" y="14" width="105" height="60" rx="10"/><text x="350" y="42" text-anchor="middle" class="trd" style="font-weight:600;font-size:14.0px">Score</text><text x="350" y="59" text-anchor="middle" class="tm" style="font-size:5.6px">retrieval + generation metrics</text></g><g class="an" style="--dl:0.60s"><path class="la" d="M 406 44 L 432 44"/><path class="la" d="M 425.2 47.5 L 432 44 L 425.2 40.5"/></g><g class="an" style="--dl:0.75s"><rect class="bx " x="436" y="14" width="105" height="60" rx="10"/><text x="489" y="42" text-anchor="middle" class="" style="font-weight:600;font-size:14.0px">Compare</text><text x="489" y="59" text-anchor="middle" class="tm" style="font-size:11.2px">vs last version</text></g><g class="an" style="--dl:0.85s"><path class="la" d="M 545 44 L 571 44"/><path class="la" d="M 564.0 47.5 L 571 44 L 564.0 40.5"/></g><g class="an" style="--dl:1.00s"><rect class="bx gr" x="575" y="14" width="105" height="60" rx="10"/><text x="628" y="42" text-anchor="middle" class="tgr" style="font-weight:600;font-size:14.0px">Ship or fix</text><text x="628" y="59" text-anchor="middle" class="tm" style="font-size:11.5px">gate in CI</text></g></svg><figcaption>Every change to chunking, embeddings, prompts or models goes round this loop before release.</figcaption></figure>
+<h2 id="retrieval"><span class="n">03</span>Retrieval metrics</h2>
+<div class="tw"><table><thead><tr><th>Metric</th><th>Question it answers</th></tr></thead><tbody><tr><td>Hit rate@k</td><td>Was the right chunk anywhere in the top k?</td></tr><tr><td>MRR (Mean Reciprocal Rank)</td><td>How high was the first right chunk? (1st → 1, 2nd → 0.5, 3rd → 0.33)</td></tr><tr><td>Context precision</td><td>Of the retrieved chunks, how many were actually relevant?</td></tr><tr><td>Context recall</td><td>Of all the relevant information, how much did we retrieve?</td></tr></tbody></table></div><div class="codebox"><div class="cap"><span>retrieval_metrics.py</span><button class="copy" type="button">Copy</button></div><pre>def hit_rate_and_mrr(results, relevant, k=5):
+    hits, rr = 0, 0.0
+    for q, ranked in results.items():
+        top = ranked[:k]
+        if relevant[q] in top:
+            hits += 1
+            rr += 1 / (top.index(relevant[q]) + 1)
+    n = len(results)
+    return hits / n, rr / n
+
+results = {                                   # what the retriever returned, best first
+    &quot;FD penalty?&quot;:        [&quot;fd_p4&quot;, &quot;fd_p1&quot;, &quot;sav_p2&quot;],
+    &quot;Senior citizen rate?&quot;: [&quot;fd_p2&quot;, &quot;fd_p4&quot;, &quot;loan_p1&quot;],
+    &quot;Min balance?&quot;:       [&quot;fd_p1&quot;, &quot;sav_p3&quot;, &quot;sav_p2&quot;],
+    &quot;KYC documents?&quot;:     [&quot;card_p1&quot;, &quot;loan_p2&quot;, &quot;fd_p9&quot;],
+    &quot;Card block steps?&quot;:  [&quot;card_p7&quot;, &quot;card_p3&quot;, &quot;kyc_p1&quot;],
+}
+relevant = {&quot;FD penalty?&quot;: &quot;fd_p4&quot;, &quot;Senior citizen rate?&quot;: &quot;fd_p2&quot;, &quot;Min balance?&quot;: &quot;sav_p3&quot;,
+            &quot;KYC documents?&quot;: &quot;kyc_p2&quot;, &quot;Card block steps?&quot;: &quot;card_p3&quot;}
+hr, mrr = hit_rate_and_mrr(results, relevant, k=3)
+print(f&quot;Hit rate@3 = {hr:.2f}   MRR = {mrr:.2f}&quot;)</pre></div><div class="out">Hit rate@3 = 0.80   MRR = 0.60</div><div class="demo" data-demo="steps"><div class="demo-h"><b>Demo · How we got MRR = 0.60</b></div><script type="application/json">{"steps": ["<div class=\"row\"><span class=\"tok src\">FD penalty? → rank 1 → 1.0<\/span><span class=\"tok src\">Senior rate? → rank 1 → 1.0<\/span><\/div>", "<div class=\"row\"><span class=\"tok lit\">Min balance? → rank 2 → 0.5<\/span><span class=\"tok lit\">Card block? → rank 2 → 0.5<\/span><\/div>", "<div class=\"row\"><span class=\"tok mask\">KYC docs? → not found → 0<\/span><\/div>", "<p class=\"note-s\">MRR = (1 + 1 + 0.5 + 0.5 + 0) / 5 = <b>0.60<\/b>. Hit rate = 4 found / 5 = <b>0.80<\/b>.<\/p>"]}</script></div>
+<h2 id="generation"><span class="n">04</span>Generation metrics</h2>
+<div class="tw"><table><thead><tr><th>Metric</th><th>Question it answers</th><th>Catches</th></tr></thead><tbody><tr><td>Faithfulness / groundedness</td><td>Is every claim in the answer supported by the retrieved context?</td><td>hallucinations</td></tr><tr><td>Answer relevancy</td><td>Does the answer actually address the question?</td><td>off-topic or evasive answers</td></tr><tr><td>Answer correctness</td><td>Does it match the golden answer?</td><td>wrong facts</td></tr></tbody></table></div><p>These are usually scored by an <strong>LLM judge</strong> that compares the question, the retrieved context and the answer.</p><figure class="fig"><svg viewBox="0 0 700 160" role="img" aria-label="Faithfulness checks the answer against the retrieved context, not against the model’s memory."><g class="an" style="--dl:0.0s"><rect class="bx gr" x="16" y="10" width="322" height="140" rx="14"/><text x="177" y="40" text-anchor="middle" class="h tgr">Faithful answer</text><text x="38" y="72" style="font-size:13.5px">• Context: “penalty is 1%”</text><text x="38" y="102" style="font-size:13.5px">• Answer: “1% lower rate”</text><text x="38" y="132" style="font-size:13.5px">• faithfulness = 1.0</text></g><g class="an" style="--dl:0.4s"><rect class="bx rd" x="362" y="10" width="322" height="140" rx="14"/><text x="523" y="40" text-anchor="middle" class="h trd">Unfaithful answer</text><text x="384" y="72" style="font-size:13.5px">• Context: “penalty is 1%”</text><text x="384" y="102" style="font-size:13.5px">• Answer: “2% penalty + ₹500 fee”</text><text x="384" y="132" style="font-size:13.5px">• faithfulness ≈ 0 (invented)</text></g></svg><figcaption>Faithfulness checks the answer against the retrieved context, not against the model’s memory.</figcaption></figure>
+<h2 id="tools"><span class="n">05</span>RAGAS and DeepEval</h2>
+<p>You don’t have to write the LLM judges yourself. Two popular open-source libraries:</p><div class="codebox"><div class="cap"><span>ragas_eval.py</span><button class="copy" type="button">Copy</button></div><pre># pip install ragas datasets      (API shown for ragas 0.1.x; newer versions use EvaluationDataset)
+from ragas import evaluate
+from ragas.metrics import faithfulness, answer_relevancy, context_precision, context_recall
+from datasets import Dataset
+
+data = Dataset.from_dict({
+    &quot;question&quot;:     [&quot;What is the penalty for breaking an FD early?&quot;],
+    &quot;answer&quot;:       [&quot;The interest rate is reduced by 1%.&quot;],
+    &quot;contexts&quot;:     [[&quot;Breaking an FD early reduces the interest rate by 1%.&quot;]],
+    &quot;ground_truth&quot;: [&quot;The interest rate is reduced by 1%.&quot;],
+})
+print(evaluate(data, metrics=[faithfulness, answer_relevancy, context_precision, context_recall]))</pre></div><div class="codebox"><div class="cap"><span>deepeval_test.py</span><button class="copy" type="button">Copy</button></div><pre># pip install deepeval
+from deepeval.metrics import FaithfulnessMetric
+from deepeval.test_case import LLMTestCase
+
+case = LLMTestCase(
+    input=&quot;What is the penalty for breaking an FD early?&quot;,
+    actual_output=&quot;The interest rate is reduced by 1%.&quot;,
+    retrieval_context=[&quot;Breaking an FD early reduces the interest rate by 1%.&quot;],
+)
+metric = FaithfulnessMetric(threshold=0.8)
+metric.measure(case)
+print(metric.score, metric.reason)</pre></div><div class="callout tip"><b>Make it a habit:</b> run the golden set in CI on every change and block a release if faithfulness or hit rate drops. LLM judges can be wrong too, so spot-check a sample by hand.</div>
+<h2 id="summary"><span class="n">06</span>Summary</h2><ul><li>A <strong>golden dataset</strong> (question, answer, relevant chunks) is your exam paper.</li><li>Retrieval: <strong>hit rate</strong>, <strong>MRR</strong>, context precision and recall.</li><li>Generation: <strong>faithfulness</strong>, answer relevancy, correctness, usually via an LLM judge.</li><li><strong>RAGAS</strong> and <strong>DeepEval</strong> automate the metrics; run them on every change.</li></ul>
+<h2 id="quiz"><span class="n">07</span>Quick quiz</h2><div class="quiz"><div class="q" data-answer="1" data-why="Reciprocal rank = 1 / 2."><p>1. The first relevant chunk is ranked 2nd. Its reciprocal rank is…</p><div class="opts"><button class="opt" type="button">2</button><button class="opt" type="button">0.5</button><button class="opt" type="button">0.2</button></div></div><div class="q" data-answer="0" data-why="It detects answers that go beyond the context."><p>2. Faithfulness measures…</p><div class="opts"><button class="opt" type="button">if claims are supported by the retrieved context</button><button class="opt" type="button">response speed</button><button class="opt" type="button">chunk size</button></div></div><div class="q" data-answer="2" data-why="A good RAG must refuse rather than invent."><p>3. Why include questions with no answer in the docs?</p><div class="opts"><button class="opt" type="button">To make the set bigger</button><button class="opt" type="button">They are easier</button><button class="opt" type="button">To check the system says “I don’t know”</button></div></div><div class="q" data-answer="1" data-why="It is a retrieval metric, not answer correctness."><p>4. Hit rate@3 = 0.80 means…</p><div class="opts"><button class="opt" type="button">80% of answers were correct</button><button class="opt" type="button">the right chunk was in the top 3 for 80% of questions</button><button class="opt" type="button">it took 0.8 seconds</button></div></div><div class="q" data-answer="0" data-why="Any change can silently hurt quality."><p>5. When should you re-run the golden set?</p><div class="opts"><button class="opt" type="button">After every change to chunking, embeddings, prompts or models</button><button class="opt" type="button">Once a year</button><button class="opt" type="button">Never</button></div></div><p class="score" aria-live="polite"></p></div>
+<h2 id="references"><span class="n">08</span>References</h2><ul><li><a href="https://docs.ragas.io/" target="_blank" rel="noopener">RAGAS documentation</a></li><li><a href="https://docs.confident-ai.com/" target="_blank" rel="noopener">DeepEval documentation</a></li><li><a href="https://arxiv.org/abs/2309.15217" target="_blank" rel="noopener">RAGAS paper</a> (Es et al., 2023)</li></ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/course.js"></script>
+
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="genai-course/s36-rag-evaluation"></script>
+</body>
+</html>

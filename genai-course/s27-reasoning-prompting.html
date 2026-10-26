@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Reasoning Techniques · GenAI Course · Learn24</title>
+<meta name="description" content="Chain-of-thought prompting, self-consistency voting, and tree-of-thought and decomposition prompting, with step-by-step examples, a voting demo and notes on modern reasoning models.">
+<meta property="og:title" content="Reasoning Techniques · Learn24">
+<meta property="og:description" content="Chain-of-thought prompting, self-consistency voting, and tree-of-thought and decomposition prompting, with step-by-step examples, a voting demo and notes on modern reasoning models.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#b38cff}</style>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article>
+  <div class="kicker">GenAI Course · Module 8 · Session 27</div>
+  <h1>Reasoning Techniques</h1>
+  <div class="meta"><span>⏱ 11 min read</span><span>🎯 Intermediate</span><span>🖼 2 diagrams</span><span>🧪 3 live demos</span><span>🐍 Python code</span></div>
+<p class="lead">LLMs often get multi-step problems wrong when they answer in one jump. Simply asking them to <strong>show their working</strong>, like we did in school maths, makes them much more accurate. In this session, let us learn the main reasoning prompts and when to use each.</p>
+  <div class="tldr"><h4>In this session</h4><ul>
+    <li>Chain-of-thought (CoT): zero-shot and few-shot</li>
+    <li>Self-consistency: ask several times and take a vote</li>
+    <li>Tree-of-thought and decomposition (least-to-most) prompting</li>
+    <li>How built-in reasoning models change the picture</li>
+  </ul></div>
+
+  <h2 id="cot"><span class="n">01</span>Chain-of-thought prompting</h2>
+  <p>Here is a small word problem:</p>
+  <div class="callout"><b>Question:</b> A tea stall sells chai at ₹12 and samosa at ₹15. Ravi buys 3 chai and 2 samosas and pays with a ₹100 note. How much change does he get?</div>
+  <div class="demo" data-demo="pick"><script type="application/json">{"title":"Direct answer vs chain of thought","options":[
+    {"label":"Direct answer","html":"<div class='codebox'><pre>Q: …How much change does he get?\nA: ₹49</pre></div><div class='callout warn'><b>Wrong.</b> Jumping straight to the answer, the model skipped a step: it counted only one samosa (₹100 − ₹36 − ₹15 = ₹49).</div>"},
+    {"label":"Chain of thought","html":"<div class='codebox'><pre>Q: …How much change does he get? Let's think step by step.\nA: 3 chai × ₹12 = ₹36\n   2 samosas × ₹15 = ₹30\n   Total = ₹36 + ₹30 = ₹66\n   Change = ₹100 − ₹66 = ₹34</pre></div><div class='callout tip'><b>Correct: ₹34.</b> Writing each step gives the model “space to think” and makes mistakes visible.</div>"}]}</script></div>
+  <p>Two ways to get chain-of-thought (CoT):</p>
+  <ul>
+    <li><strong>Zero-shot CoT:</strong> add a line like <code>Let's think step by step.</code> to the question.</li>
+    <li><strong>Few-shot CoT:</strong> include one or two examples where the answer shows the full working, so the model copies that style.</li>
+  </ul>
+  <div class="analogy"><span class="ic">📒</span><p><b>Like a maths teacher saying “show your working”.</b> Students who write each step make fewer silly mistakes, and the teacher can see exactly where a mistake happened.</p></div>
+  <div class="callout warn"><b>CoT is not free.</b> It uses more output tokens (cost and time), and the written steps are not always a faithful explanation of how the model reached the answer. Use it for multi-step problems, not for simple lookups.</div>
+
+  <h2 id="self-consistency"><span class="n">02</span>Self-consistency: ask several times, take a vote</h2>
+  <p>With some randomness (temperature around 0.7), the model may follow different reasoning paths. <strong>Self-consistency</strong> samples several CoT answers and picks the most common final answer. Wrong paths tend to disagree with each other, while correct paths agree.</p>
+  <figure class="fig">
+    <div class="kflow" data-nodes='[["Same question","asked 5 times",""],["5 reasoning paths","temperature 0.7","ac"],["Final answers","34 · 34 · 44 · 34 · 34","am"],["Majority vote","₹34 ✓","solid"]]'></div>
+    <figcaption>One path made a mistake, but the vote still gives the right answer.</figcaption>
+  </figure>
+  <div class="demo" data-demo="vote">
+    <div class="demo-h"><b>Demo · Sample and vote</b><button class="btn" type="button" data-run>🎲 Ask 5 more times</button></div>
+    <div class="row" data-paths></div>
+    <div class="bars" data-bars></div>
+    <div class="note-s">Simulated model that is right 75% of the time on each try. Watch how voting is right more often than a single try.</div>
+  </div>
+  <p>Self-consistency improves accuracy on maths and logic, but costs N times more calls. Use it where a wrong answer is expensive and the answer can be compared exactly (a number, a label).</p>
+
+  <h2 id="tot"><span class="n">03</span>Tree-of-thought and decomposition</h2>
+  <h3>Tree-of-thought (overview)</h3>
+  <p>Instead of one chain, the model explores <strong>several possible next steps</strong>, scores each one, keeps the promising branches and drops the bad ones, like a chess player thinking a few moves ahead. It helps planning and puzzle-like problems, but needs many calls, so it is usually built with code (or an agent framework), not a single prompt.</p>
+  <figure class="fig">
+    <svg viewBox="0 0 700 230" role="img" aria-label="Tree of thought: branches explored, scored, pruned">
+      <g class="an" style="--dl:0s"><rect class="bx" x="285" y="10" width="130" height="36" rx="8"/><text x="350" y="33" text-anchor="middle">Problem</text></g>
+      <g class="an" style="--dl:.3s"><path class="ln" d="M 350 46 L 140 90"/><path class="ln" d="M 350 46 L 350 90"/><path class="ln" d="M 350 46 L 560 90"/>
+      <rect class="bx ac" x="80" y="90" width="120" height="36" rx="8"/><text x="140" y="113" text-anchor="middle" class="tac">Idea A · 0.8</text>
+      <rect class="bx" x="290" y="90" width="120" height="36" rx="8" style="opacity:.5"/><text x="350" y="113" text-anchor="middle" class="tm">Idea B · 0.3 ✕</text>
+      <rect class="bx ac" x="500" y="90" width="120" height="36" rx="8"/><text x="560" y="113" text-anchor="middle" class="tac">Idea C · 0.6</text></g>
+      <g class="an" style="--dl:.7s"><path class="ln" d="M 140 126 L 80 170"/><path class="ln" d="M 140 126 L 200 170"/><path class="ln" d="M 560 126 L 560 170"/>
+      <rect class="bx gr" x="30" y="170" width="110" height="36" rx="8"/><text x="85" y="193" text-anchor="middle" class="tgr">A1 · 0.9 ✓</text>
+      <rect class="bx" x="150" y="170" width="110" height="36" rx="8" style="opacity:.5"/><text x="205" y="193" text-anchor="middle" class="tm">A2 · 0.4</text>
+      <rect class="bx" x="505" y="170" width="110" height="36" rx="8"/><text x="560" y="193" text-anchor="middle">C1 · 0.5</text></g>
+      <g class="an" style="--dl:1s"><text x="350" y="222" text-anchor="middle" class="tm">Generate options → score them → expand the best → backtrack if needed</text></g>
+    </svg>
+    <figcaption>Tree-of-thought searches over reasoning steps instead of following just one.</figcaption>
+  </figure>
+  <h3>Decomposition (least-to-most) prompting</h3>
+  <p>Break a big question into smaller sub-questions, solve them in order, and use each answer in the next step. This is simple and works very well in practice:</p>
+  <div class="demo" data-demo="stepper"><script type="application/json">{"title":"Decompose a big question","steps":[
+    "<p><b>Big question:</b> “Should we offer a ₹500 cashback on UPI payments above ₹2,000 next month?”</p>",
+    "<p><b>Sub-question 1:</b> How many UPI payments above ₹2,000 did we see last month? → <code>40,000</code></p>",
+    "<p><b>Sub-question 2:</b> What would the cashback cost? → <code>40,000 × ₹500 = ₹2 crore</code></p>",
+    "<p><b>Sub-question 3:</b> How much extra revenue might it bring, based on past offers? → compare with ₹2 crore</p>",
+    "<p><b>Final answer:</b> combine the pieces into a recommendation with the numbers shown.</p>"]}</script></div>
+
+  <h2 id="reasoning-models"><span class="n">04</span>What about reasoning models?</h2>
+  <p>Newer “reasoning” or “thinking” models (Session 24) are trained to do chain-of-thought <strong>internally</strong> before answering. With them:</p>
+  <ul>
+    <li>You usually don’t need “think step by step”; describe the goal and constraints clearly instead.</li>
+    <li>You can often control the thinking budget (more thinking = better on hard problems, but slower and costlier).</li>
+    <li>Self-consistency and decomposition still help for high-stakes answers and very long tasks.</li>
+  </ul>
+  <div class="tw"><table>
+    <thead><tr><th>Technique</th><th>Calls</th><th>Best for</th></tr></thead>
+    <tbody>
+      <tr><td>Zero-shot CoT</td><td>1</td><td>Quick boost for multi-step questions</td></tr>
+      <tr><td>Few-shot CoT</td><td>1</td><td>When you want a specific style of working</td></tr>
+      <tr><td>Self-consistency</td><td>5–20</td><td>Maths, logic, labels where errors are costly</td></tr>
+      <tr><td>Tree-of-thought</td><td>Many</td><td>Planning, puzzles, search problems</td></tr>
+      <tr><td>Decomposition</td><td>A few</td><td>Big business questions, multi-part analysis</td></tr>
+    </tbody></table></div>
+
+  <h2 id="summary"><span class="n">05</span>Summary</h2>
+  <ul>
+    <li><strong>Chain-of-thought</strong> asks the model to show its steps; it improves multi-step accuracy.</li>
+    <li><strong>Self-consistency</strong> samples several answers and takes a majority vote.</li>
+    <li><strong>Tree-of-thought</strong> explores and scores multiple branches; <strong>decomposition</strong> solves sub-questions in order.</li>
+    <li>With reasoning models, focus on clear goals; the model does the step-by-step work itself.</li>
+  </ul>
+
+  <h2 id="quiz"><span class="n">06</span>Quick quiz</h2>
+  <div class="quiz">
+    <div class="q" data-answer="0" data-why="Adding “Let’s think step by step” is zero-shot chain-of-thought."><p>1. Adding “Let’s think step by step.” to a question is called…</p><div class="opts"><button class="opt" type="button">Zero-shot chain-of-thought</button><button class="opt" type="button">Few-shot prompting</button><button class="opt" type="button">Self-consistency</button></div></div>
+    <div class="q" data-answer="2" data-why="Self-consistency samples several reasoning paths and picks the most common answer."><p>2. Self-consistency works by…</p><div class="opts"><button class="opt" type="button">using temperature 0</button><button class="opt" type="button">asking a second model to check</button><button class="opt" type="button">sampling several answers and taking a majority vote</button></div></div>
+    <div class="q" data-answer="1" data-why="CoT is most useful for problems that need several steps."><p>3. CoT helps most on…</p><div class="opts"><button class="opt" type="button">“What is the capital of India?”</button><button class="opt" type="button">Multi-step maths and logic</button><button class="opt" type="button">Translating one word</button></div></div>
+    <div class="q" data-answer="2" data-why="Tree-of-thought generates, scores and prunes branches of reasoning."><p>4. Which technique explores and scores multiple branches?</p><div class="opts"><button class="opt" type="button">Zero-shot</button><button class="opt" type="button">Decomposition</button><button class="opt" type="button">Tree-of-thought</button></div></div>
+    <div class="q" data-answer="0" data-why="Reasoning models already think internally, so clear goals matter more than “think step by step”."><p>5. With a built-in reasoning model, the best prompt is usually…</p><div class="opts"><button class="opt" type="button">a clear goal and constraints</button><button class="opt" type="button">“think step by step” repeated 5 times</button><button class="opt" type="button">as short as possible, with no context</button></div></div>
+    <p class="score" aria-live="polite"></p>
+  </div>
+
+  <h2 id="references"><span class="n">07</span>References</h2>
+  <ul>
+    <li>Wei et al., <a href="https://arxiv.org/abs/2201.11903" target="_blank" rel="noopener">Chain-of-Thought Prompting Elicits Reasoning</a> (2022) · Kojima et al., <a href="https://arxiv.org/abs/2205.11916" target="_blank" rel="noopener">Large Language Models are Zero-Shot Reasoners</a> (2022)</li>
+    <li>Wang et al., <a href="https://arxiv.org/abs/2203.11171" target="_blank" rel="noopener">Self-Consistency</a> (2022) · Yao et al., <a href="https://arxiv.org/abs/2305.10601" target="_blank" rel="noopener">Tree of Thoughts</a> (2023)</li>
+    <li>Zhou et al., <a href="https://arxiv.org/abs/2205.10625" target="_blank" rel="noopener">Least-to-Most Prompting</a> (2022)</li>
+  </ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+
+<script src="../assets/article.js"></script>
+<script src="../assets/course-kit.js"></script>
+<script>
+(function () {
+  const { demo, $ } = window.Article;
+  demo('vote', el => {
+    const paths = $('[data-paths]', el), b = $('[data-bars]', el), wrong = ['44', '36', '24', '56'];
+    let single = 0, voted = 0, rounds = 0;
+    const run = () => {
+      const ans = Array.from({ length: 5 }, () => Math.random() < .75 ? '34' : wrong[Math.floor(Math.random() * wrong.length)]);
+      const counts = {}; ans.forEach(a => counts[a] = (counts[a] || 0) + 1);
+      const win = Object.keys(counts).sort((x, y) => counts[y] - counts[x])[0];
+      rounds++; if (ans[0] === '34') single++; if (win === '34') voted++;
+      paths.innerHTML = ans.map((a, i) => `<span class="tok ${a === '34' ? 'src' : ''}">Path ${i + 1}: ₹${a}</span>`).join('') + ` <span class="tok mask">Vote: ₹${win}</span>`;
+      Kit.bars(b, [['Single try right', single / rounds, `${single}/${rounds}`], ['Vote right', voted / rounds, `${voted}/${rounds}`]], 1);
+    };
+    $('[data-run]', el).onclick = run; run();
+  });
+})();
+</script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="genai-course/s27-reasoning-prompting"></script>
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Structured Output & Reliability · GenAI Course · Learn24</title>
+<meta name="description" content="Getting reliable JSON from LLMs: JSON mode, response schemas, function/tool schemas, Pydantic models and output parsers, plus guardrails, validation and retry strategies, with tested Python code.">
+<meta property="og:title" content="Structured Output &amp; Reliability · Learn24">
+<meta property="og:description" content="Getting reliable JSON from LLMs: JSON mode, response schemas, function/tool schemas, Pydantic models and output parsers, plus guardrails, validation and retry strategies, with tested Python code.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#b38cff}</style>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article>
+  <div class="kicker">GenAI Course · Module 8 · Session 28</div>
+  <h1>Structured Output & Reliability</h1>
+  <div class="meta"><span>⏱ 13 min read</span><span>🎯 Intermediate</span><span>🖼 2 diagrams</span><span>🧪 2 live demos</span><span>🐍 Python code</span></div>
+<p class="lead">A chatbot can reply in free text, but software needs <strong>structured data</strong>: an amount as a number, a date in a fixed format, a label from an approved list. In this session, let us learn how to make LLM output reliable enough to feed directly into your code.</p>
+  <div class="tldr"><h4>In this session</h4><ul>
+    <li>Why free text breaks software</li>
+    <li>JSON mode, response schemas and function/tool schemas</li>
+    <li>Pydantic models and output parsers</li>
+    <li>Guardrails, validation and retry strategies, with code that we actually ran</li>
+  </ul></div>
+
+  <h2 id="why"><span class="n">01</span>The problem: free text breaks code</h2>
+  <p>Say you want to read bank SMS messages and store each transaction in a database:</p>
+  <div class="callout"><b>SMS:</b> <code>Rs.2,499.00 debited from A/c XX1234 on 25-10-26 to AMAZON. UPI Ref 6312.</code></div>
+  <div class="demo" data-demo="pick"><script type="application/json">{"title":"Free text vs structured output","options":[
+    {"label":"Free text","html":"<div class='codebox'><pre>Sure! It looks like ₹2,499 was taken out of your account\nending 1234 for an Amazon purchase on 25 October.</pre></div><div class='callout warn'>Nice for a human, useless for a database. Every reply is worded differently, so parsing it is fragile.</div>"},
+    {"label":"Structured JSON","html":"<div class='codebox'><pre>{\n  \"amount\": 2499,\n  \"type\": \"debit\",\n  \"account_last4\": \"1234\",\n  \"merchant\": \"AMAZON\",\n  \"date\": \"2026-10-25\"\n}</pre></div><div class='callout tip'>Fixed fields, fixed types. Your code can check and store it directly.</div>"}]}</script></div>
+
+  <h2 id="methods"><span class="n">02</span>Three ways to get structured output</h2>
+  <figure class="fig">
+    <div class="kgrid" data-cards='[["JSON mode","Tell the API to return valid JSON only. It guarantees the reply <i>parses</i>, but not that it has the right fields.","am"],["Response schema","Give a JSON Schema (often generated from a Pydantic model). Many APIs can then <b>enforce</b> the exact fields and types.","ac"],["Function / tool schema","Describe a function with typed parameters. The model returns arguments for it, like filling a form. The basis of agents.","gr"]]'></div>
+    <figcaption>From weakest to strongest guarantee: JSON mode → schema → schema + validation in your code.</figcaption>
+  </figure>
+  <div class="codebox"><div class="cap"><span>json_mode.py</span><button class="copy" type="button">Copy</button></div><pre>from openai import OpenAI
+client = OpenAI()
+
+resp = client.chat.completions.create(
+    model="gpt-4o-mini",
+    response_format={"type": "json_object"},      # JSON mode
+    messages=[
+        {"role": "system", "content": "Extract the transaction. Reply in JSON with keys: amount, type, account_last4, merchant, date (YYYY-MM-DD)."},
+        {"role": "user", "content": "Rs.2,499.00 debited from A/c XX1234 on 25-10-26 to AMAZON."},
+    ],
+)
+print(resp.choices[0].message.content)</pre></div>
+  <h3>Function / tool schemas</h3>
+  <p>A tool schema describes a function the model may “call”. The model never runs it; it returns a name and arguments, and your code runs it (see the Tool Calling lesson in Agentic AI).</p>
+  <div class="codebox"><div class="cap"><span>tool_schema.json</span><button class="copy" type="button">Copy</button></div><pre>{
+  "type": "function",
+  "function": {
+    "name": "block_card",
+    "description": "Block the customer's card after they report it lost or stolen",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "card_last4": {"type": "string", "pattern": "^[0-9]{4}$"},
+        "reason": {"type": "string", "enum": ["lost", "stolen", "fraud"]}
+      },
+      "required": ["card_last4", "reason"]
+    }
+  }
+}</pre></div>
+
+  <h2 id="pydantic"><span class="n">03</span>Pydantic models and output parsers</h2>
+  <p><strong>Pydantic</strong> lets you define the shape of your data as a Python class. It can produce a JSON Schema for the LLM, and it <strong>validates</strong> what comes back.</p>
+  <div class="codebox"><div class="cap"><span>schema.py</span><button class="copy" type="button">Copy</button></div><pre>from typing import Literal
+from pydantic import BaseModel, Field
+
+class Transaction(BaseModel):
+    amount: float = Field(gt=0, description="Amount in rupees")
+    type: Literal["debit", "credit"]
+    account_last4: str = Field(pattern=r"^\d{4}$")
+    merchant: str
+    date: str = Field(description="YYYY-MM-DD")</pre></div>
+  <p>Now feed it a typical messy reply and see exactly what is wrong:</p>
+  <div class="codebox"><div class="cap"><span>validate.py</span><button class="copy" type="button">Copy</button></div><pre>from pydantic import ValidationError
+
+bad = '{"amount": "2,499", "type": "Debit", "account_last4": "XX1234", "merchant": "AMAZON", "date": "2026-10-25"}'
+try:
+    Transaction.model_validate_json(bad)
+except ValidationError as e:
+    for err in e.errors():
+        print(err["loc"], err["msg"])</pre></div>
+  <div class="out">('amount',) Input should be a valid number, unable to parse string as a number
+('type',) Input should be 'debit' or 'credit'
+('account_last4',) String should match pattern '^\d{4}$'</div>
+  <p>In LangChain, the same Pydantic class can be passed straight to a chat model. It builds the schema, calls the model and returns a validated object:</p>
+  <div class="codebox"><div class="cap"><span>langchain_structured.py</span><button class="copy" type="button">Copy</button></div><pre># pip install langchain-openai
+from langchain_openai import ChatOpenAI
+
+llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+extractor = llm.with_structured_output(Transaction)
+
+txn = extractor.invoke("Rs.2,499.00 debited from A/c XX1234 on 25-10-26 to AMAZON.")
+print(txn.amount, txn.type)      # a real Transaction object, not a string</pre></div>
+
+  <h2 id="reliability"><span class="n">04</span>Guardrails, validation and retries</h2>
+  <p>Even with schemas, treat every LLM output as untrusted input. A reliable pipeline has these layers:</p>
+  <figure class="fig">
+    <div class="kflow" data-nodes='[["Input guardrail","block PII leaks, prompt injection","rd"],["LLM call","with schema","ac"],["Validate","Pydantic + business rules","am"],["Retry with error","send the errors back, max 2–3 times","gr"],["Fallback","human review or safe default","solid"]]'></div>
+    <figcaption>Never let an unvalidated LLM reply touch your database, payments or customers.</figcaption>
+  </figure>
+  <div class="demo" data-demo="stepper"><script type="application/json">{"title":"Validate and retry","steps":[
+    "<p>LLM reply #1: <code>{\"amount\": \"2,499\", \"type\": \"Debit\", \"account_last4\": \"XX1234\", …}</code></p>",
+    "<p>Pydantic finds <b style='color:var(--red)'>3 errors</b>: amount is a string, type must be debit/credit, account_last4 must be 4 digits.</p>",
+    "<p>We send the errors back: <i>“Your last answer was invalid: … Fix it and reply with JSON only.”</i></p>",
+    "<p>LLM reply #2: <code>{\"amount\": 2499, \"type\": \"debit\", \"account_last4\": \"1234\", …}</code> → <b style='color:var(--green)'>valid ✓</b></p>",
+    "<p>Business rules also pass (amount within limits, date not in future) → <b>saved to the database</b>.</p>"]}</script></div>
+  <div class="codebox"><div class="cap"><span>extract_with_retry.py</span><button class="copy" type="button">Copy</button></div><pre>from pydantic import ValidationError
+
+def extract(sms, call_llm, max_tries=3):
+    prompt = f"Extract the transaction as JSON matching this schema:\n{Transaction.model_json_schema()}\nSMS: {sms}"
+    for attempt in range(1, max_tries + 1):
+        raw = call_llm(prompt)
+        try:
+            return Transaction.model_validate_json(raw)
+        except ValidationError as e:
+            print(f"Attempt {attempt} failed: {e.error_count()} errors")
+            prompt += f"\nYour last answer was invalid: {e.errors(include_url=False)}. Fix it and reply with JSON only."
+    raise RuntimeError("Could not get valid JSON")   # send to human review</pre></div>
+  <div class="out">Attempt 1 failed: 3 errors
+amount=2499.0 type='debit' account_last4='1234' merchant='AMAZON' date='2026-10-25'</div>
+  <p class="note-s">Output from running this code with a stand-in LLM whose first reply was the messy JSON above.</p>
+  <h3>Good habits</h3>
+  <ul>
+    <li>Use <strong>temperature 0</strong> (or close) for extraction.</li>
+    <li>Use <strong>enums</strong> (<code>Literal[...]</code>) for labels so the model can’t invent new ones.</li>
+    <li>Add <strong>business-rule checks</strong> after schema checks (amount limits, valid dates, known merchants).</li>
+    <li><strong>Log every failure</strong>: they show you how to improve the prompt or schema.</li>
+    <li>Libraries such as Guardrails AI, NeMo Guardrails and Instructor can help, but the idea is always the same: <strong>validate, then retry or fall back</strong>.</li>
+  </ul>
+
+  <h2 id="summary"><span class="n">05</span>Summary</h2>
+  <ul>
+    <li>Software needs <strong>structured output</strong>, not free text.</li>
+    <li><strong>JSON mode</strong> guarantees valid JSON; <strong>schemas</strong> and <strong>tool definitions</strong> guarantee the right fields.</li>
+    <li><strong>Pydantic</strong> defines the schema and validates replies; LangChain’s <code>with_structured_output</code> does both for you.</li>
+    <li>Add <strong>guardrails, validation, retries and a fallback</strong> before anything reaches production systems.</li>
+  </ul>
+
+  <h2 id="quiz"><span class="n">06</span>Quick quiz</h2>
+  <div class="quiz">
+    <div class="q" data-answer="1" data-why="JSON mode ensures the reply parses as JSON, but not that it has the right fields or types."><p>1. What does JSON mode guarantee?</p><div class="opts"><button class="opt" type="button">The correct fields and types</button><button class="opt" type="button">Only that the reply is valid JSON</button><button class="opt" type="button">That the facts are true</button></div></div>
+    <div class="q" data-answer="2" data-why="Literal restricts a field to a fixed set of allowed values."><p>2. How do you stop the model inventing new labels?</p><div class="opts"><button class="opt" type="button">Increase temperature</button><button class="opt" type="button">Use a longer prompt</button><button class="opt" type="button">Use an enum / Literal in the schema</button></div></div>
+    <div class="q" data-answer="0" data-why="Sending the validation errors back helps the model fix its specific mistakes."><p>3. Validation failed. Best next step?</p><div class="opts"><button class="opt" type="button">Retry and include the error messages in the prompt</button><button class="opt" type="button">Save the reply anyway</button><button class="opt" type="button">Switch to free text</button></div></div>
+    <div class="q" data-answer="1" data-why="The model returns the function name and arguments; your code executes it."><p>4. With a tool schema, who actually runs the function?</p><div class="opts"><button class="opt" type="button">The LLM</button><button class="opt" type="button">Your application code</button><button class="opt" type="button">The API provider</button></div></div>
+    <div class="q" data-answer="2" data-why="After a few failed retries, fall back to human review or a safe default."><p>5. After 3 failed retries, you should…</p><div class="opts"><button class="opt" type="button">keep retrying forever</button><button class="opt" type="button">guess the values</button><button class="opt" type="button">fall back to human review or a safe default</button></div></div>
+    <p class="score" aria-live="polite"></p>
+  </div>
+
+  <h2 id="references"><span class="n">07</span>References</h2>
+  <ul>
+    <li><a href="https://docs.pydantic.dev/latest/" target="_blank" rel="noopener">Pydantic documentation</a></li>
+    <li><a href="https://python.langchain.com/docs/concepts/structured_outputs/" target="_blank" rel="noopener">LangChain: structured outputs</a></li>
+    <li><a href="https://platform.openai.com/docs/guides/structured-outputs" target="_blank" rel="noopener">OpenAI: structured outputs</a></li>
+  </ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+
+<script src="../assets/article.js"></script>
+<script src="../assets/course-kit.js"></script>
+<script>
+
+</script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="genai-course/s28-structured-output"></script>
+</body>
+</html>

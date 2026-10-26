@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LangGraph &amp; Agentic RAG · GenAI Course · Learn24</title>
+<meta name="description" content="LangGraph basics (state, nodes, edges, cycles), agentic RAG that grades and retries retrieval, multi-modal RAG for images and tables, and RAG with conversation memory, with a runnable example.">
+<meta property="og:title" content="LangGraph &amp; Agentic RAG · Learn24">
+<meta property="og:description" content="LangGraph basics (state, nodes, edges, cycles), agentic RAG that grades and retries retrieval, multi-modal RAG for images and tables, and RAG with conversation memory, with a runnable example.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#b38cff}</style>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article>
+  <div class="kicker">GenAI Course · Module 9 · Session 37</div>
+  <h1>LangGraph &amp; Agentic RAG</h1>
+  <div class="meta"><span>⏱ 14 min read</span><span>🎯 Advanced</span><span>🖼 2 diagrams</span><span>🧪 2 live demos</span><span>🐍 Python code</span></div>
+  <p class="lead">Simple RAG is a straight line: retrieve, then answer. But what if the retrieved chunks are useless? A smart system should notice, rewrite the question and <strong>try again</strong>. That needs loops and decisions, which is exactly what <strong>LangGraph</strong> is built for.</p>
+  <div class="tldr"><h4>In this session</h4><ul><li>LangGraph in four words: state, nodes, edges, cycles</li><li>Agentic RAG: grade the documents, rewrite and retry</li><li>A runnable LangGraph example (real output)</li><li>Multi-modal RAG for images, charts and tables</li><li>RAG with memory for follow-up questions</li></ul></div>
+<h2 id="langgraph"><span class="n">01</span>LangGraph basics</h2>
+<div class="tw"><table><thead><tr><th>Concept</th><th>Meaning</th><th>In our example</th></tr></thead><tbody><tr><td>State</td><td>a shared dictionary every step can read and update</td><td>question, docs, tries, answer</td></tr><tr><td>Node</td><td>a Python function that does one job</td><td>retrieve, rewrite, generate</td></tr><tr><td>Edge</td><td>which node runs next</td><td>retrieve → grade</td></tr><tr><td>Conditional edge</td><td>choose the next node based on the state</td><td>docs found? → generate, else → rewrite</td></tr><tr><td>Cycle</td><td>an edge that goes back to an earlier node</td><td>rewrite → retrieve again</td></tr></tbody></table></div><div class="analogy"><span class="ic">🗺️</span><p><b>Like a flowchart that can loop.</b> A chain is a straight road. A LangGraph graph is a city map with junctions and roundabouts: at each junction, the state decides which road to take, and you can come back around if needed.</p></div>
+<h2 id="agentic"><span class="n">02</span>Agentic RAG</h2>
+<p>Agentic RAG adds decisions around retrieval:</p><figure class="fig"><svg viewBox="0 0 700 194" role="img" aria-label="If the documents are not relevant, rewrite the question and retrieve again (a cycle). If the answer is not grounded, regenerate or refuse."><g class="an" style="--dl:0.00s"><rect class="bx am" x="20" y="14" width="197" height="60" rx="10"/><text x="119" y="49" text-anchor="middle" class="tam" style="font-weight:600;font-size:14.0px">Question</text></g><g class="an" style="--dl:0.10s"><path class="la" d="M 221 44 L 247 44"/><path class="la" d="M 240.1 47.5 L 247 44 L 240.1 40.5"/></g><g class="an" style="--dl:0.25s"><rect class="bx ac" x="251" y="14" width="197" height="60" rx="10"/><text x="350" y="49" text-anchor="middle" class="tac" style="font-weight:600;font-size:14.0px">Retrieve</text></g><g class="an" style="--dl:0.35s"><path class="la" d="M 453 44 L 479 44"/><path class="la" d="M 471.5 47.5 L 479 44 L 471.5 40.5"/></g><g class="an" style="--dl:0.50s"><rect class="bx rd" x="483" y="14" width="197" height="60" rx="10"/><text x="581" y="42" text-anchor="middle" class="trd" style="font-weight:600;font-size:14.0px">Grade docs</text><text x="581" y="59" text-anchor="middle" class="tm" style="font-size:11.5px">relevant?</text></g><g class="an" style="--dl:0.75s"><path class="la" d="M 581 74 Q 680 94 350 94 Q 30 94 119 110"/></g><g class="an" style="--dl:0.75s"><rect class="bx " x="20" y="114" width="197" height="60" rx="10"/><text x="119" y="142" text-anchor="middle" class="" style="font-weight:600;font-size:14.0px">Rewrite query</text><text x="119" y="159" text-anchor="middle" class="tm" style="font-size:11.5px">if not relevant</text></g><g class="an" style="--dl:0.85s"><path class="la" d="M 221 144 L 247 144"/><path class="la" d="M 240.1 147.5 L 247 144 L 240.1 140.5"/></g><g class="an" style="--dl:1.00s"><rect class="bx gr" x="251" y="114" width="197" height="60" rx="10"/><text x="350" y="142" text-anchor="middle" class="tgr" style="font-weight:600;font-size:14.0px">Generate</text><text x="350" y="159" text-anchor="middle" class="tm" style="font-size:11.5px">if relevant</text></g><g class="an" style="--dl:1.10s"><path class="la" d="M 453 144 L 479 144"/><path class="la" d="M 471.5 147.5 L 479 144 L 471.5 140.5"/></g><g class="an" style="--dl:1.25s"><rect class="bx rd" x="483" y="114" width="197" height="60" rx="10"/><text x="581" y="142" text-anchor="middle" class="trd" style="font-weight:600;font-size:14.0px">Check answer</text><text x="581" y="159" text-anchor="middle" class="tm" style="font-size:11.5px">grounded?</text></g></svg><figcaption>If the documents are not relevant, rewrite the question and retrieve again (a cycle). If the answer is not grounded, regenerate or refuse.</figcaption></figure><p>Here is a complete, runnable version without any API key: the “retriever” only understands the words “fixed deposit”, so the graph must rewrite “FD” and loop back:</p><div class="codebox"><div class="cap"><span>agentic_rag_graph.py</span><button class="copy" type="button">Copy</button></div><pre>from typing import TypedDict
+from langgraph.graph import StateGraph, START, END
+
+class State(TypedDict):
+    question: str
+    docs: list
+    tries: int
+    answer: str
+
+def retrieve(s):
+    found = [&quot;FD_Policy p.4: early withdrawal costs 1%&quot;] if &quot;fixed deposit&quot; in s[&quot;question&quot;] else []
+    return {&quot;docs&quot;: found, &quot;tries&quot;: s[&quot;tries&quot;] + 1}
+
+def grade(s):                                  # decide where to go next
+    return &quot;generate&quot; if s[&quot;docs&quot;] else (&quot;rewrite&quot; if s[&quot;tries&quot;] &lt; 2 else &quot;give_up&quot;)
+
+def rewrite(s):
+    return {&quot;question&quot;: s[&quot;question&quot;].replace(&quot;FD&quot;, &quot;fixed deposit&quot;)}
+
+def generate(s):
+    return {&quot;answer&quot;: f&quot;Answer based on: {s[&#x27;docs&#x27;][0]}&quot;}
+
+def give_up(s):
+    return {&quot;answer&quot;: &quot;Sorry, I could not find this in our documents.&quot;}
+
+g = StateGraph(State)
+for name, fn in [(&quot;retrieve&quot;, retrieve), (&quot;rewrite&quot;, rewrite), (&quot;generate&quot;, generate), (&quot;give_up&quot;, give_up)]:
+    g.add_node(name, fn)
+g.add_edge(START, &quot;retrieve&quot;)
+g.add_conditional_edges(&quot;retrieve&quot;, grade)     # route by the grade() result
+g.add_edge(&quot;rewrite&quot;, &quot;retrieve&quot;)              # a cycle: try again with a better query
+g.add_edge(&quot;generate&quot;, END)
+g.add_edge(&quot;give_up&quot;, END)
+app = g.compile()
+
+out = app.invoke({&quot;question&quot;: &quot;FD penalty?&quot;, &quot;docs&quot;: [], &quot;tries&quot;: 0, &quot;answer&quot;: &quot;&quot;})
+print(out[&quot;tries&quot;], &quot;|&quot;, out[&quot;question&quot;], &quot;|&quot;, out[&quot;answer&quot;])</pre></div><div class="out">2 | fixed deposit penalty? | Answer based on: FD_Policy p.4: early withdrawal costs 1%</div><div class="demo" data-demo="steps"><div class="demo-h"><b>Demo · What happened inside the graph</b></div><script type="application/json">{"steps": ["<div class=\"row\"><span class=\"tok src\">retrieve<\/span><span class=\"tok \">“FD penalty?”<\/span><span class=\"tok \">docs = [] <\/span><span class=\"tok \">tries = 1<\/span><\/div>", "<div class=\"row\"><span class=\"tok lit\">grade → “rewrite”<\/span><span class=\"tok \">tries &lt; 2<\/span><\/div>", "<div class=\"row\"><span class=\"tok src\">rewrite<\/span><span class=\"tok \">“fixed deposit penalty?”<\/span><\/div>", "<div class=\"row\"><span class=\"tok src\">retrieve<\/span><span class=\"tok \">docs = [FD_Policy p.4]<\/span><span class=\"tok \">tries = 2<\/span><\/div>", "<div class=\"row\"><span class=\"tok mask\">grade → “generate”<\/span><span class=\"tok mask\">END ✓<\/span><\/div>"]}</script></div><div class="callout warn"><b>In a real system</b> the grade step is an LLM call (“Is this chunk relevant to the question? yes/no”), and you always cap the number of loops so the graph cannot run forever.</div>
+<h2 id="multimodal"><span class="n">03</span>Multi-modal RAG</h2>
+<p>Many documents carry meaning in images: charts in annual reports, scanned tables, product photos. Two common approaches:</p><figure class="fig"><svg viewBox="0 0 700 190" role="img" aria-label="Most document RAG systems start with “summarise, then embed”."><g class="an" style="--dl:0.0s"><rect class="bx ac" x="16" y="10" width="322" height="170" rx="14"/><text x="177" y="40" text-anchor="middle" class="h tac">Summarise, then embed</text><text x="38" y="72" style="font-size:13.5px">• vision LLM describes each image</text><text x="38" y="102" style="font-size:13.5px">• embed the text description</text><text x="38" y="132" style="font-size:13.5px">• return the original image</text><text x="38" y="162" style="font-size:13.5px">• works with any text vector DB</text></g><g class="an" style="--dl:0.4s"><rect class="bx gr" x="362" y="10" width="322" height="170" rx="14"/><text x="523" y="40" text-anchor="middle" class="h tgr">Multi-modal embeddings</text><text x="384" y="72" style="font-size:13.5px">• embed images directly (e.g. CLIP)</text><text x="384" y="102" style="font-size:13.5px">• text and images in one space</text><text x="384" y="132" style="font-size:13.5px">• search images with text queries</text><text x="384" y="162" style="font-size:13.5px">• less detail for charts and tables</text></g></svg><figcaption>Most document RAG systems start with “summarise, then embed”.</figcaption></figure><p>At answer time, the original image can be passed to a vision-capable LLM along with the text chunks, so it can read the chart itself.</p>
+<h2 id="memory"><span class="n">04</span>RAG with memory</h2>
+<p>Users ask follow-ups: <em>“What about senior citizens?”</em>. Searching for that sentence alone finds nothing useful. The fix is to <strong>condense</strong> the follow-up into a standalone question using the chat history:</p><div class="demo" data-demo="steps"><div class="demo-h"><b>Demo · Condensing a follow-up question</b></div><script type="application/json">{"steps": ["<p class=\"note-s\">Turn 1 · User: <i>“What is the FD interest rate for 1 year?”<\/i> → answered.<\/p>", "<p class=\"note-s\">Turn 2 · User: <i>“What about senior citizens?”<\/i><\/p>", "<p class=\"note-s\">LLM rewrites with history → <b>“What is the 1-year FD interest rate for senior citizens?”<\/b><\/p><p class=\"note-s\">This standalone question is what we embed and search.<\/p>"]}</script></div><div class="codebox"><div class="cap"><span>memory_graph.py</span><button class="copy" type="button">Copy</button></div><pre>from langgraph.checkpoint.memory import MemorySaver
+
+app = g.compile(checkpointer=MemorySaver())          # g is the StateGraph from above
+cfg = {&quot;configurable&quot;: {&quot;thread_id&quot;: &quot;employee-42&quot;}}  # one thread per conversation
+app.invoke({&quot;question&quot;: &quot;FD penalty?&quot;, &quot;docs&quot;: [], &quot;tries&quot;: 0, &quot;answer&quot;: &quot;&quot;}, cfg)
+# later calls with the same thread_id continue from the saved state</pre></div>
+<h2 id="summary"><span class="n">05</span>Summary</h2><ul><li>LangGraph models workflows as <strong>state + nodes + edges</strong>, including <strong>cycles</strong>.</li><li><strong>Agentic RAG</strong> grades retrieval, rewrites and retries, and checks the answer.</li><li><strong>Multi-modal RAG</strong> usually summarises images into text, then embeds.</li><li><strong>Memory</strong> condenses follow-ups into standalone questions; checkpointers save conversation state.</li></ul>
+<h2 id="quiz"><span class="n">06</span>Quick quiz</h2><div class="quiz"><div class="q" data-answer="0" data-why="Conditional edges route using a function of the state."><p>1. In LangGraph, what decides the next node based on the state?</p><div class="opts"><button class="opt" type="button">A conditional edge</button><button class="opt" type="button">The vector DB</button><button class="opt" type="button">The tokenizer</button></div></div><div class="q" data-answer="1" data-why="A loop lets the graph go back and try again."><p>2. Why does agentic RAG need cycles?</p><div class="opts"><button class="opt" type="button">To speed up search</button><button class="opt" type="button">To retry retrieval after rewriting the question</button><button class="opt" type="button">To reduce tokens</button></div></div><div class="q" data-answer="2" data-why="Cap loops so the graph cannot run forever."><p>3. What must you always add to a loop?</p><div class="opts"><button class="opt" type="button">More chunks</button><button class="opt" type="button">A bigger model</button><button class="opt" type="button">A maximum number of tries</button></div></div><div class="q" data-answer="0" data-why="Using chat history makes the query searchable."><p>4. “What about senior citizens?” should be…</p><div class="opts"><button class="opt" type="button">condensed into a standalone question first</button><button class="opt" type="button">searched as it is</button><button class="opt" type="button">ignored</button></div></div><div class="q" data-answer="1" data-why="Summarise-then-embed works with any text vector store."><p>5. A common first approach for charts in PDFs is…</p><div class="opts"><button class="opt" type="button">delete them</button><button class="opt" type="button">describe them with a vision LLM, then embed the text</button><button class="opt" type="button">use BM25 only</button></div></div><p class="score" aria-live="polite"></p></div>
+<h2 id="references"><span class="n">07</span>References</h2><ul><li><a href="https://langchain-ai.github.io/langgraph/" target="_blank" rel="noopener">LangGraph documentation</a></li><li><a href="https://arxiv.org/abs/2310.11511" target="_blank" rel="noopener">Self-RAG</a> (Asai et al., 2023)</li><li><a href="https://arxiv.org/abs/2401.15884" target="_blank" rel="noopener">Corrective RAG (CRAG)</a> (Yan et al., 2024)</li></ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/course.js"></script>
+
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="genai-course/s37-langgraph-agentic-rag"></script>
+</body>
+</html>
