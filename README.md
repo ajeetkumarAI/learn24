@@ -11,7 +11,7 @@ Learn24 is a free collection of animated, step-by-step lessons on GenAI, Agentic
 
 ## New here?
 - 🌱 **[Start here](https://learn24-lilac.vercel.app/start)**: what you need, four learning paths and how lessons work
-- 📖 **[Glossary](https://learn24-lilac.vercel.app/glossary)**: plain-English meanings of 80+ AI terms (also shown when you hover or tap a term inside a lesson)
+- 📖 **[Glossary](https://learn24-lilac.vercel.app/glossary)**: plain-English meanings of 100+ AI terms (also shown when you hover or tap a term inside a lesson)
 - 📄 **Cheat sheets**: a printable one-page summary for each GenAI Course module
 
 ## Lessons
@@ -25,7 +25,43 @@ Learn24 is a free collection of animated, step-by-step lessons on GenAI, Agentic
 | [LoRA and Fine-Tuning](https://learn24-lilac.vercel.app/genai/fine-tuning) | Intermediate | When to fine-tune, and how LoRA trains under 1% of the weights |
 | [How BERT Works](https://learn24-lilac.vercel.app/genai/bert) | Beginner | Masked language modelling, the BERT family and fine-tuning, with diagrams |
 
-### 🎓 GenAI Course (24 sessions)
+### 🎓 GenAI Course (40 sessions)
+
+**Module 1 · Introduction to the Program** · [cheat sheet](https://learn24-lilac.vercel.app/genai-course/cheatsheet-m1)
+
+| Session | Lesson | What you'll learn |
+|---|---|---|
+| 1 | [The AI Landscape](https://learn24-lilac.vercel.app/genai-course/s01-ai-landscape) | AI vs ML vs deep learning, NLP, generative AI and agentic AI, with real uses across six industries. |
+| 2 | [Careers, Roadmap & Your First GenAI App](https://learn24-lilac.vercel.app/genai-course/s02-careers-first-app) | GenAI job roles, the course roadmap, and a Streamlit GenAI app deployed to the cloud. |
+| 3 | [Environment Setup](https://learn24-lilac.vercel.app/genai-course/s03-environment-setup) | Python refresher, venv and pip, Jupyter and Colab GPU, Git, .env secrets, Streamlit vs Gradio. |
+
+**Module 2 · NLP Fundamentals** · [cheat sheet](https://learn24-lilac.vercel.app/genai-course/cheatsheet-m2)
+
+| Session | Lesson | What you'll learn |
+|---|---|---|
+| 4 | [Tokenization](https://learn24-lilac.vercel.app/genai-course/s04-tokenization) | Word, sentence and subword tokens; BPE, WordPiece, SentencePiece, Unigram; token counts and cost. |
+| 5 | [Text Preprocessing](https://learn24-lilac.vercel.app/genai-course/s05-text-preprocessing) | Stemming vs lemmatization, stopwords, POS tagging and named entity recognition. |
+| 6 | [Regular Expressions](https://learn24-lilac.vercel.app/genai-course/s06-regular-expressions) | Build patterns, extract emails, dates and IDs, and redact PII from large text. |
+| 7 | [Count-Based Feature Representation](https://learn24-lilac.vercel.app/genai-course/s07-count-features) | One-hot encoding, Bag of Words, n-grams and TF-IDF, with real scikit-learn output. |
+| 8 | [Word Embeddings](https://learn24-lilac.vercel.app/genai-course/s08-word-embeddings) | Word2Vec (CBOW and skip-gram), GloVe and cosine similarity: meaning as numbers. |
+
+**Module 3 · Deep Learning Fundamentals** · [cheat sheet](https://learn24-lilac.vercel.app/genai-course/cheatsheet-m3)
+
+| Session | Lesson | What you'll learn |
+|---|---|---|
+| 9 | [Artificial Neural Networks](https://learn24-lilac.vercel.app/genai-course/s09-neural-networks) | Perceptron, multi-layer perceptron, forward propagation, weights, biases and capacity. |
+| 10 | [Loss Functions & Gradient Descent](https://learn24-lilac.vercel.app/genai-course/s10-loss-gradient-descent) | MSE, MAE and cross-entropy; batch, stochastic and mini-batch gradient descent; learning rate. |
+| 11 | [Backpropagation](https://learn24-lilac.vercel.app/genai-course/s11-backpropagation) | The chain rule, computational graphs and backprop walked through step by step with numbers. |
+| 12 | [Activation Functions & Gradient Problems](https://learn24-lilac.vercel.app/genai-course/s12-activation-functions) | Sigmoid, tanh, ReLU and friends, softmax, and vanishing or exploding gradients. |
+| 13 | [Optimizers & Training in Practice](https://learn24-lilac.vercel.app/genai-course/s13-optimizers-training) | SGD, momentum, RMSProp and Adam, learning-rate schedules, dropout and early stopping. |
+
+**Module 4 · Sequential Models for NLP** · [cheat sheet](https://learn24-lilac.vercel.app/genai-course/cheatsheet-m4)
+
+| Session | Lesson | What you'll learn |
+|---|---|---|
+| 14 | [Recurrent Neural Networks](https://learn24-lilac.vercel.app/genai-course/s14-rnn) | Hidden state, unrolling, backpropagation through time and bidirectional RNNs. |
+| 15 | [LSTM & GRU](https://learn24-lilac.vercel.app/genai-course/s15-lstm-gru) | Forget, input and output gates, the cell state, bidirectional LSTMs and GRUs. |
+| 16 | [Encoder–Decoder (Seq2Seq)](https://learn24-lilac.vercel.app/genai-course/s16-seq2seq) | Seq2seq architecture, the context-vector bottleneck, and why it led to attention. |
 
 **Module 5 · Transformer & Attention Mechanisms** · [cheat sheet](https://learn24-lilac.vercel.app/genai-course/cheatsheet-m5)
 

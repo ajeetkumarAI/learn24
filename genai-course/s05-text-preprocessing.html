@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Text Preprocessing · GenAI Course · Learn24</title>
+<meta name="description" content="Stemming vs lemmatization, stopword removal, part-of-speech tagging and named entity recognition with NLTK and spaCy, and when to skip preprocessing for LLMs.">
+<meta property="og:title" content="Text Preprocessing · Learn24">
+<meta property="og:description" content="Stemming vs lemmatization, stopword removal, part-of-speech tagging and named entity recognition with NLTK and spaCy, and when to skip preprocessing for LLMs.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#b38cff}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article>
+  <div class="kicker">GenAI Course · Module 2 · Session 5</div>
+  <h1>Text Preprocessing</h1>
+  <div class="meta"><span>⏱ 12 min read</span><span>🎯 Beginner friendly</span><span>🖼 2 diagrams</span><span>🧪 1 live demo</span><span>🐍 Python code</span></div>
+  <p class="lead">Real text is messy: “Paid”, “paying” and “payments” are the same idea written three ways. Classic NLP <strong>cleans and normalises</strong> text before feeding it to a model. In this session you will run stemming, lemmatization, stopword removal, POS tagging and NER on real sentences, and learn <strong>when not to</strong> preprocess.</p>
+  <div class="tldr"><h4>In this session</h4><ul><li>Stemming vs lemmatization, side by side</li><li>Stopword removal, and how it can flip meaning</li><li>Part-of-speech (POS) tagging</li><li>Named Entity Recognition (NER) with spaCy</li><li>Which steps still matter in the LLM era</li></ul></div>
+<h2 id="stem-lemma"><span class="n">01</span>Lemmatization vs stemming</h2>
+<p>Both reduce a word to a base form so that “studies” and “study” count as the same word.</p><figure class="fig"><svg viewBox="0 0 700 190" role="img" aria-label="Stemming is a quick haircut; lemmatization looks the word up properly."><g class="an" style="--dl:0.0s"><rect class="bx am" x="16" y="10" width="322" height="170" rx="14"/><text x="177" y="40" text-anchor="middle" class="h tam">Stemming</text><text x="38" y="72" style="font-size:13.5px">• chops endings with rules</text><text x="38" y="102" style="font-size:13.5px">• fast, no dictionary</text><text x="38" y="132" style="font-size:13.5px">• can produce non-words: “studi”</text><text x="38" y="162" style="font-size:13.5px">• Porter, Snowball stemmers</text></g><g class="an" style="--dl:0.4s"><rect class="bx gr" x="362" y="10" width="322" height="170" rx="14"/><text x="523" y="40" text-anchor="middle" class="h tgr">Lemmatization</text><text x="384" y="72" style="font-size:13.5px">• looks up the dictionary form</text><text x="384" y="102" style="font-size:13.5px">• slower, needs the word type</text><text x="384" y="132" style="font-size:13.5px">• gives real words: “study”</text><text x="384" y="162" style="font-size:13.5px">• WordNet, spaCy lemmatizers</text></g></svg><figcaption>Stemming is a quick haircut; lemmatization looks the word up properly.</figcaption></figure><div class="codebox"><div class="cap"><span>preprocess.py</span><button class="copy" type="button">Copy</button></div><pre>from nltk.stem import PorterStemmer, WordNetLemmatizer
+from nltk.corpus import stopwords
+# once: nltk.download(&quot;wordnet&quot;); nltk.download(&quot;stopwords&quot;)
+
+words = [&quot;running&quot;, &quot;studies&quot;, &quot;better&quot;, &quot;paid&quot;, &quot;payments&quot;, &quot;flies&quot;]
+stem, lem = PorterStemmer(), WordNetLemmatizer()
+print(f&quot;{&#x27;word&#x27;:10s}{&#x27;stem&#x27;:10s}{&#x27;lemma (verb)&#x27;:14s}lemma (noun)&quot;)
+for w in words:
+    print(f&quot;{w:10s}{stem.stem(w):10s}{lem.lemmatize(w, pos=&#x27;v&#x27;):14s}{lem.lemmatize(w, pos=&#x27;n&#x27;)}&quot;)
+print(&quot;better as adjective -&gt;&quot;, lem.lemmatize(&quot;better&quot;, pos=&quot;a&quot;))
+
+stop = set(stopwords.words(&quot;english&quot;))
+sentence = &quot;I am not happy with the delay in my refund&quot;.split()
+print(&quot;\nstopwords removed:&quot;, [w for w in sentence if w.lower() not in stop])
+print(&quot;&#x27;not&#x27; is a stopword?&quot;, &quot;not&quot; in stop)</pre></div><div class="out">word      stem      lemma (verb)  lemma (noun)
+running   run       run           running
+studies   studi     study         study
+better    better    better        better
+paid      paid      pay           paid
+payments  payment   payments      payment
+flies     fli       fly           fly
+better as adjective -&gt; good
+
+stopwords removed: [&#x27;happy&#x27;, &#x27;delay&#x27;, &#x27;refund&#x27;]
+&#x27;not&#x27; is a stopword? True</div><ul><li>The stemmer turns “studies” into <code>studi</code> and “flies” into <code>fli</code>: not real words, but consistent.</li><li>The lemmatizer needs to know the <b>part of speech</b>: “paid” → <code>pay</code> as a verb; “better” → <code>good</code> as an adjective.</li></ul><div class="analogy"><span class="ic">✂️</span><p><b>Stemming is like cutting every name to 4 letters.</b> “Rajesh” and “Rajeev” both become “Raje”: fast, but sometimes wrong. Lemmatization is like checking the ID card.</p></div>
+<h2 id="stopwords"><span class="n">02</span>Stopword removal</h2>
+<p><strong>Stopwords</strong> are very common words such as “the”, “is”, “in”, “a”. Removing them shrinks the data for keyword search and TF-IDF (Session 7). The output above shows the danger:</p><div class="callout warn">“I am <b>not</b> happy with the delay” became <code>['happy', 'delay', 'refund']</code>. NLTK’s list includes “not”, so the complaint now looks positive! For sentiment, keep negations like <i>not, no, never</i>.</div><div class="demo" data-demo="pick"><div class="demo-h"><b>Demo · Should you remove stopwords?</b></div><script type="application/json">{"question": "Pick a task:", "options": [{"label": "Keyword search / TF-IDF", "html": "<div class=\"callout tip\"><b>Usually yes.<\/b> Common words add noise and size without helping the match.<\/div>"}, {"label": "Sentiment analysis", "html": "<div class=\"callout warn\"><b>Be careful.<\/b> Keep negations (not, never, no) or the meaning flips.<\/div>"}, {"label": "Sending text to an LLM", "html": "<div class=\"callout warn\"><b>No.<\/b> LLMs need natural, complete sentences. Removing words only confuses them.<\/div>"}, {"label": "Topic modelling", "html": "<div class=\"callout tip\"><b>Yes.<\/b> Topics should be built from meaningful words, not “the” and “is”.<\/div>"}]}</script></div>
+<h2 id="pos-ner"><span class="n">03</span>POS tagging and Named Entity Recognition</h2>
+<p><strong>Part-of-speech (POS) tagging</strong> labels each word: noun, verb, adjective and so on. <strong>Named Entity Recognition (NER)</strong> finds real-world things: people, organisations, places, money, dates. spaCy does both with a small pre-trained model:</p><div class="codebox"><div class="cap"><span>spacy_ner.py</span><button class="copy" type="button">Copy</button></div><pre># pip install spacy &amp;&amp; python -m spacy download en_core_web_sm
+import spacy
+nlp = spacy.load(&quot;en_core_web_sm&quot;)
+
+doc = nlp(&quot;Priya Sharma transferred ₹25,000 to HDFC Bank in Mumbai on 12 March 2025.&quot;)
+print(&quot;POS tags:&quot;)
+print(&quot;  &quot;, [(t.text, t.pos_) for t in doc][:8])
+print(&quot;Entities:&quot;)
+for ent in doc.ents:
+    print(f&quot;   {ent.text:16s} {ent.label_:8s} {spacy.explain(ent.label_)}&quot;)</pre></div><div class="out">POS tags:
+   [(&#x27;Priya&#x27;, &#x27;PROPN&#x27;), (&#x27;Sharma&#x27;, &#x27;PROPN&#x27;), (&#x27;transferred&#x27;, &#x27;VERB&#x27;), (&#x27;₹&#x27;, &#x27;PROPN&#x27;), (&#x27;25,000&#x27;, &#x27;NUM&#x27;), (&#x27;to&#x27;, &#x27;ADP&#x27;), (&#x27;HDFC&#x27;, &#x27;PROPN&#x27;), (&#x27;Bank&#x27;, &#x27;PROPN&#x27;)]
+Entities:
+   Priya Sharma     PERSON   People, including fictional
+   25,000           MONEY    Monetary values, including unit
+   HDFC Bank        ORG      Companies, agencies, institutions, etc.
+   Mumbai           GPE      Countries, cities, states
+   12 March 2025    DATE     Absolute or relative dates or periods</div><div class="tw"><table><thead><tr><th>Tag</th><th>Meaning</th><th>Example</th></tr></thead><tbody><tr><td>PROPN</td><td>proper noun</td><td>Priya, HDFC</td></tr><tr><td>VERB</td><td>verb</td><td>transferred</td></tr><tr><td>NUM</td><td>number</td><td>25,000</td></tr><tr><td>ADP</td><td>preposition</td><td>to, in, on</td></tr><tr><td>PERSON / ORG / GPE</td><td>entity types</td><td>person / organisation / city or country</td></tr></tbody></table></div><p>NER is the first step in many banking workflows: pull the amount, payee and date out of an email, then fill a form automatically. Note that the small model tagged “₹” as a proper noun; bigger models, or a rule, would fix that.</p>
+<h2 id="pipeline"><span class="n">04</span>Preprocessing in the LLM era</h2>
+<figure class="fig"><svg viewBox="0 0 700 94" role="img" aria-label="A typical text pipeline. The “Normalise” step is for classic ML and search; skip it for LLMs."><g class="an" style="--dl:0.00s"><rect class="bx " x="20" y="14" width="105" height="60" rx="10"/><text x="72" y="42" text-anchor="middle" class="" style="font-weight:600;font-size:14.0px">Raw text</text><text x="72" y="59" text-anchor="middle" class="tm" style="font-size:8.9px">emails, PDFs, chats</text></g><g class="an" style="--dl:0.10s"><path class="la" d="M 129 44 L 155 44"/><path class="la" d="M 147.6 47.5 L 155 44 L 147.6 40.5"/></g><g class="an" style="--dl:0.25s"><rect class="bx ac" x="159" y="14" width="105" height="60" rx="10"/><text x="211" y="42" text-anchor="middle" class="tac" style="font-weight:600;font-size:14.0px">Clean</text><text x="211" y="59" text-anchor="middle" class="tm" style="font-size:7.7px">HTML, spaces, encoding</text></g><g class="an" style="--dl:0.35s"><path class="la" d="M 268 44 L 294 44"/><path class="la" d="M 286.4 47.5 L 294 44 L 286.4 40.5"/></g><g class="an" style="--dl:0.50s"><rect class="bx am" x="298" y="14" width="105" height="60" rx="10"/><text x="350" y="42" text-anchor="middle" class="tam" style="font-weight:600;font-size:14.0px">Normalise</text><text x="350" y="59" text-anchor="middle" class="tm" style="font-size:5.8px">lowercase, lemma (classic ML)</text></g><g class="an" style="--dl:0.60s"><path class="la" d="M 406 44 L 432 44"/><path class="la" d="M 425.2 47.5 L 432 44 L 425.2 40.5"/></g><g class="an" style="--dl:0.75s"><rect class="bx ac" x="436" y="14" width="105" height="60" rx="10"/><text x="489" y="42" text-anchor="middle" class="tac" style="font-weight:600;font-size:14.0px">Tokenize</text><text x="489" y="59" text-anchor="middle" class="tm" style="font-size:11.5px">subwords</text></g><g class="an" style="--dl:0.85s"><path class="la" d="M 545 44 L 571 44"/><path class="la" d="M 564.0 47.5 L 571 44 L 564.0 40.5"/></g><g class="an" style="--dl:1.00s"><rect class="bx gr" x="575" y="14" width="105" height="60" rx="10"/><text x="628" y="42" text-anchor="middle" class="tgr" style="font-weight:600;font-size:14.0px">Model</text><text x="628" y="59" text-anchor="middle" class="tm" style="font-size:8.9px">TF-IDF / BERT / LLM</text></g></svg><figcaption>A typical text pipeline. The “Normalise” step is for classic ML and search; skip it for LLMs.</figcaption></figure><div class="tw"><table><thead><tr><th>Step</th><th>Classic ML (TF-IDF, Naive Bayes)</th><th>LLMs and transformers</th></tr></thead><tbody><tr><td>Lowercasing</td><td>often helps</td><td>not needed: the tokenizer handles case</td></tr><tr><td>Stemming / lemmatization</td><td>helps</td><td>skip: it removes useful information</td></tr><tr><td>Stopword removal</td><td>often helps</td><td>skip</td></tr><tr><td>Cleaning HTML, junk, duplicates</td><td>yes</td><td><b>yes</b>: still very important</td></tr><tr><td>Removing PII</td><td>yes</td><td><b>yes</b>: before sending data to any API (Session 6)</td></tr><tr><td>NER</td><td>feature extraction</td><td>still useful for routing, redaction and metadata</td></tr></tbody></table></div>
+<h2 id="summary"><span class="n">05</span>Summary</h2><ul><li><strong>Stemming</strong> cuts endings by rule (fast, rough); <strong>lemmatization</strong> finds the dictionary form (slower, accurate).</li><li>Removing <strong>stopwords</strong> helps keyword methods but can delete “not” and flip meaning.</li><li><strong>POS tagging</strong> labels word types; <strong>NER</strong> finds people, organisations, places, money and dates.</li><li>For LLMs, skip normalisation but still <strong>clean</strong> text and <strong>remove PII</strong>.</li></ul>
+<h2 id="quiz"><span class="n">06</span>Quick quiz</h2><div class="quiz"><div class="q" data-answer="1" data-why="Lemmatization uses a dictionary."><p>1. Which gives a real dictionary word?</p><div class="opts"><button class="opt" type="button">Stemming</button><button class="opt" type="button">Lemmatization</button><button class="opt" type="button">Both always</button></div></div><div class="q" data-answer="1" data-why="Stemmers can make non-words."><p>2. Porter stemmer turns “studies” into…</p><div class="opts"><button class="opt" type="button">study</button><button class="opt" type="button">studi</button><button class="opt" type="button">studies</button></div></div><div class="q" data-answer="1" data-why="“not happy” becomes “happy”."><p>3. Why is removing stopwords risky for sentiment?</p><div class="opts"><button class="opt" type="button">It is slow</button><button class="opt" type="button">“not” may be removed and flip the meaning</button><button class="opt" type="button">It adds emojis</button></div></div><div class="q" data-answer="1" data-why="An organisation."><p>4. NER labels “HDFC Bank” as…</p><div class="opts"><button class="opt" type="button">PERSON</button><button class="opt" type="button">ORG</button><button class="opt" type="button">DATE</button></div></div><div class="q" data-answer="2" data-why="LLMs want natural text."><p>5. For an LLM prompt you should…</p><div class="opts"><button class="opt" type="button">remove all stopwords</button><button class="opt" type="button">stem every word</button><button class="opt" type="button">keep natural text but remove PII and junk</button></div></div><p class="score" aria-live="polite"></p></div>
+<h2 id="references"><span class="n">07</span>References</h2><ul><li><a href="https://www.nltk.org/book/ch03.html" target="_blank" rel="noopener">NLTK book, Chapter 3: Processing raw text</a></li><li><a href="https://spacy.io/usage/spacy-101" target="_blank" rel="noopener">spaCy 101</a></li><li><a href="https://spacy.io/usage/linguistic-features#named-entities" target="_blank" rel="noopener">spaCy: Named entities</a></li></ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/course.js"></script>
+
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="genai-course/s05-text-preprocessing"></script>
+</body>
+</html>

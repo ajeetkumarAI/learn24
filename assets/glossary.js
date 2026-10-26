@@ -24,6 +24,32 @@
     ['latency', 'Latency', [], 'Basics', 'How long the user waits for a response. For chat apps people also measure time to first token: how soon the first word appears.'],
     ['throughput', 'Throughput', [], 'Basics', 'How much work a system finishes per second, e.g. tokens per second or requests per second across all users.'],
 
+    // NLP basics
+    ['stemming', 'Stemming / lemmatization', ['stemming', 'lemmatization', 'lemmatisation', 'stemmer', 'lemmatizer'], 'NLP basics', 'Reducing words to a base form. Stemming chops endings by rule ("studies" → "studi"); lemmatization looks up the dictionary form ("studies" → "study").'],
+    ['stopwords', 'Stopwords', ['stopword', 'stop words'], 'NLP basics', 'Very common words like "the", "is", "in". Often removed for keyword search, but removing "not" can flip the meaning.'],
+    ['ner', 'NER', ['named entity recognition', 'named entities'], 'NLP basics', 'Named Entity Recognition: finding names of people, organisations, places, amounts and dates in text.'],
+    ['pos', 'POS tagging', ['part-of-speech', 'POS tags'], 'NLP basics', 'Labelling each word with its type: noun, verb, adjective and so on.'],
+    ['regex', 'Regular expression', ['regex', 'regular expressions'], 'NLP basics', 'A short pattern that describes text, like \\d{4} for "four digits". Used to extract and redact data such as emails, dates and IDs.'],
+    ['one-hot', 'One-hot encoding', ['one-hot'], 'NLP basics', 'Representing a word as a vector of zeros with a single 1 at its position in the vocabulary. Simple, but every word looks equally unrelated.'],
+    ['bow', 'Bag of Words', ['BoW', 'bag-of-words'], 'NLP basics', 'Representing a document by counting how often each vocabulary word appears, ignoring word order.'],
+    ['ngram', 'N-gram', ['n-grams', 'bigram', 'bigrams', 'trigram'], 'NLP basics', 'A run of n neighbouring words. "payment failed" is a bigram (n = 2).'],
+    ['tfidf', 'TF-IDF', [], 'NLP basics', 'Term Frequency × Inverse Document Frequency: a word weight that is high when the word is frequent in this document but rare across all documents.'],
+    ['word2vec', 'Word2Vec / GloVe', ['Word2Vec', 'GloVe'], 'NLP basics', 'Classic methods (2013, 2014) that learn one embedding vector per word from the contexts it appears in.'],
+    // Deep learning
+    ['perceptron', 'Perceptron', ['perceptrons', 'MLP', 'multi-layer perceptron'], 'Deep learning', 'The simplest neural network: one neuron that sums weighted inputs plus a bias and outputs yes or no. Stacked in layers it becomes a multi-layer perceptron (MLP).'],
+    ['activation', 'Activation function', ['activation functions', 'ReLU', 'sigmoid', 'tanh'], 'Deep learning', 'The non-linear step after each layer, such as ReLU, sigmoid or tanh. Without it, many layers would act like one.'],
+    ['loss', 'Loss function', ['loss functions', 'cross-entropy', 'MSE'], 'Deep learning', 'A number that says how wrong the model is, e.g. mean squared error for numbers or cross-entropy for classes. Training tries to make it smaller.'],
+    ['learning-rate', 'Learning rate', [], 'Deep learning', 'The step size of each weight update in gradient descent. Too small = slow; too big = training explodes.'],
+    ['backprop', 'Backpropagation', ['backprop', 'BPTT'], 'Deep learning', 'The algorithm that computes the gradient of the loss for every weight, by applying the chain rule from the output back to the input.'],
+    ['optimizer', 'Optimizer', ['optimizers', 'Adam', 'AdamW', 'SGD'], 'Deep learning', 'The rule for updating weights from gradients: SGD, Momentum, RMSProp, Adam or AdamW.'],
+    ['dropout', 'Dropout', [], 'Deep learning', 'Randomly switching off some neurons during training so the network does not rely on any single one. Turned off at evaluation time.'],
+    ['rnn', 'RNN', ['RNNs', 'recurrent neural network', 'recurrent neural networks'], 'Deep learning', 'Recurrent Neural Network: reads a sequence one step at a time, carrying a hidden state (memory) forward.'],
+    ['lstm', 'LSTM / GRU', ['LSTM', 'LSTMs', 'GRU', 'GRUs'], 'Deep learning', 'RNN variants with gates that decide what to remember and forget, so memory lasts over longer sequences.'],
+    ['seq2seq', 'Seq2seq', ['sequence-to-sequence', 'encoder-decoder', 'encoder–decoder'], 'Deep learning', 'An encoder reads the input sequence and a decoder writes an output sequence, e.g. for translation.'],
+    // Tools
+    ['venv', 'Virtual environment', ['virtual environments', 'venv'], 'Basics', 'A private folder of Python packages for one project, so projects with different versions do not break each other.'],
+    ['streamlit', 'Streamlit / Gradio', ['Streamlit', 'Gradio'], 'Basics', 'Python libraries that turn a script or function into a simple web app in a few lines.'],
+
     // Transformer
     ['transformer', 'Transformer', ['transformers'], 'Transformer', 'The neural network design behind almost all modern LLMs (2017, "Attention Is All You Need"). It processes all tokens in parallel and uses attention to connect them.'],
     ['embedding', 'Embedding', ['embeddings'], 'Transformer', 'A list of numbers (a vector) that stands for the meaning of a token, sentence or document. Similar meanings get similar vectors, so a computer can compare meanings with maths.'],

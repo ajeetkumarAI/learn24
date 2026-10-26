@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Module 1 cheat sheet: Introduction to the Program · Learn24</title>
+<meta name="description" content="One-page summary of GenAI Course Module 1: Introduction to the Program.">
+<meta property="og:title" content="Module 1 cheat sheet: Introduction to the Program · Learn24">
+<meta property="og:description" content="One-page summary of GenAI Course Module 1: Introduction to the Program.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/pages.css">
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body data-page="cheatsheet">
+<main class="shell page">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="index.html">GenAI Course</a><span>›</span><span>Module 1 cheat sheet</span></nav>
+<h1>Module 1 cheat sheet: Introduction to the Program</h1>
+<p class="lead">The big picture of AI, the jobs it creates, your first deployed GenAI app, and a clean working setup.</p>
+<div class="cs-top"><button type="button" onclick="print()">🖨 Print / save as PDF</button><a class="b" href="index.html">All modules</a><a class="b" href="../glossary.html">📖 Glossary</a></div>
+<div class="cs-grid" style="--c:#b38cff">
+<section class="cs"><h2>Key ideas</h2><ul><li><b>AI ⊃ Machine Learning ⊃ Deep Learning ⊃ Generative AI.</b> <a href="s01-ai-landscape.html">S1 →</a></li><li>ML learns rules from data; traditional code follows rules a person wrote. <a href="s01-ai-landscape.html">S1 →</a></li><li>NLP understands language, GenAI creates content, agents take actions with tools. <a href="s01-ai-landscape.html">S1 →</a></li><li>A GenAI app can be ~30 lines: Streamlit UI + one LLM API call. <a href="s02-careers-first-app.html">S2 →</a></li><li>One virtual environment per project; keys in .env, never in code. <a href="s03-environment-setup.html">S3 →</a></li></ul></section><section class="cs"><h2>Job roles</h2><div class="tw"><table><thead><tr><th>Role</th><th>Focus</th></tr></thead><tbody><tr><td>GenAI Engineer</td><td>LLM features: chatbots, RAG, summarisation</td></tr><tr><td>LLM Engineer</td><td>fine-tuning, serving, optimisation</td></tr><tr><td>AI Product Engineer</td><td>end-to-end AI products and UX</td></tr><tr><td>LLMOps Engineer</td><td>deploy, monitor, tracing, cost</td></tr></tbody></table></div></section><section class="cs full"><h2>Everyday commands</h2><pre>python -m venv .venv &amp;&amp; source .venv/bin/activate   # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+git checkout -b my-feature
+git add . &amp;&amp; git commit -m &quot;message&quot; &amp;&amp; git push
+streamlit run app.py</pre></section><section class="cs"><h2>Streamlit vs Gradio</h2><div class="tw"><table><thead><tr><th></th><th>Streamlit</th><th>Gradio</th></tr></thead><tbody><tr><td>Style</td><td>script reruns top to bottom</td><td>wrap a function</td></tr><tr><td>Best for</td><td>dashboards, data apps</td><td>quick model demos, chat</td></tr><tr><td>Free hosting</td><td>Streamlit Community Cloud</td><td>Hugging Face Spaces</td></tr></tbody></table></div></section><section class="cs"><h2>Common mistakes</h2><ul class="bad"><li>Committing an API key or .env file to GitHub.</li><li>Installing everything into one global Python.</li><li>Deploying a public app with no spending limit on the API key.</li><li>Calling every chatbot an “agent”: agents use tools and act.</li></ul></section>
+</div>
+<nav class="cs-pager" aria-label="Cheat sheets"><span></span><a href="cheatsheet-m2.html" style="text-align:right"><small>Next →</small>Module 2: NLP Fundamentals</a></nav>
+<p style="color:var(--muted);font-size:13.5px;margin-top:22px">Created by <b style="color:var(--fg)">Ajeetkumar</b> · Learn24</p>
+</main>
+<script src="../assets/data.js"></script>
+<script src="../assets/site.js" data-base="../"></script>
+</body>
+</html>

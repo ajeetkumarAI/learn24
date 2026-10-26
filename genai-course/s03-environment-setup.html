@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Environment Setup · GenAI Course · Learn24</title>
+<meta name="description" content="Python refresher (functions and OOP), virtual environments, pip, Jupyter and Google Colab GPU, Git and GitHub workflow, API keys with .env files, and Streamlit vs Gradio.">
+<meta property="og:title" content="Environment Setup · Learn24">
+<meta property="og:description" content="Python refresher (functions and OOP), virtual environments, pip, Jupyter and Google Colab GPU, Git and GitHub workflow, API keys with .env files, and Streamlit vs Gradio.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#b38cff}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article>
+  <div class="kicker">GenAI Course · Module 1 · Session 3</div>
+  <h1>Environment Setup</h1>
+  <div class="meta"><span>⏱ 14 min read</span><span>🎯 Beginner friendly</span><span>🖼 2 diagrams</span><span>🧪 2 live demos</span><span>🐍 Python code</span></div>
+  <p class="lead">A good setup saves hours of frustration later. In this session we refresh the <strong>Python</strong> you need, set up <strong>virtual environments</strong>, <strong>Jupyter and Colab</strong>, learn the everyday <strong>Git</strong> workflow, keep <strong>API keys</strong> safe, and meet the two UI tools we use all through the course: <strong>Streamlit and Gradio</strong>.</p>
+  <div class="tldr"><h4>In this session</h4><ul><li>Python refresher: functions, type hints and classes</li><li>Virtual environments and pip</li><li>Jupyter Notebook and Google Colab with a free GPU</li><li>Git and GitHub: the daily workflow</li><li>API keys, .env files and secrets hygiene</li><li>Streamlit vs Gradio</li></ul></div>
+<h2 id="python"><span class="n">01</span>Python refresher for AI</h2>
+<p>You do not need advanced Python for this course, but you must be comfortable with <strong>functions</strong>, <strong>lists and dictionaries</strong>, and simple <strong>classes</strong>. LLM APIs send and receive lists of dictionaries all the time, so this example uses a chat history:</p><div class="codebox"><div class="cap"><span>refresher.py</span><button class="copy" type="button">Copy</button></div><pre># Functions: reusable blocks with inputs and a return value
+def count_tokens(text: str, chars_per_token: float = 4.0) -&gt; int:
+    &quot;&quot;&quot;Rough token estimate for English text.&quot;&quot;&quot;
+    return max(1, round(len(text) / chars_per_token))
+
+# A small class: data (attributes) + behaviour (methods) together
+class ChatHistory:
+    def __init__(self, system_prompt: str):
+        self.messages = [{&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: system_prompt}]
+
+    def add(self, role: str, content: str) -&gt; None:
+        self.messages.append({&quot;role&quot;: role, &quot;content&quot;: content})
+
+    def total_tokens(self) -&gt; int:
+        return sum(count_tokens(m[&quot;content&quot;]) for m in self.messages)
+
+    def __len__(self):
+        return len(self.messages)
+
+chat = ChatHistory(&quot;You are a helpful banking assistant.&quot;)
+chat.add(&quot;user&quot;, &quot;How do I reset my UPI PIN?&quot;)
+chat.add(&quot;assistant&quot;, &quot;Open your UPI app, choose the bank account and tap &#x27;Reset UPI PIN&#x27;.&quot;)
+
+print(len(chat), &quot;messages&quot;)
+print(&quot;approx tokens:&quot;, chat.total_tokens())
+print([m[&quot;role&quot;] for m in chat.messages])</pre></div><div class="out">3 messages
+approx tokens: 32
+[&#x27;system&#x27;, &#x27;user&#x27;, &#x27;assistant&#x27;]</div><div class="tw"><table><thead><tr><th>Concept</th><th>In the code</th><th>Why it matters for AI</th></tr></thead><tbody><tr><td>Function with type hints</td><td><code>count_tokens(text: str) -> int</code></td><td>Clear inputs and outputs; LLM tool schemas use the same idea</td></tr><tr><td>Default argument</td><td><code>chars_per_token=4.0</code></td><td>Sensible defaults like temperature=0.7</td></tr><tr><td>Class</td><td><code>ChatHistory</code></td><td>Bundle data (messages) with behaviour (add, count)</td></tr><tr><td><code>__init__</code></td><td>runs when the object is created</td><td>Set up starting state, e.g. the system prompt</td></tr><tr><td>List of dicts</td><td><code>[{"role": ..., "content": ...}]</code></td><td>The exact format chat APIs expect</td></tr></tbody></table></div>
+<h2 id="venv"><span class="n">02</span>Virtual environments and pip</h2>
+<p>Different projects need different library versions. A <strong>virtual environment</strong> is a private folder of packages for one project, so projects do not break each other.</p><div class="codebox"><div class="cap"><span>terminal</span><button class="copy" type="button">Copy</button></div><pre>python -m venv .venv                 # create
+source .venv/bin/activate            # activate (macOS/Linux)
+.venv\Scripts\activate               # activate (Windows)
+
+pip install openai streamlit python-dotenv
+pip freeze &gt; requirements.txt        # save exact versions
+pip install -r requirements.txt      # recreate on another machine
+deactivate</pre></div><div class="analogy"><span class="ic">🍱</span><p><b>Like a separate tiffin box for each meal.</b> Keep each project’s packages in its own box, so the dal from one does not spill into the rice of another.</p></div><div class="callout tip"><b>Tip:</b> add <code>.venv/</code> to <code>.gitignore</code>. Share <code>requirements.txt</code>, not the environment folder.</div>
+<h2 id="jupyter"><span class="n">03</span>Jupyter Notebook and Google Colab</h2>
+<figure class="fig"><svg viewBox="0 0 700 190" role="img" aria-label="Both run notebooks: code cells and notes in one document."><g class="an" style="--dl:0.0s"><rect class="bx ac" x="16" y="10" width="322" height="170" rx="14"/><text x="177" y="40" text-anchor="middle" class="h tac">Jupyter (local)</text><text x="38" y="72" style="font-size:13.5px">• runs on your laptop</text><text x="38" y="102" style="font-size:13.5px">• your files, no upload</text><text x="38" y="132" style="font-size:13.5px">• limited by your hardware</text><text x="38" y="162" style="font-size:13.5px">• pip install notebook</text></g><g class="an" style="--dl:0.4s"><rect class="bx gr" x="362" y="10" width="322" height="170" rx="14"/><text x="523" y="40" text-anchor="middle" class="h tgr">Google Colab (cloud)</text><text x="384" y="72" style="font-size:13.5px">• runs in the browser</text><text x="384" y="102" style="font-size:13.5px">• free GPU (T4) runtime</text><text x="384" y="132" style="font-size:13.5px">• sessions time out</text><text x="384" y="162" style="font-size:13.5px">• nothing to install</text></g></svg><figcaption>Both run notebooks: code cells and notes in one document.</figcaption></figure><p>To get a GPU in Colab: <strong>Runtime → Change runtime type → T4 GPU → Save</strong>. Check it worked:</p><div class="codebox"><div class="cap"><span>colab_cell.py</span><button class="copy" type="button">Copy</button></div><pre>!nvidia-smi                      # shows the GPU name and memory
+import torch
+print(torch.cuda.is_available())  # True means PyTorch can use the GPU</pre></div><ul><li>The <code>!</code> runs a shell command inside a notebook cell.</li><li>Colab already has PyTorch installed. Install extras with <code>!pip install transformers</code>.</li><li>Colab storage is temporary: save work to Google Drive or GitHub.</li></ul>
+<h2 id="git"><span class="n">04</span>Git and GitHub workflow</h2>
+<p><strong>Git</strong> tracks every change to your code; <strong>GitHub</strong> stores it online and lets you collaborate. This is the daily workflow for the course repository:</p><div class="demo" data-demo="steps"><div class="demo-h"><b>Demo · The Git workflow</b></div><script type="application/json">{"steps": ["<p class=\"note-s\"><b>Once:<\/b> <code>git clone https://github.com/&lt;you&gt;/genai-course.git<\/code> copies the course repo to your laptop.<\/p>", "<p class=\"note-s\"><b>Start a task:<\/b> <code>git checkout -b session-03<\/code> creates a branch, so <code>main<\/code> stays clean.<\/p>", "<p class=\"note-s\"><b>Save work:<\/b> <code>git add .<\/code> then <code>git commit -m \"Add env setup notebook\"<\/code>.<\/p>", "<p class=\"note-s\"><b>Upload:<\/b> <code>git push -u origin session-03<\/code> sends your branch to GitHub.<\/p>", "<p class=\"note-s\"><b>Merge:<\/b> open a Pull Request on GitHub, review it, then merge into <code>main<\/code>.<\/p>", "<p class=\"note-s\"><b>Stay updated:<\/b> <code>git checkout main<\/code> and <code>git pull<\/code> get the latest course material.<\/p>"]}</script></div><figure class="fig"><svg viewBox="0 0 700 94" role="img" aria-label="Every change goes: edit → add → commit → push."><g class="an" style="--dl:0.00s"><rect class="bx " x="20" y="14" width="140" height="60" rx="10"/><text x="90" y="42" text-anchor="middle" class="" style="font-weight:600;font-size:14.0px">Working folder</text><text x="90" y="59" text-anchor="middle" class="tm" style="font-size:11.5px">edit files</text></g><g class="an" style="--dl:0.10s"><path class="la" d="M 164 44 L 190 44"/><path class="la" d="M 182.3 47.5 L 190 44 L 182.3 40.5"/></g><g class="an" style="--dl:0.25s"><rect class="bx ac" x="194" y="14" width="140" height="60" rx="10"/><text x="263" y="42" text-anchor="middle" class="tac" style="font-weight:600;font-size:14.0px">git add</text><text x="263" y="59" text-anchor="middle" class="tm" style="font-size:11.5px">stage changes</text></g><g class="an" style="--dl:0.35s"><path class="la" d="M 337 44 L 363 44"/><path class="la" d="M 355.8 47.5 L 363 44 L 355.8 40.5"/></g><g class="an" style="--dl:0.50s"><rect class="bx ac" x="367" y="14" width="140" height="60" rx="10"/><text x="437" y="42" text-anchor="middle" class="tac" style="font-weight:600;font-size:14.0px">git commit</text><text x="437" y="59" text-anchor="middle" class="tm" style="font-size:11.5px">save a snapshot</text></g><g class="an" style="--dl:0.60s"><path class="la" d="M 510 44 L 536 44"/><path class="la" d="M 529.3 47.5 L 536 44 L 529.3 40.5"/></g><g class="an" style="--dl:0.75s"><rect class="bx gr" x="540" y="14" width="140" height="60" rx="10"/><text x="610" y="42" text-anchor="middle" class="tgr" style="font-weight:600;font-size:14.0px">git push</text><text x="610" y="59" text-anchor="middle" class="tm" style="font-size:11.5px">upload to GitHub</text></g></svg><figcaption>Every change goes: edit → add → commit → push.</figcaption></figure>
+<h2 id="secrets"><span class="n">05</span>API keys, .env files and secrets hygiene</h2>
+<p>An API key is like your ATM PIN for an AI service: whoever has it can spend your money. <strong>Never put keys in your code.</strong> Put them in a <code>.env</code> file and load them at runtime:</p><div class="codebox"><div class="cap"><span>.env</span><button class="copy" type="button">Copy</button></div><pre>OPENAI_API_KEY=sk-demo-1234567890abcdef
+APP_ENV=dev</pre></div><div class="codebox"><div class="cap"><span>load_env.py</span><button class="copy" type="button">Copy</button></div><pre># pip install python-dotenv
+import os
+from dotenv import load_dotenv
+
+load_dotenv()                                  # reads .env from the current folder
+key = os.getenv(&quot;OPENAI_API_KEY&quot;)
+if not key:
+    raise SystemExit(&quot;OPENAI_API_KEY is missing. Add it to your .env file.&quot;)
+
+print(&quot;Environment:&quot;, os.getenv(&quot;APP_ENV&quot;, &quot;prod&quot;))
+print(&quot;Key loaded:&quot;, key[:6] + &quot;...&quot; + key[-4:])   # never print the full key</pre></div><div class="out">Environment: dev
+Key loaded: sk-dem...cdef</div><div class="codebox"><div class="cap"><span>.gitignore</span><button class="copy" type="button">Copy</button></div><pre>.env
+.venv/
+__pycache__/
+.ipynb_checkpoints/</pre></div><div class="tw"><table><thead><tr><th>Do ✅</th><th>Don’t ❌</th></tr></thead><tbody><tr><td>Keep keys in .env or a secrets manager</td><td>Paste keys into notebooks you share</td></tr><tr><td>Add .env to .gitignore before the first commit</td><td>Commit keys to GitHub, even to a private repo</td></tr><tr><td>Use separate keys for dev and production</td><td>Share one key across the whole team</td></tr><tr><td>Set spending limits; rotate keys regularly</td><td>Print the full key in logs</td></tr></tbody></table></div><div class="callout warn"><b>Leaked a key?</b> Revoke it in the provider dashboard immediately and create a new one. Deleting the commit is not enough: bots scan GitHub for keys within minutes.</div>
+<h2 id="ui"><span class="n">06</span>Streamlit and Gradio</h2>
+<p>We will put a simple web page in front of most projects. Two tools make this a few lines of Python:</p><div class="demo" data-demo="tabs"><div class="demo-h"><b>Demo · Same app, two tools</b></div><script type="application/json">{"tabs": [{"label": "Streamlit", "html": "<div class=\"codebox\"><div class=\"cap\"><span>streamlit_mini.py<\/span><button class=\"copy\" type=\"button\">Copy<\/button><\/div><pre># pip install streamlit      run:  streamlit run streamlit_mini.py\nimport streamlit as st\n\nst.title(&quot;Token estimator&quot;)\ntext = st.text_area(&quot;Your text&quot;)\nif text:\n    st.metric(&quot;Approx. tokens&quot;, max(1, round(len(text) / 4)))<\/pre><\/div><p class=\"note-s\">Script style: the file reruns from top to bottom whenever the user changes something.<\/p>"}, {"label": "Gradio", "html": "<div class=\"codebox\"><div class=\"cap\"><span>gradio_app.py<\/span><button class=\"copy\" type=\"button\">Copy<\/button><\/div><pre># pip install gradio\nimport gradio as gr\n\ndef count(text):\n    words = len(text.split())\n    return f&quot;{words} words · about {max(1, round(len(text) / 4))} tokens&quot;\n\ndemo = gr.Interface(fn=count, inputs=gr.Textbox(label=&quot;Your text&quot;), outputs=gr.Textbox(label=&quot;Count&quot;),\n                    title=&quot;Token estimator&quot;)\nif __name__ == &quot;__main__&quot;:\n    demo.launch()            # opens http://127.0.0.1:7860<\/pre><\/div><p class=\"note-s\">Function style: you wrap a Python function with inputs and outputs.<\/p>"}]}</script></div><div class="tw"><table><thead><tr><th></th><th>Streamlit</th><th>Gradio</th></tr></thead><tbody><tr><td>Style</td><td>Script that reruns top to bottom</td><td>Wrap a function</td></tr><tr><td>Best for</td><td>Dashboards, multi-page apps, data apps</td><td>Quick model demos, chat UIs</td></tr><tr><td>Chat UI</td><td><code>st.chat_input</code>, <code>st.chat_message</code></td><td><code>gr.ChatInterface</code></td></tr><tr><td>Free hosting</td><td>Streamlit Community Cloud</td><td>Hugging Face Spaces</td></tr></tbody></table></div><p>With the input “How do I reset my UPI PIN?”, both apps show <b>about 6 tokens</b> (26 characters ÷ 4). Module 2 explains real tokenization.</p>
+<h2 id="summary"><span class="n">07</span>Summary</h2><ul><li>Know <strong>functions, lists of dicts and simple classes</strong>: LLM APIs use them everywhere.</li><li>One <strong>virtual environment</strong> per project; share <code>requirements.txt</code>.</li><li>Use <strong>Colab</strong> for a free GPU; save work to Drive or GitHub.</li><li>Git workflow: <strong>branch → add → commit → push → pull request</strong>.</li><li>Keys live in <strong>.env</strong> (ignored by Git) or a secrets manager, never in code.</li><li><strong>Streamlit</strong> for apps and dashboards, <strong>Gradio</strong> for quick model demos.</li></ul>
+<h2 id="quiz"><span class="n">08</span>Quick quiz</h2><div class="quiz"><div class="q" data-answer="1" data-why="Projects with different versions do not break each other."><p>1. Why use a virtual environment?</p><div class="opts"><button class="opt" type="button">To make Python faster</button><button class="opt" type="button">To keep each project’s packages separate</button><button class="opt" type="button">To get a GPU</button></div></div><div class="q" data-answer="0" data-why="Then check with !nvidia-smi."><p>2. How do you get a GPU in Google Colab?</p><div class="opts"><button class="opt" type="button">Runtime → Change runtime type → GPU</button><button class="opt" type="button">pip install gpu</button><button class="opt" type="button">It is not possible</button></div></div><div class="q" data-answer="1" data-why=".env holds secrets."><p>3. Which file should be in .gitignore?</p><div class="opts"><button class="opt" type="button">README.md</button><button class="opt" type="button">.env</button><button class="opt" type="button">app.py</button></div></div><div class="q" data-answer="1" data-why="git push is what uploads."><p>4. What does git commit do?</p><div class="opts"><button class="opt" type="button">Uploads to GitHub</button><button class="opt" type="button">Saves a snapshot of staged changes locally</button><button class="opt" type="button">Deletes old files</button></div></div><div class="q" data-answer="0" data-why="gr.Interface(fn=..., inputs=..., outputs=...)."><p>5. Gradio’s main idea is…</p><div class="opts"><button class="opt" type="button">wrap a Python function with inputs and outputs</button><button class="opt" type="button">a SQL database</button><button class="opt" type="button">a GPU driver</button></div></div><p class="score" aria-live="polite"></p></div>
+<h2 id="references"><span class="n">09</span>References</h2><ul><li><a href="https://docs.python.org/3/tutorial/" target="_blank" rel="noopener">Python tutorial (official)</a></li><li><a href="https://docs.python.org/3/library/venv.html" target="_blank" rel="noopener">venv documentation</a></li><li><a href="https://github.com/git-guides" target="_blank" rel="noopener">GitHub: Git guides</a></li><li><a href="https://www.gradio.app/guides/quickstart" target="_blank" rel="noopener">Gradio quickstart</a></li><li><a href="https://pypi.org/project/python-dotenv/" target="_blank" rel="noopener">python-dotenv</a></li></ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/course.js"></script>
+
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="genai-course/s03-environment-setup"></script>
+</body>
+</html>

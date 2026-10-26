@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Recurrent Neural Networks · GenAI Course · Learn24</title>
+<meta name="description" content="How RNNs read text one word at a time with a hidden state, what unrolling and backpropagation through time mean, bidirectional RNNs, and why gradients vanish over long sentences.">
+<meta property="og:title" content="Recurrent Neural Networks · Learn24">
+<meta property="og:description" content="How RNNs read text one word at a time with a hidden state, what unrolling and backpropagation through time mean, bidirectional RNNs, and why gradients vanish over long sentences.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#b38cff}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article>
+  <div class="kicker">GenAI Course · Module 4 · Session 14</div>
+  <h1>Recurrent Neural Networks</h1>
+  <div class="meta"><span>⏱ 13 min read</span><span>🎯 Intermediate</span><span>🖼 1 diagram</span><span>🧪 1 live demo</span><span>🐍 Python code</span></div>
+  <p class="lead">The networks in Module 3 take a fixed-size input. But sentences have different lengths, and <strong>order matters</strong>: “not good” is different from “good, not bad”. A <strong>Recurrent Neural Network (RNN)</strong> reads one word at a time and keeps a running <strong>memory</strong>. Let us build one, unroll it, and find out why it forgets.</p>
+  <div class="tldr"><h4>In this session</h4><ul><li>The hidden state: an RNN’s memory</li><li>Unrolling an RNN over time</li><li>An RNN from scratch in NumPy, and in PyTorch</li><li>Backpropagation Through Time (BPTT)</li><li>Bidirectional RNNs: reading both ways</li><li>Why RNNs forget long-range information</li></ul></div>
+<h2 id="hidden"><span class="n">01</span>The hidden state and unrolling</h2>
+<p>An RNN cell takes two things at each step: the <strong>current word</strong> and its own <strong>hidden state</strong> from the previous step. It mixes them and produces a new hidden state:</p><div class="callout "><span style="font-family:var(--mono)">hₜ = tanh( xₜ · Wₓ + hₜ₋₁ · Wₕ + b )</span></div><figure class="fig"><svg viewBox="0 0 700 245" role="img" aria-label="RNN unrolled over four time steps"><g class="an" style="--dl:0.00s"><rect class="bx " x="40" y="170" width="110" height="40" rx="10"/><text x="95" y="195" text-anchor="middle" class="" style="font-weight:600;font-size:14.0px">“my”</text></g><g class="an" style="--dl:0.05s"><path class="la" d="M 95 168 L 95 128"/><path class="la" d="M 98.5 135.2 L 95 128 L 91.5 135.2"/></g><g class="an" style="--dl:0.10s"><rect class="bx ac" x="40" y="70" width="110" height="56" rx="10"/><text x="95" y="96" text-anchor="middle" class="tac" style="font-weight:600;font-size:14.0px">RNN cell</text><text x="95" y="113" text-anchor="middle" class="tm" style="font-size:11.5px">h1</text></g><g class="an" style="--dl:0.20s"><path class="lg" d="M 152 98 L 196 98"/><path class="lg" d="M 188.8 101.5 L 196 98 L 188.8 94.5"/></g><g class="an" style="--dl:0.15s"><text x="95" y="230" text-anchor="middle" class="tm">t = 1</text></g><g class="an" style="--dl:0.30s"><rect class="bx " x="200" y="170" width="110" height="40" rx="10"/><text x="255" y="195" text-anchor="middle" class="" style="font-weight:600;font-size:14.0px">“upi”</text></g><g class="an" style="--dl:0.35s"><path class="la" d="M 255 168 L 255 128"/><path class="la" d="M 258.5 135.2 L 255 128 L 251.5 135.2"/></g><g class="an" style="--dl:0.40s"><rect class="bx ac" x="200" y="70" width="110" height="56" rx="10"/><text x="255" y="96" text-anchor="middle" class="tac" style="font-weight:600;font-size:14.0px">RNN cell</text><text x="255" y="113" text-anchor="middle" class="tm" style="font-size:11.5px">h2</text></g><g class="an" style="--dl:0.50s"><path class="lg" d="M 312 98 L 356 98"/><path class="lg" d="M 348.8 101.5 L 356 98 L 348.8 94.5"/></g><g class="an" style="--dl:0.45s"><text x="255" y="230" text-anchor="middle" class="tm">t = 2</text></g><g class="an" style="--dl:0.60s"><rect class="bx " x="360" y="170" width="110" height="40" rx="10"/><text x="415" y="195" text-anchor="middle" class="" style="font-weight:600;font-size:14.0px">“payment”</text></g><g class="an" style="--dl:0.65s"><path class="la" d="M 415 168 L 415 128"/><path class="la" d="M 418.5 135.2 L 415 128 L 411.5 135.2"/></g><g class="an" style="--dl:0.70s"><rect class="bx ac" x="360" y="70" width="110" height="56" rx="10"/><text x="415" y="96" text-anchor="middle" class="tac" style="font-weight:600;font-size:14.0px">RNN cell</text><text x="415" y="113" text-anchor="middle" class="tm" style="font-size:11.5px">h3</text></g><g class="an" style="--dl:0.80s"><path class="lg" d="M 472 98 L 516 98"/><path class="lg" d="M 508.8 101.5 L 516 98 L 508.8 94.5"/></g><g class="an" style="--dl:0.75s"><text x="415" y="230" text-anchor="middle" class="tm">t = 3</text></g><g class="an" style="--dl:0.90s"><rect class="bx " x="520" y="170" width="110" height="40" rx="10"/><text x="575" y="195" text-anchor="middle" class="" style="font-weight:600;font-size:14.0px">“failed”</text></g><g class="an" style="--dl:0.95s"><path class="la" d="M 575 168 L 575 128"/><path class="la" d="M 578.5 135.2 L 575 128 L 571.5 135.2"/></g><g class="an" style="--dl:1.00s"><rect class="bx ac" x="520" y="70" width="110" height="56" rx="10"/><text x="575" y="96" text-anchor="middle" class="tac" style="font-weight:600;font-size:14.0px">RNN cell</text><text x="575" y="113" text-anchor="middle" class="tm" style="font-size:11.5px">h4</text></g><g class="an" style="--dl:1.05s"><text x="575" y="230" text-anchor="middle" class="tm">t = 4</text></g><g class="an" style="--dl:1.3s"><text x="350" y="40" text-anchor="middle" class="tgr" style="font-weight:600">the hidden state h carries memory forward →</text><text x="350" y="58" text-anchor="middle" class="tm">same weights in every copy of the cell</text></g></svg><figcaption>An RNN unrolled over time: one cell, reused at every step, passing its hidden state to the next step.</figcaption></figure><div class="analogy"><span class="ic">📖</span><p><b>Like reading a story aloud to a friend.</b> You don’t remember every word, but you carry a running summary in your head and update it with each new sentence. The hidden state is that summary.</p></div><div class="codebox"><div class="cap"><span>rnn_numpy.py</span><button class="copy" type="button">Copy</button></div><pre>import numpy as np
+np.random.seed(0)
+
+words = [&quot;my&quot;, &quot;upi&quot;, &quot;payment&quot;, &quot;failed&quot;]
+emb = {w: np.random.randn(4) * 0.5 for w in words}      # 4-number word vectors (random for the demo)
+
+H = 3                                                    # hidden state size
+Wx, Wh, b = np.random.randn(4, H) * 0.5, np.random.randn(H, H) * 0.5, np.zeros(H)
+
+h = np.zeros(H)                                          # memory starts empty
+for t, w in enumerate(words, 1):
+    h = np.tanh(emb[w] @ Wx + h @ Wh + b)                # SAME weights at every step
+    print(f&quot;t={t} read {w!r:10s} -&gt; hidden state {h.round(2)}&quot;)
+print(&quot;final h summarises the whole sentence; parameters:&quot;, Wx.size + Wh.size + b.size)</pre></div><div class="out">t=1 read &#x27;my&#x27;       -&gt; hidden state [-0.03 -0.46  0.57]
+t=2 read &#x27;upi&#x27;      -&gt; hidden state [0.74 0.52 0.87]
+t=3 read &#x27;payment&#x27;  -&gt; hidden state [-0.11  0.11  0.15]
+t=4 read &#x27;failed&#x27;   -&gt; hidden state [ 0.15 -0.3   0.28]
+final h summarises the whole sentence; parameters: 24</div><p>Notice there are only <b>24</b> parameters, whatever the sentence length, because the same three weight matrices are reused at every step. “Unrolling” just means drawing that one cell once per time step.</p>
+<h2 id="torch"><span class="n">02</span>RNNs in PyTorch, and bidirectional RNNs</h2>
+<p>PyTorch’s <code>nn.RNN</code> processes a whole batch of sequences. A <strong>bidirectional</strong> RNN runs one RNN left-to-right and another right-to-left, then joins their outputs, so every word sees both its past and its future:</p><div class="codebox"><div class="cap"><span>rnn_torch.py</span><button class="copy" type="button">Copy</button></div><pre>import torch, torch.nn as nn
+torch.set_num_threads(1)                    # same results on every run
+torch.manual_seed(0)
+x = torch.randn(2, 6, 8)                      # batch of 2 sentences, 6 tokens, 8 numbers per token
+
+rnn = nn.RNN(input_size=8, hidden_size=16, batch_first=True)
+out, h_n = rnn(x)
+print(&quot;uni   outputs:&quot;, tuple(out.shape), &quot; final hidden:&quot;, tuple(h_n.shape))
+
+birnn = nn.RNN(input_size=8, hidden_size=16, batch_first=True, bidirectional=True)
+out, h_n = birnn(x)
+print(&quot;bi    outputs:&quot;, tuple(out.shape), &quot; final hidden:&quot;, tuple(h_n.shape), &quot; &lt;- forward + backward&quot;)</pre></div><div class="out">uni   outputs: (2, 6, 16)  final hidden: (1, 2, 16)
+bi    outputs: (2, 6, 32)  final hidden: (2, 2, 16)  &lt;- forward + backward</div><ul><li><code>outputs</code> holds a hidden state for <b>every</b> token: use it for tagging each word (NER, POS).</li><li><code>h_n</code> is the <b>final</b> hidden state: use it to classify the whole sentence (sentiment, intent).</li><li>Bidirectional doubles the output size (16 + 16 = 32).</li></ul><div class="demo" data-demo="pick"><div class="demo-h"><b>Demo · Uni- or bidirectional?</b></div><script type="application/json">{"question": "Pick a task:", "options": [{"label": "Named entity recognition", "html": "<div class=\"callout tip\"><b>Bidirectional.<\/b> In “Ganga Bank”, knowing the next word (“Bank”) tells you “Ganga” is an organisation, not a river.<\/div>"}, {"label": "Sentiment of a full review", "html": "<div class=\"callout tip\"><b>Bidirectional.<\/b> The whole review is available, so read it both ways.<\/div>"}, {"label": "Predict the next word as the user types", "html": "<div class=\"callout warn\"><b>Unidirectional.<\/b> The future words don’t exist yet.<\/div>"}]}</script></div>
+<h2 id="bptt"><span class="n">03</span>Backpropagation Through Time (BPTT)</h2>
+<p>To train an RNN we unroll it over the sequence and run normal backpropagation (Session 11) through the unrolled graph. This is <strong>Backpropagation Through Time</strong>. Because the same weights appear at every step, their gradients from all steps are added up.</p><p>The catch: the gradient that reaches early words has been multiplied by the recurrent weights and the tanh derivative <em>once per step</em>. We measure how much the first token still affects the last output:</p><div class="codebox"><div class="cap"><span>bptt_rnn.py</span><button class="copy" type="button">Copy</button></div><pre>import torch, torch.nn as nn
+torch.set_num_threads(1)                    # same results on every run
+torch.manual_seed(0); rnn = nn.RNN(8, 32, batch_first=True)
+
+for T in [5, 20, 50, 100]:
+    torch.manual_seed(0)
+    x = torch.randn(1, T, 8, requires_grad=True)
+    out, _ = rnn(x)
+    out[0, -1].sum().backward()                     # loss uses only the last step
+    print(f&quot;length {T:3d}: gradient reaching token 1 = {x.grad[0, 0].abs().mean().item():.0e}&quot;)</pre></div><div class="out">length   5: gradient reaching token 1 = 5e-02
+length  20: gradient reaching token 1 = 4e-06
+length  50: gradient reaching token 1 = 3e-14
+length 100: gradient reaching token 1 = 4e-28</div><div class="callout warn"><b>This is the vanishing gradient problem over time.</b> After ~20 words the first word has almost no effect on learning. So a plain RNN struggles with “The loan that the customer from Pune applied for last March … <i>was</i> approved”. LSTMs and GRUs (Session 15) were invented to fix this.</div><ul><li>Exploding gradients also happen in RNNs; clip them with <code>clip_grad_norm_</code>.</li><li><strong>Truncated BPTT</strong> backpropagates through only the last k steps to save memory on very long sequences.</li><li>RNNs process tokens one after another, so they cannot use GPU parallelism well. Transformers fix this too (Module 5).</li></ul>
+<h2 id="summary"><span class="n">04</span>Summary</h2><ul><li>An RNN reads a sequence <strong>one step at a time</strong>, updating a <strong>hidden state</strong> (its memory).</li><li>The <strong>same weights</strong> are reused at every step; unrolling draws one copy per step.</li><li><strong>Bidirectional</strong> RNNs read both ways: great when the whole text is available.</li><li><strong>BPTT</strong> = backprop through the unrolled steps.</li><li>Gradients <strong>vanish</strong> over long sequences, so plain RNNs forget early words.</li></ul>
+<h2 id="quiz"><span class="n">05</span>Quick quiz</h2><div class="quiz"><div class="q" data-answer="1" data-why="It is the RNN’s memory."><p>1. What does the hidden state hold?</p><div class="opts"><button class="opt" type="button">The vocabulary</button><button class="opt" type="button">A running summary of the sequence so far</button><button class="opt" type="button">The learning rate</button></div></div><div class="q" data-answer="0" data-why="One cell, unrolled."><p>2. Why does an RNN have the same number of parameters for any sentence length?</p><div class="opts"><button class="opt" type="button">It reuses the same weights at every step</button><button class="opt" type="button">It ignores long sentences</button><button class="opt" type="button">It uses no weights</button></div></div><div class="q" data-answer="1" data-why="The future is not known yet."><p>3. Which task should NOT use a bidirectional RNN?</p><div class="opts"><button class="opt" type="button">NER</button><button class="opt" type="button">Live next-word prediction</button><button class="opt" type="button">Review sentiment</button></div></div><div class="q" data-answer="0" data-why="Backprop on the unrolled network."><p>4. BPTT stands for…</p><div class="opts"><button class="opt" type="button">Backpropagation Through Time</button><button class="opt" type="button">Batch Processing Through Tokens</button><button class="opt" type="button">Bidirectional Pre-Training</button></div></div><div class="q" data-answer="1" data-why="Early words barely affect learning."><p>5. After 50 steps the gradient to token 1 was about 10⁻¹⁴. This shows…</p><div class="opts"><button class="opt" type="button">exploding gradients</button><button class="opt" type="button">vanishing gradients</button><button class="opt" type="button">overfitting</button></div></div><p class="score" aria-live="polite"></p></div>
+<h2 id="references"><span class="n">06</span>References</h2><ul><li><a href="https://karpathy.github.io/2015/05/21/rnn-effectiveness/" target="_blank" rel="noopener">The Unreasonable Effectiveness of RNNs (Karpathy)</a></li><li><a href="https://pytorch.org/docs/stable/generated/torch.nn.RNN.html" target="_blank" rel="noopener">PyTorch nn.RNN</a></li><li><a href="https://ieeexplore.ieee.org/document/279181" target="_blank" rel="noopener">Learning long-term dependencies with gradient descent is difficult</a> (Bengio et al., 1994)</li></ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/course.js"></script>
+
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="genai-course/s14-rnn"></script>
+</body>
+</html>

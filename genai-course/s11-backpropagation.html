@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Backpropagation · GenAI Course · Learn24</title>
+<meta name="description" content="The chain rule, computational graphs and backpropagation worked through step by step with real numbers, then checked against PyTorch autograd.">
+<meta property="og:title" content="Backpropagation · Learn24">
+<meta property="og:description" content="The chain rule, computational graphs and backpropagation worked through step by step with real numbers, then checked against PyTorch autograd.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#b38cff}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article>
+  <div class="kicker">GenAI Course · Module 3 · Session 11</div>
+  <h1>Backpropagation</h1>
+  <div class="meta"><span>⏱ 14 min read</span><span>🎯 Intermediate</span><span>🖼 1 diagram</span><span>🧪 1 live demo</span><span>🐍 Python code</span></div>
+  <p class="lead">Gradient descent needs the gradient of the loss with respect to <strong>every</strong> weight. A modern LLM has billions of weights. <strong>Backpropagation</strong> computes all of those gradients in one backward sweep using a single idea from school calculus: the <strong>chain rule</strong>. Let us do it by hand once, so it never feels like magic again.</p>
+  <div class="tldr"><h4>In this session</h4><ul><li>The chain rule in plain words</li><li>Computational graphs: breaking a network into small steps</li><li>A full backward pass with real numbers</li><li>Checking our maths against PyTorch autograd</li><li>One update step and the lower loss</li></ul></div>
+<h2 id="chain"><span class="n">01</span>The chain rule</h2>
+<p>If A affects B and B affects C, then how much A affects C = (how much A affects B) × (how much B affects C). In symbols:</p><div class="callout "><span style="font-family:var(--mono)">dC/dA = dC/dB × dB/dA</span></div><div class="analogy"><span class="ic">⛽</span><p><b>Like petrol, distance and money.</b> Each litre takes you 15 km; each km costs your company ₹8 in wear. So each litre is worth 15 × ₹8 = ₹120 of wear. You multiplied the rates along the chain. Backprop does exactly this, layer by layer.</p></div><p>A neural network is a long chain of simple steps (multiply, add, activate). So the effect of any weight on the loss is the <strong>product of the local effects</strong> along the path from that weight to the loss.</p>
+<h2 id="graph"><span class="n">02</span>Computational graphs</h2>
+<p>We write the network as a graph of tiny operations. Our example: one input, one hidden neuron with sigmoid, one output, squared-error loss. With x = 2, target y = 1 and starting weights w₁ = 0.5, b₁ = 0, w₂ = 1.5, b₂ = −0.5:</p><figure class="fig"><svg viewBox="0 0 700 285" role="img" aria-label="Computational graph of a tiny network with forward values and a backward arrow"><g class="an" style="--dl:0.00s"><rect class="bx " x="20" y="40" width="130" height="50" rx="10"/><text x="85" y="70" text-anchor="middle" class="" style="font-weight:600;font-size:14.0px">x = 2</text></g><g class="an" style="--dl:0.15s"><rect class="bx " x="20" y="130" width="130" height="50" rx="10"/><text x="85" y="160" text-anchor="middle" class="" style="font-weight:600;font-size:14.0px">w₁ = 0.5</text></g><g class="an" style="--dl:0.30s"><rect class="bx ac" x="170" y="85" width="130" height="50" rx="10"/><text x="235" y="108" text-anchor="middle" class="tac" style="font-weight:600;font-size:14.0px">z = w₁x + b₁</text><text x="235" y="125" text-anchor="middle" class="tm" style="font-size:11.5px">1.000</text></g><g class="an" style="--dl:0.45s"><rect class="bx ac" x="330" y="85" width="130" height="50" rx="10"/><text x="395" y="108" text-anchor="middle" class="tac" style="font-weight:600;font-size:14.0px">h = σ(z)</text><text x="395" y="125" text-anchor="middle" class="tm" style="font-size:11.5px">0.731</text></g><g class="an" style="--dl:0.60s"><rect class="bx ac" x="490" y="85" width="130" height="50" rx="10"/><text x="555" y="108" text-anchor="middle" class="tac" style="font-weight:600;font-size:14.0px">ŷ = w₂h + b₂</text><text x="555" y="125" text-anchor="middle" class="tm" style="font-size:11.5px">0.597</text></g><g class="an" style="--dl:0.75s"><rect class="bx " x="330" y="175" width="130" height="50" rx="10"/><text x="395" y="205" text-anchor="middle" class="" style="font-weight:600;font-size:14.0px">w₂ = 1.5</text></g><g class="an" style="--dl:0.20s"><path class="la" d="M 130 65 L 168 100"/><path class="la" d="M 160.3 97.7 L 168 100 L 165.1 92.6"/></g><g class="an" style="--dl:0.20s"><path class="la" d="M 130 155 L 168 120"/><path class="la" d="M 165.1 127.4 L 168 120 L 160.3 122.3"/></g><g class="an" style="--dl:0.40s"><path class="la" d="M 300 110 L 328 110"/><path class="la" d="M 320.8 113.5 L 328 110 L 320.8 106.5"/></g><g class="an" style="--dl:0.60s"><path class="la" d="M 460 110 L 488 110"/><path class="la" d="M 480.8 113.5 L 488 110 L 480.8 106.5"/></g><g class="an" style="--dl:0.70s"><path class="la" d="M 400 175 L 520 137"/><path class="la" d="M 514.2 142.5 L 520 137 L 512.1 135.9"/></g><g class="an" style="--dl:1.00s"><rect class="bx rd" x="560" y="175" width="120" height="50" rx="10"/><text x="620" y="198" text-anchor="middle" class="trd" style="font-weight:600;font-size:14.0px">L = (ŷ − y)²</text><text x="620" y="215" text-anchor="middle" class="tm" style="font-size:11.5px">0.1627</text></g><g class="an" style="--dl:0.90s"><path class="la" d="M 600 137 L 615 173"/><path class="la" d="M 609.0 167.7 L 615 173 L 615.4 165.0"/></g><g class="an" style="--dl:1.3s"><path class="lg dash" d="M 560 250 L 120 250"/><path class="lg" d="M 128 244 L 120 250 L 128 256"/><text x="340" y="270" text-anchor="middle" class="tgr" style="font-weight:600">backward: gradients flow from the loss back to every weight</text></g></svg><figcaption>A computational graph. Forward: values flow left to right. Backward: the chain rule sends gradients right to left.</figcaption></figure><ul><li><strong>Forward pass:</strong> compute and <em>save</em> every intermediate value (z, h, ŷ, L).</li><li><strong>Backward pass:</strong> start from the loss and multiply local derivatives backwards.</li><li>The saved values are why training needs more memory than inference.</li></ul>
+<h2 id="walk"><span class="n">03</span>Backpropagation step by step</h2>
+<div class="demo" data-demo="steps"><div class="demo-h"><b>Demo · The backward pass by hand</b></div><script type="application/json">{"steps": ["<p class=\"note-s\"><b>∂L/∂ŷ<\/b> = 2(ŷ − y) = 2 × (0.597 − 1) = <b>−0.807<\/b><\/p>", "<p class=\"note-s\"><b>∂L/∂w₂<\/b> = ∂L/∂ŷ × h = −0.807 × 0.731 = <b>−0.590<\/b><\/p>", "<p class=\"note-s\"><b>∂L/∂h<\/b> = ∂L/∂ŷ × w₂ = −0.807 × 1.5 = <b>−1.210<\/b><\/p>", "<p class=\"note-s\"><b>∂L/∂z<\/b> = ∂L/∂h × h(1 − h) = −1.210 × 0.197 = <b>−0.238<\/b><\/p>", "<p class=\"note-s\"><b>∂L/∂w₁<\/b> = ∂L/∂z × x = −0.238 × 2 = <b>−0.476<\/b><\/p>", "<p class=\"note-s\">Every gradient is <b>negative<\/b>, so gradient descent will <b>increase<\/b> each weight, pushing ŷ up from 0.597 towards the target 1. ✅<\/p>"]}</script></div><div class="tw"><table><thead><tr><th>Local derivative</th><th>Rule</th></tr></thead><tbody><tr><td>d(w·h)/dw = h</td><td>multiply: the gradient is the other input</td></tr><tr><td>d(a + b)/da = 1</td><td>add: passes the gradient through unchanged</td></tr><tr><td>dσ(z)/dz = σ(z)(1 − σ(z))</td><td>sigmoid: uses the saved output h</td></tr><tr><td>d(ŷ − y)²/dŷ = 2(ŷ − y)</td><td>squared error</td></tr></tbody></table></div><p>Now the full code: forward, backward by hand, a check with PyTorch, and one update step:</p><div class="codebox"><div class="cap"><span>backprop_manual.py</span><button class="copy" type="button">Copy</button></div><pre>import math
+
+# tiny network: x -&gt; z = w1*x + b1 -&gt; h = sigmoid(z) -&gt; y_hat = w2*h + b2 -&gt; loss = (y_hat - y)^2
+x, y = 2.0, 1.0
+w1, b1, w2, b2 = 0.5, 0.0, 1.5, -0.5
+
+# forward pass (save every intermediate value)
+z = w1 * x + b1
+h = 1 / (1 + math.exp(-z))
+y_hat = w2 * h + b2
+loss = (y_hat - y) ** 2
+print(f&quot;forward:  z={z:.3f}  h={h:.3f}  y_hat={y_hat:.3f}  loss={loss:.4f}&quot;)
+
+# backward pass: chain rule, from the loss back to each weight
+dL_dyhat = 2 * (y_hat - y)
+dL_dw2 = dL_dyhat * h
+dL_db2 = dL_dyhat * 1
+dL_dh = dL_dyhat * w2
+dL_dz = dL_dh * h * (1 - h)              # sigmoid&#x27;(z) = h(1-h)
+dL_dw1 = dL_dz * x
+dL_db1 = dL_dz * 1
+print(f&quot;manual:   dw1={dL_dw1:.4f}  db1={dL_db1:.4f}  dw2={dL_dw2:.4f}  db2={dL_db2:.4f}&quot;)
+
+# check with PyTorch autograd
+import torch
+t = {k: torch.tensor(v, requires_grad=True) for k, v in dict(w1=w1, b1=b1, w2=w2, b2=b2).items()}
+L = (t[&quot;w2&quot;] * torch.sigmoid(t[&quot;w1&quot;] * x + t[&quot;b1&quot;]) + t[&quot;b2&quot;] - y) ** 2
+L.backward()
+print(&quot;autograd: &quot; + &quot;  &quot;.join(f&quot;d{k}={v.grad.item():.4f}&quot; for k, v in t.items()))
+
+# one gradient-descent step
+lr = 0.5
+w1, b1, w2, b2 = w1 - lr * dL_dw1, b1 - lr * dL_db1, w2 - lr * dL_dw2, b2 - lr * dL_db2
+y_hat = w2 / (1 + math.exp(-(w1 * x + b1))) + b2
+print(f&quot;after one step: loss={(y_hat - y) ** 2:.4f}&quot;)</pre></div><div class="out">forward:  z=1.000  h=0.731  y_hat=0.597  loss=0.1627
+manual:   dw1=-0.4759  db1=-0.2379  dw2=-0.5898  db2=-0.8068
+autograd: dw1=-0.4759  db1=-0.2379  dw2=-0.5898  db2=-0.8068
+after one step: loss=0.1564</div><p>Our hand-written gradients match PyTorch <b>exactly</b>. After a single step the loss drops from 0.1627 to 0.1564. Repeat this thousands of times on millions of examples and you have trained a neural network.</p>
+<h2 id="autograd"><span class="n">04</span>Autograd: why you rarely do this by hand</h2>
+<p>Frameworks like PyTorch and TensorFlow record the computational graph as your code runs and apply the chain rule automatically when you call <code>loss.backward()</code>. This is called <strong>automatic differentiation</strong> (autograd).</p><div class="codebox"><div class="cap"><span>training_loop.py</span><button class="copy" type="button">Copy</button></div><pre>for x_batch, y_batch in loader:          # mini-batches (Session 10)
+    optimizer.zero_grad()                # clear old gradients
+    loss = loss_fn(model(x_batch), y_batch)   # forward pass
+    loss.backward()                      # backpropagation: fills p.grad for every weight
+    optimizer.step()                     # gradient descent update (Session 13)</pre></div><div class="callout tip">These five lines train everything from a tiny MLP to a 70B-parameter LLM. Only the model, the data and the scale change.</div>
+<h2 id="summary"><span class="n">05</span>Summary</h2><ul><li><strong>Chain rule</strong>: the effect along a chain = the product of the local effects.</li><li>A <strong>computational graph</strong> splits the network into tiny operations.</li><li><strong>Forward</strong> saves values; <strong>backward</strong> multiplies local derivatives from the loss to each weight.</li><li>Hand-computed gradients match PyTorch autograd exactly.</li><li>Training loop: zero_grad → forward → <code>loss.backward()</code> → <code>optimizer.step()</code>.</li></ul>
+<h2 id="quiz"><span class="n">06</span>Quick quiz</h2><div class="quiz"><div class="q" data-answer="0" data-why="Multiply local derivatives along the path."><p>1. Backpropagation is based on…</p><div class="opts"><button class="opt" type="button">the chain rule</button><button class="opt" type="button">random search</button><button class="opt" type="button">sorting</button></div></div><div class="q" data-answer="0" data-why="e.g. sigmoid’s derivative uses h."><p>2. Why does the forward pass save intermediate values?</p><div class="opts"><button class="opt" type="button">The backward pass needs them</button><button class="opt" type="button">To print them</button><button class="opt" type="button">To save disk</button></div></div><div class="q" data-answer="1" data-why="σ′ = σ(1 − σ)."><p>3. Derivative of sigmoid in terms of its output h?</p><div class="opts"><button class="opt" type="button">h²</button><button class="opt" type="button">h(1 − h)</button><button class="opt" type="button">1/h</button></div></div><div class="q" data-answer="1" data-why="w − lr × (negative) = larger w."><p>4. If ∂L/∂w is negative, gradient descent will…</p><div class="opts"><button class="opt" type="button">decrease w</button><button class="opt" type="button">increase w</button><button class="opt" type="button">leave w unchanged</button></div></div><div class="q" data-answer="1" data-why="optimizer.step() updates."><p>5. What does <code>loss.backward()</code> do in PyTorch?</p><div class="opts"><button class="opt" type="button">Updates the weights</button><button class="opt" type="button">Computes gradients for all parameters</button><button class="opt" type="button">Loads data</button></div></div><p class="score" aria-live="polite"></p></div>
+<h2 id="references"><span class="n">07</span>References</h2><ul><li><a href="https://www.3blue1brown.com/lessons/backpropagation-calculus" target="_blank" rel="noopener">3Blue1Brown: Backpropagation calculus</a></li><li><a href="https://cs231n.github.io/optimization-2/" target="_blank" rel="noopener">CS231n: Backpropagation, intuitions</a></li><li><a href="https://pytorch.org/tutorials/beginner/basics/autogradqs_tutorial.html" target="_blank" rel="noopener">PyTorch: Automatic differentiation with autograd</a></li><li><a href="https://www.nature.com/articles/323533a0" target="_blank" rel="noopener">Learning representations by back-propagating errors</a> (Rumelhart, Hinton &amp; Williams, 1986)</li></ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/course.js"></script>
+
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="genai-course/s11-backpropagation"></script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Regular Expressions · GenAI Course · Learn24</title>
+<meta name="description" content="Build regex patterns step by step, extract emails, dates, invoice numbers and IDs, redact PII and clean large text corpora in Python, with a live regex tester.">
+<meta property="og:title" content="Regular Expressions · Learn24">
+<meta property="og:description" content="Build regex patterns step by step, extract emails, dates, invoice numbers and IDs, redact PII and clean large text corpora in Python, with a live regex tester.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#b38cff}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article>
+  <div class="kicker">GenAI Course · Module 2 · Session 6</div>
+  <h1>Regular Expressions</h1>
+  <div class="meta"><span>⏱ 13 min read</span><span>🎯 Beginner friendly</span><span>🖼 1 diagram</span><span>🧪 2 live demos</span><span>🐍 Python code</span></div>
+  <p class="lead">Regular expressions (regex) are a tiny language for describing text patterns, such as “two letters, a dash, then five digits”. They look scary at first, but a dozen symbols cover most real work. You will use them to <strong>extract</strong> data, <strong>redact personal information</strong> before sending text to an LLM, and <strong>clean</strong> large datasets.</p>
+  <div class="tldr"><h4>In this session</h4><ul><li>The 12 regex symbols you need most</li><li>Building a pattern step by step</li><li>Extracting emails, dates, invoice numbers, PAN and IFSC codes</li><li>PII redaction before LLM calls</li><li>Cleaning a large corpus quickly</li><li>A live regex tester to practise</li></ul></div>
+<h2 id="basics"><span class="n">01</span>Pattern building blocks</h2>
+<div class="tw"><table><thead><tr><th>Symbol</th><th>Meaning</th><th>Example</th><th>Matches</th></tr></thead><tbody><tr><td><code>\d</code></td><td>any digit</td><td><code>\d\d</code></td><td>42</td></tr><tr><td><code>\w</code></td><td>letter, digit or _</td><td><code>\w+</code></td><td>priya_k</td></tr><tr><td><code>\s</code></td><td>space, tab, newline</td><td><code>a\sb</code></td><td>a b</td></tr><tr><td><code>.</code></td><td>any character</td><td><code>a.c</code></td><td>abc, a-c</td></tr><tr><td><code>[A-Z]</code></td><td>one character from a set</td><td><code>[A-Z]{3}</code></td><td>UPI</td></tr><tr><td><code>+ * ?</code></td><td>one or more / zero or more / optional</td><td><code>colou?r</code></td><td>color, colour</td></tr><tr><td><code>{n} {n,m}</code></td><td>exactly n / between n and m</td><td><code>\d{4}</code></td><td>2025</td></tr><tr><td><code>^ $</code></td><td>start / end of the text or line</td><td><code>^INV</code></td><td>INV at the start</td></tr><tr><td><code>\b</code></td><td>word boundary</td><td><code>\bUPI\b</code></td><td>UPI, not UPIs</td></tr><tr><td><code>( )</code></td><td>group: capture a part</td><td><code>INV-(\d{4})</code></td><td>captures 2025</td></tr><tr><td><code>|</code></td><td>or</td><td><code>cat|dog</code></td><td>cat or dog</td></tr><tr><td><code>\.</code></td><td>a real dot (escaped)</td><td><code>co\.in</code></td><td>co.in</td></tr></tbody></table></div><div class="demo" data-demo="steps"><div class="demo-h"><b>Demo · Build a pattern for invoice numbers like INV-2025-00123</b></div><script type="application/json">{"steps": ["<p class=\"note-s\"><code>INV<\/code>: the literal letters.<\/p>", "<p class=\"note-s\"><code>INV-\\d{4}<\/code>: a dash and exactly four digits (the year).<\/p>", "<p class=\"note-s\"><code>INV-\\d{4}-\\d{5}<\/code>: another dash and five digits.<\/p>", "<p class=\"note-s\"><code>\\bINV-\\d{4}-\\d{5}\\b<\/code>: word boundaries, so “XINV-2025-001234” does not match by accident. ✅ Done.<\/p>"]}</script></div><div class="callout tip"><b>Tip:</b> in Python, write patterns as raw strings: <code>r"\d{4}"</code>. Otherwise Python treats the backslash specially first.</div>
+<h2 id="extract"><span class="n">02</span>Extracting emails, dates, invoice numbers and IDs</h2>
+<div class="codebox"><div class="cap"><span>regex_extract.py</span><button class="copy" type="button">Copy</button></div><pre>import re
+
+text = &quot;&quot;&quot;Invoice INV-2025-00123 dated 05/03/2025 sent to priya.sharma@example.com.
+Reminder for INV-2025-00981 on 2025-03-12. Contact: +91 98765 43210 or ravi_k@bank.co.in
+PAN ABCDE1234F, IFSC HDFC0001234. Paid 12 March 2025.&quot;&quot;&quot;
+
+patterns = {
+    &quot;emails&quot;:   r&quot;[\w.+-]+@[\w-]+(?:\.[\w-]+)+&quot;,
+    &quot;invoices&quot;: r&quot;\bINV-\d{4}-\d{5}\b&quot;,
+    &quot;dates&quot;:    r&quot;\b\d{2}/\d{2}/\d{4}\b|\b\d{4}-\d{2}-\d{2}\b|\b\d{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) \d{4}\b&quot;,
+    &quot;phones&quot;:   r&quot;\+91[ -]?\d{5}[ -]?\d{5}&quot;,
+    &quot;PAN&quot;:      r&quot;\b[A-Z]{5}\d{4}[A-Z]\b&quot;,
+    &quot;IFSC&quot;:     r&quot;\b[A-Z]{4}0[A-Z0-9]{6}\b&quot;,
+}
+for name, p in patterns.items():
+    print(f&quot;{name:9s}&quot;, re.findall(p, text))
+
+# groups: pull out the parts of a match
+m = re.search(r&quot;INV-(\d{4})-(\d{5})&quot;, text)
+print(&quot;\nyear:&quot;, m.group(1), &quot;| number:&quot;, m.group(2))</pre></div><div class="out">emails    [&#x27;priya.sharma@example.com&#x27;, &#x27;ravi_k@bank.co.in&#x27;]
+invoices  [&#x27;INV-2025-00123&#x27;, &#x27;INV-2025-00981&#x27;]
+dates     [&#x27;05/03/2025&#x27;, &#x27;2025-03-12&#x27;, &#x27;12 March 2025&#x27;]
+phones    [&#x27;+91 98765 43210&#x27;]
+PAN       [&#x27;ABCDE1234F&#x27;]
+IFSC      [&#x27;HDFC0001234&#x27;]
+
+year: 2025 | number: 00123</div><ul><li><code>re.findall</code> returns every match; <code>re.search</code> returns the first match with its groups.</li><li>The date pattern uses <code>|</code> to accept three formats.</li><li>PAN format: 5 letters, 4 digits, 1 letter. IFSC: 4 letters, a zero, then 6 letters or digits.</li></ul><p>Try it yourself. Pick a pattern or type your own; matches light up instantly:</p><div class="demo" data-demo="regex"><div class="demo-h"><b>Demo · Live regex tester</b></div><script type="application/json">{"text": "Invoice INV-2025-00123 dated 05/03/2025 sent to priya.sharma@example.com.\nReminder for INV-2025-00981 on 2025-03-12. Contact: +91 98765 43210 or ravi_k@bank.co.in\nPAN ABCDE1234F, IFSC HDFC0001234. Paid ₹2,499.00 on 12 March 2025.", "presets": [{"label": "Emails", "pattern": "[\\w.+-]+@[\\w-]+(?:\\.[\\w-]+)+"}, {"label": "Invoices", "pattern": "\\bINV-\\d{4}-\\d{5}\\b"}, {"label": "Dates", "pattern": "\\b\\d{2}/\\d{2}/\\d{4}\\b|\\b\\d{4}-\\d{2}-\\d{2}\\b"}, {"label": "Phone", "pattern": "\\+91[ -]?\\d{5}[ -]?\\d{5}"}, {"label": "PAN", "pattern": "\\b[A-Z]{5}\\d{4}[A-Z]\\b"}, {"label": "Amounts", "pattern": "₹[\\d,]+(?:\\.\\d{2})?"}]}</script></div>
+<h2 id="redact"><span class="n">03</span>PII redaction and corpus cleaning</h2>
+<p>Before sending customer text to an outside LLM, or storing it for training, replace personal data with labels. <code>re.sub</code> does find-and-replace with patterns:</p><div class="codebox"><div class="cap"><span>regex_redact.py</span><button class="copy" type="button">Copy</button></div><pre>import re
+
+RULES = [
+    (r&quot;[\w.+-]+@[\w-]+(?:\.[\w-]+)+&quot;, &quot;[EMAIL]&quot;),
+    (r&quot;\+91[ -]?\d{5}[ -]?\d{5}|\b[6-9]\d{9}\b&quot;, &quot;[PHONE]&quot;),
+    (r&quot;\b[A-Z]{5}\d{4}[A-Z]\b&quot;, &quot;[PAN]&quot;),
+    (r&quot;\b\d{4}[ -]?\d{4}[ -]?\d{4}[ -]?\d{4}\b&quot;, &quot;[CARD]&quot;),
+]
+
+def redact(text: str) -&gt; str:
+    for pattern, label in RULES:
+        text = re.sub(pattern, label, text)
+    return text
+
+def clean(text: str) -&gt; str:
+    text = re.sub(r&quot;&lt;[^&gt;]+&gt;&quot;, &quot; &quot;, text)            # remove HTML tags
+    text = re.sub(r&quot;https?://\S+&quot;, &quot;[URL]&quot;, text)    # replace links
+    text = re.sub(r&quot;\s+&quot;, &quot; &quot;, text)                 # collapse spaces and newlines
+    return text.strip()
+
+raw = &quot;&quot;&quot;&lt;p&gt;Hi, I am Ravi. My card 4111 1111 1111 1111 was charged twice!&lt;/p&gt;
+&lt;p&gt;Call me on 9876543210 or mail ravi.k@gmail.com. PAN: ABCDE1234F&lt;/p&gt;  See https://bank.example/help&quot;&quot;&quot;
+print(redact(clean(raw)))
+
+# speed on a large corpus: compile once, reuse
+pattern = re.compile(RULES[0][0])
+corpus = [&quot;write to support@bank.in today&quot;] * 100_000
+import time; t = time.perf_counter()
+hits = sum(1 for line in corpus if pattern.search(line))
+print(f&quot;\n{hits:,} lines matched in {time.perf_counter() - t:.2f} s&quot;)</pre></div><div class="out">Hi, I am Ravi. My card [CARD] was charged twice! Call me on [PHONE] or mail [EMAIL]. PAN: [PAN] See [URL]
+
+100,000 lines matched in 0.07 s</div><figure class="fig"><svg viewBox="0 0 700 94" role="img" aria-label="Clean first, then redact, then send."><g class="an" style="--dl:0.00s"><rect class="bx rd" x="20" y="14" width="140" height="60" rx="10"/><text x="90" y="42" text-anchor="middle" class="trd" style="font-weight:600;font-size:14.0px">Raw text</text><text x="90" y="59" text-anchor="middle" class="tm" style="font-size:11.5px">HTML, links, PII</text></g><g class="an" style="--dl:0.10s"><path class="la" d="M 164 44 L 190 44"/><path class="la" d="M 182.3 47.5 L 190 44 L 182.3 40.5"/></g><g class="an" style="--dl:0.25s"><rect class="bx ac" x="194" y="14" width="140" height="60" rx="10"/><text x="263" y="42" text-anchor="middle" class="tac" style="font-weight:600;font-size:14.0px">Clean</text><text x="263" y="59" text-anchor="middle" class="tm" style="font-size:9.7px">strip tags, URLs, spaces</text></g><g class="an" style="--dl:0.35s"><path class="la" d="M 337 44 L 363 44"/><path class="la" d="M 355.8 47.5 L 363 44 L 355.8 40.5"/></g><g class="an" style="--dl:0.50s"><rect class="bx am" x="367" y="14" width="140" height="60" rx="10"/><text x="437" y="42" text-anchor="middle" class="tam" style="font-weight:600;font-size:14.0px">Redact</text><text x="437" y="59" text-anchor="middle" class="tm" style="font-size:8.3px">[EMAIL] [PHONE] [PAN] [CARD]</text></g><g class="an" style="--dl:0.60s"><path class="la" d="M 510 44 L 536 44"/><path class="la" d="M 529.3 47.5 L 536 44 L 529.3 40.5"/></g><g class="an" style="--dl:0.75s"><rect class="bx gr" x="540" y="14" width="140" height="60" rx="10"/><text x="610" y="42" text-anchor="middle" class="tgr" style="font-weight:600;font-size:14.0px">Safe text</text><text x="610" y="59" text-anchor="middle" class="tm" style="font-size:8.6px">ready for an LLM or storage</text></g></svg><figcaption>Clean first, then redact, then send.</figcaption></figure><ul><li><b>Compile once</b> with <code>re.compile</code> when you run the same pattern on millions of lines.</li><li>Order matters: redact cards before phones, or a 16-digit card could be partly matched as a phone number.</li><li>Regex finds <b>formats</b>, not meaning: it cannot spot a name like “Ravi”. Combine it with NER (Session 5) or a PII tool such as Microsoft Presidio.</li></ul><div class="callout warn"><b>Avoid catastrophic patterns.</b> Nested repeats like <code>(a+)+</code> can take forever on some inputs. Keep patterns specific and test them on bad data.</div>
+<h2 id="summary"><span class="n">04</span>Summary</h2><ul><li>A dozen symbols (<code>\d \w \s . [ ] + * ? {n} ^ $ \b ( ) |</code>) cover most regex work.</li><li>Build patterns step by step and add <code>\b</code> boundaries to avoid accidental matches.</li><li><code>findall</code> extracts, <code>search</code> + groups pulls out parts, <code>sub</code> replaces.</li><li>Redact PII (emails, phones, PAN, cards) <strong>before</strong> text reaches an LLM.</li><li>Regex matches formats; use NER for names and meaning.</li></ul>
+<h2 id="quiz"><span class="n">05</span>Quick quiz</h2><div class="quiz"><div class="q" data-answer="1" data-why="\d is a digit; {4} means exactly four."><p>1. What does <code>\d{4}</code> match?</p><div class="opts"><button class="opt" type="button">Any 4 letters</button><button class="opt" type="button">Exactly four digits</button><button class="opt" type="button">The letter d four times</button></div></div><div class="q" data-answer="1" data-why="Word boundaries stop partial matches."><p>2. Why add <code>\b</code> around a pattern?</p><div class="opts"><button class="opt" type="button">To make it faster</button><button class="opt" type="button">To match whole words only</button><button class="opt" type="button">To ignore case</button></div></div><div class="q" data-answer="1" data-why="sub = substitute."><p>3. Which function replaces matches?</p><div class="opts"><button class="opt" type="button">re.findall</button><button class="opt" type="button">re.sub</button><button class="opt" type="button">re.search</button></div></div><div class="q" data-answer="0" data-why="Personal data should not leave your control."><p>4. Why redact PII before calling an LLM API?</p><div class="opts"><button class="opt" type="button">To protect customer data sent outside</button><button class="opt" type="button">To use fewer GPUs</button><button class="opt" type="button">Regex is required by the API</button></div></div><div class="q" data-answer="1" data-why="Regex matches patterns, not meaning."><p>5. Can regex reliably find people’s names?</p><div class="opts"><button class="opt" type="button">Yes, always</button><button class="opt" type="button">No, names have no fixed format; use NER</button><button class="opt" type="button">Only in Hindi</button></div></div><p class="score" aria-live="polite"></p></div>
+<h2 id="references"><span class="n">06</span>References</h2><ul><li><a href="https://docs.python.org/3/library/re.html" target="_blank" rel="noopener">Python re documentation</a></li><li><a href="https://docs.python.org/3/howto/regex.html" target="_blank" rel="noopener">Python Regular Expression HOWTO</a></li><li><a href="https://regex101.com/" target="_blank" rel="noopener">regex101 (online tester)</a></li><li><a href="https://microsoft.github.io/presidio/" target="_blank" rel="noopener">Microsoft Presidio (PII detection)</a></li></ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/course.js"></script>
+<script>
+Article.demo('regex', el => {
+  const d = JSON.parse(el.querySelector('script[type="application/json"]').textContent);
+  const box = document.createElement('div');
+  box.innerHTML = `<div class="row" style="margin-bottom:8px">${d.presets.map((p, i) => `<button class="btn ghost" type="button" data-i="${i}">${p.label}</button>`).join('')}</div>
+    <label class="note-s" style="display:block">Pattern <input data-p spellcheck="false" style="width:100%;font:14px var(--mono);padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:var(--fg)"></label>
+    <div data-o style="font:13.5px/1.8 var(--mono);white-space:pre-wrap;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-top:8px"></div>
+    <p class="note-s" data-n></p>`;
+  el.append(box);
+  const inp = box.querySelector('[data-p]'), out = box.querySelector('[data-o]'), note = box.querySelector('[data-n]');
+  const esc = s => s.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+  const run = () => {
+    let re; try { re = new RegExp(inp.value, 'g'); } catch (e) { out.textContent = d.text; note.textContent = '⚠ ' + e.message; return; }
+    if (!inp.value) { out.textContent = d.text; note.textContent = 'Type a pattern or pick one above.'; return; }
+    let html = '', last = 0, n = 0, m;
+    while ((m = re.exec(d.text)) && n < 200) { if (!m[0].length) { re.lastIndex++; continue; } html += esc(d.text.slice(last, m.index)) + '<mark style="background:color-mix(in srgb,var(--ac) 35%,transparent);color:var(--fg);border-radius:4px;padding:0 2px">' + esc(m[0]) + '</mark>'; last = m.index + m[0].length; n++; }
+    out.innerHTML = html + esc(d.text.slice(last)); note.textContent = n + ' match' + (n === 1 ? '' : 'es');
+  };
+  box.querySelectorAll('[data-i]').forEach(b => b.onclick = () => { box.querySelectorAll('[data-i]').forEach(x => x.classList.toggle('ghost', x !== b)); inp.value = d.presets[+b.dataset.i].pattern; run(); });
+  inp.oninput = run; inp.value = d.presets[0].pattern; box.querySelector('[data-i]').classList.remove('ghost'); run();
+});</script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="genai-course/s06-regular-expressions"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Module 4 cheat sheet: Sequential Models for NLP · Learn24</title>
+<meta name="description" content="One-page summary of GenAI Course Module 4: Sequential Models for NLP.">
+<meta property="og:title" content="Module 4 cheat sheet: Sequential Models for NLP · Learn24">
+<meta property="og:description" content="One-page summary of GenAI Course Module 4: Sequential Models for NLP.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/pages.css">
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body data-page="cheatsheet">
+<main class="shell page">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="index.html">GenAI Course</a><span>›</span><span>Module 4 cheat sheet</span></nav>
+<h1>Module 4 cheat sheet: Sequential Models for NLP</h1>
+<p class="lead">RNNs read text in order with a memory; LSTMs and GRUs make that memory last; seq2seq turns one sequence into another, and its limits lead to attention.</p>
+<div class="cs-top"><button type="button" onclick="print()">🖨 Print / save as PDF</button><a class="b" href="index.html">All modules</a><a class="b" href="../glossary.html">📖 Glossary</a></div>
+<div class="cs-grid" style="--c:#b38cff">
+<section class="cs"><h2>Key ideas</h2><ul><li>RNN: hₜ = tanh(xₜWₓ + hₜ₋₁Wₕ + b), same weights at every step. <a href="s14-rnn.html">S14 →</a></li><li>BPTT = backprop through the unrolled steps; gradients vanish over long sequences. <a href="s14-rnn.html">S14 →</a></li><li>LSTM: cell state + forget, input and output gates. <a href="s15-lstm-gru.html">S15 →</a></li><li>GRU: 2 gates, no separate cell, ~25% fewer parameters. <a href="s15-lstm-gru.html">S15 →</a></li><li>Seq2seq: encoder → one context vector → decoder. <a href="s16-seq2seq.html">S16 →</a></li><li>The context vector is a bottleneck; attention removes it. <a href="s16-seq2seq.html">S16 →</a></li></ul></section><section class="cs"><h2>LSTM equations</h2><div class="formula">cₜ = f ⊙ cₜ₋₁ + i ⊙ g</div><div class="formula">hₜ = o ⊙ tanh(cₜ)</div><ul><li>f, i, o = sigmoid gates (0 to 1)</li><li>g = tanh candidate information</li><li>forget gate near 1 = remember for a long time</li></ul></section><section class="cs full"><h2>Which sequence model?</h2><div class="tw"><table><thead><tr><th>Model</th><th>Parameters (vs RNN)</th><th>Use when</th></tr></thead><tbody><tr><td>RNN</td><td>1×</td><td>short sequences, teaching</td></tr><tr><td>GRU</td><td>3×</td><td>faster, smaller data</td></tr><tr><td>LSTM</td><td>4×</td><td>longer sequences</td></tr><tr><td>Bi-LSTM</td><td>8×</td><td>whole text available (NER, classification)</td></tr><tr><td>Transformer</td><td>much larger</td><td>almost all NLP today (Module 5+)</td></tr></tbody></table></div></section><section class="cs"><h2>Measured in this module</h2><div class="tw"><table><thead><tr><th>Experiment</th><th>Result</th></tr></thead><tbody><tr><td>Gradient to token 1 after 100 steps</td><td>RNN ~10⁻²⁸ · LSTM with open forget gate ~10⁻²</td></tr><tr><td>Seq2seq reversing digits</td><td>100% at length 4 → under 10% at length 12</td></tr></tbody></table></div></section><section class="cs full"><h2>Code: a BiLSTM layer</h2><pre>import torch.nn as nn
+lstm = nn.LSTM(input_size=128, hidden_size=256,
+               batch_first=True, bidirectional=True)
+out, (h, c) = lstm(x)     # out: (batch, seq, 512)</pre></section><section class="cs full"><h2>Common mistakes</h2><ul class="bad"><li>Using a bidirectional model for live next-word prediction.</li><li>Not clipping gradients when training RNNs.</li><li>Expecting a seq2seq context vector to hold a whole long document.</li><li>Confusing teacher forcing (training) with generation (inference).</li></ul></section>
+</div>
+<nav class="cs-pager" aria-label="Cheat sheets"><a href="cheatsheet-m3.html"><small>← Previous</small>Module 3: Deep Learning Fundamentals</a><a href="cheatsheet-m5.html" style="text-align:right"><small>Next →</small>Module 5: Transformer & Attention</a></nav>
+<p style="color:var(--muted);font-size:13.5px;margin-top:22px">Created by <b style="color:var(--fg)">Ajeetkumar</b> · Learn24</p>
+</main>
+<script src="../assets/data.js"></script>
+<script src="../assets/site.js" data-base="../"></script>
+</body>
+</html>

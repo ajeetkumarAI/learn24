@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LSTM &amp; GRU · GenAI Course · Learn24</title>
+<meta name="description" content="How LSTM forget, input and output gates and the cell state solve vanishing gradients, measured in PyTorch; bidirectional LSTMs; and the simpler GRU.">
+<meta property="og:title" content="LSTM &amp; GRU · Learn24">
+<meta property="og:description" content="How LSTM forget, input and output gates and the cell state solve vanishing gradients, measured in PyTorch; bidirectional LSTMs; and the simpler GRU.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#b38cff}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article>
+  <div class="kicker">GenAI Course · Module 4 · Session 15</div>
+  <h1>LSTM &amp; GRU</h1>
+  <div class="meta"><span>⏱ 14 min read</span><span>🎯 Intermediate</span><span>🖼 2 diagrams</span><span>🧪 1 live demo</span><span>🐍 Python code</span></div>
+  <p class="lead">Plain RNNs forget after about 20 words. The <strong>LSTM</strong> (Long Short-Term Memory, 1997) adds a separate memory lane and three <strong>gates</strong> that decide what to keep, what to write and what to show. It powered Google Translate, Siri and most NLP until transformers arrived. Let us open it up and prove that the gates really keep gradients alive.</p>
+  <div class="tldr"><h4>In this session</h4><ul><li>The cell state: a memory highway</li><li>Forget, input and output gates</li><li>One LSTM step in NumPy with real gate values</li><li>Measured: how the forget gate stops gradients vanishing</li><li>Bidirectional LSTMs and GRUs</li><li>Parameter counts: RNN vs GRU vs LSTM</li></ul></div>
+<h2 id="cell"><span class="n">01</span>The LSTM cell</h2>
+<figure class="fig"><svg viewBox="0 0 700 260" role="img" aria-label="LSTM cell with cell state highway and forget, input and output gates"><g class="an" style="--dl:0s"><rect class="bx" x="120" y="40" width="460" height="190" rx="18"/><text x="140" y="62" class="tm">LSTM cell at time t</text></g><g class="an" style="--dl:.2s"><path class="lg" d="M 40 95 L 660 95" style="stroke-width:3"/><text x="40" y="85" class="tgr" style="font-weight:600">cell state c (long-term memory)</text></g><g class="an" style="--dl:0.40s"><rect class="bx rd" x="170" y="140" width="110" height="56" rx="10"/><text x="225" y="166" text-anchor="middle" class="trd" style="font-weight:600;font-size:14.0px">forget gate</text><text x="225" y="183" text-anchor="middle" class="tm" style="font-size:9.4px">f: keep old memory?</text></g><g class="an" style="--dl:0.50s"><path class="la" d="M 225 138 L 225 102"/><path class="la" d="M 228.5 109.2 L 225 102 L 221.5 109.2"/></g><g class="an" style="--dl:0.60s"><rect class="bx am" x="300" y="140" width="110" height="56" rx="10"/><text x="355" y="166" text-anchor="middle" class="tam" style="font-weight:600;font-size:14.0px">input gate</text><text x="355" y="183" text-anchor="middle" class="tm" style="font-size:9.9px">i: write new info?</text></g><g class="an" style="--dl:0.70s"><path class="la" d="M 355 138 L 355 102"/><path class="la" d="M 358.5 109.2 L 355 102 L 351.5 109.2"/></g><g class="an" style="--dl:0.80s"><rect class="bx ac" x="430" y="140" width="110" height="56" rx="10"/><text x="485" y="166" text-anchor="middle" class="tac" style="font-weight:600;font-size:14.0px">output gate</text><text x="485" y="183" text-anchor="middle" class="tm" style="font-size:10.5px">o: show how much?</text></g><g class="an" style="--dl:0.90s"><path class="la" d="M 485 138 L 485 102"/><path class="la" d="M 488.5 109.2 L 485 102 L 481.5 109.2"/></g><g class="an" style="--dl:1.1s"><text x="225" y="120" text-anchor="middle" class="trd" style="font-weight:700">×</text><text x="355" y="120" text-anchor="middle" class="tam" style="font-weight:700">+</text></g><g class="an" style="--dl:1.20s"><path class="la" d="M 560 168 L 650 168"/><path class="la" d="M 642.8 171.5 L 650 168 L 642.8 164.5"/></g><g class="an" style="--dl:1.2s"><text x="600" y="190" class="tac" style="font-size:13px">h (output)</text></g><g class="an" style="--dl:1.3s"><text x="40" y="250" class="tm">inputs to every gate: current word xₜ + previous hidden state hₜ₋₁</text></g></svg><figcaption>The LSTM’s cell state runs straight through, changed only by multiplication with the forget gate and addition of new info. That “highway” lets gradients survive long sequences.</figcaption></figure><div class="tw"><table><thead><tr><th>Part</th><th>Formula</th><th>Job</th></tr></thead><tbody><tr><td>Forget gate f</td><td>σ(W_f · [hₜ₋₁, xₜ] + b_f)</td><td>0 = forget the old memory, 1 = keep it</td></tr><tr><td>Input gate i</td><td>σ(W_i · [hₜ₋₁, xₜ] + b_i)</td><td>how much new information to write</td></tr><tr><td>Candidate g</td><td>tanh(W_g · [hₜ₋₁, xₜ] + b_g)</td><td>the new information itself</td></tr><tr><td>Cell state c</td><td>cₜ = f ⊙ cₜ₋₁ + i ⊙ g</td><td>long-term memory: keep some old, add some new</td></tr><tr><td>Output gate o</td><td>σ(W_o · [hₜ₋₁, xₜ] + b_o)</td><td>how much memory to reveal</td></tr><tr><td>Hidden state h</td><td>hₜ = o ⊙ tanh(cₜ)</td><td>short-term output for this step</td></tr></tbody></table></div><div class="analogy"><span class="ic">🗂️</span><p><b>Like a bank clerk’s file.</b> For each new document, the clerk decides what old notes to tear out (forget gate), what new notes to add (input gate), and what to tell the customer today (output gate). The file itself (cell state) travels from day to day.</p></div><div class="codebox"><div class="cap"><span>lstm_step.py</span><button class="copy" type="button">Copy</button></div><pre>import numpy as np
+np.random.seed(1)
+sig = lambda z: 1 / (1 + np.exp(-z))
+
+X, H = 4, 3
+W = {g: np.random.randn(X + H, H) * 0.5 for g in &quot;fiog&quot;}      # one weight matrix per gate
+b = {g: np.zeros(H) for g in &quot;fiog&quot;}; b[&quot;f&quot;] += 1.0             # common trick: start by remembering
+
+def lstm_step(x, h, c):
+    z = np.concatenate([x, h])
+    f = sig(z @ W[&quot;f&quot;] + b[&quot;f&quot;])        # forget gate: how much old memory to keep
+    i = sig(z @ W[&quot;i&quot;] + b[&quot;i&quot;])        # input gate: how much new info to write
+    g = np.tanh(z @ W[&quot;g&quot;] + b[&quot;g&quot;])    # candidate new info
+    o = sig(z @ W[&quot;o&quot;] + b[&quot;o&quot;])        # output gate: how much memory to show
+    c = f * c + i * g                   # cell state: the long-term memory
+    h = o * np.tanh(c)                  # hidden state: the short-term output
+    return h, c, f, i, o
+
+h = c = np.zeros(H)
+for t in range(3):
+    h, c, f, i, o = lstm_step(np.random.randn(X), h, c)
+    print(f&quot;t={t + 1} forget={f.round(2)} input={i.round(2)} output={o.round(2)}\n    cell={c.round(2)} hidden={h.round(2)}&quot;)</pre></div><div class="out">t=1 forget=[0.61 0.82 0.58] input=[0.59 0.52 0.43] output=[0.45 0.44 0.49]
+    cell=[0.29 0.34 0.15] hidden=[0.12 0.14 0.07]
+t=2 forget=[0.81 0.75 0.41] input=[0.46 0.36 0.57] output=[0.42 0.64 0.81]
+    cell=[0.09 0.31 0.5 ] hidden=[0.04 0.19 0.38]
+t=3 forget=[0.78 0.69 0.83] input=[0.33 0.49 0.51] output=[0.57 0.5  0.39]
+    cell=[-0.12 -0.09  0.1 ] hidden=[-0.07 -0.05  0.04]</div><p>Every gate value is between 0 and 1 (sigmoid). The forget bias starts at +1, a standard trick so a new LSTM begins by remembering rather than forgetting.</p>
+<h2 id="why"><span class="n">02</span>Why gates stop gradients vanishing</h2>
+<p>In a plain RNN the gradient is squeezed through tanh and the weights at every step. In an LSTM, the cell state is updated by <b>multiplying by f and adding</b>. If the network learns to keep f close to 1, the gradient travels back almost unchanged. We measure it, comparing a plain RNN, a new LSTM, and an LSTM whose forget gate is open (f ≈ 0.95, as a trained LSTM learns to do for important information):</p><div class="codebox"><div class="cap"><span>bptt_vanish.py</span><button class="copy" type="button">Copy</button></div><pre>import torch, torch.nn as nn
+torch.set_num_threads(1)                    # same results on every run
+
+def grad_to_first_token(cell, T):
+    torch.manual_seed(0)
+    x = torch.randn(1, T, 8, requires_grad=True)
+    out, _ = cell(x)
+    out[0, -1].sum().backward()                       # loss depends on the LAST output only
+    return x.grad[0, 0].abs().mean().item()           # how much does the FIRST token still matter?
+
+H = 32
+torch.manual_seed(0); rnn = nn.RNN(8, H, batch_first=True)
+torch.manual_seed(0); lstm = nn.LSTM(8, H, batch_first=True)
+torch.manual_seed(0); lstm_open = nn.LSTM(8, H, batch_first=True)
+with torch.no_grad():                                 # PyTorch gate order: input, forget, cell, output
+    lstm_open.bias_ih_l0[H:2 * H].fill_(1.5); lstm_open.bias_hh_l0[H:2 * H].fill_(1.5)   # forget gate ≈ 0.95: &quot;remember&quot;
+
+print(&quot;gradient reaching the first token:&quot;)
+for T in [5, 20, 50, 100]:
+    print(f&quot;  length {T:3d}: RNN {grad_to_first_token(rnn, T):.0e}   LSTM (new) {grad_to_first_token(lstm, T):.0e}&quot;
+          f&quot;   LSTM (forget gate open) {grad_to_first_token(lstm_open, T):.0e}&quot;)</pre></div><div class="out">gradient reaching the first token:
+  length   5: RNN 5e-02   LSTM (new) 1e-02   LSTM (forget gate open) 9e-02
+  length  20: RNN 4e-06   LSTM (new) 6e-06   LSTM (forget gate open) 7e-02
+  length  50: RNN 3e-14   LSTM (new) 8e-12   LSTM (forget gate open) 2e-02
+  length 100: RNN 4e-28   LSTM (new) 2e-22   LSTM (forget gate open) 2e-02</div><div class="demo" data-demo="tabs"><div class="demo-h"><b>Demo · Gradient reaching the first token</b></div><script type="application/json">{"tabs": [{"label": "5 tokens", "html": "<div class=\"bars\"><div class=\"bar\"><span>RNN<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.957\"><\/div><\/div><span class=\"v\">5e-02<\/span><\/div><div class=\"bar\"><span>LSTM (new)<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.933\"><\/div><\/div><span class=\"v\">1e-02<\/span><\/div><div class=\"bar top\"><span>LSTM (forget gate open)<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.965\"><\/div><\/div><span class=\"v\">9e-02<\/span><\/div><\/div><p class=\"note-s\">Log scale: an empty bar means about 10⁻³⁰, a full bar means 1. Longer bar = more gradient survives.<\/p>"}, {"label": "20 tokens", "html": "<div class=\"bars\"><div class=\"bar\"><span>RNN<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.820\"><\/div><\/div><span class=\"v\">4e-06<\/span><\/div><div class=\"bar\"><span>LSTM (new)<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.826\"><\/div><\/div><span class=\"v\">6e-06<\/span><\/div><div class=\"bar top\"><span>LSTM (forget gate open)<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.962\"><\/div><\/div><span class=\"v\">7e-02<\/span><\/div><\/div><p class=\"note-s\">Log scale: an empty bar means about 10⁻³⁰, a full bar means 1. Longer bar = more gradient survives.<\/p>"}, {"label": "50 tokens", "html": "<div class=\"bars\"><div class=\"bar\"><span>RNN<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.549\"><\/div><\/div><span class=\"v\">3e-14<\/span><\/div><div class=\"bar\"><span>LSTM (new)<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.630\"><\/div><\/div><span class=\"v\">8e-12<\/span><\/div><div class=\"bar top\"><span>LSTM (forget gate open)<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.943\"><\/div><\/div><span class=\"v\">2e-02<\/span><\/div><\/div><p class=\"note-s\">Log scale: an empty bar means about 10⁻³⁰, a full bar means 1. Longer bar = more gradient survives.<\/p>"}, {"label": "100 tokens", "html": "<div class=\"bars\"><div class=\"bar\"><span>RNN<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.087\"><\/div><\/div><span class=\"v\">4e-28<\/span><\/div><div class=\"bar\"><span>LSTM (new)<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.277\"><\/div><\/div><span class=\"v\">2e-22<\/span><\/div><div class=\"bar top\"><span>LSTM (forget gate open)<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.943\"><\/div><\/div><span class=\"v\">2e-02<\/span><\/div><\/div><p class=\"note-s\">Log scale: an empty bar means about 10⁻³⁰, a full bar means 1. Longer bar = more gradient survives.<\/p>"}]}</script></div><div class="callout tip"><b>The key insight:</b> with the forget gate open, the gradient after 100 tokens is still ~10⁻², while the plain RNN’s is ~10⁻²⁸. A fresh LSTM is no better than an RNN; it is the <b>learnable</b> forget gate that lets training discover what to remember.</div>
+<h2 id="gru"><span class="n">03</span>Bidirectional LSTMs and GRUs</h2>
+<p>A <strong>bidirectional LSTM</strong> (BiLSTM) runs one LSTM forwards and one backwards, exactly like the bidirectional RNN in Session 14. BiLSTMs were the standard for NER and classification before BERT.</p><p>The <strong>GRU</strong> (Gated Recurrent Unit, 2014) is a simpler cousin. It merges the cell and hidden state and uses two gates:</p><figure class="fig"><svg viewBox="0 0 700 190" role="img" aria-label="Same idea, different trade-off: GRU is lighter, LSTM has more control."><g class="an" style="--dl:0.0s"><rect class="bx ac" x="16" y="10" width="322" height="170" rx="14"/><text x="177" y="40" text-anchor="middle" class="h tac">LSTM</text><text x="38" y="72" style="font-size:13.5px">• 3 gates: forget, input, output</text><text x="38" y="102" style="font-size:13.5px">• separate cell state c and hidden h</text><text x="38" y="132" style="font-size:13.5px">• 4 weight blocks</text><text x="38" y="162" style="font-size:13.5px">• a little more powerful on long data</text></g><g class="an" style="--dl:0.4s"><rect class="bx gr" x="362" y="10" width="322" height="170" rx="14"/><text x="523" y="40" text-anchor="middle" class="h tgr">GRU</text><text x="384" y="72" style="font-size:13.5px">• 2 gates: update, reset</text><text x="384" y="102" style="font-size:13.5px">• only a hidden state h</text><text x="384" y="132" style="font-size:13.5px">• 3 weight blocks: ~25% fewer parameters</text><text x="384" y="162" style="font-size:13.5px">• faster; often equally good</text></g></svg><figcaption>Same idea, different trade-off: GRU is lighter, LSTM has more control.</figcaption></figure><div class="codebox"><div class="cap"><span>rnn_params.py</span><button class="copy" type="button">Copy</button></div><pre>import torch.nn as nn
+count = lambda m: sum(p.numel() for p in m.parameters())
+inp, hid = 128, 256
+for name, layer in [(&quot;RNN&quot;, nn.RNN(inp, hid)), (&quot;GRU&quot;, nn.GRU(inp, hid)), (&quot;LSTM&quot;, nn.LSTM(inp, hid)),
+                    (&quot;Bi-LSTM&quot;, nn.LSTM(inp, hid, bidirectional=True))]:
+    print(f&quot;{name:8s} {count(layer):&gt;9,} parameters&quot;)</pre></div><div class="out">RNN         98,816 parameters
+GRU        296,448 parameters
+LSTM       395,264 parameters
+Bi-LSTM    790,528 parameters</div><p>Check: an RNN layer has 256 × (128 + 256) + 2 × 256 = 98,816 parameters. A GRU has exactly <b>3×</b> that, an LSTM <b>4×</b> (one block per gate plus the candidate), and a BiLSTM double the LSTM.</p><div class="codebox"><div class="cap"><span>lstm_classifier.py</span><button class="copy" type="button">Copy</button></div><pre>import torch
+import torch.nn as nn
+
+class SentimentLSTM(nn.Module):
+    def __init__(self, vocab=20_000, emb=128, hidden=256, classes=3):
+        super().__init__()
+        self.emb = nn.Embedding(vocab, emb, padding_idx=0)
+        self.lstm = nn.LSTM(emb, hidden, batch_first=True, bidirectional=True)
+        self.head = nn.Linear(2 * hidden, classes)        # forward + backward states
+
+    def forward(self, token_ids):
+        _, (h, _) = self.lstm(self.emb(token_ids))
+        return self.head(torch.cat([h[-2], h[-1]], dim=1))  # last forward + last backward state</pre></div><div class="tw"><table><thead><tr><th>Use…</th><th>When</th></tr></thead><tbody><tr><td>GRU</td><td>smaller data, faster training, mobile/edge devices</td></tr><tr><td>LSTM</td><td>long sequences, when you need the extra control</td></tr><tr><td>Transformer (Module 5+)</td><td>almost all NLP today: parallel training and much longer memory</td></tr></tbody></table></div>
+<h2 id="summary"><span class="n">04</span>Summary</h2><ul><li>The LSTM adds a <strong>cell state</strong> highway and three gates: <strong>forget, input, output</strong>.</li><li>cₜ = f ⊙ cₜ₋₁ + i ⊙ g: keep some old memory, add some new.</li><li>A forget gate near 1 keeps gradients alive for 100+ steps (measured: ~10⁻² vs ~10⁻²⁸).</li><li><strong>GRU</strong>: 2 gates, no separate cell, ~25% fewer parameters.</li><li>LSTM = 4× and GRU = 3× an RNN’s parameters.</li></ul>
+<h2 id="quiz"><span class="n">05</span>Quick quiz</h2><div class="quiz"><div class="q" data-answer="1" data-why="f multiplies the old cell state."><p>1. Which gate decides how much old memory to keep?</p><div class="opts"><button class="opt" type="button">Input gate</button><button class="opt" type="button">Forget gate</button><button class="opt" type="button">Output gate</button></div></div><div class="q" data-answer="0" data-why="Sigmoid squashes to 0–1."><p>2. Why do gate values lie between 0 and 1?</p><div class="opts"><button class="opt" type="button">They use the sigmoid function</button><button class="opt" type="button">They are integers</button><button class="opt" type="button">They use ReLU</button></div></div><div class="q" data-answer="0" data-why="The highway keeps gradients flowing."><p>3. How does the LSTM fight vanishing gradients?</p><div class="opts"><button class="opt" type="button">A cell state updated by multiply-and-add, controlled by the forget gate</button><button class="opt" type="button">Using more layers</button><button class="opt" type="button">Removing tanh entirely</button></div></div><div class="q" data-answer="1" data-why="Update and reset."><p>4. How many gates does a GRU have?</p><div class="opts"><button class="opt" type="button">1</button><button class="opt" type="button">2</button><button class="opt" type="button">3</button></div></div><div class="q" data-answer="1" data-why="One block per gate plus the candidate."><p>5. An LSTM layer has about how many times the parameters of a plain RNN of the same size?</p><div class="opts"><button class="opt" type="button">2×</button><button class="opt" type="button">4×</button><button class="opt" type="button">10×</button></div></div><p class="score" aria-live="polite"></p></div>
+<h2 id="references"><span class="n">06</span>References</h2><ul><li><a href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/" target="_blank" rel="noopener">Understanding LSTM Networks (Chris Olah)</a></li><li><a href="https://www.bioinf.jku.at/publications/older/2604.pdf" target="_blank" rel="noopener">Long Short-Term Memory</a> (Hochreiter &amp; Schmidhuber, 1997)</li><li><a href="https://arxiv.org/abs/1406.1078" target="_blank" rel="noopener">Learning Phrase Representations using RNN Encoder–Decoder (GRU)</a> (Cho et al., 2014)</li><li><a href="https://pytorch.org/docs/stable/generated/torch.nn.LSTM.html" target="_blank" rel="noopener">PyTorch nn.LSTM</a></li></ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/course.js"></script>
+
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="genai-course/s15-lstm-gru"></script>
+</body>
+</html>

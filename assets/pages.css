@@ -61,7 +61,7 @@
 .cs td:first-child{color:var(--fg);font-weight:500}
 .cs .tw{overflow-x:auto}
 .cs pre{margin:0;background:#111a2b;color:#d6deeb;border-radius:10px;padding:12px 14px;font:13px/1.6 var(--mono);overflow-x:auto;white-space:pre}
-.cs .formula{font:500 16px var(--mono);color:var(--fg);background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:6px 0;overflow-x:auto;white-space:nowrap}
+.cs .formula{font:500 16px var(--mono);color:var(--fg);background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:6px 0;overflow-x:auto;white-space:normal;overflow-wrap:anywhere}
 .cs .bad li::marker{content:"✕  ";color:var(--red)}
 .cs-pager{display:flex;justify-content:space-between;gap:10px;margin-top:26px;flex-wrap:wrap}
 .cs-pager a{text-decoration:none;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 14px;color:var(--fg);font-size:14.5px}

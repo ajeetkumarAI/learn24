@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Optimizers &amp; Training in Practice · GenAI Course · Learn24</title>
+<meta name="description" content="SGD, momentum, RMSProp and Adam implemented and compared, learning-rate schedules, and fighting overfitting with validation sets, dropout and early stopping.">
+<meta property="og:title" content="Optimizers &amp; Training in Practice · Learn24">
+<meta property="og:description" content="SGD, momentum, RMSProp and Adam implemented and compared, learning-rate schedules, and fighting overfitting with validation sets, dropout and early stopping.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#b38cff}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article>
+  <div class="kicker">GenAI Course · Module 3 · Session 13</div>
+  <h1>Optimizers &amp; Training in Practice</h1>
+  <div class="meta"><span>⏱ 14 min read</span><span>🎯 Intermediate</span><span>🖼 2 diagrams</span><span>🧪 2 live demos</span><span>🐍 Python code</span></div>
+  <p class="lead">Plain gradient descent works, but it can be slow and fussy about the learning rate. <strong>Optimizers</strong> like Momentum and Adam are smarter ways to take each step. In this session we race four optimizers, schedule the learning rate, and learn the practical tricks that stop a model from <strong>memorising</strong> its training data.</p>
+  <div class="tldr"><h4>In this session</h4><ul><li>SGD, Momentum, RMSProp and Adam: the idea behind each</li><li>A fair race between them on a tricky valley</li><li>Learning-rate schedules: step, exponential, cosine</li><li>Overfitting: spotting it with a validation set</li><li>Dropout and early stopping</li></ul></div>
+<h2 id="opt"><span class="n">01</span>SGD, Momentum, RMSProp and Adam</h2>
+<div class="tw"><table><thead><tr><th>Optimizer</th><th>Idea</th><th>Analogy</th></tr></thead><tbody><tr><td>SGD</td><td>step = −lr × gradient</td><td>walking downhill, one careful step at a time</td></tr><tr><td>Momentum</td><td>keep a running average of past gradients (velocity)</td><td>a ball rolling downhill that builds speed</td></tr><tr><td>RMSProp</td><td>divide each weight’s step by its recent gradient size</td><td>smaller steps where the ground is steep, bigger where flat</td></tr><tr><td>Adam</td><td>momentum + RMSProp, with bias correction</td><td>a rolling ball that also adjusts its step for each direction</td></tr></tbody></table></div><p>We implement all four from scratch and race them down a long, narrow valley (f = x² + 100y²), which is hard for plain SGD. To be fair, each optimizer gets its <b>best</b> learning rate from the same list of 10:</p><div class="codebox"><div class="cap"><span>optimizers.py</span><button class="copy" type="button">Copy</button></div><pre>import numpy as np
+
+# A long, narrow valley: f(x, y) = x^2 + 100 y^2  (minimum at 0, 0)
+grad = lambda p: np.array([2 * p[0], 200 * p[1]])
+loss = lambda p: p[0] ** 2 + 100 * p[1] ** 2
+
+def sgd(p, g, s, lr): return p - lr * g
+def momentum(p, g, s, lr, beta=0.9):
+    s[&quot;v&quot;] = beta * s.get(&quot;v&quot;, 0) + g; return p - lr * s[&quot;v&quot;]
+def rmsprop(p, g, s, lr, beta=0.9, eps=1e-8):
+    s[&quot;sq&quot;] = beta * s.get(&quot;sq&quot;, 0) + (1 - beta) * g ** 2; return p - lr * g / (np.sqrt(s[&quot;sq&quot;]) + eps)
+def adam(p, g, s, lr, b1=0.9, b2=0.999, eps=1e-8):
+    s[&quot;t&quot;] = s.get(&quot;t&quot;, 0) + 1
+    s[&quot;m&quot;] = b1 * s.get(&quot;m&quot;, 0) + (1 - b1) * g
+    s[&quot;v&quot;] = b2 * s.get(&quot;v&quot;, 0) + (1 - b2) * g ** 2
+    m_hat, v_hat = s[&quot;m&quot;] / (1 - b1 ** s[&quot;t&quot;]), s[&quot;v&quot;] / (1 - b2 ** s[&quot;t&quot;])
+    return p - lr * m_hat / (np.sqrt(v_hat) + eps)
+
+def steps_needed(step, lr, max_steps=2000):
+    p, s = np.array([-4.0, 1.5]), {}
+    for i in range(1, max_steps + 1):
+        p = step(p, grad(p), s, lr)
+        if not np.isfinite(loss(p)) or loss(p) &gt; 1e9: return None     # diverged
+        if loss(p) &lt; 1e-3: return i
+    return None
+
+lrs = [0.001, 0.002, 0.005, 0.009, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5]
+for name, step in [(&quot;SGD&quot;, sgd), (&quot;Momentum&quot;, momentum), (&quot;RMSProp&quot;, rmsprop), (&quot;Adam&quot;, adam)]:
+    results = {lr: steps_needed(step, lr) for lr in lrs}
+    ok = {lr: n for lr, n in results.items() if n}
+    best = min(ok, key=ok.get)
+    print(f&quot;{name:9s} best lr={best:&lt;6} -&gt; {ok[best]:4d} steps   (works for {len(ok)} of {len(lrs)} learning rates)&quot;)</pre></div><div class="out">SGD       best lr=0.009  -&gt;  267 steps   (works for 3 of 10 learning rates)
+Momentum  best lr=0.002  -&gt;   64 steps   (works for 5 of 10 learning rates)
+RMSProp   best lr=0.5    -&gt;   10 steps   (works for 5 of 10 learning rates)
+Adam      best lr=0.5    -&gt;   58 steps   (works for 8 of 10 learning rates)</div><div class="demo" data-demo="slider"><div class="demo-h"><b>Demo · Steps to reach the bottom (best learning rate each)</b></div><script type="application/json">{"label": "Optimizer", "start": 0, "options": [{"name": "SGD", "html": "<div class=\"bars\"><div class=\"bar top\"><span>SGD (lr 0.009)<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.989\"><\/div><\/div><span class=\"v\">267 steps<\/span><\/div><\/div><p class=\"note-s\">Converges for <b>3 of 10<\/b> learning rates tried.<\/p>"}, {"name": "Momentum", "html": "<div class=\"bars\"><div class=\"bar top\"><span>Momentum (lr 0.002)<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.237\"><\/div><\/div><span class=\"v\">64 steps<\/span><\/div><\/div><p class=\"note-s\">Converges for <b>5 of 10<\/b> learning rates tried.<\/p>"}, {"name": "RMSProp", "html": "<div class=\"bars\"><div class=\"bar top\"><span>RMSProp (lr 0.5)<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.037\"><\/div><\/div><span class=\"v\">10 steps<\/span><\/div><\/div><p class=\"note-s\">Converges for <b>5 of 10<\/b> learning rates tried.<\/p>"}, {"name": "Adam", "html": "<div class=\"bars\"><div class=\"bar top\"><span>Adam (lr 0.5)<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.215\"><\/div><\/div><span class=\"v\">58 steps<\/span><\/div><\/div><p class=\"note-s\">Converges for <b>8 of 10<\/b> learning rates tried.<\/p>"}]}</script></div><p>Two lessons: adaptive methods (RMSProp, Adam) reach the bottom much faster than SGD, and <strong>Adam works for the widest range of learning rates</strong>. That robustness is why Adam (and its variant <strong>AdamW</strong>) is the default for training transformers and fine-tuning LLMs.</p><div class="codebox"><div class="cap"><span>pytorch_optimizers.py</span><button class="copy" type="button">Copy</button></div><pre>import torch
+opt = torch.optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
+opt = torch.optim.Adam(model.parameters(), lr=1e-3)                      # common default
+opt = torch.optim.AdamW(model.parameters(), lr=2e-5, weight_decay=0.01)  # transformers / LLMs</pre></div>
+<h2 id="schedule"><span class="n">02</span>Learning-rate schedules</h2>
+<p>A big learning rate helps early (move fast), a small one helps late (settle precisely). A <strong>schedule</strong> lowers it during training:</p><div class="codebox"><div class="cap"><span>lr_schedule.py</span><button class="copy" type="button">Copy</button></div><pre>import torch
+torch.set_num_threads(1)                    # same results on every run
+w = torch.nn.Parameter(torch.zeros(1))
+
+def lrs(make):
+    opt = torch.optim.SGD([w], lr=0.1); sch = make(opt); out = []
+    for epoch in range(10):
+        out.append(opt.param_groups[0][&quot;lr&quot;]); opt.step(); sch.step()
+    return out
+
+schedules = {
+    &quot;constant&quot;:         lambda o: torch.optim.lr_scheduler.LambdaLR(o, lambda e: 1.0),
+    &quot;step (x0.5 / 3)&quot;:  lambda o: torch.optim.lr_scheduler.StepLR(o, step_size=3, gamma=0.5),
+    &quot;exponential 0.8&quot;:  lambda o: torch.optim.lr_scheduler.ExponentialLR(o, gamma=0.8),
+    &quot;cosine&quot;:           lambda o: torch.optim.lr_scheduler.CosineAnnealingLR(o, T_max=10),
+}
+for name, make in schedules.items():
+    print(f&quot;{name:17s}&quot;, &quot; &quot;.join(f&quot;{v:.3f}&quot; for v in lrs(make)))</pre></div><div class="out">constant          0.100 0.100 0.100 0.100 0.100 0.100 0.100 0.100 0.100 0.100
+step (x0.5 / 3)   0.100 0.100 0.100 0.050 0.050 0.050 0.025 0.025 0.025 0.013
+exponential 0.8   0.100 0.080 0.064 0.051 0.041 0.033 0.026 0.021 0.017 0.013
+cosine            0.100 0.098 0.090 0.079 0.065 0.050 0.035 0.021 0.010 0.002</div><div class="demo" data-demo="tabs"><div class="demo-h"><b>Demo · Learning rate over 10 epochs</b></div><script type="application/json">{"tabs": [{"label": "Step", "html": "<div class=\"bars\"><div class=\"bar top\"><span>epoch 0<\/span><div class=\"track\"><div class=\"fill\" data-w=\"1.000\"><\/div><\/div><span class=\"v\">0.100<\/span><\/div><div class=\"bar\"><span>epoch 1<\/span><div class=\"track\"><div class=\"fill\" data-w=\"1.000\"><\/div><\/div><span class=\"v\">0.100<\/span><\/div><div class=\"bar\"><span>epoch 2<\/span><div class=\"track\"><div class=\"fill\" data-w=\"1.000\"><\/div><\/div><span class=\"v\">0.100<\/span><\/div><div class=\"bar\"><span>epoch 3<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.500\"><\/div><\/div><span class=\"v\">0.050<\/span><\/div><div class=\"bar\"><span>epoch 4<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.500\"><\/div><\/div><span class=\"v\">0.050<\/span><\/div><div class=\"bar\"><span>epoch 5<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.500\"><\/div><\/div><span class=\"v\">0.050<\/span><\/div><div class=\"bar\"><span>epoch 6<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.250\"><\/div><\/div><span class=\"v\">0.025<\/span><\/div><div class=\"bar\"><span>epoch 7<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.250\"><\/div><\/div><span class=\"v\">0.025<\/span><\/div><div class=\"bar\"><span>epoch 8<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.250\"><\/div><\/div><span class=\"v\">0.025<\/span><\/div><div class=\"bar\"><span>epoch 9<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.125\"><\/div><\/div><span class=\"v\">0.013<\/span><\/div><\/div>"}, {"label": "Exponential", "html": "<div class=\"bars\"><div class=\"bar top\"><span>epoch 0<\/span><div class=\"track\"><div class=\"fill\" data-w=\"1.000\"><\/div><\/div><span class=\"v\">0.100<\/span><\/div><div class=\"bar\"><span>epoch 1<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.800\"><\/div><\/div><span class=\"v\">0.080<\/span><\/div><div class=\"bar\"><span>epoch 2<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.640\"><\/div><\/div><span class=\"v\">0.064<\/span><\/div><div class=\"bar\"><span>epoch 3<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.512\"><\/div><\/div><span class=\"v\">0.051<\/span><\/div><div class=\"bar\"><span>epoch 4<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.410\"><\/div><\/div><span class=\"v\">0.041<\/span><\/div><div class=\"bar\"><span>epoch 5<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.328\"><\/div><\/div><span class=\"v\">0.033<\/span><\/div><div class=\"bar\"><span>epoch 6<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.262\"><\/div><\/div><span class=\"v\">0.026<\/span><\/div><div class=\"bar\"><span>epoch 7<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.210\"><\/div><\/div><span class=\"v\">0.021<\/span><\/div><div class=\"bar\"><span>epoch 8<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.168\"><\/div><\/div><span class=\"v\">0.017<\/span><\/div><div class=\"bar\"><span>epoch 9<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.134\"><\/div><\/div><span class=\"v\">0.013<\/span><\/div><\/div>"}, {"label": "Cosine", "html": "<div class=\"bars\"><div class=\"bar top\"><span>epoch 0<\/span><div class=\"track\"><div class=\"fill\" data-w=\"1.000\"><\/div><\/div><span class=\"v\">0.100<\/span><\/div><div class=\"bar\"><span>epoch 1<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.980\"><\/div><\/div><span class=\"v\">0.098<\/span><\/div><div class=\"bar\"><span>epoch 2<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.900\"><\/div><\/div><span class=\"v\">0.090<\/span><\/div><div class=\"bar\"><span>epoch 3<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.790\"><\/div><\/div><span class=\"v\">0.079<\/span><\/div><div class=\"bar\"><span>epoch 4<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.650\"><\/div><\/div><span class=\"v\">0.065<\/span><\/div><div class=\"bar\"><span>epoch 5<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.500\"><\/div><\/div><span class=\"v\">0.050<\/span><\/div><div class=\"bar\"><span>epoch 6<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.350\"><\/div><\/div><span class=\"v\">0.035<\/span><\/div><div class=\"bar\"><span>epoch 7<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.210\"><\/div><\/div><span class=\"v\">0.021<\/span><\/div><div class=\"bar\"><span>epoch 8<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.100\"><\/div><\/div><span class=\"v\">0.010<\/span><\/div><div class=\"bar\"><span>epoch 9<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.020\"><\/div><\/div><span class=\"v\">0.002<\/span><\/div><\/div>"}]}</script></div><div class="callout tip"><b>Warm-up + cosine</b> is the standard for transformers: start tiny for a few hundred steps, rise to the peak learning rate, then follow a cosine curve down.</div>
+<h2 id="overfit"><span class="n">03</span>Overfitting</h2>
+<p>A model <strong>overfits</strong> when it memorises the training data, including its noise, and does badly on new data. You only notice it if you hold back a <strong>validation set</strong>. Here we fit polynomials of growing degree to 15 noisy points:</p><div class="codebox"><div class="cap"><span>overfit_poly.py</span><button class="copy" type="button">Copy</button></div><pre>import numpy as np
+rng = np.random.default_rng(0)
+x = np.sort(rng.uniform(0, 1, 15)); y = np.sin(2 * np.pi * x) + rng.normal(0, 0.25, 15)
+xv = rng.uniform(0, 1, 200); yv = np.sin(2 * np.pi * xv) + rng.normal(0, 0.25, 200)
+
+for degree in [1, 3, 6, 12]:
+    coef = np.polyfit(x, y, degree)
+    train = np.mean((np.polyval(coef, x) - y) ** 2); val = np.mean((np.polyval(coef, xv) - yv) ** 2)
+    print(f&quot;degree {degree:2d}: train error {train:.3f}   validation error {val:.3f}&quot;)</pre></div><div class="out">degree  1: train error 0.193   validation error 0.393
+degree  3: train error 0.017   validation error 0.089
+degree  6: train error 0.013   validation error 0.134
+degree 12: train error 0.002   validation error 102.817</div><figure class="fig"><svg viewBox="0 0 700 160" role="img" aria-label="Degree 3 is the sweet spot here: low error on both."><g class="an" style="--dl:0.0s"><rect class="bx am" x="16" y="10" width="322" height="140" rx="14"/><text x="177" y="40" text-anchor="middle" class="h tam">Underfitting (degree 1)</text><text x="38" y="72" style="font-size:13.5px">• too simple</text><text x="38" y="102" style="font-size:13.5px">• high train AND validation error</text><text x="38" y="132" style="font-size:13.5px">• fix: bigger model, more features</text></g><g class="an" style="--dl:0.4s"><rect class="bx rd" x="362" y="10" width="322" height="140" rx="14"/><text x="523" y="40" text-anchor="middle" class="h trd">Overfitting (degree 12)</text><text x="384" y="72" style="font-size:13.5px">• too flexible, memorises noise</text><text x="384" y="102" style="font-size:13.5px">• tiny train error, huge validation error</text><text x="384" y="132" style="font-size:13.5px">• fix: more data, regularisation, stop early</text></g></svg><figcaption>Degree 3 is the sweet spot here: low error on both.</figcaption></figure><div class="analogy"><span class="ic">📚</span><p><b>Like a student who memorises last year’s paper.</b> Perfect marks on that paper (training data), but lost on new questions (validation). Understanding the concepts is what we want.</p></div>
+<h2 id="dropout"><span class="n">04</span>Dropout and early stopping</h2>
+<p><strong>Dropout</strong> randomly switches off a fraction of neurons at every training step, so the network cannot rely on any single neuron. At evaluation time all neurons are on:</p><div class="codebox"><div class="cap"><span>early_stop.py</span><button class="copy" type="button">Copy</button></div><pre>import torch, torch.nn as nn
+torch.set_num_threads(1)                    # same results on every run
+torch.manual_seed(0)
+x = torch.rand(40, 1); y = torch.sin(6 * x) + 0.3 * torch.randn(40, 1)          # small, noisy data
+xv = torch.rand(400, 1); yv = torch.sin(6 * xv) + 0.3 * torch.randn(400, 1)
+
+def train(p_drop, epochs=3000):
+    torch.manual_seed(1)
+    net = nn.Sequential(nn.Linear(1, 256), nn.ReLU(), nn.Dropout(p_drop),
+                        nn.Linear(256, 256), nn.ReLU(), nn.Dropout(p_drop), nn.Linear(256, 1))
+    opt = torch.optim.Adam(net.parameters(), lr=1e-2)
+    history = []
+    for epoch in range(epochs):
+        net.train(); opt.zero_grad()
+        loss = nn.functional.mse_loss(net(x), y); loss.backward(); opt.step()
+        net.eval()
+        with torch.no_grad(): history.append(nn.functional.mse_loss(net(xv), yv).item())
+    best = min(range(epochs), key=history.__getitem__)
+    return loss.item(), history, best
+
+tr, h, best = train(p_drop=0.0)
+for e in [50, 200, best, 1500, 2999]:
+    print(f&quot;epoch {e:4d}: validation loss {h[e]:.3f}&quot; + (&quot;   &lt;- best: early stopping keeps this model&quot; if e == best else &quot;&quot;))
+print(f&quot;at the end: training loss {tr:.3f} vs validation {h[-1]:.3f}. The growing gap is overfitting.&quot;)
+
+torch.manual_seed(3); d = nn.Dropout(0.5); t = torch.ones(8)
+d.train(); print(&quot;\ndropout in training:&quot;, d(t).tolist())
+d.eval();  print(&quot;dropout in eval:    &quot;, d(t).tolist())</pre></div><div class="out">epoch   50: validation loss 0.160
+epoch  200: validation loss 0.109
+epoch  610: validation loss 0.107   &lt;- best: early stopping keeps this model
+epoch 1500: validation loss 0.110
+epoch 2999: validation loss 0.114
+at the end: training loss 0.046 vs validation 0.114. The growing gap is overfitting.
+
+dropout in training: [2.0, 2.0, 0.0, 2.0, 0.0, 0.0, 2.0, 2.0]
+dropout in eval:     [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]</div><ul><li>In training, dropout zeroed about half the values and <b>doubled</b> the rest (2.0) so the average stays the same. In <code>eval()</code> mode it does nothing. Always call <code>model.eval()</code> before validation and inference.</li><li><strong>Early stopping:</strong> watch the validation loss and keep the best model. Here the best was at epoch 610; training to epoch 3,000 only made validation worse.</li><li>Other regularisers: <strong>weight decay</strong> (AdamW), <strong>data augmentation</strong>, and simply <strong>more data</strong>.</li></ul><figure class="fig"><svg viewBox="0 0 700 94" role="img" aria-label="Early stopping: keep the model from the best validation epoch."><g class="an" style="--dl:0.00s"><rect class="bx ac" x="20" y="14" width="140" height="60" rx="10"/><text x="90" y="42" text-anchor="middle" class="tac" style="font-weight:600;font-size:14.0px">Train an epoch</text><text x="90" y="59" text-anchor="middle" class="tm" style="font-size:11.5px">update weights</text></g><g class="an" style="--dl:0.10s"><path class="la" d="M 164 44 L 190 44"/><path class="la" d="M 182.3 47.5 L 190 44 L 182.3 40.5"/></g><g class="an" style="--dl:0.25s"><rect class="bx " x="194" y="14" width="140" height="60" rx="10"/><text x="263" y="42" text-anchor="middle" class="" style="font-weight:600;font-size:14.0px">Validate</text><text x="263" y="59" text-anchor="middle" class="tm" style="font-size:11.5px">measure val loss</text></g><g class="an" style="--dl:0.35s"><path class="la" d="M 337 44 L 363 44"/><path class="la" d="M 355.8 47.5 L 363 44 L 355.8 40.5"/></g><g class="an" style="--dl:0.50s"><rect class="bx gr" x="367" y="14" width="140" height="60" rx="10"/><text x="437" y="42" text-anchor="middle" class="tgr" style="font-weight:600;font-size:14.0px">Better?</text><text x="437" y="59" text-anchor="middle" class="tm" style="font-size:11.5px">save best model</text></g><g class="an" style="--dl:0.60s"><path class="la" d="M 510 44 L 536 44"/><path class="la" d="M 529.3 47.5 L 536 44 L 529.3 40.5"/></g><g class="an" style="--dl:0.75s"><rect class="bx am" x="540" y="14" width="140" height="60" rx="10"/><text x="610" y="42" text-anchor="middle" class="tam" style="font-weight:600;font-size:9.4px">No better for N epochs?</text><text x="610" y="59" text-anchor="middle" class="tm" style="font-size:11.5px">stop</text></g></svg><figcaption>Early stopping: keep the model from the best validation epoch.</figcaption></figure>
+<h2 id="summary"><span class="n">05</span>Summary</h2><ul><li><strong>Momentum</strong> builds speed; <strong>RMSProp</strong> scales steps per weight; <strong>Adam</strong> combines both.</li><li>Adam/AdamW converge fast and tolerate many learning rates: the default for transformers.</li><li>Schedules lower the learning rate over time; warm-up + cosine is standard for LLMs.</li><li><strong>Overfitting</strong> = low training error but high validation error. Always keep a validation set.</li><li>Fight it with <strong>dropout</strong>, <strong>early stopping</strong>, weight decay and more data.</li></ul>
+<h2 id="quiz"><span class="n">06</span>Quick quiz</h2><div class="quiz"><div class="q" data-answer="0" data-why="Velocity plus per-weight step sizes."><p>1. Adam combines which two ideas?</p><div class="opts"><button class="opt" type="button">Momentum and RMSProp</button><button class="opt" type="button">Dropout and ReLU</button><button class="opt" type="button">Batch and epoch</button></div></div><div class="q" data-answer="0" data-why="Fast progress, then fine settling."><p>2. Why use a learning-rate schedule?</p><div class="opts"><button class="opt" type="button">Big steps early, small precise steps later</button><button class="opt" type="button">To add more layers</button><button class="opt" type="button">To avoid using a GPU</button></div></div><div class="q" data-answer="1" data-why="It memorised the training data."><p>3. Train error 0.002, validation error 102. This is…</p><div class="opts"><button class="opt" type="button">underfitting</button><button class="opt" type="button">overfitting</button><button class="opt" type="button">perfect</button></div></div><div class="q" data-answer="1" data-why="Call model.eval()."><p>4. What does dropout do at evaluation time?</p><div class="opts"><button class="opt" type="button">Drops 50% of neurons</button><button class="opt" type="button">Nothing: all neurons are used</button><button class="opt" type="button">Doubles the learning rate</button></div></div><div class="q" data-answer="1" data-why="Validation decides."><p>5. Early stopping keeps…</p><div class="opts"><button class="opt" type="button">the last model</button><button class="opt" type="button">the model with the best validation loss</button><button class="opt" type="button">the model with the best training loss</button></div></div><p class="score" aria-live="polite"></p></div>
+<h2 id="references"><span class="n">07</span>References</h2><ul><li><a href="https://arxiv.org/abs/1412.6980" target="_blank" rel="noopener">Adam: A Method for Stochastic Optimization</a> (Kingma &amp; Ba, 2014)</li><li><a href="https://jmlr.org/papers/v15/srivastava14a.html" target="_blank" rel="noopener">Dropout: A Simple Way to Prevent Overfitting</a> (Srivastava et al., 2014)</li><li><a href="https://pytorch.org/docs/stable/optim.html" target="_blank" rel="noopener">PyTorch: torch.optim</a></li><li><a href="https://arxiv.org/abs/1711.05101" target="_blank" rel="noopener">Decoupled Weight Decay Regularization (AdamW)</a> (Loshchilov &amp; Hutter, 2017)</li></ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/course.js"></script>
+
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="genai-course/s13-optimizers-training"></script>
+</body>
+</html>

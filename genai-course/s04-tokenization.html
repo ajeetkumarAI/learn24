@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tokenization · GenAI Course · Learn24</title>
+<meta name="description" content="Word, sentence and subword tokenization; how BPE, WordPiece, SentencePiece and Unigram work; and how token counts decide LLM cost and limits.">
+<meta property="og:title" content="Tokenization · Learn24">
+<meta property="og:description" content="Word, sentence and subword tokenization; how BPE, WordPiece, SentencePiece and Unigram work; and how token counts decide LLM cost and limits.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#b38cff}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article>
+  <div class="kicker">GenAI Course · Module 2 · Session 4</div>
+  <h1>Tokenization</h1>
+  <div class="meta"><span>⏱ 14 min read</span><span>🎯 Beginner friendly</span><span>🖼 1 diagram</span><span>🧪 2 live demos</span><span>🐍 Python code</span></div>
+  <p class="lead">Computers cannot read words. Before any NLP model or LLM sees your text, it must be cut into small pieces called <strong>tokens</strong> and turned into numbers. How we cut decides what the model can understand, how much text fits in its memory, and <strong>how much you pay</strong>. Let us learn tokenization properly.</p>
+  <div class="tldr"><h4>In this session</h4><ul><li>Word, sentence and character tokenization</li><li>Why modern models use subword tokens</li><li>BPE from scratch in 30 lines, plus WordPiece, SentencePiece and Unigram</li><li>Training real tokenizers and comparing them</li><li>Token counting and the cost of an LLM app</li></ul></div>
+<h2 id="levels"><span class="n">01</span>Word, sentence and character tokens</h2>
+<figure class="fig"><svg viewBox="0 0 700 94" role="img" aria-label="Every NLP model starts the same way: text → tokens → numbers. (Token IDs are examples; each tokenizer has its own.)"><g class="an" style="--dl:0.00s"><rect class="bx " x="20" y="14" width="105" height="60" rx="10"/><text x="72" y="42" text-anchor="middle" class="" style="font-weight:600;font-size:14.0px">Text</text><text x="72" y="59" text-anchor="middle" class="tm" style="font-size:8.4px">“UPI payment failed”</text></g><g class="an" style="--dl:0.10s"><path class="la" d="M 129 44 L 155 44"/><path class="la" d="M 147.6 47.5 L 155 44 L 147.6 40.5"/></g><g class="an" style="--dl:0.25s"><rect class="bx ac" x="159" y="14" width="105" height="60" rx="10"/><text x="211" y="42" text-anchor="middle" class="tac" style="font-weight:600;font-size:14.0px">Tokens</text><text x="211" y="59" text-anchor="middle" class="tm" style="font-size:7.7px">UPI · payment · failed</text></g><g class="an" style="--dl:0.35s"><path class="la" d="M 268 44 L 294 44"/><path class="la" d="M 286.4 47.5 L 294 44 L 286.4 40.5"/></g><g class="an" style="--dl:0.50s"><rect class="bx am" x="298" y="14" width="105" height="60" rx="10"/><text x="350" y="42" text-anchor="middle" class="tam" style="font-weight:600;font-size:14.0px">Token IDs</text><text x="350" y="59" text-anchor="middle" class="tm" style="font-size:7.3px">e.g. 4782 · 8323 · 4523</text></g><g class="an" style="--dl:0.60s"><path class="la" d="M 406 44 L 432 44"/><path class="la" d="M 425.2 47.5 L 432 44 L 425.2 40.5"/></g><g class="an" style="--dl:0.75s"><rect class="bx gr" x="436" y="14" width="105" height="60" rx="10"/><text x="489" y="42" text-anchor="middle" class="tgr" style="font-weight:600;font-size:14.0px">Vectors</text><text x="489" y="59" text-anchor="middle" class="tm" style="font-size:11.5px">one per token</text></g><g class="an" style="--dl:0.85s"><path class="la" d="M 545 44 L 571 44"/><path class="la" d="M 564.0 47.5 L 571 44 L 564.0 40.5"/></g><g class="an" style="--dl:1.00s"><rect class="bx solid" x="575" y="14" width="105" height="60" rx="10"/><text x="628" y="42" text-anchor="middle" class="tbg" style="font-weight:600;font-size:14.0px">Model</text><text x="628" y="59" text-anchor="middle" class="tbg" style="font-size:11.5px">BERT, GPT…</text></g></svg><figcaption>Every NLP model starts the same way: text → tokens → numbers. (Token IDs are examples; each tokenizer has its own.)</figcaption></figure><p><strong>Tokenization</strong> means splitting text into units. The simplest choices are sentences, words or single characters:</p><div class="codebox"><div class="cap"><span>tok_basics.py</span><button class="copy" type="button">Copy</button></div><pre>import re
+from nltk.tokenize import sent_tokenize, word_tokenize   # nltk.download(&quot;punkt_tab&quot;) once
+
+text = &quot;Dr. Rao paid ₹1,250 via UPI. It didn&#x27;t go through! Can I retry?&quot;
+
+print(&quot;Sentences:&quot;, sent_tokenize(text))
+print(&quot;split():  &quot;, text.split())
+print(&quot;NLTK words:&quot;, word_tokenize(text))
+print(&quot;Characters:&quot;, list(&quot;UPI paid&quot;)[:8])</pre></div><div class="out">Sentences: [&#x27;Dr. Rao paid ₹1,250 via UPI.&#x27;, &quot;It didn&#x27;t go through!&quot;, &#x27;Can I retry?&#x27;]
+split():   [&#x27;Dr.&#x27;, &#x27;Rao&#x27;, &#x27;paid&#x27;, &#x27;₹1,250&#x27;, &#x27;via&#x27;, &#x27;UPI.&#x27;, &#x27;It&#x27;, &quot;didn&#x27;t&quot;, &#x27;go&#x27;, &#x27;through!&#x27;, &#x27;Can&#x27;, &#x27;I&#x27;, &#x27;retry?&#x27;]
+NLTK words: [&#x27;Dr.&#x27;, &#x27;Rao&#x27;, &#x27;paid&#x27;, &#x27;₹1,250&#x27;, &#x27;via&#x27;, &#x27;UPI&#x27;, &#x27;.&#x27;, &#x27;It&#x27;, &#x27;did&#x27;, &quot;n&#x27;t&quot;, &#x27;go&#x27;, &#x27;through&#x27;, &#x27;!&#x27;, &#x27;Can&#x27;, &#x27;I&#x27;, &#x27;retry&#x27;, &#x27;?&#x27;]
+Characters: [&#x27;U&#x27;, &#x27;P&#x27;, &#x27;I&#x27;, &#x27; &#x27;, &#x27;p&#x27;, &#x27;a&#x27;, &#x27;i&#x27;, &#x27;d&#x27;]</div><p>Notice the problems with plain <code>split()</code>: “UPI.” keeps the full stop and “didn’t” stays one piece. NLTK handles punctuation and splits “didn’t” into <code>did</code> + <code>n’t</code>. It also knows “Dr.” does not end a sentence.</p><div class="tw"><table><thead><tr><th>Level</th><th>Example for “unhappiness”</th><th>Problem</th></tr></thead><tbody><tr><td>Word</td><td><code>unhappiness</code></td><td>Huge vocabulary; any new or misspelt word becomes unknown</td></tr><tr><td>Character</td><td><code>u n h a p p i n e s s</code></td><td>Very long sequences; single letters carry little meaning</td></tr><tr><td>Subword</td><td><code>un happi ness</code></td><td>The balance used by almost all modern models</td></tr></tbody></table></div>
+<h2 id="subword"><span class="n">02</span>Subword tokenization</h2>
+<p>Subword tokenizers keep <strong>common words whole</strong> and split <strong>rare words into meaningful pieces</strong>. So “repayment” can be understood as <code>re</code> + <code>payment</code> even if the model never saw that exact word.</p><div class="analogy"><span class="ic">🧱</span><p><b>Like LEGO bricks.</b> With a few thousand bricks you can build any word, even one nobody has seen before. Common shapes come pre-built (“payment”), rare ones are built from smaller bricks (“pre” + “pay” + “ments”).</p></div><div class="row"><span class="tok lit">re</span><span class="tok lit">pay</span><span class="tok lit">ment</span><span class="tok lit">s</span><span class="tok "> are</span><span class="tok "> instant</span></div><p class="note-s">One word, four tokens. Highlighted pieces come from the single word “repayments”.</p><div class="tw"><table><thead><tr><th>Algorithm</th><th>How it builds the vocabulary</th><th>Used by</th></tr></thead><tbody><tr><td>BPE (Byte-Pair Encoding)</td><td>Start from characters; repeatedly <b>merge the most frequent pair</b></td><td>GPT-2, GPT-3/4, Llama 3, RoBERTa</td></tr><tr><td>WordPiece</td><td>Like BPE, but merges the pair that most increases the likelihood of the data; marks word continuations with <code>##</code></td><td>BERT, DistilBERT</td></tr><tr><td>Unigram</td><td>Start with a big vocabulary and <b>remove</b> the pieces that matter least</td><td>T5, ALBERT, XLNet (via SentencePiece)</td></tr><tr><td>SentencePiece</td><td>A library, not an algorithm: runs BPE or Unigram on raw text and treats spaces as a symbol <code>▁</code>, so it works for any language</td><td>T5, Llama 1/2, Gemma</td></tr></tbody></table></div>
+<h2 id="bpe"><span class="n">03</span>BPE from scratch</h2>
+<p>BPE is simple enough to write ourselves. Each word starts as characters. We count every neighbouring pair across the corpus, merge the most frequent pair into a new token, and repeat:</p><div class="codebox"><div class="cap"><span>bpe_scratch.py</span><button class="copy" type="button">Copy</button></div><pre>from collections import Counter
+
+# word frequencies in a tiny corpus; each word starts as characters + end marker
+corpus = {&quot;low&quot;: 5, &quot;lower&quot;: 2, &quot;newest&quot;: 6, &quot;widest&quot;: 3}
+vocab = {tuple(w) + (&quot;&lt;/w&gt;&quot;,): f for w, f in corpus.items()}
+
+def pair_counts(vocab):
+    pairs = Counter()
+    for word, f in vocab.items():
+        for a, b in zip(word, word[1:]):
+            pairs[(a, b)] += f
+    return pairs
+
+def merge(vocab, pair):
+    out = {}
+    for word, f in vocab.items():
+        w, i = [], 0
+        while i &lt; len(word):
+            if i &lt; len(word) - 1 and (word[i], word[i + 1]) == pair:
+                w.append(word[i] + word[i + 1]); i += 2
+            else:
+                w.append(word[i]); i += 1
+        out[tuple(w)] = f
+    return out
+
+for step in range(1, 6):
+    best, n = pair_counts(vocab).most_common(1)[0]
+    vocab = merge(vocab, best)
+    print(f&quot;merge {step}: {best[0]} + {best[1]} -&gt; {best[0] + best[1]}  (seen {n} times)&quot;)
+
+print(&quot;\nFinal pieces:&quot;)
+for word in vocab: print(&quot;  &quot;, &quot; &quot;.join(word))</pre></div><div class="out">merge 1: e + s -&gt; es  (seen 9 times)
+merge 2: es + t -&gt; est  (seen 9 times)
+merge 3: est + &lt;/w&gt; -&gt; est&lt;/w&gt;  (seen 9 times)
+merge 4: l + o -&gt; lo  (seen 7 times)
+merge 5: lo + w -&gt; low  (seen 7 times)
+
+Final pieces:
+   low &lt;/w&gt;
+   low e r &lt;/w&gt;
+   n e w est&lt;/w&gt;
+   w i d est&lt;/w&gt;</div><div class="demo" data-demo="steps"><div class="demo-h"><b>Demo · Watch BPE merge</b></div><script type="application/json">{"steps": ["<p class=\"note-s\">Start: every word is characters.<\/p><div class=\"row\"><span class=\"tok \">n<\/span><span class=\"tok \">e<\/span><span class=\"tok \">w<\/span><span class=\"tok \">e<\/span><span class=\"tok \">s<\/span><span class=\"tok \">t<\/span><span class=\"tok sp\">&lt;/w&gt;<\/span><\/div><div class=\"row\"><span class=\"tok \">w<\/span><span class=\"tok \">i<\/span><span class=\"tok \">d<\/span><span class=\"tok \">e<\/span><span class=\"tok \">s<\/span><span class=\"tok \">t<\/span><span class=\"tok sp\">&lt;/w&gt;<\/span><\/div>", "<p class=\"note-s\">Merge 1: <b>e + s<\/b> appears 9 times (6 in “newest”, 3 in “widest”).<\/p><div class=\"row\"><span class=\"tok \">n<\/span><span class=\"tok \">e<\/span><span class=\"tok \">w<\/span><span class=\"tok lit\">es<\/span><span class=\"tok \">t<\/span><span class=\"tok sp\">&lt;/w&gt;<\/span><\/div><div class=\"row\"><span class=\"tok \">w<\/span><span class=\"tok \">i<\/span><span class=\"tok \">d<\/span><span class=\"tok lit\">es<\/span><span class=\"tok \">t<\/span><span class=\"tok sp\">&lt;/w&gt;<\/span><\/div>", "<p class=\"note-s\">Merge 2: <b>es + t<\/b> → <b>est<\/b>.<\/p><div class=\"row\"><span class=\"tok \">n<\/span><span class=\"tok \">e<\/span><span class=\"tok \">w<\/span><span class=\"tok lit\">est<\/span><span class=\"tok sp\">&lt;/w&gt;<\/span><\/div><div class=\"row\"><span class=\"tok \">w<\/span><span class=\"tok \">i<\/span><span class=\"tok \">d<\/span><span class=\"tok lit\">est<\/span><span class=\"tok sp\">&lt;/w&gt;<\/span><\/div>", "<p class=\"note-s\">Merge 3: <b>est + &lt;/w&gt;<\/b> → a word-ending “est”. A new word like “fastest” can now reuse it.<\/p><div class=\"row\"><span class=\"tok \">n<\/span><span class=\"tok \">e<\/span><span class=\"tok \">w<\/span><span class=\"tok lit\">est&lt;/w&gt;<\/span><\/div><div class=\"row\"><span class=\"tok \">f<\/span><span class=\"tok \">a<\/span><span class=\"tok \">s<\/span><span class=\"tok \">t<\/span><span class=\"tok lit\">est&lt;/w&gt;<\/span><\/div>"]}</script></div><p>Real tokenizers do tens of thousands of merges on terabytes of text. Here we train BPE and WordPiece on a tiny banking corpus with the Hugging Face <code>tokenizers</code> library and test words:</p><div class="codebox"><div class="cap"><span>train_tokenizers.py</span><button class="copy" type="button">Copy</button></div><pre># pip install tokenizers
+from tokenizers import Tokenizer, models, trainers, pre_tokenizers
+
+corpus = [
+    &quot;UPI payments are instant and free for customers.&quot;,
+    &quot;The payment failed, please retry the UPI payment.&quot;,
+    &quot;Fixed deposit interest is paid every quarter.&quot;,
+    &quot;Interest rates for senior citizens are higher.&quot;,
+    &quot;Payments, repayments and prepayments are tracked daily.&quot;,
+] * 20
+
+def train(model, trainer):
+    tok = Tokenizer(model)
+    tok.pre_tokenizer = pre_tokenizers.Whitespace()
+    tok.train_from_iterator(corpus, trainer)
+    return tok
+
+bpe = train(models.BPE(unk_token=&quot;[UNK]&quot;), trainers.BpeTrainer(vocab_size=120, special_tokens=[&quot;[UNK]&quot;]))
+wp = train(models.WordPiece(unk_token=&quot;[UNK]&quot;), trainers.WordPieceTrainer(vocab_size=120, special_tokens=[&quot;[UNK]&quot;]))
+
+for word in [&quot;payments&quot;, &quot;repayment&quot;, &quot;interested&quot;, &quot;UPI&quot;]:
+    print(f&quot;{word:11s} BPE: {bpe.encode(word).tokens}   WordPiece: {wp.encode(word).tokens}&quot;)</pre></div><div class="out">payments    BPE: [&#x27;payments&#x27;]   WordPiece: [&#x27;payments&#x27;]
+repayment   BPE: [&#x27;re&#x27;, &#x27;payment&#x27;]   WordPiece: [&#x27;re&#x27;, &#x27;##p&#x27;, &#x27;##ayment&#x27;]
+interested  BPE: [&#x27;interest&#x27;, &#x27;ed&#x27;]   WordPiece: [&#x27;interest&#x27;, &#x27;##ed&#x27;]
+UPI         BPE: [&#x27;UPI&#x27;]   WordPiece: [&#x27;UPI&#x27;]</div><p>Both learned <code>interest</code> + <code>ed</code> for a word they had never seen as a whole. WordPiece marks the second piece with <code>##</code>, meaning “continues the previous word”.</p><div class="tw"><table><thead><tr><th>Model</th><th>Vocabulary size</th></tr></thead><tbody><tr><td>BERT-base (uncased)</td><td>30,522</td></tr><tr><td>GPT-2</td><td>50,257</td></tr><tr><td>Llama 3</td><td>about 128,000</td></tr></tbody></table></div>
+<h2 id="cost"><span class="n">04</span>Token counting and cost</h2>
+<p>LLM providers charge <strong>per token</strong>, and every model has a <strong>context window</strong> limit counted in tokens. A useful rule of thumb for English: <strong>1 token ≈ 4 characters ≈ ¾ of a word</strong>, so 100 tokens is about 75 words.</p><div class="callout warn"><b>Other languages often cost more.</b> Many tokenizers start from UTF-8 bytes, and Indian scripts need 3 bytes per character. The same greeting needs many more bytes, and usually more tokens, in Hindi or Tamil than in English.</div><div class="codebox"><div class="cap"><span>bytes_cost.py</span><button class="copy" type="button">Copy</button></div><pre># Same greeting, different scripts: byte-level tokenizers start from UTF-8 bytes
+for text in [&quot;hello&quot;, &quot;नमस्ते&quot;, &quot;வணக்கம்&quot;]:
+    print(f&quot;{text:8s} characters={len(text):2d}  utf8_bytes={len(text.encode(&#x27;utf-8&#x27;))}&quot;)
+
+# Cost estimate: tokens x price.  Example rates only: check your provider&#x27;s price page.
+price_in, price_out = 0.15, 0.60          # US$ per 1 million tokens
+calls_per_day, tokens_in, tokens_out = 10_000, 800, 200
+daily = calls_per_day * (tokens_in * price_in + tokens_out * price_out) / 1_000_000
+print(f&quot;\n{calls_per_day:,} calls/day x ({tokens_in} in + {tokens_out} out) tokens&quot;)
+print(f&quot;= ${daily:.2f} per day, about ${daily * 30:.0f} per month&quot;)</pre></div><div class="out">hello    characters= 5  utf8_bytes=5
+नमस्ते   characters= 6  utf8_bytes=18
+வணக்கம்  characters= 7  utf8_bytes=21
+
+10,000 calls/day x (800 in + 200 out) tokens
+= $2.40 per day, about $72 per month</div><div class="demo" data-demo="slider"><div class="demo-h"><b>Demo · How cost grows with traffic</b></div><script type="application/json">{"label": "Traffic", "start": 2, "options": [{"name": "100 calls/day", "html": "<div class=\"bars\"><div class=\"bar top\"><span>Input tokens/day<\/span><div class=\"track\"><div class=\"fill\" data-w=\"1.000\"><\/div><\/div><span class=\"v\">0.1 M<\/span><\/div><div class=\"bar\"><span>Output tokens/day<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.250\"><\/div><\/div><span class=\"v\">0.0 M<\/span><\/div><\/div><p class=\"note-s\">Estimated cost: <b>$0.02 per day<\/b>, about <b>$1 per month<\/b> (800 input + 200 output tokens per call, example rates $0.15 / $0.60 per million).<\/p>"}, {"name": "1,000 calls/day", "html": "<div class=\"bars\"><div class=\"bar top\"><span>Input tokens/day<\/span><div class=\"track\"><div class=\"fill\" data-w=\"1.000\"><\/div><\/div><span class=\"v\">0.8 M<\/span><\/div><div class=\"bar\"><span>Output tokens/day<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.250\"><\/div><\/div><span class=\"v\">0.2 M<\/span><\/div><\/div><p class=\"note-s\">Estimated cost: <b>$0.24 per day<\/b>, about <b>$7 per month<\/b> (800 input + 200 output tokens per call, example rates $0.15 / $0.60 per million).<\/p>"}, {"name": "10,000 calls/day", "html": "<div class=\"bars\"><div class=\"bar top\"><span>Input tokens/day<\/span><div class=\"track\"><div class=\"fill\" data-w=\"1.000\"><\/div><\/div><span class=\"v\">8.0 M<\/span><\/div><div class=\"bar\"><span>Output tokens/day<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.250\"><\/div><\/div><span class=\"v\">2.0 M<\/span><\/div><\/div><p class=\"note-s\">Estimated cost: <b>$2.40 per day<\/b>, about <b>$72 per month<\/b> (800 input + 200 output tokens per call, example rates $0.15 / $0.60 per million).<\/p>"}, {"name": "100,000 calls/day", "html": "<div class=\"bars\"><div class=\"bar top\"><span>Input tokens/day<\/span><div class=\"track\"><div class=\"fill\" data-w=\"1.000\"><\/div><\/div><span class=\"v\">80.0 M<\/span><\/div><div class=\"bar\"><span>Output tokens/day<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.250\"><\/div><\/div><span class=\"v\">20.0 M<\/span><\/div><\/div><p class=\"note-s\">Estimated cost: <b>$24.00 per day<\/b>, about <b>$720 per month<\/b> (800 input + 200 output tokens per call, example rates $0.15 / $0.60 per million).<\/p>"}, {"name": "1,000,000 calls/day", "html": "<div class=\"bars\"><div class=\"bar top\"><span>Input tokens/day<\/span><div class=\"track\"><div class=\"fill\" data-w=\"1.000\"><\/div><\/div><span class=\"v\">800.0 M<\/span><\/div><div class=\"bar\"><span>Output tokens/day<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.250\"><\/div><\/div><span class=\"v\">200.0 M<\/span><\/div><\/div><p class=\"note-s\">Estimated cost: <b>$240.00 per day<\/b>, about <b>$7,200 per month<\/b> (800 input + 200 output tokens per call, example rates $0.15 / $0.60 per million).<\/p>"}]}</script></div><ul><li>To count exactly, use the model’s own tokenizer, e.g. <code>tiktoken</code> for OpenAI models or <code>AutoTokenizer</code> for Hugging Face models.</li><li>Output tokens usually cost more than input tokens.</li><li>Cut cost by shortening system prompts, sending fewer RAG chunks and capping <code>max_tokens</code>.</li></ul>
+<h2 id="summary"><span class="n">05</span>Summary</h2><ul><li>Tokenization turns text into units (tokens) that become numbers.</li><li><strong>Subword</strong> tokenizers keep common words whole and split rare words into pieces.</li><li><strong>BPE</strong> merges frequent pairs; <strong>WordPiece</strong> uses <code>##</code> pieces; <strong>Unigram</strong> prunes a big vocabulary; <strong>SentencePiece</strong> runs them on raw text.</li><li>English: about <strong>4 characters per token</strong>; many other scripts need more tokens.</li><li>LLM cost = tokens × price, so token counts drive your bill.</li></ul>
+<h2 id="quiz"><span class="n">06</span>Quick quiz</h2><div class="quiz"><div class="q" data-answer="1" data-why="Rare words are built from known pieces."><p>1. Why do modern models use subword tokens?</p><div class="opts"><button class="opt" type="button">They are prettier</button><button class="opt" type="button">They handle new words without a huge vocabulary</button><button class="opt" type="button">They avoid numbers</button></div></div><div class="q" data-answer="1" data-why="Most frequent pair becomes a new token."><p>2. What does BPE merge at each step?</p><div class="opts"><button class="opt" type="button">The rarest pair</button><button class="opt" type="button">The most frequent neighbouring pair</button><button class="opt" type="button">Random letters</button></div></div><div class="q" data-answer="1" data-why="## marks a word continuation."><p>3. In WordPiece, what does “##ed” mean?</p><div class="opts"><button class="opt" type="button">A hashtag</button><button class="opt" type="button">A piece that continues the previous word</button><button class="opt" type="button">An error</button></div></div><div class="q" data-answer="1" data-why="≈ 4 characters per token."><p>4. Roughly how many tokens is 400 characters of English?</p><div class="opts"><button class="opt" type="button">10</button><button class="opt" type="button">100</button><button class="opt" type="button">1,000</button></div></div><div class="q" data-answer="1" data-why="Devanagari needs 3 UTF-8 bytes per character."><p>5. Why can Hindi text cost more tokens than English?</p><div class="opts"><button class="opt" type="button">Hindi words are always longer</button><button class="opt" type="button">Its characters take more bytes, so byte-based tokenizers produce more tokens</button><button class="opt" type="button">Providers charge extra for Hindi</button></div></div><p class="score" aria-live="polite"></p></div>
+<h2 id="references"><span class="n">07</span>References</h2><ul><li><a href="https://arxiv.org/abs/1508.07909" target="_blank" rel="noopener">Neural Machine Translation of Rare Words with Subword Units (BPE)</a> (Sennrich et al., 2016)</li><li><a href="https://github.com/google/sentencepiece" target="_blank" rel="noopener">SentencePiece</a></li><li><a href="https://huggingface.co/docs/transformers/tokenizer_summary" target="_blank" rel="noopener">Hugging Face: Summary of the tokenizers</a></li><li><a href="https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them" target="_blank" rel="noopener">OpenAI: What are tokens?</a></li></ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/course.js"></script>
+
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="genai-course/s04-tokenization"></script>
+</body>
+</html>

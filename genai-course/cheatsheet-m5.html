@@ -31,7 +31,7 @@ w = np.exp(scores - scores.max(1, keepdims=True))
 w /= w.sum(1, keepdims=True)                   # softmax per row
 out = w @ V                                    # new vector for each token</pre></section><section class="cs full"><h2>Common mistakes</h2><ul class="bad"><li>Forgetting the √dₖ scaling: training becomes unstable.</li><li>Forgetting the causal mask in a decoder: the model “cheats” by seeing the answer.</li><li>Treating attention maps as a full explanation of the model’s reasoning.</li><li>Assuming a long context window means the model uses every part equally well.</li></ul></section>
 </div>
-<nav class="cs-pager" aria-label="Cheat sheets"><span></span><a href="cheatsheet-m6.html" style="text-align:right"><small>Next →</small>Module 6: Transformer Architecture & Variants</a></nav>
+<nav class="cs-pager" aria-label="Cheat sheets"><a href="cheatsheet-m4.html"><small>← Previous</small>Module 4: Sequential Models for NLP</a><a href="cheatsheet-m6.html" style="text-align:right"><small>Next →</small>Module 6: Transformer Architecture & Variants</a></nav>
 <p style="color:var(--muted);font-size:13.5px;margin-top:22px">Created by <b style="color:var(--fg)">Ajeetkumar</b> · Learn24</p>
 </main>
 <script src="../assets/data.js"></script>

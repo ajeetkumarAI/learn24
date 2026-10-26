@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Module 3 cheat sheet: Deep Learning Fundamentals · Learn24</title>
+<meta name="description" content="One-page summary of GenAI Course Module 3: Deep Learning Fundamentals.">
+<meta property="og:title" content="Module 3 cheat sheet: Deep Learning Fundamentals · Learn24">
+<meta property="og:description" content="One-page summary of GenAI Course Module 3: Deep Learning Fundamentals.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/pages.css">
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body data-page="cheatsheet">
+<main class="shell page">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="index.html">GenAI Course</a><span>›</span><span>Module 3 cheat sheet</span></nav>
+<h1>Module 3 cheat sheet: Deep Learning Fundamentals</h1>
+<p class="lead">Neurons, layers, loss, gradients and optimizers: the engine inside every modern AI model.</p>
+<div class="cs-top"><button type="button" onclick="print()">🖨 Print / save as PDF</button><a class="b" href="index.html">All modules</a><a class="b" href="../glossary.html">📖 Glossary</a></div>
+<div class="cs-grid" style="--c:#b38cff">
+<section class="cs"><h2>Key ideas</h2><ul><li>Neuron = activation(Σ weight × input + bias). <a href="s09-neural-networks.html">S9 →</a></li><li>One perceptron cannot learn XOR; layers can. <a href="s09-neural-networks.html">S9 →</a></li><li>Gradient descent: weight −= learning rate × gradient. <a href="s10-loss-gradient-descent.html">S10 →</a></li><li>Backprop = chain rule from the loss back to every weight. <a href="s11-backpropagation.html">S11 →</a></li><li>ReLU + He initialisation keeps gradients alive in deep networks. <a href="s12-activation-functions.html">S12 →</a></li><li>Adam/AdamW is the default optimizer; watch the validation loss. <a href="s13-optimizers-training.html">S13 →</a></li></ul></section><section class="cs"><h2>Formulas</h2><div class="formula">params per layer = n_in × n_out + n_out</div><div class="formula">MSE = mean((ŷ − y)²) · BCE = −[y log p + (1−y) log(1−p)]</div><div class="formula">steps = epochs × (data ÷ batch size)</div></section><section class="cs full"><h2>Pick the output layer</h2><div class="tw"><table><thead><tr><th>Task</th><th>Activation</th><th>Loss</th></tr></thead><tbody><tr><td>Yes / no</td><td>sigmoid</td><td>binary cross-entropy</td></tr><tr><td>One of many classes</td><td>softmax</td><td>categorical cross-entropy</td></tr><tr><td>A number</td><td>none (linear)</td><td>MSE or MAE</td></tr><tr><td>Hidden layers</td><td>ReLU (GELU in transformers)</td><td>set by the output task</td></tr></tbody></table></div></section><section class="cs"><h2>Optimizers</h2><div class="tw"><table><thead><tr><th>Optimizer</th><th>Idea</th></tr></thead><tbody><tr><td>SGD</td><td>plain step down the gradient</td></tr><tr><td>Momentum</td><td>build up speed in a steady direction</td></tr><tr><td>RMSProp</td><td>scale each weight’s step by its recent gradient size</td></tr><tr><td>Adam</td><td>momentum + RMSProp; robust default</td></tr><tr><td>AdamW</td><td>Adam + proper weight decay; used for LLMs</td></tr></tbody></table></div></section><section class="cs full"><h2>Code: the training loop</h2><pre>for x, y in loader:
+    optimizer.zero_grad()            # clear old gradients
+    loss = loss_fn(model(x), y)      # forward pass
+    loss.backward()                  # backpropagation
+    optimizer.step()                 # update weights
+model.eval()                         # before validation: turns dropout off</pre></section><section class="cs full"><h2>Common mistakes</h2><ul class="bad"><li>Feeding unscaled inputs, so activations saturate.</li><li>Learning rate too high: the loss explodes to NaN.</li><li>No validation set, so overfitting goes unnoticed.</li><li>Forgetting <code>model.eval()</code> before evaluation.</li><li>Sigmoid in every hidden layer of a deep network (vanishing gradients).</li></ul></section>
+</div>
+<nav class="cs-pager" aria-label="Cheat sheets"><a href="cheatsheet-m2.html"><small>← Previous</small>Module 2: NLP Fundamentals</a><a href="cheatsheet-m4.html" style="text-align:right"><small>Next →</small>Module 4: Sequential Models for NLP</a></nav>
+<p style="color:var(--muted);font-size:13.5px;margin-top:22px">Created by <b style="color:var(--fg)">Ajeetkumar</b> · Learn24</p>
+</main>
+<script src="../assets/data.js"></script>
+<script src="../assets/site.js" data-base="../"></script>
+</body>
+</html>

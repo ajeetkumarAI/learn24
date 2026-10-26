@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Loss Functions &amp; Gradient Descent · GenAI Course · Learn24</title>
+<meta name="description" content="How a neural network measures its mistakes (MSE, MAE, binary and categorical cross-entropy) and fixes them with batch, stochastic and mini-batch gradient descent; learning rate, epochs and batch size.">
+<meta property="og:title" content="Loss Functions &amp; Gradient Descent · Learn24">
+<meta property="og:description" content="How a neural network measures its mistakes (MSE, MAE, binary and categorical cross-entropy) and fixes them with batch, stochastic and mini-batch gradient descent; learning rate, epochs and batch size.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#b38cff}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article>
+  <div class="kicker">GenAI Course · Module 3 · Session 10</div>
+  <h1>Loss Functions &amp; Gradient Descent</h1>
+  <div class="meta"><span>⏱ 14 min read</span><span>🎯 Intermediate</span><span>🖼 1 diagram</span><span>🧪 1 live demo</span><span>🐍 Python code</span></div>
+  <p class="lead">A network with random weights makes terrible predictions. To improve, it needs two things: a number that says <strong>how wrong</strong> it is (the <strong>loss</strong>), and a method to change the weights so that number goes <strong>down</strong> (<strong>gradient descent</strong>). This is the engine of all deep learning, including every LLM.</p>
+  <div class="tldr"><h4>In this session</h4><ul><li>Loss functions: MSE, MAE, binary and categorical cross-entropy</li><li>Gradient descent: walking downhill on the loss</li><li>Learning rate: too small, just right, too big (live demo)</li><li>Batch vs stochastic vs mini-batch</li><li>Epochs, batch size and how they relate</li></ul></div>
+<h2 id="loss"><span class="n">01</span>Loss functions</h2>
+<p>A <strong>loss function</strong> turns “how wrong was the model?” into one number. Lower is better. Which one you use depends on the task:</p><div class="codebox"><div class="cap"><span>losses.py</span><button class="copy" type="button">Copy</button></div><pre>import numpy as np
+
+# Regression: predicted vs actual house price (₹ lakh)
+actual = np.array([50, 80, 120]); pred = np.array([55, 70, 150])
+print(&quot;MSE:&quot;, round(np.mean((pred - actual) ** 2), 1))   # squares: big errors hurt a lot
+print(&quot;MAE:&quot;, np.mean(np.abs(pred - actual)))         # plain average error
+
+# Binary classification: probability that a transaction is fraud
+def bce(y, p): return -(y * np.log(p) + (1 - y) * np.log(1 - p))
+for p in [0.9, 0.6, 0.1]:
+    print(f&quot;fraud (y=1), model says p={p}: BCE = {bce(1, p):.2f}&quot;)
+
+# Multi-class: 3 complaint categories, the true class is index 2
+probs = np.array([0.2, 0.1, 0.7])
+print(&quot;categorical cross-entropy:&quot;, round(-np.log(probs[2]), 3))</pre></div><div class="out">MSE: 341.7
+MAE: 15.0
+fraud (y=1), model says p=0.9: BCE = 0.11
+fraud (y=1), model says p=0.6: BCE = 0.51
+fraud (y=1), model says p=0.1: BCE = 2.30
+categorical cross-entropy: 0.357</div><div class="tw"><table><thead><tr><th>Loss</th><th>Task</th><th>Formula idea</th><th>Note</th></tr></thead><tbody><tr><td>MSE (mean squared error)</td><td>regression</td><td>average of (prediction − actual)²</td><td>big errors are punished a lot (30² = 900)</td></tr><tr><td>MAE (mean absolute error)</td><td>regression</td><td>average of |prediction − actual|</td><td>more forgiving of outliers</td></tr><tr><td>Binary cross-entropy</td><td>yes/no classification</td><td>−[y log p + (1−y) log(1−p)]</td><td>confident and wrong = very high loss</td></tr><tr><td>Categorical cross-entropy</td><td>pick one of many classes</td><td>−log(probability of the true class)</td><td>what LLMs minimise for the next token</td></tr></tbody></table></div><p>Look at the cross-entropy numbers: saying 0.9 for a real fraud costs only 0.11, but saying 0.1 costs <b>2.30</b>. Cross-entropy punishes <em>confident mistakes</em> hardest.</p>
+<h2 id="gd"><span class="n">02</span>Gradient descent</h2>
+<p>Picture the loss as a valley. The weights are your position; the height is the loss. The <strong>gradient</strong> tells you which way is uphill, so you step the <em>opposite</em> way:</p><div class="callout "><span style="font-family:var(--mono)">new weight = old weight − learning_rate × gradient</span></div><figure class="fig"><svg viewBox="0 0 700 260" role="img" aria-label="Gradient descent steps down a U-shaped loss curve"><g class="an" style="--dl:0s"><polyline class="ln" points="60,40 72,54 83,68 95,81 106,93 118,105 130,116 141,127 153,137 164,146 176,155 188,164 199,171 211,179 222,185 234,191 246,197 257,202 269,206 280,210 292,213 304,215 315,217 327,219 338,220 350,220 362,220 373,219 385,217 396,215 408,213 420,210 431,206 443,202 454,197 466,191 478,185 489,179 501,171 512,164 524,155 536,146 547,137 559,127 570,116 582,105 594,93 605,81 617,68 628,54 640,40" style="stroke-width:2"/></g><g class="an" style="--dl:0.30s"><circle cx="106" cy="93" r="7" class="bx solid"/></g><g class="an" style="--dl:0.35s"><path class="la" d="M 114 95 L 180 160"/><path class="la" d="M 172.0 157.0 L 180 160 L 176.9 152.0"/></g><g class="an" style="--dl:0.50s"><circle cx="188" cy="164" r="7" class="bx solid"/></g><g class="an" style="--dl:0.55s"><path class="la" d="M 196 166 L 243 195"/><path class="la" d="M 235.4 194.4 L 243 195 L 239.1 188.4"/></g><g class="an" style="--dl:0.70s"><circle cx="251" cy="199" r="7" class="bx solid"/></g><g class="an" style="--dl:0.75s"><path class="la" d="M 259 201 L 290 210"/><path class="la" d="M 281.9 211.5 L 290 210 L 283.9 204.8"/></g><g class="an" style="--dl:0.90s"><circle cx="298" cy="214" r="7" class="bx solid"/></g><g class="an" style="--dl:0.95s"><path class="la" d="M 306 216 L 319 215"/><path class="la" d="M 312.0 219.0 L 319 215 L 311.3 212.1"/></g><g class="an" style="--dl:1.10s"><circle cx="327" cy="219" r="7" class="bx solid"/></g><g class="an" style="--dl:1.15s"><path class="la" d="M 335 221 L 336 216"/><path class="la" d="M 337.6 223.8 L 336 216 L 330.9 221.9"/></g><g class="an" style="--dl:1.30s"><circle cx="344" cy="220" r="7" class="bx solid"/></g><g class="an" style="--dl:1.5s"><text x="350" y="245" text-anchor="middle" class="tgr" style="font-weight:600">minimum loss</text><text x="90" y="30" class="tm">start: random weights, high loss</text><text x="640" y="60" class="tm">loss</text></g></svg><figcaption>Gradient descent: from a random start, take steps downhill (against the gradient) until the loss stops falling. Steps shrink as the slope flattens.</figcaption></figure><div class="analogy"><span class="ic">⛰️</span><p><b>Like coming down a hill in fog.</b> You can’t see the bottom, but you can feel the slope under your feet. Take a step downhill, feel again, repeat. The learning rate is your step size.</p></div><p>We fit a straight line to 100 points (the true line is y = 3x + 2) with four learning rates, 50 steps each:</p><div class="codebox"><div class="cap"><span>gd_lr.py</span><button class="copy" type="button">Copy</button></div><pre>import numpy as np
+np.random.seed(0)
+x = np.random.rand(100) * 4
+y = 3 * x + 2 + np.random.randn(100) * 0.5          # true line: y = 3x + 2
+
+def train(lr, steps=50):
+    w, b = 0.0, 0.0
+    for _ in range(steps):
+        err = (w * x + b) - y
+        w -= lr * 2 * np.mean(err * x)               # gradient of MSE w.r.t. w
+        b -= lr * 2 * np.mean(err)                   # gradient w.r.t. b
+    return w, b, np.mean(((w * x + b) - y) ** 2)
+
+for lr in [0.001, 0.01, 0.05, 0.2]:
+    w, b, loss = train(lr)
+    print(f&quot;lr={lr:&lt;6} after 50 steps: w={w:8.2f}  b={b:8.2f}  loss={loss:.3g}&quot;)</pre></div><div class="out">lr=0.001  after 50 steps: w=    1.43  b=    0.60  loss=23.4
+lr=0.01   after 50 steps: w=    3.23  b=    1.50  loss=0.35
+lr=0.05   after 50 steps: w=    3.09  b=    1.87  loss=0.263
+lr=0.2    after 50 steps: w=-488186.78  b=-197613.44  loss=1.57e+12</div><div class="demo" data-demo="slider"><div class="demo-h"><b>Demo · Pick a learning rate</b></div><script type="application/json">{"label": "Learning rate", "start": 2, "options": [{"name": "0.001", "html": "<div class=\"bars\"><div class=\"bar top\"><span>w (target 3)<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.238\"><\/div><\/div><span class=\"v\">1.43<\/span><\/div><div class=\"bar\"><span>b (target 2)<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.100\"><\/div><\/div><span class=\"v\">0.60<\/span><\/div><\/div><div class=\"callout warn\">Loss after 50 steps: <b>23.4<\/b>. Too small: after 50 steps it has barely moved. Training would take forever.<\/div>"}, {"name": "0.01", "html": "<div class=\"bars\"><div class=\"bar top\"><span>w (target 3)<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.538\"><\/div><\/div><span class=\"v\">3.23<\/span><\/div><div class=\"bar\"><span>b (target 2)<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.250\"><\/div><\/div><span class=\"v\">1.50<\/span><\/div><\/div><div class=\"callout \">Loss after 50 steps: <b>0.35<\/b>. Getting there, steadily.<\/div>"}, {"name": "0.05", "html": "<div class=\"bars\"><div class=\"bar top\"><span>w (target 3)<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.515\"><\/div><\/div><span class=\"v\">3.09<\/span><\/div><div class=\"bar\"><span>b (target 2)<\/span><div class=\"track\"><div class=\"fill\" data-w=\"0.312\"><\/div><\/div><span class=\"v\">1.87<\/span><\/div><\/div><div class=\"callout tip\">Loss after 50 steps: <b>0.263<\/b>. Just right: close to the true line y = 3x + 2.<\/div>"}, {"name": "0.2", "html": "<div class=\"bars\"><div class=\"bar top\"><span>w (target 3)<\/span><div class=\"track\"><div class=\"fill\" data-w=\"1.000\"><\/div><\/div><span class=\"v\">−488,186.78<\/span><\/div><div class=\"bar\"><span>b (target 2)<\/span><div class=\"track\"><div class=\"fill\" data-w=\"1.000\"><\/div><\/div><span class=\"v\">−197,613.44<\/span><\/div><\/div><div class=\"callout warn\">Loss after 50 steps: <b>1.57 × 10¹²<\/b>. Too big: every step overshoots the valley and the loss explodes.<\/div>"}]}</script></div>
+<h2 id="variants"><span class="n">03</span>Batch, stochastic and mini-batch</h2>
+<p>How many examples should we look at before each step?</p><div class="tw"><table><thead><tr><th>Variant</th><th>Examples per update</th><th>Pros</th><th>Cons</th></tr></thead><tbody><tr><td>Batch GD</td><td>all of them</td><td>smooth, exact gradient</td><td>slow, and huge datasets don’t fit in memory</td></tr><tr><td>Stochastic GD (SGD)</td><td>one</td><td>many quick updates; noise can escape bad spots</td><td>very noisy; needs a smaller learning rate</td></tr><tr><td>Mini-batch GD</td><td>a small group (32–512)</td><td>best of both; fast on GPUs</td><td>one more setting to choose</td></tr></tbody></table></div><div class="codebox"><div class="cap"><span>gd_variants.py</span><button class="copy" type="button">Copy</button></div><pre>import numpy as np
+np.random.seed(1)
+N = 10_000
+x = np.random.rand(N) * 4; y = 3 * x + 2 + np.random.randn(N) * 0.5
+
+def run(batch, lr=0.05, epochs=3):
+    w = b = 0.0; updates = 0
+    for _ in range(epochs):
+        idx = np.random.permutation(N)
+        for s in range(0, N, batch):
+            j = idx[s:s + batch]; err = (w * x[j] + b) - y[j]
+            w -= lr * 2 * np.mean(err * x[j]); b -= lr * 2 * np.mean(err); updates += 1
+    return w, b, updates
+
+for name, bs in [(&quot;Batch GD&quot;, N), (&quot;Mini-batch (64)&quot;, 64), (&quot;Stochastic (1)&quot;, 1)]:
+    w, b, u = run(bs, lr=0.05 if bs &gt; 1 else 0.005)
+    print(f&quot;{name:16s} updates={u:6d}  w={w:.2f}  b={b:.2f}&quot;)</pre></div><div class="out">Batch GD         updates=     3  w=3.07  b=1.26
+Mini-batch (64)  updates=   471  w=2.94  b=1.97
+Stochastic (1)   updates= 30000  w=3.04  b=2.04</div><p>Same 10,000 points, same 3 epochs. Full-batch made only <b>3</b> updates and is still far from b = 2. Mini-batch made 471 updates and is close. Pure SGD made 30,000 tiny noisy updates. In practice almost everyone uses <strong>mini-batches</strong>; when people say “SGD” today they usually mean mini-batch SGD.</p>
+<h2 id="terms"><span class="n">04</span>Learning rate, epochs and batch size</h2>
+<div class="tw"><table><thead><tr><th>Term</th><th>Meaning</th><th>Typical value</th></tr></thead><tbody><tr><td>Learning rate</td><td>step size of each update</td><td>0.1–0.0001; LLM fine-tuning ~1e-4 to 2e-5</td></tr><tr><td>Batch size</td><td>examples per update</td><td>32–512 (limited by GPU memory)</td></tr><tr><td>Epoch</td><td>one full pass over the training data</td><td>3–100s, depending on data size</td></tr><tr><td>Steps (iterations)</td><td>number of updates</td><td>epochs × (dataset size ÷ batch size)</td></tr></tbody></table></div><div class="callout tip"><b>Quick maths:</b> 10,000 examples, batch size 64 → 157 steps per epoch (the last batch is smaller). 3 epochs → 471 steps, exactly what the code printed.</div>
+<h2 id="summary"><span class="n">05</span>Summary</h2><ul><li>The <strong>loss</strong> measures how wrong the model is: MSE/MAE for numbers, cross-entropy for classes.</li><li>Cross-entropy punishes <strong>confident mistakes</strong> the most; LLMs are trained with it.</li><li><strong>Gradient descent</strong>: weight −= learning rate × gradient, repeated.</li><li>Learning rate too small = slow; too big = explodes.</li><li><strong>Mini-batch</strong> gradient descent is the standard; steps = epochs × (data ÷ batch size).</li></ul>
+<h2 id="quiz"><span class="n">06</span>Quick quiz</h2><div class="quiz"><div class="q" data-answer="1" data-why="BCE compares a probability with a 0/1 label."><p>1. Which loss is used for yes/no classification?</p><div class="opts"><button class="opt" type="button">MSE</button><button class="opt" type="button">Binary cross-entropy</button><button class="opt" type="button">MAE</button></div></div><div class="q" data-answer="1" data-why="The gradient points uphill."><p>2. In gradient descent we move the weights…</p><div class="opts"><button class="opt" type="button">in the direction of the gradient</button><button class="opt" type="button">against the gradient</button><button class="opt" type="button">randomly</button></div></div><div class="q" data-answer="0" data-why="Steps overshoot and grow."><p>3. Loss explodes to 10¹². Most likely cause?</p><div class="opts"><button class="opt" type="button">Learning rate too high</button><button class="opt" type="button">Too few epochs</button><button class="opt" type="button">Batch size of 64</button></div></div><div class="q" data-answer="1" data-why="Steps per epoch = data ÷ batch size."><p>4. One epoch is…</p><div class="opts"><button class="opt" type="button">one weight update</button><button class="opt" type="button">one full pass over the training data</button><button class="opt" type="button">one layer</button></div></div><div class="q" data-answer="0" data-why="A balance of speed and stability."><p>5. Why is mini-batch GD the default?</p><div class="opts"><button class="opt" type="button">It uses GPUs well and gives frequent, fairly stable updates</button><button class="opt" type="button">It needs no learning rate</button><button class="opt" type="button">It never overfits</button></div></div><p class="score" aria-live="polite"></p></div>
+<h2 id="references"><span class="n">07</span>References</h2><ul><li><a href="https://www.3blue1brown.com/lessons/gradient-descent" target="_blank" rel="noopener">3Blue1Brown: Gradient descent, how neural networks learn</a></li><li><a href="https://developers.google.com/machine-learning/crash-course/linear-regression/gradient-descent" target="_blank" rel="noopener">Google ML Crash Course: Reducing loss</a></li><li><a href="https://pytorch.org/docs/stable/nn.html#loss-functions" target="_blank" rel="noopener">PyTorch loss functions</a></li></ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/course.js"></script>
+
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="genai-course/s10-loss-gradient-descent"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Module 2 cheat sheet: NLP Fundamentals · Learn24</title>
+<meta name="description" content="One-page summary of GenAI Course Module 2: NLP Fundamentals.">
+<meta property="og:title" content="Module 2 cheat sheet: NLP Fundamentals · Learn24">
+<meta property="og:description" content="One-page summary of GenAI Course Module 2: NLP Fundamentals.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/pages.css">
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body data-page="cheatsheet">
+<main class="shell page">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="index.html">GenAI Course</a><span>›</span><span>Module 2 cheat sheet</span></nav>
+<h1>Module 2 cheat sheet: NLP Fundamentals</h1>
+<p class="lead">Turn messy text into clean tokens and numbers: tokenization, preprocessing, regex, counts and embeddings.</p>
+<div class="cs-top"><button type="button" onclick="print()">🖨 Print / save as PDF</button><a class="b" href="index.html">All modules</a><a class="b" href="../glossary.html">📖 Glossary</a></div>
+<div class="cs-grid" style="--c:#b38cff">
+<section class="cs"><h2>Key ideas</h2><ul><li>Modern models use <b>subword</b> tokens: common words whole, rare words in pieces. <a href="s04-tokenization.html">S4 →</a></li><li>English ≈ <b>4 characters per token</b>; many other scripts need more tokens. <a href="s04-tokenization.html">S4 →</a></li><li>Stemming chops endings; lemmatization finds the dictionary form. <a href="s05-text-preprocessing.html">S5 →</a></li><li>Removing stopwords can delete “not” and flip the meaning. <a href="s05-text-preprocessing.html">S5 →</a></li><li>Redact PII with regex before text reaches an LLM. <a href="s06-regular-expressions.html">S6 →</a></li><li>Embeddings put words used in similar contexts close together. <a href="s08-word-embeddings.html">S8 →</a></li></ul></section><section class="cs"><h2>Tokenizer algorithms</h2><div class="tw"><table><thead><tr><th>Algorithm</th><th>Idea</th><th>Used by</th></tr></thead><tbody><tr><td>BPE</td><td>merge the most frequent pair</td><td>GPT, Llama 3</td></tr><tr><td>WordPiece</td><td>likelihood-based merges, ## pieces</td><td>BERT</td></tr><tr><td>Unigram</td><td>prune a big vocabulary</td><td>T5, ALBERT</td></tr><tr><td>SentencePiece</td><td>BPE/Unigram on raw text, ▁ for spaces</td><td>T5, Llama 2, Gemma</td></tr></tbody></table></div></section><section class="cs"><h2>Regex essentials</h2><div class="tw"><table><thead><tr><th>Pattern</th><th>Meaning</th></tr></thead><tbody><tr><td><code>\d \w \s</code></td><td>digit · word character · space</td></tr><tr><td><code>[A-Z]{5}</code></td><td>exactly 5 capital letters</td></tr><tr><td><code>+ * ?</code></td><td>one or more · zero or more · optional</td></tr><tr><td><code>\b</code></td><td>word boundary</td></tr><tr><td><code>( )</code> and <code>|</code></td><td>capture group · or</td></tr></tbody></table></div><div class="formula">re.findall · re.search · re.sub</div></section><section class="cs full"><h2>From words to numbers</h2><div class="tw"><table><thead><tr><th>Method</th><th>Captures</th><th>Limit</th></tr></thead><tbody><tr><td>One-hot</td><td>which word</td><td>no similarity, huge</td></tr><tr><td>Bag of Words</td><td>word counts</td><td>order lost</td></tr><tr><td>N-grams</td><td>short phrases</td><td>many features</td></tr><tr><td>TF-IDF</td><td>important, rare words</td><td>still no meaning</td></tr><tr><td>Word2Vec / GloVe</td><td>meaning from context</td><td>one vector per word</td></tr></tbody></table></div><div class="formula">TF-IDF = TF × log(N / DF) &nbsp;·&nbsp; cosine = a·b / (|a||b|)</div></section><section class="cs full"><h2>Code: TF-IDF in four lines</h2><pre>from sklearn.feature_extraction.text import TfidfVectorizer
+docs = [&quot;UPI payment failed&quot;, &quot;card payment failed again&quot;, &quot;refund for failed UPI payment&quot;]
+tfidf = TfidfVectorizer()
+X = tfidf.fit_transform(docs)        # rows = documents, columns = words</pre></section><section class="cs"><h2>Common mistakes</h2><ul class="bad"><li>Stemming or removing stopwords before sending text to an LLM.</li><li>Estimating cost from words instead of tokens.</li><li>Regex without <code>\b</code>, causing partial matches.</li><li>Expecting Word2Vec to tell “river bank” from “bank account”.</li></ul></section>
+</div>
+<nav class="cs-pager" aria-label="Cheat sheets"><a href="cheatsheet-m1.html"><small>← Previous</small>Module 1: Introduction to the Program</a><a href="cheatsheet-m3.html" style="text-align:right"><small>Next →</small>Module 3: Deep Learning Fundamentals</a></nav>
+<p style="color:var(--muted);font-size:13.5px;margin-top:22px">Created by <b style="color:var(--fg)">Ajeetkumar</b> · Learn24</p>
+</main>
+<script src="../assets/data.js"></script>
+<script src="../assets/site.js" data-base="../"></script>
+</body>
+</html>
