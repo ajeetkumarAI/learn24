@@ -5,7 +5,7 @@
 Learn24 is a free collection of animated, step-by-step lessons on GenAI, Agentic AI, AI Security and AI System Design. Every lesson is an interactive animation you can pause, replay and click through, with real-world examples from banking and fintech.
 
 🌐 **Live site:** [learn24.net](https://learn24.net)
-👤 **Created by Ajeetkumar**, GenAI engineer
+👤 **Created by Ajeetkumar**, AI engineer
 
 ---
 
