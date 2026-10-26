@@ -2,7 +2,7 @@
 
 **See how AI works, one step at a time.**
 
-Learn24 is a free collection of animated, step-by-step lessons on GenAI, Agentic AI, AI Security and AI System Design. Every lesson is an interactive animation you can pause, replay and click through, with real-world examples from banking and fintech.
+Learn24 is a free collection of animated, step-by-step lessons on GenAI, Agentic AI, AI Security, AI System Design and AI frameworks. Every lesson is an interactive animation you can pause, replay and click through, with real-world examples from banking and fintech.
 
 🌐 **Live site:** [learn24-lilac.vercel.app](https://learn24-lilac.vercel.app)
 👤 **Created by Ajeetkumar**, AI engineer
@@ -16,22 +16,14 @@ Learn24 is a free collection of animated, step-by-step lessons on GenAI, Agentic
 
 ## Lessons
 
-### 🧠 GenAI
-| Lesson | Level | What you'll learn |
-|---|---|---|
-| [How an LLM Answers a Question](https://learn24-lilac.vercel.app/genai/llm-inference) | Beginner | Tokenizer → token IDs → transformer → softmax → detokenizer |
-| [How an LLM Is Trained](https://learn24-lilac.vercel.app/genai/llm-training) | Beginner | Pretraining, SFT and RLHF with one example |
-| [RAG From Scratch](https://learn24-lilac.vercel.app/genai/rag-basics) | Intermediate | Chunking, embeddings, vector search, grounded answers |
-| [LoRA and Fine-Tuning](https://learn24-lilac.vercel.app/genai/fine-tuning) | Intermediate | When to fine-tune, and how LoRA trains under 1% of the weights |
-| [How BERT Works](https://learn24-lilac.vercel.app/genai/bert) | Beginner | Masked language modelling, the BERT family and fine-tuning, with diagrams |
-
-### 🎓 GenAI Course (40 sessions)
+### 🎓 GenAI Course (40 sessions + 5 animated visual lessons)
 
 **Module 1 · Introduction to the Program** · [cheat sheet](https://learn24-lilac.vercel.app/genai-course/cheatsheet-m1)
 
 | Session | Lesson | What you'll learn |
 |---|---|---|
 | 1 | [The AI Landscape](https://learn24-lilac.vercel.app/genai-course/s01-ai-landscape) | AI vs ML vs deep learning, NLP, generative AI and agentic AI, with real uses across six industries. |
+| ★ visual | [How an LLM Answers a Question](https://learn24-lilac.vercel.app/genai-course/llm-inference) | Tokenizer, token IDs, transformer, softmax and detokenizer, one token at a time. |
 | 2 | [Careers, Roadmap & Your First GenAI App](https://learn24-lilac.vercel.app/genai-course/s02-careers-first-app) | GenAI job roles, the course roadmap, and a Streamlit GenAI app deployed to the cloud. |
 | 3 | [Environment Setup](https://learn24-lilac.vercel.app/genai-course/s03-environment-setup) | Python refresher, venv and pip, Jupyter and Colab GPU, Git, .env secrets, Streamlit vs Gradio. |
 
@@ -78,12 +70,14 @@ Learn24 is a free collection of animated, step-by-step lessons on GenAI, Agentic
 | 20 | [Architecture & Positional Encoding](https://learn24-lilac.vercel.app/genai-course/s20-positional-encoding) | The encoder–decoder end to end, and how word order is injected with positional encodings. |
 | 21 | [Inside the Encoder and Decoder Blocks](https://learn24-lilac.vercel.app/genai-course/s21-encoder-decoder-blocks) | Self-attention, FFN, LayerNorm, residuals, masked and cross attention, training vs inference. |
 | 22 | [Transformer Variants](https://learn24-lilac.vercel.app/genai-course/s22-transformer-variants) | Encoder-only, decoder-only and encoder-decoder families, and how to choose. |
+| ★ visual | [BERT Explained: How It Works and Its Variants](https://learn24-lilac.vercel.app/genai-course/bert) | A full illustrated guide: bidirectional reading, fill-in-the-blank training, fine-tuning, Python code and the BERT family. |
 
 **Module 7 · Pretrained Models & LLMs** · [cheat sheet](https://learn24-lilac.vercel.app/genai-course/cheatsheet-m7)
 
 | Session | Lesson | What you'll learn |
 |---|---|---|
 | 23 | [Generative Modeling & Hugging Face](https://learn24-lilac.vercel.app/genai-course/s23-hugging-face) | Autoregressive vs autoencoding models, and the Hugging Face Hub, Transformers, Datasets and Pipelines. |
+| ★ visual | [How an LLM Is Trained](https://learn24-lilac.vercel.app/genai-course/llm-training) | Pretraining, SFT and RLHF, each animated step by step with one example: the capital of India. |
 | 24 | [Decoding Strategies & the LLM Landscape](https://learn24-lilac.vercel.app/genai-course/s24-decoding-llm-landscape) | Greedy, beam, top-k, top-p, temperature, and today’s major model families. |
 | 25 | [Adaptation, Quantization & Evaluation](https://learn24-lilac.vercel.app/genai-course/s25-adaptation-evaluation) | Prompting vs RAG vs PEFT, INT8/INT4/GGUF, and metrics like perplexity, BLEU and ROUGE. |
 
@@ -101,6 +95,7 @@ Learn24 is a free collection of animated, step-by-step lessons on GenAI, Agentic
 
 | Session | Lesson | What you'll learn |
 |---|---|---|
+| ★ visual | [RAG From Scratch](https://learn24-lilac.vercel.app/genai-course/rag-basics) | Chunking, embeddings, vector search and grounded answers. |
 | 31 | [RAG Foundations](https://learn24-lilac.vercel.app/genai-course/s31-rag-foundations) | The RAG workflow, why it matters in production, and RAG vs fine-tuning vs long context. |
 | 32 | [Document Extraction](https://learn24-lilac.vercel.app/genai-course/s32-document-extraction) | PDF loaders, Unstructured, Textract, Azure Document Intelligence and table extraction. |
 | 33 | [Chunking Strategies](https://learn24-lilac.vercel.app/genai-course/s33-chunking) | Fixed, recursive, semantic, structure-aware and parent–child chunking, plus metadata. |
@@ -114,8 +109,17 @@ Learn24 is a free collection of animated, step-by-step lessons on GenAI, Agentic
 
 | Session | Lesson | What you'll learn |
 |---|---|---|
+| ★ visual | [LoRA and Fine-Tuning](https://learn24-lilac.vercel.app/genai-course/fine-tuning) | When to fine-tune, and how adapters change a model cheaply. |
 | 39 | [The Fine-Tuning Decision](https://learn24-lilac.vercel.app/genai-course/s39-fine-tuning-decision) | When to fine-tune, full vs partial tuning, and preparing your dataset. |
 | 40 | [PEFT Hands-On](https://learn24-lilac.vercel.app/genai-course/s40-peft-hands-on) | LoRA, QLoRA and a complete fine-tune evaluated against the base model. |
+
+### 🧩 AI Frameworks
+| Notes | Level | What you'll learn |
+|---|---|---|
+| [LangChain: Complete Interactive Notes](https://learn24-lilac.vercel.app/frameworks/langchain) | Beginner | Models, prompts, LCEL, structured output, tools, create_agent, RAG, memory, middleware, LangSmith |
+| [LangGraph: Complete Interactive Notes](https://learn24-lilac.vercel.app/frameworks/langgraph) | Intermediate | State, nodes, edges, loops, checkpointers, human approval, Send, Command, ReAct agent |
+| [LlamaIndex: Interactive Notes](https://learn24-lilac.vercel.app/frameworks/llamaindex) | Intermediate | Documents, nodes, indexes, query and chat engines, Workflows |
+| [Which AI Framework Should You Use?](https://learn24-lilac.vercel.app/frameworks/agent-frameworks) | All levels | LangChain, LangGraph, LlamaIndex, CrewAI, Microsoft Agent Framework, OpenAI, Google ADK and more |
 
 ### 🤖 Agentic AI
 | Lesson | Level | What you'll learn |

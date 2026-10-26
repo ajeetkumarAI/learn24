@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>How an LLM Answers a Question · Learn24</title>
+<meta name="description" content="Follow one question through the model: text becomes tokens, tokens become numbers, and the answer comes back one token at a time.">
+<meta property="og:title" content="How an LLM Answers a Question · Learn24">
+<meta property="og:description" content="Follow one question through the model: text becomes tokens, tokens become numbers, and the answer comes back one token at a time.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/stepper.css">
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body>
+<script>window.LESSON = {
+ "eyebrow": "GenAI · Inference",
+ "title": "How an LLM Answers a Question",
+ "color": "#5aa9ff",
+ "lede": "Follow one question through the model: text becomes tokens, tokens become numbers, and the answer comes back one token at a time.",
+ "steps": [
+  {
+   "t": "User prompt",
+   "s": "Everything starts as plain text.",
+   "b": [
+    {
+     "type": "msg",
+     "who": "User prompt",
+     "text": "What is the capital of India?"
+    }
+   ]
+  },
+  {
+   "t": "Tokenizer",
+   "s": "Splits the text into small pieces called tokens. A token is often a word, part of a word, or punctuation.",
+   "b": [
+    {
+     "type": "chips",
+     "items": [
+      "What",
+      " is",
+      " the",
+      " capital",
+      " of",
+      " India",
+      "?"
+     ]
+    },
+    {
+     "type": "note",
+     "text": "Notice the leading spaces: <b>\" India\"</b> and <b>\"India\"</b> are different tokens."
+    }
+   ]
+  },
+  {
+   "t": "Token IDs",
+   "s": "Each token is looked up in the vocabulary and becomes a number.",
+   "b": [
+    {
+     "type": "chips",
+     "items": [
+      [
+       "What",
+       3923
+      ],
+      [
+       " is",
+       374
+      ],
+      [
+       " the",
+       279
+      ],
+      [
+       " capital",
+       6864
+      ],
+      [
+       " of",
+       315
+      ],
+      [
+       " India",
+       6890
+      ],
+      [
+       "?",
+       30
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "t": "Transformer",
+   "s": "IDs become embedding vectors. Attention layers let every token look at the others, then the last position scores every possible next token.",
+   "b": [
+    {
+     "type": "flow",
+     "nodes": [
+      [
+       "Embeddings",
+       "7 vectors"
+      ],
+      [
+       "Layer 1",
+       "attention + MLP"
+      ],
+      [
+       "Layer 2",
+       ""
+      ],
+      [
+       "Layer N",
+       "32–80 layers"
+      ],
+      [
+       "Scores",
+       "~100k logits"
+      ]
+     ],
+     "hot": [
+      4
+     ]
+    },
+    {
+     "type": "note",
+     "text": "Reads: prompt (7 tokens) + nothing generated yet."
+    }
+   ]
+  },
+  {
+   "t": "Softmax: probability of each next token",
+   "s": "Scores become probabilities that add up to 1. The model picks one, usually the likeliest.",
+   "b": [
+    {
+     "type": "bars",
+     "rows": [
+      [
+       " The",
+       0.58,
+       "0.58",
+       "top"
+      ],
+      [
+       " New",
+       0.27
+      ],
+      [
+       " India",
+       0.06
+      ],
+      [
+       " Delhi",
+       0.04
+      ]
+     ],
+     "max": 1
+    }
+   ]
+  },
+  {
+   "t": "Detokenizer",
+   "s": "The picked token ID is turned back into readable text.",
+   "b": [
+    {
+     "type": "flow",
+     "nodes": [
+      [
+       "ID 578",
+       "picked"
+      ],
+      [
+       "vocabulary lookup",
+       ""
+      ],
+      [
+       "\" The\"",
+       "text"
+      ]
+     ],
+     "hot": [
+      2
+     ]
+    }
+   ]
+  },
+  {
+   "t": "Response, one token at a time",
+   "s": "The new token is appended to the input and the whole loop runs again, until the model emits <end>.",
+   "b": [
+    {
+     "type": "cycle",
+     "nodes": [
+      [
+       "Read all tokens"
+      ],
+      [
+       "Score next token"
+      ],
+      [
+       "Pick + append"
+      ]
+     ],
+     "rounds": 2,
+     "label": "until <end>"
+    },
+    {
+     "type": "msg",
+     "who": "Response",
+     "tone": "out",
+     "text": "The capital of India is New Delhi.",
+     "cps": 12
+    }
+   ]
+  }
+ ],
+ "takeaways": [
+  [
+   "Models read tokens, not words",
+   "about 4 characters per token in English"
+  ],
+  [
+   "One forward pass = one token",
+   "long answers take many passes"
+  ],
+  [
+   "Sampling settings matter",
+   "temperature and top-p change how the next token is picked"
+  ],
+  [
+   "Context window",
+   "the prompt and the answer share one token budget"
+  ]
+ ],
+ "fine": "Illustrative token IDs and probabilities. Real vocabularies hold 100k+ tokens."
+};</script>
+<script src="../assets/stepper.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="genai-course/llm-inference"></script>
+</body>
+</html>

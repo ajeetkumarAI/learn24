@@ -32,6 +32,16 @@
       "source": "/security",
       "destination": "/ai-security",
       "permanent": false
+    },
+    {
+      "source": "/genai",
+      "destination": "/genai-course",
+      "permanent": true
+    },
+    {
+      "source": "/genai/:slug",
+      "destination": "/genai-course/:slug",
+      "permanent": true
     }
   ]
 }

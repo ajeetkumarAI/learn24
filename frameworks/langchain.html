@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LangChain: Complete Interactive Notes · AI Frameworks · Learn24</title>
+<meta name="description" content="Detailed, runnable notes on LangChain 1.x: chat models, messages, prompt templates, LCEL and runnables, structured output, tools, create_agent, RAG, memory, middleware, streaming and LangSmith tracing.">
+<meta property="og:title" content="LangChain: Complete Interactive Notes · Learn24">
+<meta property="og:description" content="Detailed, runnable notes on LangChain 1.x: chat models, messages, prompt templates, LCEL and runnables, structured output, tools, create_agent, RAG, memory, middleware, streaming and LangSmith tracing.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#4fd1c5}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article>
+  <div class="kicker">AI Frameworks · LangChain 1.x</div>
+  <h1>LangChain: Complete Interactive Notes</h1>
+  <div class="meta"><span>⏱ 25 min read</span><span>🎯 Beginner to intermediate</span><span>🖼 2 diagrams</span><span>🧪 3 live demos</span><span>🐍 Python code</span></div>
+  <p class="lead">LangChain is the most widely used Python framework for building LLM apps. It gives you one standard way to talk to any model, plus ready parts for prompts, tools, retrieval, agents and memory. These notes cover <strong>LangChain 1.x</strong> end to end, and <strong>every example runs without an API key</strong>, so you can copy, run and change them right away.</p>
+  <div class="tldr"><h4>In this session</h4><ul><li>The package map: what to install and why</li><li>Chat models and messages: invoke, stream, batch</li><li>Prompt templates and LCEL pipes</li><li>Structured output with Pydantic</li><li>Tools and agents with <code>create_agent</code></li><li>RAG: split, embed, retrieve, answer</li><li>Memory with checkpointers, middleware, streaming and LangSmith</li></ul></div>
+<h2 id="map"><span class="n">01</span>The big picture and the package map</h2>
+<p>Think of LangChain as a <strong>standard plug board</strong> for LLM apps. Every piece (a model, a prompt, a retriever, a tool, a parser) follows the same interface, so pieces snap together and providers can be swapped without rewriting your app.</p><figure class="fig"><svg viewBox="0 0 700 94" role="img" aria-label="The usual parts of a LangChain app. Each one is a “Runnable” with the same methods."><g class="an" style="--dl:0.00s"><rect class="bx ac" x="20" y="14" width="105" height="60" rx="10"/><text x="72" y="42" text-anchor="middle" class="tac" style="font-weight:600;font-size:14.0px">Prompt</text><text x="72" y="59" text-anchor="middle" class="tm" style="font-size:11.5px">templates</text></g><g class="an" style="--dl:0.10s"><path class="la" d="M 129 44 L 155 44"/><path class="la" d="M 147.6 47.5 L 155 44 L 147.6 40.5"/></g><g class="an" style="--dl:0.25s"><rect class="bx gr" x="159" y="14" width="105" height="60" rx="10"/><text x="211" y="42" text-anchor="middle" class="tgr" style="font-weight:600;font-size:14.0px">Model</text><text x="211" y="59" text-anchor="middle" class="tm" style="font-size:11.5px">any provider</text></g><g class="an" style="--dl:0.35s"><path class="la" d="M 268 44 L 294 44"/><path class="la" d="M 286.4 47.5 L 294 44 L 286.4 40.5"/></g><g class="an" style="--dl:0.50s"><rect class="bx am" x="298" y="14" width="105" height="60" rx="10"/><text x="350" y="42" text-anchor="middle" class="tam" style="font-weight:600;font-size:14.0px">Tools</text><text x="350" y="59" text-anchor="middle" class="tm" style="font-size:10.5px">APIs, search, DB</text></g><g class="an" style="--dl:0.60s"><path class="la" d="M 406 44 L 432 44"/><path class="la" d="M 425.2 47.5 L 432 44 L 425.2 40.5"/></g><g class="an" style="--dl:0.75s"><rect class="bx am" x="436" y="14" width="105" height="60" rx="10"/><text x="489" y="42" text-anchor="middle" class="tam" style="font-weight:600;font-size:14.0px">Retriever</text><text x="489" y="59" text-anchor="middle" class="tm" style="font-size:11.5px">your documents</text></g><g class="an" style="--dl:0.85s"><path class="la" d="M 545 44 L 571 44"/><path class="la" d="M 564.0 47.5 L 571 44 L 564.0 40.5"/></g><g class="an" style="--dl:1.00s"><rect class="bx ac" x="575" y="14" width="105" height="60" rx="10"/><text x="628" y="42" text-anchor="middle" class="tac" style="font-weight:600;font-size:14.0px">Output</text><text x="628" y="59" text-anchor="middle" class="tm" style="font-size:11.5px">text / JSON</text></g></svg><figcaption>The usual parts of a LangChain app. Each one is a “Runnable” with the same methods.</figcaption></figure><div class="tw"><table><thead><tr><th>Package</th><th>What is inside</th><th>Install when</th></tr></thead><tbody><tr><td><code>langchain-core</code></td><td>the building blocks: messages, prompts, runnables, tools, output parsers</td><td>always (installed by the others)</td></tr><tr><td><code>langchain</code></td><td><code>create_agent</code>, <code>init_chat_model</code>, middleware</td><td>building agents and apps</td></tr><tr><td><code>langchain-openai</code>, <code>-anthropic</code>, <code>-google-genai</code>, <code>-ollama</code>…</td><td>one package per model or vector-store provider</td><td>pick the providers you use</td></tr><tr><td><code>langchain-text-splitters</code></td><td>chunking documents</td><td>RAG</td></tr><tr><td><code>langchain-community</code></td><td>hundreds of community integrations (loaders, tools, stores)</td><td>when no official package exists</td></tr><tr><td><code>langchain-classic</code></td><td>legacy chains and retrievers from 0.x (e.g. <code>RetrievalQA</code>, <code>MultiQueryRetriever</code>)</td><td>maintaining older code</td></tr><tr><td><code>langgraph</code></td><td>the agent runtime underneath <code>create_agent</code></td><td>custom workflows (see the LangGraph notes)</td></tr><tr><td><code>langsmith</code></td><td>tracing, debugging and evaluation</td><td>every serious project</td></tr></tbody></table></div><div class="codebox"><div class="cap"><span>install.sh</span><button class="copy" type="button">Copy</button></div><pre>pip install -U langchain langchain-openai langchain-text-splitters
+export OPENAI_API_KEY=&quot;sk-...&quot;          # Windows PowerShell: $env:OPENAI_API_KEY=&quot;sk-...&quot;</pre></div><div class="callout warn"><b>Version note.</b> LangChain 1.0 (October 2025) simplified the library: agents are built with <code>create_agent</code>, old chains such as <code>RetrievalQA</code> and <code>ConversationChain</code> moved to <code>langchain-classic</code>, and memory is handled by LangGraph checkpointers. Tutorials written for 0.1–0.3 often need small import changes.</div>
+<h2 id="models"><span class="n">02</span>Chat models and messages</h2>
+<p>A chat model takes a <strong>list of messages</strong> and returns an <code>AIMessage</code>. Message types: <code>SystemMessage</code> (rules), <code>HumanMessage</code> (user), <code>AIMessage</code> (model, may contain tool calls) and <code>ToolMessage</code> (a tool result).</p><div class="codebox"><div class="cap"><span>fake_llm.py</span><button class="copy" type="button">Copy</button></div><pre>&quot;&quot;&quot;Stand-ins so every example runs without an API key.
+In real code replace ScriptedModel(...) with e.g. init_chat_model(&quot;openai:gpt-4o-mini&quot;).&quot;&quot;&quot;
+import re, math
+from langchain_core.language_models.fake_chat_models import GenericFakeChatModel
+from langchain_core.embeddings import Embeddings
+from langchain_core.messages import AIMessage
+
+class ScriptedModel(GenericFakeChatModel):
+    &quot;&quot;&quot;Replies with the messages you give it, one per call (text or tool calls).&quot;&quot;&quot;
+    def __init__(self, replies):
+        super().__init__(messages=iter([r if isinstance(r, AIMessage) else AIMessage(content=r) for r in replies]))
+    def bind_tools(self, tools, **kwargs):
+        return self
+
+class KeywordEmbeddings(Embeddings):
+    &quot;&quot;&quot;A tiny bag-of-words embedding: similar words -&gt; similar vectors. Real apps use OpenAIEmbeddings etc.&quot;&quot;&quot;
+    def __init__(self, dim=256): self.dim = dim
+    def _vec(self, text):
+        v = [0.0] * self.dim
+        for w in re.findall(r&quot;[a-z]+&quot;, text.lower()):
+            w = w[:5]                                   # crude stemming: &#x27;withdrawal&#x27; ~ &#x27;withdraw&#x27;
+            v[sum(map(ord, w)) % self.dim] += 1
+        n = math.sqrt(sum(x * x for x in v)) or 1
+        return [x / n for x in v]
+    def embed_documents(self, texts): return [self._vec(t) for t in texts]
+    def embed_query(self, text): return self._vec(text)</pre></div><div class="callout tip"><b>Runs without an API key.</b> A small <code>ScriptedModel</code> plays the part of the LLM and replies with fixed answers, so every output below is from a real run. In your own code, replace it with a real model in one line, e.g. <code>init_chat_model("openai:gpt-4o-mini")</code>.</div><div class="codebox"><div class="cap"><span>lc1_models.py</span><button class="copy" type="button">Copy</button></div><pre>from langchain_core.messages import SystemMessage, HumanMessage
+from fake_llm import ScriptedModel
+# real:  from langchain.chat_models import init_chat_model
+#        model = init_chat_model(&quot;openai:gpt-4o-mini&quot;, temperature=0)
+model = ScriptedModel([&quot;UPI lets you send money instantly from your phone.&quot;, &quot;Use NEFT for scheduled transfers.&quot;, &quot;IMPS works 24x7.&quot;])
+
+messages = [SystemMessage(&quot;You are a helpful banking tutor. Answer in one line.&quot;),
+            HumanMessage(&quot;What is UPI?&quot;)]
+reply = model.invoke(messages)                 # 1. invoke: one input -&gt; one AIMessage
+print(type(reply).__name__, &quot;-&gt;&quot;, reply.content)
+
+for chunk in model.stream(&quot;When should I use NEFT?&quot;):   # 2. stream: tokens as they arrive
+    print(chunk.content, end=&quot;|&quot;)
+print()
+
+print([r.content for r in model.batch([&quot;What is IMPS?&quot;])])   # 3. batch: many inputs at once</pre></div><div class="out">AIMessage -&gt; UPI lets you send money instantly from your phone.
+Use| |NEFT| |for| |scheduled| |transfers.|
+[&#x27;IMPS works 24x7.&#x27;]</div><div class="tw"><table><thead><tr><th>Method</th><th>Does</th><th>Use for</th></tr></thead><tbody><tr><td><code>invoke(x)</code></td><td>one input → one output</td><td>normal calls</td></tr><tr><td><code>stream(x)</code></td><td>yields chunks as they are generated</td><td>chat UIs: text appears word by word</td></tr><tr><td><code>batch([x1, x2])</code></td><td>many inputs, run in parallel</td><td>bulk jobs such as classifying 1,000 tickets</td></tr><tr><td><code>ainvoke</code>, <code>astream</code>…</td><td>async versions</td><td>web servers (FastAPI)</td></tr></tbody></table></div><div class="codebox"><div class="cap"><span>real_models.py</span><button class="copy" type="button">Copy</button></div><pre>from langchain.chat_models import init_chat_model
+
+gpt    = init_chat_model(&quot;openai:gpt-4o-mini&quot;, temperature=0)
+claude = init_chat_model(&quot;anthropic:claude-sonnet-4-5&quot;)        # needs langchain-anthropic
+local  = init_chat_model(&quot;ollama:llama3.1&quot;)                    # free, runs on your laptop
+# all three have the same invoke / stream / batch methods</pre></div>
+<h2 id="prompts"><span class="n">03</span>Prompt templates</h2>
+<p>A <strong>prompt template</strong> is a reusable prompt with blanks in curly braces. <code>MessagesPlaceholder</code> reserves a slot for chat history; <code>partial</code> fills some blanks early.</p><div class="codebox"><div class="cap"><span>lc2_prompts.py</span><button class="copy" type="button">Copy</button></div><pre>from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+
+prompt = ChatPromptTemplate.from_messages([
+    (&quot;system&quot;, &quot;You are a {bank} support assistant. Reply in {language}.&quot;),
+    MessagesPlaceholder(&quot;history&quot;),                       # slot for earlier chat messages
+    (&quot;human&quot;, &quot;{question}&quot;),
+])
+print(&quot;variables:&quot;, sorted(prompt.input_variables))
+
+hindi = prompt.partial(language=&quot;Hindi&quot;)                  # fill some blanks now, the rest later
+value = hindi.invoke({&quot;bank&quot;: &quot;NovaBank&quot;, &quot;history&quot;: [(&quot;human&quot;, &quot;Hi&quot;), (&quot;ai&quot;, &quot;Hello! How can I help?&quot;)],
+                      &quot;question&quot;: &quot;How do I block my card?&quot;})
+for m in value.to_messages():
+    print(f&quot;{m.type:6s}| {m.content}&quot;)</pre></div><div class="out">variables: [&#x27;bank&#x27;, &#x27;history&#x27;, &#x27;language&#x27;, &#x27;question&#x27;]
+system| You are a NovaBank support assistant. Reply in Hindi.
+human | Hi
+ai    | Hello! How can I help?
+human | How do I block my card?</div><div class="callout tip"><b>Tip:</b> keep rules in the system message and user data in the human message. Never paste user text into the system message: that makes prompt injection easier.</div>
+<h2 id="lcel"><span class="n">04</span>LCEL: joining steps with the pipe</h2>
+<p><strong>LCEL (LangChain Expression Language)</strong> joins runnables with <code>|</code>. The output of each step becomes the input of the next, exactly like a Unix pipe.</p><div class="demo" data-demo="steps"><div class="demo-h"><b>Demo · What happens inside prompt | model | parser</b></div><script type="application/json">{"steps": ["<p class=\"note-s\"><b>Input<\/b> <code>{\"topic\": \"FD\"}<\/code> enters the chain.<\/p>", "<p class=\"note-s\"><b>Prompt template<\/b> fills the blank → <code>[HumanMessage(\"Explain FD in one line.\")]<\/code><\/p>", "<p class=\"note-s\"><b>Chat model<\/b> answers → <code>AIMessage(content=\"Fixed deposits pay…\")<\/code><\/p>", "<p class=\"note-s\"><b>Output parser<\/b> pulls out the text → <code>\"Fixed deposits pay a fixed interest rate for a fixed period.\"<\/code> ✅<\/p>"]}</script></div><div class="codebox"><div class="cap"><span>lc3_lcel.py</span><button class="copy" type="button">Copy</button></div><pre>from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables import RunnableLambda, RunnableParallel, RunnablePassthrough
+from fake_llm import ScriptedModel
+
+model = ScriptedModel([&quot;Fixed deposits pay a fixed interest rate for a fixed period.&quot;])
+explain = ChatPromptTemplate.from_template(&quot;Explain {topic} in one line.&quot;) | model | StrOutputParser()
+print(&quot;1.&quot;, explain.invoke({&quot;topic&quot;: &quot;FD&quot;}))
+
+# RunnableParallel: run branches on the same input at the same time
+sentiment = ChatPromptTemplate.from_template(&quot;Sentiment of: {text}&quot;) | ScriptedModel([&quot;positive&quot;]) | StrOutputParser()
+simple = ChatPromptTemplate.from_template(&quot;Explain {text} to a child&quot;) | ScriptedModel([&quot;An FD is like a locked savings box that pays you extra.&quot;]) | StrOutputParser()
+both = RunnableParallel(sentiment=sentiment, for_kids=simple)
+print(&quot;2.&quot;, both.invoke({&quot;text&quot;: &quot;FD&quot;}))
+
+# RunnablePassthrough.assign adds new keys; RunnableLambda wraps any Python function
+pipeline = RunnablePassthrough.assign(words=RunnableLambda(lambda d: len(d[&quot;text&quot;].split())))
+print(&quot;3.&quot;, pipeline.invoke({&quot;text&quot;: &quot;my fixed deposit matured today&quot;}))
+print(&quot;4. input keys:&quot;, list(explain.input_schema.model_json_schema()[&quot;properties&quot;]))</pre></div><div class="out">1. Fixed deposits pay a fixed interest rate for a fixed period.
+2. {&#x27;sentiment&#x27;: &#x27;positive&#x27;, &#x27;for_kids&#x27;: &#x27;An FD is like a locked savings box that pays you extra.&#x27;}
+3. {&#x27;text&#x27;: &#x27;my fixed deposit matured today&#x27;, &#x27;words&#x27;: 5}
+4. input keys: [&#x27;topic&#x27;]</div><div class="tw"><table><thead><tr><th>Runnable</th><th>What it does</th><th>Example</th></tr></thead><tbody><tr><td><code>RunnableParallel</code></td><td>run branches on the same input at once; returns a dict</td><td>sentiment + summary together</td></tr><tr><td><code>RunnablePassthrough</code></td><td>pass the input through unchanged (or <code>.assign</code> new keys)</td><td>keep the question while adding context</td></tr><tr><td><code>RunnableLambda</code></td><td>wrap any Python function</td><td>clean text, count words</td></tr><tr><td><code>.with_retry()</code></td><td>retry on errors</td><td>flaky APIs</td></tr><tr><td><code>.with_fallbacks([b])</code></td><td>use b if a fails</td><td>switch to a backup model</td></tr></tbody></table></div>
+<h2 id="structured"><span class="n">05</span>Structured output</h2>
+<p>Apps need data, not paragraphs. Define the shape with <strong>Pydantic</strong>; LangChain validates the reply and rejects anything that does not fit:</p><div class="codebox"><div class="cap"><span>lc4_structured.py</span><button class="copy" type="button">Copy</button></div><pre>from typing import Literal
+from pydantic import BaseModel, Field
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import PydanticOutputParser
+from langchain_core.exceptions import OutputParserException
+from fake_llm import ScriptedModel
+
+class Ticket(BaseModel):
+    category: Literal[&quot;card&quot;, &quot;upi&quot;, &quot;loan&quot;, &quot;other&quot;]
+    priority: Literal[&quot;low&quot;, &quot;medium&quot;, &quot;high&quot;]
+    summary: str = Field(description=&quot;one short sentence&quot;)
+
+parser = PydanticOutputParser(pydantic_object=Ticket)
+prompt = ChatPromptTemplate.from_template(&quot;Classify the complaint.\n{format}\n\nComplaint: {text}&quot;).partial(
+    format=parser.get_format_instructions())
+
+good = prompt | ScriptedModel([&#x27;{&quot;category&quot;: &quot;upi&quot;, &quot;priority&quot;: &quot;high&quot;, &quot;summary&quot;: &quot;UPI debit without credit.&quot;}&#x27;]) | parser
+t = good.invoke({&quot;text&quot;: &quot;Money left my account via UPI but the shop never got it!&quot;})
+print(type(t).__name__, t.category, t.priority, &quot;|&quot;, t.summary)
+
+bad = prompt | ScriptedModel([&#x27;{&quot;category&quot;: &quot;atm&quot;, &quot;priority&quot;: &quot;urgent&quot;}&#x27;]) | parser
+try:
+    bad.invoke({&quot;text&quot;: &quot;ATM ate my card&quot;})
+except OutputParserException as e:
+    print(&quot;rejected:&quot;, str(e).split(&quot;. Got:&quot;)[1].split(&quot;\n&quot;)[0].strip()[:80])
+
+# with a real model you can skip the parser:  model.with_structured_output(Ticket)</pre></div><div class="out">Ticket upi high | UPI debit without credit.
+rejected: 3 validation errors for Ticket</div><div class="demo" data-demo="tabs"><div class="demo-h"><b>Demo · Three ways to get JSON</b></div><script type="application/json">{"tabs": [{"label": "with_structured_output", "html": "<div class=\"codebox\"><div class=\"cap\"><span>best_way.py<\/span><button class=\"copy\" type=\"button\">Copy<\/button><\/div><pre>structured = model.with_structured_output(Ticket)\nticket = structured.invoke(&quot;Money left my account via UPI...&quot;)   # -&gt; Ticket object<\/pre><\/div><p class=\"note-s\"><b>Recommended<\/b> with real models: uses the provider’s native JSON / tool-calling support.<\/p>"}, {"label": "PydanticOutputParser", "html": "<p class=\"note-s\">Adds format instructions to the prompt and parses the text reply (shown in the code above). Works with any model, even ones without JSON mode.<\/p>"}, {"label": "Agent response_format", "html": "<div class=\"codebox\"><div class=\"cap\"><span>agent_json.py<\/span><button class=\"copy\" type=\"button\">Copy<\/button><\/div><pre>agent = create_agent(model, tools, response_format=Ticket)\nresult = agent.invoke({...})\nresult[&quot;structured_response&quot;]        # -&gt; Ticket<\/pre><\/div><p class=\"note-s\">For agents: the final answer is validated against your schema.<\/p>"}]}</script></div>
+<h2 id="agents"><span class="n">06</span>Tools and agents with create_agent</h2>
+<p>A <strong>tool</strong> is a Python function the model can ask to call. The <code>@tool</code> decorator reads the function name, type hints and docstring to build the schema the model sees, so <b>write clear docstrings</b>.</p><figure class="fig"><svg viewBox="0 0 700 94" role="img" aria-label="The agent loop. create_agent repeats model → tool → model until the model replies without a tool call."><g class="an" style="--dl:0.00s"><rect class="bx " x="20" y="14" width="105" height="60" rx="10"/><text x="72" y="49" text-anchor="middle" class="" style="font-weight:600;font-size:12.0px">User question</text></g><g class="an" style="--dl:0.10s"><path class="la" d="M 129 44 L 155 44"/><path class="la" d="M 147.6 47.5 L 155 44 L 147.6 40.5"/></g><g class="an" style="--dl:0.25s"><rect class="bx ac" x="159" y="14" width="105" height="60" rx="10"/><text x="211" y="42" text-anchor="middle" class="tac" style="font-weight:600;font-size:14.0px">Model</text><text x="211" y="59" text-anchor="middle" class="tm" style="font-size:5.4px">decides: answer or call a tool?</text></g><g class="an" style="--dl:0.35s"><path class="la" d="M 268 44 L 294 44"/><path class="la" d="M 286.4 47.5 L 294 44 L 286.4 40.5"/></g><g class="an" style="--dl:0.50s"><rect class="bx am" x="298" y="14" width="105" height="60" rx="10"/><text x="350" y="42" text-anchor="middle" class="tam" style="font-weight:600;font-size:14.0px">Tool</text><text x="350" y="59" text-anchor="middle" class="tm" style="font-size:10.5px">runs your Python</text></g><g class="an" style="--dl:0.60s"><path class="la" d="M 406 44 L 432 44"/><path class="la" d="M 425.2 47.5 L 432 44 L 425.2 40.5"/></g><g class="an" style="--dl:0.75s"><rect class="bx ac" x="436" y="14" width="105" height="60" rx="10"/><text x="489" y="42" text-anchor="middle" class="tac" style="font-weight:600;font-size:14.0px">Model</text><text x="489" y="59" text-anchor="middle" class="tm" style="font-size:10.5px">reads the result</text></g><g class="an" style="--dl:0.85s"><path class="la" d="M 545 44 L 571 44"/><path class="la" d="M 564.0 47.5 L 571 44 L 564.0 40.5"/></g><g class="an" style="--dl:1.00s"><rect class="bx gr" x="575" y="14" width="105" height="60" rx="10"/><text x="628" y="49" text-anchor="middle" class="tgr" style="font-weight:600;font-size:14.0px">Answer</text></g></svg><figcaption>The agent loop. create_agent repeats model → tool → model until the model replies without a tool call.</figcaption></figure><div class="codebox"><div class="cap"><span>lc5_agent.py</span><button class="copy" type="button">Copy</button></div><pre>from langchain_core.tools import tool
+from langchain_core.messages import AIMessage
+from langchain.agents import create_agent
+from fake_llm import ScriptedModel
+
+@tool
+def get_balance(account: str) -&gt; str:
+    &quot;&quot;&quot;Get the current balance of a bank account (last 4 digits).&quot;&quot;&quot;
+    return {&quot;1234&quot;: &quot;₹12,500&quot;, &quot;9876&quot;: &quot;₹3,200&quot;}.get(account, &quot;account not found&quot;)
+
+@tool
+def convert_currency(amount_inr: float, to: str) -&gt; str:
+    &quot;&quot;&quot;Convert an amount in Indian rupees to another currency.&quot;&quot;&quot;
+    rates = {&quot;USD&quot;: 0.0105, &quot;EUR&quot;: 0.0098}          # example rates
+    return f&quot;{amount_inr * rates[to]:.2f} {to}&quot;
+
+print(&quot;tool schema:&quot;, get_balance.name, get_balance.args)
+
+# The scripted model plays the LLM: call a tool, call another, then answer.
+model = ScriptedModel([
+    AIMessage(&quot;&quot;, tool_calls=[{&quot;name&quot;: &quot;get_balance&quot;, &quot;args&quot;: {&quot;account&quot;: &quot;1234&quot;}, &quot;id&quot;: &quot;c1&quot;}]),
+    AIMessage(&quot;&quot;, tool_calls=[{&quot;name&quot;: &quot;convert_currency&quot;, &quot;args&quot;: {&quot;amount_inr&quot;: 12500, &quot;to&quot;: &quot;USD&quot;}, &quot;id&quot;: &quot;c2&quot;}]),
+    &quot;Your balance is ₹12,500, which is about 131.25 USD.&quot;,
+])
+agent = create_agent(model, tools=[get_balance, convert_currency],
+                     system_prompt=&quot;You are NovaBank&#x27;s assistant. Use tools; never guess numbers.&quot;)
+
+result = agent.invoke({&quot;messages&quot;: [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;How much is my 1234 account worth in dollars?&quot;}]})
+for m in result[&quot;messages&quot;]:
+    detail = m.tool_calls[0][&quot;name&quot;] + str(m.tool_calls[0][&quot;args&quot;]) if getattr(m, &quot;tool_calls&quot;, None) else m.content
+    print(f&quot;{m.type:5s} -&gt; {detail}&quot;)</pre></div><div class="out">tool schema: get_balance {&#x27;account&#x27;: {&#x27;title&#x27;: &#x27;Account&#x27;, &#x27;type&#x27;: &#x27;string&#x27;}}
+human -&gt; How much is my 1234 account worth in dollars?
+ai    -&gt; get_balance{&#x27;account&#x27;: &#x27;1234&#x27;}
+tool  -&gt; ₹12,500
+ai    -&gt; convert_currency{&#x27;amount_inr&#x27;: 12500, &#x27;to&#x27;: &#x27;USD&#x27;}
+tool  -&gt; 131.25 USD
+ai    -&gt; Your balance is ₹12,500, which is about 131.25 USD.</div><p>Read the output top to bottom: the model called <code>get_balance</code>, got ₹12,500, called <code>convert_currency</code>, then answered from real tool results instead of guessing. This message list is exactly what you see in a LangSmith trace.</p><div class="demo" data-demo="pick"><div class="demo-h"><b>Demo · Agent or chain?</b></div><script type="application/json">{"question": "Which should you build?", "options": [{"label": "Summarise every new email", "html": "<div class=\"callout tip\"><b>A chain.<\/b> The steps never change: prompt → model → parser. Cheaper, faster, easier to test.<\/div>"}, {"label": "Answer “what is my balance in USD?”", "html": "<div class=\"callout tip\"><b>An agent.<\/b> The model must decide which tools to call and in what order.<\/div>"}, {"label": "Fixed 5-step loan approval process", "html": "<div class=\"callout tip\"><b>A LangGraph workflow.<\/b> You control the steps and add human approval; the LLM only does parts of it.<\/div>"}]}</script></div>
+<h2 id="rag"><span class="n">07</span>RAG with LangChain</h2>
+<p>Retrieval-augmented generation in LangChain uses four parts: a <strong>text splitter</strong>, an <strong>embedding model</strong>, a <strong>vector store</strong> and a <strong>retriever</strong>. Here the whole pipeline runs in memory:</p><div class="codebox"><div class="cap"><span>lc6_rag.py</span><button class="copy" type="button">Copy</button></div><pre>from langchain_core.documents import Document
+from langchain_core.vectorstores import InMemoryVectorStore
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.runnables import RunnablePassthrough
+from langchain_core.output_parsers import StrOutputParser
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from fake_llm import KeywordEmbeddings, ScriptedModel
+# real: from langchain_openai import OpenAIEmbeddings; from langchain_chroma import Chroma
+
+policy = Document(page_content=&quot;&quot;&quot;Fixed Deposit Policy.
+Eligibility: any resident above 18 years can open an FD.
+Premature withdrawal: breaking an FD early reduces the interest rate by 1%.
+Senior citizens get an extra 0.50% interest on all tenures.
+Loan against FD: you can borrow up to 90% of the FD amount.&quot;&quot;&quot;, metadata={&quot;source&quot;: &quot;fd_policy.pdf&quot;})
+
+chunks = RecursiveCharacterTextSplitter(chunk_size=90, chunk_overlap=0).split_documents([policy])
+print(len(chunks), &quot;chunks&quot;)
+store = InMemoryVectorStore.from_documents(chunks, KeywordEmbeddings())
+retriever = store.as_retriever(search_kwargs={&quot;k&quot;: 2})
+
+for d in retriever.invoke(&quot;What happens if I withdraw my FD early?&quot;):
+    print(&quot;  found:&quot;, d.page_content)
+
+prompt = ChatPromptTemplate.from_template(&quot;Answer only from the context.\nContext:\n{context}\n\nQuestion: {question}&quot;)
+format_docs = lambda docs: &quot;\n&quot;.join(d.page_content for d in docs)
+rag = ({&quot;context&quot;: retriever | format_docs, &quot;question&quot;: RunnablePassthrough()}
+       | prompt | ScriptedModel([&quot;Breaking an FD early reduces your interest rate by 1% [fd_policy.pdf].&quot;]) | StrOutputParser())
+print(&quot;answer:&quot;, rag.invoke(&quot;What happens if I withdraw my FD early?&quot;))</pre></div><div class="out">4 chunks
+  found: Premature withdrawal: breaking an FD early reduces the interest rate by 1%.
+  found: Loan against FD: you can borrow up to 90% of the FD amount.
+answer: Breaking an FD early reduces your interest rate by 1% [fd_policy.pdf].</div><ul><li><code>{"context": retriever | format_docs, "question": RunnablePassthrough()}</code> is a <code>RunnableParallel</code> written as a dict: it fetches context and keeps the question at the same time.</li><li>Swap <code>InMemoryVectorStore</code> for Chroma, FAISS, pgvector or Pinecone with one line; the retriever interface stays the same.</li><li>The GenAI Course Sessions 31–38 cover chunking, embeddings, re-ranking and evaluation in depth.</li></ul>
+<h2 id="memory"><span class="n">08</span>Memory, middleware and streaming</h2>
+<p>LLMs remember nothing between calls. In LangChain 1.x, conversation memory comes from a <strong>checkpointer</strong>: it saves the message history per <code>thread_id</code>.</p><div class="codebox"><div class="cap"><span>lc7_memory.py</span><button class="copy" type="button">Copy</button></div><pre>from langchain.agents import create_agent
+from langgraph.checkpoint.memory import InMemorySaver
+from fake_llm import ScriptedModel
+
+agent = create_agent(ScriptedModel([&quot;Nice to meet you, Asha!&quot;, &quot;Your name is Asha.&quot;, &quot;I don&#x27;t know your name yet.&quot;]),
+                     tools=[], checkpointer=InMemorySaver())       # the checkpointer saves each conversation
+
+asha = {&quot;configurable&quot;: {&quot;thread_id&quot;: &quot;asha-1&quot;}}                   # one thread_id per conversation
+agent.invoke({&quot;messages&quot;: [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Hi, I am Asha&quot;}]}, asha)
+r = agent.invoke({&quot;messages&quot;: [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;What is my name?&quot;}]}, asha)
+print(&quot;asha thread:&quot;, len(r[&quot;messages&quot;]), &quot;messages -&gt;&quot;, r[&quot;messages&quot;][-1].content)
+
+ravi = {&quot;configurable&quot;: {&quot;thread_id&quot;: &quot;ravi-1&quot;}}                   # a new thread starts empty
+r = agent.invoke({&quot;messages&quot;: [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;What is my name?&quot;}]}, ravi)
+print(&quot;ravi thread:&quot;, len(r[&quot;messages&quot;]), &quot;messages -&gt;&quot;, r[&quot;messages&quot;][-1].content)</pre></div><div class="out">asha thread: 4 messages -&gt; Your name is Asha.
+ravi thread: 2 messages -&gt; I don&#x27;t know your name yet.</div><p><strong>Middleware</strong> hooks into the agent loop before or after each model or tool call. Built-ins include PII redaction, summarising long histories, human approval, call limits, retries and model fallbacks:</p><div class="codebox"><div class="cap"><span>lc8_middleware.py</span><button class="copy" type="button">Copy</button></div><pre>from langchain.agents import create_agent
+from langchain.agents.middleware import PIIMiddleware, ModelCallLimitMiddleware
+from fake_llm import ScriptedModel
+
+agent = create_agent(
+    ScriptedModel([&quot;I have noted your request.&quot;]), tools=[],
+    middleware=[
+        PIIMiddleware(&quot;email&quot;, strategy=&quot;redact&quot;),              # hide emails before the model sees them
+        ModelCallLimitMiddleware(run_limit=5),                  # stop runaway loops
+    ])
+r = agent.invoke({&quot;messages&quot;: [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Send the statement to priya@example.com&quot;}]})
+print(&quot;model saw:&quot;, r[&quot;messages&quot;][0].content)</pre></div><div class="out">model saw: Send the statement to [REDACTED_EMAIL]</div><div class="tw"><table><thead><tr><th>Middleware</th><th>Solves</th></tr></thead><tbody><tr><td><code>PIIMiddleware</code></td><td>emails, cards and other PII reaching the model</td></tr><tr><td><code>SummarizationMiddleware</code></td><td>long chats overflowing the context window</td></tr><tr><td><code>HumanInTheLoopMiddleware</code></td><td>approval before risky tool calls (payments, emails)</td></tr><tr><td><code>ModelCallLimitMiddleware</code> / <code>ToolCallLimitMiddleware</code></td><td>runaway loops and surprise bills</td></tr><tr><td><code>ModelFallbackMiddleware</code></td><td>provider outages: switch to a backup model</td></tr><tr><td><code>ToolRetryMiddleware</code></td><td>flaky tools</td></tr></tbody></table></div><div class="codebox"><div class="cap"><span>streaming.py</span><button class="copy" type="button">Copy</button></div><pre>for step in agent.stream({&quot;messages&quot;: [(&quot;user&quot;, &quot;Balance in USD?&quot;)]}, stream_mode=&quot;updates&quot;):
+    print(step)          # one dict per finished step: model call, tool call, final answer</pre></div>
+<h2 id="langsmith"><span class="n">09</span>Debugging with LangSmith</h2>
+<p>When an agent gives a wrong answer, you need to see every prompt, tool call and token. <strong>LangSmith</strong> records this as a trace. Turn it on with environment variables only, no code changes:</p><div class="codebox"><div class="cap"><span>.env</span><button class="copy" type="button">Copy</button></div><pre>LANGSMITH_TRACING=true
+LANGSMITH_API_KEY=lsv2_...
+LANGSMITH_PROJECT=novabank-assistant</pre></div><ul><li>Each run shows the full tree: chain → model → tool → model, with inputs, outputs, latency and token cost.</li><li>Save good and bad runs as a dataset, then run evaluations on every prompt change.</li><li>LangSmith works with plain LangChain, LangGraph and even code without LangChain.</li></ul><div class="tw"><table><thead><tr><th>Mistake</th><th>Fix</th></tr></thead><tbody><tr><td>Copying a 2023 tutorial (<code>LLMChain</code>, <code>initialize_agent</code>)</td><td>use LCEL pipes and <code>create_agent</code></td></tr><tr><td>Vague tool docstrings</td><td>say what the tool does, its inputs and when to use it</td></tr><tr><td>Building an agent when a fixed chain would do</td><td>start with a chain; add agency only when needed</td></tr><tr><td>No tracing</td><td>turn on LangSmith from day one</td></tr><tr><td>Unlimited agent loops</td><td>add call limits and timeouts</td></tr></tbody></table></div>
+<h2 id="summary"><span class="n">10</span>Summary</h2><ul><li>Install <code>langchain</code> + one provider package; core abstractions live in <code>langchain-core</code>.</li><li>Every piece is a <strong>Runnable</strong>: <code>invoke</code>, <code>stream</code>, <code>batch</code>.</li><li><strong>LCEL</strong>: <code>prompt | model | parser</code>; use RunnableParallel / Passthrough / Lambda to shape data.</li><li>Use <code>with_structured_output</code> or a Pydantic parser for reliable JSON.</li><li><code>create_agent(model, tools)</code> runs the tool-calling loop; add a <strong>checkpointer</strong> for memory and <strong>middleware</strong> for safety.</li><li>Turn on <strong>LangSmith</strong> tracing from day one.</li></ul>
+<h2 id="quiz"><span class="n">11</span>Quick quiz</h2><div class="quiz"><div class="q" data-answer="0" data-why="The core abstractions."><p>1. Which package holds prompts, messages and runnables?</p><div class="opts"><button class="opt" type="button">langchain-core</button><button class="opt" type="button">langchain-classic</button><button class="opt" type="button">langsmith</button></div></div><div class="q" data-answer="0" data-why="That is LCEL."><p>2. What does <code>prompt | model | parser</code> do?</p><div class="opts"><button class="opt" type="button">Runs the three steps in order, passing each output on</button><button class="opt" type="button">Runs them in parallel</button><button class="opt" type="button">Trains the model</button></div></div><div class="q" data-answer="1" data-why="It uses native provider support."><p>3. Best way to get validated JSON from a real model?</p><div class="opts"><button class="opt" type="button">Ask nicely in the prompt</button><button class="opt" type="button"><code>model.with_structured_output(Schema)</code></button><button class="opt" type="button">Use a regex on the reply</button></div></div><div class="q" data-answer="0" data-why="Each thread keeps its own history."><p>4. How does LangChain 1.x give an agent conversation memory?</p><div class="opts"><button class="opt" type="button">A checkpointer with a thread_id</button><button class="opt" type="button">A bigger temperature</button><button class="opt" type="button">Saving prompts in a text file</button></div></div><div class="q" data-answer="0" data-why="The docstring becomes the tool description."><p>5. Why do tool docstrings matter?</p><div class="opts"><button class="opt" type="button">The model reads them to decide when and how to call the tool</button><button class="opt" type="button">They speed up Python</button><button class="opt" type="button">They are required by pip</button></div></div><p class="score" aria-live="polite"></p></div>
+<h2 id="references"><span class="n">12</span>References</h2><ul><li><a href="https://docs.langchain.com/oss/python/langchain/overview" target="_blank" rel="noopener">LangChain docs (Python)</a></li><li><a href="https://docs.langchain.com/oss/python/releases/langchain-v1" target="_blank" rel="noopener">LangChain 1.0 release notes</a></li><li><a href="https://docs.langchain.com/oss/python/langchain/middleware" target="_blank" rel="noopener">LangChain middleware</a></li><li><a href="https://docs.langchain.com/langsmith/home" target="_blank" rel="noopener">LangSmith docs</a></li></ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/course.js"></script>
+
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="frameworks/langchain"></script>
+</body>
+</html>

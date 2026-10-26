@@ -21,7 +21,7 @@
     const d = isDone(t.id, l.id), soon = l.status !== 'live';
     const tag = soon ? 'div' : 'a';
     return `<${tag} class="lesson${soon ? ' soon' : ''}${d ? ' done' : ''}" style="--c:${t.color}"${soon ? ' aria-disabled="true"' : ` href="${lessonHref(t, l)}"`}>
-      <span class="ix">${l.session || i + 1}</span>
+      <span class="ix"${l.bonus ? ' title="Visual lesson"' : ''}>${l.bonus ? '★' : (l.session || i + 1)}</span>
       <div style="min-width:0"><h4>${esc(l.title)}</h4><p>${esc(l.summary)}</p>
         <div class="tags"><span class="tag t">${esc(t.name)}</span>${l.tags.map(g => `<span class="tag">${esc(g)}</span>`).join('')}</div></div>
       <div class="side"><span class="pill">${soon ? 'Coming soon' : d ? 'Done' : 'Start'}</span><span>${esc(l.level)} · ${l.mins} min</span></div>

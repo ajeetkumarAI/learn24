@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LangGraph: Complete Interactive Notes · AI Frameworks · Learn24</title>
+<meta name="description" content="Detailed, runnable notes on LangGraph 1.x: state, nodes and edges, conditional routing, reducers and cycles, checkpointers and time travel, human-in-the-loop interrupts, streaming, Send for parallel work, Command handoffs and a ReAct agent from scratch.">
+<meta property="og:title" content="LangGraph: Complete Interactive Notes · Learn24">
+<meta property="og:description" content="Detailed, runnable notes on LangGraph 1.x: state, nodes and edges, conditional routing, reducers and cycles, checkpointers and time travel, human-in-the-loop interrupts, streaming, Send for parallel work, Command handoffs and a ReAct agent from scratch.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#4fd1c5}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article>
+  <div class="kicker">AI Frameworks · LangGraph 1.x</div>
+  <h1>LangGraph: Complete Interactive Notes</h1>
+  <div class="meta"><span>⏱ 25 min read</span><span>🎯 Intermediate</span><span>🖼 2 diagrams</span><span>🧪 2 live demos</span><span>🐍 Python code</span></div>
+  <p class="lead">LangChain chains run in a straight line. Real agents need <strong>loops</strong> (try again), <strong>branches</strong> (if risky, ask a human), <strong>memory</strong> (resume tomorrow) and <strong>control</strong> (never pay without approval). <strong>LangGraph</strong> gives you all of that by modelling your app as a graph. These notes build up every feature with small, runnable examples.</p>
+  <div class="tldr"><h4>In this session</h4><ul><li>Why graphs: chains vs agents vs workflows</li><li>State, nodes, edges, START and END</li><li>Conditional edges, reducers and cycles (step-by-step demo)</li><li>Checkpointers: memory, threads and time travel</li><li>Human-in-the-loop with <code>interrupt</code></li><li>Streaming, <code>Send</code> for parallel work and <code>Command</code> handoffs</li><li>A ReAct tool-calling agent from scratch</li></ul></div>
+<h2 id="why"><span class="n">01</span>Why LangGraph?</h2>
+<figure class="fig"><svg viewBox="0 0 700 250" role="img" aria-label="LangGraph state graph with a branch to approve or human review"><g class="an" style="--dl:0.00s"><rect class="bx solid" x="20" y="80" width="90" height="44" rx="10"/><text x="65" y="107" text-anchor="middle" class="tbg" style="font-weight:600;font-size:14.0px">START</text></g><g class="an" style="--dl:0.10s"><path class="la" d="M 112 102 L 148 102"/><path class="la" d="M 140.8 105.5 L 148 102 L 140.8 98.5"/></g><g class="an" style="--dl:0.20s"><rect class="bx ac" x="150" y="76" width="120" height="52" rx="10"/><text x="210" y="100" text-anchor="middle" class="tac" style="font-weight:600;font-size:14.0px">score</text><text x="210" y="117" text-anchor="middle" class="tm" style="font-size:11.5px">node</text></g><g class="an" style="--dl:0.35s"><path class="la" d="M 272 102 L 330 60"/><path class="la" d="M 326.2 67.0 L 330 60 L 322.1 61.4"/></g><g class="an" style="--dl:0.35s"><path class="la" d="M 272 102 L 330 150"/><path class="la" d="M 322.2 148.1 L 330 150 L 326.7 142.7"/></g><g class="an" style="--dl:.4s"><text x="282" y="64" class="tm" style="font-size:12px">low risk</text><text x="282" y="150" class="tm" style="font-size:12px">high risk</text></g><g class="an" style="--dl:0.50s"><rect class="bx gr" x="332" y="30" width="140" height="52" rx="10"/><text x="402" y="54" text-anchor="middle" class="tgr" style="font-weight:600;font-size:14.0px">approve</text><text x="402" y="71" text-anchor="middle" class="tm" style="font-size:11.5px">node</text></g><g class="an" style="--dl:0.50s"><rect class="bx am" x="332" y="124" width="140" height="52" rx="10"/><text x="402" y="148" text-anchor="middle" class="tam" style="font-weight:600;font-size:14.0px">human review</text><text x="402" y="165" text-anchor="middle" class="tm" style="font-size:11.5px">interrupt()</text></g><g class="an" style="--dl:0.70s"><path class="la" d="M 474 56 L 560 96"/><path class="la" d="M 552.0 96.1 L 560 96 L 554.9 89.8"/></g><g class="an" style="--dl:0.70s"><path class="la" d="M 474 150 L 560 110"/><path class="la" d="M 554.9 116.2 L 560 110 L 552.0 109.9"/></g><g class="an" style="--dl:0.80s"><rect class="bx solid" x="562" y="80" width="100" height="44" rx="10"/><text x="612" y="107" text-anchor="middle" class="tbg" style="font-weight:600;font-size:14.0px">END</text></g><g class="an" style="--dl:1s"><rect class="bx" x="150" y="196" width="512" height="40" rx="10"/><text x="406" y="221" text-anchor="middle" class="tm">shared STATE {amount, risk, decision}: read and updated by every node</text></g></svg><figcaption>A LangGraph app is a graph: nodes are functions, edges decide what runs next, and one shared state flows through it.</figcaption></figure><div class="tw"><table><thead><tr><th></th><th>Chain (LCEL)</th><th>Agent (create_agent)</th><th>Graph (LangGraph)</th></tr></thead><tbody><tr><td>Steps</td><td>fixed, in a line</td><td>decided by the LLM</td><td>you design them; the LLM can choose some</td></tr><tr><td>Loops</td><td>no</td><td>yes (tool loop)</td><td>any loop you want</td></tr><tr><td>Human approval</td><td>no</td><td>via middleware</td><td>built in (<code>interrupt</code>)</td></tr><tr><td>Best for</td><td>simple pipelines</td><td>open-ended tool use</td><td>business workflows, multi-agent systems</td></tr></tbody></table></div><div class="analogy"><span class="ic">🚆</span><p><b>Like a railway map.</b> Stations are nodes (do some work), tracks are edges (where to go next), and junctions are conditional edges (switch tracks based on a signal). The train carries the passengers and luggage: that is the state.</p></div><div class="callout tip"><b>Good to know:</b> LangChain’s <code>create_agent</code> is itself built on LangGraph. Use <code>create_agent</code> for a standard tool-calling agent; drop down to LangGraph when you need custom control flow.</div>
+<h2 id="basics"><span class="n">02</span>State, nodes and edges</h2>
+<p>Three ideas: the <strong>state</strong> is a typed dict shared by everyone; a <strong>node</strong> is a function that reads the state and returns the keys it wants to change; <strong>edges</strong> connect nodes. <code>compile()</code> turns the graph into a runnable app.</p><div class="codebox"><div class="cap"><span>lg1_basics.py</span><button class="copy" type="button">Copy</button></div><pre>from typing import TypedDict
+from langgraph.graph import StateGraph, START, END
+
+class State(TypedDict):                     # 1. the shared state every node reads and updates
+    amount: int
+    risk: str
+    decision: str
+
+def score(state: State):                    # 2. a node = a plain function: state in, partial update out
+    return {&quot;risk&quot;: &quot;high&quot; if state[&quot;amount&quot;] &gt; 50_000 else &quot;low&quot;}
+
+def approve(state: State):
+    return {&quot;decision&quot;: f&quot;approved ₹{state[&#x27;amount&#x27;]:,} ({state[&#x27;risk&#x27;]} risk)&quot;}
+
+g = StateGraph(State)
+g.add_node(&quot;score&quot;, score)
+g.add_node(&quot;approve&quot;, approve)
+g.add_edge(START, &quot;score&quot;)                  # 3. edges = the order of steps
+g.add_edge(&quot;score&quot;, &quot;approve&quot;)
+g.add_edge(&quot;approve&quot;, END)
+app = g.compile()                           # 4. compile -&gt; a runnable app (invoke, stream, batch)
+
+print(app.invoke({&quot;amount&quot;: 20_000}))
+print([l.strip() for l in app.get_graph().draw_mermaid().splitlines() if &quot;--&gt;&quot; in l])   # diagram as Mermaid text</pre></div><div class="out">{&#x27;amount&#x27;: 20000, &#x27;risk&#x27;: &#x27;low&#x27;, &#x27;decision&#x27;: &#x27;approved ₹20,000 (low risk)&#x27;}
+[&#x27;__start__ --&gt; score;&#x27;, &#x27;score --&gt; approve;&#x27;, &#x27;approve --&gt; __end__;&#x27;]</div><ul><li>A node returns only what it changes (<code>{"risk": "low"}</code>); LangGraph merges it into the state.</li><li><code>draw_mermaid()</code> gives a diagram you can paste into any Mermaid viewer, or <code>draw_mermaid_png()</code> in a notebook.</li><li>The compiled app is a Runnable: <code>invoke</code>, <code>stream</code>, <code>batch</code> all work.</li></ul>
+<h2 id="branch"><span class="n">03</span>Conditional edges</h2>
+<p>A <strong>router function</strong> looks at the state and returns the name of the next node. Attach it with <code>add_conditional_edges</code>:</p><div class="codebox"><div class="cap"><span>lg2_conditional.py</span><button class="copy" type="button">Copy</button></div><pre>from typing import TypedDict, Literal
+from langgraph.graph import StateGraph, START, END
+
+class State(TypedDict):
+    amount: int
+    risk: str
+    decision: str
+
+def score(s): return {&quot;risk&quot;: &quot;high&quot; if s[&quot;amount&quot;] &gt; 50_000 else &quot;low&quot;}
+def approve(s): return {&quot;decision&quot;: &quot;auto-approved&quot;}
+def review(s): return {&quot;decision&quot;: &quot;sent to a human reviewer&quot;}
+
+def route(s) -&gt; Literal[&quot;approve&quot;, &quot;review&quot;]:   # a router returns the NAME of the next node
+    return &quot;review&quot; if s[&quot;risk&quot;] == &quot;high&quot; else &quot;approve&quot;
+
+g = StateGraph(State)
+for name, fn in [(&quot;score&quot;, score), (&quot;approve&quot;, approve), (&quot;review&quot;, review)]: g.add_node(name, fn)
+g.add_edge(START, &quot;score&quot;)
+g.add_conditional_edges(&quot;score&quot;, route)        # branch!
+g.add_edge(&quot;approve&quot;, END); g.add_edge(&quot;review&quot;, END)
+app = g.compile()
+
+for amt in [20_000, 80_000]:
+    print(f&quot;₹{amt:,} -&gt;&quot;, app.invoke({&quot;amount&quot;: amt})[&quot;decision&quot;])</pre></div><div class="out">₹20,000 -&gt; auto-approved
+₹80,000 -&gt; sent to a human reviewer</div><div class="callout tip">Type the router’s return value with <code>Literal["approve", "review"]</code>: LangGraph uses it to draw the diagram and catch typos.</div>
+<h2 id="loops"><span class="n">04</span>Reducers and cycles</h2>
+<p>By default a node’s update <b>overwrites</b> a key. A <strong>reducer</strong> changes that: <code>Annotated[list, operator.add]</code> means “append”. Combined with an edge that points backwards, you get a <strong>cycle</strong>: search, and if nothing is found, rewrite the query and search again.</p><div class="codebox"><div class="cap"><span>lg3_reducers_loop.py</span><button class="copy" type="button">Copy</button></div><pre>import operator
+from typing import TypedDict, Annotated
+from langgraph.graph import StateGraph, START, END
+
+class State(TypedDict):
+    query: str
+    tries: int
+    log: Annotated[list[str], operator.add]     # reducer: new items are APPENDED, not overwritten
+
+KB = {&quot;fixed deposit penalty&quot;: &quot;Breaking an FD early reduces interest by 1%.&quot;}
+
+def search(s):
+    hit = KB.get(s[&quot;query&quot;])
+    return {&quot;tries&quot;: s[&quot;tries&quot;] + 1, &quot;log&quot;: [f&quot;try {s[&#x27;tries&#x27;] + 1}: search &#x27;{s[&#x27;query&#x27;]}&#x27; -&gt; {&#x27;found&#x27; if hit else &#x27;nothing&#x27;}&quot;]}
+
+def rewrite(s):
+    return {&quot;query&quot;: s[&quot;query&quot;].replace(&quot;FD&quot;, &quot;fixed deposit&quot;), &quot;log&quot;: [&quot;rewrote the query&quot;]}
+
+def answer(s):
+    return {&quot;log&quot;: [&quot;answer: &quot; + KB.get(s[&quot;query&quot;], &quot;Sorry, I could not find it.&quot;)]}
+
+def next_step(s):
+    if s[&quot;query&quot;] in KB: return &quot;answer&quot;
+    return &quot;rewrite&quot; if s[&quot;tries&quot;] &lt; 3 else &quot;answer&quot;
+
+g = StateGraph(State)
+for n, f in [(&quot;search&quot;, search), (&quot;rewrite&quot;, rewrite), (&quot;answer&quot;, answer)]: g.add_node(n, f)
+g.add_edge(START, &quot;search&quot;)
+g.add_conditional_edges(&quot;search&quot;, next_step)
+g.add_edge(&quot;rewrite&quot;, &quot;search&quot;)                 # a CYCLE: go back and try again
+g.add_edge(&quot;answer&quot;, END)
+app = g.compile()
+
+for line in app.invoke({&quot;query&quot;: &quot;FD penalty&quot;, &quot;tries&quot;: 0, &quot;log&quot;: []})[&quot;log&quot;]: print(line)</pre></div><div class="out">try 1: search &#x27;FD penalty&#x27; -&gt; nothing
+rewrote the query
+try 2: search &#x27;fixed deposit penalty&#x27; -&gt; found
+answer: Breaking an FD early reduces interest by 1%.</div><div class="demo" data-demo="steps"><div class="demo-h"><b>Demo · Watch the state change at every step</b></div><script type="application/json">{"steps": ["<div class=\"tw\"><table><tr><th>after<\/th><th>query<\/th><th>tries<\/th><th>log (appended)<\/th><\/tr><tr><td>start<\/td><td>FD penalty<\/td><td>0<\/td><td>[]<\/td><\/tr><\/table><\/div>", "<div class=\"tw\"><table><tr><th>after<\/th><th>query<\/th><th>tries<\/th><th>log<\/th><\/tr><tr><td><b>search<\/b><\/td><td>FD penalty<\/td><td>1<\/td><td>+ “try 1 … nothing”<\/td><\/tr><\/table><\/div><p class=\"note-s\">Router: not found and tries &lt; 3 → <b>rewrite<\/b><\/p>", "<div class=\"tw\"><table><tr><th>after<\/th><th>query<\/th><th>tries<\/th><th>log<\/th><\/tr><tr><td><b>rewrite<\/b><\/td><td>fixed deposit penalty<\/td><td>1<\/td><td>+ “rewrote the query”<\/td><\/tr><\/table><\/div><p class=\"note-s\">Fixed edge: rewrite → <b>search<\/b> (the cycle)<\/p>", "<div class=\"tw\"><table><tr><th>after<\/th><th>query<\/th><th>tries<\/th><th>log<\/th><\/tr><tr><td><b>search<\/b><\/td><td>fixed deposit penalty<\/td><td>2<\/td><td>+ “try 2 … found”<\/td><\/tr><\/table><\/div><p class=\"note-s\">Router: found → <b>answer<\/b><\/p>", "<div class=\"tw\"><table><tr><th>after<\/th><th>query<\/th><th>tries<\/th><th>log<\/th><\/tr><tr><td><b>answer<\/b><\/td><td>fixed deposit penalty<\/td><td>2<\/td><td>+ “answer: … 1%”<\/td><\/tr><\/table><\/div><p class=\"note-s\">→ END ✅<\/p>"]}</script></div><div class="callout warn"><b>Always add an exit.</b> Here the router stops after 3 tries. Also set a safety limit in the config, e.g. <code>app.invoke(inputs, {"recursion_limit": 25})</code>: after 25 steps LangGraph raises <code>GraphRecursionError</code> instead of looping. Recent versions default to a very high limit, so do not rely on the default.</div><p>For chat apps, use the built-in <code>MessagesState</code>: its <code>messages</code> key uses the <code>add_messages</code> reducer, which appends new messages and updates existing ones by ID.</p>
+<h2 id="memory"><span class="n">05</span>Checkpointers: memory, threads and time travel</h2>
+<p>Compile with a <strong>checkpointer</strong> and LangGraph saves the state after every step, per <code>thread_id</code>. That gives you conversation memory, crash recovery and the full history of every run:</p><div class="codebox"><div class="cap"><span>lg4_memory.py</span><button class="copy" type="button">Copy</button></div><pre>from typing import TypedDict, Annotated
+import operator
+from langgraph.graph import StateGraph, START, END
+from langgraph.checkpoint.memory import InMemorySaver   # use SqliteSaver / PostgresSaver in production
+
+class State(TypedDict):
+    items: Annotated[list[str], operator.add]
+
+def add_item(s): return {}                               # the input itself is the update here
+g = StateGraph(State); g.add_node(&quot;add&quot;, add_item); g.add_edge(START, &quot;add&quot;); g.add_edge(&quot;add&quot;, END)
+app = g.compile(checkpointer=InMemorySaver())
+
+cart = {&quot;configurable&quot;: {&quot;thread_id&quot;: &quot;cart-42&quot;}}
+app.invoke({&quot;items&quot;: [&quot;gold loan form&quot;]}, cart)
+app.invoke({&quot;items&quot;: [&quot;KYC update&quot;]}, cart)              # same thread: state continues
+print(&quot;current state:&quot;, app.get_state(cart).values)
+
+history = list(app.get_state_history(cart))              # every checkpoint is kept: &quot;time travel&quot;
+print(&quot;checkpoints saved:&quot;, len(history))
+print(&quot;oldest with items:&quot;, [h.values for h in history if h.values.get(&quot;items&quot;)][-1])</pre></div><div class="out">current state: {&#x27;items&#x27;: [&#x27;gold loan form&#x27;, &#x27;KYC update&#x27;]}
+checkpoints saved: 6
+oldest with items: {&#x27;items&#x27;: [&#x27;gold loan form&#x27;]}</div><div class="tw"><table><thead><tr><th>Checkpointer</th><th>Package</th><th>Use</th></tr></thead><tbody><tr><td><code>InMemorySaver</code></td><td>langgraph</td><td>tests and demos (lost on restart)</td></tr><tr><td><code>SqliteSaver</code></td><td>langgraph-checkpoint-sqlite</td><td>single-machine apps</td></tr><tr><td><code>PostgresSaver</code></td><td>langgraph-checkpoint-postgres</td><td>production</td></tr></tbody></table></div><ul><li><b>Short-term memory</b> = the thread’s checkpoints (one conversation).</li><li><b>Long-term memory</b> across threads (user preferences, facts) goes in a <strong>Store</strong>, e.g. <code>InMemoryStore</code> or a Postgres store, passed to <code>compile(store=...)</code>.</li><li><b>Time travel:</b> pick an old checkpoint from <code>get_state_history</code> and run again from there, e.g. to debug or try a different branch.</li></ul>
+<h2 id="hitl"><span class="n">06</span>Human-in-the-loop with interrupt</h2>
+<p>Some steps must never run without a person saying yes: payments, emails to customers, deleting data. Call <code>interrupt()</code> inside a node: the graph <b>pauses</b>, saves its state, and returns the question. Later, resume with <code>Command(resume=...)</code>:</p><div class="codebox"><div class="cap"><span>lg5_interrupt.py</span><button class="copy" type="button">Copy</button></div><pre>from typing import TypedDict
+from langgraph.graph import StateGraph, START, END
+from langgraph.checkpoint.memory import InMemorySaver
+from langgraph.types import interrupt, Command
+
+class State(TypedDict):
+    amount: int
+    status: str
+
+def ask_human(s):
+    answer = interrupt({&quot;question&quot;: f&quot;Approve transfer of ₹{s[&#x27;amount&#x27;]:,}?&quot;})   # pause here
+    return {&quot;status&quot;: &quot;approved&quot; if answer == &quot;yes&quot; else &quot;rejected&quot;}
+
+def execute(s):
+    return {&quot;status&quot;: s[&quot;status&quot;] + (&quot; and sent&quot; if s[&quot;status&quot;] == &quot;approved&quot; else &quot;&quot;)}
+
+g = StateGraph(State)
+g.add_node(&quot;ask_human&quot;, ask_human); g.add_node(&quot;execute&quot;, execute)
+g.add_edge(START, &quot;ask_human&quot;); g.add_edge(&quot;ask_human&quot;, &quot;execute&quot;); g.add_edge(&quot;execute&quot;, END)
+app = g.compile(checkpointer=InMemorySaver())             # interrupts need a checkpointer
+
+cfg = {&quot;configurable&quot;: {&quot;thread_id&quot;: &quot;tx-9&quot;}}
+first = app.invoke({&quot;amount&quot;: 75_000, &quot;status&quot;: &quot;&quot;}, cfg)
+print(&quot;paused, asking:&quot;, first[&quot;__interrupt__&quot;][0].value)
+print(&quot;next node waiting:&quot;, app.get_state(cfg).next)
+
+final = app.invoke(Command(resume=&quot;yes&quot;), cfg)            # the human replies; the graph continues
+print(&quot;result:&quot;, final[&quot;status&quot;])</pre></div><div class="out">paused, asking: {&#x27;question&#x27;: &#x27;Approve transfer of ₹75,000?&#x27;}
+next node waiting: (&#x27;ask_human&#x27;,)
+result: approved and sent</div><figure class="fig"><svg viewBox="0 0 700 94" role="img" aria-label="The pause can last seconds or days: the checkpointer keeps everything."><g class="an" style="--dl:0.00s"><rect class="bx ac" x="20" y="14" width="105" height="60" rx="10"/><text x="72" y="42" text-anchor="middle" class="tac" style="font-weight:600;font-size:14.0px">Run</text><text x="72" y="59" text-anchor="middle" class="tm" style="font-size:9.9px">until interrupt()</text></g><g class="an" style="--dl:0.10s"><path class="la" d="M 129 44 L 155 44"/><path class="la" d="M 147.6 47.5 L 155 44 L 147.6 40.5"/></g><g class="an" style="--dl:0.25s"><rect class="bx am" x="159" y="14" width="105" height="60" rx="10"/><text x="211" y="42" text-anchor="middle" class="tam" style="font-weight:600;font-size:14.0px">Pause</text><text x="211" y="59" text-anchor="middle" class="tm" style="font-size:5.6px">state saved, question returned</text></g><g class="an" style="--dl:0.35s"><path class="la" d="M 268 44 L 294 44"/><path class="la" d="M 286.4 47.5 L 294 44 L 286.4 40.5"/></g><g class="an" style="--dl:0.50s"><rect class="bx " x="298" y="14" width="105" height="60" rx="10"/><text x="350" y="42" text-anchor="middle" class="" style="font-weight:600;font-size:14.0px">Human</text><text x="350" y="59" text-anchor="middle" class="tm" style="font-size:8.9px">approves in your UI</text></g><g class="an" style="--dl:0.60s"><path class="la" d="M 406 44 L 432 44"/><path class="la" d="M 425.2 47.5 L 432 44 L 425.2 40.5"/></g><g class="an" style="--dl:0.75s"><rect class="bx gr" x="436" y="14" width="105" height="60" rx="10"/><text x="489" y="42" text-anchor="middle" class="tgr" style="font-weight:600;font-size:14.0px">Resume</text><text x="489" y="59" text-anchor="middle" class="tm" style="font-size:8.0px">Command(resume=&quot;yes&quot;)</text></g><g class="an" style="--dl:0.85s"><path class="la" d="M 545 44 L 571 44"/><path class="la" d="M 564.0 47.5 L 571 44 L 564.0 40.5"/></g><g class="an" style="--dl:1.00s"><rect class="bx gr" x="575" y="14" width="105" height="60" rx="10"/><text x="628" y="42" text-anchor="middle" class="tgr" style="font-weight:600;font-size:14.0px">Continue</text><text x="628" y="59" text-anchor="middle" class="tm" style="font-size:11.5px">execute → END</text></g></svg><figcaption>The pause can last seconds or days: the checkpointer keeps everything.</figcaption></figure><div class="callout tip">Interrupts need a checkpointer and a <code>thread_id</code>, because the graph must remember where it stopped.</div>
+<h2 id="advanced"><span class="n">07</span>Streaming, Send and Command</h2>
+<p><strong>Streaming</strong> shows progress as each node finishes. <strong>Send</strong> starts one node per item, in parallel, and the reducer collects the results (map-reduce):</p><div class="codebox"><div class="cap"><span>lg6_stream_send.py</span><button class="copy" type="button">Copy</button></div><pre>import operator
+from typing import TypedDict, Annotated
+from langgraph.graph import StateGraph, START, END
+from langgraph.types import Send
+
+class State(TypedDict):
+    docs: list[str]
+    summaries: Annotated[list[str], operator.add]
+
+class DocState(TypedDict):
+    doc: str
+
+def fan_out(s):                                  # Send = run one node per item, in parallel (map-reduce)
+    return [Send(&quot;summarise&quot;, {&quot;doc&quot;: d}) for d in s[&quot;docs&quot;]]
+
+def summarise(s: DocState):
+    return {&quot;summaries&quot;: [s[&quot;doc&quot;].split(&quot;:&quot;)[0] + &quot; ✔&quot;]}
+
+def combine(s):
+    return {&quot;summaries&quot;: [f&quot;TOTAL {len(s[&#x27;summaries&#x27;])} documents summarised&quot;]}
+
+g = StateGraph(State)
+g.add_node(&quot;summarise&quot;, summarise); g.add_node(&quot;combine&quot;, combine)
+g.add_conditional_edges(START, fan_out, [&quot;summarise&quot;])
+g.add_edge(&quot;summarise&quot;, &quot;combine&quot;); g.add_edge(&quot;combine&quot;, END)
+app = g.compile()
+
+docs = [&quot;KYC policy: ...&quot;, &quot;FD policy: ...&quot;, &quot;Loan policy: ...&quot;]
+for update in app.stream({&quot;docs&quot;: docs, &quot;summaries&quot;: []}, stream_mode=&quot;updates&quot;):   # watch each step finish
+    print(update)</pre></div><div class="out">{&#x27;summarise&#x27;: {&#x27;summaries&#x27;: [&#x27;KYC policy ✔&#x27;]}}
+{&#x27;summarise&#x27;: {&#x27;summaries&#x27;: [&#x27;Loan policy ✔&#x27;]}}
+{&#x27;summarise&#x27;: {&#x27;summaries&#x27;: [&#x27;FD policy ✔&#x27;]}}
+{&#x27;combine&#x27;: {&#x27;summaries&#x27;: [&#x27;TOTAL 3 documents summarised&#x27;]}}</div><p class="note-s">The three “summarise” updates ran in parallel, so their order can change from run to run; the reducer collects all of them before “combine”.</p><div class="tw"><table><thead><tr><th>stream_mode</th><th>You get</th></tr></thead><tbody><tr><td><code>"values"</code></td><td>the full state after every step</td></tr><tr><td><code>"updates"</code></td><td>only what each node changed (shown above)</td></tr><tr><td><code>"messages"</code></td><td>LLM tokens as they are generated, for chat UIs</td></tr><tr><td><code>"custom"</code></td><td>your own progress events from inside nodes</td></tr></tbody></table></div><p><strong>Command</strong> lets a node update the state <em>and</em> choose the next node in one return value. It is the cleanest way to build a <strong>supervisor</strong> that hands work to specialist agents:</p><div class="codebox"><div class="cap"><span>lg7_handoff.py</span><button class="copy" type="button">Copy</button></div><pre>from typing import TypedDict, Literal
+from langgraph.graph import StateGraph, START, END
+from langgraph.types import Command
+
+class State(TypedDict):
+    question: str
+    trail: list[str]
+    answer: str
+
+def supervisor(s) -&gt; Command[Literal[&quot;cards_agent&quot;, &quot;loans_agent&quot;]]:
+    target = &quot;cards_agent&quot; if &quot;card&quot; in s[&quot;question&quot;] else &quot;loans_agent&quot;
+    return Command(goto=target, update={&quot;trail&quot;: s[&quot;trail&quot;] + [f&quot;supervisor -&gt; {target}&quot;]})  # route AND update
+
+def cards_agent(s):
+    return {&quot;trail&quot;: s[&quot;trail&quot;] + [&quot;cards_agent answered&quot;], &quot;answer&quot;: &quot;Card blocked. A new one arrives in 5 days.&quot;}
+
+def loans_agent(s):
+    return {&quot;trail&quot;: s[&quot;trail&quot;] + [&quot;loans_agent answered&quot;], &quot;answer&quot;: &quot;Your EMI is due on the 5th.&quot;}
+
+g = StateGraph(State)
+for n, f in [(&quot;supervisor&quot;, supervisor), (&quot;cards_agent&quot;, cards_agent), (&quot;loans_agent&quot;, loans_agent)]: g.add_node(n, f)
+g.add_edge(START, &quot;supervisor&quot;); g.add_edge(&quot;cards_agent&quot;, END); g.add_edge(&quot;loans_agent&quot;, END)
+app = g.compile()
+
+for q in [&quot;Please block my debit card&quot;, &quot;When is my home loan EMI due?&quot;]:
+    r = app.invoke({&quot;question&quot;: q, &quot;trail&quot;: [], &quot;answer&quot;: &quot;&quot;})
+    print(q, &quot;\n   &quot;, &quot; | &quot;.join(r[&quot;trail&quot;]), &quot;\n   &quot;, r[&quot;answer&quot;])</pre></div><div class="out">Please block my debit card 
+    supervisor -&gt; cards_agent | cards_agent answered 
+    Card blocked. A new one arrives in 5 days.
+When is my home loan EMI due? 
+    supervisor -&gt; loans_agent | loans_agent answered 
+    Your EMI is due on the 5th.</div><div class="demo" data-demo="pick"><div class="demo-h"><b>Demo · Which multi-agent pattern?</b></div><script type="application/json">{"question": "Pick your situation:", "options": [{"label": "One entry point, many specialists", "html": "<div class=\"callout tip\"><b>Supervisor:<\/b> a router node (often an LLM) sends each request to the right agent using <code>Command(goto=...)<\/code>.<\/div>"}, {"label": "Fixed assembly line", "html": "<div class=\"callout tip\"><b>Pipeline:<\/b> plain edges, agent A → B → C. Easiest to test.<\/div>"}, {"label": "Same task on many items", "html": "<div class=\"callout tip\"><b>Map-reduce with Send:<\/b> one worker per document, then combine.<\/div>"}, {"label": "Agents pass control to each other", "html": "<div class=\"callout warn\"><b>Handoffs:<\/b> each agent can return <code>Command(goto=\"other_agent\")<\/code>. Powerful but harder to debug; trace it in LangSmith.<\/div>"}]}</script></div>
+<h2 id="react"><span class="n">08</span>A ReAct agent from scratch</h2>
+<p>Now everything together: a model node, a tool node and a loop between them. This is the classic <strong>ReAct</strong> (reason + act) agent, written in 15 lines:</p><div class="codebox"><div class="cap"><span>lg8_messages.py</span><button class="copy" type="button">Copy</button></div><pre>from langgraph.graph import StateGraph, MessagesState, START, END
+from langgraph.prebuilt import ToolNode, tools_condition
+from langchain_core.tools import tool
+from langchain_core.messages import AIMessage
+from fake_llm import ScriptedModel
+
+@tool
+def fd_rate(years: int) -&gt; str:
+    &quot;&quot;&quot;Return the fixed-deposit interest rate for a tenure in years.&quot;&quot;&quot;
+    return {1: &quot;6.8%&quot;, 3: &quot;7.1%&quot;, 5: &quot;7.0%&quot;}.get(years, &quot;not offered&quot;)
+
+model = ScriptedModel([AIMessage(&quot;&quot;, tool_calls=[{&quot;name&quot;: &quot;fd_rate&quot;, &quot;args&quot;: {&quot;years&quot;: 3}, &quot;id&quot;: &quot;t1&quot;}]),
+                       &quot;The 3-year FD rate is 7.1%.&quot;]).bind_tools([fd_rate])
+
+def call_model(state: MessagesState):              # MessagesState = {&quot;messages&quot;: [...]} with add_messages
+    return {&quot;messages&quot;: [model.invoke(state[&quot;messages&quot;])]}
+
+g = StateGraph(MessagesState)
+g.add_node(&quot;model&quot;, call_model)
+g.add_node(&quot;tools&quot;, ToolNode([fd_rate]))           # runs whatever tools the model asked for
+g.add_edge(START, &quot;model&quot;)
+g.add_conditional_edges(&quot;model&quot;, tools_condition)  # tool calls? -&gt; &quot;tools&quot;, else -&gt; END
+g.add_edge(&quot;tools&quot;, &quot;model&quot;)                       # the ReAct loop
+app = g.compile()
+
+for m in app.invoke({&quot;messages&quot;: [(&quot;user&quot;, &quot;What is the 3-year FD rate?&quot;)]})[&quot;messages&quot;]:
+    print(f&quot;{m.type:5s}&quot;, m.tool_calls if getattr(m, &quot;tool_calls&quot;, None) else m.content)</pre></div><div class="out">human What is the 3-year FD rate?
+ai    [{&#x27;name&#x27;: &#x27;fd_rate&#x27;, &#x27;args&#x27;: {&#x27;years&#x27;: 3}, &#x27;id&#x27;: &#x27;t1&#x27;, &#x27;type&#x27;: &#x27;tool_call&#x27;}]
+tool  7.1%
+ai    The 3-year FD rate is 7.1%.</div><ul><li><code>ToolNode</code> runs the tools the model asked for and adds <code>ToolMessage</code>s.</li><li><code>tools_condition</code> routes to <code>"tools"</code> if the last message has tool calls, otherwise to <code>END</code>.</li><li>This is roughly what <code>create_agent</code> builds for you, so now you know how to customise it: add a guard node, a human check before tools, or a reflection step.</li></ul><div class="tw"><table><thead><tr><th>Mistake</th><th>Fix</th></tr></thead><tbody><tr><td>Returning the whole state from a node</td><td>return only the keys you change</td></tr><tr><td>Lists overwritten instead of appended</td><td>add a reducer: <code>Annotated[list, operator.add]</code></td></tr><tr><td>Loop never ends</td><td>count tries in the state and route to an exit; pass <code>{"recursion_limit": 25}</code></td></tr><tr><td>Interrupt does nothing</td><td>compile with a checkpointer and pass a <code>thread_id</code></td></tr><tr><td>Using InMemorySaver in production</td><td>use the Postgres or SQLite checkpointer</td></tr></tbody></table></div>
+<h2 id="summary"><span class="n">09</span>Summary</h2><ul><li>LangGraph models an app as <strong>state + nodes + edges</strong>; <code>compile()</code> makes it runnable.</li><li><strong>Conditional edges</strong> branch; edges pointing back create <strong>cycles</strong>; <strong>reducers</strong> decide how updates merge.</li><li>A <strong>checkpointer</strong> + <code>thread_id</code> gives memory, recovery and time travel; a <strong>Store</strong> gives long-term memory.</li><li><code>interrupt()</code> + <code>Command(resume=...)</code> = human approval.</li><li><strong>Send</strong> for parallel map-reduce, <strong>Command</strong> for routing + updating (supervisors).</li><li>ToolNode + tools_condition + a loop = a ReAct agent.</li></ul>
+<h2 id="quiz"><span class="n">10</span>Quick quiz</h2><div class="quiz"><div class="q" data-answer="1" data-why="Updates are merged into the state."><p>1. What does a LangGraph node return?</p><div class="opts"><button class="opt" type="button">The whole program</button><button class="opt" type="button">Only the state keys it wants to change</button><button class="opt" type="button">Nothing</button></div></div><div class="q" data-answer="0" data-why="Reducers control merging."><p>2. How do you make a list key append instead of overwrite?</p><div class="opts"><button class="opt" type="button">Use a reducer like Annotated[list, operator.add]</button><button class="opt" type="button">Use a longer list</button><button class="opt" type="button">Call compile twice</button></div></div><div class="q" data-answer="0" data-why="The graph must save where it paused."><p>3. What is required for <code>interrupt()</code> to work?</p><div class="opts"><button class="opt" type="button">A checkpointer and a thread_id</button><button class="opt" type="button">A GPU</button><button class="opt" type="button">LangSmith</button></div></div><div class="q" data-answer="0" data-why="Map-reduce style fan-out."><p>4. Which feature runs one node per item in parallel?</p><div class="opts"><button class="opt" type="button">Send</button><button class="opt" type="button">END</button><button class="opt" type="button">partial</button></div></div><div class="q" data-answer="0" data-why="Routing and updating together."><p>5. What does <code>Command(goto="cards_agent", update={...})</code> do?</p><div class="opts"><button class="opt" type="button">Updates the state and picks the next node</button><button class="opt" type="button">Deletes the graph</button><button class="opt" type="button">Starts training</button></div></div><p class="score" aria-live="polite"></p></div>
+<h2 id="references"><span class="n">11</span>References</h2><ul><li><a href="https://docs.langchain.com/oss/python/langgraph/overview" target="_blank" rel="noopener">LangGraph docs (Python)</a></li><li><a href="https://docs.langchain.com/oss/python/langgraph/persistence" target="_blank" rel="noopener">LangGraph: persistence</a></li><li><a href="https://docs.langchain.com/oss/python/langgraph/interrupts" target="_blank" rel="noopener">LangGraph: interrupts</a></li><li><a href="https://docs.langchain.com/oss/python/releases/langgraph-v1" target="_blank" rel="noopener">LangGraph 1.0 release notes</a></li></ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/course.js"></script>
+
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="frameworks/langgraph"></script>
+</body>
+</html>

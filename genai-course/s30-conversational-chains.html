@@ -114,7 +114,8 @@ LANGSMITH_PROJECT=bank-support-bot</pre></div>
   </ul>
   <p class="note-s">Open-source alternatives include Langfuse, Arize Phoenix and OpenTelemetry-based tools.</p>
 
-  <h2 id="summary"><span class="n">04</span>Summary</h2>
+  <div class="callout tip"><b>Go deeper:</b> memory with checkpointers and middleware is covered in the <a href="../frameworks/langchain.html#memory">LangChain notes</a>.</div>
+<h2 id="summary"><span class="n">04</span>Summary</h2>
   <ul>
     <li><strong>Stuff</strong> (one prompt), <strong>Map-Reduce</strong> (parallel then combine), <strong>Refine</strong> (step by step) and <strong>Map-Rerank</strong> (best single source) handle many documents.</li>
     <li>LLMs are stateless; memory means <strong>re-sending chosen history</strong>: window, summary or token-trimmed.</li>

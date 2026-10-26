@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LlamaIndex: Interactive Notes · AI Frameworks · Learn24</title>
+<meta name="description" content="Runnable notes on LlamaIndex: documents and nodes, indexes, retrievers, query and chat engines, persistence, event-driven Workflows and agents, and when to choose it over LangChain.">
+<meta property="og:title" content="LlamaIndex: Interactive Notes · Learn24">
+<meta property="og:description" content="Runnable notes on LlamaIndex: documents and nodes, indexes, retrievers, query and chat engines, persistence, event-driven Workflows and agents, and when to choose it over LangChain.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#4fd1c5}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article>
+  <div class="kicker">AI Frameworks · LlamaIndex</div>
+  <h1>LlamaIndex: Interactive Notes</h1>
+  <div class="meta"><span>⏱ 15 min read</span><span>🎯 Intermediate</span><span>🖼 2 diagrams</span><span>🧪 1 live demo</span><span>🐍 Python code</span></div>
+  <p class="lead">If LangChain is a general toolbox, <strong>LlamaIndex</strong> is a specialist for one job: <strong>connecting LLMs to your data</strong>. It shines at loading, parsing, indexing and querying documents, and adds Workflows and agents on top. These notes cover the core ideas with runnable, key-free examples.</p>
+  <div class="tldr"><h4>In this session</h4><ul><li>The LlamaIndex pipeline: Documents → Nodes → Index → Query</li><li>Retrievers, query engines and chat engines</li><li>Settings, persistence and LlamaHub connectors</li><li>Event-driven Workflows</li><li>Agents, and LlamaIndex vs LangChain</li></ul></div>
+<h2 id="pipeline"><span class="n">01</span>Documents, nodes and indexes</h2>
+<figure class="fig"><svg viewBox="0 0 700 94" role="img" aria-label="The core LlamaIndex pipeline. Each Node remembers its source document and metadata."><g class="an" style="--dl:0.00s"><rect class="bx " x="20" y="14" width="105" height="60" rx="10"/><text x="72" y="42" text-anchor="middle" class="" style="font-weight:600;font-size:14.0px">Documents</text><text x="72" y="59" text-anchor="middle" class="tm" style="font-size:9.9px">PDF, web, DB rows</text></g><g class="an" style="--dl:0.10s"><path class="la" d="M 129 44 L 155 44"/><path class="la" d="M 147.6 47.5 L 155 44 L 147.6 40.5"/></g><g class="an" style="--dl:0.25s"><rect class="bx ac" x="159" y="14" width="105" height="60" rx="10"/><text x="211" y="42" text-anchor="middle" class="tac" style="font-weight:600;font-size:14.0px">Node parser</text><text x="211" y="59" text-anchor="middle" class="tm" style="font-size:10.5px">split into Nodes</text></g><g class="an" style="--dl:0.35s"><path class="la" d="M 268 44 L 294 44"/><path class="la" d="M 286.4 47.5 L 294 44 L 286.4 40.5"/></g><g class="an" style="--dl:0.50s"><rect class="bx am" x="298" y="14" width="105" height="60" rx="10"/><text x="350" y="42" text-anchor="middle" class="tam" style="font-weight:600;font-size:14.0px">Index</text><text x="350" y="59" text-anchor="middle" class="tm" style="font-size:11.5px">embed + store</text></g><g class="an" style="--dl:0.60s"><path class="la" d="M 406 44 L 432 44"/><path class="la" d="M 425.2 47.5 L 432 44 L 425.2 40.5"/></g><g class="an" style="--dl:0.75s"><rect class="bx ac" x="436" y="14" width="105" height="60" rx="10"/><text x="489" y="42" text-anchor="middle" class="tac" style="font-weight:600;font-size:14.0px">Retriever</text><text x="489" y="59" text-anchor="middle" class="tm" style="font-size:11.5px">top-k Nodes</text></g><g class="an" style="--dl:0.85s"><path class="la" d="M 545 44 L 571 44"/><path class="la" d="M 564.0 47.5 L 571 44 L 564.0 40.5"/></g><g class="an" style="--dl:1.00s"><rect class="bx gr" x="575" y="14" width="105" height="60" rx="10"/><text x="628" y="42" text-anchor="middle" class="tgr" style="font-weight:600;font-size:13.0px">Query engine</text><text x="628" y="59" text-anchor="middle" class="tm" style="font-size:8.0px">prompt + LLM → answer</text></g></svg><figcaption>The core LlamaIndex pipeline. Each Node remembers its source document and metadata.</figcaption></figure><div class="tw"><table><thead><tr><th>Concept</th><th>Meaning</th><th>LangChain equivalent</th></tr></thead><tbody><tr><td>Document</td><td>a whole source file or record</td><td>Document</td></tr><tr><td>Node</td><td>a chunk of a document, with metadata and links</td><td>a split Document</td></tr><tr><td>Index</td><td>a searchable structure over nodes (usually vectors)</td><td>vector store</td></tr><tr><td>Retriever</td><td>returns the top matching nodes</td><td>retriever</td></tr><tr><td>Query engine</td><td>retriever + prompt + LLM in one object</td><td>a RAG chain</td></tr><tr><td>Chat engine</td><td>a query engine that remembers the conversation</td><td>RAG + memory</td></tr></tbody></table></div><div class="codebox"><div class="cap"><span>li_fake.py</span><button class="copy" type="button">Copy</button></div><pre>&quot;&quot;&quot;Key-free stand-ins for LlamaIndex. Real code: Settings.llm = OpenAI(model=&quot;gpt-4o-mini&quot;); Settings.embed_model = OpenAIEmbedding().&quot;&quot;&quot;
+import re, math
+from llama_index.core.embeddings import BaseEmbedding
+
+class KeywordEmbedding(BaseEmbedding):
+    def _vec(self, text, dim=256):
+        v = [0.0] * dim
+        for w in re.findall(r&quot;[a-z]+&quot;, text.lower()): v[sum(map(ord, w[:5])) % dim] += 1
+        n = math.sqrt(sum(x * x for x in v)) or 1
+        return [x / n for x in v]
+    def _get_text_embedding(self, text): return self._vec(text)
+    def _get_query_embedding(self, query): return self._vec(query)
+    async def _aget_query_embedding(self, query): return self._vec(query)</pre></div><div class="callout tip"><b>Runs without an API key:</b> a keyword embedding and LlamaIndex’s own <code>MockLLM</code> stand in for real models. LlamaIndex may print a warning that the chunks are small; that is expected with this tiny demo text.</div><div class="codebox"><div class="cap"><span>li1_index.py</span><button class="copy" type="button">Copy</button></div><pre># pip install llama-index-core   (plus llama-index-llms-openai etc. for real models)
+from llama_index.core import Document, VectorStoreIndex, Settings
+from llama_index.core.node_parser import SentenceSplitter
+from llama_index.core.llms import MockLLM
+from li_fake import KeywordEmbedding
+
+Settings.embed_model = KeywordEmbedding()        # real: OpenAIEmbedding()
+Settings.llm = MockLLM(max_tokens=12)            # real: OpenAI(model=&quot;gpt-4o-mini&quot;)
+
+docs = [Document(text=&quot;Premature withdrawal of an FD reduces the interest rate by 1%. &quot;
+                      &quot;Senior citizens get an extra 0.50% on all FD tenures.&quot;, metadata={&quot;file&quot;: &quot;fd_policy.pdf&quot;}),
+        Document(text=&quot;A home loan EMI is due on the 5th of every month. Late payment costs ₹500.&quot;,
+                 metadata={&quot;file&quot;: &quot;loan_policy.pdf&quot;})]
+
+nodes = SentenceSplitter(chunk_size=25, chunk_overlap=0).get_nodes_from_documents(docs)   # Documents -&gt; Nodes
+print(len(nodes), &quot;nodes; first:&quot;, nodes[0].text, &quot;|&quot;, nodes[0].metadata)
+
+index = VectorStoreIndex(nodes)                                     # embed + store
+retriever = index.as_retriever(similarity_top_k=1)
+for hit in retriever.retrieve(&quot;What is the penalty for withdrawing an FD early?&quot;):
+    print(f&quot;retrieved ({hit.score:.2f}):&quot;, hit.node.text, &quot;&lt;-&quot;, hit.node.metadata[&quot;file&quot;])
+
+engine = index.as_query_engine(similarity_top_k=1)                  # retrieve + prompt + LLM in one call
+resp = engine.query(&quot;When is the EMI due?&quot;)
+print(&quot;sources used:&quot;, [n.node.metadata[&quot;file&quot;] for n in resp.source_nodes])</pre></div><div class="out">4 nodes; first: Premature withdrawal of an FD reduces the interest rate by 1%. | {&#x27;file&#x27;: &#x27;fd_policy.pdf&#x27;}
+retrieved (0.42): Premature withdrawal of an FD reduces the interest rate by 1%. &lt;- fd_policy.pdf
+sources used: [&#x27;loan_policy.pdf&#x27;]</div><p>The splitter turned 2 documents into 4 nodes (one per sentence here), the retriever found the right sentence for the FD question, and the query engine used <code>loan_policy.pdf</code> for the EMI question. <code>source_nodes</code> is how you build citations.</p>
+<h2 id="engines"><span class="n">02</span>Retrievers, query engines and chat engines</h2>
+<div class="demo" data-demo="tabs"><div class="demo-h"><b>Demo · Three ways to ask your data</b></div><script type="application/json">{"tabs": [{"label": "Retriever", "html": "<div class=\"codebox\"><div class=\"cap\"><span>retriever.py<\/span><button class=\"copy\" type=\"button\">Copy<\/button><\/div><pre>nodes = index.as_retriever(similarity_top_k=3).retrieve(&quot;FD penalty?&quot;)\n# just the matching chunks: you build the prompt yourself<\/pre><\/div><p class=\"note-s\">Most control. Good when you have your own prompt or agent.<\/p>"}, {"label": "Query engine", "html": "<div class=\"codebox\"><div class=\"cap\"><span>query.py<\/span><button class=\"copy\" type=\"button\">Copy<\/button><\/div><pre>engine = index.as_query_engine(similarity_top_k=3)\nprint(engine.query(&quot;FD penalty?&quot;))      # answer + response.source_nodes<\/pre><\/div><p class=\"note-s\">One question, one answer, with sources.<\/p>"}, {"label": "Chat engine", "html": "<div class=\"codebox\"><div class=\"cap\"><span>chat.py<\/span><button class=\"copy\" type=\"button\">Copy<\/button><\/div><pre>chat = index.as_chat_engine(chat_mode=&quot;condense_plus_context&quot;)\nchat.chat(&quot;What is the FD penalty?&quot;)\nchat.chat(&quot;And for senior citizens?&quot;)   # follow-up understood<\/pre><\/div><p class=\"note-s\">Remembers history and rewrites follow-ups into standalone questions.<\/p>"}]}</script></div><div class="codebox"><div class="cap"><span>settings_and_persist.py</span><button class="copy" type="button">Copy</button></div><pre>from llama_index.core import Settings, StorageContext, load_index_from_storage
+from llama_index.llms.openai import OpenAI                 # pip install llama-index-llms-openai
+from llama_index.embeddings.openai import OpenAIEmbedding  # pip install llama-index-embeddings-openai
+
+Settings.llm = OpenAI(model=&quot;gpt-4o-mini&quot;)
+Settings.embed_model = OpenAIEmbedding(model=&quot;text-embedding-3-small&quot;)
+
+index.storage_context.persist(&quot;./storage&quot;)                 # save once ...
+index = load_index_from_storage(StorageContext.from_defaults(persist_dir=&quot;./storage&quot;))   # ... reload later</pre></div><ul><li><b>LlamaHub</b> has hundreds of readers and connectors (Google Drive, Notion, SQL, Slack) installed as small packages.</li><li><b>LlamaParse</b> is LlamaIndex’s hosted document parser for complex PDFs with tables and charts.</li><li>Any vector database (Chroma, Qdrant, pgvector, Pinecone…) can back a <code>VectorStoreIndex</code>.</li></ul>
+<h2 id="workflows"><span class="n">03</span>Workflows and agents</h2>
+<p><strong>Workflows</strong> are LlamaIndex’s way to build multi-step apps. Instead of drawing edges, each <code>@step</code> says which <strong>event</strong> it listens for and which event it emits; LlamaIndex connects them by type:</p><div class="codebox"><div class="cap"><span>li2_workflow.py</span><button class="copy" type="button">Copy</button></div><pre>import asyncio
+from llama_index.core.workflow import Workflow, step, Event, StartEvent, StopEvent
+
+class Classified(Event):
+    category: str
+    text: str
+
+class TicketFlow(Workflow):
+    @step
+    async def classify(self, ev: StartEvent) -&gt; Classified:          # each step listens for an event type
+        cat = &quot;card&quot; if &quot;card&quot; in ev.text.lower() else &quot;general&quot;
+        return Classified(category=cat, text=ev.text)
+
+    @step
+    async def respond(self, ev: Classified) -&gt; StopEvent:             # ...and emits the next event
+        reply = {&quot;card&quot;: &quot;Your card is blocked; a new one is on its way.&quot;,
+                 &quot;general&quot;: &quot;Thanks, an agent will reply within 24 hours.&quot;}[ev.category]
+        return StopEvent(result=f&quot;[{ev.category}] {reply}&quot;)
+
+async def main():
+    flow = TicketFlow(timeout=10)
+    for text in [&quot;My card was stolen&quot;, &quot;I want to update my address&quot;]:
+        print(await flow.run(text=text))
+
+asyncio.run(main())</pre></div><div class="out">[card] Your card is blocked; a new one is on its way.
+[general] Thanks, an agent will reply within 24 hours.</div><figure class="fig"><svg viewBox="0 0 700 190" role="img" aria-label="Two styles for the same goal: multi-step LLM apps."><g class="an" style="--dl:0.0s"><rect class="bx ac" x="16" y="10" width="322" height="170" rx="14"/><text x="177" y="40" text-anchor="middle" class="h tac">LangGraph</text><text x="38" y="72" style="font-size:13.5px">• graph of nodes and edges</text><text x="38" y="102" style="font-size:13.5px">• shared state dict</text><text x="38" y="132" style="font-size:13.5px">• checkpointers, interrupts</text><text x="38" y="162" style="font-size:13.5px">• very explicit control flow</text></g><g class="an" style="--dl:0.4s"><rect class="bx gr" x="362" y="10" width="322" height="170" rx="14"/><text x="523" y="40" text-anchor="middle" class="h tgr">LlamaIndex Workflows</text><text x="384" y="72" style="font-size:13.5px">• steps triggered by events</text><text x="384" y="102" style="font-size:13.5px">• events carry the data</text><text x="384" y="132" style="font-size:13.5px">• async-first</text><text x="384" y="162" style="font-size:13.5px">• natural for document pipelines</text></g></svg><figcaption>Two styles for the same goal: multi-step LLM apps.</figcaption></figure><div class="codebox"><div class="cap"><span>agent.py</span><button class="copy" type="button">Copy</button></div><pre>from llama_index.core.agent.workflow import FunctionAgent
+
+def fd_rate(years: int) -&gt; str:
+    &quot;&quot;&quot;Return the FD interest rate for a tenure in years.&quot;&quot;&quot;
+    return {1: &quot;6.8%&quot;, 3: &quot;7.1%&quot;}.get(years, &quot;not offered&quot;)
+
+agent = FunctionAgent(tools=[fd_rate], llm=Settings.llm,         # needs a real model that supports tool calling
+                      system_prompt=&quot;You are NovaBank&#x27;s assistant.&quot;)
+# inside an async function:  response = await agent.run(&quot;What is the 3-year FD rate?&quot;)</pre></div><div class="tw"><table><thead><tr><th>Choose LlamaIndex when…</th><th>Choose LangChain / LangGraph when…</th></tr></thead><tbody><tr><td>the app is mostly “chat with documents”</td><td>the app is mostly tools, actions and workflows</td></tr><tr><td>you need strong parsing and indexing of messy files</td><td>you need fine control of agent loops and approvals</td></tr><tr><td>you want query and chat engines out of the box</td><td>you want the widest set of integrations and LangSmith tooling</td></tr></tbody></table></div><div class="callout tip">You can mix them: many teams use LlamaIndex for ingestion and retrieval, and LangGraph for the agent that calls it.</div>
+<h2 id="summary"><span class="n">04</span>Summary</h2><ul><li>LlamaIndex specialises in <strong>connecting LLMs to your data</strong>.</li><li>Pipeline: <strong>Documents → Nodes → Index → Retriever → Query engine</strong>.</li><li>Use a <strong>query engine</strong> for one-off questions and a <strong>chat engine</strong> for conversations; <code>source_nodes</code> gives citations.</li><li>Configure models once with <code>Settings</code>; persist indexes to disk.</li><li><strong>Workflows</strong> link async steps by event type; <strong>FunctionAgent</strong> adds tool-using agents.</li></ul>
+<h2 id="quiz"><span class="n">05</span>Quick quiz</h2><div class="quiz"><div class="q" data-answer="0" data-why="Documents are split into Nodes."><p>1. In LlamaIndex, a Node is…</p><div class="opts"><button class="opt" type="button">a chunk of a document with metadata</button><button class="opt" type="button">a GPU</button><button class="opt" type="button">a prompt template</button></div></div><div class="q" data-answer="1" data-why="index.as_query_engine()."><p>2. Which object answers a question with retrieval + LLM in one call?</p><div class="opts"><button class="opt" type="button">Retriever</button><button class="opt" type="button">Query engine</button><button class="opt" type="button">Node parser</button></div></div><div class="q" data-answer="0" data-why="Each source node has its metadata."><p>3. How do you get citations from a query response?</p><div class="opts"><button class="opt" type="button">response.source_nodes</button><button class="opt" type="button">response.tokens</button><button class="opt" type="button">Settings.llm</button></div></div><div class="q" data-answer="0" data-why="Event-driven."><p>4. How are Workflow steps connected?</p><div class="opts"><button class="opt" type="button">By the event types they accept and return</button><button class="opt" type="button">By numbered edges</button><button class="opt" type="button">By file names</button></div></div><div class="q" data-answer="0" data-why="That is its specialty."><p>5. A good reason to choose LlamaIndex?</p><div class="opts"><button class="opt" type="button">A document-heavy “chat with your data” app</button><button class="opt" type="button">You need no data at all</button><button class="opt" type="button">You only do image generation</button></div></div><p class="score" aria-live="polite"></p></div>
+<h2 id="references"><span class="n">06</span>References</h2><ul><li><a href="https://developers.llamaindex.ai/python/framework/" target="_blank" rel="noopener">LlamaIndex docs</a></li><li><a href="https://developers.llamaindex.ai/python/llamaagents/workflows/" target="_blank" rel="noopener">LlamaIndex Workflows</a></li><li><a href="https://llamahub.ai/" target="_blank" rel="noopener">LlamaHub</a></li></ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/course.js"></script>
+
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="frameworks/llamaindex"></script>
+</body>
+</html>
