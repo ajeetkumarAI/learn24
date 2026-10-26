@@ -15,6 +15,7 @@ window.LEARN24 = {
       lessons: [
         { id: "llm-training", title: "How an LLM Is Trained", summary: "Pretraining, SFT and RLHF, each animated step by step with one example: the capital of India.", level: "Beginner", mins: 6, tags: ["Pretraining", "SFT", "RLHF"], status: "live" },
         { id: "llm-inference", title: "How an LLM Answers a Question", summary: "Tokenizer, token IDs, transformer, softmax and detokenizer, one token at a time.", level: "Beginner", mins: 4, tags: ["Inference", "Tokens"], status: "live" },
+        { id: "bert", title: "BERT Explained: How It Works and Its Variants", summary: "A full illustrated guide: bidirectional reading, fill-in-the-blank training, fine-tuning, Python code and the BERT family.", level: "Beginner", mins: 15, tags: ["BERT", "Transformers", "Article"], status: "live" },
         { id: "rag-basics", title: "RAG From Scratch", summary: "Chunking, embeddings, vector search and grounded answers.", level: "Intermediate", mins: 8, tags: ["RAG", "Embeddings"], status: "live" },
         { id: "fine-tuning", title: "LoRA and Fine-Tuning", summary: "When to fine-tune, and how adapters change a model cheaply.", level: "Intermediate", mins: 7, tags: ["LoRA", "PEFT"], status: "live" }
       ]
