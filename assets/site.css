@@ -50,8 +50,9 @@ img{max-width:100%}
 .sec-h h2{font-family:var(--display);font-size:26px;letter-spacing:-.01em;margin:0}
 .sec-h .meta{font-size:14px;color:var(--muted)}
 
-.topics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
-@media (max-width:960px){.topics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.topics{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+@media (max-width:1060px){.topics{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:760px){.topics{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:520px){.topics{grid-template-columns:1fr}}
 .topic{--c:var(--accent);display:flex;flex-direction:column;gap:10px;text-decoration:none;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;min-width:0;transition:border-color .2s,transform .2s}
 .topic:hover{border-color:var(--c);transform:translateY(-2px)}
@@ -99,3 +100,10 @@ footer .links{display:flex;gap:14px}
 footer .links a{color:var(--muted)}
 
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* course modules */
+.module{padding-block:14px}
+.mod-h{display:flex;gap:14px;align-items:flex-start;margin-bottom:12px}
+.mod-n{flex:none;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--bg);background:var(--c);border-radius:8px;padding:5px 10px;margin-top:3px}
+.mod-h h2{font-family:var(--display);font-size:22px;margin:0;letter-spacing:-.01em}
+.mod-h p{margin:2px 0 0;font-size:14px;color:var(--muted)}

@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Motivation & Self-Attention · GenAI Course · Learn24</title>
+<meta name="description" content="Why RNNs struggled with long sentences, and how self-attention with Query, Key and Value lets every word look at every other word. Diagrams, demos, NumPy code and a quiz.">
+<meta property="og:title" content="Motivation &amp; Self-Attention · Learn24">
+<meta property="og:description" content="Why RNNs struggled with long sentences, and how self-attention with Query, Key and Value lets every word look at every other word. Diagrams, demos, NumPy code and a quiz.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#b38cff}</style>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article>
+  <div class="kicker">GenAI Course · Module 5 · Session 17</div>
+  <h1>Motivation & Self-Attention</h1>
+  <div class="meta"><span>⏱ 12 min read</span><span>🎯 Beginner friendly</span><span>🖼 4 diagrams</span><span>🧪 2 live demos</span><span>🐍 Python code</span></div>
+<p class="lead">Every modern LLM, from BERT to GPT to Claude, is built on one simple idea: <strong>let every word look at every other word</strong>. This idea is called <strong>self-attention</strong>. In this session, let us see why we needed it, and exactly what it computes.</p>
+  <div class="tldr"><h4>In this session</h4><ul>
+    <li>Why RNNs found long sentences difficult, and why they were slow to train</li>
+    <li>The big idea: direct connections between all words</li>
+    <li>Query, Key and Value, explained with a YouTube search</li>
+    <li>What attention actually computes, step by step with real numbers</li>
+    <li>Self-attention from scratch in 10 lines of NumPy</li>
+  </ul></div>
+
+  <h2 id="rnn"><span class="n">01</span>The problem with RNNs</h2>
+  <p>Before transformers, language models were mostly <strong>RNNs</strong> (Recurrent Neural Networks) and their improved versions, LSTMs and GRUs. An RNN reads a sentence <strong>one word at a time</strong>, and carries a small “memory” vector from one word to the next.</p>
+  <figure class="fig">
+    <svg viewBox="0 0 700 230" role="img" aria-label="RNN reads words one by one, passing a memory vector that fades over time">
+      <text class="tm" x="20" y="22">RNN: one word at a time, memory passed along the chain</text>
+      <g class="an" style="--dl:.1s">
+        <rect class="bx" x="20" y="150" width="88" height="34" rx="8"/><text x="64" y="172" text-anchor="middle" class="mono">The</text>
+        <rect class="bx" x="132" y="150" width="88" height="34" rx="8"/><text x="176" y="172" text-anchor="middle" class="mono">animal</text>
+        <rect class="bx" x="244" y="150" width="88" height="34" rx="8"/><text x="288" y="172" text-anchor="middle" class="mono">didn't</text>
+        <rect class="bx" x="356" y="150" width="88" height="34" rx="8"/><text x="400" y="172" text-anchor="middle" class="mono">cross</text>
+        <text x="482" y="172" text-anchor="middle" class="tm">· · ·</text>
+        <rect class="bx am" x="520" y="150" width="88" height="34" rx="8"/><text x="564" y="172" text-anchor="middle" class="mono tam">it</text>
+      </g>
+      <g class="an" style="--dl:.4s">
+        <circle cx="64" cy="90" r="22" class="bx ac" style="opacity:1"/><circle cx="176" cy="90" r="22" class="bx ac" style="opacity:.8"/><circle cx="288" cy="90" r="22" class="bx ac" style="opacity:.6"/><circle cx="400" cy="90" r="22" class="bx ac" style="opacity:.45"/><circle cx="564" cy="90" r="22" class="bx ac" style="opacity:.25"/>
+        <path class="la" d="M 86 90 L 152 90"/><path class="la" d="M 198 90 L 264 90"/><path class="la" d="M 310 90 L 376 90"/><path class="la dash" d="M 422 90 L 540 90"/>
+        <path class="ln" d="M 64 150 L 64 112"/><path class="ln" d="M 176 150 L 176 112"/><path class="ln" d="M 288 150 L 288 112"/><path class="ln" d="M 400 150 L 400 112"/><path class="ln" d="M 564 150 L 564 112"/>
+        <text x="64" y="95" text-anchor="middle" class="tm" style="font-size:11px">h1</text><text x="176" y="95" text-anchor="middle" class="tm" style="font-size:11px">h2</text><text x="288" y="95" text-anchor="middle" class="tm" style="font-size:11px">h3</text><text x="400" y="95" text-anchor="middle" class="tm" style="font-size:11px">h4</text><text x="564" y="95" text-anchor="middle" class="tm" style="font-size:11px">h20</text>
+      </g>
+      <g class="an" style="--dl:.8s"><text x="620" y="78" class="trd" style="font-size:13px">“animal”</text><text x="620" y="96" class="trd" style="font-size:13px">has faded</text>
+      <text x="20" y="214" class="tm">Step 1 → Step 2 → Step 3 … each step must wait for the previous one.</text></g>
+    </svg>
+    <figcaption>By the time the RNN reaches “it”, the information about “animal” has passed through many steps and become weak.</figcaption>
+  </figure>
+  <div class="analogy"><span class="ic">📢</span><p><b>Like passing a message down a long line at a wedding.</b> The first person says it clearly, but by the 20th person the message is half forgotten. RNNs had the same problem with long sentences.</p></div>
+  <p>RNNs had three big problems:</p>
+  <ul>
+    <li><strong>They forget.</strong> Information from early words fades as it passes through many steps (the “vanishing gradient” problem). LSTMs helped, but did not fully solve it.</li>
+    <li><strong>They are slow to train.</strong> Word 20 cannot be processed until words 1 to 19 are done, so GPUs, which love doing many things in parallel, sit mostly idle.</li>
+    <li><strong>Long paths.</strong> For word 20 to use word 1, the signal must travel through 19 steps. Each step is a chance to lose it.</li>
+  </ul>
+
+  <h2 id="idea"><span class="n">02</span>The big idea: every word looks at every word</h2>
+  <p>In 2017, the famous paper <em>“Attention Is All You Need”</em> removed recurrence completely. Instead of passing a memory along a chain, each word <strong>directly looks at all the other words</strong> and decides which ones matter for it.</p>
+  <figure class="fig">
+    <svg viewBox="0 0 700 200" role="img" aria-label="Self-attention: every word is directly connected to every other word">
+      <text class="tm" x="20" y="22">Self-attention: direct links, all computed at the same time</text>
+      <g id="s17-mesh"></g>
+    </svg>
+    <figcaption>“it” can reach “animal” in <b>one step</b>, and all words are processed <b>in parallel</b>.</figcaption>
+  </figure>
+  <div class="tw"><table>
+    <thead><tr><th></th><th>RNN / LSTM</th><th>Self-attention</th></tr></thead>
+    <tbody>
+      <tr><td>Reads words</td><td>One by one</td><td>All at once (parallel)</td></tr>
+      <tr><td>Path from word 1 to word 20</td><td>19 steps</td><td>1 step</td></tr>
+      <tr><td>Training speed on GPUs</td><td>Slow</td><td>Fast</td></tr>
+      <tr><td>Cost for long text</td><td>Grows linearly</td><td>Grows with length² (we cover this in Session 19)</td></tr>
+    </tbody></table></div>
+
+  <h2 id="qkv"><span class="n">03</span>Query, Key and Value</h2>
+  <p>How does a word decide which other words matter? Self-attention gives every word <strong>three roles</strong>. The easiest way to understand them is a YouTube search.</p>
+  <figure class="fig">
+    <svg viewBox="0 0 700 250" role="img" aria-label="YouTube search analogy for query, key and value">
+      <g class="an" style="--dl:0s"><rect class="bx am" x="20" y="30" width="200" height="50" rx="10"/><text x="120" y="52" text-anchor="middle" class="tam" style="font-weight:600">Query</text><text x="120" y="70" text-anchor="middle" class="mono" style="font-size:12.5px">“masala chai recipe”</text>
+      <text x="120" y="102" text-anchor="middle" class="tm">what you are looking for</text></g>
+      <g class="an" style="--dl:.3s">
+        <rect class="bx ac" x="280" y="20" width="200" height="40" rx="9"/><text x="380" y="45" text-anchor="middle" class="mono" style="font-size:12.5px">Masala Chai in 5 min</text>
+        <rect class="bx" x="280" y="72" width="200" height="40" rx="9"/><text x="380" y="97" text-anchor="middle" class="mono" style="font-size:12.5px">Cold Coffee at Home</text>
+        <rect class="bx" x="280" y="124" width="200" height="40" rx="9"/><text x="380" y="149" text-anchor="middle" class="mono" style="font-size:12.5px">Cricket Highlights</text>
+        <text x="380" y="186" text-anchor="middle" class="tm">Keys: the titles you compare with</text></g>
+      <g class="an" style="--dl:.6s"><path class="la" d="M 222 55 L 278 40"/><path class="ln" d="M 222 55 L 278 92"/><path class="ln dash" d="M 222 55 L 278 144"/>
+        <text x="500" y="45" class="tac" style="font-weight:600">match 0.85</text><text x="500" y="97" class="tm">match 0.14</text><text x="500" y="149" class="tm">match 0.01</text></g>
+      <g class="an" style="--dl:.9s"><rect class="bx gr" x="280" y="200" width="400" height="40" rx="9"/><text x="480" y="225" text-anchor="middle" class="tgr">Values: the actual videos you get, mixed by match score</text></g>
+    </svg>
+    <figcaption>Query = what I want · Key = what each item offers · Value = the content I take away.</figcaption>
+  </figure>
+  <p>In self-attention, <strong>every word is all three at once</strong>. Each word creates its own query, key and value by multiplying its embedding with three learned weight matrices:</p>
+  <figure class="fig">
+    <svg viewBox="0 0 700 200" role="img" aria-label="One word embedding multiplied by three matrices gives query, key and value vectors">
+      <g class="an" style="--dl:0s"><rect class="bx" x="30" y="80" width="130" height="42" rx="10"/><text x="95" y="98" text-anchor="middle" class="mono">“it”</text><text x="95" y="114" text-anchor="middle" class="tm" style="font-size:11.5px">embedding x</text></g>
+      <g class="an" style="--dl:.3s"><path class="ln" d="M 160 101 Q 230 40 300 40"/><path class="ln" d="M 160 101 L 300 101"/><path class="ln" d="M 160 101 Q 230 162 300 162"/>
+        <rect class="bx" x="300" y="22" width="90" height="36" rx="8"/><text x="345" y="45" text-anchor="middle" class="mono">× W_Q</text>
+        <rect class="bx" x="300" y="83" width="90" height="36" rx="8"/><text x="345" y="106" text-anchor="middle" class="mono">× W_K</text>
+        <rect class="bx" x="300" y="144" width="90" height="36" rx="8"/><text x="345" y="167" text-anchor="middle" class="mono">× W_V</text></g>
+      <g class="an" style="--dl:.6s"><path class="ln" d="M 390 40 L 440 40"/><path class="ln" d="M 390 101 L 440 101"/><path class="ln" d="M 390 162 L 440 162"/>
+        <rect class="bx am" x="440" y="22" width="240" height="36" rx="8"/><text x="560" y="45" text-anchor="middle" class="tam">q: “who am I referring to?”</text>
+        <rect class="bx ac" x="440" y="83" width="240" height="36" rx="8"/><text x="560" y="106" text-anchor="middle" class="tac">k: “I am a pronoun”</text>
+        <rect class="bx gr" x="440" y="144" width="240" height="36" rx="8"/><text x="560" y="167" text-anchor="middle" class="tgr">v: the information I carry</text></g>
+    </svg>
+    <figcaption>W_Q, W_K and W_V are learned during training. The labels in quotes are only intuition; the real vectors are just numbers.</figcaption>
+  </figure>
+
+  <h2 id="compute"><span class="n">04</span>What attention actually computes</h2>
+  <p>For one word, attention does three simple things:</p>
+  <ol>
+    <li><strong>Score:</strong> compare its query with every word’s key using a dot product. High score = good match.</li>
+    <li><strong>Softmax:</strong> turn the scores into weights between 0 and 1 that add up to 1.</li>
+    <li><strong>Mix:</strong> take a weighted sum of all the value vectors. This is the word’s new, context-aware vector.</li>
+  </ol>
+  <p>Let us do it with real numbers. Our sentence has three words, <code>I love chai</code>, and we compute the new vector for <strong>“chai”</strong>. Press Next to go step by step:</p>
+  <div class="demo" data-demo="steps">
+    <div class="demo-h"><b>Demo · Attention by hand</b><div class="row"><button class="btn ghost" type="button" data-reset>↺ Reset</button><button class="btn" type="button" data-next>Next step ▶</button></div></div>
+    <div data-out></div>
+  </div>
+  <div class="callout"><b>Notice:</b> “chai” gave most weight (0.665) to itself, but it also mixed in information from “love” and “I”. That mixing is how a word picks up context.</div>
+  <p>Now see it on a real sentence. Pick a word and watch where its attention goes:</p>
+  <div class="demo" data-demo="focus">
+    <div class="demo-h"><b>Demo · Where does each word look?</b><div class="tabs" role="tablist"><button type="button" aria-selected="true" data-w="7">it</button><button type="button" aria-selected="false" data-w="9">tired</button><button type="button" aria-selected="false" data-w="3">cross</button></div></div>
+    <div class="row" data-sent></div>
+    <div class="bars" data-bars></div>
+    <div class="note-s" data-note></div>
+  </div>
+
+  <h2 id="code"><span class="n">05</span>Self-attention from scratch in NumPy</h2>
+  <p>Here is the whole idea in about 10 lines. Run it in Colab or Jupyter:</p>
+  <div class="codebox"><div class="cap"><span>self_attention.py</span><button class="copy" type="button">Copy</button></div><pre>import numpy as np
+np.random.seed(42)
+
+X = np.random.randn(4, 8)                     # 4 tokens, each an 8-number embedding
+Wq, Wk, Wv = [np.random.randn(8, 4) for _ in range(3)]
+
+Q, K, V = X @ Wq, X @ Wk, X @ Wv              # queries, keys, values
+scores = Q @ K.T                              # how well each query matches each key
+weights = np.exp(scores - scores.max(axis=1, keepdims=True))
+weights /= weights.sum(axis=1, keepdims=True) # softmax, row by row
+output = weights @ V                          # weighted mix of values
+
+print(output.shape)
+print(weights.round(2))</pre></div>
+  <div class="out">(4, 4)
+[[0.03 0.   0.52 0.45]
+ [0.   0.75 0.   0.25]
+ [0.   0.03 0.97 0.  ]
+ [1.   0.   0.   0.  ]]</div>
+  <p>Each row of <code>weights</code> adds up to 1: it shows how much one token looks at each of the four tokens. Notice how extreme some rows are (0.97, 1.00). With bigger vectors, this gets worse. In <a href="s18-multi-head-attention.html">Session 18</a> we fix it by <strong>scaling the scores</strong>.</p>
+
+  <h2 id="summary"><span class="n">06</span>Summary</h2>
+  <ul>
+    <li>RNNs read word by word, so they <strong>forget</strong> long-range information and are <strong>slow</strong> to train.</li>
+    <li>Self-attention connects <strong>every word to every word directly</strong>, and runs in parallel.</li>
+    <li>Each word makes a <strong>query</strong> (what I need), a <strong>key</strong> (what I offer) and a <strong>value</strong> (what I carry).</li>
+    <li>Attention = <strong>score</strong> (q · k) → <strong>softmax</strong> → <strong>weighted sum</strong> of values.</li>
+  </ul>
+
+  <h2 id="quiz"><span class="n">07</span>Quick quiz</h2>
+  <div class="quiz">
+    <div class="q" data-answer="1" data-why="An RNN must finish word 19 before it can process word 20, so the work can’t be done in parallel."><p>1. Why were RNNs slow to train on GPUs?</p><div class="opts"><button class="opt" type="button">They had too many parameters</button><button class="opt" type="button">Words must be processed one after another</button><button class="opt" type="button">They could not use embeddings</button></div></div>
+    <div class="q" data-answer="2" data-why="Scores come from the dot product of one word’s query with every word’s key."><p>2. The attention score between two words is computed from…</p><div class="opts"><button class="opt" type="button">Value · Value</button><button class="opt" type="button">Key · Value</button><button class="opt" type="button">Query · Key</button></div></div>
+    <div class="q" data-answer="0" data-why="Softmax turns scores into positive weights that add up to 1."><p>3. After softmax, the attention weights for one word…</p><div class="opts"><button class="opt" type="button">add up to 1</button><button class="opt" type="button">are always equal</button><button class="opt" type="button">can be negative</button></div></div>
+    <div class="q" data-answer="1" data-why="In self-attention, any word reaches any other word in a single step."><p>4. How many steps does “it” need to reach “animal” in self-attention?</p><div class="opts"><button class="opt" type="button">As many as the words between them</button><button class="opt" type="button">One</button><button class="opt" type="button">It cannot reach it</button></div></div>
+    <div class="q" data-answer="2" data-why="The output is the weighted sum of value vectors, using the attention weights."><p>5. What is the final output of attention for a word?</p><div class="opts"><button class="opt" type="button">The highest score</button><button class="opt" type="button">Its own query vector</button><button class="opt" type="button">A weighted sum of value vectors</button></div></div>
+    <p class="score" aria-live="polite"></p>
+  </div>
+
+  <h2 id="references"><span class="n">08</span>References</h2>
+  <ul>
+    <li>Vaswani et al., <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">Attention Is All You Need</a> (2017)</li>
+    <li>Jay Alammar, <a href="https://jalammar.github.io/illustrated-transformer/" target="_blank" rel="noopener">The Illustrated Transformer</a></li>
+  </ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+
+<script src="../assets/article.js"></script>
+<script>
+(function () {
+  const { demo, $, $$ } = window.Article;
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  const tok = (t, c = '') => `<span class="tok ${c}">${esc(t)}</span>`;
+  const bars = (el, rows, top) => {
+    el.innerHTML = rows.map(([l, v], i) => `<div class="bar${i === top ? ' top' : ''}"><span>${esc(l)}</span><div class="track"><div class="fill"></div></div><span class="v">${v.toFixed(2)}</span></div>`).join('');
+    requestAnimationFrame(() => requestAnimationFrame(() => $$('.fill', el).forEach((f, i) => f.style.width = (rows[i][1] * 100) + '%')));
+  };
+  // mesh figure
+  const mesh = document.getElementById('s17-mesh');
+  if (mesh) {
+    const w = ['The', 'animal', "didn't", 'cross', 'because', 'it', 'was', 'tired'], n = w.length, W = 660 / n;
+    let h = '';
+    for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) {
+      const x1 = 20 + i * W + W / 2, x2 = 20 + j * W + W / 2, hot = (i === 1 && j === 5);
+      h += `<path class="${hot ? 'la' : 'ln'}" style="${hot ? 'stroke-width:3' : 'opacity:.35'}" d="M ${x1} 140 Q ${(x1 + x2) / 2} ${140 - (j - i) * 14} ${x2} 140"/>`;
+    }
+    h = `<g class="an" style="--dl:.4s">${h}</g><g class="an" style="--dl:.1s">` + w.map((t, i) => `<rect class="bx ${i === 1 || i === 5 ? 'ac' : ''}" x="${20 + i * W + 4}" y="142" width="${W - 8}" height="32" rx="7"/><text x="${20 + i * W + W / 2}" y="163" text-anchor="middle" class="mono">${t}</text>`).join('') + '</g>';
+    mesh.outerHTML = h;
+  }
+  // step-by-step
+  demo('steps', el => {
+    const out = $('[data-out]', el);
+    const S = [
+      `<p class="note-s">Query of <b>chai</b>: <code>q = [1, 2]</code></p><div class="tw" style="margin:6px 0"><table style="min-width:0"><thead><tr><th>Word</th><th>Key k</th><th>Value v</th></tr></thead><tbody><tr><td>I</td><td>[1, 0]</td><td>[1, 0]</td></tr><tr><td>love</td><td>[0, 1]</td><td>[0, 1]</td></tr><tr><td>chai</td><td>[1, 1]</td><td>[0.5, 0.5]</td></tr></tbody></table></div>`,
+      `<p class="note-s"><b>Step 1 · Score</b> = q · k</p><div class="row">${tok('I: 1×1 + 2×0 = 1')}${tok('love: 1×0 + 2×1 = 2')}${tok('chai: 1×1 + 2×1 = 3', 'lit')}</div>`,
+      `<p class="note-s"><b>Step 2 · Softmax</b> turns [1, 2, 3] into weights that add up to 1</p><div class="bars" data-b></div>`,
+      `<p class="note-s"><b>Step 3 · Mix the values</b></p><div class="row">${tok('0.090 × [1, 0]')}${tok('+ 0.245 × [0, 1]')}${tok('+ 0.665 × [0.5, 0.5]')}${tok('= [0.423, 0.577]', 'mask')}</div><p class="note-s">This is the new vector for “chai”, now carrying a bit of “I” and “love”.</p>`
+    ];
+    let k = 0;
+    const show = () => { out.innerHTML = S.slice(0, k + 1).join('<div style="height:10px"></div>'); const b = $('[data-b]', out); if (b) bars(b, [['I', .090], ['love', .245], ['chai', .665]], 2); $('[data-next]', el).disabled = k >= S.length - 1; $('[data-next]', el).style.opacity = k >= S.length - 1 ? .5 : 1; };
+    $('[data-next]', el).onclick = () => { if (k < S.length - 1) { k++; show(); } };
+    $('[data-reset]', el).onclick = () => { k = 0; show(); };
+    show();
+  });
+  // focus demo
+  demo('focus', el => {
+    const w = ['The', 'animal', "didn't", 'cross', 'the', 'street', 'because', 'it', 'was', 'tired'];
+    const A = {
+      7: { rows: [['animal', .62], ['street', .11], ['it', .09], ['tired', .08], ['cross', .04]], note: '“it” mostly attends to “animal”: the model has worked out who “it” is.', hi: [1] },
+      9: { rows: [['animal', .41], ['it', .29], ['tired', .12], ['was', .09], ['street', .03]], note: '“tired” links to the one who is tired: the animal (through “it”).', hi: [1, 7] },
+      3: { rows: [['street', .38], ['animal', .27], ["didn't", .18], ['cross', .10], ['The', .02]], note: 'The verb “cross” looks at what is crossed (street) and who crosses (animal).', hi: [5, 1] }
+    };
+    const sent = $('[data-sent]', el), b = $('[data-bars]', el), note = $('[data-note]', el), bs = $$('.tabs button', el);
+    const show = i => { const a = A[i]; sent.innerHTML = w.map((t, j) => tok(t, j === i ? 'mask' : a.hi.includes(j) ? 'src' : '')).join(''); bars(b, a.rows, 0); note.textContent = a.note + ' (Illustrative weights.)'; };
+    bs.forEach(x => x.onclick = () => { bs.forEach(y => y.setAttribute('aria-selected', String(y === x))); show(+x.dataset.w); });
+    show(7);
+  });
+})();
+</script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="genai-course/s17-self-attention"></script>
+</body>
+</html>

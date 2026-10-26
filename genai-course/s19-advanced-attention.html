@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Advanced Attention · GenAI Course · Learn24</title>
+<meta name="description" content="Why attention cost grows with length squared, efficient variants like FlashAttention, sliding-window and grouped-query attention, attention maps on real sentences, and what breaks with long context.">
+<meta property="og:title" content="Advanced Attention · Learn24">
+<meta property="og:description" content="Why attention cost grows with length squared, efficient variants like FlashAttention, sliding-window and grouped-query attention, attention maps on real sentences, and what breaks with long context.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#b38cff}</style>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article>
+  <div class="kicker">GenAI Course · Module 5 · Session 19</div>
+  <h1>Advanced Attention</h1>
+  <div class="meta"><span>⏱ 14 min read</span><span>🎯 Intermediate</span><span>🖼 4 diagrams</span><span>🧪 2 live demos</span><span>🐍 Python code</span></div>
+<p class="lead">Attention is powerful, but it has a price: every token looks at every other token. Double the text, and the work becomes <strong>four times</strong> bigger. In this session, let us see how real models handle this, look at attention on real sentences, and understand what goes wrong when the context becomes very long.</p>
+  <div class="tldr"><h4>In this session</h4><ul>
+    <li>Why attention cost grows with length² (with a live calculator)</li>
+    <li>Efficient variants: sliding window, sparse, FlashAttention, MQA and GQA</li>
+    <li>Attention maps on real sentences, and how to see them in code</li>
+    <li>What breaks as context grows: memory, “lost in the middle”, position limits</li>
+  </ul></div>
+
+  <h2 id="cost"><span class="n">01</span>The n² problem</h2>
+  <p>For <code>n</code> tokens, attention builds an <code>n × n</code> table of scores, in every head of every layer. So the work grows with <strong>n²</strong>:</p>
+  <figure class="fig">
+    <svg viewBox="0 0 700 220" role="img" aria-label="Doubling tokens makes the attention grid four times bigger">
+      <g id="s19-grid"></g>
+    </svg>
+    <figcaption>2× the tokens → 4× the score table. 10× the tokens → 100×.</figcaption>
+  </figure>
+  <div class="demo" data-demo="calc">
+    <div class="demo-h"><b>Demo · Context length calculator</b><span class="note-s" style="margin:0">Example: Llama 3.1 8B (32 layers, 8 KV heads × 128, FP16)</span></div>
+    <label for="s19-n" class="note-s" style="display:block">Context length: <b data-n>4,096</b> tokens</label>
+    <input id="s19-n" type="range" min="0" max="5" step="1" value="2" style="width:100%;max-width:520px;accent-color:var(--ac)">
+    <div class="tw" style="margin-top:10px"><table style="min-width:0"><tbody data-rows></tbody></table></div>
+    <div class="note-s">Full score table = n × n × 2 bytes, per head, per layer, if stored. KV cache = 128 KB per token for this model.</div>
+  </div>
+  <div class="analogy"><span class="ic">🤝</span><p><b>Like everyone at a function shaking hands with everyone else.</b> With 10 guests it’s quick. With 1,000 guests, it takes forever, because the number of handshakes grows much faster than the number of guests.</p></div>
+
+  <h2 id="variants"><span class="n">02</span>Efficient attention variants</h2>
+  <p>Researchers have found many ways to make attention cheaper. Some <strong>approximate</strong> it (look at fewer pairs), and some compute it <strong>exactly but smarter</strong>.</p>
+  <figure class="fig">
+    <svg viewBox="0 0 700 250" role="img" aria-label="Full, sliding-window and sparse attention patterns">
+      <g id="s19-patterns"></g>
+    </svg>
+    <figcaption>Coloured cells = pairs that are computed. Sliding window and sparse patterns skip most pairs.</figcaption>
+  </figure>
+  <div class="tw"><table>
+    <thead><tr><th>Technique</th><th>Idea in one line</th><th>Exact?</th><th>Used in</th></tr></thead>
+    <tbody>
+      <tr><td>Sliding-window (local)</td><td>Each token looks only at the last W tokens</td><td>No, approximate</td><td>Longformer, Mistral 7B (window 4,096)</td></tr>
+      <tr><td>Sparse + global tokens</td><td>Local window plus a few tokens that see everything</td><td>No, approximate</td><td>Longformer, BigBird</td></tr>
+      <tr><td>Linear / low-rank</td><td>Approximate the n × n table with smaller matrices</td><td>No, approximate</td><td>Linformer, Performer</td></tr>
+      <tr><td>FlashAttention</td><td>Compute attention in small tiles inside fast GPU memory, never storing the full table</td><td><b>Yes</b></td><td>Most modern training and serving stacks</td></tr>
+      <tr><td>Multi-query (MQA)</td><td>All heads share one set of keys and values</td><td>Yes (different architecture)</td><td>PaLM, Falcon</td></tr>
+      <tr><td>Grouped-query (GQA)</td><td>Groups of query heads share keys and values</td><td>Yes (different architecture)</td><td>Llama 2 70B, Llama 3, Mistral</td></tr>
+    </tbody></table></div>
+  <h3>MHA vs GQA vs MQA</h3>
+  <p>During generation, the model stores the keys and values of all previous tokens (the <strong>KV cache</strong>). With many heads, this cache becomes huge. GQA and MQA let several query heads <strong>share</strong> the same keys and values:</p>
+  <figure class="fig">
+    <svg viewBox="0 0 700 240" role="img" aria-label="Multi-head, grouped-query and multi-query attention: how query heads share key-value heads">
+      <g id="s19-gqa"></g>
+    </svg>
+    <figcaption>Llama 3 8B uses GQA: 32 query heads share 8 key-value heads, so the KV cache is <b>4× smaller</b> than full multi-head attention.</figcaption>
+  </figure>
+  <div class="callout tip"><b>FlashAttention is the big win in practice.</b> It gives the same answer as normal attention but avoids writing the n × n table to slow GPU memory, so it is much faster and uses memory that grows only linearly with length. In PyTorch, <code>torch.nn.functional.scaled_dot_product_attention</code> uses such fused kernels automatically when available.</div>
+
+  <h2 id="visual"><span class="n">03</span>Attention on real sentences</h2>
+  <p>Change one word at the end of the sentence and see how the attention of <strong>“it”</strong> moves:</p>
+  <div class="demo" data-demo="heat">
+    <div class="demo-h"><b>Demo · Attention heatmap</b><div class="tabs" role="tablist"><button type="button" aria-selected="true">…because it was too tired</button><button type="button" aria-selected="false">…because it was too wide</button></div></div>
+    <div style="overflow-x:auto"><svg class="attn" viewBox="0 0 660 350" role="img" aria-label="Attention heatmap" data-svg style="max-width:660px"></svg></div>
+    <div class="note-s" data-note></div>
+  </div>
+  <p>You can see real attention weights from any Hugging Face model by asking for them:</p>
+  <div class="codebox"><div class="cap"><span>see_attention.py</span><button class="copy" type="button">Copy</button></div><pre>from transformers import AutoTokenizer, AutoModel
+
+tok = AutoTokenizer.from_pretrained("bert-base-uncased")
+model = AutoModel.from_pretrained("bert-base-uncased", output_attentions=True)
+
+inputs = tok("The animal didn't cross the street because it was too tired", return_tensors="pt")
+out = model(**inputs)
+
+print(len(out.attentions))        # one entry per layer
+print(out.attentions[0].shape)    # (batch, heads, tokens, tokens)</pre></div>
+  <div class="out">12
+torch.Size([1, 12, 15, 15])</div>
+  <p>For a visual, interactive view of every head, try the open-source <strong>BertViz</strong> library (<code>pip install bertviz</code>) in a notebook.</p>
+  <div class="callout warn"><b>Careful when reading attention maps.</b> High attention does not always mean “this word caused the answer”. Attention is one useful window into the model, not a full explanation.</div>
+
+  <h2 id="long"><span class="n">04</span>What breaks as context grows</h2>
+  <p>Modern models advertise 128K or even 1M-token windows. That does not mean they use every token equally well. Here is what goes wrong:</p>
+  <ul>
+    <li><strong>Memory and cost:</strong> the KV cache grows with every token. In our calculator, 128K tokens need about 16 GB just for the cache of an 8B model, more than the model weights themselves.</li>
+    <li><strong>Lost in the middle:</strong> models find facts at the start and end of a long prompt more reliably than facts buried in the middle.</li>
+    <li><strong>Attention gets spread thin:</strong> with thousands of tokens competing, important ones can get a small share of attention.</li>
+    <li><strong>Position limits:</strong> a model trained on 8K-token texts may behave badly at 32K unless its positional encoding is stretched (methods like RoPE scaling and YaRN).</li>
+  </ul>
+  <figure class="fig">
+    <svg viewBox="0 0 700 250" role="img" aria-label="U-shaped curve: accuracy is high when the fact is at the start or end, lower in the middle">
+      <g class="an" style="--dl:0s"><path class="ln" d="M 70 200 L 650 200"/><path class="ln" d="M 70 30 L 70 200"/>
+      <text class="tm" x="60" y="40" text-anchor="end">high</text><text class="tm" x="60" y="200" text-anchor="end">low</text>
+      <text class="tm" x="80" y="222">start of prompt</text><text class="tm" x="360" y="222" text-anchor="middle">middle</text><text class="tm" x="645" y="222" text-anchor="end">end of prompt</text>
+      <text class="tm" x="360" y="244" text-anchor="middle">Where the needed fact is placed in a long prompt</text>
+      <text class="tm" x="14" y="120" transform="rotate(-90 14 120)" text-anchor="middle">answer accuracy</text></g>
+      <g class="an" style="--dl:.4s"><path class="la" style="stroke-width:3" d="M 80 50 C 200 150, 280 170, 360 170 S 540 140, 640 60"/>
+      <circle cx="80" cy="50" r="6" class="bx solid"/><circle cx="360" cy="170" r="6" class="bx rd"/><circle cx="640" cy="60" r="6" class="bx solid"/>
+      <text x="370" y="160" class="trd">facts in the middle get missed</text></g>
+    </svg>
+    <figcaption>The “lost in the middle” pattern reported by Liu et al. (2023). The shape is illustrative; the exact drop varies by model.</figcaption>
+  </figure>
+  <h3>Practical tips for long prompts</h3>
+  <ul>
+    <li>Put the <strong>instructions and the most important facts at the start or the end</strong>.</li>
+    <li>Prefer <strong>RAG</strong>: retrieve the 5 most relevant chunks instead of pasting 300 pages.</li>
+    <li>Summarise old conversation turns instead of keeping every message.</li>
+    <li>Test with “needle in a haystack” style checks on your own documents before trusting a long-context model.</li>
+  </ul>
+
+  <h2 id="summary"><span class="n">05</span>Summary</h2>
+  <ul>
+    <li>Attention cost grows with <strong>n²</strong>; the KV cache grows with <strong>n</strong>.</li>
+    <li>Sliding-window and sparse attention skip pairs; <strong>FlashAttention</strong> stays exact but computes smarter.</li>
+    <li><strong>GQA / MQA</strong> share keys and values across heads to shrink the KV cache.</li>
+    <li>Attention maps are a useful view, but not a full explanation.</li>
+    <li>Long context brings memory cost, <strong>lost-in-the-middle</strong> and position limits, so design prompts and RAG with care.</li>
+  </ul>
+
+  <h2 id="quiz"><span class="n">06</span>Quick quiz</h2>
+  <div class="quiz">
+    <div class="q" data-answer="2" data-why="Work grows with n², so 2× the tokens gives 4× the score table."><p>1. You double the number of tokens. The attention score table becomes…</p><div class="opts"><button class="opt" type="button">2× bigger</button><button class="opt" type="button">the same size</button><button class="opt" type="button">4× bigger</button></div></div>
+    <div class="q" data-answer="0" data-why="FlashAttention computes exact attention in tiles, avoiding storing the full n × n matrix."><p>2. Which technique gives exactly the same result as normal attention, only faster?</p><div class="opts"><button class="opt" type="button">FlashAttention</button><button class="opt" type="button">Sliding-window attention</button><button class="opt" type="button">Linformer</button></div></div>
+    <div class="q" data-answer="1" data-why="GQA makes groups of query heads share keys and values, shrinking the KV cache."><p>3. What does grouped-query attention (GQA) mainly reduce?</p><div class="opts"><button class="opt" type="button">Vocabulary size</button><button class="opt" type="button">The size of the KV cache</button><button class="opt" type="button">Number of layers</button></div></div>
+    <div class="q" data-answer="2" data-why="Models are often worse at using facts placed in the middle of a long context."><p>4. “Lost in the middle” means…</p><div class="opts"><button class="opt" type="button">The model forgets the first token</button><button class="opt" type="button">Middle layers are unused</button><button class="opt" type="button">Facts in the middle of a long prompt are used less reliably</button></div></div>
+    <div class="q" data-answer="0" data-why="Attention weights show where the model looked, but they are not a complete explanation of its decision."><p>5. True or false: high attention weight always proves a word caused the answer.</p><div class="opts"><button class="opt" type="button">False</button><button class="opt" type="button">True</button></div></div>
+    <p class="score" aria-live="polite"></p>
+  </div>
+
+  <h2 id="references"><span class="n">07</span>References</h2>
+  <ul>
+    <li>Dao et al., <a href="https://arxiv.org/abs/2205.14135" target="_blank" rel="noopener">FlashAttention</a> (2022)</li>
+    <li>Ainslie et al., <a href="https://arxiv.org/abs/2305.13245" target="_blank" rel="noopener">GQA: Training Generalized Multi-Query Transformer Models</a> (2023)</li>
+    <li>Beltagy et al., <a href="https://arxiv.org/abs/2004.05150" target="_blank" rel="noopener">Longformer</a> (2020)</li>
+    <li>Liu et al., <a href="https://arxiv.org/abs/2307.03172" target="_blank" rel="noopener">Lost in the Middle: How Language Models Use Long Contexts</a> (2023)</li>
+  </ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+
+<script src="../assets/article.js"></script>
+<script>
+(function () {
+  const { demo, $, $$ } = window.Article;
+  const fmt = n => n.toLocaleString('en-IN');
+  // n^2 grid figure
+  const g = document.getElementById('s19-grid');
+  if (g) {
+    const sq = (x, n, cell, dl, lab, c) => { let h = `<g class="an" style="--dl:${dl}s">`; for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) h += `<rect x="${x + j * cell}" y="${30 + i * cell}" width="${cell - 2}" height="${cell - 2}" rx="2" class="bx ${c}"/>`; return h + `<text x="${x + n * cell / 2}" y="${30 + n * cell + 22}" text-anchor="middle">${lab}</text></g>`; };
+    g.outerHTML = sq(60, 4, 20, .1, '4 tokens → 16 pairs', 'ac') + `<g class="an" style="--dl:.4s"><text x="210" y="90" class="tm">×2 tokens →</text></g>` + sq(310, 8, 20, .6, '8 tokens → 64 pairs', 'am');
+  }
+  // patterns figure
+  const pt = document.getElementById('s19-patterns');
+  if (pt) {
+    const N = 10, C = 15;
+    const pat = [['Full attention', (i, j) => true, 'ac'], ['Causal', (i, j) => j <= i, 'gr'], ['Sliding window (W=3)', (i, j) => j <= i && i - j < 3, 'am'], ['Window + global', (i, j) => (j <= i && i - j < 3) || j === 0 || i === 0, 'rd']];
+    let h = '';
+    pat.forEach(([lab, f, c], k) => {
+      const x0 = 22 + k * 172; h += `<g class="an" style="--dl:${(k * .3).toFixed(1)}s">`;
+      for (let i = 0; i < N; i++) for (let j = 0; j < N; j++) h += `<rect x="${x0 + j * C}" y="${20 + i * C}" width="${C - 2}" height="${C - 2}" rx="2" class="bx ${f(i, j) ? c : ''}" style="${f(i, j) ? '' : 'opacity:.25'}"/>`;
+      h += `<text x="${x0 + N * C / 2}" y="${20 + N * C + 24}" text-anchor="middle" style="font-size:13px">${lab}</text></g>`;
+    });
+    pt.outerHTML = h;
+  }
+  // GQA figure
+  const gq = document.getElementById('s19-gqa');
+  if (gq) {
+    const col = (x, title, kv, sub, dl) => {
+      let h = `<g class="an" style="--dl:${dl}s"><text x="${x + 95}" y="16" text-anchor="middle" class="h" style="font-size:15px">${title}</text><text x="${x + 95}" y="34" text-anchor="middle" class="tm">8 query heads</text>`;
+      for (let i = 0; i < 8; i++) h += `<rect x="${x + i * 24}" y="42" width="20" height="38" rx="4" class="bx am"/>`;
+      const kw = 190 / kv;
+      for (let j = 0; j < kv; j++) { h += `<rect x="${x + j * kw + 2}" y="150" width="${kw - 4}" height="40" rx="4" class="bx gr"/>`; for (let i = 0; i < 8; i++) if (Math.floor(i / (8 / kv)) === j) h += `<path class="ln" d="M ${x + i * 24 + 10} 80 L ${x + j * kw + kw / 2} 150"/>`; }
+      return h + `<text x="${x + 95}" y="210" text-anchor="middle" class="tm">${kv} key-value head${kv > 1 ? 's' : ''}</text><text x="${x + 95}" y="232" text-anchor="middle" class="tgr" style="font-size:13px">${sub}</text></g>`;
+    };
+    gq.outerHTML = col(20, 'Multi-head', 8, 'KV cache: 100%', .1) + col(255, 'Grouped-query', 2, 'KV cache: 25%', .5) + col(490, 'Multi-query', 1, 'KV cache: 12.5%', .9);
+  }
+  // calculator
+  demo('calc', el => {
+    const NS = [512, 2048, 4096, 32768, 131072, 1000000];
+    const r = $('#s19-n', el), rows = $('[data-rows]', el);
+    const size = b => b >= 2 ** 30 ? (b / 2 ** 30).toFixed(1) + ' GB' : b >= 2 ** 20 ? (b / 2 ** 20).toFixed(1) + ' MB' : (b / 1024).toFixed(0) + ' KB';
+    const draw = () => {
+      const n = NS[+r.value]; $('[data-n]', el).textContent = fmt(n);
+      const pairs = n * n, tbl = pairs * 2, kv = n * 131072;
+      rows.innerHTML = `<tr><td>Token pairs per head per layer</td><td>${fmt(pairs)}</td></tr><tr><td>Full score table (one head, one layer)</td><td>${size(tbl)}</td></tr><tr><td>KV cache for the whole model</td><td>${size(kv)}</td></tr>`;
+    };
+    r.oninput = draw; draw();
+  });
+  // heatmap
+  demo('heat', el => {
+    const S = [
+      { w: ['The', 'animal', "didn't", 'cross', 'the', 'street', 'because', 'it', 'was', 'too', 'tired'], t: 1, note: 'With “tired”, the row for “it” lights up on “animal”: an animal gets tired, a street does not.' },
+      { w: ['The', 'animal', "didn't", 'cross', 'the', 'street', 'because', 'it', 'was', 'too', 'wide'], t: 5, note: 'With “wide”, the same row moves to “street”: a street can be wide. One word changed the meaning.' }
+    ];
+    const svg = $('[data-svg]', el), note = $('[data-note]', el), bs = $$('.tabs button', el);
+    const draw = k => {
+      const s = S[k], n = s.w.length, C = 24, X0 = 120, Y0 = 70;
+      let h = '';
+      s.w.forEach((t, j) => { h += `<text x="${X0 + j * C + C / 2}" y="${Y0 - 8}" transform="rotate(-45 ${X0 + j * C + C / 2} ${Y0 - 8})" style="font-size:11.5px">${t}</text>`; });
+      for (let i = 0; i < n; i++) {
+        h += `<text x="${X0 - 8}" y="${Y0 + i * C + 16}" text-anchor="end" style="font-size:12px;${i === 7 ? 'fill:var(--ac);font-weight:600' : ''}">${s.w[i]}</text>`;
+        const row = s.w.map((_, j) => i === 7 ? (j === s.t ? .62 : j === 7 ? .12 : j === (s.t === 1 ? 5 : 1) ? .08 : .02) : (j === i ? .45 : Math.abs(i - j) === 1 ? .2 : .03));
+        row.forEach((v, j) => { h += `<rect x="${X0 + j * C}" y="${Y0 + i * C}" width="${C - 2}" height="${C - 2}" rx="3" style="fill:var(--ac);fill-opacity:${(.06 + v * 1.4).toFixed(2)};stroke:${i === 7 && j === s.t ? 'var(--fg)' : 'none'};stroke-width:1.5"/>`; });
+      }
+      h += `<text x="${X0 + n * C + 14}" y="${Y0 + 7 * C + 16}" style="font-size:12px;fill:var(--ac)">← row for “it”</text>`;
+      svg.innerHTML = h; note.textContent = s.note + ' (Illustrative weights; real heads differ.)';
+    };
+    bs.forEach((x, i) => x.onclick = () => { bs.forEach(y => y.setAttribute('aria-selected', String(y === x))); draw(i); });
+    draw(0);
+  });
+})();
+</script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="genai-course/s19-advanced-attention"></script>
+</body>
+</html>

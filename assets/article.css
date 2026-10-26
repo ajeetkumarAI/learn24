@@ -144,3 +144,4 @@ select{background:var(--panel2);color:var(--fg);border:1px solid var(--line);bor
 .analogy b{color:var(--amber)}
 .analogy p{margin:0}
 @media (prefers-reduced-motion:reduce){.fig .an{opacity:1;transform:none}}
+article code{overflow-wrap:anywhere}

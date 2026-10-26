@@ -20,7 +20,7 @@
     const d = isDone(t.id, l.id), soon = l.status !== 'live';
     const tag = soon ? 'div' : 'a';
     return `<${tag} class="lesson${soon ? ' soon' : ''}${d ? ' done' : ''}" style="--c:${t.color}"${soon ? ' aria-disabled="true"' : ` href="${lessonHref(t, l)}"`}>
-      <span class="ix">${i + 1}</span>
+      <span class="ix">${l.session || i + 1}</span>
       <div style="min-width:0"><h4>${esc(l.title)}</h4><p>${esc(l.summary)}</p>
         <div class="tags"><span class="tag t">${esc(t.name)}</span>${l.tags.map(g => `<span class="tag">${esc(g)}</span>`).join('')}</div></div>
       <div class="side"><span class="pill">${soon ? 'Coming soon' : d ? 'Done' : 'Start'}</span><span>${esc(l.level)} · ${l.mins} min</span></div>
@@ -73,7 +73,10 @@
       <h1>${esc(t.name)}</h1><p>${esc(t.blurb)}</p>
       <div class="progress"><div class="bar"><i style="width:${lv.length ? n / lv.length * 100 : 0}%"></i></div><span>${n} of ${lv.length} live lessons done</span></div>
     </section>
-    <section class="sec shell"><div class="lessons">${t.lessons.map((l, i) => lessonRow(t, l, i)).join('')}</div></section>`;
+    ${t.modules ? t.modules.map(m => `<section class="sec shell module">
+      <div class="mod-h" style="--c:${t.color}"><span class="mod-n">Module ${m.n}</span><div><h2>${esc(m.title)}</h2><p>${esc(m.objective)} · Sessions ${m.sessions[0]}–${m.sessions[m.sessions.length - 1]}</p></div></div>
+      <div class="lessons">${t.lessons.filter(l => l.module === m.n).map((l, i) => lessonRow(t, l, i)).join('')}</div></section>`).join('')
+      : `<section class="sec shell"><div class="lessons">${t.lessons.map((l, i) => lessonRow(t, l, i)).join('')}</div></section>`}`;
   }
 
   // footer
