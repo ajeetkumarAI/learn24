@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MCP in 5 Minutes · Learn24</title>
+<meta name="description" content="The Model Context Protocol is a standard way to plug tools and data into any AI app, like USB-C for AI integrations.">
+<meta property="og:title" content="MCP in 5 Minutes · Learn24">
+<meta property="og:description" content="The Model Context Protocol is a standard way to plug tools and data into any AI app, like USB-C for AI integrations.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/stepper.css">
+</head>
+<body>
+<script>window.LESSON = {
+ "eyebrow": "Agentic AI · Protocols",
+ "title": "MCP in 5 Minutes",
+ "color": "#45d19b",
+ "lede": "The Model Context Protocol is a standard way to plug tools and data into any AI app, like USB-C for AI integrations.",
+ "steps": [
+  {
+   "t": "The problem: N × M integrations",
+   "s": "Every AI app built its own connector for every tool.",
+   "b": [
+    {
+     "type": "table",
+     "head": [
+      "",
+      "Without MCP",
+      "With MCP"
+     ],
+     "rows": [
+      [
+       "3 apps × 5 tools",
+       "15 custom connectors",
+       "3 clients + 5 servers"
+      ],
+      [
+       "New tool",
+       "update every app",
+       "write one server"
+      ],
+      [
+       "New app",
+       "rebuild every connector",
+       "speak MCP once"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "t": "The three roles",
+   "s": "A host app runs MCP clients; each client connects to one MCP server.",
+   "b": [
+    {
+     "type": "flow",
+     "nodes": [
+      [
+       "Host",
+       "Claude, IDE, your app"
+      ],
+      [
+       "MCP client",
+       "one per server"
+      ],
+      [
+       "MCP server",
+       "wraps a tool or data"
+      ],
+      [
+       "Real system",
+       "GitHub, DB, Drive"
+      ]
+     ],
+     "hot": [
+      2
+     ]
+    }
+   ]
+  },
+  {
+   "t": "What a server can offer",
+   "s": "Three building blocks.",
+   "b": [
+    {
+     "type": "cards",
+     "items": [
+      [
+       "Tools",
+       "actions the model can call",
+       "create_ticket(title, priority)"
+      ],
+      [
+       "Resources",
+       "data the app can read",
+       "file://policies/fd.pdf"
+      ],
+      [
+       "Prompts",
+       "reusable templates",
+       "/summarise-ticket"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "t": "How they talk",
+   "s": "JSON-RPC 2.0 messages over stdio (local) or Streamable HTTP (remote).",
+   "b": [
+    {
+     "type": "code",
+     "cap": "client → server",
+     "text": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\", …}\n{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"tools/list\"}\n{\"jsonrpc\":\"2.0\",\"id\":3,\"method\":\"tools/call\",\n \"params\":{\"name\":\"create_ticket\",\"arguments\":{\"title\":\"Card blocked\",\"priority\":\"high\"}}}"
+    }
+   ]
+  },
+  {
+   "t": "Connect a server",
+   "s": "Most hosts take a small config entry.",
+   "b": [
+    {
+     "type": "code",
+     "cap": "host config",
+     "text": "{\n  \"mcpServers\": {\n    \"tickets\": { \"command\": \"python\", \"args\": [\"tickets_server.py\"] }\n  }\n}"
+    }
+   ]
+  },
+  {
+   "t": "Use it safely",
+   "s": "An MCP server is code you are trusting with your data.",
+   "b": [
+    {
+     "type": "list",
+     "items": [
+      [
+       "Install from trusted publishers only",
+       "look-alike servers exist (OWASP ASI04)"
+      ],
+      [
+       "Pin versions and review tool descriptions",
+       "descriptions can hide instructions"
+      ],
+      [
+       "Give servers least privilege",
+       "scoped tokens, read-only where possible"
+      ],
+      [
+       "Ask before risky tool calls",
+       "human approval for writes and sends"
+      ]
+     ]
+    }
+   ]
+  }
+ ],
+ "takeaways": [
+  [
+   "MCP standardises tools, resources and prompts",
+   "one protocol, many apps"
+  ],
+  [
+   "Host → client → server",
+   "each server wraps one system"
+  ],
+  [
+   "JSON-RPC over stdio or HTTP",
+   "easy to build in Python or TypeScript"
+  ],
+  [
+   "Treat servers as supply chain",
+   "verify before you install"
+  ]
+ ],
+ "fine": "Simplified message examples. See modelcontextprotocol.io for the full specification."
+};</script>
+<script src="../assets/stepper.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="agentic-ai/mcp"></script>
+</body>
+</html>

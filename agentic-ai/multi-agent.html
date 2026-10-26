@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Multi-Agent Patterns · Learn24</title>
+<meta name="description" content="Splitting work across several focused agents can raise quality, but every extra agent adds cost, latency and new ways to fail.">
+<meta property="og:title" content="Multi-Agent Patterns · Learn24">
+<meta property="og:description" content="Splitting work across several focused agents can raise quality, but every extra agent adds cost, latency and new ways to fail.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/stepper.css">
+</head>
+<body>
+<script>window.LESSON = {
+ "eyebrow": "Agentic AI · Architecture",
+ "title": "Multi-Agent Patterns",
+ "color": "#45d19b",
+ "lede": "Splitting work across several focused agents can raise quality, but every extra agent adds cost, latency and new ways to fail.",
+ "steps": [
+  {
+   "t": "Start with one agent",
+   "s": "Move to multiple agents only when one agent’s prompt or toolset gets too big to manage.",
+   "b": [
+    {
+     "type": "flow",
+     "nodes": [
+      [
+       "User"
+      ],
+      [
+       "Single agent",
+       "8 tools"
+      ],
+      [
+       "Answer"
+      ]
+     ],
+     "hot": [
+      1
+     ]
+    }
+   ]
+  },
+  {
+   "t": "Pattern 1: Router",
+   "s": "A cheap classifier sends each request to the right specialist.",
+   "b": [
+    {
+     "type": "flow",
+     "nodes": [
+      [
+       "Request"
+      ],
+      [
+       "Router",
+       "intent: card issue"
+      ],
+      [
+       "Cards agent"
+      ],
+      [
+       "Answer"
+      ]
+     ],
+     "hot": [
+      1,
+      2
+     ]
+    },
+    {
+     "type": "note",
+     "text": "<b>Use when</b> requests fall into clear categories (cards, loans, KYC)."
+    }
+   ]
+  },
+  {
+   "t": "Pattern 2: Sequential pipeline",
+   "s": "Each agent does one stage and hands over to the next.",
+   "b": [
+    {
+     "type": "flow",
+     "nodes": [
+      [
+       "Extract",
+       "read KYC docs"
+      ],
+      [
+       "Verify",
+       "check rules"
+      ],
+      [
+       "Decide",
+       "approve / refer"
+      ],
+      [
+       "Notify",
+       "email customer"
+      ]
+     ],
+     "hot": [
+      0,
+      1,
+      2,
+      3
+     ]
+    },
+    {
+     "type": "note",
+     "text": "<b>Use when</b> the steps are known and ordered."
+    }
+   ]
+  },
+  {
+   "t": "Pattern 3: Supervisor",
+   "s": "A supervisor plans, delegates sub-tasks to workers in parallel, and combines the results.",
+   "b": [
+    {
+     "type": "flow",
+     "nodes": [
+      [
+       "Supervisor",
+       "plans"
+      ],
+      [
+       "Research agent"
+      ],
+      [
+       "Data agent"
+      ],
+      [
+       "Writer agent"
+      ],
+      [
+       "Supervisor",
+       "merges"
+      ]
+     ],
+     "hot": [
+      0,
+      4
+     ]
+    },
+    {
+     "type": "note",
+     "text": "<b>Use when</b> tasks are open-ended and can be split, e.g. a market report."
+    }
+   ]
+  },
+  {
+   "t": "Pattern 4: Handoff (swarm)",
+   "s": "Agents pass the conversation to whichever peer is best placed, with no central boss.",
+   "b": [
+    {
+     "type": "flow",
+     "nodes": [
+      [
+       "Support agent"
+      ],
+      [
+       "→ Billing agent",
+       "handoff"
+      ],
+      [
+       "→ Fraud agent",
+       "handoff"
+      ],
+      [
+       "Answer"
+      ]
+     ],
+     "hot": [
+      1,
+      2
+     ]
+    },
+    {
+     "type": "note",
+     "text": "<b>Use when</b> conversations change topic. Agent-to-agent protocols such as A2A help agents from different vendors work together."
+    }
+   ]
+  },
+  {
+   "t": "Compare the trade-offs",
+   "s": "",
+   "b": [
+    {
+     "type": "table",
+     "head": [
+      "Pattern",
+      "Cost",
+      "Latency",
+      "Easy to debug?"
+     ],
+     "rows": [
+      [
+       "Single agent",
+       "low",
+       "low",
+       "yes"
+      ],
+      [
+       "Router",
+       "low",
+       "low",
+       "yes"
+      ],
+      [
+       "Pipeline",
+       "medium",
+       "medium",
+       "yes"
+      ],
+      [
+       "Supervisor",
+       "high",
+       "medium (parallel)",
+       "harder"
+      ],
+      [
+       "Handoff",
+       "medium",
+       "varies",
+       "hardest"
+      ]
+     ]
+    }
+   ]
+  }
+ ],
+ "takeaways": [
+  [
+   "Simplest pattern that works wins",
+   "single agent → router → pipeline → supervisor"
+  ],
+  [
+   "Every handoff can lose context",
+   "pass structured state, not just chat"
+  ],
+  [
+   "Trace every agent and message",
+   "you can’t fix what you can’t see"
+  ],
+  [
+   "Secure agent-to-agent traffic",
+   "see OWASP ASI07 and ASI08"
+  ]
+ ],
+ "fine": "NovaBank examples are fictional."
+};</script>
+<script src="../assets/stepper.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="agentic-ai/multi-agent"></script>
+</body>
+</html>

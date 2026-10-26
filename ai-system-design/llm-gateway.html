@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Caching, Rate Limits and Cost Control · Learn24</title>
+<meta name="description" content="An LLM gateway sits between your apps and model providers. One place for auth, limits, caching, routing, fallbacks, guardrails and cost tracking.">
+<meta property="og:title" content="Caching, Rate Limits and Cost Control · Learn24">
+<meta property="og:description" content="An LLM gateway sits between your apps and model providers. One place for auth, limits, caching, routing, fallbacks, guardrails and cost tracking.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/stepper.css">
+</head>
+<body>
+<script>window.LESSON = {
+ "eyebrow": "AI System Design · Platform",
+ "title": "Caching, Rate Limits and Cost Control",
+ "color": "#f2b84b",
+ "lede": "An LLM gateway sits between your apps and model providers. One place for auth, limits, caching, routing, fallbacks, guardrails and cost tracking.",
+ "steps": [
+  {
+   "t": "Where the gateway sits",
+   "s": "Apps call the gateway; the gateway calls the models.",
+   "b": [
+    {
+     "type": "flow",
+     "nodes": [
+      [
+       "Apps",
+       "chatbot, agents, batch jobs"
+      ],
+      [
+       "LLM gateway"
+      ],
+      [
+       "Model providers",
+       "OpenAI, Anthropic, Azure, self-hosted"
+      ]
+     ],
+     "hot": [
+      1
+     ]
+    },
+    {
+     "type": "chips",
+     "items": [
+      "auth",
+      "rate limits",
+      "cache",
+      "router",
+      "fallback",
+      "guardrails",
+      "logging",
+      "cost"
+     ],
+     "ac": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+     ]
+    }
+   ]
+  },
+  {
+   "t": "Semantic cache",
+   "s": "If a new question means the same as a recent one, return the saved answer.",
+   "b": [
+    {
+     "type": "msg",
+     "who": "Earlier question (cached)",
+     "text": "How do I reset my net banking password?"
+    },
+    {
+     "type": "msg",
+     "who": "New question",
+     "text": "Forgot my internet banking password, how to change it?"
+    },
+    {
+     "type": "code",
+     "cap": "gateway log",
+     "text": "similarity = 0.94  (threshold 0.90)  → CACHE HIT\nlatency 45 ms   cost ₹0.00   (LLM call would be ~1.8 s, ₹0.40)"
+    }
+   ]
+  },
+  {
+   "t": "Rate limits and budgets",
+   "s": "Limit per user, per app and per team, by requests and by tokens.",
+   "b": [
+    {
+     "type": "code",
+     "cap": "gateway policy",
+     "text": "teams:\n  support-bot:  { rpm: 600, tpm: 400000, monthly_budget_inr: 150000 }\n  analytics:    { rpm: 60,  tpm: 200000, monthly_budget_inr: 50000 }\nper_user:       { rpm: 20 }\non_limit:       429 + Retry-After"
+    }
+   ]
+  },
+  {
+   "t": "Route by difficulty",
+   "s": "Send easy requests to a small model and hard ones to a strong model.",
+   "b": [
+    {
+     "type": "table",
+     "head": [
+      "Request type",
+      "Model",
+      "Share of traffic",
+      "Cost per 1k requests"
+     ],
+     "rows": [
+      [
+       "FAQ, greetings, classification",
+       "small model",
+       "70%",
+       "₹40"
+      ],
+      [
+       "Summaries, RAG answers",
+       "mid model",
+       "25%",
+       "₹300"
+      ],
+      [
+       "Complex reasoning, code",
+       "frontier model",
+       "5%",
+       "₹1,800"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "t": "Fallbacks and retries",
+   "s": "If a provider is slow or down, switch automatically.",
+   "b": [
+    {
+     "type": "flow",
+     "nodes": [
+      [
+       "Primary model",
+       "timeout 8 s"
+      ],
+      [
+       "Retry once",
+       "with backoff"
+      ],
+      [
+       "Fallback model",
+       "other provider"
+      ],
+      [
+       "Answer"
+      ]
+     ],
+     "hot": [
+      2
+     ]
+    }
+   ]
+  },
+  {
+   "t": "See where the money goes",
+   "s": "Monthly spend by team, before and after caching and routing.",
+   "b": [
+    {
+     "type": "bars",
+     "rows": [
+      [
+       "Before gateway",
+       420000,
+       "₹4.2 L",
+       "badc"
+      ],
+      [
+       "+ semantic cache",
+       300000,
+       "₹3.0 L"
+      ],
+      [
+       "+ model routing",
+       165000,
+       "₹1.65 L",
+       "goodc"
+      ]
+     ],
+     "max": 420000
+    },
+    {
+     "type": "note",
+     "text": "Illustrative savings: caching cut calls by ~30%, routing moved most traffic to cheaper models."
+    }
+   ]
+  }
+ ],
+ "takeaways": [
+  [
+   "One gateway for every LLM call",
+   "consistent auth, limits and logs"
+  ],
+  [
+   "Cache by meaning, not exact text",
+   "tune the similarity threshold carefully"
+  ],
+  [
+   "Route by difficulty",
+   "most traffic doesn’t need the biggest model"
+  ],
+  [
+   "Budgets and fallbacks",
+   "protect both your bill and your uptime"
+  ]
+ ],
+ "fine": "Prices and savings are illustrative."
+};</script>
+<script src="../assets/stepper.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="ai-system-design/llm-gateway"></script>
+</body>
+</html>

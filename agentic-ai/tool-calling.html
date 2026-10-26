@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tool Calling Explained · Learn24</title>
+<meta name="description" content="The model never runs your code. It asks for a tool by name with arguments; your app runs it and sends back the result.">
+<meta property="og:title" content="Tool Calling Explained · Learn24">
+<meta property="og:description" content="The model never runs your code. It asks for a tool by name with arguments; your app runs it and sends back the result.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/stepper.css">
+</head>
+<body>
+<script>window.LESSON = {
+ "eyebrow": "Agentic AI · Tools",
+ "title": "Tool Calling Explained",
+ "color": "#45d19b",
+ "lede": "The model never runs your code. It asks for a tool by name with arguments; your app runs it and sends back the result.",
+ "steps": [
+  {
+   "t": "Describe the tool",
+   "s": "You give the model a name, a description and a JSON schema for the arguments.",
+   "b": [
+    {
+     "type": "code",
+     "cap": "tool definition",
+     "text": "{\n  \"name\": \"get_balance\",\n  \"description\": \"Get the current balance of the logged-in user’s account\",\n  \"input_schema\": {\n    \"type\": \"object\",\n    \"properties\": { \"account_type\": { \"type\": \"string\", \"enum\": [\"savings\", \"current\"] } },\n    \"required\": [\"account_type\"]\n  }\n}"
+    }
+   ]
+  },
+  {
+   "t": "The user asks",
+   "s": "",
+   "b": [
+    {
+     "type": "msg",
+     "who": "User",
+     "text": "How much money is in my savings account?"
+    }
+   ]
+  },
+  {
+   "t": "The model requests a tool call",
+   "s": "Instead of text, it returns structured JSON naming the tool and its arguments.",
+   "b": [
+    {
+     "type": "code",
+     "cap": "model output",
+     "text": "{ \"type\": \"tool_use\", \"name\": \"get_balance\",\n  \"input\": { \"account_type\": \"savings\" } }"
+    }
+   ]
+  },
+  {
+   "t": "Your app runs it",
+   "s": "Your code checks the request, runs the real function with the user’s own permissions, and returns the result.",
+   "b": [
+    {
+     "type": "flow",
+     "nodes": [
+      [
+       "Model",
+       "tool_use"
+      ],
+      [
+       "Validate args",
+       "schema + auth"
+      ],
+      [
+       "get_balance()",
+       "your code"
+      ],
+      [
+       "Result",
+       "₹48,250.75"
+      ]
+     ],
+     "hot": [
+      1,
+      2
+     ]
+    }
+   ]
+  },
+  {
+   "t": "The model writes the answer",
+   "s": "The tool result is added to the conversation and the model replies in plain language.",
+   "b": [
+    {
+     "type": "code",
+     "cap": "sent back to the model",
+     "text": "{ \"type\": \"tool_result\", \"content\": \"{\\\"balance\\\": 48250.75, \\\"currency\\\": \\\"INR\\\"}\" }"
+    },
+    {
+     "type": "msg",
+     "who": "Assistant",
+     "tone": "out",
+     "text": "Your savings account balance is ₹48,250.75."
+    }
+   ]
+  },
+  {
+   "t": "Make tools reliable",
+   "s": "Most agent bugs are tool bugs.",
+   "b": [
+    {
+     "type": "list",
+     "items": [
+      [
+       "Write clear descriptions",
+       "the model chooses tools from them"
+      ],
+      [
+       "Validate every argument",
+       "never trust model output blindly"
+      ],
+      [
+       "Return useful errors",
+       "\"account_type must be savings or current\""
+      ],
+      [
+       "Keep tools small and safe",
+       "read-only by default; confirm risky actions"
+      ],
+      [
+       "Log every call",
+       "inputs, outputs and latency"
+      ]
+     ]
+    }
+   ]
+  }
+ ],
+ "takeaways": [
+  [
+   "The model only proposes calls",
+   "your code decides and executes"
+  ],
+  [
+   "Schemas are a contract",
+   "enforce them"
+  ],
+  [
+   "Tool results go back as messages",
+   "the loop continues until a text answer"
+  ],
+  [
+   "Least privilege per tool",
+   "see OWASP LLM06 and ASI02"
+  ]
+ ],
+ "fine": "Message shapes follow common tool-use APIs; field names vary by provider."
+};</script>
+<script src="../assets/stepper.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="agentic-ai/tool-calling"></script>
+</body>
+</html>

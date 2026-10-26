@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>What Is an AI Agent? · Learn24</title>
+<meta name="description" content="A chatbot answers. An agent works towards a goal: it thinks, uses tools, looks at the result, and keeps going until the job is done.">
+<meta property="og:title" content="What Is an AI Agent? · Learn24">
+<meta property="og:description" content="A chatbot answers. An agent works towards a goal: it thinks, uses tools, looks at the result, and keeps going until the job is done.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/stepper.css">
+</head>
+<body>
+<script>window.LESSON = {
+ "eyebrow": "Agentic AI · Foundations",
+ "title": "What Is an AI Agent?",
+ "color": "#45d19b",
+ "lede": "A chatbot answers. An agent works towards a goal: it thinks, uses tools, looks at the result, and keeps going until the job is done.",
+ "steps": [
+  {
+   "t": "Chatbot vs agent",
+   "s": "Same model, different setup.",
+   "b": [
+    {
+     "type": "table",
+     "head": [
+      "",
+      "Chatbot",
+      "Agent"
+     ],
+     "rows": [
+      [
+       "Output",
+       "text reply",
+       "actions + reply"
+      ],
+      [
+       "Steps",
+       "one",
+       "many, chosen by the model"
+      ],
+      [
+       "Tools",
+       "none",
+       "search, APIs, code, email…"
+      ],
+      [
+       "Memory",
+       "this chat",
+       "task state + long-term memory"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "t": "The agent loop",
+   "s": "Think → act → observe, repeated until the goal is met (often called ReAct).",
+   "b": [
+    {
+     "type": "cycle",
+     "nodes": [
+      [
+       "Think",
+       "plan next step"
+      ],
+      [
+       "Act",
+       "call a tool"
+      ],
+      [
+       "Observe",
+       "read the result"
+      ]
+     ],
+     "rounds": 2,
+     "label": "until done"
+    }
+   ]
+  },
+  {
+   "t": "A real task",
+   "s": "Goal given to the agent:",
+   "b": [
+    {
+     "type": "msg",
+     "who": "User",
+     "text": "Find the cheapest flight from Pune to Delhi next Friday morning and add it to my calendar."
+    }
+   ]
+  },
+  {
+   "t": "Watch it work",
+   "s": "Each line is one turn of the loop.",
+   "b": [
+    {
+     "type": "trace",
+     "lines": [
+      [
+       "thought",
+       "I need flights PNQ → DEL on Friday before noon."
+      ],
+      [
+       "action",
+       "search_flights(from=\"PNQ\", to=\"DEL\", date=\"2026-10-30\", before=\"12:00\")"
+      ],
+      [
+       "obs",
+       "3 results: 6E-512 ₹4,890 06:10 · AI-850 ₹5,420 08:35 · UK-972 ₹6,100 09:50"
+      ],
+      [
+       "thought",
+       "Cheapest is 6E-512 at ₹4,890. Add it to the calendar."
+      ],
+      [
+       "action",
+       "calendar.add(title=\"6E-512 PNQ→DEL\", start=\"2026-10-30T06:10\", end=\"08:15\")"
+      ],
+      [
+       "obs",
+       "event created"
+      ],
+      [
+       "final",
+       "Cheapest is IndiGo 6E-512 at 06:10 for ₹4,890. It’s on your calendar."
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "t": "What an agent is made of",
+   "s": "Five parts, whatever framework you use.",
+   "b": [
+    {
+     "type": "cards",
+     "items": [
+      [
+       "LLM",
+       "the reasoning engine that decides the next step"
+      ],
+      [
+       "Tools",
+       "functions it can call: APIs, search, code, DB"
+      ],
+      [
+       "Memory",
+       "short-term task state and long-term facts"
+      ],
+      [
+       "Planner / loop",
+       "controls steps, retries and when to stop"
+      ],
+      [
+       "Guardrails",
+       "permissions, approvals, budgets and logs"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "t": "When to use an agent",
+   "s": "Agents cost more and are harder to test, so use them where steps aren’t known in advance.",
+   "b": [
+    {
+     "type": "list",
+     "items": [
+      [
+       "Good fit",
+       "research, triage, multi-step support, data lookups across systems"
+      ],
+      [
+       "Use a fixed workflow instead",
+       "when the steps are always the same"
+      ],
+      [
+       "Keep a human in the loop",
+       "for payments, deletions and anything irreversible"
+      ]
+     ]
+    }
+   ]
+  }
+ ],
+ "takeaways": [
+  [
+   "Agent = LLM + tools + loop",
+   "plus memory and guardrails"
+  ],
+  [
+   "The model chooses the steps",
+   "that is the power and the risk"
+  ],
+  [
+   "Start with a single agent",
+   "add more only when needed"
+  ],
+  [
+   "Secure it from day one",
+   "see the OWASP Agentic Top 10 lesson"
+  ]
+ ],
+ "fine": "Flight numbers and fares are illustrative."
+};</script>
+<script src="../assets/stepper.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="agentic-ai/what-is-an-agent"></script>
+</body>
+</html>

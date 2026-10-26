@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Design a RAG Chatbot · Learn24</title>
+<meta name="description" content="An interview-style design for NovaBank’s internal policy assistant: requirements, ingestion, query path, latency budget, evaluation and monitoring.">
+<meta property="og:title" content="Design a RAG Chatbot · Learn24">
+<meta property="og:description" content="An interview-style design for NovaBank’s internal policy assistant: requirements, ingestion, query path, latency budget, evaluation and monitoring.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/stepper.css">
+</head>
+<body>
+<script>window.LESSON = {
+ "eyebrow": "AI System Design · Case study",
+ "title": "Design a RAG Chatbot",
+ "color": "#f2b84b",
+ "lede": "An interview-style design for NovaBank’s internal policy assistant: requirements, ingestion, query path, latency budget, evaluation and monitoring.",
+ "steps": [
+  {
+   "t": "Requirements",
+   "s": "Agree the numbers before drawing boxes.",
+   "b": [
+    {
+     "type": "cards",
+     "items": [
+      [
+       "Users",
+       "5,000 employees, ~200 concurrent at peak"
+      ],
+      [
+       "Corpus",
+       "40,000 PDFs and wiki pages, updated daily"
+      ],
+      [
+       "Latency",
+       "first token < 1.5 s, full answer p95 < 4 s"
+      ],
+      [
+       "Must have",
+       "citations, access control, audit log"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "t": "Ingestion pipeline (offline)",
+   "s": "Runs on a schedule and on every document change.",
+   "b": [
+    {
+     "type": "flow",
+     "nodes": [
+      [
+       "Sources",
+       "SharePoint, wiki"
+      ],
+      [
+       "Parse + clean",
+       "PDF → text"
+      ],
+      [
+       "Chunk",
+       "500 tokens"
+      ],
+      [
+       "Embed",
+       "batch"
+      ],
+      [
+       "Vector + keyword index",
+       "with ACL tags"
+      ]
+     ],
+     "hot": [
+      4
+     ]
+    }
+   ]
+  },
+  {
+   "t": "Query path (online)",
+   "s": "What happens on each question.",
+   "b": [
+    {
+     "type": "flow",
+     "nodes": [
+      [
+       "User"
+      ],
+      [
+       "Auth + ACL"
+      ],
+      [
+       "Rewrite query"
+      ],
+      [
+       "Hybrid search",
+       "vector + BM25"
+      ],
+      [
+       "Re-rank",
+       "top 5"
+      ],
+      [
+       "LLM",
+       "stream"
+      ],
+      [
+       "Answer + citations"
+      ]
+     ],
+     "hot": [
+      3,
+      4,
+      5
+     ]
+    }
+   ]
+  },
+  {
+   "t": "Latency budget",
+   "s": "Where the 4 seconds go (p95).",
+   "b": [
+    {
+     "type": "bars",
+     "rows": [
+      [
+       "Auth + rewrite",
+       250,
+       "250 ms"
+      ],
+      [
+       "Hybrid search",
+       120,
+       "120 ms"
+      ],
+      [
+       "Re-rank",
+       180,
+       "180 ms"
+      ],
+      [
+       "LLM first token",
+       700,
+       "700 ms",
+       "top"
+      ],
+      [
+       "LLM full answer",
+       2400,
+       "2.4 s",
+       "top"
+      ]
+     ],
+     "max": 2400
+    },
+    {
+     "type": "note",
+     "text": "Streaming hides most of the generation time: users see text after about <b>1.25 s</b>."
+    }
+   ]
+  },
+  {
+   "t": "Scale and cost",
+   "s": "",
+   "b": [
+    {
+     "type": "list",
+     "items": [
+      [
+       "Semantic cache",
+       "serve repeated questions without calling the LLM"
+      ],
+      [
+       "Small model first",
+       "route easy questions to a cheaper model"
+      ],
+      [
+       "Incremental indexing",
+       "re-embed only changed documents"
+      ],
+      [
+       "Stateless API pods",
+       "autoscale on concurrent requests"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "t": "Evaluate before launch",
+   "s": "A golden set of 300 real questions with known answers.",
+   "b": [
+    {
+     "type": "bars",
+     "rows": [
+      [
+       "Retrieval recall@5",
+       0.92,
+       "0.92",
+       "top"
+      ],
+      [
+       "Faithfulness",
+       0.95,
+       "0.95",
+       "top"
+      ],
+      [
+       "Answer relevance",
+       0.89,
+       "0.89"
+      ],
+      [
+       "Citation accuracy",
+       0.97,
+       "0.97",
+       "top"
+      ]
+     ],
+     "max": 1
+    }
+   ]
+  },
+  {
+   "t": "Monitor in production",
+   "s": "Dashboards and alerts.",
+   "b": [
+    {
+     "type": "cards",
+     "items": [
+      [
+       "Quality",
+       "thumbs down rate, \"I don’t know\" rate"
+      ],
+      [
+       "Latency",
+       "TTFT and p95 per stage"
+      ],
+      [
+       "Cost",
+       "₹ per 1,000 questions, cache hit rate"
+      ],
+      [
+       "Safety",
+       "ACL denials, PII detections, injection flags"
+      ]
+     ]
+    }
+   ]
+  }
+ ],
+ "takeaways": [
+  [
+   "Start from requirements and numbers",
+   "users, corpus, latency, must-haves"
+  ],
+  [
+   "Hybrid search + re-ranking beats vectors alone",
+   "for policy and jargon-heavy text"
+  ],
+  [
+   "Access control at retrieval time",
+   "never rely on the prompt"
+  ],
+  [
+   "Evaluate offline, monitor online",
+   "with the same metrics"
+  ]
+ ],
+ "fine": "Figures are illustrative design targets."
+};</script>
+<script src="../assets/stepper.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="ai-system-design/design-rag-chatbot"></script>
+</body>
+</html>

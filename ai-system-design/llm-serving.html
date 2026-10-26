@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Serving LLMs at Scale · Learn24</title>
+<meta name="description" content="Running your own model in production is mostly about GPU memory and keeping the GPU busy. These are the techniques serving engines like vLLM and TGI use.">
+<meta property="og:title" content="Serving LLMs at Scale · Learn24">
+<meta property="og:description" content="Running your own model in production is mostly about GPU memory and keeping the GPU busy. These are the techniques serving engines like vLLM and TGI use.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/stepper.css">
+</head>
+<body>
+<script>window.LESSON = {
+ "eyebrow": "AI System Design · Infrastructure",
+ "title": "Serving LLMs at Scale",
+ "color": "#f2b84b",
+ "lede": "Running your own model in production is mostly about GPU memory and keeping the GPU busy. These are the techniques serving engines like vLLM and TGI use.",
+ "steps": [
+  {
+   "t": "Two phases per request",
+   "s": "Prefill reads the whole prompt at once; decode then generates one token per step.",
+   "b": [
+    {
+     "type": "flow",
+     "nodes": [
+      [
+       "Prompt",
+       "1,200 tokens"
+      ],
+      [
+       "Prefill",
+       "parallel, compute-bound"
+      ],
+      [
+       "Decode",
+       "token by token, memory-bound"
+      ],
+      [
+       "Response",
+       "300 tokens"
+      ]
+     ],
+     "hot": [
+      1,
+      2
+     ]
+    },
+    {
+     "type": "cards",
+     "items": [
+      [
+       "TTFT",
+       "time to first token: set by prefill + queueing"
+      ],
+      [
+       "TPOT",
+       "time per output token: set by decode speed"
+      ],
+      [
+       "Throughput",
+       "tokens per second across all users"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "t": "KV cache",
+   "s": "Keys and values for earlier tokens are stored so each decode step only computes the newest token.",
+   "b": [
+    {
+     "type": "chips",
+     "items": [
+      "The",
+      " capital",
+      " of",
+      " India",
+      " is",
+      " New"
+     ],
+     "ac": [
+      5
+     ]
+    },
+    {
+     "type": "note",
+     "text": "Without a cache, step 300 would recompute all 1,500 tokens. The cache grows with context length, so it is usually what fills GPU memory. <b>PagedAttention</b> stores it in pages to avoid waste."
+    }
+   ]
+  },
+  {
+   "t": "Continuous batching",
+   "s": "Static batching waits for the slowest request; continuous batching adds and removes requests every step.",
+   "b": [
+    {
+     "type": "bars",
+     "rows": [
+      [
+       "Static batching",
+       0.38,
+       "38% GPU busy"
+      ],
+      [
+       "Continuous batching",
+       0.86,
+       "86% GPU busy",
+       "top"
+      ]
+     ],
+     "max": 1
+    }
+   ]
+  },
+  {
+   "t": "Quantization",
+   "s": "Store weights in fewer bits to fit bigger models or more users per GPU.",
+   "b": [
+    {
+     "type": "table",
+     "head": [
+      "Precision",
+      "7B model weights",
+      "Quality impact"
+     ],
+     "rows": [
+      [
+       "FP16 / BF16",
+       "~14 GB",
+       "baseline"
+      ],
+      [
+       "INT8",
+       "~7 GB",
+       "usually negligible"
+      ],
+      [
+       "INT4 (AWQ, GPTQ)",
+       "~3.5–4 GB",
+       "small; test on your tasks"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "t": "Route and autoscale",
+   "s": "Put a router in front of several model replicas.",
+   "b": [
+    {
+     "type": "flow",
+     "nodes": [
+      [
+       "Requests"
+      ],
+      [
+       "Router",
+       "queue + priority"
+      ],
+      [
+       "Replica 1",
+       "A100"
+      ],
+      [
+       "Replica 2",
+       "A100"
+      ],
+      [
+       "Replica N",
+       "autoscaled"
+      ]
+     ],
+     "hot": [
+      1
+     ]
+    },
+    {
+     "type": "list",
+     "items": [
+      [
+       "Scale on queue depth and TTFT",
+       "not just CPU"
+      ],
+      [
+       "Keep a warm minimum",
+       "loading a model takes minutes"
+      ],
+      [
+       "Separate long and short prompts",
+       "so one long prompt doesn’t block chat users"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "t": "Watch the right metrics",
+   "s": "",
+   "b": [
+    {
+     "type": "bars",
+     "rows": [
+      [
+       "p95 TTFT",
+       620,
+       "620 ms"
+      ],
+      [
+       "p95 TPOT",
+       38,
+       "38 ms"
+      ],
+      [
+       "Throughput",
+       2400,
+       "2,400 tok/s",
+       "top"
+      ],
+      [
+       "GPU memory used",
+       78,
+       "78%"
+      ]
+     ],
+     "max": 2400
+    },
+    {
+     "type": "note",
+     "text": "Illustrative numbers for one replica under load."
+    }
+   ]
+  }
+ ],
+ "takeaways": [
+  [
+   "Prefill sets TTFT, decode sets TPOT",
+   "tune them separately"
+  ],
+  [
+   "KV cache is the memory bottleneck",
+   "PagedAttention and shorter contexts help"
+  ],
+  [
+   "Continuous batching keeps GPUs busy",
+   "the biggest single throughput gain"
+  ],
+  [
+   "Quantize, then measure quality",
+   "INT8 is usually safe; test INT4"
+  ]
+ ],
+ "fine": "Memory figures are approximate for weights only; the KV cache needs extra memory."
+};</script>
+<script src="../assets/stepper.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="ai-system-design/llm-serving"></script>
+</body>
+</html>
