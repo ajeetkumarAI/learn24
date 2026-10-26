@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Adaptation, Quantization & Evaluation · GenAI Course · Learn24</title>
+<meta name="description" content="Transfer learning and domain adaptation, a decision matrix for prompting vs RAG vs PEFT vs full fine-tuning, INT8/INT4/GGUF quantization with worked numbers, and evaluation with perplexity, BLEU, ROUGE and METEOR, plus where automatic metrics mislead.">
+<meta property="og:title" content="Adaptation, Quantization &amp; Evaluation · Learn24">
+<meta property="og:description" content="Transfer learning and domain adaptation, a decision matrix for prompting vs RAG vs PEFT vs full fine-tuning, INT8/INT4/GGUF quantization with worked numbers, and evaluation with perplexity, BLEU, ROUGE and METEOR, plus where automatic metrics mislead.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#b38cff}</style>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article>
+  <div class="kicker">GenAI Course · Module 7 · Session 25</div>
+  <h1>Adaptation, Quantization & Evaluation</h1>
+  <div class="meta"><span>⏱ 15 min read</span><span>🎯 Intermediate</span><span>🖼 2 diagrams</span><span>🧪 4 live demos</span><span>🐍 Python code</span></div>
+<p class="lead">You have a pre-trained model. Three practical questions come next: <strong>How do I make it good at my task?</strong> <strong>How do I make it small enough to run?</strong> And <strong>how do I know if it is actually good?</strong> This session answers all three.</p>
+  <div class="tldr"><h4>In this session</h4><ul>
+    <li>Transfer learning and domain adaptation</li>
+    <li>Prompting vs RAG vs PEFT vs full fine-tuning: a decision matrix</li>
+    <li>Quantization: INT8, INT4 and GGUF, with real numbers</li>
+    <li>Evaluation: perplexity, BLEU, ROUGE, METEOR and human evaluation</li>
+    <li>A real example of automatic metrics giving the wrong answer</li>
+  </ul></div>
+
+  <h2 id="transfer"><span class="n">01</span>Transfer learning and domain adaptation</h2>
+  <p><strong>Transfer learning</strong> means reusing what a model learned on general text for a new task. You don’t start from zero; you start from a model that already knows language.</p>
+  <figure class="fig">
+    <div class="kflow" data-nodes='[["Pre-trained model","general web + books","ac"],["Domain adaptation (optional)","keep pre-training on banking or medical text","am"],["Task fine-tuning","labelled examples for one job","gr"],["Your model","speaks your domain, does your task","solid"]]'></div>
+    <figcaption>Domain adaptation teaches the vocabulary of your field (NEFT, KYC, chargeback); task fine-tuning teaches the job.</figcaption>
+  </figure>
+  <div class="analogy"><span class="ic">👨‍⚕️</span><p><b>Like a doctor’s training.</b> MBBS gives general medical knowledge (pre-training), MD in cardiology adds domain knowledge (domain adaptation), and training on one hospital’s procedures prepares for the exact job (task fine-tuning).</p></div>
+
+  <h2 id="matrix"><span class="n">02</span>Prompting vs RAG vs PEFT vs full fine-tuning</h2>
+  <p>This is one of the most common questions in real projects. Use this matrix:</p>
+  <div class="tw"><table>
+    <thead><tr><th></th><th>Prompting</th><th>RAG</th><th>PEFT (LoRA)</th><th>Full fine-tuning</th></tr></thead>
+    <tbody>
+      <tr><td>What changes</td><td>Only the input text</td><td>Input + retrieved documents</td><td>Small adapter weights</td><td>All model weights</td></tr>
+      <tr><td>Data needed</td><td>A few examples</td><td>Your documents</td><td>Hundreds – thousands of examples</td><td>Thousands – millions</td></tr>
+      <tr><td>Cost and time</td><td>Minutes, almost free</td><td>Days to build the pipeline</td><td>Hours on 1 GPU</td><td>Days on many GPUs</td></tr>
+      <tr><td>Keeps facts fresh</td><td>No</td><td><b>Yes</b>, just re-index</td><td>No, retrain</td><td>No, retrain</td></tr>
+      <tr><td>Best for</td><td>Format, tone, simple tasks</td><td>Answering from private or changing knowledge</td><td>Style, structured output, domain tasks</td><td>New languages or very large behaviour changes</td></tr>
+    </tbody></table></div>
+  <div class="demo" data-demo="pick"><script type="application/json">{"title":"What should we use?","options":[
+    {"label":"Answer from 500 policy PDFs","html":"<div class='kgrid'><div class='kc ac'><b>RAG</b><span>Facts live in documents and change often. Retrieve the right chunks and let the model answer with citations (Module 9).</span></div></div>"},
+    {"label":"Always reply in our JSON format","html":"<div class='kgrid'><div class='kc gr'><b>Prompting first, then PEFT</b><span>Start with clear instructions + JSON mode (Session 28). If it still breaks at scale, LoRA fine-tune on a few hundred examples.</span></div></div>"},
+    {"label":"Classify 1 lakh tickets a day","html":"<div class='kgrid'><div class='kc am'><b>Fine-tune a small model (PEFT or full)</b><span>A fine-tuned small model is far cheaper and faster than prompting a big LLM for every ticket.</span></div></div>"},
+    {"label":"Support a new low-resource language","html":"<div class='kgrid'><div class='kc rd'><b>Continued pre-training + fine-tuning</b><span>The model must learn the language itself, which needs lots of text and heavier training.</span></div></div>"}]}</script></div>
+  <div class="callout tip"><b>Golden rule:</b> start with prompting, add RAG for knowledge, and fine-tune only when you have clear evidence that the first two are not enough. Session 39 goes deeper.</div>
+
+  <h2 id="quantization"><span class="n">03</span>Quantization: making models smaller</h2>
+  <p>Model weights are normally stored as 16-bit floating-point numbers. <strong>Quantization</strong> stores them with fewer bits, like 8 or 4, using a scale factor. The model becomes 2–4× smaller and often faster, with a small loss in quality.</p>
+  <div class="demo" data-demo="stepper"><script type="application/json">{"title":"Quantize 5 weights by hand","steps":[
+    "<p>Original FP16 weights: <code>[0.42, −1.30, 0.07, 0.95, −0.61]</code></p>",
+    "<p><b>INT8</b> (−127…127): scale = max|w| / 127 = 1.30 / 127 = <code>0.01024</code></p><p>Divide and round: <code>[41, −127, 7, 93, −60]</code></p>",
+    "<p>Convert back (× scale): <code>[0.420, −1.300, 0.072, 0.952, −0.614]</code></p><p>Largest error: <b>0.004</b>. Almost perfect.</p>",
+    "<p><b>INT4</b> (−7…7): scale = 1.30 / 7 = <code>0.186</code></p><p>Divide and round: <code>[2, −7, 0, 5, −3]</code> → back: <code>[0.371, −1.300, 0.000, 0.929, −0.557]</code></p><p>Largest error: <b>0.07</b>. Small weights like 0.07 become 0: some detail is lost.</p>"]}</script></div>
+  <figure class="fig">
+    <div class="bars" style="max-width:600px;margin:0 auto" data-static='[["FP16",14,"~14 GB"],["INT8",7,"~7 GB"],["INT4",3.8,"~3.5–4 GB"]]'></div>
+    <figcaption>Weights of a 7B-parameter model at different precisions.</figcaption>
+  </figure>
+  <div class="tw"><table>
+    <thead><tr><th>Format / method</th><th>What it is</th><th>Typical use</th></tr></thead>
+    <tbody>
+      <tr><td>INT8 (e.g. bitsandbytes LLM.int8)</td><td>8-bit weights with special handling of outlier values</td><td>Near-lossless; halves memory</td></tr>
+      <tr><td>INT4: GPTQ, AWQ</td><td>4-bit weights calibrated on sample data</td><td>Serving on GPUs</td></tr>
+      <tr><td>NF4 (QLoRA)</td><td>4-bit format designed for normally distributed weights</td><td>Fine-tuning big models on one GPU (Session 40)</td></tr>
+      <tr><td>GGUF</td><td>File format from llama.cpp with levels like Q8_0, Q5_K_M, Q4_K_M</td><td>Running on laptops and CPUs (llama.cpp, Ollama, LM Studio)</td></tr>
+    </tbody></table></div>
+  <div class="codebox"><div class="cap"><span>load_in_4bit.py</span><button class="copy" type="button">Copy</button></div><pre># pip install transformers accelerate bitsandbytes
+import torch
+from transformers import AutoModelForCausalLM, BitsAndBytesConfig
+
+bnb = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type="nf4",
+                         bnb_4bit_compute_dtype=torch.float16)
+model = AutoModelForCausalLM.from_pretrained("Qwen/Qwen2.5-7B-Instruct",
+                                             quantization_config=bnb, device_map="auto")
+print(f"{model.get_memory_footprint() / 1e9:.1f} GB")   # roughly 5 GB instead of ~15 GB</pre></div>
+
+  <h2 id="metrics"><span class="n">04</span>Evaluation metrics</h2>
+  <h3>Perplexity: how surprised is the model?</h3>
+  <p>Perplexity is the exponential of the average negative log-probability the model gave to the real tokens. <strong>Lower is better.</strong> A perplexity of 2 roughly means the model was, on average, choosing between 2 equally likely options.</p>
+  <div class="demo" data-demo="stepper"><script type="application/json">{"title":"Perplexity by hand","steps":[
+    "<p>The model gave the real next tokens these probabilities: <code>[0.50, 0.25, 0.80, 0.60]</code></p>",
+    "<p>Negative log of each: <code>[0.693, 1.386, 0.223, 0.511]</code></p>",
+    "<p>Average: <code>0.703</code></p>",
+    "<p>Perplexity = e<sup>0.703</sup> = <b>2.02</b></p><p class='note-s'>Perplexity compares models on the same text and tokenizer. It does not tell you whether answers are helpful or true.</p>"]}</script></div>
+  <h3>BLEU, ROUGE and METEOR: comparing with a reference</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Metric</th><th>Measures</th><th>Mainly used for</th></tr></thead>
+    <tbody>
+      <tr><td>BLEU</td><td>How many n-grams (1–4 words) of the output appear in the reference (precision), with a penalty for being too short</td><td>Machine translation</td></tr>
+      <tr><td>ROUGE-1 / ROUGE-2 / ROUGE-L</td><td>Overlap of single words, word pairs, and the longest common word sequence</td><td>Summarisation</td></tr>
+      <tr><td>METEOR</td><td>Word matches including stems and synonyms, balancing precision and recall</td><td>Translation; closer to human judgment than BLEU</td></tr>
+    </tbody></table></div>
+  <h3>Where automatic metrics mislead</h3>
+  <p>These metrics only count matching words. Look at this real calculation. The reference is <em>“The card has been blocked for your safety.”</em></p>
+  <div class="demo" data-demo="pick"><script type="application/json">{"title":"Which answer is better?","options":[
+    {"label":"A: correct paraphrase","tokens":[["Your card is now blocked for safety.","src"]],"rows":[["ROUGE-1",0.67],["ROUGE-2",0.15],["BLEU (÷100)",0.146,"14.6"]],"max":1,"note":"Same meaning as the reference, but <b>low scores</b> because different words were used."},
+    {"label":"B: wrong reason","tokens":[["The card has been blocked for your account.","mask"]],"rows":[["ROUGE-1",0.88],["ROUGE-2",0.86],["BLEU (÷100)",0.751,"75.1"]],"max":1,"note":"Changes the meaning (“account” instead of “safety”), but gets <b>much higher scores</b> because most words match."}]}</script></div>
+  <p>This is why teams always add <strong>human evaluation</strong>: people rate outputs for correctness, helpfulness, fluency and safety, often by comparing two answers side by side. A cheaper middle path is <strong>LLM-as-a-judge</strong>, where a strong model grades answers using a clear rubric, checked regularly against human ratings.</p>
+  <div class="codebox"><div class="cap"><span>metrics.py</span><button class="copy" type="button">Copy</button></div><pre># pip install rouge-score sacrebleu
+from rouge_score import rouge_scorer
+import sacrebleu
+
+ref = "The card has been blocked for your safety."
+cands = ["Your card is now blocked for safety.",
+         "The card has been blocked for your account."]
+
+scorer = rouge_scorer.RougeScorer(["rouge1", "rouge2", "rougeL"], use_stemmer=True)
+for c in cands:
+    r = scorer.score(ref, c)
+    bleu = sacrebleu.sentence_bleu(c, [ref]).score
+    print(c, {k: round(v.fmeasure, 2) for k, v in r.items()}, "BLEU", round(bleu, 1))</pre></div>
+  <div class="out">Your card is now blocked for safety. {'rouge1': 0.67, 'rouge2': 0.15, 'rougeL': 0.53} BLEU 14.6
+The card has been blocked for your account. {'rouge1': 0.88, 'rouge2': 0.86, 'rougeL': 0.88} BLEU 75.1</div>
+  <h3>Explainability</h3>
+  <p>To understand <em>why</em> a model gave an answer, teams use attention maps (Session 19), feature-attribution tools like SHAP, LIME or integrated gradients that score how much each input word mattered, and for LLMs, asking for citations to retrieved sources (RAG). In regulated fields like banking, explanations and audit logs are often a requirement.</p>
+
+  <h2 id="summary"><span class="n">05</span>Summary</h2>
+  <ul>
+    <li><strong>Transfer learning</strong> reuses a pre-trained model; <strong>domain adaptation</strong> teaches it your field’s language.</li>
+    <li>Start with <strong>prompting</strong>, add <strong>RAG</strong> for knowledge, use <strong>PEFT</strong> for behaviour, and <strong>full fine-tuning</strong> only for big changes.</li>
+    <li><strong>Quantization</strong> shrinks models 2–4×; INT8 is nearly lossless, INT4 trades a little quality; GGUF runs models on laptops.</li>
+    <li><strong>Perplexity</strong> measures surprise; <strong>BLEU/ROUGE/METEOR</strong> measure word overlap and can mislead, so add <strong>human or LLM-judge</strong> evaluation.</li>
+  </ul>
+
+  <h2 id="quiz"><span class="n">06</span>Quick quiz</h2>
+  <div class="quiz">
+    <div class="q" data-answer="1" data-why="RAG lets you update knowledge by re-indexing documents, without retraining."><p>1. Your product rules change every week. Best approach?</p><div class="opts"><button class="opt" type="button">Full fine-tuning every week</button><button class="opt" type="button">RAG over the latest documents</button><button class="opt" type="button">Higher temperature</button></div></div>
+    <div class="q" data-answer="0" data-why="INT4 uses 4 bits instead of 16, so roughly 4× less memory for weights."><p>2. INT4 weights take roughly how much memory compared with FP16?</p><div class="opts"><button class="opt" type="button">About one quarter</button><button class="opt" type="button">About half</button><button class="opt" type="button">The same</button></div></div>
+    <div class="q" data-answer="2" data-why="Perplexity is exp(average negative log-likelihood); lower means less surprised."><p>3. For perplexity…</p><div class="opts"><button class="opt" type="button">higher is better</button><button class="opt" type="button">it measures human preference</button><button class="opt" type="button">lower is better</button></div></div>
+    <div class="q" data-answer="1" data-why="ROUGE is recall-oriented overlap, the standard for summarisation."><p>4. Which metric is most common for summarisation?</p><div class="opts"><button class="opt" type="button">Perplexity</button><button class="opt" type="button">ROUGE</button><button class="opt" type="button">Accuracy</button></div></div>
+    <div class="q" data-answer="0" data-why="Word-overlap metrics can reward wrong answers that reuse words and punish correct paraphrases."><p>5. Why add human evaluation?</p><div class="opts"><button class="opt" type="button">Overlap metrics can score wrong answers higher than correct paraphrases</button><button class="opt" type="button">Metrics are too slow</button><button class="opt" type="button">Humans are cheaper</button></div></div>
+    <p class="score" aria-live="polite"></p>
+  </div>
+
+  <h2 id="references"><span class="n">07</span>References</h2>
+  <ul>
+    <li>Dettmers et al., <a href="https://arxiv.org/abs/2208.07339" target="_blank" rel="noopener">LLM.int8()</a> (2022) · <a href="https://arxiv.org/abs/2305.14314" target="_blank" rel="noopener">QLoRA</a> (2023)</li>
+    <li>Papineni et al., <a href="https://aclanthology.org/P02-1040/" target="_blank" rel="noopener">BLEU</a> (2002) · Lin, <a href="https://aclanthology.org/W04-1013/" target="_blank" rel="noopener">ROUGE</a> (2004)</li>
+    <li><a href="https://github.com/ggml-org/llama.cpp" target="_blank" rel="noopener">llama.cpp and GGUF</a></li>
+  </ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+
+<script src="../assets/article.js"></script>
+<script src="../assets/course-kit.js"></script>
+<script>
+(function () {
+  document.querySelectorAll('.bars[data-static]').forEach(el => Kit.bars(el, JSON.parse(el.dataset.static)));
+})();
+</script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="genai-course/s25-adaptation-evaluation"></script>
+</body>
+</html>

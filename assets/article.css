@@ -145,3 +145,34 @@ select{background:var(--panel2);color:var(--fg);border:1px solid var(--line);bor
 .analogy p{margin:0}
 @media (prefers-reduced-motion:reduce){.fig .an{opacity:1;transform:none}}
 article code{overflow-wrap:anywhere}
+
+/* course kit: HTML flow diagrams and card grids */
+.kflow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center}
+.kflow.col{flex-direction:column;align-items:stretch;max-width:420px;margin:0 auto}
+.kflow.col .kar{text-align:center;line-height:1}
+.kn{background:var(--panel);border:1.2px solid var(--line);border-radius:10px;padding:8px 12px;text-align:center;min-width:0;flex:0 1 auto}
+.kn b{display:block;color:var(--fg);font-size:14px;font-weight:600}
+.kn span{display:block;font-size:12px;color:var(--muted)}
+.kn.ac{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 12%,var(--panel))}.kn.ac b{color:var(--ac)}
+.kn.gr{border-color:var(--green);background:color-mix(in srgb,var(--green) 12%,var(--panel))}.kn.gr b{color:var(--green)}
+.kn.am{border-color:var(--amber);background:color-mix(in srgb,var(--amber) 12%,var(--panel))}.kn.am b{color:var(--amber)}
+.kn.rd{border-color:var(--red);background:color-mix(in srgb,var(--red) 12%,var(--panel))}.kn.rd b{color:var(--red)}
+.kn.solid{background:var(--ac);border-color:var(--ac)}.kn.solid b,.kn.solid span{color:var(--bg)}
+.kar{color:var(--dim);font-size:16px}
+.kgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.kc{background:var(--panel);border:1.2px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.kc b{color:var(--fg);font-size:15px}
+.kc span{font-size:13.5px;color:var(--muted);line-height:1.5}
+.kc.ac{border-color:var(--ac)}.kc.ac b{color:var(--ac)}
+.kc.gr{border-color:var(--green)}.kc.gr b{color:var(--green)}
+.kc.am{border-color:var(--amber)}.kc.am b{color:var(--amber)}
+.kc.rd{border-color:var(--red)}.kc.rd b{color:var(--red)}
+.ktok{display:inline-flex;flex-direction:column;align-items:center;gap:3px}
+.ktok small{font-family:var(--mono);font-size:11px;color:var(--ac);min-height:14px}
+.ksteps{display:flex;flex-direction:column;gap:10px}
+.kstep{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start;opacity:.75}
+.kstep.cur{opacity:1}
+.kstep .kno{width:24px;height:24px;border-radius:50%;background:var(--panel2);color:var(--ac);display:grid;place-items:center;font-size:12px;font-weight:600}
+.kstep.cur .kno{background:var(--ac);color:var(--bg)}
+.kstep p{margin:0 0 6px}
+.formula{text-align:center;font-family:var(--mono);font-size:18px;color:var(--fg);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px;margin:14px 0;overflow-x:auto}

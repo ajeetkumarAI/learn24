@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Generative Modeling & Hugging Face · GenAI Course · Learn24</title>
+<meta name="description" content="Autoregressive vs autoencoding models, the Hugging Face ecosystem (Hub, Transformers, Datasets, Pipelines), and how to load models and run inference on a free Colab GPU, with a GPU memory calculator.">
+<meta property="og:title" content="Generative Modeling &amp; Hugging Face · Learn24">
+<meta property="og:description" content="Autoregressive vs autoencoding models, the Hugging Face ecosystem (Hub, Transformers, Datasets, Pipelines), and how to load models and run inference on a free Colab GPU, with a GPU memory calculator.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#b38cff}</style>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article>
+  <div class="kicker">GenAI Course · Module 7 · Session 23</div>
+  <h1>Generative Modeling & Hugging Face</h1>
+  <div class="meta"><span>⏱ 12 min read</span><span>🎯 Beginner friendly</span><span>🖼 3 diagrams</span><span>🧪 1 live demo</span><span>🐍 Python code</span></div>
+<p class="lead">So far we studied how transformers work inside. Now let us start <strong>using</strong> them. In this session you will understand the two main ways language models are trained, get to know Hugging Face (the “GitHub of AI models”), and run a real model on a free GPU.</p>
+  <div class="tldr"><h4>In this session</h4><ul>
+    <li>Autoregressive vs autoencoding models, in simple words</li>
+    <li>The Hugging Face ecosystem: Hub, Transformers, Datasets, Pipelines</li>
+    <li>How to read a model card before you use a model</li>
+    <li>Loading a model and tokenizer, and running it on a Colab GPU</li>
+    <li>A calculator: will this model fit on my GPU?</li>
+  </ul></div>
+
+  <h2 id="generative"><span class="n">01</span>Autoregressive vs autoencoding</h2>
+  <p>Language models learn by playing a prediction game on text. There are two main styles of game:</p>
+  <figure class="fig">
+    <div class="kgrid" data-cards='[["Autoregressive (AR)","Predict the <b>next</b> token from the tokens before it, one step at a time.<br><br><code>Mumbai is a busy</code> → <b>city</b><br><br>GPT, Llama, Claude, Qwen · used for <b>generation</b>","gr"],["Autoencoding (AE)","Hide some tokens and rebuild them using context from <b>both sides</b>.<br><br><code>Mumbai is a [MASK] city</code> → <b>busy</b><br><br>BERT, RoBERTa · used for <b>understanding</b>","ac"]]'></div>
+    <figcaption>AR models write; AE models read.</figcaption>
+  </figure>
+  <p>In maths, an autoregressive model breaks the probability of a sentence into a chain of next-token probabilities:</p>
+  <div class="formula">P(sentence) = P(w₁) · P(w₂ | w₁) · P(w₃ | w₁, w₂) · …</div>
+  <p>That is why generative models are <strong>autoregressive</strong>: to write a sentence, they keep sampling the next token and feeding it back in (Session 21). Autoencoding models cannot do this naturally, because they need to see the whole sentence at once.</p>
+  <div class="analogy"><span class="ic">✍️</span><p><b>AR is like writing an essay</b>: you write word by word, and each new word depends on what you already wrote. <b>AE is like a fill-in-the-blanks test</b>: you see the whole line and fill the gaps.</p></div>
+
+  <h2 id="ecosystem"><span class="n">02</span>The Hugging Face ecosystem</h2>
+  <p>Hugging Face is the place where the AI community shares models, datasets and demos, plus the open-source libraries to use them. The Hub hosts well over a million models.</p>
+  <figure class="fig">
+    <div class="kgrid" data-cards='[["🤗 Hub","huggingface.co: models, datasets and Spaces (demo apps), each with a model card and version history","solid"],["Transformers","Python library to load and run models: <code>AutoModel</code>, <code>AutoTokenizer</code>, <code>pipeline</code>","ac"],["Datasets","Load and process datasets in one line, with fast memory-mapped storage","gr"],["Tokenizers","Very fast tokenizers written in Rust","am"],["PEFT &amp; Accelerate","LoRA fine-tuning and easy multi-GPU or mixed-precision training","ac"],["Spaces","Host a Gradio or Streamlit demo of your model for free","gr"]]'></div>
+    <figcaption>One account, one ecosystem: find a model, load it, fine-tune it, share a demo.</figcaption>
+  </figure>
+  <h3>Read the model card first</h3>
+  <p>Before you use any model, open its model card and check:</p>
+  <ul>
+    <li><strong>Task and language:</strong> is it trained for your task (chat, classification, embeddings) and your language (English, Hindi…)?</li>
+    <li><strong>Size:</strong> number of parameters decides how much GPU memory you need.</li>
+    <li><strong>License:</strong> Apache-2.0 and MIT are business-friendly; some models restrict commercial use or require accepting terms (“gated” models).</li>
+    <li><strong>Training data and limitations:</strong> known biases, safety notes and evaluation results.</li>
+  </ul>
+
+  <h2 id="pipelines"><span class="n">03</span>Pipelines: the 3-line shortcut</h2>
+  <p>A <code>pipeline</code> wraps the tokenizer, model and post-processing together. Just pick a task:</p>
+  <div class="codebox"><div class="cap"><span>pipelines.py</span><button class="copy" type="button">Copy</button></div><pre># pip install transformers torch
+from transformers import pipeline
+
+sentiment = pipeline("sentiment-analysis")
+print(sentiment("The new UPI app is super fast and easy to use!"))
+
+ner = pipeline("ner", aggregation_strategy="simple")
+print(ner("Priya Sharma opened an account at HDFC Bank in Pune."))</pre></div>
+  <div class="out">[{'label': 'POSITIVE', 'score': 0.99…}]
+[{'entity_group': 'PER', 'word': 'Priya Sharma', …}, {'entity_group': 'ORG', 'word': 'HDFC Bank', …}, {'entity_group': 'LOC', 'word': 'Pune', …}]
+(example output; default models and scores can change)</div>
+  <p>Other ready tasks include <code>"summarization"</code>, <code>"translation"</code>, <code>"question-answering"</code>, <code>"zero-shot-classification"</code>, <code>"text-generation"</code> and <code>"automatic-speech-recognition"</code>. When you do not name a model, a default is downloaded; in real projects always pin the exact model name.</p>
+
+  <h2 id="loading"><span class="n">04</span>Loading a model and tokenizer yourself</h2>
+  <p>For more control, load the two parts directly. The <code>Auto</code> classes read the model’s config and pick the right architecture for you.</p>
+  <figure class="fig">
+    <div class="kflow" data-nodes='[["Your text","“Explain UPI”",""],["Tokenizer","text → token IDs","am"],["Model","IDs → next-token scores","ac"],["generate()","repeat token by token","gr"],["Tokenizer.decode","IDs → text","am"]]'></div>
+    <figcaption>The tokenizer is used twice: once to encode, once to decode.</figcaption>
+  </figure>
+  <div class="codebox"><div class="cap"><span>chat_with_small_llm.py</span><button class="copy" type="button">Copy</button></div><pre>import torch
+from transformers import AutoTokenizer, AutoModelForCausalLM
+
+name = "Qwen/Qwen2.5-0.5B-Instruct"                 # small, open, instruction-tuned
+tok = AutoTokenizer.from_pretrained(name)
+model = AutoModelForCausalLM.from_pretrained(name, torch_dtype=torch.float16, device_map="auto")
+
+messages = [{"role": "user", "content": "Explain UPI to a 10-year-old in 2 lines."}]
+inputs = tok.apply_chat_template(messages, add_generation_prompt=True, return_tensors="pt").to(model.device)
+
+out = model.generate(inputs, max_new_tokens=80)
+print(tok.decode(out[0][inputs.shape[-1]:], skip_special_tokens=True))</pre></div>
+  <div class="callout tip"><b>Chat models need their chat template.</b> <code>apply_chat_template</code> adds the special tokens the model was trained with (like the <code>&lt;|user|&gt;</code> markers from the SFT lesson). Skipping it gives poor answers.</div>
+
+  <h2 id="colab"><span class="n">05</span>Running on a free Colab GPU</h2>
+  <ol>
+    <li>Open <a href="https://colab.research.google.com" target="_blank" rel="noopener">Google Colab</a> and create a new notebook.</li>
+    <li>Go to <strong>Runtime → Change runtime type → T4 GPU</strong> and save.</li>
+    <li>Check the GPU: <code>import torch; print(torch.cuda.is_available(), torch.cuda.get_device_name(0))</code></li>
+    <li>Install libraries: <code>!pip install -q transformers accelerate</code>, then run the code above.</li>
+  </ol>
+  <p>The free T4 has <strong>16 GB</strong> of GPU memory. A quick rule: model weights need about <strong>parameters × bytes per parameter</strong>, plus some extra for activations and the KV cache. Try it:</p>
+  <div class="demo" data-demo="mem">
+    <div class="demo-h"><b>Demo · Will it fit on a T4 (16 GB)?</b><div class="tabs" role="tablist"><button type="button" aria-selected="true" data-b="2">FP16</button><button type="button" aria-selected="false" data-b="1">INT8</button><button type="button" aria-selected="false" data-b="0.5">INT4</button></div></div>
+    <label for="s23-size" class="note-s" style="display:block">Model size: <b data-s>7</b> billion parameters</label>
+    <input id="s23-size" type="range" min="0" max="7" value="4" style="width:100%;max-width:520px;accent-color:var(--ac)">
+    <div class="bars" data-bars></div>
+    <div class="note-s" data-note></div>
+  </div>
+
+  <h2 id="summary"><span class="n">06</span>Summary</h2>
+  <ul>
+    <li><strong>Autoregressive</strong> models predict the next token and generate text; <strong>autoencoding</strong> models fill blanks and understand text.</li>
+    <li>Hugging Face gives you the <strong>Hub</strong> plus <strong>Transformers</strong>, <strong>Datasets</strong>, <strong>Tokenizers</strong> and <strong>PEFT</strong>.</li>
+    <li>Always read the <strong>model card</strong>: task, size, license, limitations.</li>
+    <li><code>pipeline()</code> is the quickest start; <code>AutoTokenizer</code> + <code>AutoModel…</code> give full control.</li>
+    <li>Memory ≈ parameters × bytes: a 7B model needs ~14 GB in FP16 but ~3.5–4 GB in INT4.</li>
+  </ul>
+
+  <h2 id="quiz"><span class="n">07</span>Quick quiz</h2>
+  <div class="quiz">
+    <div class="q" data-answer="0" data-why="Autoregressive models predict the next token from the previous ones."><p>1. GPT-style models are…</p><div class="opts"><button class="opt" type="button">Autoregressive</button><button class="opt" type="button">Autoencoding</button><button class="opt" type="button">Not trained on text</button></div></div>
+    <div class="q" data-answer="2" data-why="The model card lists the license; some licenses restrict commercial use."><p>2. Where do you check whether you can use a model commercially?</p><div class="opts"><button class="opt" type="button">The tokenizer file</button><button class="opt" type="button">The number of downloads</button><button class="opt" type="button">The license on the model card</button></div></div>
+    <div class="q" data-answer="1" data-why="7 billion × 2 bytes ≈ 14 GB for the weights alone."><p>3. Roughly how much memory do a 7B model’s FP16 weights need?</p><div class="opts"><button class="opt" type="button">~2 GB</button><button class="opt" type="button">~14 GB</button><button class="opt" type="button">~70 GB</button></div></div>
+    <div class="q" data-answer="0" data-why="Chat models expect the special role tokens they were trained with."><p>4. Why use apply_chat_template with a chat model?</p><div class="opts"><button class="opt" type="button">It adds the role tokens the model was trained on</button><button class="opt" type="button">It translates the prompt</button><button class="opt" type="button">It speeds up the GPU</button></div></div>
+    <div class="q" data-answer="2" data-why="pipeline bundles tokenizer, model and post-processing for a task."><p>5. What does pipeline() do?</p><div class="opts"><button class="opt" type="button">Trains a model from scratch</button><button class="opt" type="button">Uploads data to the Hub</button><button class="opt" type="button">Wraps tokenizer + model + post-processing for a task</button></div></div>
+    <p class="score" aria-live="polite"></p>
+  </div>
+
+  <h2 id="references"><span class="n">08</span>References</h2>
+  <ul>
+    <li><a href="https://huggingface.co/learn/llm-course" target="_blank" rel="noopener">Hugging Face LLM Course</a> (free)</li>
+    <li><a href="https://huggingface.co/docs/transformers/main_classes/pipelines" target="_blank" rel="noopener">Transformers pipelines documentation</a></li>
+    <li><a href="https://huggingface.co/docs/transformers/chat_templating" target="_blank" rel="noopener">Chat templates guide</a></li>
+  </ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+
+<script src="../assets/article.js"></script>
+<script src="../assets/course-kit.js"></script>
+<script>
+(function () {
+  const { demo, $, $$ } = window.Article;
+  demo('mem', el => {
+    const S = [0.5, 1, 3, 4, 7, 8, 13, 70];
+    let bytes = 2;
+    const r = $('#s23-size', el), b = $('[data-bars]', el), note = $('[data-note]', el), bs = $$('.tabs button', el);
+    const draw = () => {
+      const p = S[+r.value], w = p * bytes, extra = Math.max(0.8, w * 0.2), tot = w + extra;
+      $('[data-s]', el).textContent = p;
+      Kit.bars(b, [['Weights', w, w.toFixed(1) + ' GB'], ['+ working memory', extra, '~' + extra.toFixed(1) + ' GB'], ['Total (approx.)', tot, tot.toFixed(1) + ' GB'], ['T4 GPU', 16, '16 GB']], Math.max(16, tot));
+      note.innerHTML = tot <= 15 ? '<b style="color:var(--green)">✓ Fits on a free T4.</b>' : tot <= 16 ? '<b style="color:var(--amber)">Very tight on a T4.</b> Try a lower precision.' : '<b style="color:var(--red)">✕ Too big for a T4.</b> Use INT4, a smaller model, a bigger GPU, or an API.';
+      note.innerHTML += ' Working memory (activations, KV cache) grows with context length; this is a rough estimate.';
+    };
+    bs.forEach(x => x.onclick = () => { bs.forEach(y => y.setAttribute('aria-selected', String(y === x))); bytes = +x.dataset.b; draw(); });
+    r.oninput = draw; draw();
+  });
+})();
+</script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="genai-course/s23-hugging-face"></script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Transformer Variants · GenAI Course · Learn24</title>
+<meta name="description" content="Encoder-only (BERT, RoBERTa, DistilBERT, DeBERTa), decoder-only (the GPT family) and encoder-decoder (T5, BART) transformers: how they differ, how they are trained, and how to choose the right one for a task.">
+<meta property="og:title" content="Transformer Variants · Learn24">
+<meta property="og:description" content="Encoder-only (BERT, RoBERTa, DistilBERT, DeBERTa), decoder-only (the GPT family) and encoder-decoder (T5, BART) transformers: how they differ, how they are trained, and how to choose the right one for a task.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#b38cff}</style>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article>
+  <div class="kicker">GenAI Course · Module 6 · Session 22</div>
+  <h1>Transformer Variants</h1>
+  <div class="meta"><span>⏱ 12 min read</span><span>🎯 Intermediate</span><span>🖼 2 diagrams</span><span>🧪 1 live demo</span><span>🐍 Python code</span></div>
+<p class="lead">The original transformer had both an encoder and a decoder. Since then, researchers found that for many jobs you need only <strong>one half</strong>. This gave us three big families. Once you understand them, choosing a model for any task becomes simple.</p>
+  <div class="tldr"><h4>In this session</h4><ul>
+    <li>The three families: encoder-only, decoder-only and encoder-decoder</li>
+    <li>How each family is pre-trained</li>
+    <li>Key models: BERT, RoBERTa, DistilBERT, DeBERTa · GPT family · T5, BART</li>
+    <li>A decision guide for picking the right family for a task</li>
+  </ul></div>
+
+  <h2 id="families"><span class="n">01</span>Three families from one design</h2>
+  <figure class="fig">
+    <div class="kgrid" data-cards='[["Encoder-only","Reads the whole input in both directions and produces a vector per token. <b>Understands</b> text.<br><br>BERT · RoBERTa · DistilBERT · DeBERTa","ac"],["Decoder-only","Reads left to right and predicts the next token. <b>Generates</b> text.<br><br>GPT family · Llama · Mistral · Qwen · Claude · Gemini","gr"],["Encoder-decoder","Encoder reads the input; decoder writes a new output. <b>Transforms</b> text into other text.<br><br>T5 · Flan-T5 · BART · mBART","am"]]'></div>
+    <figcaption>Same building blocks, three different arrangements.</figcaption>
+  </figure>
+  <div class="analogy"><span class="ic">🎓</span><p><b>Think of three jobs in an office.</b> The encoder is the <i>reader</i> who understands and sorts documents. The decoder is the <i>writer</i> who drafts new letters. The encoder-decoder is the <i>translator</i> who reads one document and writes a new version of it.</p></div>
+
+  <h2 id="encoder-only"><span class="n">02</span>Encoder-only models</h2>
+  <p>These are the BERT family. Every token sees every other token, so they build rich understanding. They are small, fast and cheap, perfect for classification, search and extraction. We covered them in depth in the <a href="../genai/bert.html">BERT lesson</a>.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Model</th><th>Key idea</th><th>Size (base)</th></tr></thead>
+    <tbody>
+      <tr><td>BERT (2018)</td><td>Masked language modelling + next sentence prediction</td><td>110 M</td></tr>
+      <tr><td>RoBERTa (2019)</td><td>No NSP, more data, longer training</td><td>125 M</td></tr>
+      <tr><td>DistilBERT (2019)</td><td>Distilled from BERT: 40% smaller, 60% faster</td><td>66 M</td></tr>
+      <tr><td>DeBERTa (2020)</td><td>Separate content and position attention</td><td>~140 M</td></tr>
+    </tbody></table></div>
+
+  <h2 id="decoder-only"><span class="n">03</span>Decoder-only models: the GPT family</h2>
+  <p>Decoder-only models drop the encoder and cross-attention. They learn one simple game on huge text: <strong>predict the next token</strong>. Scale this up and you get the chat models we use every day.</p>
+  <figure class="fig">
+    <div class="kflow" data-nodes='[["GPT-1","2018 · 117 M",""],["GPT-2","2019 · 1.5 B",""],["GPT-3","2020 · 175 B","ac"],["ChatGPT","2022 · instruction-tuned + RLHF","gr"],["GPT-4 and later","2023+ · multimodal","solid"]]'></div>
+    <figcaption>The same next-token recipe, scaled up and then tuned to follow instructions (see the RLHF lesson).</figcaption>
+  </figure>
+  <p>Almost every modern LLM is decoder-only: GPT, Claude, Gemini, Llama, Mistral, Qwen, DeepSeek and Gemma. Why did this design win?</p>
+  <ul>
+    <li><strong>One simple objective</strong> that works on any text, so training data is unlimited.</li>
+    <li><strong>Any task can be phrased as text generation:</strong> classification, translation, coding and Q&amp;A all become “continue this text”.</li>
+    <li><strong>Scales very well:</strong> bigger models and more data keep getting better.</li>
+  </ul>
+
+  <h2 id="encoder-decoder"><span class="n">04</span>Encoder-decoder models: T5 and BART</h2>
+  <p>These keep both towers. They shine when the output is a <strong>new version of the input</strong>: translation, summarisation, rewriting.</p>
+  <ul>
+    <li><strong>T5</strong> (Google, 2019) treats every task as <em>text-to-text</em>. You add a prefix like <code>summarize:</code> or <code>translate English to German:</code> and it writes the answer. It is pre-trained with <strong>span corruption</strong>: random spans of text are replaced with placeholders and the model writes the missing spans. <strong>Flan-T5</strong> is an instruction-tuned version.</li>
+    <li><strong>BART</strong> (Facebook, 2019) is pre-trained as a <strong>denoising autoencoder</strong>: text is damaged (words masked, deleted or shuffled) and the model learns to rebuild the original. It is especially good at summarisation.</li>
+  </ul>
+  <div class="tw"><table>
+    <thead><tr><th>Family</th><th>Pre-training game</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td>Encoder-only</td><td>Fill in masked tokens</td><td>“my card is [MASK]” → blocked</td></tr>
+      <tr><td>Decoder-only</td><td>Predict the next token</td><td>“my card is” → blocked</td></tr>
+      <tr><td>Encoder-decoder (T5)</td><td>Rebuild missing spans</td><td>“my &lt;X&gt; blocked” → &lt;X&gt; card is</td></tr>
+      <tr><td>Encoder-decoder (BART)</td><td>Repair damaged text</td><td>“card my blocked is” → my card is blocked</td></tr>
+    </tbody></table></div>
+
+  <h2 id="choose"><span class="n">05</span>Choosing the right family</h2>
+  <div class="demo" data-demo="pick"><script type="application/json">{"title":"Pick a task, get a recommendation","options":[
+    {"label":"Fraud SMS detection","html":"<div class='kgrid'><div class='kc ac'><b>Encoder-only</b><span>Fine-tune DistilBERT or RoBERTa. Fast, cheap, runs on CPU, and very accurate for classification.</span></div></div>"},
+    {"label":"Customer chatbot","html":"<div class='kgrid'><div class='kc gr'><b>Decoder-only</b><span>Use an instruction-tuned LLM (via API or open model), ideally with RAG over your FAQs.</span></div></div>"},
+    {"label":"Summarise call notes","html":"<div class='kgrid'><div class='kc am'><b>Encoder-decoder or decoder-only</b><span>BART or Flan-T5 are small and strong for summaries. A general LLM also works well if cost allows.</span></div></div>"},
+    {"label":"Semantic search","html":"<div class='kgrid'><div class='kc ac'><b>Encoder-only (embedding model)</b><span>Use a sentence-embedding model (e.g. Sentence-BERT, BGE, E5) to turn documents into vectors.</span></div></div>"},
+    {"label":"English → Hindi","html":"<div class='kgrid'><div class='kc am'><b>Encoder-decoder or decoder-only</b><span>mBART, NLLB or IndicTrans are built for translation; large LLMs also translate well.</span></div></div>"}]}</script></div>
+  <div class="tw"><table>
+    <thead><tr><th>If your task is…</th><th>Start with</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>Classify, tag, extract, rank</td><td>Encoder-only</td><td>Small, fast, accurate after fine-tuning</td></tr>
+      <tr><td>Chat, write, code, reason</td><td>Decoder-only</td><td>Strong generation and instruction following</td></tr>
+      <tr><td>Translate, summarise, rewrite</td><td>Encoder-decoder (or decoder-only)</td><td>Built for input → new output</td></tr>
+      <tr><td>Search and RAG retrieval</td><td>Encoder embedding model</td><td>Fast vectors for similarity</td></tr>
+    </tbody></table></div>
+
+  <h2 id="code"><span class="n">06</span>Code: one family each, with pipelines</h2>
+  <div class="codebox"><div class="cap"><span>three_families.py</span><button class="copy" type="button">Copy</button></div><pre>from transformers import pipeline
+
+# Encoder-only: fill a blank
+fill = pipeline("fill-mask", model="distilbert-base-uncased")
+print(fill("My debit card is [MASK].")[0]["token_str"])
+
+# Decoder-only: continue text
+gen = pipeline("text-generation", model="gpt2")
+print(gen("Artificial intelligence is", max_new_tokens=15)[0]["generated_text"])
+
+# Encoder-decoder: summarise
+summ = pipeline("summarization", model="facebook/bart-large-cnn")
+text = "The bank launched a new app that lets customers block cards, check balances and raise complaints in Hindi, Marathi and English. It also sends instant alerts for every transaction."
+print(summ(text, max_length=30, min_length=10)[0]["summary_text"])</pre></div>
+  <div class="callout warn"><b>Outputs vary</b> with model versions and sampling, so we don’t show fixed outputs here. Run it in Colab and compare what each family produces.</div>
+
+  <h2 id="summary"><span class="n">07</span>Summary</h2>
+  <ul>
+    <li><strong>Encoder-only</strong> (BERT family) = understanding: classify, extract, search.</li>
+    <li><strong>Decoder-only</strong> (GPT family and most LLMs) = generation: chat, write, code.</li>
+    <li><strong>Encoder-decoder</strong> (T5, BART) = transformation: translate, summarise, rewrite.</li>
+    <li>Pick by task: small encoders are often cheaper and better for narrow understanding tasks.</li>
+  </ul>
+
+  <h2 id="quiz"><span class="n">08</span>Quick quiz</h2>
+  <div class="quiz">
+    <div class="q" data-answer="1" data-why="GPT models use only the decoder stack and predict the next token."><p>1. GPT models belong to which family?</p><div class="opts"><button class="opt" type="button">Encoder-only</button><button class="opt" type="button">Decoder-only</button><button class="opt" type="button">Encoder-decoder</button></div></div>
+    <div class="q" data-answer="2" data-why="T5 frames every task as text-to-text using a task prefix."><p>2. Which model treats every task as text-to-text with a prefix like “summarize:”?</p><div class="opts"><button class="opt" type="button">BERT</button><button class="opt" type="button">GPT-2</button><button class="opt" type="button">T5</button></div></div>
+    <div class="q" data-answer="0" data-why="A small fine-tuned encoder is fast, cheap and accurate for classification."><p>3. Best starting point for classifying 1 million SMS a day cheaply?</p><div class="opts"><button class="opt" type="button">A fine-tuned DistilBERT</button><button class="opt" type="button">A 70B chat model</button><button class="opt" type="button">BART</button></div></div>
+    <div class="q" data-answer="1" data-why="BART learns to repair text that was masked, deleted or shuffled."><p>4. BART is pre-trained by…</p><div class="opts"><button class="opt" type="button">predicting the next sentence</button><button class="opt" type="button">rebuilding damaged text</button><button class="opt" type="button">translating only</button></div></div>
+    <div class="q" data-answer="2" data-why="One simple objective, unlimited data and great scaling made decoder-only models dominant."><p>5. Why are most modern LLMs decoder-only?</p><div class="opts"><button class="opt" type="button">They have no attention</button><button class="opt" type="button">They are always smaller</button><button class="opt" type="button">Next-token prediction scales well and fits any task</button></div></div>
+    <p class="score" aria-live="polite"></p>
+  </div>
+
+  <h2 id="references"><span class="n">09</span>References</h2>
+  <ul>
+    <li>Raffel et al., <a href="https://arxiv.org/abs/1910.10683" target="_blank" rel="noopener">Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer (T5)</a> (2019)</li>
+    <li>Lewis et al., <a href="https://arxiv.org/abs/1910.13461" target="_blank" rel="noopener">BART</a> (2019) · Radford et al., <a href="https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf" target="_blank" rel="noopener">GPT-2</a> (2019)</li>
+    <li>Brown et al., <a href="https://arxiv.org/abs/2005.14165" target="_blank" rel="noopener">Language Models are Few-Shot Learners (GPT-3)</a> (2020)</li>
+  </ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+
+<script src="../assets/article.js"></script>
+<script src="../assets/course-kit.js"></script>
+<script>
+
+</script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="genai-course/s22-transformer-variants"></script>
+</body>
+</html>
