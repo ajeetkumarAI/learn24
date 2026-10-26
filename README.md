@@ -4,8 +4,8 @@
 
 Learn24 is a free collection of animated, step-by-step lessons on GenAI, Agentic AI, AI Security and AI System Design. Every lesson is an interactive animation you can pause, replay and click through, with real-world examples from banking and fintech.
 
-🌐 **Live site:** [learn24.net](https://learn24.net)
-👤 **Created by Ajeetkumar**, AI engineer
+🌐 **Live site:** [learn24-lilac.vercel.app](https://learn24-lilac.vercel.app) · custom domain [learn24.net](https://learn24.net) coming soon
+👤 **Created by Ajeetkumar**, GenAI engineer
 
 ---
 
@@ -14,32 +14,32 @@ Learn24 is a free collection of animated, step-by-step lessons on GenAI, Agentic
 ### 🧠 GenAI
 | Lesson | Level | What you'll learn |
 |---|---|---|
-| [How an LLM Answers a Question](genai/llm-inference.html) | Beginner | Tokenizer → token IDs → transformer → softmax → detokenizer |
-| [How an LLM Is Trained](genai/llm-training.html) | Beginner | Pretraining, SFT and RLHF with one example |
-| [RAG From Scratch](genai/rag-basics.html) | Intermediate | Chunking, embeddings, vector search, grounded answers |
-| [LoRA and Fine-Tuning](genai/fine-tuning.html) | Intermediate | When to fine-tune, and how LoRA trains under 1% of the weights |
+| [How an LLM Answers a Question](https://learn24-lilac.vercel.app/genai/llm-inference) | Beginner | Tokenizer → token IDs → transformer → softmax → detokenizer |
+| [How an LLM Is Trained](https://learn24-lilac.vercel.app/genai/llm-training) | Beginner | Pretraining, SFT and RLHF with one example |
+| [RAG From Scratch](https://learn24-lilac.vercel.app/genai/rag-basics) | Intermediate | Chunking, embeddings, vector search, grounded answers |
+| [LoRA and Fine-Tuning](https://learn24-lilac.vercel.app/genai/fine-tuning) | Intermediate | When to fine-tune, and how LoRA trains under 1% of the weights |
 
 ### 🤖 Agentic AI
 | Lesson | Level | What you'll learn |
 |---|---|---|
-| [What Is an AI Agent?](agentic-ai/what-is-an-agent.html) | Beginner | The think → act → observe loop, with a live trace |
-| [Tool Calling Explained](agentic-ai/tool-calling.html) | Beginner | Tool schemas, tool_use requests and results |
-| [MCP in 5 Minutes](agentic-ai/mcp.html) | Intermediate | Hosts, clients, servers, tools, resources and prompts |
-| [Multi-Agent Patterns](agentic-ai/multi-agent.html) | Advanced | Router, pipeline, supervisor and handoff patterns |
+| [What Is an AI Agent?](https://learn24-lilac.vercel.app/agentic-ai/what-is-an-agent) | Beginner | The think → act → observe loop, with a live trace |
+| [Tool Calling Explained](https://learn24-lilac.vercel.app/agentic-ai/tool-calling) | Beginner | Tool schemas, tool_use requests and results |
+| [MCP in 5 Minutes](https://learn24-lilac.vercel.app/agentic-ai/mcp) | Intermediate | Hosts, clients, servers, tools, resources and prompts |
+| [Multi-Agent Patterns](https://learn24-lilac.vercel.app/agentic-ai/multi-agent) | Advanced | Router, pipeline, supervisor and handoff patterns |
 
 ### 🛡️ AI Security
 | Lesson | Level | What you'll learn |
 |---|---|---|
-| [OWASP Top 10 for LLM Applications](ai-security/owasp-llm-top10.html) | Intermediate | All 10 risks (2025): attack, damage, mitigation |
-| [OWASP Top 10 for Agentic Applications](ai-security/owasp-agentic-top10.html) | Advanced | All 10 agentic risks (2026), ASI01–ASI10 |
-| [Red-Teaming an LLM App](ai-security/red-teaming.html) | Advanced | Scope, test sets, automation, scoring and CI |
+| [OWASP Top 10 for LLM Applications](https://learn24-lilac.vercel.app/ai-security/owasp-llm-top10) | Intermediate | All 10 risks (2025): attack, damage, mitigation |
+| [OWASP Top 10 for Agentic Applications](https://learn24-lilac.vercel.app/ai-security/owasp-agentic-top10) | Advanced | All 10 agentic risks (2026), ASI01–ASI10 |
+| [Red-Teaming an LLM App](https://learn24-lilac.vercel.app/ai-security/red-teaming) | Advanced | Scope, test sets, automation, scoring and CI |
 
 ### 🏗️ AI System Design
 | Lesson | Level | What you'll learn |
 |---|---|---|
-| [Design a RAG Chatbot](ai-system-design/design-rag-chatbot.html) | Intermediate | Requirements, pipelines, latency budget, evaluation |
-| [Serving LLMs at Scale](ai-system-design/llm-serving.html) | Advanced | Prefill vs decode, KV cache, batching, quantization |
-| [Caching, Rate Limits and Cost Control](ai-system-design/llm-gateway.html) | Intermediate | LLM gateway: semantic cache, routing, fallbacks, budgets |
+| [Design a RAG Chatbot](https://learn24-lilac.vercel.app/ai-system-design/design-rag-chatbot) | Intermediate | Requirements, pipelines, latency budget, evaluation |
+| [Serving LLMs at Scale](https://learn24-lilac.vercel.app/ai-system-design/llm-serving) | Advanced | Prefill vs decode, KV cache, batching, quantization |
+| [Caching, Rate Limits and Cost Control](https://learn24-lilac.vercel.app/ai-system-design/llm-gateway) | Intermediate | LLM gateway: semantic cache, routing, fallbacks, budgets |
 
 ---
 
@@ -81,7 +81,7 @@ vercel.json                Clean URLs on Vercel
 4. Commit and push. Vercel redeploys automatically.
 
 ## Deployment
-Hosted on **Vercel** from the `main` branch (framework preset: *Other*, no build command, output directory `./`).
+Hosted on **Vercel** at [learn24-lilac.vercel.app](https://learn24-lilac.vercel.app), deployed from the `main` branch (framework preset: *Other*, no build command, output directory `./`).
 
 ## Sources
 - [OWASP Top 10 for LLM Applications 2025](https://genai.owasp.org/llm-top-10/)

@@ -328,7 +328,7 @@ const SFT={key:'sft',
  ]};
 
 /* ---------- STAGE 3: RLHF ---------- */
-const SKY_A='The capital of India is New Delhi. It became the capital in 1931, replacing Calcutta (Kolkata).';
+const SKY_A='The capital of India is New Delhi. The capital moved from Calcutta (Kolkata) in 1911, and New Delhi was inaugurated in 1931.';
 const SKY_B='The capital of India is Mumbai.';
 const RL={key:'rlhf',
  loop:'↻ Generate → score → update, for many iterations',
@@ -354,7 +354,7 @@ const RL={key:'rlhf',
     await wait(500);await showAll(st,'.kl, .cap',400);}},
  {t:'Result: an aligned assistant',s:'The model now leans toward answers people rate as helpful, honest and harmless.',
   h:()=>`<div class="io rv"><span class="who">Prompt</span><div class="txt prompt">${esc(KYC)}</div><span class="who">RLHF model</span><div class="txt resp"></div></div><div class="tags rv"><span>helpful</span><span>honest</span><span>harmless</span></div><div class="note rv">Variants: DPO trains directly on the preference pairs and skips the separate reward model; RLAIF uses AI feedback in place of some human labels.</div>`,
-  r:async st=>{show(st,'.io');await wait(300);await type($('.resp',st),'The capital of India is New Delhi. It has been the capital since 1931, and it is home to Parliament and the Supreme Court.',70);await showAll(st,'.tags, .note',500);}},
+  r:async st=>{show(st,'.io');await wait(300);await type($('.resp',st),'The capital of India is New Delhi. It was inaugurated in 1931 and is home to Parliament and the Supreme Court.',70);await showAll(st,'.tags, .note',500);}},
  ]};
 
 const STAGES={pretraining:PRE,sft:SFT,rlhf:RL};
