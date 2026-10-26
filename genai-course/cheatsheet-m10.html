@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Module 10 cheat sheet: Fine-Tuning Techniques · Learn24</title>
+<meta name="description" content="One-page summary of GenAI Course Module 10: Fine-Tuning Techniques.">
+<meta property="og:title" content="Module 10 cheat sheet: Fine-Tuning Techniques · Learn24">
+<meta property="og:description" content="One-page summary of GenAI Course Module 10: Fine-Tuning Techniques.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/pages.css">
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body data-page="cheatsheet">
+<main class="shell page">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="index.html">GenAI Course</a><span>›</span><span>Module 10 cheat sheet</span></nav>
+<h1>Module 10 cheat sheet: Fine-Tuning Techniques</h1>
+<p class="lead">Fine-tune to change behaviour, not to add facts; LoRA and QLoRA make it cheap enough for a single GPU.</p>
+<div class="cs-top"><button type="button" onclick="print()">🖨 Print / save as PDF</button><a class="b" href="index.html">All modules</a><a class="b" href="../glossary.html">📖 Glossary</a></div>
+<div class="cs-grid" style="--c:#b38cff">
+<section class="cs"><h2>Key ideas</h2><ul><li>Climb the ladder: prompt → RAG → fine-tune, measuring at every step. <a href="s39-fine-tuning-decision.html">S39 →</a></li><li>Fine-tune for behaviour (format, tone, labels); use RAG for knowledge. <a href="s39-fine-tuning-decision.html">S39 →</a></li><li>Data: chat or instruction JSONL; clean, de-duplicate, remove PII, keep a held-out test set. <a href="s39-fine-tuning-decision.html">S39 →</a></li><li>LoRA freezes W and learns a small low-rank update B·A. <a href="s40-peft-hands-on.html">S40 →</a></li><li>QLoRA = 4-bit NF4 base model + LoRA adapters. <a href="s40-peft-hands-on.html">S40 →</a></li><li>Always compare with the base model on the same held-out set. <a href="s40-peft-hands-on.html">S40 →</a></li></ul></section><section class="cs"><h2>LoRA in one line</h2><div class="formula">W′ = W + (α / r) · B · A</div><ul><li>Trainable numbers per matrix = r × (d_in + d_out).</li><li>Example: r = 8 on q and v of a 7B model (4096 wide, 32 layers) → 4.19 M trainable, about 0.06% of the model.</li><li>Merge B·A into W after training for no extra latency, or keep adapters separate to swap per task.</li></ul></section><section class="cs full"><h2>Full vs partial vs PEFT</h2><div class="tw"><table><thead><tr><th>Approach</th><th>Trains</th><th>Hardware</th><th>When</th></tr></thead><tbody><tr><td>Full fine-tuning</td><td>All weights</td><td>Many GPUs</td><td>Big domain shift, lots of data</td></tr><tr><td>Partial (freeze layers)</td><td>Top layers / head</td><td>One GPU</td><td>Small models, classifiers</td></tr><tr><td>LoRA</td><td>&lt;1% extra weights</td><td>One GPU</td><td>Default for LLMs</td></tr><tr><td>QLoRA</td><td>LoRA on a 4-bit base</td><td>One consumer/Colab GPU</td><td>Big models, small budget</td></tr></tbody></table></div></section><section class="cs"><h2>Main settings</h2><div class="tw"><table><thead><tr><th>Setting</th><th>Typical start</th></tr></thead><tbody><tr><td>r (rank)</td><td>8–16 (up to 64)</td></tr><tr><td>lora_alpha</td><td>about 2 × r</td></tr><tr><td>target_modules</td><td>q, k, v, o projections</td></tr><tr><td>learning rate</td><td>1e-4 to 2e-4</td></tr><tr><td>epochs</td><td>1–3 (watch the eval loss)</td></tr></tbody></table></div></section><section class="cs"><h2>Code: LoRA config</h2><pre># pip install peft
+from peft import LoraConfig
+lora = LoraConfig(r=16, lora_alpha=32, lora_dropout=0.05,
+                  task_type=&quot;CAUSAL_LM&quot;,
+                  target_modules=[&quot;q_proj&quot;, &quot;k_proj&quot;, &quot;v_proj&quot;, &quot;o_proj&quot;])
+# pass to TRL SFTTrainer(peft_config=lora, ...)  (see Session 40)</pre></section><section class="cs full"><h2>Common mistakes</h2><ul class="bad"><li>Fine-tuning to teach new facts that change often (use RAG instead).</li><li>No held-out test set, so you cannot prove the model improved.</li><li>Too many epochs on a small dataset: the model memorises (overfits).</li><li>Training data that ignores the model’s chat template.</li><li>Leaving customer PII in the training data.</li></ul></section>
+</div>
+<nav class="cs-pager" aria-label="Cheat sheets"><a href="cheatsheet-m9.html"><small>← Previous</small>Module 9: LangChain + RAG + LangGraph</a><a href="index.html" style="text-align:right"><small>Done →</small>Back to the course</a></nav>
+<p style="color:var(--muted);font-size:13.5px;margin-top:22px">Created by <b style="color:var(--fg)">Ajeetkumar</b> · Learn24</p>
+</main>
+<script src="../assets/data.js"></script>
+<script src="../assets/site.js" data-base="../"></script>
+</body>
+</html>

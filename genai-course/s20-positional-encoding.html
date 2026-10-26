@@ -12,6 +12,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="../assets/article.css">
 <style>:root{--ac:#b38cff}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
 </head>
 <body>
 <div class="progress" aria-hidden="true"></div>
@@ -19,7 +21,7 @@
 <article>
   <div class="kicker">GenAI Course · Module 6 · Session 20</div>
   <h1>Architecture &amp; Positional Encoding</h1>
-  <div class="meta"><span>⏱ 12 min read</span><span>🎯 Intermediate</span><span>🖼 2 diagrams</span><span>🧪 1 live demos</span><span>🐍 Python code</span></div>
+  <div class="meta"><span>⏱ 12 min read</span><span>🎯 Intermediate</span><span>🖼 2 diagrams</span><span>🧪 1 live demo</span><span>🐍 Python code</span></div>
   <p class="lead">In Module 5 we learned attention. Now let us zoom out and see the <strong>full transformer</strong>: how the encoder and decoder work together to translate a sentence, and one surprising problem: attention has <strong>no idea about word order</strong>. Let us see how we fix that.</p>
   <div class="tldr"><h4>In this session</h4><ul><li>The encoder–decoder transformer, end to end, with a translation example</li><li>Why attention alone cannot tell “dog bites man” from “man bites dog”</li><li>Sinusoidal positional encoding, with a live demo</li><li>Learned positions, and modern methods like RoPE and ALiBi</li></ul></div>
 <h2 id="architecture"><span class="n">01</span>The transformer, end to end</h2>

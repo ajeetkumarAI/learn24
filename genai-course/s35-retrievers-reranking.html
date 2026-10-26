@@ -12,6 +12,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="../assets/article.css">
 <style>:root{--ac:#b38cff}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
 </head>
 <body>
 <div class="progress" aria-hidden="true"></div>
@@ -19,7 +21,7 @@
 <article>
   <div class="kicker">GenAI Course · Module 9 · Session 35</div>
   <h1>Retrievers &amp; Re-Ranking</h1>
-  <div class="meta"><span>⏱ 14 min read</span><span>🎯 Advanced</span><span>🖼 3 diagrams</span><span>🧪 1 live demos</span><span>🐍 Python code</span></div>
+  <div class="meta"><span>⏱ 14 min read</span><span>🎯 Advanced</span><span>🖼 3 diagrams</span><span>🧪 1 live demo</span><span>🐍 Python code</span></div>
   <p class="lead">Basic vector search gets you started, but users ask vague, short or keyword-heavy questions. Advanced retrievers fix this. In this session, let us see six techniques that make retrieval much more reliable, and calculate hybrid search scores by hand.</p>
   <div class="tldr"><h4>In this session</h4><ul><li>Multi-query: ask the question several ways</li><li>Multi-vector and parent-document retrievers</li><li>Self-query: let the LLM build metadata filters</li><li>Contextual compression</li><li>Hybrid search with BM25 + dense, merged by RRF (real numbers)</li><li>Re-ranking with cross-encoders</li></ul></div>
 <h2 id="multiquery"><span class="n">01</span>Multi-query retriever</h2>

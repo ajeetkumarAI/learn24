@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Module 8 cheat sheet: Prompt Engineering · Learn24</title>
+<meta name="description" content="One-page summary of GenAI Course Module 8: Prompt Engineering.">
+<meta property="og:title" content="Module 8 cheat sheet: Prompt Engineering · Learn24">
+<meta property="og:description" content="One-page summary of GenAI Course Module 8: Prompt Engineering.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/pages.css">
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body data-page="cheatsheet">
+<main class="shell page">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="index.html">GenAI Course</a><span>›</span><span>Module 8 cheat sheet</span></nav>
+<h1>Module 8 cheat sheet: Prompt Engineering</h1>
+<p class="lead">Clear prompts, reasoning techniques and structured output make LLM behaviour predictable; LangChain turns them into reusable chains.</p>
+<div class="cs-top"><button type="button" onclick="print()">🖨 Print / save as PDF</button><a class="b" href="index.html">All modules</a><a class="b" href="../glossary.html">📖 Glossary</a></div>
+<div class="cs-grid" style="--c:#b38cff">
+<section class="cs"><h2>Six elements of a good prompt</h2><div class="tw"><table><thead><tr><th>Element</th><th>Example</th></tr></thead><tbody><tr><td>Role</td><td>“You are a support agent for a bank.”</td></tr><tr><td>Task</td><td>“Classify this complaint.”</td></tr><tr><td>Context</td><td>Customer type, product, policy text</td></tr><tr><td>Format</td><td>“Reply as JSON with keys …”</td></tr><tr><td>Constraints</td><td>“Max 50 words. Never share account numbers.”</td></tr><tr><td>Examples</td><td>2–3 input → output pairs</td></tr></tbody></table></div><p style="font-size:13.5px;color:var(--muted);margin:6px 0 0"><a href="s26-prompt-fundamentals.html">S26 →</a></p></section><section class="cs"><h2>Key ideas</h2><ul><li>Lasting rules go in the <b>system</b> message; the request goes in the <b>user</b> message. <a href="s26-prompt-fundamentals.html">S26 →</a></li><li>Start zero-shot; add few-shot examples for custom labels and formats. <a href="s26-prompt-fundamentals.html">S26 →</a></li><li>Chain-of-thought for multi-step problems; self-consistency = ask several times and vote. <a href="s27-reasoning-prompting.html">S27 →</a></li><li>Reasoning models already think step by step: give clear goals, not step lists. <a href="s27-reasoning-prompting.html">S27 →</a></li><li>Always validate structured output (Pydantic) and retry on failure. <a href="s28-structured-output.html">S28 →</a></li><li>LLMs are stateless: memory = re-sending chosen history. <a href="s30-conversational-chains.html">S30 →</a></li></ul></section><section class="cs"><h2>Getting structured output</h2><div class="tw"><table><thead><tr><th>Method</th><th>Guarantees</th></tr></thead><tbody><tr><td>JSON mode</td><td>Valid JSON, but not your fields</td></tr><tr><td>Schema / structured outputs</td><td>Your exact fields and types</td></tr><tr><td>Tool (function) calling</td><td>Arguments that match the tool schema</td></tr><tr><td>Pydantic + retry</td><td>Your code checks and asks again if wrong</td></tr></tbody></table></div></section><section class="cs"><h2>Working with many documents</h2><div class="tw"><table><thead><tr><th>Chain</th><th>How</th><th>Good for</th></tr></thead><tbody><tr><td>Stuff</td><td>All text in one prompt</td><td>Few short documents</td></tr><tr><td>Map-reduce</td><td>Summarise each in parallel, then combine</td><td>Many documents</td></tr><tr><td>Refine</td><td>Update the answer document by document</td><td>Order matters</td></tr><tr><td>Map-rerank</td><td>Answer from each, keep the best scored</td><td>One best source</td></tr></tbody></table></div><p style="font-size:13.5px;color:var(--muted);margin:6px 0 0"><a href="s30-conversational-chains.html">S30 →</a></p></section><section class="cs full"><h2>Code: an LCEL chain</h2><pre># pip install langchain-core langchain-openai   (needs OPENAI_API_KEY)
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from langchain_openai import ChatOpenAI
+
+prompt = ChatPromptTemplate.from_messages([
+    (&quot;system&quot;, &quot;You are a helpful banking tutor.&quot;),
+    (&quot;user&quot;, &quot;Explain {topic} in one line.&quot;)])
+chain = prompt | ChatOpenAI(model=&quot;gpt-4o-mini&quot;, temperature=0) | StrOutputParser()
+print(chain.invoke({&quot;topic&quot;: &quot;UPI&quot;}))          # also: .batch([...]) and .stream(...)</pre></section><section class="cs full"><h2>Common mistakes</h2><ul class="bad"><li>Vague prompts (“make it better”) instead of a clear task, format and limit.</li><li>Putting permanent rules only in the user message, where users can override them.</li><li>Sending model JSON straight into your system without validation.</li><li>Re-sending the whole chat history forever: cost and latency keep growing.</li></ul></section>
+</div>
+<nav class="cs-pager" aria-label="Cheat sheets"><a href="cheatsheet-m7.html"><small>← Previous</small>Module 7: Pretrained Models & LLMs</a><a href="cheatsheet-m9.html" style="text-align:right"><small>Next →</small>Module 9: LangChain + RAG + LangGraph</a></nav>
+<p style="color:var(--muted);font-size:13.5px;margin-top:22px">Created by <b style="color:var(--fg)">Ajeetkumar</b> · Learn24</p>
+</main>
+<script src="../assets/data.js"></script>
+<script src="../assets/site.js" data-base="../"></script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+/* Start Here, Glossary and Cheat-sheet pages. Uses the site.css tokens, so both themes work. */
+.page{max-width:860px;padding-block:40px 20px}
+.page h1{font-family:var(--display);font-size:clamp(32px,5vw,48px);letter-spacing:-.02em;line-height:1.08;margin:10px 0 10px;text-wrap:balance}
+.page .lead{font-size:18px;color:var(--muted);margin:0 0 8px;max-width:62ch}
+.page h2{font-family:var(--display);font-size:24px;letter-spacing:-.01em;margin:38px 0 12px}
+.page h3{font-size:17px;margin:0 0 4px}
+.page p,.page li{font-size:16px;line-height:1.65}
+.page a{color:var(--accent)}
+.page code{font-family:var(--mono);font-size:.9em;background:var(--panel2);border:1px solid var(--line);border-radius:5px;padding:0 5px;overflow-wrap:anywhere}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;min-width:0}
+.card .ico{font-size:22px}
+.card p{margin:4px 0 0;font-size:15px;color:var(--muted)}
+.path{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--c,var(--accent));border-radius:12px;padding:16px 18px;margin-bottom:12px}
+.path h3{display:flex;gap:8px;align-items:center}
+.path p{margin:2px 0 10px;color:var(--muted);font-size:15px}
+.path ol{margin:0;padding-left:22px}
+.path li{margin:3px 0;font-size:15.5px}
+.path li small{color:var(--muted)}
+.words{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.word{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.word b{display:block;font-family:var(--display);font-size:18px;margin-bottom:2px}
+.word span{font-size:14.5px;color:var(--muted)}
+.how{counter-reset:h;list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.how li{counter-increment:h;display:grid;grid-template-columns:30px minmax(0,1fr);gap:12px;align-items:start}
+.how li::before{content:counter(h);width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--bg);display:grid;place-items:center;font:600 13px var(--mono)}
+.note{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 16px;font-size:15px;color:var(--muted)}
+
+/* glossary */
+.gl-search{display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:0 14px;margin:18px 0 6px;position:sticky;top:70px;z-index:5}
+.gl-search:focus-within{border-color:var(--accent)}
+.gl-search input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:var(--fg);font:inherit;padding:12px 0}
+.gl-search span{font:500 13px var(--mono);color:var(--muted);white-space:nowrap}
+.gl-sec h2{margin-top:30px}
+.gl-sec dl{margin:0;display:grid;gap:8px}
+.gl-row{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 16px;scroll-margin-top:140px}
+.gl-row.hl{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 25%,transparent)}
+.gl-row dt{font-weight:600;font-size:16.5px;color:var(--fg)}
+.gl-row dt small{font:400 12.5px var(--mono);color:var(--muted);margin-left:10px}
+.gl-row dd{margin:3px 0 0;font-size:15.5px;line-height:1.6;color:var(--muted)}
+.gl-none{color:var(--muted)}
+
+/* cheat sheets */
+.cs-top{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
+.cs-top button,.cs-top a.b{font:500 14px var(--sans);color:var(--fg);background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:7px 12px;cursor:pointer;text-decoration:none}
+.cs-top button:hover,.cs-top a.b:hover{border-color:var(--accent)}
+.cs-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}
+@media (max-width:720px){.cs-grid{grid-template-columns:1fr}}
+.cs{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 18px;min-width:0;break-inside:avoid}
+.cs.full{grid-column:1/-1}
+.cs h2{font-size:15px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--c,var(--accent));margin:0 0 8px}
+.cs ul{margin:0;padding-left:18px}
+.cs li{font-size:15px;line-height:1.55;margin:4px 0}
+.cs li a{font-size:13px;color:var(--muted);text-decoration:none;white-space:nowrap}
+.cs li a:hover{color:var(--accent)}
+.cs table{width:100%;border-collapse:collapse;font-size:14.5px}
+.cs th,.cs td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.cs th{font-weight:600;color:var(--fg);font-size:13.5px}
+.cs td{color:var(--muted)}
+.cs td:first-child{color:var(--fg);font-weight:500}
+.cs .tw{overflow-x:auto}
+.cs pre{margin:0;background:#111a2b;color:#d6deeb;border-radius:10px;padding:12px 14px;font:13px/1.6 var(--mono);overflow-x:auto;white-space:pre}
+.cs .formula{font:500 16px var(--mono);color:var(--fg);background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:6px 0;overflow-x:auto;white-space:nowrap}
+.cs .bad li::marker{content:"✕  ";color:var(--red)}
+.cs-pager{display:flex;justify-content:space-between;gap:10px;margin-top:26px;flex-wrap:wrap}
+.cs-pager a{text-decoration:none;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 14px;color:var(--fg);font-size:14.5px}
+.cs-pager a small{display:block;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+.cs-pager a:hover{border-color:var(--accent)}
+
+@media print{
+  html,html[data-theme]{--bg:#fff;--bg2:#f5f7fa;--panel:#fff;--panel2:#f0f3f8;--line:#cfd6e0;--fg:#000;--muted:#333;--accent:#1f62c4;--c:#1f62c4}
+  body{background:#fff;color:#000;font-size:12px}
+  .top,footer,.cs-top,.cs-pager,.l24-theme,.gl-search{display:none!important}
+  .page{padding:0;max-width:none}
+  .page h1{font-size:26px;margin:0 0 4px}.page .lead{font-size:13px}
+  .cs-grid{gap:8px;margin-top:8px}.cs{padding:8px 12px;border-radius:8px}
+  .cs li{font-size:11.5px;margin:2px 0}.cs td,.cs th{font-size:11px;padding:3px 6px}
+  .cs pre{background:#f5f7fa;color:#000;border:1px solid #cfd6e0;font-size:10.5px;white-space:pre-wrap}
+  .cs .formula{font-size:12px}
+  a{color:#000;text-decoration:none}
+  .cs h2{color:#1f3f7a!important}
+}

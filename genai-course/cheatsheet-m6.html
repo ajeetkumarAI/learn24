@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Module 6 cheat sheet: Transformer Architecture &amp; Variants · Learn24</title>
+<meta name="description" content="One-page summary of GenAI Course Module 6: Transformer Architecture &amp; Variants.">
+<meta property="og:title" content="Module 6 cheat sheet: Transformer Architecture &amp; Variants · Learn24">
+<meta property="og:description" content="One-page summary of GenAI Course Module 6: Transformer Architecture &amp; Variants.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/pages.css">
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body data-page="cheatsheet">
+<main class="shell page">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="index.html">GenAI Course</a><span>›</span><span>Module 6 cheat sheet</span></nav>
+<h1>Module 6 cheat sheet: Transformer Architecture & Variants</h1>
+<p class="lead">A transformer is a stack of identical blocks; the encoder understands, the decoder writes, and positions are added because attention ignores order.</p>
+<div class="cs-top"><button type="button" onclick="print()">🖨 Print / save as PDF</button><a class="b" href="index.html">All modules</a><a class="b" href="../glossary.html">📖 Glossary</a></div>
+<div class="cs-grid" style="--c:#b38cff">
+<section class="cs"><h2>Key ideas</h2><ul><li>Attention alone is order-blind: “dog bites man” = “man bites dog” without positions. <a href="s20-positional-encoding.html">S20 →</a></li><li>Encoder block: self-attention → Add &amp; Norm → feed-forward → Add &amp; Norm. <a href="s21-encoder-decoder-blocks.html">S21 →</a></li><li>Decoder adds masked self-attention and cross-attention (reads the encoder output). <a href="s21-encoder-decoder-blocks.html">S21 →</a></li><li>Training uses teacher forcing (all positions at once); inference writes one token at a time. <a href="s21-encoder-decoder-blocks.html">S21 →</a></li><li>Pick a family by the shape of the output you need. <a href="s22-transformer-variants.html">S22 →</a></li></ul></section><section class="cs"><h2>Positional encoding</h2><div class="formula">PE(pos, 2i) = sin(pos / 10000^(2i/d))<br>PE(pos, 2i+1) = cos(pos / 10000^(2i/d))</div><div class="tw"><table><thead><tr><th>Type</th><th>Used in</th></tr></thead><tbody><tr><td>Sinusoidal (fixed waves)</td><td>Original transformer (2017)</td></tr><tr><td>Learned positions</td><td>BERT, GPT-2</td></tr><tr><td>RoPE (rotates Q and K)</td><td>Llama, Mistral, Qwen and most modern LLMs</td></tr><tr><td>ALiBi (distance penalty)</td><td>BLOOM, MPT</td></tr></tbody></table></div></section><section class="cs full"><h2>Three families</h2><div class="tw"><table><thead><tr><th>Family</th><th>Examples</th><th>Best for</th></tr></thead><tbody><tr><td>Encoder-only</td><td>BERT, RoBERTa, DeBERTa</td><td>Classification, NER, search embeddings</td></tr><tr><td>Decoder-only</td><td>GPT, Llama, Mistral, Qwen</td><td>Chat, writing, code, agents</td></tr><tr><td>Encoder-decoder</td><td>T5, BART</td><td>Translation, summarisation, rewriting</td></tr></tbody></table></div></section><section class="cs"><h2>Code: one encoder block and a causal mask</h2><pre>import torch, torch.nn as nn
+layer = nn.TransformerEncoderLayer(d_model=512, nhead=8,
+                                   dim_feedforward=2048, batch_first=True)
+x = torch.randn(1, 4, 512)          # 1 sentence, 4 tokens
+print(layer(x).shape)               # same shape in and out: [1, 4, 512]
+mask = nn.Transformer.generate_square_subsequent_mask(4)   # -inf = cannot look</pre></section><section class="cs"><h2>Common mistakes</h2><ul class="bad"><li>Using BERT to generate long text: it is built to understand, not to write.</li><li>Thinking the decoder can see future tokens during training: the mask blocks them.</li><li>Confusing residual connections (add the input back) with normalisation (rescale numbers).</li><li>Choosing a giant decoder for a simple label task a small encoder can do faster and cheaper.</li></ul></section>
+</div>
+<nav class="cs-pager" aria-label="Cheat sheets"><a href="cheatsheet-m5.html"><small>← Previous</small>Module 5: Transformer & Attention</a><a href="cheatsheet-m7.html" style="text-align:right"><small>Next →</small>Module 7: Pretrained Models & LLMs</a></nav>
+<p style="color:var(--muted);font-size:13.5px;margin-top:22px">Created by <b style="color:var(--fg)">Ajeetkumar</b> · Learn24</p>
+</main>
+<script src="../assets/data.js"></script>
+<script src="../assets/site.js" data-base="../"></script>
+</body>
+</html>

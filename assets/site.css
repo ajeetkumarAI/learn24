@@ -27,6 +27,18 @@ img{max-width:100%}
 .nav a:hover{color:var(--fg);background:var(--panel)}
 .nav a[aria-current="page"]{color:var(--fg);background:var(--panel2)}
 @media (max-width:760px){.nav{display:none}}
+.top .l24-theme{margin-left:8px}
+@media (max-width:760px){.top .l24-theme{margin-left:auto}}
+.nav .nav-x{color:var(--fg)}
+@media (max-width:1000px){.nav .nav-x{display:none}}
+.cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:600;font-size:15px;border-radius:10px;padding:10px 16px;background:var(--accent);color:var(--bg);border:1px solid var(--accent)}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--fg);border-color:var(--line)}
+.btn.ghost:hover{border-color:var(--accent)}
+.mod-h .cheat{flex:none;align-self:center;text-decoration:none;font-size:13.5px;font-weight:500;color:var(--c);border:1px solid color-mix(in srgb,var(--c) 45%,var(--line));border-radius:9px;padding:6px 11px;white-space:nowrap}
+.mod-h .cheat:hover{background:var(--panel)}
+@media (max-width:620px){.mod-h{flex-wrap:wrap}.mod-h .cheat{margin-left:0}}
 
 /* hero */
 .hero{padding-block:64px 36px}

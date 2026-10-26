@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Module 9 cheat sheet: LangChain + RAG + LangGraph · Learn24</title>
+<meta name="description" content="One-page summary of GenAI Course Module 9: LangChain + RAG + LangGraph.">
+<meta property="og:title" content="Module 9 cheat sheet: LangChain + RAG + LangGraph · Learn24">
+<meta property="og:description" content="One-page summary of GenAI Course Module 9: LangChain + RAG + LangGraph.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/pages.css">
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body data-page="cheatsheet">
+<main class="shell page">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="index.html">GenAI Course</a><span>›</span><span>Module 9 cheat sheet</span></nav>
+<h1>Module 9 cheat sheet: LangChain + RAG + LangGraph</h1>
+<p class="lead">RAG answers from your own documents: extract and chunk them well, retrieve the best chunks, generate with citations, and measure everything.</p>
+<div class="cs-top"><button type="button" onclick="print()">🖨 Print / save as PDF</button><a class="b" href="index.html">All modules</a><a class="b" href="../glossary.html">📖 Glossary</a></div>
+<div class="cs-grid" style="--c:#b38cff">
+<section class="cs full"><h2>The RAG pipeline</h2><div class="formula" style="white-space:normal">Offline: load → extract → chunk → embed → store<br>Per question: embed query → retrieve → re-rank → prompt → answer + citations</div><ul><li>Fine-tune for behaviour; RAG for knowledge; long context for one-off documents. <a href="s31-rag-foundations.html">S31 →</a></li><li>Extraction quality decides RAG quality; keep tables as Markdown. <a href="s32-document-extraction.html">S32 →</a></li><li>Start with 300–800 token chunks plus overlap; recursive splitting is the safe default. <a href="s33-chunking.html">S33 →</a></li><li>Use the same embedding model for documents and queries. <a href="s34-embeddings-vector-db.html">S34 →</a></li></ul></section><section class="cs"><h2>Pick a tool</h2><div class="tw"><table><thead><tr><th>Need</th><th>Tool</th></tr></thead><tbody><tr><td>Digital PDF</td><td>PyPDF, PyMuPDF</td></tr><tr><td>Mixed formats (Word, HTML, PPT)</td><td>Unstructured</td></tr><tr><td>Scans, forms, tables</td><td>OCR, AWS Textract, Azure Document Intelligence</td></tr><tr><td>Learning / prototype DB</td><td>Chroma</td></tr><tr><td>Managed production DB</td><td>Pinecone</td></tr><tr><td>Fast library, self-managed</td><td>FAISS</td></tr><tr><td>Already on PostgreSQL</td><td>pgvector</td></tr></tbody></table></div></section><section class="cs"><h2>Better retrieval</h2><div class="tw"><table><thead><tr><th>Technique</th><th>Fixes</th></tr></thead><tbody><tr><td>Multi-query</td><td>Vague or short questions</td></tr><tr><td>Self-query</td><td>Adds metadata filters (year, type)</td></tr><tr><td>Parent-document</td><td>Search small chunks, return the full section</td></tr><tr><td>Hybrid (BM25 + vectors)</td><td>Exact codes, names, IDs</td></tr><tr><td>Cross-encoder re-rank</td><td>Wrong order in the top results</td></tr></tbody></table></div><div class="formula">RRF score = Σ 1 / (60 + rank)</div><p style="font-size:13.5px;color:var(--muted);margin:0"><a href="s35-retrievers-reranking.html">S35 →</a></p></section><section class="cs"><h2>Vector index types</h2><div class="tw"><table><thead><tr><th>Index</th><th>How</th><th>Speed (our test)</th></tr></thead><tbody><tr><td>Flat</td><td>Compare with every vector (exact)</td><td>3.90 ms / query</td></tr><tr><td>IVF</td><td>Search only the nearest clusters</td><td>0.21 ms</td></tr><tr><td>HNSW</td><td>Hop through a graph of neighbours</td><td>0.06 ms (recall 0.97)</td></tr></tbody></table></div><p style="font-size:13.5px;color:var(--muted);margin:6px 0 0">FAISS on a small clustered dataset; your numbers will differ. <a href="s34-embeddings-vector-db.html">S34 →</a></p></section><section class="cs"><h2>Evaluate before you ship</h2><div class="tw"><table><thead><tr><th>Stage</th><th>Metric</th><th>Question it answers</th></tr></thead><tbody><tr><td>Retrieval</td><td>Hit rate @k</td><td>Is the right chunk in the top k?</td></tr><tr><td>Retrieval</td><td>MRR</td><td>How high is the first right chunk?</td></tr><tr><td>Generation</td><td>Faithfulness</td><td>Is every claim supported by the chunks?</td></tr><tr><td>Generation</td><td>Answer relevancy</td><td>Does it answer the question asked?</td></tr></tbody></table></div><p style="font-size:13.5px;color:var(--muted);margin:6px 0 0">Automate with RAGAS or DeepEval on a golden dataset. <a href="s36-rag-evaluation.html">S36 →</a></p></section><section class="cs"><h2>LangGraph and production</h2><ul><li>LangGraph = <b>state</b> + <b>nodes</b> (steps) + <b>edges</b> (arrows), with conditional edges and cycles. <a href="s37-langgraph-agentic-rag.html">S37 →</a></li><li>Agentic RAG: grade the retrieved chunks, rewrite the query and retry, then check the answer. <a href="s37-langgraph-agentic-rag.html">S37 →</a></li><li>Index incrementally: add, update and delete only what changed. <a href="s38-rag-production.html">S38 →</a></li><li>Make citations mandatory; refuse when nothing relevant is found. <a href="s38-rag-production.html">S38 →</a></li><li>Apply access control at retrieval, mask PII, keep audit logs. <a href="s38-rag-production.html">S38 →</a></li></ul></section><section class="cs full"><h2>Code: Reciprocal Rank Fusion (no libraries)</h2><pre>def rrf(rankings, k=60):
+    scores = {}
+    for ranking in rankings:
+        for rank, doc in enumerate(ranking, start=1):
+            scores[doc] = scores.get(doc, 0) + 1 / (k + rank)
+    return sorted(scores.items(), key=lambda x: -x[1])
+
+bm25  = [&quot;FD_rules_p4&quot;, &quot;Savings_p2&quot;, &quot;FD_faq_p1&quot;]    # keyword ranking
+dense = [&quot;FD_faq_p1&quot;, &quot;FD_rules_p4&quot;, &quot;Loan_p9&quot;]       # vector ranking
+print(rrf([bm25, dense]))     # FD_rules_p4 and FD_faq_p1 come out on top</pre></section><section class="cs full"><h2>Common mistakes</h2><ul class="bad"><li>Different embedding models for documents and queries.</li><li>Chunks with no metadata: no filters, no citations, no access control.</li><li>Checking permissions after generation instead of at retrieval.</li><li>Shipping without a golden test set, so you cannot tell if a change helped.</li><li>Stuffing 20 chunks into the prompt: higher cost, and the answer often gets worse.</li></ul></section>
+</div>
+<nav class="cs-pager" aria-label="Cheat sheets"><a href="cheatsheet-m8.html"><small>← Previous</small>Module 8: Prompt Engineering</a><a href="cheatsheet-m10.html" style="text-align:right"><small>Next →</small>Module 10: Fine-Tuning Techniques</a></nav>
+<p style="color:var(--muted);font-size:13.5px;margin-top:22px">Created by <b style="color:var(--fg)">Ajeetkumar</b> · Learn24</p>
+</main>
+<script src="../assets/data.js"></script>
+<script src="../assets/site.js" data-base="../"></script>
+</body>
+</html>

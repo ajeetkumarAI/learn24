@@ -13,7 +13,8 @@
   const head = document.createElement('header');
   head.className = 'top';
   head.innerHTML = `<div class="shell"><a class="brand" href="${base}index.html" aria-label="${esc(D.site.name)} home">Learn<span class="n">24</span></a>
-    <nav class="nav" aria-label="Topics">${D.topics.map(t => `<a href="${base}${t.id}/index.html"${document.body.dataset.topic === t.id ? ' aria-current="page"' : ''}>${esc(t.name)}</a>`).join('')}</nav></div>`;
+    <nav class="nav" aria-label="Topics">${D.topics.map(t => `<a href="${base}${t.id}/index.html"${document.body.dataset.topic === t.id ? ' aria-current="page"' : ''}>${esc(t.name)}</a>`).join('')}
+      <a class="nav-x" href="${base}start.html"${page === 'start' ? ' aria-current="page"' : ''}>Start here</a><a class="nav-x" href="${base}glossary.html"${page === 'glossary' ? ' aria-current="page"' : ''}>Glossary</a></nav></div>`;
   document.body.prepend(head);
 
   function lessonRow(t, l, i) {
@@ -35,6 +36,7 @@
       <div class="eyebrow">Visual AI lessons · by ${esc(D.site.author)}</div>
       <h1>See how AI works, <em>one step at a time.</em></h1>
       <p>${esc(D.site.tagline)} Every lesson is an animation you can pause, replay and click through.</p>
+      <div class="cta"><a class="btn" href="${base}start.html">New to AI? Start here →</a><a class="btn ghost" href="${base}glossary.html">📖 Glossary of AI terms</a></div>
       <div class="pipe" aria-hidden="true"><span>tokens</span><i>→</i><span>transformer</span><i>→</i><span>agents</span><i>→</i><span>guardrails</span><i>→</i><span>production</span></div>
       <label class="search" for="q"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
         <input id="q" type="search" placeholder="Search lessons: RLHF, prompt injection, MCP…" autocomplete="off"></label>
@@ -74,7 +76,7 @@
       <div class="progress"><div class="bar"><i style="width:${lv.length ? n / lv.length * 100 : 0}%"></i></div><span>${n} of ${lv.length} live lessons done</span></div>
     </section>
     ${t.modules ? t.modules.map(m => `<section class="sec shell module">
-      <div class="mod-h" style="--c:${t.color}"><span class="mod-n">Module ${m.n}</span><div><h2>${esc(m.title)}</h2><p>${esc(m.objective)} · Sessions ${m.sessions[0]}–${m.sessions[m.sessions.length - 1]}</p></div></div>
+      <div class="mod-h" style="--c:${t.color}"><span class="mod-n">Module ${m.n}</span><div style="flex:1;min-width:0"><h2>${esc(m.title)}</h2><p>${esc(m.objective)} · Sessions ${m.sessions[0]}–${m.sessions[m.sessions.length - 1]}</p></div><a class="cheat" href="cheatsheet-m${m.n}.html">📄 Cheat sheet</a></div>
       <div class="lessons">${t.lessons.filter(l => l.module === m.n).map((l, i) => lessonRow(t, l, i)).join('')}</div></section>`).join('')
       : `<section class="sec shell"><div class="lessons">${t.lessons.map((l, i) => lessonRow(t, l, i)).join('')}</div></section>`}`;
   }

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Module 7 cheat sheet: Pretrained Models &amp; LLMs · Learn24</title>
+<meta name="description" content="One-page summary of GenAI Course Module 7: Pretrained Models &amp; LLMs.">
+<meta property="og:title" content="Module 7 cheat sheet: Pretrained Models &amp; LLMs · Learn24">
+<meta property="og:description" content="One-page summary of GenAI Course Module 7: Pretrained Models &amp; LLMs.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/pages.css">
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body data-page="cheatsheet">
+<main class="shell page">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="index.html">GenAI Course</a><span>›</span><span>Module 7 cheat sheet</span></nav>
+<h1>Module 7 cheat sheet: Pretrained Models & LLMs</h1>
+<p class="lead">Use pretrained models from the Hugging Face Hub, control their output with decoding settings, shrink them with quantization, and measure them properly.</p>
+<div class="cs-top"><button type="button" onclick="print()">🖨 Print / save as PDF</button><a class="b" href="index.html">All modules</a><a class="b" href="../glossary.html">📖 Glossary</a></div>
+<div class="cs-grid" style="--c:#b38cff">
+<section class="cs"><h2>Key ideas</h2><ul><li>Autoregressive models predict the next token (GPT); autoencoding models fill blanks (BERT). <a href="s23-hugging-face.html">S23 →</a></li><li>Read the model card: task, size, licence and limits. <a href="s23-hugging-face.html">S23 →</a></li><li><code>pipeline()</code> is the fastest start; AutoTokenizer + AutoModel give full control. <a href="s23-hugging-face.html">S23 →</a></li><li>Choose closed APIs or open weights by quality, cost, privacy and control. <a href="s24-decoding-llm-landscape.html">S24 →</a></li><li>Adaptation ladder: prompting → RAG → PEFT → full fine-tuning. <a href="s25-adaptation-evaluation.html">S25 →</a></li></ul></section><section class="cs"><h2>Memory rule of thumb</h2><div class="formula">GPU memory ≈ parameters × bytes per parameter</div><div class="tw"><table><thead><tr><th>Precision</th><th>Bytes</th><th>7B model</th></tr></thead><tbody><tr><td>FP32</td><td>4</td><td>~28 GB</td></tr><tr><td>FP16 / BF16</td><td>2</td><td>~14 GB</td></tr><tr><td>INT8</td><td>1</td><td>~7 GB</td></tr><tr><td>INT4 (GGUF, AWQ, GPTQ)</td><td>0.5</td><td>~3.5–4 GB</td></tr></tbody></table></div><p style="font-size:13.5px;color:var(--muted);margin:6px 0 0">Add extra for the KV cache and activations.</p></section><section class="cs full"><h2>Decoding settings</h2><div class="tw"><table><thead><tr><th>Setting</th><th>What it does</th><th>Use for</th></tr></thead><tbody><tr><td>Greedy</td><td>Always the top token</td><td>Short factual answers</td></tr><tr><td>Beam search</td><td>Keeps several candidate sentences</td><td>Translation</td></tr><tr><td>Temperature</td><td>Low = focused, high = varied</td><td>0–0.3 facts/code; 0.7–1 creative</td></tr><tr><td>Top-k / top-p</td><td>Limit choices to the likeliest tokens</td><td>Creative text without nonsense</td></tr><tr><td>Repetition penalty</td><td>Discourages repeating</td><td>Stops loops</td></tr></tbody></table></div></section><section class="cs"><h2>Evaluation metrics</h2><div class="tw"><table><thead><tr><th>Metric</th><th>Measures</th><th>Watch out</th></tr></thead><tbody><tr><td>Perplexity</td><td>How surprised the model is by real text (lower = better)</td><td>Says nothing about truth</td></tr><tr><td>BLEU</td><td>Word overlap with a reference (translation)</td><td>Misses correct paraphrases</td></tr><tr><td>ROUGE</td><td>Overlap focused on recall (summaries)</td><td>Same as BLEU</td></tr><tr><td>Human / LLM judge</td><td>Helpfulness, correctness, tone</td><td>Needs clear rubric</td></tr></tbody></table></div></section><section class="cs"><h2>Code: three lines with Hugging Face</h2><pre># pip install transformers torch
+from transformers import pipeline
+sentiment = pipeline(&quot;sentiment-analysis&quot;)
+print(sentiment(&quot;The new UPI app is super fast and easy to use!&quot;))</pre><p style="font-size:13.5px;color:var(--muted);margin:8px 0 0">No API key needed: the model downloads from the Hub.</p></section><section class="cs full"><h2>Common mistakes</h2><ul class="bad"><li>High temperature for facts or code: more random, more mistakes.</li><li>Judging a model on BLEU/ROUGE alone.</li><li>Ignoring the licence on the model card before using it at work.</li><li>Estimating memory from parameters only and forgetting the KV cache.</li></ul></section>
+</div>
+<nav class="cs-pager" aria-label="Cheat sheets"><a href="cheatsheet-m6.html"><small>← Previous</small>Module 6: Transformer Architecture & Variants</a><a href="cheatsheet-m8.html" style="text-align:right"><small>Next →</small>Module 8: Prompt Engineering</a></nav>
+<p style="color:var(--muted);font-size:13.5px;margin-top:22px">Created by <b style="color:var(--fg)">Ajeetkumar</b> · Learn24</p>
+</main>
+<script src="../assets/data.js"></script>
+<script src="../assets/site.js" data-base="../"></script>
+</body>
+</html>

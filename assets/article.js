@@ -63,6 +63,13 @@
         });
       });
     });
+    // figures: on small screens wide diagrams scroll sideways instead of shrinking text
+    $$('.fig > svg').forEach(svg => {
+      const box = document.createElement('div'); box.className = 'figscroll';
+      svg.replaceWith(box); box.append(svg);
+      const vb = (svg.getAttribute('viewBox') || '').split(/[ ,]+/).map(Number);
+      if (vb[2] >= 600) { const f = box.parentElement; f.classList.add('wide'); const h = document.createElement('div'); h.className = 'swipe'; h.textContent = 'swipe ↔ to see the full diagram'; f.insertBefore(h, box); }
+    });
     // figures animate in when scrolled into view
     const fio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); fio.unobserve(e.target); } }), { threshold: .25 });
     $$('.fig').forEach(f => fio.observe(f));

@@ -12,6 +12,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="../assets/article.css">
 <style>:root{--ac:#b38cff}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
 </head>
 <body>
 <div class="progress" aria-hidden="true"></div>
@@ -19,7 +21,7 @@
 <article>
   <div class="kicker">GenAI Course · Module 6 · Session 21</div>
   <h1>Inside the Encoder and Decoder Blocks</h1>
-  <div class="meta"><span>⏱ 12 min read</span><span>🎯 Intermediate</span><span>🖼 2 diagrams</span><span>🧪 1 live demos</span><span>🐍 Python code</span></div>
+  <div class="meta"><span>⏱ 12 min read</span><span>🎯 Intermediate</span><span>🖼 2 diagrams</span><span>🧪 1 live demo</span><span>🐍 Python code</span></div>
   <p class="lead">Let us open the boxes. In this session we look inside one <strong>encoder block</strong> and one <strong>decoder block</strong>, understand each small part, and see why the model behaves differently during <strong>training</strong> and when you actually <strong>use</strong> it.</p>
   <div class="tldr"><h4>In this session</h4><ul><li>The four parts of an encoder block</li><li>The decoder’s extra parts: masked attention, cross-attention and the output head</li><li>Training with teacher forcing vs generating at inference time</li><li>PyTorch code for a block and a causal mask</li></ul></div>
 <h2 id="encoder"><span class="n">01</span>Inside the encoder block</h2>

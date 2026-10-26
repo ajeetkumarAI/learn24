@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Module 5 cheat sheet: Transformer &amp; Attention · Learn24</title>
+<meta name="description" content="One-page summary of GenAI Course Module 5: Transformer &amp; Attention.">
+<meta property="og:title" content="Module 5 cheat sheet: Transformer &amp; Attention · Learn24">
+<meta property="og:description" content="One-page summary of GenAI Course Module 5: Transformer &amp; Attention.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/pages.css">
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body data-page="cheatsheet">
+<main class="shell page">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="index.html">GenAI Course</a><span>›</span><span>Module 5 cheat sheet</span></nav>
+<h1>Module 5 cheat sheet: Transformer & Attention</h1>
+<p class="lead">Attention lets every word look at every other word at once, so the model understands context and trains in parallel.</p>
+<div class="cs-top"><button type="button" onclick="print()">🖨 Print / save as PDF</button><a class="b" href="index.html">All modules</a><a class="b" href="../glossary.html">📖 Glossary</a></div>
+<div class="cs-grid" style="--c:#b38cff">
+<section class="cs"><h2>Key ideas</h2><ul><li>RNNs read word by word: slow, and they forget far-away words. <a href="s17-self-attention.html">S17 →</a></li><li>Each token makes a <b>query</b> (what I need), <b>key</b> (what I offer) and <b>value</b> (what I carry). <a href="s17-self-attention.html">S17 →</a></li><li>Dividing by √dₖ stops scores getting too large, so softmax does not saturate. <a href="s18-multi-head-attention.html">S18 →</a></li><li>Masks hide padding and, in decoders, future tokens. <a href="s18-multi-head-attention.html">S18 →</a></li><li>Multi-head = several smaller attentions in parallel, each learning a different relation, for about the same cost. <a href="s18-multi-head-attention.html">S18 →</a></li><li>Long context: attention cost grows with n², the KV cache with n; models can miss facts in the middle. <a href="s19-advanced-attention.html">S19 →</a></li></ul></section><section class="cs"><h2>The formula</h2><div class="formula">Attention(Q, K, V) = softmax( Q·Kᵀ / √dₖ ) · V</div><ul><li><b>Q·Kᵀ</b>: how well each query matches each key (a score table).</li><li><b>/ √dₖ</b>: scale the scores down (dₖ = size of each key vector).</li><li><b>softmax</b>: each row becomes weights that add up to 1.</li><li><b>· V</b>: each token gets a weighted mix of the values.</li></ul></section><section class="cs"><h2>Making attention cheaper</h2><div class="tw"><table><thead><tr><th>Method</th><th>Idea</th><th>Exact?</th></tr></thead><tbody><tr><td>Sliding window</td><td>Each token looks only at nearby tokens</td><td>No</td></tr><tr><td>Sparse attention</td><td>Skip most token pairs, keep a pattern</td><td>No</td></tr><tr><td>FlashAttention</td><td>Same maths, smarter use of GPU memory</td><td>Yes</td></tr><tr><td>GQA / MQA</td><td>Heads share keys and values → smaller KV cache</td><td>Small change</td></tr></tbody></table></div></section><section class="cs"><h2>Numbers to remember</h2><ul><li>Double the context → about 4× attention work (n²).</li><li>KV cache, Llama 3.1 8B (FP16): about <b>128 KB per token</b>, so ~1 GB for 8,000 tokens.</li><li>Original transformer: 8 heads, model size 512 (64 per head).</li></ul></section><section class="cs full"><h2>Code: attention in NumPy</h2><pre>import numpy as np
+X = np.random.randn(4, 8)                      # 4 tokens, 8 numbers each
+Wq, Wk, Wv = [np.random.randn(8, 4) for _ in range(3)]
+Q, K, V = X @ Wq, X @ Wk, X @ Wv
+scores = Q @ K.T / np.sqrt(K.shape[1])
+w = np.exp(scores - scores.max(1, keepdims=True))
+w /= w.sum(1, keepdims=True)                   # softmax per row
+out = w @ V                                    # new vector for each token</pre></section><section class="cs full"><h2>Common mistakes</h2><ul class="bad"><li>Forgetting the √dₖ scaling: training becomes unstable.</li><li>Forgetting the causal mask in a decoder: the model “cheats” by seeing the answer.</li><li>Treating attention maps as a full explanation of the model’s reasoning.</li><li>Assuming a long context window means the model uses every part equally well.</li></ul></section>
+</div>
+<nav class="cs-pager" aria-label="Cheat sheets"><span></span><a href="cheatsheet-m6.html" style="text-align:right"><small>Next →</small>Module 6: Transformer Architecture & Variants</a></nav>
+<p style="color:var(--muted);font-size:13.5px;margin-top:22px">Created by <b style="color:var(--fg)">Ajeetkumar</b> · Learn24</p>
+</main>
+<script src="../assets/data.js"></script>
+<script src="../assets/site.js" data-base="../"></script>
+</body>
+</html>

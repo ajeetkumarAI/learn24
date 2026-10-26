@@ -1,0 +1,37 @@
+/* Learn24 themes. Dark is the default look; light is chosen with the ☀/☾ button (saved per browser).
+   Every page already uses the same colour tokens, so light mode only swaps the token values. html[data-theme] beats :root on specificity. */
+html{--l24-bar:rgba(11,17,28,.92);--l24-line:#26344d;--l24-fg:#e8eef8;--l24-muted:#8d9bb3;--l24-panel:#141e30;--l24-chip:#7cb4ff;--l24-chipfg:#0b111c}
+html[data-theme="light"]{
+  --bg:#f6f8fc; --bg2:#eef2f8; --panel:#ffffff; --panel2:#eaf0f9; --line:#d3dce9; --fg:#101a2c; --body:#27334a; --muted:#52627b; --dim:#8794a8;
+  --accent:#1f62c4; --blue:#1f62c4; --red:#c62f2f; --redbg:#fdecec; --green:#0e7a52; --greenbg:#e2f5ec; --amber:#9a5c00; --warn:#c2412f;
+  --l24-bar:rgba(255,255,255,.92); --l24-line:#d3dce9; --l24-fg:#101a2c; --l24-muted:#52627b; --l24-panel:#ffffff; --l24-chip:#1f62c4; --l24-chipfg:#ffffff;
+  color-scheme:light;
+}
+/* code stays dark in both themes: easier to read, matches most editors */
+html[data-theme="light"] .codebox pre,html[data-theme="light"] .code{background:#111a2b;border-color:#111a2b}
+html[data-theme="light"] .codebox pre{--fg:#e8eef8}
+html[data-theme="light"] .msg.bad .who,html[data-theme="light"] .msg.bad .txt,html[data-theme="light"] .msg.atk .txt{color:var(--red)}
+html[data-theme="light"] .fig{background:#fbfcfe}
+html[data-theme="light"] .top{background:rgba(255,255,255,.9)}
+
+/* theme button */
+.l24-theme{flex:none;display:inline-grid;place-items:center;width:34px;height:34px;border-radius:9px;border:1px solid var(--l24-line);background:transparent;color:var(--l24-fg);cursor:pointer;font-size:16px;line-height:1;padding:0}
+.l24-theme:hover{background:var(--l24-panel)}
+.l24-theme:focus-visible{outline:2px solid var(--l24-chip);outline-offset:2px}
+.l24-float{position:fixed;right:14px;bottom:14px;z-index:70;background:var(--l24-panel)}
+
+/* glossary hover terms (added by glossary.js) */
+.gl{border-bottom:1.5px dotted currentColor;cursor:help;text-decoration:none;position:relative}
+.gl:focus-visible{outline:2px solid var(--ac,var(--accent));outline-offset:2px;border-radius:3px}
+.gl-tip{position:absolute;z-index:80;max-width:min(320px,calc(100vw - 24px));background:var(--l24-panel);color:var(--l24-fg);border:1px solid var(--l24-line);border-radius:10px;padding:10px 12px;font:400 14px/1.5 "IBM Plex Sans",system-ui,sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.25);pointer-events:auto}
+.gl-tip b{display:block;font-weight:600;margin-bottom:2px}
+.gl-tip a{color:var(--l24-chip);font-size:13px;text-decoration:none}
+.gl-tip a:hover{text-decoration:underline}
+
+/* small screens: diagrams keep readable text and scroll sideways instead of shrinking */
+.figscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.fig .swipe{display:none;font:500 12px "IBM Plex Mono",monospace;color:var(--muted);text-align:right;margin:-4px 0 6px}
+@media (max-width:600px){
+  .figscroll svg{min-width:600px}
+  .fig.wide .swipe{display:block}
+}

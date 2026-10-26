@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Start here · Learn24</title>
+<meta name="description" content="New to AI? What you need, where to begin and how to use Learn24 lessons.">
+<meta property="og:title" content="Start here · Learn24">
+<meta property="og:description" content="New to AI? What you need, where to begin and how to use Learn24 lessons.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/pages.css">
+<link rel="stylesheet" href="assets/theme.css">
+<script src="assets/theme.js"></script>
+</head>
+<body data-page="start">
+<main class="shell page">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span>›</span><span>Start here</span></nav>
+<h1>New to AI? Start here.</h1>
+<p class="lead">Learn24 teaches how modern AI works with pictures, animations and small live demos. You do not need a maths degree. This page tells you what you need, where to begin and how to use each lesson.</p>
+
+<h2>What you need</h2>
+<div class="cards">
+  <div class="card"><div class="ico">🧮</div><h3>School-level maths</h3><p>If you know multiplication, averages and percentages, you can follow every lesson. Formulas are always explained in words first.</p></div>
+  <div class="card"><div class="ico">🐍</div><h3>Basic Python (for code parts)</h3><p>Only for the code boxes: variables, lists, functions and <code>pip install</code>. New to Python? Try the free <a href="https://docs.python.org/3/tutorial/" target="_blank" rel="noopener">official tutorial</a> first.</p></div>
+  <div class="card"><div class="ico">💻</div><h3>A free place to run code</h3><p><a href="https://colab.research.google.com/" target="_blank" rel="noopener">Google Colab</a> runs Python in your browser with a free GPU. Some examples call OpenAI and need an API key; the lessons say when.</p></div>
+  <div class="card"><div class="ico">⏱</div><h3>20–30 minutes a day</h3><p>Each lesson takes 5–15 minutes of reading, plus time to try the code. One lesson a day finishes the GenAI Course in about a month.</p></div>
+</div>
+
+<h2>Five words to know before you begin</h2>
+<div class="words">
+  <div class="word"><b>Token</b><span>A small piece of text (a word or part of a word). Models read and write tokens.</span></div>
+  <div class="word"><b>Embedding</b><span>A list of numbers that stands for meaning. Similar meanings → similar numbers.</span></div>
+  <div class="word"><b>Attention</b><span>How each word looks at the other words to understand context.</span></div>
+  <div class="word"><b>Prompt</b><span>The text and instructions you send to the model.</span></div>
+  <div class="word"><b>RAG</b><span>Search your documents first, then let the model answer from them.</span></div>
+</div>
+<p>See all 83 terms in the <a href="glossary.html">Glossary</a>. Inside lessons, words with a <span style="border-bottom:1.5px dotted currentColor">dotted underline</span> show their meaning when you hover or tap them.</p>
+
+<h2>Pick your path</h2>
+<div class="path" style="--c:#5aa9ff"><h3>🌱 Path 1 · I am completely new</h3><p>Understand what an LLM is and how it learns, before any code.</p><ol>
+  <li><a href="genai/llm-training.html">How an LLM is trained</a> <small>pretraining → SFT → RLHF, animated</small></li>
+  <li><a href="genai/llm-inference.html">How an LLM answers a question</a> <small>tokens to text, step by step</small></li>
+  <li><a href="genai/bert.html">How BERT works</a> <small>your first transformer model</small></li>
+  <li><a href="genai/rag-basics.html">RAG basics</a> <small>how chatbots answer from your documents</small></li>
+  <li>Then start the <a href="genai-course/index.html">GenAI Course</a> at Session 17</li></ol></div>
+<div class="path" style="--c:#b38cff"><h3>🛠 Path 2 · I want to build LLM apps</h3><p>You know some Python and want to ship a chatbot, RAG or agent.</p><ol>
+  <li><a href="genai-course/s26-prompt-fundamentals.html">Prompt fundamentals</a> → <a href="genai-course/s28-structured-output.html">structured output</a> → <a href="genai-course/s29-langchain-lcel.html">LangChain</a> <small>Module 8</small></li>
+  <li><a href="genai-course/s31-rag-foundations.html">RAG foundations</a> through <a href="genai-course/s38-rag-production.html">production RAG</a> <small>Module 9</small></li>
+  <li><a href="agentic-ai/what-is-an-agent.html">What is an agent</a>, <a href="agentic-ai/tool-calling.html">tool calling</a> and <a href="agentic-ai/mcp.html">MCP</a></li>
+  <li><a href="ai-security/owasp-llm-top10.html">OWASP LLM Top 10</a> <small>security before you go live</small></li></ol></div>
+<div class="path" style="--c:#f2b84b"><h3>🏗 Path 3 · I design AI systems</h3><p>You care about scale, cost and reliability.</p><ol>
+  <li><a href="ai-system-design/llm-serving.html">LLM serving</a> and <a href="ai-system-design/llm-gateway.html">LLM gateway</a></li>
+  <li><a href="ai-system-design/design-rag-chatbot.html">Design a RAG chatbot</a></li>
+  <li><a href="genai-course/s19-advanced-attention.html">Advanced attention and the KV cache</a> <small>why long context costs memory</small></li>
+  <li><a href="genai-course/s39-fine-tuning-decision.html">The fine-tuning decision</a> <small>prompt vs RAG vs fine-tune</small></li></ol></div>
+<div class="path" style="--c:#ff6b6b"><h3>🛡 Path 4 · I work in security</h3><p>Learn how LLM apps and agents get attacked, and how to defend them.</p><ol>
+  <li><a href="ai-security/owasp-llm-top10.html">OWASP Top 10 for LLM apps</a></li>
+  <li><a href="ai-security/owasp-agentic-top10.html">OWASP Top 10 for agentic apps</a></li>
+  <li><a href="ai-security/red-teaming.html">Red teaming an LLM app</a></li></ol></div>
+
+<h2>How each lesson works</h2>
+<ol class="how">
+  <li><div><b>Animated lessons</b> play step by step. They start at 0.5× speed; change it to 0.25×–2×, pause, or click <i>Next</i> to go at your own pace.</div></li>
+  <li><div><b>Article lessons</b> have diagrams that appear as you scroll, small demos you can click, and code you can copy.</div></li>
+  <li><div><b>Hover or tap underlined words</b> to see their meaning without leaving the page.</div></li>
+  <li><div><b>Take the quiz</b> at the end of each lesson, then press <i>Mark as done</i>. Your progress is saved in this browser.</div></li>
+  <li><div><b>Revise with cheat sheets</b>: every GenAI Course module has a one-page summary you can print.</div></li>
+</ol>
+
+<h2>Learning from outside India?</h2>
+<p class="note">Many examples use Indian banking and daily life: UPI (instant mobile payments), KYC (identity checks), NEFT/IMPS (bank transfers), ₹ (rupee) and lakh (100,000). They are all in the <a href="glossary.html#upi">Glossary</a>. To read a lesson in your language, use your browser’s <i>Translate</i> option; the diagrams and demos still work.</p>
+<p class="note">☀ / ☾ The button at the top right switches between light and dark themes.</p>
+</main>
+<script src="assets/data.js"></script>
+<script src="assets/site.js" data-base=""></script>
+</body>
+</html>
