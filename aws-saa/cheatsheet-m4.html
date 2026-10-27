@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AWS Module 4 cheat sheet: Linux &amp; Web Servers · Learn24</title>
+<meta name="description" content="One-page summary of AWS Solutions Architect Module 4: Linux &amp; Web Servers.">
+<meta property="og:title" content="AWS Module 4 cheat sheet: Linux &amp; Web Servers · Learn24">
+<meta property="og:description" content="One-page summary of AWS Solutions Architect Module 4: Linux &amp; Web Servers.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/pages.css">
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body data-page="cheatsheet">
+<main class="shell page">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="index.html">AWS Solutions Architect</a><span>›</span><span>Module 4 cheat sheet</span></nav>
+<h1>Module 4 cheat sheet: Linux & Web Servers</h1>
+<p class="lead">Move around Linux, manage files safely, and publish a website on EC2 with Apache or IIS.</p>
+<div class="cs-top"><button type="button" onclick="print()">🖨 Print / save as PDF</button><a class="b" href="index.html">All modules</a><a class="b" href="../glossary.html">📖 Glossary</a></div>
+<div class="cs-grid" style="--c:#ff9f43">
+<section class="cs"><h2>Navigation</h2><div class="tw"><table><thead><tr><th>Command</th><th>Does</th></tr></thead><tbody><tr><td>whoami / pwd</td><td>who and where am I</td></tr><tr><td>cd /path · cd .. · cd - · cd ~</td><td>move around</td></tr><tr><td>ls -a · ll</td><td>list, incl. hidden / long</td></tr><tr><td>sudo -i · exit</td><td>become root · go back</td></tr><tr><td>history · clear</td><td>past commands · clear screen</td></tr></tbody></table></div><p style="font-size:13.5px;color:var(--muted);margin:6px 0 0"><a href="d11-linux-basics.html">Day 11 →</a></p></section><section class="cs"><h2>Files and folders</h2><div class="tw"><table><thead><tr><th>Command</th><th>Does</th></tr></thead><tbody><tr><td>mkdir -p a/b</td><td>create folders</td></tr><tr><td>touch f</td><td>empty file</td></tr><tr><td>cat f · cat &gt; f · cat &gt;&gt; f</td><td>view · overwrite · append</td></tr><tr><td>cp -r · mv</td><td>copy · move/rename</td></tr><tr><td>rmdir · rm -rf</td><td>delete empty · delete all (careful!)</td></tr></tbody></table></div></section><section class="cs"><h2>Editors</h2><div class="tw"><table><thead><tr><th></th><th>vi</th><th>nano</th></tr></thead><tbody><tr><td>Start typing</td><td>i</td><td>just type</td></tr><tr><td>Save & quit</td><td>Esc → :wq</td><td>Ctrl+X → Y → Enter</td></tr><tr><td>Quit, no save</td><td>Esc → :q!</td><td>Ctrl+X → N</td></tr></tbody></table></div></section><section class="cs"><h2>Directory tree</h2><div class="tw"><table><thead><tr><th>Path</th><th>Meaning</th></tr></thead><tbody><tr><td>/</td><td>root directory (top)</td></tr><tr><td>/root</td><td>root user’s home</td></tr><tr><td>~</td><td>current user’s home</td></tr><tr><td>/var/www/html</td><td>Apache website</td></tr><tr><td>/var/log</td><td>logs</td></tr></tbody></table></div></section><section class="cs full"><h2>Code: Apache on Ubuntu</h2><pre>sudo -i
+apt update -y &amp;&amp; apt install apache2 -y
+systemctl enable --now apache2
+echo &quot;&lt;h1&gt;Hello from EC2&lt;/h1&gt;&quot; &gt; /var/www/html/index.html</pre></section><section class="cs full"><h2>Common mistakes</h2><ul class="bad"><li>Port 80 not open in the security group.</li><li>Skipping <code>apt update</code> before installing.</li><li>Saving index.html.txt on Windows.</li><li>Running <code>rm -rf</code> without checking <code>pwd</code>.</li></ul><p style="font-size:13.5px;color:var(--muted);margin:6px 0 0"><a href="d12-linux-files-web-servers.html">Day 12 →</a></p></section>
+</div>
+<nav class="cs-pager" aria-label="Cheat sheets"><a href="cheatsheet-m3.html"><small>← Previous</small>Module 3: Amazon EC2</a><a href="index.html" style="text-align:right"><small>Done →</small>Back to the course</a></nav>
+<p style="color:var(--muted);font-size:13.5px;margin-top:22px">Created by <b style="color:var(--fg)">Ajeetkumar</b> · Learn24</p>
+</main>
+<script src="../assets/data.js"></script>
+<script src="../assets/site.js" data-base="../"></script>
+</body>
+</html>

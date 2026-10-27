@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AWS Module 2 cheat sheet: Networking Foundations · Learn24</title>
+<meta name="description" content="One-page summary of AWS Solutions Architect Module 2: Networking Foundations.">
+<meta property="og:title" content="AWS Module 2 cheat sheet: Networking Foundations · Learn24">
+<meta property="og:description" content="One-page summary of AWS Solutions Architect Module 2: Networking Foundations.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/pages.css">
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body data-page="cheatsheet">
+<main class="shell page">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="index.html">AWS Solutions Architect</a><span>›</span><span>Module 2 cheat sheet</span></nav>
+<h1>Module 2 cheat sheet: Networking Foundations</h1>
+<p class="lead">IP addresses find devices, ports find services, and CIDR blocks size the networks you will build as VPCs.</p>
+<div class="cs-top"><button type="button" onclick="print()">🖨 Print / save as PDF</button><a class="b" href="index.html">All modules</a><a class="b" href="../glossary.html">📖 Glossary</a></div>
+<div class="cs-grid" style="--c:#ff9f43">
+<section class="cs"><h2>Key ideas</h2><ul><li>PAN &lt; LAN &lt; CAN &lt; MAN &lt; WAN. Switch = inside a LAN (MAC); router = between networks (IP). <a href="d05-networking-basics.html">Day 5 →</a></li><li>IPv4 = 32 bits, 4 octets of 0–255. Bits: 128 64 32 16 8 4 2 1. <a href="d06-ipv4-addressing.html">Day 6 →</a></li><li>First address = network ID, last = broadcast: never for devices. <a href="d06-ipv4-addressing.html">Day 6 →</a></li><li>Private ranges: <b>10/8, 172.16/12, 192.168/16</b>; NAT shares one public IP. <a href="d07-ip-classes-types.html">Day 7 →</a></li><li>DHCP gives IPs automatically: <b>DORA</b>. <a href="d07-ip-classes-types.html">Day 7 →</a></li></ul></section><section class="cs"><h2>Ports to remember</h2><div class="tw"><table><thead><tr><th>Port</th><th>Service</th></tr></thead><tbody><tr><td>22</td><td>SSH (Linux login)</td></tr><tr><td>80</td><td>HTTP</td></tr><tr><td>443</td><td>HTTPS</td></tr><tr><td>3389</td><td>RDP (Windows login)</td></tr><tr><td>3306</td><td>MySQL</td></tr></tbody></table></div></section><section class="cs"><h2>CIDR quick table</h2><div class="formula">addresses = 2^(32 − prefix) · usable = − 2 · in AWS = − 5</div><div class="tw"><table><thead><tr><th>CIDR</th><th>Addresses</th><th>AWS usable</th></tr></thead><tbody><tr><td>/16</td><td>65,536</td><td>65,531</td></tr><tr><td>/20</td><td>4,096</td><td>4,091</td></tr><tr><td>/24</td><td>256</td><td>251</td></tr><tr><td>/28</td><td>16</td><td>11</td></tr><tr><td>/32</td><td>1 (one IP)</td><td>n/a</td></tr></tbody></table></div></section><section class="cs"><h2>Classes</h2><div class="tw"><table><thead><tr><th>Class</th><th>First octet</th><th>Default mask</th></tr></thead><tbody><tr><td>A</td><td>1–126</td><td>/8</td></tr><tr><td>B</td><td>128–191</td><td>/16</td></tr><tr><td>C</td><td>192–223</td><td>/24</td></tr><tr><td>D</td><td>224–239</td><td>multicast</td></tr><tr><td>E</td><td>240–255</td><td>research</td></tr></tbody></table></div></section><section class="cs"><h2>Special addresses</h2><div class="tw"><table><thead><tr><th>Address</th><th>Meaning</th></tr></thead><tbody><tr><td>0.0.0.0/0</td><td>anywhere (in AWS rules)</td></tr><tr><td>127.0.0.1</td><td>loopback</td></tr><tr><td>169.254.x.x</td><td>APIPA (no DHCP)</td></tr><tr><td>169.254.169.254</td><td>EC2 instance metadata</td></tr></tbody></table></div></section><section class="cs full"><h2>Common mistakes</h2><ul class="bad"><li>Overlapping VPC CIDRs that can never be connected later.</li><li>Forgetting AWS reserves 5 IPs per subnet.</li><li>Opening SSH/RDP to 0.0.0.0/0.</li><li>Thinking IP itself uses ports (TCP/UDP do).</li></ul></section>
+</div>
+<nav class="cs-pager" aria-label="Cheat sheets"><a href="cheatsheet-m1.html"><small>← Previous</small>Module 1: Cloud Foundations</a><a href="cheatsheet-m3.html" style="text-align:right"><small>Next →</small>Module 3: Amazon EC2</a></nav>
+<p style="color:var(--muted);font-size:13.5px;margin-top:22px">Created by <b style="color:var(--fg)">Ajeetkumar</b> · Learn24</p>
+</main>
+<script src="../assets/data.js"></script>
+<script src="../assets/site.js" data-base="../"></script>
+</body>
+</html>

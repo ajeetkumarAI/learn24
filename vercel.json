@@ -42,6 +42,11 @@
       "source": "/genai/:slug",
       "destination": "/genai-course/:slug",
       "permanent": true
+    },
+    {
+      "source": "/aws",
+      "destination": "/aws-saa",
+      "permanent": false
     }
   ]
 }

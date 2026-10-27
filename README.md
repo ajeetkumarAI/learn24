@@ -2,7 +2,7 @@
 
 **See how AI works, one step at a time.**
 
-Learn24 is a free collection of animated, step-by-step lessons on GenAI, Agentic AI, AI Security, AI System Design and AI frameworks. Every lesson is an interactive animation you can pause, replay and click through, with real-world examples from banking and fintech.
+Learn24 is a free collection of animated, step-by-step lessons on GenAI, AWS cloud, Agentic AI, AI Security, AI System Design and AI frameworks. Every lesson is an interactive animation you can pause, replay and click through, with real-world examples from banking and fintech.
 
 🌐 **Live site:** [learn24-lilac.vercel.app](https://learn24-lilac.vercel.app)
 👤 **Created by Ajeetkumar**, AI engineer
@@ -11,7 +11,7 @@ Learn24 is a free collection of animated, step-by-step lessons on GenAI, Agentic
 
 ## New here?
 - 🌱 **[Start here](https://learn24-lilac.vercel.app/start)**: what you need, four learning paths and how lessons work
-- 📖 **[Glossary](https://learn24-lilac.vercel.app/glossary)**: plain-English meanings of 100+ AI terms (also shown when you hover or tap a term inside a lesson)
+- 📖 **[Glossary](https://learn24-lilac.vercel.app/glossary)**: plain-English meanings of 120+ AI and cloud terms (also shown when you hover or tap a term inside a lesson)
 - 📄 **Cheat sheets**: a printable one-page summary for each GenAI Course module
 
 ## Lessons
@@ -112,6 +112,41 @@ Learn24 is a free collection of animated, step-by-step lessons on GenAI, Agentic
 | ★ visual | [LoRA and Fine-Tuning](https://learn24-lilac.vercel.app/genai-course/fine-tuning) | When to fine-tune, and how adapters change a model cheaply. |
 | 39 | [The Fine-Tuning Decision](https://learn24-lilac.vercel.app/genai-course/s39-fine-tuning-decision) | When to fine-tune, full vs partial tuning, and preparing your dataset. |
 | 40 | [PEFT Hands-On](https://learn24-lilac.vercel.app/genai-course/s40-peft-hands-on) | LoRA, QLoRA and a complete fine-tune evaluated against the base model. |
+
+### ☁️ AWS Solutions Architect (12 days)
+Interactive tools inside: binary converter, subnet calculator, EC2 instance-type decoder, scaling simulator and a practice Linux terminal.
+
+**Module 1 · Cloud Foundations** · [cheat sheet](https://learn24-lilac.vercel.app/aws-saa/cheatsheet-m1)
+
+| Day | Lesson | What you'll learn |
+|---|---|---|
+| 1 | [Introduction to Cloud Computing & AWS](https://learn24-lilac.vercel.app/aws-saa/d01-cloud-computing) | CapEx vs OpEx, what cloud computing is, and what AWS offers. |
+| 2 | [Cloud Service & Deployment Models](https://learn24-lilac.vercel.app/aws-saa/d02-cloud-models) | IaaS, PaaS, SaaS with the pizza analogy; public, private and hybrid cloud. |
+| 3 | [AWS Deep Dive & Global Infrastructure](https://learn24-lilac.vercel.app/aws-saa/d03-aws-global-infrastructure) | Regions, Availability Zones, edge locations and how to choose a Region. |
+| 4 | [Virtualization & Creating Your AWS Account](https://learn24-lilac.vercel.app/aws-saa/d04-virtualization-account) | Virtualization, hypervisors and Nitro; create and secure your AWS account. |
+
+**Module 2 · Networking Foundations** · [cheat sheet](https://learn24-lilac.vercel.app/aws-saa/cheatsheet-m2)
+
+| Day | Lesson | What you'll learn |
+|---|---|---|
+| 5 | [Introduction to Networking](https://learn24-lilac.vercel.app/aws-saa/d05-networking-basics) | LAN to WAN, switches, routers, firewalls, IP addresses and ports. |
+| 6 | [IPv4 Addressing](https://learn24-lilac.vercel.app/aws-saa/d06-ipv4-addressing) | Binary, octets, subnet masks and CIDR, with a live subnet calculator. |
+| 7 | [IP Classes, Public vs Private & DHCP](https://learn24-lilac.vercel.app/aws-saa/d07-ip-classes-types) | Classes A–E, public vs private IPs, NAT, DHCP and Elastic IPs. |
+
+**Module 3 · Amazon EC2** · [cheat sheet](https://learn24-lilac.vercel.app/aws-saa/cheatsheet-m3)
+
+| Day | Lesson | What you'll learn |
+|---|---|---|
+| 8 | [Amazon EC2 and Its Features](https://learn24-lilac.vercel.app/aws-saa/d08-ec2-features) | AMIs, instance types, EBS, key pairs, security groups and pricing. |
+| 9 | [Operating Systems & a Windows EC2 Instance](https://learn24-lilac.vercel.app/aws-saa/d09-ec2-windows) | Launch a Windows Server instance and connect with RDP. |
+| 10 | [Launch & Access a Linux EC2 Instance](https://learn24-lilac.vercel.app/aws-saa/d10-ec2-linux) | Launch a Linux instance and connect with SSH five ways. |
+
+**Module 4 · Linux & Web Servers** · [cheat sheet](https://learn24-lilac.vercel.app/aws-saa/cheatsheet-m4)
+
+| Day | Lesson | What you'll learn |
+|---|---|---|
+| 11 | [Linux Introduction & Navigation Commands](https://learn24-lilac.vercel.app/aws-saa/d11-linux-basics) | The prompt, sudo, the directory tree and navigation, with a practice terminal. |
+| 12 | [Linux File Commands & Web Servers on EC2](https://learn24-lilac.vercel.app/aws-saa/d12-linux-files-web-servers) | File commands, vi and nano, and hosting a website with IIS and Apache. |
 
 ### 🧩 AI Frameworks
 | Notes | Level | What you'll learn |

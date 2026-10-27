@@ -128,6 +128,28 @@
     ['owasp', 'OWASP', [], 'Security', 'Open Worldwide Application Security Project: a non-profit that publishes free security guides, such as the Top 10 risks for LLM apps and for agentic apps.'],
     ['pii', 'PII', ['personal data'], 'Security', 'Personally Identifiable Information: data that identifies a person, such as name, phone, email, ID or account number.'],
 
+    // Cloud & AWS
+    ['cloud-computing', 'Cloud computing', ['the cloud'], 'Cloud & AWS', 'Renting computing resources (servers, storage, databases, networking) over the internet and paying only for what you use.'],
+    ['capex', 'CapEx / OpEx', ['CapEx', 'OpEx'], 'Cloud & AWS', 'CapEx = big upfront spending to buy things (servers). OpEx = ongoing running costs (electricity, rent, cloud bills). The cloud turns CapEx into OpEx.'],
+    ['iaas', 'IaaS / PaaS / SaaS', ['IaaS', 'PaaS', 'SaaS'], 'Cloud & AWS', 'Cloud service models. IaaS: you get virtual servers and manage the OS (EC2). PaaS: you only bring code (Elastic Beanstalk). SaaS: ready software (Gmail).'],
+    ['region', 'AWS Region', ['Region', 'Regions'], 'Cloud & AWS', 'A geographic area where AWS has data centres, e.g. Mumbai (ap-south-1). Each Region has several Availability Zones.'],
+    ['az', 'Availability Zone (AZ)', ['Availability Zone', 'Availability Zones', 'AZ', 'AZs'], 'Cloud & AWS', 'One or more isolated data centres inside a Region, with separate power and networking. Run in 2+ AZs for high availability.'],
+    ['hypervisor', 'Hypervisor', ['hypervisors', 'virtualization', 'virtualisation'], 'Cloud & AWS', 'Software that splits one physical machine into many isolated virtual machines. AWS uses the Nitro hypervisor.'],
+    ['ec2', 'Amazon EC2', ['EC2'], 'Cloud & AWS', 'Elastic Compute Cloud: AWS virtual servers (instances) you rent by the second.'],
+    ['ami', 'AMI', ['Amazon Machine Image'], 'Cloud & AWS', 'Amazon Machine Image: a template with an operating system (and software) used to launch EC2 instances.'],
+    ['ebs', 'EBS', ['Elastic Block Store', 'EBS volume', 'EBS volumes'], 'Cloud & AWS', 'Elastic Block Store: a persistent network disk for an EC2 instance. Data survives stop and start; back it up with snapshots.'],
+    ['vpc', 'VPC', ['Virtual Private Cloud', 'VPCs'], 'Cloud & AWS', 'Virtual Private Cloud: your own private, isolated network in AWS, divided into subnets.'],
+    ['security-group', 'Security group', ['security groups'], 'Cloud & AWS', 'A virtual firewall for EC2: allow rules for ports and IP ranges. Stateful; no deny rules.'],
+    ['key-pair', 'Key pair', ['key pairs'], 'Cloud & AWS', 'A public key (kept by AWS on the instance) and a private key (.pem, kept by you) used to log in securely.'],
+    ['elastic-ip', 'Elastic IP', ['Elastic IPs'], 'Cloud & AWS', 'A fixed public IPv4 address in AWS that does not change when you stop and start an instance.'],
+    ['cidr', 'CIDR', ['CIDR block', 'subnet mask'], 'Cloud & AWS', 'A short way to write an IP range: 10.0.0.0/16 means the first 16 bits are the network. Addresses = 2^(32 − prefix).'],
+    ['subnet', 'Subnet', ['subnets'], 'Cloud & AWS', 'A smaller piece of a network. In AWS, each subnet lives in one Availability Zone; AWS reserves 5 addresses in each.'],
+    ['nat', 'NAT', ['NAT Gateway', 'Network Address Translation'], 'Cloud & AWS', 'Network Address Translation: lets many private IPs share one public IP to reach the internet.'],
+    ['dhcp', 'DHCP', ['Dynamic Host Configuration Protocol'], 'Cloud & AWS', 'Gives devices IP addresses automatically, in four steps: Discover, Offer, Request, Acknowledge (DORA).'],
+    ['ssh-rdp', 'SSH / RDP', ['SSH', 'RDP'], 'Cloud & AWS', 'Remote login methods. SSH (port 22) gives a Linux command line; RDP (port 3389) gives a Windows desktop.'],
+    ['iam', 'IAM', ['Identity and Access Management'], 'Cloud & AWS', 'AWS Identity and Access Management: users, roles and permissions that control who can do what in your account.'],
+    ['s3', 'Amazon S3', ['S3'], 'Cloud & AWS', 'Simple Storage Service: stores files (objects) with 99.999999999% durability; also hosts static websites.'],
+
     // Indian examples used in lessons
     ['upi', 'UPI', [], 'Examples used in lessons', 'Unified Payments Interface: India’s instant mobile payment system (like Pix in Brazil or a faster bank transfer). Used in many lesson examples.'],
     ['kyc', 'KYC', [], 'Examples used in lessons', 'Know Your Customer: the identity check banks must do when you open an account. Used in banking examples.'],

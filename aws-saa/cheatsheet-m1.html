@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AWS Module 1 cheat sheet: Cloud Foundations · Learn24</title>
+<meta name="description" content="One-page summary of AWS Solutions Architect Module 1: Cloud Foundations.">
+<meta property="og:title" content="AWS Module 1 cheat sheet: Cloud Foundations · Learn24">
+<meta property="og:description" content="One-page summary of AWS Solutions Architect Module 1: Cloud Foundations.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/pages.css">
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body data-page="cheatsheet">
+<main class="shell page">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="index.html">AWS Solutions Architect</a><span>›</span><span>Module 1 cheat sheet</span></nav>
+<h1>Module 1 cheat sheet: Cloud Foundations</h1>
+<p class="lead">The cloud lets you rent IT over the internet; AWS runs it from Regions and Availability Zones on virtualised servers.</p>
+<div class="cs-top"><button type="button" onclick="print()">🖨 Print / save as PDF</button><a class="b" href="index.html">All modules</a><a class="b" href="../glossary.html">📖 Glossary</a></div>
+<div class="cs-grid" style="--c:#ff9f43">
+<section class="cs"><h2>Key ideas</h2><ul><li>Traditional IT = big <b>CapEx</b> (buy) + <b>OpEx</b> (run). Cloud turns CapEx into pay-as-you-go OpEx. <a href="d01-cloud-computing.html">Day 1 →</a></li><li><b>IaaS</b> (EC2) · <b>PaaS</b> (Elastic Beanstalk) · <b>SaaS</b> (Gmail). <a href="d02-cloud-models.html">Day 2 →</a></li><li><b>Public</b> (shared) · <b>private</b> (one organisation) · <b>hybrid</b> (both, via VPN/Direct Connect). <a href="d02-cloud-models.html">Day 2 →</a></li><li>Region ⊃ Availability Zones ⊃ data centres; edge locations cache content. <a href="d03-aws-global-infrastructure.html">Day 3 →</a></li><li>Virtualization: one host, many VMs; EC2 runs on the <b>Nitro</b> hypervisor. <a href="d04-virtualization-account.html">Day 4 →</a></li></ul></section><section class="cs"><h2>Who manages what</h2><div class="tw"><table><thead><tr><th>Layer</th><th>IaaS</th><th>PaaS</th><th>SaaS</th></tr></thead><tbody><tr><td>Hardware</td><td>AWS</td><td>AWS</td><td>AWS</td></tr><tr><td>OS & runtime</td><td>you</td><td>AWS</td><td>AWS</td></tr><tr><td>App & data</td><td>you</td><td>you</td><td>AWS (data: you)</td></tr></tbody></table></div></section><section class="cs"><h2>Choose a Region by</h2><ul><li>compliance / data residency</li><li>latency to users (India → Mumbai ap-south-1, Hyderabad ap-south-2)</li><li>service availability</li><li>price</li></ul></section><section class="cs"><h2>Hypervisors</h2><div class="tw"><table><thead><tr><th>Type</th><th>Runs on</th><th>Examples</th></tr></thead><tbody><tr><td>Type 1 (bare-metal)</td><td>hardware</td><td>ESXi, Hyper-V, AWS Nitro</td></tr><tr><td>Type 2 (hosted)</td><td>a host OS</td><td>VirtualBox, VMware Workstation</td></tr></tbody></table></div></section><section class="cs"><h2>New account checklist</h2><ul><li>MFA on the root user</li><li>budget alert (e.g. $5)</li><li>IAM Identity Center / IAM user for daily work</li><li>never create root access keys</li><li>stop or terminate everything after practice</li></ul></section><section class="cs full"><h2>Common mistakes</h2><ul class="bad"><li>Calling “11 nines” AWS availability: it is S3 <b>durability</b>.</li><li>Running everything in one AZ.</li><li>Using the root user every day.</li><li>Forgetting to terminate practice resources.</li></ul></section>
+</div>
+<nav class="cs-pager" aria-label="Cheat sheets"><span></span><a href="cheatsheet-m2.html" style="text-align:right"><small>Next →</small>Module 2: Networking Foundations</a></nav>
+<p style="color:var(--muted);font-size:13.5px;margin-top:22px">Created by <b style="color:var(--fg)">Ajeetkumar</b> · Learn24</p>
+</main>
+<script src="../assets/data.js"></script>
+<script src="../assets/site.js" data-base="../"></script>
+</body>
+</html>
