@@ -155,6 +155,23 @@
     ['kyc', 'KYC', [], 'Examples used in lessons', 'Know Your Customer: the identity check banks must do when you open an account. Used in banking examples.'],
     ['neft', 'NEFT / IMPS', ['NEFT', 'IMPS', 'RTGS'], 'Examples used in lessons', 'Indian bank-to-bank transfer methods (similar to ACH or wire transfers in other countries).'],
     ['inr', '₹ / lakh / crore', ['lakh', 'crore'], 'Examples used in lessons', '₹ is the Indian rupee (the rate changes; about ₹95 = US$1 in late 2026). 1 lakh = 100,000 and 1 crore = 10,000,000.'],
+    ['prompt-template', 'Prompt template', ['prompt templates', 'PromptTemplate', 'ChatPromptTemplate'], 'LangChain', 'A reusable prompt with {blanks}, e.g. "Explain {topic} to a {audience}". LangChain fills the blanks and errors if one is missing.'],
+    ['output-parser', 'Output parser', ['output parsers'], 'LangChain', 'A step that turns the LLM’s text into Python data: a string, list, dict or validated Pydantic object.'],
+    ['runnable', 'Runnable', ['runnables', 'RunnableParallel', 'RunnablePassthrough', 'RunnableLambda'], 'LangChain', 'Any LangChain piece with the same methods: invoke, stream and batch. Runnables join with the | pipe.'],
+    ['document-loader', 'Document loader', ['document loaders'], 'LangChain', 'Reads a source (PDF, CSV, website, folder) into Document objects: page_content plus metadata.'],
+    ['text-splitter', 'Text splitter', ['text splitters', 'RecursiveCharacterTextSplitter'], 'LangChain', 'Cuts long documents into chunks of chunk_size characters, with chunk_overlap repeated text between them.'],
+    ['chunk-overlap', 'Chunk overlap', ['chunk_overlap'], 'LangChain', 'Text repeated at the start of a chunk from the end of the previous one, so a sentence on the boundary is not lost.'],
+    ['mmr', 'MMR', ['Max Marginal Relevance', 'maximal marginal relevance'], 'LangChain', 'Max Marginal Relevance: a search that picks results that are relevant AND different from each other.'],
+    ['checkpointer', 'Checkpointer', ['checkpointers', 'InMemorySaver'], 'LangChain', 'Saves an agent or graph’s state after every step, per thread_id. Gives memory and lets a run pause and resume.'],
+    ['thread-id', 'thread_id', ['thread id'], 'LangChain', 'The conversation key in the config. Same thread_id = same memory; a new thread_id starts fresh.'],
+    ['middleware', 'Middleware', [], 'LangChain', 'Code that runs around an agent’s model and tool calls, e.g. to hide PII, ask for approval or limit calls.'],
+    ['hitl', 'Human-in-the-loop', ['human in the loop', 'HITL'], 'LangChain', 'The agent pauses before a risky action (like a transfer) until a person approves, edits or rejects it.'],
+    ['groq', 'Groq', [], 'LangChain', 'An AI company whose chips run open models very fast. Its free API tier is used in the LangChain Hands-on labs.'],
+    ['colab', 'Google Colab', ['Colab'], 'LangChain', 'Free Python notebooks in your browser from Google, with optional GPU. Keys go in its 🔑 Secrets panel.'],
+    ['llm-cache', 'LLM cache', ['set_llm_cache', 'InMemoryCache'], 'LangChain', 'Stores answers to exact prompts so a repeated call returns instantly without paying the API again.'],
+    ['rate-limiter', 'Rate limiter', ['rate limiters', 'rate limit', 'rate limits'], 'LangChain', 'Spaces out API calls (e.g. 1 every 2 seconds) so you stay inside the provider’s requests-per-minute limit.'],
+    ['callback', 'Callback', ['callbacks'], 'LangChain', 'A function LangChain calls on events such as LLM start, LLM end, error or each new token: used for logging and streaming.'],
+    ['langsmith', 'LangSmith', [], 'LangChain', 'LangChain’s tracing and evaluation platform: shows every prompt, tool call, token count and error of a run.'],
   ];
   const groups = [...new Set(G.map(g => g[3]))];
   window.L24_GLOSSARY = { terms: G.map(([id, term, alt, group, def]) => ({ id, term, alt, group, def })), groups, base };

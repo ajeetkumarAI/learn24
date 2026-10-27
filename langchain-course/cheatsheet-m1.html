@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LangChain Module 1 cheat sheet: LangChain Basics · Learn24</title>
+<meta name="description" content="One-page summary of LangChain Hands-on Module 1: LangChain Basics.">
+<meta property="og:title" content="LangChain Module 1 cheat sheet: LangChain Basics · Learn24">
+<meta property="og:description" content="One-page summary of LangChain Hands-on Module 1: LangChain Basics.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/pages.css">
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body data-page="cheatsheet">
+<main class="shell page">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="index.html">LangChain Hands-on</a><span>›</span><span>Module 1 cheat sheet</span></nav>
+<h1>Module 1 cheat sheet: LangChain Basics</h1>
+<p class="lead">Talk to any LLM with one interface, build prompts from templates, turn text into data, join steps with | and give the chat a memory.</p>
+<div class="cs-top"><button type="button" onclick="print()">🖨 Print / save as PDF</button><a class="b" href="index.html">All modules</a><a class="b" href="../glossary.html">📖 Glossary</a></div>
+<div class="cs-grid" style="--c:#7ee081">
+<section class="cs"><h2>Key ideas</h2><ul><li>Chat model: messages in, <code>AIMessage</code> out. <code>invoke</code> · <code>stream</code> · <code>batch</code> · <code>ainvoke</code>. <a href="lab01-chat-models.html">Lab 01 →</a></li><li>Templates have <code>{blanks}</code>; missing variable → KeyError. <a href="lab02-prompt-templates.html">Lab 02 →</a></li><li>Parsers turn text into data; <code>with_structured_output</code> is the best default. <a href="lab03-output-parsers.html">Lab 03 →</a></li><li>LCEL: <code>prompt | llm | StrOutputParser()</code>. <a href="lab04-lcel-chains.html">Lab 04 →</a></li><li>LLMs are stateless: memory = resend old messages per <code>session_id</code>. <a href="lab05-memory-chat-history.html">Lab 05 →</a></li></ul></section><section class="cs"><h2>Colab + Groq setup</h2><pre>from google.colab import userdata
+import os
+os.environ[&#x27;GROQ_API_KEY&#x27;] = userdata.get(&#x27;groq_key&#x27;)
+from langchain_groq import ChatGroq
+llm = ChatGroq(model=&quot;openai/gpt-oss-20b&quot;)</pre></section><section class="cs"><h2>Messages</h2><div class="tw"><table><thead><tr><th>Class</th><th>Role</th></tr></thead><tbody><tr><td>SystemMessage</td><td>rules</td></tr><tr><td>HumanMessage</td><td>question</td></tr><tr><td>AIMessage</td><td>answer / few-shot example</td></tr><tr><td>ToolMessage</td><td>tool result</td></tr></tbody></table></div></section><section class="cs"><h2>Runnables</h2><div class="tw"><table><thead><tr><th>Runnable</th><th>Does</th></tr></thead><tbody><tr><td>a | b</td><td>output of a → b</td></tr><tr><td>{"x": chain}</td><td>build a dict (parallel)</td></tr><tr><td>RunnablePassthrough.assign</td><td>keep input, add key</td></tr><tr><td>RunnableParallel</td><td>branches at once</td></tr><tr><td>RunnableLambda</td><td>any Python function</td></tr><tr><td>RunnableBranch</td><td>if / else routing</td></tr><tr><td>.with_fallbacks / .with_retry</td><td>production safety</td></tr></tbody></table></div></section><section class="cs"><h2>Parsers</h2><div class="tw"><table><thead><tr><th>Parser</th><th>Gives</th></tr></thead><tbody><tr><td>StrOutputParser</td><td>str</td></tr><tr><td>CommaSeparatedList</td><td>list</td></tr><tr><td>JsonOutputParser</td><td>dict</td></tr><tr><td>PydanticOutputParser</td><td>validated object</td></tr><tr><td>with_structured_output</td><td>object via tool calling</td></tr></tbody></table></div></section><section class="cs full"><h2>Common mistakes</h2><ul class="bad"><li>Using retired Groq Llama 3 models: use <code>openai/gpt-oss-20b</code>.</li><li>User text inside the system message.</li><li>Unescaped <code>{ }</code> in JSON examples inside templates.</li><li>Building an agent when a fixed chain is enough.</li><li>Unlimited chat history: trim it.</li></ul></section>
+</div>
+<nav class="cs-pager" aria-label="Cheat sheets"><span></span><a href="cheatsheet-m2.html" style="text-align:right"><small>Next →</small>Module 2: RAG: Chat with Your Documents</a></nav>
+<p style="color:var(--muted);font-size:13.5px;margin-top:22px">Created by <b style="color:var(--fg)">Ajeetkumar</b> · Learn24</p>
+</main>
+<script src="../assets/data.js"></script>
+<script src="../assets/site.js" data-base="../"></script>
+</body>
+</html>

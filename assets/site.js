@@ -7,7 +7,7 @@
   const done = (() => { try { return JSON.parse(localStorage.getItem('learn24-done') || '[]'); } catch (e) { return []; } })();
   const isDone = (t, l) => done.includes(t + '/' + l);
   const live = t => t.lessons.filter(l => l.status === 'live');
-  const SHORT = { 'aws-saa': 'AWS', 'frameworks': 'Frameworks', 'ai-system-design': 'System Design' };   // short names for the top menu
+  const SHORT = { 'aws-saa': 'AWS', 'langchain-course': 'LangChain', 'frameworks': 'Frameworks', 'ai-system-design': 'System Design' };   // short names for the top menu
   const lessonHref = (t, l) => `${base}${t.id}/${l.id}.html`;
 
   // header
@@ -77,7 +77,7 @@
       <div class="progress"><div class="bar"><i style="width:${lv.length ? n / lv.length * 100 : 0}%"></i></div><span>${n} of ${lv.length} live lessons done</span></div>
     </section>
     ${t.modules ? t.modules.map(m => `<section class="sec shell module">
-      <div class="mod-h" style="--c:${t.color}"><span class="mod-n">Module ${m.n}</span><div style="flex:1;min-width:0"><h2>${esc(m.title)}</h2><p>${esc(m.objective)} · ${t.id === 'aws-saa' ? 'Days' : 'Sessions'} ${m.sessions[0]}–${m.sessions[m.sessions.length - 1]}</p></div><a class="cheat" href="${base}${t.id}/cheatsheet-m${m.n}.html">📄 Cheat sheet</a></div>
+      <div class="mod-h" style="--c:${t.color}"><span class="mod-n">Module ${m.n}</span><div style="flex:1;min-width:0"><h2>${esc(m.title)}</h2><p>${esc(m.objective)} · ${({ 'aws-saa': 'Days', 'langchain-course': 'Labs' })[t.id] || 'Sessions'} ${m.sessions[0]}–${m.sessions[m.sessions.length - 1]}</p></div><a class="cheat" href="${base}${t.id}/cheatsheet-m${m.n}.html">📄 Cheat sheet</a></div>
       <div class="lessons">${t.lessons.filter(l => l.module === m.n).map((l, i) => lessonRow(t, l, i)).join('')}</div></section>`).join('')
       : `<section class="sec shell"><div class="lessons">${t.lessons.map((l, i) => lessonRow(t, l, i)).join('')}</div></section>`}`;
   }

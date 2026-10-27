@@ -148,6 +148,47 @@ Interactive tools inside: binary converter, subnet calculator, EC2 instance-type
 | 11 | [Linux Introduction & Navigation Commands](https://learn24-lilac.vercel.app/aws-saa/d11-linux-basics) | The prompt, sudo, the directory tree and navigation, with a practice terminal. |
 | 12 | [Linux File Commands & Web Servers on EC2](https://learn24-lilac.vercel.app/aws-saa/d12-linux-files-web-servers) | File commands, vi and nano, and hosting a website with IIS and Apache. |
 
+### 🦜 LangChain Hands-on (17 labs)
+
+Hands-on labs built from Ajeetkumar’s Colab notebooks (free Groq key). Each lab has theory, animated diagrams, live demos, a key-free run with real outputs, a notebook player with a **Download** / **Open in Colab** button, practice tasks and a quiz.
+
+**Module 1 · LangChain Basics** · [cheat sheet](https://learn24-lilac.vercel.app/langchain-course/cheatsheet-m1)
+
+| Lab | Lesson | What you learn |
+|---|---|---|
+| 1 | [LLMs & Chat Models](https://learn24-lilac.vercel.app/langchain-course/lab01-chat-models) | Call an LLM through LangChain with Groq. |
+| 2 | [Prompt Templates](https://learn24-lilac.vercel.app/langchain-course/lab02-prompt-templates) | Reusable prompts with PromptTemplate, ChatPromptTemplate, MessagesPlaceholder for chat history, partial variables. |
+| 3 | [Output Parsers & Structured Output](https://learn24-lilac.vercel.app/langchain-course/lab03-output-parsers) | Turn LLM text into Python data. |
+| 4 | [Chains with LCEL & Runnables](https://learn24-lilac.vercel.app/langchain-course/lab04-lcel-chains) | Join prompt, LLM and parser with the | pipe. |
+| 5 | [Memory & Chat History](https://learn24-lilac.vercel.app/langchain-course/lab05-memory-chat-history) | LLMs forget between calls. |
+
+**Module 2 · RAG: Chat with Your Documents** · [cheat sheet](https://learn24-lilac.vercel.app/langchain-course/cheatsheet-m2)
+
+| Lab | Lesson | What you learn |
+|---|---|---|
+| 6 | [Document Loaders](https://learn24-lilac.vercel.app/langchain-course/lab06-document-loaders) | Load text, CSV, JSON, PDF, web pages. |
+| 7 | [Text Splitters (Chunking)](https://learn24-lilac.vercel.app/langchain-course/lab07-text-splitters) | Split documents into chunks for RAG. |
+| 8 | [Embeddings](https://learn24-lilac.vercel.app/langchain-course/lab08-embeddings) | Turn text into vectors that capture meaning. |
+| 9 | [Vector Stores](https://learn24-lilac.vercel.app/langchain-course/lab09-vector-stores) | Store embeddings with text and metadata and search them fast. |
+| 10 | [Retrievers](https://learn24-lilac.vercel.app/langchain-course/lab10-retrievers) | Turn vector stores into retrievers and go beyond basic search. |
+| 11 | [RAG: Chat with your PDF](https://learn24-lilac.vercel.app/langchain-course/lab11-rag-chat-with-pdf) | Build retrieval-augmented generation end to end. |
+
+**Module 3 · Tools, Agents & Guardrails** · [cheat sheet](https://learn24-lilac.vercel.app/langchain-course/cheatsheet-m3)
+
+| Lab | Lesson | What you learn |
+|---|---|---|
+| 12 | [Tools & Tool Calling](https://learn24-lilac.vercel.app/langchain-course/lab12-tools-tool-calling) | Give an LLM tools. |
+| 13 | [Agents with create_agent](https://learn24-lilac.vercel.app/langchain-course/lab13-agents-create-agent) | Build agents with LangChain v1 create_agent. |
+| 14 | [Middleware & Guardrails](https://learn24-lilac.vercel.app/langchain-course/lab14-middleware-guardrails) | Make agents safe for banking. |
+
+**Module 4 · Production & Beyond** · [cheat sheet](https://learn24-lilac.vercel.app/langchain-course/cheatsheet-m4)
+
+| Lab | Lesson | What you learn |
+|---|---|---|
+| 15 | [Callbacks, Caching, Rate Limits & LangSmith](https://learn24-lilac.vercel.app/langchain-course/lab15-callbacks-cache-ratelimit-langsmith) | Production extras. |
+| 16 | [LangChain Classic: Reading Old Code](https://learn24-lilac.vercel.app/langchain-course/lab16-langchain-classic) | Understand the old LangChain style you meet in tutorials. |
+| 17 | [LangGraph Basics: the Engine behind Agents](https://learn24-lilac.vercel.app/langchain-course/lab17-langgraph-basics) | Learn LangGraph, the engine under create_agent. |
+
 ### 🧩 AI Frameworks
 | Notes | Level | What you'll learn |
 |---|---|---|
@@ -207,6 +248,7 @@ assets/stepper.css, .js    Lesson engine (steps, flows, typed text, charts)
 assets/lesson.js           Lesson top bar, breadcrumb, previous/next, "Mark as done"
 <topic>/index.html         Topic page
 <topic>/<lesson>.html      One lesson
+langchain-course/notebooks Colab notebooks (.ipynb) for the LangChain labs
 vercel.json                Clean URLs on Vercel
 ```
 

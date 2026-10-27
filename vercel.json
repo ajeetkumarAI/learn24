@@ -47,6 +47,11 @@
       "source": "/aws",
       "destination": "/aws-saa",
       "permanent": false
+    },
+    {
+      "source": "/langchain",
+      "destination": "/langchain-course",
+      "permanent": false
     }
   ]
 }

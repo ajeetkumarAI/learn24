@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LangChain Module 4 cheat sheet: Production &amp; Beyond · Learn24</title>
+<meta name="description" content="One-page summary of LangChain Hands-on Module 4: Production &amp; Beyond.">
+<meta property="og:title" content="LangChain Module 4 cheat sheet: Production &amp; Beyond · Learn24">
+<meta property="og:description" content="One-page summary of LangChain Hands-on Module 4: Production &amp; Beyond.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/pages.css">
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body data-page="cheatsheet">
+<main class="shell page">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="index.html">LangChain Hands-on</a><span>›</span><span>Module 4 cheat sheet</span></nav>
+<h1>Module 4 cheat sheet: Production & Beyond</h1>
+<p class="lead">Trace, cache and rate-limit for real users, read old LangChain code, and build custom flows with LangGraph.</p>
+<div class="cs-top"><button type="button" onclick="print()">🖨 Print / save as PDF</button><a class="b" href="index.html">All modules</a><a class="b" href="../glossary.html">📖 Glossary</a></div>
+<div class="cs-grid" style="--c:#7ee081">
+<section class="cs"><h2>Key ideas</h2><ul><li>Callbacks, cache, rate limiter, async and LangSmith. <a href="lab15-callbacks-cache-ratelimit-langsmith.html">Lab 15 →</a></li><li>Old 0.x classes live in <code>langchain-classic</code>. <a href="lab16-langchain-classic.html">Lab 16 →</a></li><li>LangGraph: state + nodes + edges; create_agent is built on it. <a href="lab17-langgraph-basics.html">Lab 17 →</a></li></ul></section><section class="cs"><h2>Production one-liners</h2><pre>set_llm_cache(InMemoryCache())
+limiter = InMemoryRateLimiter(requests_per_second=0.5)
+llm = ChatGroq(model=&quot;openai/gpt-oss-20b&quot;, rate_limiter=limiter,
+               timeout=30, max_retries=2)
+os.environ[&quot;LANGSMITH_TRACING&quot;] = &quot;true&quot;</pre></section><section class="cs"><h2>Old → new</h2><div class="tw"><table><thead><tr><th>Old</th><th>New</th></tr></thead><tbody><tr><td>LLMChain</td><td>prompt | llm | parser</td></tr><tr><td>ConversationChain</td><td>checkpointer + thread_id</td></tr><tr><td>BufferWindowMemory</td><td>trim_messages</td></tr><tr><td>RetrievalQA</td><td>LCEL RAG chain</td></tr><tr><td>initialize_agent</td><td>create_agent</td></tr><tr><td>.run()</td><td>.invoke()</td></tr></tbody></table></div></section><section class="cs"><h2>LangGraph agent</h2><pre>b = StateGraph(MessagesState)
+b.add_node(&quot;assistant&quot;, assistant)
+b.add_node(&quot;tools&quot;, ToolNode(tools))
+b.add_edge(START, &quot;assistant&quot;)
+b.add_conditional_edges(&quot;assistant&quot;, tools_condition)
+b.add_edge(&quot;tools&quot;, &quot;assistant&quot;)
+g = b.compile(checkpointer=InMemorySaver(), interrupt_before=[&quot;tools&quot;])</pre></section><section class="cs full"><h2>Common mistakes</h2><ul class="bad"><li>Caching personal answers across users.</li><li>No timeouts or retries.</li><li>Copying 2023 tutorials without converting.</li><li>No recursion limit on custom graphs.</li></ul></section>
+</div>
+<nav class="cs-pager" aria-label="Cheat sheets"><a href="cheatsheet-m3.html"><small>← Previous</small>Module 3: Tools, Agents & Guardrails</a><a href="index.html" style="text-align:right"><small>Done →</small>Back to the course</a></nav>
+<p style="color:var(--muted);font-size:13.5px;margin-top:22px">Created by <b style="color:var(--fg)">Ajeetkumar</b> · Learn24</p>
+</main>
+<script src="../assets/data.js"></script>
+<script src="../assets/site.js" data-base="../"></script>
+</body>
+</html>

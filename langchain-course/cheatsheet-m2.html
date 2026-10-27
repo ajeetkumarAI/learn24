@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LangChain Module 2 cheat sheet: RAG: Chat with Your Documents · Learn24</title>
+<meta name="description" content="One-page summary of LangChain Hands-on Module 2: RAG: Chat with Your Documents.">
+<meta property="og:title" content="LangChain Module 2 cheat sheet: RAG: Chat with Your Documents · Learn24">
+<meta property="og:description" content="One-page summary of LangChain Hands-on Module 2: RAG: Chat with Your Documents.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/pages.css">
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body data-page="cheatsheet">
+<main class="shell page">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="index.html">LangChain Hands-on</a><span>›</span><span>Module 2 cheat sheet</span></nav>
+<h1>Module 2 cheat sheet: RAG: Chat with Your Documents</h1>
+<p class="lead">Load → split → embed → store once; retrieve → generate for every question, with sources and an “I don’t know” rule.</p>
+<div class="cs-top"><button type="button" onclick="print()">🖨 Print / save as PDF</button><a class="b" href="index.html">All modules</a><a class="b" href="../glossary.html">📖 Glossary</a></div>
+<div class="cs-grid" style="--c:#7ee081">
+<section class="cs"><h2>Key ideas</h2><ul><li><code>Document</code> = <code>page_content</code> + <code>metadata</code>. <a href="lab06-document-loaders.html">Lab 06 →</a></li><li><code>RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=100)</code>. <a href="lab07-text-splitters.html">Lab 07 →</a></li><li>Same embedding model for docs and questions. <a href="lab08-embeddings.html">Lab 08 →</a></li><li>FAISS score = distance (lower better); cosine = similarity (higher better). <a href="lab09-vector-stores.html">Lab 09 →</a></li><li>Hybrid (BM25 + vector) for production. <a href="lab10-retrievers.html">Lab 10 →</a></li><li>Answer only from context, return pages. <a href="lab11-rag-chat-with-pdf.html">Lab 11 →</a></li></ul></section><section class="cs"><h2>The RAG chain</h2><pre>rag_chain = (
+    {&quot;context&quot;: retriever | format_docs,
+     &quot;question&quot;: RunnablePassthrough()}
+    | prompt | llm | StrOutputParser()
+)</pre></section><section class="cs"><h2>Loaders</h2><div class="tw"><table><thead><tr><th>Source</th><th>Loader</th></tr></thead><tbody><tr><td>.pdf</td><td>PyPDFLoader (1 doc / page)</td></tr><tr><td>.csv</td><td>CSVLoader (1 doc / row)</td></tr><tr><td>.txt</td><td>TextLoader</td></tr><tr><td>web</td><td>WebBaseLoader</td></tr><tr><td>folder</td><td>DirectoryLoader</td></tr></tbody></table></div></section><section class="cs"><h2>Retrievers</h2><div class="tw"><table><thead><tr><th>Retriever</th><th>Use when</th></tr></thead><tbody><tr><td>similarity</td><td>default</td></tr><tr><td>MMR</td><td>repetitive results</td></tr><tr><td>score threshold</td><td>drop unrelated</td></tr><tr><td>BM25</td><td>codes, IDs, names</td></tr><tr><td>Ensemble</td><td>production hybrid</td></tr><tr><td>MultiQuery</td><td>vague questions</td></tr><tr><td>ParentDocument</td><td>small search, big context</td></tr></tbody></table></div></section><section class="cs full"><h2>Common mistakes</h2><ul class="bad"><li>Chunks too small (no meaning) or too big (noisy).</li><li>Different embedding models for docs and questions.</li><li>Reading FAISS distance as similarity.</li><li>Default BM25 tokenizer missing codes like UPI-U30.</li><li>No “I don’t know” rule, no sources.</li></ul></section>
+</div>
+<nav class="cs-pager" aria-label="Cheat sheets"><a href="cheatsheet-m1.html"><small>← Previous</small>Module 1: LangChain Basics</a><a href="cheatsheet-m3.html" style="text-align:right"><small>Next →</small>Module 3: Tools, Agents & Guardrails</a></nav>
+<p style="color:var(--muted);font-size:13.5px;margin-top:22px">Created by <b style="color:var(--fg)">Ajeetkumar</b> · Learn24</p>
+</main>
+<script src="../assets/data.js"></script>
+<script src="../assets/site.js" data-base="../"></script>
+</body>
+</html>
