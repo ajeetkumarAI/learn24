@@ -150,6 +150,8 @@ Interactive tools inside: binary converter, subnet calculator, EC2 instance-type
 
 ### 🦜 LangChain Hands-on (17 labs)
 
+🎮 **New: [Quest mode](https://learn24-lilac.vercel.app/langchain-course/quest)**: learn each lab by playing. Short cards from basics to advanced, points for right answers, streaks, stars and ranks, a real-world scenario and interview questions per lab (engine: `assets/quest.js`, reusable for any course).
+
 Hands-on labs built from Ajeetkumar’s Colab notebooks (free Groq key). Each lab has theory, animated diagrams, live demos, a key-free run with real outputs, a notebook player with a **Download** / **Open in Colab** button, practice tasks and a quiz.
 
 **Module 1 · LangChain Basics** · [cheat sheet](https://learn24-lilac.vercel.app/langchain-course/cheatsheet-m1)

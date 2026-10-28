@@ -120,3 +120,10 @@ footer .links a{color:var(--muted)}
 .mod-n{flex:none;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--bg);background:var(--c);border-radius:8px;padding:5px 10px;margin-top:3px}
 .mod-h h2{font-family:var(--display);font-size:22px;margin:0;letter-spacing:-.01em}
 .mod-h p{margin:2px 0 0;font-size:14px;color:var(--muted)}
+
+.quest-cta{display:flex;align-items:center;gap:14px;margin-top:18px;padding:14px 16px;border-radius:14px;text-decoration:none;color:var(--fg);border:1.5px solid var(--c);background:color-mix(in srgb,var(--c) 10%,var(--panel));transition:transform .15s}
+.quest-cta:hover{transform:translateY(-2px)}
+.quest-cta .qi{font-size:30px;line-height:1}
+.quest-cta b{display:block;font-size:16px}
+.quest-cta small{display:block;color:var(--muted);font-size:13.5px;margin-top:2px}
+.quest-cta .go{margin-left:auto;flex:none;font-weight:700;color:var(--c)}

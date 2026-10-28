@@ -75,6 +75,7 @@
       <nav class="crumbs" aria-label="Breadcrumb"><a href="${base}index.html">Home</a><span>›</span><span>${esc(t.name)}</span></nav>
       <h1>${esc(t.name)}</h1><p>${esc(t.blurb)}</p>
       <div class="progress"><div class="bar"><i style="width:${lv.length ? n / lv.length * 100 : 0}%"></i></div><span>${n} of ${lv.length} live lessons done</span></div>
+      ${t.quest ? `<a class="quest-cta" href="${base}${t.id}/${t.quest}"><span class="qi">🎮</span><span><b>Quest mode: learn by playing</b><small>Short cards from basics to advanced, points for every right answer, real-world scenarios and interview questions.</small></span><span class="go">Play →</span></a>` : ''}
     </section>
     ${t.modules ? t.modules.map(m => `<section class="sec shell module">
       <div class="mod-h" style="--c:${t.color}"><span class="mod-n">Module ${m.n}</span><div style="flex:1;min-width:0"><h2>${esc(m.title)}</h2><p>${esc(m.objective)} · ${({ 'aws-saa': 'Days', 'langchain-course': 'Labs' })[t.id] || 'Sessions'} ${m.sessions[0]}–${m.sessions[m.sessions.length - 1]}</p></div><a class="cheat" href="${base}${t.id}/cheatsheet-m${m.n}.html">📄 Cheat sheet</a></div>

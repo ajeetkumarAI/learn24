@@ -10,6 +10,8 @@
   const add = (el, html) => { const d = document.createElement('div'); d.innerHTML = html; el.append(d); return d; };
   const sleep = ms => new Promise(r => setTimeout(r, ms));
   const css = `
+  .lck-quest{display:flex;align-items:center;gap:12px;margin:14px 0 18px;padding:12px 14px;border-radius:12px;border:1.5px solid var(--ac);background:color-mix(in srgb,var(--ac) 9%,var(--panel));color:var(--fg);text-decoration:none;font-size:14.5px;line-height:1.45}
+  .lck-quest .go{margin-left:auto;flex:none;font-weight:700;color:var(--ac)}
   .lck-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
   .lck-file{font:600 13px var(--mono);color:var(--fg);background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:6px 10px;word-break:break-all}
   .lck-bar a.btn{text-decoration:none;display:inline-block}
@@ -68,6 +70,10 @@
   .lck-meter{height:12px;border-radius:6px;background:var(--panel2);overflow:hidden;border:1px solid var(--line)} .lck-meter i{display:block;height:100%;width:0;background:var(--ac)}
   .lck-stat{display:flex;gap:14px;flex-wrap:wrap;font-size:13.5px;color:var(--muted);margin-top:8px} .lck-stat b{color:var(--fg)}`;
   const st = document.createElement('style'); st.textContent = css; document.head.append(st);
+
+  // Quest mode banner on lab pages
+  const lm = location.pathname.match(/lab(\d\d)-[^/]*$/), lead = document.querySelector('article .lead');
+  if (lm && lead) lead.insertAdjacentHTML('afterend', `<a class="lck-quest" href="quest-lab${lm[1]}.html"><span style="font-size:26px">🎮</span><span><b>Prefer to learn by playing?</b> Try this lab in Quest mode: short cards, points, scenarios and interview questions.</span><span class="go">Play →</span></a>`);
 
   // tiny Python highlighter
   const KW = /\b(from|import|def|class|return|for|in|if|else|elif|while|with|as|try|except|print|lambda|None|True|False|await|async|and|or|not|break|is)\b/g;
