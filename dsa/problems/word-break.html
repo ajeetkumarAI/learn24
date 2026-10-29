@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>74. Word Break · DSA Practice · Learn24</title>
+<meta name="description" content="Word Break (Medium, Dynamic Programming (1-D)): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta property="og:title" content="74. Word Break · DSA Practice · Learn24">
+<meta property="og:description" content="Word Break (Medium, Dynamic Programming (1-D)): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/pages.css">
+<link rel="stylesheet" href="../../assets/engage.css">
+<link rel="stylesheet" href="../../assets/theme.css">
+<link rel="stylesheet" href="../../assets/dsa.css">
+<script src="../../assets/theme.js"></script>
+<link rel="stylesheet" href="../../assets/codemirror.min.css">
+<script defer src="../../assets/codemirror.min.js"></script>
+</head>
+<body data-page="dsa-problem" data-topic="dsa">
+<main class="pp-shell">
+<div class="pp">
+  <section class="pp-left" aria-label="Problem">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../../index.html">Home</a><span>›</span><a href="../index.html">DSA</a><span>›</span><a href="index.html">Problems</a><span>›</span><span>Word Break</span></nav>
+    <h1>74. Word Break</h1>
+    <div class="pp-meta"><span class="diff medium">Medium</span><a class="pat" href="../dp-1d.html">Dynamic Programming (1-D)</a><span class="solved-b" hidden>✓ Solved</span><a class="ext" href="https://leetcode.com/problems/word-break/" target="_blank" rel="noopener">Also on LeetCode ↗</a></div>
+    <div class="pp-tabs" role="tablist"><button type="button" role="tab" data-t="desc" aria-selected="true">Description</button><button type="button" role="tab" data-t="appr">Approach</button><button type="button" role="tab" data-t="sol">Solution</button><button type="button" role="tab" data-t="viz">Visualize</button></div>
+    <div class="pp-pane" data-t="desc"><p>Return <code>true</code> if <code>s</code> can be split into a sequence of one or more words from <code>wordDict</code>. Words may be reused.</p><h3>Example 1</h3><div class="ex"><div><b>Input:</b> <code>s = &quot;pineapplepen&quot;, wordDict = [&quot;apple&quot;,&quot;pen&quot;,&quot;applepen&quot;,&quot;pine&quot;,&quot;pineapple&quot;]</code></div><div><b>Output:</b> <code>true</code></div></div><h3>Example 2</h3><div class="ex"><div><b>Input:</b> <code>s = &quot;catsandog&quot;, wordDict = [&quot;cats&quot;,&quot;dog&quot;,&quot;sand&quot;,&quot;and&quot;,&quot;cat&quot;]</code></div><div><b>Output:</b> <code>false</code></div></div><details class="hint"><summary>Hint 1</summary><p>dp[i] is true if some split point j &lt; i has dp[j] true and s[j:i] is a word.</p></details><div class="tags"><span class="tag">Dynamic Programming</span><span class="tag">Hash Table</span><span class="tag">String</span></div></div>
+    <div class="pp-pane" data-t="appr" hidden><div class="appr"><h3>Approach 1: Plain recursion</h3><p>Try every prefix word; exponential without memo.</p><div class="cx"><span>⏱ Time <b>O(2ⁿ)</b></span><span>💾 Space <b>O(n)</b></span></div></div><div class="appr"><h3>Approach 2: Bottom-up DP ✅</h3><p>dp over prefix lengths.</p><div class="cx"><span>⏱ Time <b>O(n² · L)</b></span><span>💾 Space <b>O(n)</b></span></div></div></div>
+    <div class="pp-pane" data-t="sol" hidden><p>Reference solution for <b>Bottom-up DP</b> (time O(n² · L), space O(n)). Each solution passes every test in all four languages.</p><div class="ctabs sol"><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py">class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -&gt; bool:
+        words = set(wordDict)
+        dp = [True] + [False] * len(s)      # dp[i]: s[:i] can be segmented
+        for i in range(1, len(s) + 1):
+            for j in range(i):
+                if dp[j] and s[j:i] in words:
+                    dp[i] = True
+                    break
+        return dp[len(s)]</code></pre><pre data-l="java"><code class="lang-java">class Solution {
+    public boolean wordBreak(String s, List&lt;String&gt; wordDict) {
+        Set&lt;String&gt; words = new HashSet&lt;&gt;(wordDict);
+        boolean[] dp = new boolean[s.length() + 1];   // dp[i]: s[0..i) can be segmented
+        dp[0] = true;
+        for (int i = 1; i &lt;= s.length(); i++)
+            for (int j = 0; j &lt; i; j++)
+                if (dp[j] &amp;&amp; words.contains(s.substring(j, i))) { dp[i] = true; break; }
+        return dp[s.length()];
+    }
+}</code></pre><pre data-l="cpp"><code class="lang-cpp">class Solution {
+public:
+    bool wordBreak(string s, vector&lt;string&gt;&amp; wordDict) {
+        unordered_set&lt;string&gt; words(wordDict.begin(), wordDict.end());
+        vector&lt;bool&gt; dp(s.size() + 1, false);   // dp[i]: s[0..i) can be segmented
+        dp[0] = true;
+        for (size_t i = 1; i &lt;= s.size(); i++)
+            for (size_t j = 0; j &lt; i; j++)
+                if (dp[j] &amp;&amp; words.count(s.substr(j, i - j))) { dp[i] = true; break; }
+        return dp[s.size()];
+    }
+};</code></pre><pre data-l="js"><code class="lang-js">function wordBreak(s, wordDict) {
+  const words = new Set(wordDict), dp = new Array(s.length + 1).fill(false); // dp[i]: s[0..i) can be segmented
+  dp[0] = true;
+  for (let i = 1; i &lt;= s.length; i++)
+    for (let j = 0; j &lt; i; j++)
+      if (dp[j] &amp;&amp; words.has(s.slice(j, i))) { dp[i] = true; break; }
+  return dp[s.length];
+}</code></pre></div><p class="muted">Try solving it yourself first. Interviewers care more about how you explain the approach than about the finished code.</p></div>
+    <div class="pp-pane" data-t="viz" hidden><p>This problem is explained in the lesson <a href="../dp-1d.html">Dynamic Programming (1-D)</a>.</p></div>
+    <nav class="pp-nav"><a href="longest-increasing-subsequence.html">← 73. Longest Increasing Subsequence</a><a href="index.html">All problems</a><a href="maximum-subarray.html">75. Maximum Subarray →</a></nav>
+  </section>
+  <section class="pp-right" aria-label="Code editor">
+    <div class="pp-bar"><label class="sr" for="lang">Language</label><select id="lang"><option value="py">Python</option><option value="java">Java</option><option value="cpp">C++</option><option value="js">JavaScript</option></select>
+      <button type="button" class="b ghost" id="reset" title="Reset to the starter code">↺ Reset</button><span class="grow"></span>
+      <button type="button" class="b ghost" id="run">▶ Run</button><button type="button" class="b" id="submit">Submit</button></div>
+    <div class="pp-ed"><textarea id="code" spellcheck="false" aria-label="Code editor"></textarea></div>
+    <div class="pp-con"><div class="pp-ctabs" role="tablist"><button type="button" data-c="cases" aria-selected="true">Testcases</button><button type="button" data-c="result">Result</button></div>
+      <div class="pp-cbody" data-c="cases"></div><div class="pp-cbody" data-c="result" hidden><p class="muted">Run your code to see results here.</p></div></div>
+  </section>
+</div>
+<script type="application/json" id="pdata">{"id": "word-break", "lc": "word-break", "num": 74, "title": "Word Break", "diff": "Medium", "fn": "wordBreak", "params": ["s", "wordDict"], "types": ["str", "str[]L"], "ret": "bool", "inplace": null, "cmp": "exact", "tests": [["pineapplepen", ["apple", "pen", "applepen", "pine", "pineapple"]], ["catsandog", ["cats", "dog", "sand", "and", "cat"]], ["sunflower", ["sun", "flower"]], ["aaaab", ["a", "aa", "aaa"]], ["a", ["b"]], ["leetcode", ["leet", "code"]]], "expected": [true, false, true, false, false, true], "sample": 3, "starter": {"py": "class Solution:\n    def wordBreak(self, s: str, wordDict: List[str]) -> bool:\n        ", "java": "class Solution {\n    public boolean wordBreak(String s, List<String> wordDict) {\n        \n    }\n}", "cpp": "class Solution {\npublic:\n    bool wordBreak(string s, vector<string>& wordDict) {\n        \n    }\n};", "js": "/**\n * @param {string} s\n * @param {string[]} wordDict\n * @return {boolean}\n */\nfunction wordBreak(s, wordDict) {\n  \n}"}, "solution": {"py": "class Solution:\n    def wordBreak(self, s: str, wordDict: List[str]) -> bool:\n        words = set(wordDict)\n        dp = [True] + [False] * len(s)      # dp[i]: s[:i] can be segmented\n        for i in range(1, len(s) + 1):\n            for j in range(i):\n                if dp[j] and s[j:i] in words:\n                    dp[i] = True\n                    break\n        return dp[len(s)]", "java": "class Solution {\n    public boolean wordBreak(String s, List<String> wordDict) {\n        Set<String> words = new HashSet<>(wordDict);\n        boolean[] dp = new boolean[s.length() + 1];   // dp[i]: s[0..i) can be segmented\n        dp[0] = true;\n        for (int i = 1; i <= s.length(); i++)\n            for (int j = 0; j < i; j++)\n                if (dp[j] && words.contains(s.substring(j, i))) { dp[i] = true; break; }\n        return dp[s.length()];\n    }\n}", "cpp": "class Solution {\npublic:\n    bool wordBreak(string s, vector<string>& wordDict) {\n        unordered_set<string> words(wordDict.begin(), wordDict.end());\n        vector<bool> dp(s.size() + 1, false);   // dp[i]: s[0..i) can be segmented\n        dp[0] = true;\n        for (size_t i = 1; i <= s.size(); i++)\n            for (size_t j = 0; j < i; j++)\n                if (dp[j] && words.count(s.substr(j, i - j))) { dp[i] = true; break; }\n        return dp[s.size()];\n    }\n};", "js": "function wordBreak(s, wordDict) {\n  const words = new Set(wordDict), dp = new Array(s.length + 1).fill(false); // dp[i]: s[0..i) can be segmented\n  dp[0] = true;\n  for (let i = 1; i <= s.length; i++)\n    for (let j = 0; j < i; j++)\n      if (dp[j] && words.has(s.slice(j, i))) { dp[i] = true; break; }\n  return dp[s.length];\n}"}}</script>
+</main>
+<script src="../../assets/data.js"></script>
+<script src="../../assets/site.js" data-base="../../"></script>
+<script src="../../assets/engage.js"></script>
+<script src="../../assets/dsa-viz.js"></script>
+<script src="../../assets/dsa.js" data-base="../../"></script>
+</body>
+</html>

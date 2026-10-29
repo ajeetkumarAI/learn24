@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Binary Search · DSA · Learn24</title>
+<meta name="description" content="Halve the search space each step for O(log n). Works on sorted arrays and, more powerfully, on any monotonic yes/no question about the answer.">
+<meta property="og:title" content="Binary Search · DSA · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#8fd46b} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<link rel="stylesheet" href="../assets/dsa.css">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="../assets/codemirror.min.css">
+<script defer src="../assets/codemirror.min.js"></script>
+</head>
+<body class="dsa-lesson">
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="binary-search" data-lesson="dsa/binary-search">
+  <div class="kicker">DSA · Lesson 5 of 17</div>
+  <h1>Binary Search</h1>
+  <div class="meta"><span>⏱ 16 min</span><span>🎬 Interactive visualizer</span><span>💻 Python · Java · C++ · JavaScript</span><span>🧩 6 practice problems</span></div>
+  <p class="lead">Halve the search space each step for O(log n). Works on sorted arrays and, more powerfully, on any monotonic yes/no question about the answer.</p>
+<h2>The idea</h2>
+<p>If the data is sorted, compare with the <strong>middle</strong> element and throw away the half that cannot contain the answer. A billion elements need only about 30 comparisons.</p>
+<div class="viz" data-viz="binary-search"></div>
+<h2>Three templates worth memorising</h2>
+<ol>
+<li><strong>Exact match</strong>: <code>while lo &lt;= hi</code>, return on equality.</li>
+<li><strong>Lower bound</strong> (first index with <code>a[i] &gt;= x</code>): half-open range <code>[lo, hi)</code>, <code>while lo &lt; hi</code>, set <code>hi = mid</code> when <code>a[mid] &gt;= x</code>. This gives insertion positions, first and last occurrences, and LIS in O(n log n).</li>
+<li><strong>Binary search on the answer</strong>: when “can we do it with value <code>k</code>?” is monotonic (false … false, true … true), binary-search the smallest <code>k</code> that works. Examples: Koko eating bananas, ship packages within D days, split array largest sum, minimum time to finish tasks.</li>
+</ol>
+<h2>Recognise it</h2>
+<ul>
+<li>Sorted input, or a sorted matrix</li>
+<li>“Find the minimum / maximum value such that …”</li>
+<li>Rotated sorted arrays (one half is always sorted)</li>
+<li>Constraints such as values up to 10⁹, where checking every value is too slow but O(n log V) fits</li>
+</ul>
+<h2 id="template">Code template</h2><div class="ctabs "><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py"># 1) Exact match
+def search(a, x):
+    lo, hi = 0, len(a) - 1
+    while lo &lt;= hi:
+        mid = (lo + hi) // 2
+        if a[mid] == x: return mid
+        if a[mid] &lt; x: lo = mid + 1
+        else: hi = mid - 1
+    return -1
+
+# 2) Lower bound: first index with a[i] &gt;= x
+def lower_bound(a, x):
+    lo, hi = 0, len(a)
+    while lo &lt; hi:
+        mid = (lo + hi) // 2
+        if a[mid] &lt; x: lo = mid + 1
+        else: hi = mid
+    return lo
+
+# 3) Binary search on the answer
+def smallest_ok(lo, hi, ok):        # ok(k) is False...False, True...True
+    while lo &lt; hi:
+        mid = (lo + hi) // 2
+        if ok(mid): hi = mid
+        else: lo = mid + 1
+    return lo</code></pre><pre data-l="java"><code class="lang-java">// 1) Exact match
+int search(int[] a, int x) {
+    int lo = 0, hi = a.length - 1;
+    while (lo &lt;= hi) {
+        int mid = lo + (hi - lo) / 2;
+        if (a[mid] == x) return mid;
+        if (a[mid] &lt; x) lo = mid + 1; else hi = mid - 1;
+    }
+    return -1;
+}
+
+// 2) Lower bound: first index with a[i] &gt;= x
+int lowerBound(int[] a, int x) {
+    int lo = 0, hi = a.length;
+    while (lo &lt; hi) { int mid = lo + (hi - lo) / 2; if (a[mid] &lt; x) lo = mid + 1; else hi = mid; }
+    return lo;
+}
+
+// 3) Binary search on the answer
+int smallestOk(int lo, int hi, java.util.function.IntPredicate ok) {
+    while (lo &lt; hi) { int mid = lo + (hi - lo) / 2; if (ok.test(mid)) hi = mid; else lo = mid + 1; }
+    return lo;
+}</code></pre><pre data-l="cpp"><code class="lang-cpp">// 1) Exact match
+int search(const vector&lt;int&gt;&amp; a, int x) {
+    int lo = 0, hi = (int)a.size() - 1;
+    while (lo &lt;= hi) {
+        int mid = lo + (hi - lo) / 2;
+        if (a[mid] == x) return mid;
+        if (a[mid] &lt; x) lo = mid + 1; else hi = mid - 1;
+    }
+    return -1;
+}
+
+// 2) Lower bound: std::lower_bound does exactly this
+int lowerBound(const vector&lt;int&gt;&amp; a, int x) { return lower_bound(a.begin(), a.end(), x) - a.begin(); }
+
+// 3) Binary search on the answer
+template &lt;class F&gt; long long smallestOk(long long lo, long long hi, F ok) {
+    while (lo &lt; hi) { long long mid = lo + (hi - lo) / 2; if (ok(mid)) hi = mid; else lo = mid + 1; }
+    return lo;
+}</code></pre><pre data-l="js"><code class="lang-js">// 1) Exact match
+function search(a, x) {
+  let lo = 0, hi = a.length - 1;
+  while (lo &lt;= hi) {
+    const mid = (lo + hi) &gt;&gt; 1;
+    if (a[mid] === x) return mid;
+    if (a[mid] &lt; x) lo = mid + 1; else hi = mid - 1;
+  }
+  return -1;
+}
+
+// 2) Lower bound: first index with a[i] &gt;= x
+function lowerBound(a, x) {
+  let lo = 0, hi = a.length;
+  while (lo &lt; hi) { const mid = (lo + hi) &gt;&gt; 1; if (a[mid] &lt; x) lo = mid + 1; else hi = mid; }
+  return lo;
+}
+
+// 3) Binary search on the answer
+function smallestOk(lo, hi, ok) {
+  while (lo &lt; hi) { const mid = Math.floor((lo + hi) / 2); if (ok(mid)) hi = mid; else lo = mid + 1; }
+  return lo;
+}</code></pre></div>
+<h2>Complexity</h2>
+<p>O(log n) for a search. Binary search on the answer is O(log V × cost of one feasibility check), often O(n log V).</p>
+<h2 id="practice">Practise this pattern (6 problems)</h2><p>Each problem has a statement, hints, approaches, solutions in 4 languages and a code runner. Solve them in order: easy first.</p><div class="ptw"><table class="ptab"><thead><tr><th aria-label="Solved"></th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead><tbody><tr data-id="binary-search"><td class="st" aria-label="status"></td><td class="num">21</td><td><a href="problems/binary-search.html">Binary Search</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="search-insert-position"><td class="st" aria-label="status"></td><td class="num">22</td><td><a href="problems/search-insert-position.html">Search Insert Position</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="find-minimum-in-rotated-sorted-array"><td class="st" aria-label="status"></td><td class="num">23</td><td><a href="problems/find-minimum-in-rotated-sorted-array.html">Find Minimum in Rotated Sorted Array</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="search-in-rotated-sorted-array"><td class="st" aria-label="status"></td><td class="num">24</td><td><a href="problems/search-in-rotated-sorted-array.html">Search in Rotated Sorted Array</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="koko-eating-bananas"><td class="st" aria-label="status"></td><td class="num">25</td><td><a href="problems/koko-eating-bananas.html">Koko Eating Bananas</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="search-a-2d-matrix"><td class="st" aria-label="status"></td><td class="num">26</td><td><a href="problems/search-a-2d-matrix.html">Search a 2D Matrix</a></td><td><span class="diff medium">Medium</span></td></tr></tbody></table></div><h2>Common mistakes</h2>
+<ul>
+<li><code>mid = (lo + hi) / 2</code> overflow in Java/C++ for big values: use <code>lo + (hi − lo) / 2</code>.</li>
+<li>Infinite loops: with <code>while lo &lt; hi</code>, always shrink the range (<code>lo = mid + 1</code> or <code>hi = mid</code>, never <code>lo = mid</code>).</li>
+<li>Mixing inclusive <code>[lo, hi]</code> and half-open <code>[lo, hi)</code> styles in the same code.</li>
+</ul>
+<details><summary>Check yourself: what is the first value Koko’s speed search tries for piles [3, 6, 7, 11]?</summary>
+lo = 1, hi = 11, so mid = 6. At speed 6 she needs 1 + 1 + 2 + 2 = 6 hours.</details>
+  <div class="pj-cta"><a class="btn" href="problems/index.html">🧩 All DSA problems</a><a class="btn ghost" href="visualizer/index.html">🎬 Algorithm visualizer</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="dsa/binary-search"></script>
+<script src="../assets/engage.js"></script>
+<script src="../assets/dsa-viz.js"></script>
+<script src="../assets/dsa.js" data-base="../"></script>
+</body>
+</html>

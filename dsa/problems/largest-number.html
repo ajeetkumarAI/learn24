@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>30. Largest Number · DSA Practice · Learn24</title>
+<meta name="description" content="Largest Number (Medium, Sorting Algorithms): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta property="og:title" content="30. Largest Number · DSA Practice · Learn24">
+<meta property="og:description" content="Largest Number (Medium, Sorting Algorithms): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/pages.css">
+<link rel="stylesheet" href="../../assets/engage.css">
+<link rel="stylesheet" href="../../assets/theme.css">
+<link rel="stylesheet" href="../../assets/dsa.css">
+<script src="../../assets/theme.js"></script>
+<link rel="stylesheet" href="../../assets/codemirror.min.css">
+<script defer src="../../assets/codemirror.min.js"></script>
+</head>
+<body data-page="dsa-problem" data-topic="dsa">
+<main class="pp-shell">
+<div class="pp">
+  <section class="pp-left" aria-label="Problem">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../../index.html">Home</a><span>›</span><a href="../index.html">DSA</a><span>›</span><a href="index.html">Problems</a><span>›</span><span>Largest Number</span></nav>
+    <h1>30. Largest Number</h1>
+    <div class="pp-meta"><span class="diff medium">Medium</span><a class="pat" href="../sorting.html">Sorting Algorithms</a><span class="solved-b" hidden>✓ Solved</span><a class="ext" href="https://leetcode.com/problems/largest-number/" target="_blank" rel="noopener">Also on LeetCode ↗</a></div>
+    <div class="pp-tabs" role="tablist"><button type="button" role="tab" data-t="desc" aria-selected="true">Description</button><button type="button" role="tab" data-t="appr">Approach</button><button type="button" role="tab" data-t="sol">Solution</button><button type="button" role="tab" data-t="viz">Visualize</button></div>
+    <div class="pp-pane" data-t="desc"><p>Arrange the non-negative integers in <code>nums</code> so that, written one after another, they form the <strong>largest possible number</strong>. Return it as a string.</p><h3>Example 1</h3><div class="ex"><div><b>Input:</b> <code>nums = [10,2]</code></div><div><b>Output:</b> <code>&quot;210&quot;</code></div></div><h3>Example 2</h3><div class="ex"><div><b>Input:</b> <code>nums = [3,30,34,5,9]</code></div><div><b>Output:</b> <code>&quot;9534330&quot;</code></div></div><details class="hint"><summary>Hint 1</summary><p>Normal numeric sorting fails: 9 must come before 34.</p></details><details class="hint"><summary>Hint 2</summary><p>Compare two strings a and b by which concatenation, a+b or b+a, is larger.</p></details><div class="tags"><span class="tag">Sorting</span><span class="tag">Greedy</span><span class="tag">String</span></div></div>
+    <div class="pp-pane" data-t="appr" hidden><div class="appr"><h3>Approach 1: Custom comparator sort ✅</h3><p>Sort strings by the concatenation rule, then join; handle the all-zeros case.</p><div class="cx"><span>⏱ Time <b>O(n log n · k)</b></span><span>💾 Space <b>O(n · k)</b></span></div></div></div>
+    <div class="pp-pane" data-t="sol" hidden><p>Reference solution for <b>Custom comparator sort</b> (time O(n log n · k), space O(n · k)). Each solution passes every test in all four languages.</p><div class="ctabs sol"><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py">class Solution:
+    def largestNumber(self, nums: List[int]) -&gt; str:
+        s = [str(x) for x in nums]
+        # a goes before b when a+b is the bigger concatenation
+        s.sort(key=functools.cmp_to_key(lambda a, b: -1 if a + b &gt; b + a else (1 if a + b &lt; b + a else 0)))
+        res = &#x27;&#x27;.join(s)
+        return &#x27;0&#x27; if res[0] == &#x27;0&#x27; else res</code></pre><pre data-l="java"><code class="lang-java">class Solution {
+    public String largestNumber(int[] nums) {
+        String[] s = new String[nums.length];
+        for (int i = 0; i &lt; nums.length; i++) s[i] = String.valueOf(nums[i]);
+        Arrays.sort(s, (a, b) -&gt; (b + a).compareTo(a + b));   // a first when a+b is bigger
+        if (s[0].equals(&quot;0&quot;)) return &quot;0&quot;;
+        return String.join(&quot;&quot;, s);
+    }
+}</code></pre><pre data-l="cpp"><code class="lang-cpp">class Solution {
+public:
+    string largestNumber(vector&lt;int&gt;&amp; nums) {
+        vector&lt;string&gt; s;
+        for (int x : nums) s.push_back(to_string(x));
+        sort(s.begin(), s.end(), [](const string&amp; a, const string&amp; b) { return a + b &gt; b + a; });
+        if (s[0] == &quot;0&quot;) return &quot;0&quot;;
+        string res;
+        for (auto&amp; x : s) res += x;
+        return res;
+    }
+};</code></pre><pre data-l="js"><code class="lang-js">function largestNumber(nums) {
+  const s = nums.map(String).sort((a, b) =&gt; (b + a).localeCompare(a + b)); // a first when a+b is bigger
+  return s[0] === &#x27;0&#x27; ? &#x27;0&#x27; : s.join(&#x27;&#x27;);
+}</code></pre></div><p class="muted">Try solving it yourself first. Interviewers care more about how you explain the approach than about the finished code.</p></div>
+    <div class="pp-pane" data-t="viz" hidden><p>This problem is explained in the lesson <a href="../sorting.html">Sorting Algorithms</a>.</p></div>
+    <nav class="pp-nav"><a href="sort-an-array.html">← 29. Sort an Array</a><a href="index.html">All problems</a><a href="valid-parentheses.html">31. Valid Parentheses →</a></nav>
+  </section>
+  <section class="pp-right" aria-label="Code editor">
+    <div class="pp-bar"><label class="sr" for="lang">Language</label><select id="lang"><option value="py">Python</option><option value="java">Java</option><option value="cpp">C++</option><option value="js">JavaScript</option></select>
+      <button type="button" class="b ghost" id="reset" title="Reset to the starter code">↺ Reset</button><span class="grow"></span>
+      <button type="button" class="b ghost" id="run">▶ Run</button><button type="button" class="b" id="submit">Submit</button></div>
+    <div class="pp-ed"><textarea id="code" spellcheck="false" aria-label="Code editor"></textarea></div>
+    <div class="pp-con"><div class="pp-ctabs" role="tablist"><button type="button" data-c="cases" aria-selected="true">Testcases</button><button type="button" data-c="result">Result</button></div>
+      <div class="pp-cbody" data-c="cases"></div><div class="pp-cbody" data-c="result" hidden><p class="muted">Run your code to see results here.</p></div></div>
+  </section>
+</div>
+<script type="application/json" id="pdata">{"id": "largest-number", "lc": "largest-number", "num": 30, "title": "Largest Number", "diff": "Medium", "fn": "largestNumber", "params": ["nums"], "types": ["int[]"], "ret": "str", "inplace": null, "cmp": "exact", "tests": [[[10, 2]], [[3, 30, 34, 5, 9]], [[0, 0]], [[1]], [[12, 121]], [[8, 89, 898]]], "expected": ["210", "9534330", "0", "1", "12121", "898988"], "sample": 3, "starter": {"py": "class Solution:\n    def largestNumber(self, nums: List[int]) -> str:\n        ", "java": "class Solution {\n    public String largestNumber(int[] nums) {\n        \n    }\n}", "cpp": "class Solution {\npublic:\n    string largestNumber(vector<int>& nums) {\n        \n    }\n};", "js": "/**\n * @param {number[]} nums\n * @return {string}\n */\nfunction largestNumber(nums) {\n  \n}"}, "solution": {"py": "class Solution:\n    def largestNumber(self, nums: List[int]) -> str:\n        s = [str(x) for x in nums]\n        # a goes before b when a+b is the bigger concatenation\n        s.sort(key=functools.cmp_to_key(lambda a, b: -1 if a + b > b + a else (1 if a + b < b + a else 0)))\n        res = ''.join(s)\n        return '0' if res[0] == '0' else res", "java": "class Solution {\n    public String largestNumber(int[] nums) {\n        String[] s = new String[nums.length];\n        for (int i = 0; i < nums.length; i++) s[i] = String.valueOf(nums[i]);\n        Arrays.sort(s, (a, b) -> (b + a).compareTo(a + b));   // a first when a+b is bigger\n        if (s[0].equals(\"0\")) return \"0\";\n        return String.join(\"\", s);\n    }\n}", "cpp": "class Solution {\npublic:\n    string largestNumber(vector<int>& nums) {\n        vector<string> s;\n        for (int x : nums) s.push_back(to_string(x));\n        sort(s.begin(), s.end(), [](const string& a, const string& b) { return a + b > b + a; });\n        if (s[0] == \"0\") return \"0\";\n        string res;\n        for (auto& x : s) res += x;\n        return res;\n    }\n};", "js": "function largestNumber(nums) {\n  const s = nums.map(String).sort((a, b) => (b + a).localeCompare(a + b)); // a first when a+b is bigger\n  return s[0] === '0' ? '0' : s.join('');\n}"}}</script>
+</main>
+<script src="../../assets/data.js"></script>
+<script src="../../assets/site.js" data-base="../../"></script>
+<script src="../../assets/engage.js"></script>
+<script src="../../assets/dsa-viz.js"></script>
+<script src="../../assets/dsa.js" data-base="../../"></script>
+</body>
+</html>

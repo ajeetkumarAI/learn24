@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Greedy &amp; Intervals · DSA · Learn24</title>
+<meta name="description" content="Make the locally best choice and prove it never hurts. Interval scheduling, merging, jump game and gas station, with the exchange-argument intuition.">
+<meta property="og:title" content="Greedy &amp; Intervals · DSA · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#8fd46b} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<link rel="stylesheet" href="../assets/dsa.css">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="../assets/codemirror.min.css">
+<script defer src="../assets/codemirror.min.js"></script>
+</head>
+<body class="dsa-lesson">
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="greedy-intervals" data-lesson="dsa/greedy-intervals">
+  <div class="kicker">DSA · Lesson 16 of 17</div>
+  <h1>Greedy &amp; Intervals</h1>
+  <div class="meta"><span>⏱ 14 min</span><span>🎬 Interactive visualizer</span><span>💻 Python · Java · C++ · JavaScript</span><span>🧩 4 practice problems</span></div>
+  <p class="lead">Make the locally best choice and prove it never hurts. Interval scheduling, merging, jump game and gas station, with the exchange-argument intuition.</p>
+<h2>The idea</h2>
+<p>A <strong>greedy</strong> algorithm makes the choice that looks best right now and never reconsiders. It is fast (often one sort plus one pass), but it is only correct when you can argue that the greedy choice is part of some optimal solution. The usual argument is an <strong>exchange argument</strong>: if an optimal solution made a different choice, swapping in the greedy one is no worse.</p>
+<p>When you cannot find such an argument, or a small counterexample breaks it, use DP.</p>
+<div class="viz" data-viz="merge-intervals,kadane"></div>
+<h2>Interval problems: sort first</h2>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Sort by</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Merge intervals</td>
+<td>start</td>
+<td>extend the last merged interval while <code>start ≤ lastEnd</code></td>
+</tr>
+<tr>
+<td>Non-overlapping intervals (max kept)</td>
+<td><strong>end</strong></td>
+<td>keep an interval if it starts after the last kept end</td>
+</tr>
+<tr>
+<td>Meeting rooms II (min rooms)</td>
+<td>start (+ min-heap of ends)</td>
+<td>reuse the room that frees up first</td>
+</tr>
+<tr>
+<td>Insert interval</td>
+<td>already sorted</td>
+<td>before / overlapping / after</td>
+</tr>
+<tr>
+<td>Minimum arrows to burst balloons</td>
+<td>end</td>
+<td>shoot at the end of the first; skip all it pierces</td>
+</tr>
+</tbody>
+</table></div>
+<p>Sorting by <strong>end time</strong> is the classic activity-selection greedy: finishing early leaves the most room for everything else.</p>
+<h2>Other greedy classics</h2>
+<ul>
+<li><strong>Jump game</strong>: track the furthest reachable index.</li>
+<li><strong>Gas station</strong>: if the tank drops below zero at station i, no start between the current start and i works, so restart at i + 1.</li>
+<li><strong>Kadane’s algorithm</strong>: drop a negative running sum.</li>
+<li><strong>Assign cookies / boats to save people</strong>: sort both sides and match with two pointers.</li>
+</ul>
+<h2 id="template">Code template</h2><div class="ctabs "><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py">def merge(intervals):
+    intervals.sort()                         # by start
+    res = []
+    for s, e in intervals:
+        if res and s &lt;= res[-1][1]:
+            res[-1][1] = max(res[-1][1], e)
+        else:
+            res.append([s, e])
+    return res
+
+def max_non_overlapping(intervals):
+    intervals.sort(key=lambda x: x[1])       # by end
+    count, end = 0, float(&#x27;-inf&#x27;)
+    for s, e in intervals:
+        if s &gt;= end:
+            count += 1; end = e
+    return count</code></pre><pre data-l="java"><code class="lang-java">int[][] merge(int[][] intervals) {
+    Arrays.sort(intervals, (a, b) -&gt; Integer.compare(a[0], b[0]));     // by start
+    List&lt;int[]&gt; res = new ArrayList&lt;&gt;();
+    for (int[] iv : intervals) {
+        if (!res.isEmpty() &amp;&amp; iv[0] &lt;= res.get(res.size() - 1)[1]) res.get(res.size() - 1)[1] = Math.max(res.get(res.size() - 1)[1], iv[1]);
+        else res.add(new int[]{iv[0], iv[1]});
+    }
+    return res.toArray(new int[0][]);
+}
+
+int maxNonOverlapping(int[][] intervals) {
+    Arrays.sort(intervals, (a, b) -&gt; Integer.compare(a[1], b[1]));     // by end
+    int count = 0; long end = Long.MIN_VALUE;
+    for (int[] iv : intervals) if (iv[0] &gt;= end) { count++; end = iv[1]; }
+    return count;
+}</code></pre><pre data-l="cpp"><code class="lang-cpp">vector&lt;vector&lt;int&gt;&gt; merge(vector&lt;vector&lt;int&gt;&gt; intervals) {
+    sort(intervals.begin(), intervals.end());                          // by start
+    vector&lt;vector&lt;int&gt;&gt; res;
+    for (auto&amp; iv : intervals) {
+        if (!res.empty() &amp;&amp; iv[0] &lt;= res.back()[1]) res.back()[1] = max(res.back()[1], iv[1]);
+        else res.push_back(iv);
+    }
+    return res;
+}
+
+int maxNonOverlapping(vector&lt;vector&lt;int&gt;&gt; intervals) {
+    sort(intervals.begin(), intervals.end(), [](auto&amp; a, auto&amp; b) { return a[1] &lt; b[1]; });   // by end
+    int count = 0; long long end = LLONG_MIN;
+    for (auto&amp; iv : intervals) if (iv[0] &gt;= end) { count++; end = iv[1]; }
+    return count;
+}</code></pre><pre data-l="js"><code class="lang-js">function merge(intervals) {
+  intervals.sort((a, b) =&gt; a[0] - b[0]);     // by start
+  const res = [];
+  for (const [s, e] of intervals) {
+    if (res.length &amp;&amp; s &lt;= res[res.length - 1][1]) res[res.length - 1][1] = Math.max(res[res.length - 1][1], e);
+    else res.push([s, e]);
+  }
+  return res;
+}
+
+function maxNonOverlapping(intervals) {
+  intervals.sort((a, b) =&gt; a[1] - b[1]);     // by end
+  let count = 0, end = -Infinity;
+  for (const [s, e] of intervals) if (s &gt;= end) { count++; end = e; }
+  return count;
+}</code></pre></div>
+<h2 id="practice">Practise this pattern (4 problems)</h2><p>Each problem has a statement, hints, approaches, solutions in 4 languages and a code runner. Solve them in order: easy first.</p><div class="ptw"><table class="ptab"><thead><tr><th aria-label="Solved"></th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead><tbody><tr data-id="jump-game"><td class="st" aria-label="status"></td><td class="num">83</td><td><a href="problems/jump-game.html">Jump Game</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="non-overlapping-intervals"><td class="st" aria-label="status"></td><td class="num">84</td><td><a href="problems/non-overlapping-intervals.html">Non-overlapping Intervals</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="insert-interval"><td class="st" aria-label="status"></td><td class="num">85</td><td><a href="problems/insert-interval.html">Insert Interval</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="gas-station"><td class="st" aria-label="status"></td><td class="num">86</td><td><a href="problems/gas-station.html">Gas Station</a></td><td><span class="diff medium">Medium</span></td></tr></tbody></table></div><h2>Common mistakes</h2>
+<ul>
+<li>Sorting by start when the problem needs end (or the reverse). Test both on a tiny example.</li>
+<li>Treating touching intervals inconsistently: is <code>[1,2]</code> with <code>[2,3]</code> an overlap? Read the problem.</li>
+<li>Using greedy for coin change with arbitrary coins (fails for [1, 3, 4] with amount 6).</li>
+</ul>
+<details><summary>Check yourself: why sort by end time for Non-overlapping Intervals?</summary>
+The interval that ends first leaves the most room for the remaining ones. Any optimal solution can swap its first interval for the earliest-ending one without creating an overlap.</details>
+  <div class="pj-cta"><a class="btn" href="problems/index.html">🧩 All DSA problems</a><a class="btn ghost" href="visualizer/index.html">🎬 Algorithm visualizer</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="dsa/greedy-intervals"></script>
+<script src="../assets/engage.js"></script>
+<script src="../assets/dsa-viz.js"></script>
+<script src="../assets/dsa.js" data-base="../"></script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Linked Lists · DSA · Learn24</title>
+<meta name="description" content="Nodes joined by pointers: O(1) insert and delete once you are at a node. Master pointer surgery, dummy heads and the fast/slow technique.">
+<meta property="og:title" content="Linked Lists · DSA · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#8fd46b} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<link rel="stylesheet" href="../assets/dsa.css">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="../assets/codemirror.min.css">
+<script defer src="../assets/codemirror.min.js"></script>
+</head>
+<body class="dsa-lesson">
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="linked-lists" data-lesson="dsa/linked-lists">
+  <div class="kicker">DSA · Lesson 8 of 17</div>
+  <h1>Linked Lists</h1>
+  <div class="meta"><span>⏱ 14 min</span><span>🎬 Interactive visualizer</span><span>💻 Python · Java · C++ · JavaScript</span><span>🧩 6 practice problems</span></div>
+  <p class="lead">Nodes joined by pointers: O(1) insert and delete once you are at a node. Master pointer surgery, dummy heads and the fast/slow technique.</p>
+<h2>The idea</h2>
+<p>A <strong>singly linked list</strong> is a chain of nodes, each holding a value and a <code>next</code> pointer. There is no random access (finding the k-th node is O(k)), but inserting or deleting after a known node is O(1). Interview questions test whether you can rewire pointers without losing part of the list.</p>
+<div class="viz" data-viz="reverse-list"></div>
+<h2>Five techniques that solve almost every list problem</h2>
+<ol>
+<li><strong>Dummy head</strong>: a fake node before the head, so deleting or inserting at the front is not a special case.</li>
+<li><strong>Reverse in place</strong> with <code>prev</code>, <code>curr</code> and <code>next</code> (see the animation).</li>
+<li><strong>Fast and slow pointers</strong>: fast moves 2, slow moves 1. Use them to find the middle, detect a cycle (Floyd’s algorithm) or find the cycle start.</li>
+<li><strong>Gap of n</strong>: move one pointer n steps ahead to find the n-th node from the end in one pass.</li>
+<li><strong>Merge</strong> two sorted lists by always attaching the smaller head; this is the core of merge sort on lists and of Merge k Lists.</li>
+</ol>
+<p>Harder problems combine them. Reorder List = find middle + reverse second half + weave. Palindrome List = middle + reverse + compare.</p>
+<h2 id="template">Code template</h2><div class="ctabs "><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py">class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val, self.next = val, next
+
+def reverse(head):
+    prev, curr = None, head
+    while curr:
+        nxt = curr.next
+        curr.next = prev
+        prev, curr = curr, nxt
+    return prev
+
+def middle(head):
+    slow = fast = head
+    while fast and fast.next:
+        slow, fast = slow.next, fast.next.next
+    return slow
+
+def has_cycle(head):
+    slow = fast = head
+    while fast and fast.next:
+        slow, fast = slow.next, fast.next.next
+        if slow is fast:
+            return True
+    return False</code></pre><pre data-l="java"><code class="lang-java">ListNode reverse(ListNode head) {
+    ListNode prev = null, curr = head;
+    while (curr != null) { ListNode next = curr.next; curr.next = prev; prev = curr; curr = next; }
+    return prev;
+}
+
+ListNode middle(ListNode head) {
+    ListNode slow = head, fast = head;
+    while (fast != null &amp;&amp; fast.next != null) { slow = slow.next; fast = fast.next.next; }
+    return slow;
+}
+
+boolean hasCycle(ListNode head) {
+    ListNode slow = head, fast = head;
+    while (fast != null &amp;&amp; fast.next != null) {
+        slow = slow.next; fast = fast.next.next;
+        if (slow == fast) return true;
+    }
+    return false;
+}</code></pre><pre data-l="cpp"><code class="lang-cpp">ListNode* reverse(ListNode* head) {
+    ListNode *prev = nullptr, *curr = head;
+    while (curr) { ListNode* next = curr-&gt;next; curr-&gt;next = prev; prev = curr; curr = next; }
+    return prev;
+}
+
+ListNode* middle(ListNode* head) {
+    ListNode *slow = head, *fast = head;
+    while (fast &amp;&amp; fast-&gt;next) { slow = slow-&gt;next; fast = fast-&gt;next-&gt;next; }
+    return slow;
+}
+
+bool hasCycle(ListNode* head) {
+    ListNode *slow = head, *fast = head;
+    while (fast &amp;&amp; fast-&gt;next) {
+        slow = slow-&gt;next; fast = fast-&gt;next-&gt;next;
+        if (slow == fast) return true;
+    }
+    return false;
+}</code></pre><pre data-l="js"><code class="lang-js">function reverse(head) {
+  let prev = null, curr = head;
+  while (curr) { const next = curr.next; curr.next = prev; prev = curr; curr = next; }
+  return prev;
+}
+
+function middle(head) {
+  let slow = head, fast = head;
+  while (fast &amp;&amp; fast.next) { slow = slow.next; fast = fast.next.next; }
+  return slow;
+}
+
+function hasCycle(head) {
+  let slow = head, fast = head;
+  while (fast &amp;&amp; fast.next) {
+    slow = slow.next; fast = fast.next.next;
+    if (slow === fast) return true;
+  }
+  return false;
+}</code></pre></div>
+<h2>Complexity</h2>
+<p>Traversal O(n). Insert or delete after a known node O(1). Search O(n). All five techniques use O(1) extra space.</p>
+<h2 id="practice">Practise this pattern (6 problems)</h2><p>Each problem has a statement, hints, approaches, solutions in 4 languages and a code runner. Solve them in order: easy first.</p><div class="ptw"><table class="ptab"><thead><tr><th aria-label="Solved"></th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead><tbody><tr data-id="reverse-linked-list"><td class="st" aria-label="status"></td><td class="num">35</td><td><a href="problems/reverse-linked-list.html">Reverse Linked List</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="merge-two-sorted-lists"><td class="st" aria-label="status"></td><td class="num">36</td><td><a href="problems/merge-two-sorted-lists.html">Merge Two Sorted Lists</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="middle-of-the-linked-list"><td class="st" aria-label="status"></td><td class="num">37</td><td><a href="problems/middle-of-the-linked-list.html">Middle of the Linked List</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="remove-nth-node-from-end-of-list"><td class="st" aria-label="status"></td><td class="num">38</td><td><a href="problems/remove-nth-node-from-end-of-list.html">Remove Nth Node From End of List</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="reorder-list"><td class="st" aria-label="status"></td><td class="num">39</td><td><a href="problems/reorder-list.html">Reorder List</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="add-two-numbers"><td class="st" aria-label="status"></td><td class="num">40</td><td><a href="problems/add-two-numbers.html">Add Two Numbers</a></td><td><span class="diff medium">Medium</span></td></tr></tbody></table></div><h2>Common mistakes</h2>
+<ul>
+<li>Losing the rest of the list: save <code>next</code> <strong>before</strong> changing <code>curr.next</code>.</li>
+<li>Null-pointer errors: check <code>fast and fast.next</code> before <code>fast.next.next</code>.</li>
+<li>Returning the old head after reversing: return <code>prev</code>.</li>
+</ul>
+<details><summary>Check yourself: how do you detect a cycle in O(1) space?</summary>
+Floyd’s algorithm. Move slow by 1 and fast by 2; if they ever meet, there is a cycle. If fast reaches null, there is no cycle.</details>
+  <div class="pj-cta"><a class="btn" href="problems/index.html">🧩 All DSA problems</a><a class="btn ghost" href="visualizer/index.html">🎬 Algorithm visualizer</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="dsa/linked-lists"></script>
+<script src="../assets/engage.js"></script>
+<script src="../assets/dsa-viz.js"></script>
+<script src="../assets/dsa.js" data-base="../"></script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>57. Max Area of Island · DSA Practice · Learn24</title>
+<meta name="description" content="Max Area of Island (Medium, Graphs: BFS &amp; DFS): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta property="og:title" content="57. Max Area of Island · DSA Practice · Learn24">
+<meta property="og:description" content="Max Area of Island (Medium, Graphs: BFS &amp; DFS): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/pages.css">
+<link rel="stylesheet" href="../../assets/engage.css">
+<link rel="stylesheet" href="../../assets/theme.css">
+<link rel="stylesheet" href="../../assets/dsa.css">
+<script src="../../assets/theme.js"></script>
+<link rel="stylesheet" href="../../assets/codemirror.min.css">
+<script defer src="../../assets/codemirror.min.js"></script>
+</head>
+<body data-page="dsa-problem" data-topic="dsa">
+<main class="pp-shell">
+<div class="pp">
+  <section class="pp-left" aria-label="Problem">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../../index.html">Home</a><span>›</span><a href="../index.html">DSA</a><span>›</span><a href="index.html">Problems</a><span>›</span><span>Max Area of Island</span></nav>
+    <h1>57. Max Area of Island</h1>
+    <div class="pp-meta"><span class="diff medium">Medium</span><a class="pat" href="../graphs.html">Graphs: BFS &amp; DFS</a><span class="solved-b" hidden>✓ Solved</span><a class="ext" href="https://leetcode.com/problems/max-area-of-island/" target="_blank" rel="noopener">Also on LeetCode ↗</a></div>
+    <div class="pp-tabs" role="tablist"><button type="button" role="tab" data-t="desc" aria-selected="true">Description</button><button type="button" role="tab" data-t="appr">Approach</button><button type="button" role="tab" data-t="sol">Solution</button><button type="button" role="tab" data-t="viz">Visualize</button></div>
+    <div class="pp-pane" data-t="desc"><p><code>grid</code> contains <code>1</code> (land) and <code>0</code> (water). Return the area (number of cells) of the <strong>largest island</strong>, using 4-directional connectivity. Return <code>0</code> if there is no land.</p><h3>Example 1</h3><div class="ex"><div><b>Input:</b> <code>grid = [[0,1,1],[1,1,0],[0,0,1]]</code></div><div><b>Output:</b> <code>4</code></div></div><h3>Example 2</h3><div class="ex"><div><b>Input:</b> <code>grid = [[0,0]]</code></div><div><b>Output:</b> <code>0</code></div></div><details class="hint"><summary>Hint 1</summary><p>Same as Number of Islands, but the flood fill returns how many cells it visited.</p></details><div class="tags"><span class="tag">Graph</span><span class="tag">DFS</span><span class="tag">Matrix</span></div></div>
+    <div class="pp-pane" data-t="appr" hidden><div class="appr"><h3>Approach 1: DFS returning size ✅</h3><p>Each flood fill returns its island’s area.</p><div class="cx"><span>⏱ Time <b>O(m · n)</b></span><span>💾 Space <b>O(m · n)</b></span></div></div></div>
+    <div class="pp-pane" data-t="sol" hidden><p>Reference solution for <b>DFS returning size</b> (time O(m · n), space O(m · n)). Each solution passes every test in all four languages.</p><div class="ctabs sol"><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py">class Solution:
+    def maxAreaOfIsland(self, grid: List[List[int]]) -&gt; int:
+        m, n = len(grid), len(grid[0])
+        def area(r, c):
+            if r &lt; 0 or c &lt; 0 or r &gt;= m or c &gt;= n or grid[r][c] != 1:
+                return 0
+            grid[r][c] = 0                     # mark visited
+            return 1 + area(r + 1, c) + area(r - 1, c) + area(r, c + 1) + area(r, c - 1)
+        return max(area(r, c) for r in range(m) for c in range(n))</code></pre><pre data-l="java"><code class="lang-java">class Solution {
+    public int maxAreaOfIsland(int[][] grid) {
+        int best = 0;
+        for (int r = 0; r &lt; grid.length; r++)
+            for (int c = 0; c &lt; grid[0].length; c++) best = Math.max(best, area(grid, r, c));
+        return best;
+    }
+    private int area(int[][] g, int r, int c) {
+        if (r &lt; 0 || c &lt; 0 || r &gt;= g.length || c &gt;= g[0].length || g[r][c] != 1) return 0;
+        g[r][c] = 0;
+        return 1 + area(g, r + 1, c) + area(g, r - 1, c) + area(g, r, c + 1) + area(g, r, c - 1);
+    }
+}</code></pre><pre data-l="cpp"><code class="lang-cpp">class Solution {
+    int area(vector&lt;vector&lt;int&gt;&gt;&amp; g, int r, int c) {
+        if (r &lt; 0 || c &lt; 0 || r &gt;= (int)g.size() || c &gt;= (int)g[0].size() || g[r][c] != 1) return 0;
+        g[r][c] = 0;
+        return 1 + area(g, r + 1, c) + area(g, r - 1, c) + area(g, r, c + 1) + area(g, r, c - 1);
+    }
+public:
+    int maxAreaOfIsland(vector&lt;vector&lt;int&gt;&gt;&amp; grid) {
+        int best = 0;
+        for (int r = 0; r &lt; (int)grid.size(); r++)
+            for (int c = 0; c &lt; (int)grid[0].size(); c++) best = max(best, area(grid, r, c));
+        return best;
+    }
+};</code></pre><pre data-l="js"><code class="lang-js">function maxAreaOfIsland(grid) {
+  const m = grid.length, n = grid[0].length;
+  const area = (r, c) =&gt; {
+    if (r &lt; 0 || c &lt; 0 || r &gt;= m || c &gt;= n || grid[r][c] !== 1) return 0;
+    grid[r][c] = 0;
+    return 1 + area(r + 1, c) + area(r - 1, c) + area(r, c + 1) + area(r, c - 1);
+  };
+  let best = 0;
+  for (let r = 0; r &lt; m; r++) for (let c = 0; c &lt; n; c++) best = Math.max(best, area(r, c));
+  return best;
+}</code></pre></div><p class="muted">Try solving it yourself first. Interviewers care more about how you explain the approach than about the finished code.</p></div>
+    <div class="pp-pane" data-t="viz" hidden><p>Watch the core idea of this problem step by step. Change the input and press <b>Visualize</b>.</p><div class="viz" data-viz="grid-bfs"></div><p class="muted">Explained in the lesson <a href="../graphs.html">Graphs: BFS &amp; DFS</a>.</p></div>
+    <nav class="pp-nav"><a href="number-of-islands.html">← 56. Number of Islands</a><a href="index.html">All problems</a><a href="rotting-oranges.html">58. Rotting Oranges →</a></nav>
+  </section>
+  <section class="pp-right" aria-label="Code editor">
+    <div class="pp-bar"><label class="sr" for="lang">Language</label><select id="lang"><option value="py">Python</option><option value="java">Java</option><option value="cpp">C++</option><option value="js">JavaScript</option></select>
+      <button type="button" class="b ghost" id="reset" title="Reset to the starter code">↺ Reset</button><span class="grow"></span>
+      <button type="button" class="b ghost" id="run">▶ Run</button><button type="button" class="b" id="submit">Submit</button></div>
+    <div class="pp-ed"><textarea id="code" spellcheck="false" aria-label="Code editor"></textarea></div>
+    <div class="pp-con"><div class="pp-ctabs" role="tablist"><button type="button" data-c="cases" aria-selected="true">Testcases</button><button type="button" data-c="result">Result</button></div>
+      <div class="pp-cbody" data-c="cases"></div><div class="pp-cbody" data-c="result" hidden><p class="muted">Run your code to see results here.</p></div></div>
+  </section>
+</div>
+<script type="application/json" id="pdata">{"id": "max-area-of-island", "lc": "max-area-of-island", "num": 57, "title": "Max Area of Island", "diff": "Medium", "fn": "maxAreaOfIsland", "params": ["grid"], "types": ["int[][]"], "ret": "int", "inplace": null, "cmp": "exact", "tests": [[[[0, 1, 1], [1, 1, 0], [0, 0, 1]]], [[[0, 0]]], [[[1]]], [[[1, 0, 1, 1], [1, 0, 1, 1], [0, 0, 0, 1]]]], "expected": [4, 0, 1, 5], "sample": 3, "starter": {"py": "class Solution:\n    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:\n        ", "java": "class Solution {\n    public int maxAreaOfIsland(int[][] grid) {\n        \n    }\n}", "cpp": "class Solution {\npublic:\n    int maxAreaOfIsland(vector<vector<int>>& grid) {\n        \n    }\n};", "js": "/**\n * @param {number[][]} grid\n * @return {number}\n */\nfunction maxAreaOfIsland(grid) {\n  \n}"}, "solution": {"py": "class Solution:\n    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:\n        m, n = len(grid), len(grid[0])\n        def area(r, c):\n            if r < 0 or c < 0 or r >= m or c >= n or grid[r][c] != 1:\n                return 0\n            grid[r][c] = 0                     # mark visited\n            return 1 + area(r + 1, c) + area(r - 1, c) + area(r, c + 1) + area(r, c - 1)\n        return max(area(r, c) for r in range(m) for c in range(n))", "java": "class Solution {\n    public int maxAreaOfIsland(int[][] grid) {\n        int best = 0;\n        for (int r = 0; r < grid.length; r++)\n            for (int c = 0; c < grid[0].length; c++) best = Math.max(best, area(grid, r, c));\n        return best;\n    }\n    private int area(int[][] g, int r, int c) {\n        if (r < 0 || c < 0 || r >= g.length || c >= g[0].length || g[r][c] != 1) return 0;\n        g[r][c] = 0;\n        return 1 + area(g, r + 1, c) + area(g, r - 1, c) + area(g, r, c + 1) + area(g, r, c - 1);\n    }\n}", "cpp": "class Solution {\n    int area(vector<vector<int>>& g, int r, int c) {\n        if (r < 0 || c < 0 || r >= (int)g.size() || c >= (int)g[0].size() || g[r][c] != 1) return 0;\n        g[r][c] = 0;\n        return 1 + area(g, r + 1, c) + area(g, r - 1, c) + area(g, r, c + 1) + area(g, r, c - 1);\n    }\npublic:\n    int maxAreaOfIsland(vector<vector<int>>& grid) {\n        int best = 0;\n        for (int r = 0; r < (int)grid.size(); r++)\n            for (int c = 0; c < (int)grid[0].size(); c++) best = max(best, area(grid, r, c));\n        return best;\n    }\n};", "js": "function maxAreaOfIsland(grid) {\n  const m = grid.length, n = grid[0].length;\n  const area = (r, c) => {\n    if (r < 0 || c < 0 || r >= m || c >= n || grid[r][c] !== 1) return 0;\n    grid[r][c] = 0;\n    return 1 + area(r + 1, c) + area(r - 1, c) + area(r, c + 1) + area(r, c - 1);\n  };\n  let best = 0;\n  for (let r = 0; r < m; r++) for (let c = 0; c < n; c++) best = Math.max(best, area(r, c));\n  return best;\n}"}}</script>
+</main>
+<script src="../../assets/data.js"></script>
+<script src="../../assets/site.js" data-base="../../"></script>
+<script src="../../assets/engage.js"></script>
+<script src="../../assets/dsa-viz.js"></script>
+<script src="../../assets/dsa.js" data-base="../../"></script>
+</body>
+</html>

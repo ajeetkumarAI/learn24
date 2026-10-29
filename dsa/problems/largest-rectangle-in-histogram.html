@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>34. Largest Rectangle in Histogram · DSA Practice · Learn24</title>
+<meta name="description" content="Largest Rectangle in Histogram (Hard, Stacks, Queues &amp; Monotonic Stacks): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta property="og:title" content="34. Largest Rectangle in Histogram · DSA Practice · Learn24">
+<meta property="og:description" content="Largest Rectangle in Histogram (Hard, Stacks, Queues &amp; Monotonic Stacks): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/pages.css">
+<link rel="stylesheet" href="../../assets/engage.css">
+<link rel="stylesheet" href="../../assets/theme.css">
+<link rel="stylesheet" href="../../assets/dsa.css">
+<script src="../../assets/theme.js"></script>
+<link rel="stylesheet" href="../../assets/codemirror.min.css">
+<script defer src="../../assets/codemirror.min.js"></script>
+</head>
+<body data-page="dsa-problem" data-topic="dsa">
+<main class="pp-shell">
+<div class="pp">
+  <section class="pp-left" aria-label="Problem">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../../index.html">Home</a><span>›</span><a href="../index.html">DSA</a><span>›</span><a href="index.html">Problems</a><span>›</span><span>Largest Rectangle in Histogram</span></nav>
+    <h1>34. Largest Rectangle in Histogram</h1>
+    <div class="pp-meta"><span class="diff hard">Hard</span><a class="pat" href="../stacks-queues.html">Stacks, Queues &amp; Monotonic Stacks</a><span class="solved-b" hidden>✓ Solved</span><a class="ext" href="https://leetcode.com/problems/largest-rectangle-in-histogram/" target="_blank" rel="noopener">Also on LeetCode ↗</a></div>
+    <div class="pp-tabs" role="tablist"><button type="button" role="tab" data-t="desc" aria-selected="true">Description</button><button type="button" role="tab" data-t="appr">Approach</button><button type="button" role="tab" data-t="sol">Solution</button><button type="button" role="tab" data-t="viz">Visualize</button></div>
+    <div class="pp-pane" data-t="desc"><p><code>heights</code> describes a histogram whose bars have width 1. Return the area of the <strong>largest rectangle</strong> that fits inside it.</p><h3>Example 1</h3><div class="ex"><div><b>Input:</b> <code>heights = [2,4,2,1]</code></div><div><b>Output:</b> <code>6</code></div><div><b>Explanation:</b> Height 2 across the first three bars: 2 × 3 = 6.</div></div><h3>Example 2</h3><div class="ex"><div><b>Input:</b> <code>heights = [6,2,5,4,5,1,6]</code></div><div><b>Output:</b> <code>12</code></div></div><details class="hint"><summary>Hint 1</summary><p>For each bar, the widest rectangle of that height stretches until a shorter bar on each side.</p></details><details class="hint"><summary>Hint 2</summary><p>A stack of increasing heights tells you both boundaries when a bar is popped.</p></details><div class="tags"><span class="tag">Monotonic Stack</span></div></div>
+    <div class="pp-pane" data-t="appr" hidden><div class="appr"><h3>Approach 1: Expand around each bar</h3><p>Walk left and right until a shorter bar.</p><div class="cx"><span>⏱ Time <b>O(n²)</b></span><span>💾 Space <b>O(1)</b></span></div></div><div class="appr"><h3>Approach 2: Monotonic stack ✅</h3><p>When a bar is popped, the current index is its right boundary and the new top is its left boundary.</p><div class="cx"><span>⏱ Time <b>O(n)</b></span><span>💾 Space <b>O(n)</b></span></div></div></div>
+    <div class="pp-pane" data-t="sol" hidden><p>Reference solution for <b>Monotonic stack</b> (time O(n), space O(n)). Each solution passes every test in all four languages.</p><div class="ctabs sol"><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py">class Solution:
+    def largestRectangleArea(self, heights: List[int]) -&gt; int:
+        stack = []                     # indices with increasing heights
+        best = 0
+        for i, h in enumerate(heights + [0]):      # sentinel 0 flushes the stack
+            while stack and heights[stack[-1]] &gt;= h:
+                top = heights[stack.pop()]
+                left = stack[-1] + 1 if stack else 0  # bar `top` extends from left to i-1
+                best = max(best, top * (i - left))
+            stack.append(i)
+        return best</code></pre><pre data-l="java"><code class="lang-java">class Solution {
+    public int largestRectangleArea(int[] heights) {
+        Deque&lt;Integer&gt; stack = new ArrayDeque&lt;&gt;();   // indices with increasing heights
+        int best = 0, n = heights.length;
+        for (int i = 0; i &lt;= n; i++) {
+            int h = (i == n) ? 0 : heights[i];       // sentinel flushes the stack
+            while (!stack.isEmpty() &amp;&amp; heights[stack.peek()] &gt;= h) {
+                int top = heights[stack.pop()];
+                int left = stack.isEmpty() ? 0 : stack.peek() + 1;
+                best = Math.max(best, top * (i - left));
+            }
+            stack.push(i);
+        }
+        return best;
+    }
+}</code></pre><pre data-l="cpp"><code class="lang-cpp">class Solution {
+public:
+    int largestRectangleArea(vector&lt;int&gt;&amp; heights) {
+        vector&lt;int&gt; st;                              // indices with increasing heights
+        int best = 0, n = heights.size();
+        for (int i = 0; i &lt;= n; i++) {
+            int h = (i == n) ? 0 : heights[i];       // sentinel flushes the stack
+            while (!st.empty() &amp;&amp; heights[st.back()] &gt;= h) {
+                int top = heights[st.back()]; st.pop_back();
+                int left = st.empty() ? 0 : st.back() + 1;
+                best = max(best, top * (i - left));
+            }
+            st.push_back(i);
+        }
+        return best;
+    }
+};</code></pre><pre data-l="js"><code class="lang-js">function largestRectangleArea(heights) {
+  const stack = []; // indices with increasing heights
+  let best = 0;
+  for (let i = 0; i &lt;= heights.length; i++) {
+    const h = i === heights.length ? 0 : heights[i]; // sentinel flushes the stack
+    while (stack.length &amp;&amp; heights[stack[stack.length - 1]] &gt;= h) {
+      const top = heights[stack.pop()];
+      const left = stack.length ? stack[stack.length - 1] + 1 : 0;
+      best = Math.max(best, top * (i - left));
+    }
+    stack.push(i);
+  }
+  return best;
+}</code></pre></div><p class="muted">Try solving it yourself first. Interviewers care more about how you explain the approach than about the finished code.</p></div>
+    <div class="pp-pane" data-t="viz" hidden><p>Watch the core idea of this problem step by step. Change the input and press <b>Visualize</b>.</p><div class="viz" data-viz="mono-stack"></div><p class="muted">Explained in the lesson <a href="../stacks-queues.html">Stacks, Queues &amp; Monotonic Stacks</a>.</p></div>
+    <nav class="pp-nav"><a href="evaluate-reverse-polish-notation.html">← 33. Evaluate Reverse Polish Notation</a><a href="index.html">All problems</a><a href="reverse-linked-list.html">35. Reverse Linked List →</a></nav>
+  </section>
+  <section class="pp-right" aria-label="Code editor">
+    <div class="pp-bar"><label class="sr" for="lang">Language</label><select id="lang"><option value="py">Python</option><option value="java">Java</option><option value="cpp">C++</option><option value="js">JavaScript</option></select>
+      <button type="button" class="b ghost" id="reset" title="Reset to the starter code">↺ Reset</button><span class="grow"></span>
+      <button type="button" class="b ghost" id="run">▶ Run</button><button type="button" class="b" id="submit">Submit</button></div>
+    <div class="pp-ed"><textarea id="code" spellcheck="false" aria-label="Code editor"></textarea></div>
+    <div class="pp-con"><div class="pp-ctabs" role="tablist"><button type="button" data-c="cases" aria-selected="true">Testcases</button><button type="button" data-c="result">Result</button></div>
+      <div class="pp-cbody" data-c="cases"></div><div class="pp-cbody" data-c="result" hidden><p class="muted">Run your code to see results here.</p></div></div>
+  </section>
+</div>
+<script type="application/json" id="pdata">{"id": "largest-rectangle-in-histogram", "lc": "largest-rectangle-in-histogram", "num": 34, "title": "Largest Rectangle in Histogram", "diff": "Hard", "fn": "largestRectangleArea", "params": ["heights"], "types": ["int[]"], "ret": "int", "inplace": null, "cmp": "exact", "tests": [[[2, 4, 2, 1]], [[5]], [[1, 1, 1, 1]], [[3, 6, 5, 7, 4, 8, 1, 0]], [[2, 1, 2]], [[6, 2, 5, 4, 5, 1, 6]], [[2, 1, 5, 6, 2, 3]]], "expected": [6, 5, 4, 20, 3, 12, 10], "sample": 3, "starter": {"py": "class Solution:\n    def largestRectangleArea(self, heights: List[int]) -> int:\n        ", "java": "class Solution {\n    public int largestRectangleArea(int[] heights) {\n        \n    }\n}", "cpp": "class Solution {\npublic:\n    int largestRectangleArea(vector<int>& heights) {\n        \n    }\n};", "js": "/**\n * @param {number[]} heights\n * @return {number}\n */\nfunction largestRectangleArea(heights) {\n  \n}"}, "solution": {"py": "class Solution:\n    def largestRectangleArea(self, heights: List[int]) -> int:\n        stack = []                     # indices with increasing heights\n        best = 0\n        for i, h in enumerate(heights + [0]):      # sentinel 0 flushes the stack\n            while stack and heights[stack[-1]] >= h:\n                top = heights[stack.pop()]\n                left = stack[-1] + 1 if stack else 0  # bar `top` extends from left to i-1\n                best = max(best, top * (i - left))\n            stack.append(i)\n        return best", "java": "class Solution {\n    public int largestRectangleArea(int[] heights) {\n        Deque<Integer> stack = new ArrayDeque<>();   // indices with increasing heights\n        int best = 0, n = heights.length;\n        for (int i = 0; i <= n; i++) {\n            int h = (i == n) ? 0 : heights[i];       // sentinel flushes the stack\n            while (!stack.isEmpty() && heights[stack.peek()] >= h) {\n                int top = heights[stack.pop()];\n                int left = stack.isEmpty() ? 0 : stack.peek() + 1;\n                best = Math.max(best, top * (i - left));\n            }\n            stack.push(i);\n        }\n        return best;\n    }\n}", "cpp": "class Solution {\npublic:\n    int largestRectangleArea(vector<int>& heights) {\n        vector<int> st;                              // indices with increasing heights\n        int best = 0, n = heights.size();\n        for (int i = 0; i <= n; i++) {\n            int h = (i == n) ? 0 : heights[i];       // sentinel flushes the stack\n            while (!st.empty() && heights[st.back()] >= h) {\n                int top = heights[st.back()]; st.pop_back();\n                int left = st.empty() ? 0 : st.back() + 1;\n                best = max(best, top * (i - left));\n            }\n            st.push_back(i);\n        }\n        return best;\n    }\n};", "js": "function largestRectangleArea(heights) {\n  const stack = []; // indices with increasing heights\n  let best = 0;\n  for (let i = 0; i <= heights.length; i++) {\n    const h = i === heights.length ? 0 : heights[i]; // sentinel flushes the stack\n    while (stack.length && heights[stack[stack.length - 1]] >= h) {\n      const top = heights[stack.pop()];\n      const left = stack.length ? stack[stack.length - 1] + 1 : 0;\n      best = Math.max(best, top * (i - left));\n    }\n    stack.push(i);\n  }\n  return best;\n}"}}</script>
+</main>
+<script src="../../assets/data.js"></script>
+<script src="../../assets/site.js" data-base="../../"></script>
+<script src="../../assets/engage.js"></script>
+<script src="../../assets/dsa-viz.js"></script>
+<script src="../../assets/dsa.js" data-base="../../"></script>
+</body>
+</html>

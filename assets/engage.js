@@ -3,7 +3,7 @@
 (function () {
   const KEY = 'learn24-me';
   const today = (d = new Date()) => { const z = new Date(d.getTime() - d.getTimezoneOffset() * 6e4); return z.toISOString().slice(0, 10); };
-  const blank = () => ({ xp: 0, days: {}, daily: {}, mocks: [], seen: [], rated: {}, projects: {}, roadmap: {}, certs: {}, name: '' });
+  const blank = () => ({ xp: 0, days: {}, daily: {}, mocks: [], seen: [], rated: {}, projects: {}, roadmap: {}, certs: {}, dsa: { solved: {} }, name: '' });
   function load() { try { return Object.assign(blank(), JSON.parse(localStorage.getItem(KEY) || '{}')); } catch (e) { return blank(); } }
   function save(s) { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {} }
   const S = load();
@@ -40,6 +40,7 @@
       ['💯', 'Century', 'Practise 100 different questions', practised() >= 100],
       ['📚', 'Learner', 'Complete 10 lessons or pages', done >= 10],
       ['🛠️', 'Builder', 'Finish a portfolio project', projects >= 1],
+      ['🧩', 'Problem solver', 'Solve 10 DSA practice problems', Object.keys((S.dsa && S.dsa.solved) || {}).length >= 10],
       ['🎓', 'Certified', 'Earn a Learn24 certificate', Object.keys(S.certs).length >= 1],
       ['👑', 'Level 5', 'Reach 900 XP', S.xp >= 900],
     ].map(([i, n, d, ok]) => ({ icon: i, name: n, desc: d, ok }));

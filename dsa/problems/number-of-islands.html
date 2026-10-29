@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>56. Number of Islands · DSA Practice · Learn24</title>
+<meta name="description" content="Number of Islands (Medium, Graphs: BFS &amp; DFS): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta property="og:title" content="56. Number of Islands · DSA Practice · Learn24">
+<meta property="og:description" content="Number of Islands (Medium, Graphs: BFS &amp; DFS): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/pages.css">
+<link rel="stylesheet" href="../../assets/engage.css">
+<link rel="stylesheet" href="../../assets/theme.css">
+<link rel="stylesheet" href="../../assets/dsa.css">
+<script src="../../assets/theme.js"></script>
+<link rel="stylesheet" href="../../assets/codemirror.min.css">
+<script defer src="../../assets/codemirror.min.js"></script>
+</head>
+<body data-page="dsa-problem" data-topic="dsa">
+<main class="pp-shell">
+<div class="pp">
+  <section class="pp-left" aria-label="Problem">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../../index.html">Home</a><span>›</span><a href="../index.html">DSA</a><span>›</span><a href="index.html">Problems</a><span>›</span><span>Number of Islands</span></nav>
+    <h1>56. Number of Islands</h1>
+    <div class="pp-meta"><span class="diff medium">Medium</span><a class="pat" href="../graphs.html">Graphs: BFS &amp; DFS</a><span class="solved-b" hidden>✓ Solved</span><a class="ext" href="https://leetcode.com/problems/number-of-islands/" target="_blank" rel="noopener">Also on LeetCode ↗</a></div>
+    <div class="pp-tabs" role="tablist"><button type="button" role="tab" data-t="desc" aria-selected="true">Description</button><button type="button" role="tab" data-t="appr">Approach</button><button type="button" role="tab" data-t="sol">Solution</button><button type="button" role="tab" data-t="viz">Visualize</button></div>
+    <div class="pp-pane" data-t="desc"><p><code>grid</code> is a map of <code>"1"</code> (land) and <code>"0"</code> (water). An island is a group of land cells connected <strong>horizontally or vertically</strong>. Count the islands.</p><h3>Example 1</h3><div class="ex"><div><b>Input:</b> <code>grid = [[&quot;1&quot;,&quot;1&quot;,&quot;0&quot;,&quot;0&quot;],[&quot;1&quot;,&quot;0&quot;,&quot;0&quot;,&quot;1&quot;],[&quot;0&quot;,&quot;0&quot;,&quot;1&quot;,&quot;1&quot;]]</code></div><div><b>Output:</b> <code>2</code></div></div><h3>Example 2</h3><div class="ex"><div><b>Input:</b> <code>grid = [[&quot;0&quot;]]</code></div><div><b>Output:</b> <code>0</code></div></div><details class="hint"><summary>Hint 1</summary><p>Every unvisited land cell you meet starts a new island.</p></details><details class="hint"><summary>Hint 2</summary><p>Flood-fill (DFS or BFS) the whole island so you never count it again.</p></details><div class="tags"><span class="tag">Graph</span><span class="tag">DFS</span><span class="tag">BFS</span><span class="tag">Matrix</span></div></div>
+    <div class="pp-pane" data-t="appr" hidden><div class="appr"><h3>Approach 1: DFS / BFS flood fill</h3><p>Scan the grid; flood each new island.</p><div class="cx"><span>⏱ Time <b>O(m · n)</b></span><span>💾 Space <b>O(m · n)</b></span></div></div><div class="appr"><h3>Approach 2: Union-Find ✅</h3><p>Union neighbouring land cells and count roots.</p><div class="cx"><span>⏱ Time <b>O(m · n · α)</b></span><span>💾 Space <b>O(m · n)</b></span></div></div></div>
+    <div class="pp-pane" data-t="sol" hidden><p>Reference solution for <b>Union-Find</b> (time O(m · n · α), space O(m · n)). Each solution passes every test in all four languages.</p><div class="ctabs sol"><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py">class Solution:
+    def numIslands(self, grid: List[List[str]]) -&gt; int:
+        m, n = len(grid), len(grid[0])
+        def sink(r, c):                         # flood-fill one island
+            stack = [(r, c)]
+            grid[r][c] = &#x27;0&#x27;
+            while stack:
+                r, c = stack.pop()
+                for dr, dc in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                    nr, nc = r + dr, c + dc
+                    if 0 &lt;= nr &lt; m and 0 &lt;= nc &lt; n and grid[nr][nc] == &#x27;1&#x27;:
+                        grid[nr][nc] = &#x27;0&#x27;
+                        stack.append((nr, nc))
+        count = 0
+        for r in range(m):
+            for c in range(n):
+                if grid[r][c] == &#x27;1&#x27;:
+                    count += 1
+                    sink(r, c)
+        return count</code></pre><pre data-l="java"><code class="lang-java">class Solution {
+    public int numIslands(char[][] grid) {
+        int count = 0;
+        for (int r = 0; r &lt; grid.length; r++)
+            for (int c = 0; c &lt; grid[0].length; c++)
+                if (grid[r][c] == &#x27;1&#x27;) { count++; sink(grid, r, c); }
+        return count;
+    }
+    private void sink(char[][] g, int r, int c) {     // DFS flood fill
+        if (r &lt; 0 || c &lt; 0 || r &gt;= g.length || c &gt;= g[0].length || g[r][c] != &#x27;1&#x27;) return;
+        g[r][c] = &#x27;0&#x27;;
+        sink(g, r + 1, c); sink(g, r - 1, c); sink(g, r, c + 1); sink(g, r, c - 1);
+    }
+}</code></pre><pre data-l="cpp"><code class="lang-cpp">class Solution {
+    void sink(vector&lt;vector&lt;char&gt;&gt;&amp; g, int r, int c) {   // DFS flood fill
+        if (r &lt; 0 || c &lt; 0 || r &gt;= (int)g.size() || c &gt;= (int)g[0].size() || g[r][c] != &#x27;1&#x27;) return;
+        g[r][c] = &#x27;0&#x27;;
+        sink(g, r + 1, c); sink(g, r - 1, c); sink(g, r, c + 1); sink(g, r, c - 1);
+    }
+public:
+    int numIslands(vector&lt;vector&lt;char&gt;&gt;&amp; grid) {
+        int count = 0;
+        for (int r = 0; r &lt; (int)grid.size(); r++)
+            for (int c = 0; c &lt; (int)grid[0].size(); c++)
+                if (grid[r][c] == &#x27;1&#x27;) { count++; sink(grid, r, c); }
+        return count;
+    }
+};</code></pre><pre data-l="js"><code class="lang-js">function numIslands(grid) {
+  const m = grid.length, n = grid[0].length;
+  const sink = (r, c) =&gt; { // DFS flood fill
+    if (r &lt; 0 || c &lt; 0 || r &gt;= m || c &gt;= n || grid[r][c] !== &#x27;1&#x27;) return;
+    grid[r][c] = &#x27;0&#x27;;
+    sink(r + 1, c); sink(r - 1, c); sink(r, c + 1); sink(r, c - 1);
+  };
+  let count = 0;
+  for (let r = 0; r &lt; m; r++)
+    for (let c = 0; c &lt; n; c++)
+      if (grid[r][c] === &#x27;1&#x27;) { count++; sink(r, c); }
+  return count;
+}</code></pre></div><p class="muted">Try solving it yourself first. Interviewers care more about how you explain the approach than about the finished code.</p></div>
+    <div class="pp-pane" data-t="viz" hidden><p>Watch the core idea of this problem step by step. Change the input and press <b>Visualize</b>.</p><div class="viz" data-viz="grid-bfs"></div><p class="muted">Explained in the lesson <a href="../graphs.html">Graphs: BFS &amp; DFS</a>.</p></div>
+    <nav class="pp-nav"><a href="find-if-path-exists-in-graph.html">← 55. Find if Path Exists in Graph</a><a href="index.html">All problems</a><a href="max-area-of-island.html">57. Max Area of Island →</a></nav>
+  </section>
+  <section class="pp-right" aria-label="Code editor">
+    <div class="pp-bar"><label class="sr" for="lang">Language</label><select id="lang"><option value="py">Python</option><option value="java">Java</option><option value="cpp">C++</option><option value="js">JavaScript</option></select>
+      <button type="button" class="b ghost" id="reset" title="Reset to the starter code">↺ Reset</button><span class="grow"></span>
+      <button type="button" class="b ghost" id="run">▶ Run</button><button type="button" class="b" id="submit">Submit</button></div>
+    <div class="pp-ed"><textarea id="code" spellcheck="false" aria-label="Code editor"></textarea></div>
+    <div class="pp-con"><div class="pp-ctabs" role="tablist"><button type="button" data-c="cases" aria-selected="true">Testcases</button><button type="button" data-c="result">Result</button></div>
+      <div class="pp-cbody" data-c="cases"></div><div class="pp-cbody" data-c="result" hidden><p class="muted">Run your code to see results here.</p></div></div>
+  </section>
+</div>
+<script type="application/json" id="pdata">{"id": "number-of-islands", "lc": "number-of-islands", "num": 56, "title": "Number of Islands", "diff": "Medium", "fn": "numIslands", "params": ["grid"], "types": ["grid"], "ret": "int", "inplace": null, "cmp": "exact", "tests": [[[["1", "1", "0", "0"], ["1", "0", "0", "1"], ["0", "0", "1", "1"]]], [[["0"]]], [[["1"]]], [[["1", "0", "1"], ["0", "1", "0"], ["1", "0", "1"]]], [[["1", "1", "1"], ["0", "1", "0"], ["1", "1", "1"]]]], "expected": [2, 0, 1, 5, 1], "sample": 3, "starter": {"py": "class Solution:\n    def numIslands(self, grid: List[List[str]]) -> int:\n        ", "java": "class Solution {\n    public int numIslands(char[][] grid) {\n        \n    }\n}", "cpp": "class Solution {\npublic:\n    int numIslands(vector<vector<char>>& grid) {\n        \n    }\n};", "js": "/**\n * @param {character[][]} grid\n * @return {number}\n */\nfunction numIslands(grid) {\n  \n}"}, "solution": {"py": "class Solution:\n    def numIslands(self, grid: List[List[str]]) -> int:\n        m, n = len(grid), len(grid[0])\n        def sink(r, c):                         # flood-fill one island\n            stack = [(r, c)]\n            grid[r][c] = '0'\n            while stack:\n                r, c = stack.pop()\n                for dr, dc in ((1, 0), (-1, 0), (0, 1), (0, -1)):\n                    nr, nc = r + dr, c + dc\n                    if 0 <= nr < m and 0 <= nc < n and grid[nr][nc] == '1':\n                        grid[nr][nc] = '0'\n                        stack.append((nr, nc))\n        count = 0\n        for r in range(m):\n            for c in range(n):\n                if grid[r][c] == '1':\n                    count += 1\n                    sink(r, c)\n        return count", "java": "class Solution {\n    public int numIslands(char[][] grid) {\n        int count = 0;\n        for (int r = 0; r < grid.length; r++)\n            for (int c = 0; c < grid[0].length; c++)\n                if (grid[r][c] == '1') { count++; sink(grid, r, c); }\n        return count;\n    }\n    private void sink(char[][] g, int r, int c) {     // DFS flood fill\n        if (r < 0 || c < 0 || r >= g.length || c >= g[0].length || g[r][c] != '1') return;\n        g[r][c] = '0';\n        sink(g, r + 1, c); sink(g, r - 1, c); sink(g, r, c + 1); sink(g, r, c - 1);\n    }\n}", "cpp": "class Solution {\n    void sink(vector<vector<char>>& g, int r, int c) {   // DFS flood fill\n        if (r < 0 || c < 0 || r >= (int)g.size() || c >= (int)g[0].size() || g[r][c] != '1') return;\n        g[r][c] = '0';\n        sink(g, r + 1, c); sink(g, r - 1, c); sink(g, r, c + 1); sink(g, r, c - 1);\n    }\npublic:\n    int numIslands(vector<vector<char>>& grid) {\n        int count = 0;\n        for (int r = 0; r < (int)grid.size(); r++)\n            for (int c = 0; c < (int)grid[0].size(); c++)\n                if (grid[r][c] == '1') { count++; sink(grid, r, c); }\n        return count;\n    }\n};", "js": "function numIslands(grid) {\n  const m = grid.length, n = grid[0].length;\n  const sink = (r, c) => { // DFS flood fill\n    if (r < 0 || c < 0 || r >= m || c >= n || grid[r][c] !== '1') return;\n    grid[r][c] = '0';\n    sink(r + 1, c); sink(r - 1, c); sink(r, c + 1); sink(r, c - 1);\n  };\n  let count = 0;\n  for (let r = 0; r < m; r++)\n    for (let c = 0; c < n; c++)\n      if (grid[r][c] === '1') { count++; sink(r, c); }\n  return count;\n}"}}</script>
+</main>
+<script src="../../assets/data.js"></script>
+<script src="../../assets/site.js" data-base="../../"></script>
+<script src="../../assets/engage.js"></script>
+<script src="../../assets/dsa-viz.js"></script>
+<script src="../../assets/dsa.js" data-base="../../"></script>
+</body>
+</html>

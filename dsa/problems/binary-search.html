@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>21. Binary Search · DSA Practice · Learn24</title>
+<meta name="description" content="Binary Search (Easy, Binary Search): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta property="og:title" content="21. Binary Search · DSA Practice · Learn24">
+<meta property="og:description" content="Binary Search (Easy, Binary Search): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/pages.css">
+<link rel="stylesheet" href="../../assets/engage.css">
+<link rel="stylesheet" href="../../assets/theme.css">
+<link rel="stylesheet" href="../../assets/dsa.css">
+<script src="../../assets/theme.js"></script>
+<link rel="stylesheet" href="../../assets/codemirror.min.css">
+<script defer src="../../assets/codemirror.min.js"></script>
+</head>
+<body data-page="dsa-problem" data-topic="dsa">
+<main class="pp-shell">
+<div class="pp">
+  <section class="pp-left" aria-label="Problem">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../../index.html">Home</a><span>›</span><a href="../index.html">DSA</a><span>›</span><a href="index.html">Problems</a><span>›</span><span>Binary Search</span></nav>
+    <h1>21. Binary Search</h1>
+    <div class="pp-meta"><span class="diff easy">Easy</span><a class="pat" href="../binary-search.html">Binary Search</a><span class="solved-b" hidden>✓ Solved</span><a class="ext" href="https://leetcode.com/problems/binary-search/" target="_blank" rel="noopener">Also on LeetCode ↗</a></div>
+    <div class="pp-tabs" role="tablist"><button type="button" role="tab" data-t="desc" aria-selected="true">Description</button><button type="button" role="tab" data-t="appr">Approach</button><button type="button" role="tab" data-t="sol">Solution</button><button type="button" role="tab" data-t="viz">Visualize</button></div>
+    <div class="pp-pane" data-t="desc"><p><code>nums</code> is sorted in ascending order with distinct values. Return the index of <code>target</code>, or <code>-1</code> if it is not there. Your algorithm must run in O(log n).</p><h3>Example 1</h3><div class="ex"><div><b>Input:</b> <code>nums = [-3,0,4,8,15], target = 8</code></div><div><b>Output:</b> <code>3</code></div></div><h3>Example 2</h3><div class="ex"><div><b>Input:</b> <code>nums = [-3,0,4,8,15], target = 5</code></div><div><b>Output:</b> <code>-1</code></div></div><details class="hint"><summary>Hint 1</summary><p>Compare with the middle element and throw away the half that cannot contain the target.</p></details><div class="tags"><span class="tag">Binary Search</span></div></div>
+    <div class="pp-pane" data-t="appr" hidden><div class="appr"><h3>Approach 1: Linear scan</h3><p>Check every element.</p><div class="cx"><span>⏱ Time <b>O(n)</b></span><span>💾 Space <b>O(1)</b></span></div></div><div class="appr"><h3>Approach 2: Binary search ✅</h3><p>Halve the search range each step.</p><div class="cx"><span>⏱ Time <b>O(log n)</b></span><span>💾 Space <b>O(1)</b></span></div></div></div>
+    <div class="pp-pane" data-t="sol" hidden><p>Reference solution for <b>Binary search</b> (time O(log n), space O(1)). Each solution passes every test in all four languages.</p><div class="ctabs sol"><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py">class Solution:
+    def search(self, nums: List[int], target: int) -&gt; int:
+        lo, hi = 0, len(nums) - 1
+        while lo &lt;= hi:
+            mid = (lo + hi) // 2
+            if nums[mid] == target:
+                return mid
+            if nums[mid] &lt; target:
+                lo = mid + 1        # target is in the right half
+            else:
+                hi = mid - 1        # target is in the left half
+        return -1</code></pre><pre data-l="java"><code class="lang-java">class Solution {
+    public int search(int[] nums, int target) {
+        int lo = 0, hi = nums.length - 1;
+        while (lo &lt;= hi) {
+            int mid = lo + (hi - lo) / 2;   // avoids int overflow
+            if (nums[mid] == target) return mid;
+            if (nums[mid] &lt; target) lo = mid + 1; else hi = mid - 1;
+        }
+        return -1;
+    }
+}</code></pre><pre data-l="cpp"><code class="lang-cpp">class Solution {
+public:
+    int search(vector&lt;int&gt;&amp; nums, int target) {
+        int lo = 0, hi = (int)nums.size() - 1;
+        while (lo &lt;= hi) {
+            int mid = lo + (hi - lo) / 2;   // avoids int overflow
+            if (nums[mid] == target) return mid;
+            if (nums[mid] &lt; target) lo = mid + 1; else hi = mid - 1;
+        }
+        return -1;
+    }
+};</code></pre><pre data-l="js"><code class="lang-js">function search(nums, target) {
+  let lo = 0, hi = nums.length - 1;
+  while (lo &lt;= hi) {
+    const mid = (lo + hi) &gt;&gt; 1;
+    if (nums[mid] === target) return mid;
+    if (nums[mid] &lt; target) lo = mid + 1; else hi = mid - 1;
+  }
+  return -1;
+}</code></pre></div><p class="muted">Try solving it yourself first. Interviewers care more about how you explain the approach than about the finished code.</p></div>
+    <div class="pp-pane" data-t="viz" hidden><p>Watch the core idea of this problem step by step. Change the input and press <b>Visualize</b>.</p><div class="viz" data-viz="binary-search"></div><p class="muted">Explained in the lesson <a href="../binary-search.html">Binary Search</a>.</p></div>
+    <nav class="pp-nav"><a href="sliding-window-maximum.html">← 20. Sliding Window Maximum</a><a href="index.html">All problems</a><a href="search-insert-position.html">22. Search Insert Position →</a></nav>
+  </section>
+  <section class="pp-right" aria-label="Code editor">
+    <div class="pp-bar"><label class="sr" for="lang">Language</label><select id="lang"><option value="py">Python</option><option value="java">Java</option><option value="cpp">C++</option><option value="js">JavaScript</option></select>
+      <button type="button" class="b ghost" id="reset" title="Reset to the starter code">↺ Reset</button><span class="grow"></span>
+      <button type="button" class="b ghost" id="run">▶ Run</button><button type="button" class="b" id="submit">Submit</button></div>
+    <div class="pp-ed"><textarea id="code" spellcheck="false" aria-label="Code editor"></textarea></div>
+    <div class="pp-con"><div class="pp-ctabs" role="tablist"><button type="button" data-c="cases" aria-selected="true">Testcases</button><button type="button" data-c="result">Result</button></div>
+      <div class="pp-cbody" data-c="cases"></div><div class="pp-cbody" data-c="result" hidden><p class="muted">Run your code to see results here.</p></div></div>
+  </section>
+</div>
+<script type="application/json" id="pdata">{"id": "binary-search", "lc": "binary-search", "num": 21, "title": "Binary Search", "diff": "Easy", "fn": "search", "params": ["nums", "target"], "types": ["int[]", "int"], "ret": "int", "inplace": null, "cmp": "exact", "tests": [[[-3, 0, 4, 8, 15], 8], [[-3, 0, 4, 8, 15], 5], [[7], 7], [[7], 2], [[1, 2, 3, 4, 5, 6], 1], [[1, 2, 3, 4, 5, 6], 6]], "expected": [3, -1, 0, -1, 0, 5], "sample": 3, "starter": {"py": "class Solution:\n    def search(self, nums: List[int], target: int) -> int:\n        ", "java": "class Solution {\n    public int search(int[] nums, int target) {\n        \n    }\n}", "cpp": "class Solution {\npublic:\n    int search(vector<int>& nums, int target) {\n        \n    }\n};", "js": "/**\n * @param {number[]} nums\n * @param {number} target\n * @return {number}\n */\nfunction search(nums, target) {\n  \n}"}, "solution": {"py": "class Solution:\n    def search(self, nums: List[int], target: int) -> int:\n        lo, hi = 0, len(nums) - 1\n        while lo <= hi:\n            mid = (lo + hi) // 2\n            if nums[mid] == target:\n                return mid\n            if nums[mid] < target:\n                lo = mid + 1        # target is in the right half\n            else:\n                hi = mid - 1        # target is in the left half\n        return -1", "java": "class Solution {\n    public int search(int[] nums, int target) {\n        int lo = 0, hi = nums.length - 1;\n        while (lo <= hi) {\n            int mid = lo + (hi - lo) / 2;   // avoids int overflow\n            if (nums[mid] == target) return mid;\n            if (nums[mid] < target) lo = mid + 1; else hi = mid - 1;\n        }\n        return -1;\n    }\n}", "cpp": "class Solution {\npublic:\n    int search(vector<int>& nums, int target) {\n        int lo = 0, hi = (int)nums.size() - 1;\n        while (lo <= hi) {\n            int mid = lo + (hi - lo) / 2;   // avoids int overflow\n            if (nums[mid] == target) return mid;\n            if (nums[mid] < target) lo = mid + 1; else hi = mid - 1;\n        }\n        return -1;\n    }\n};", "js": "function search(nums, target) {\n  let lo = 0, hi = nums.length - 1;\n  while (lo <= hi) {\n    const mid = (lo + hi) >> 1;\n    if (nums[mid] === target) return mid;\n    if (nums[mid] < target) lo = mid + 1; else hi = mid - 1;\n  }\n  return -1;\n}"}}</script>
+</main>
+<script src="../../assets/data.js"></script>
+<script src="../../assets/site.js" data-base="../../"></script>
+<script src="../../assets/engage.js"></script>
+<script src="../../assets/dsa-viz.js"></script>
+<script src="../../assets/dsa.js" data-base="../../"></script>
+</body>
+</html>

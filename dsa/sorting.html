@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sorting Algorithms · DSA · Learn24</title>
+<meta name="description" content="Bubble, selection, insertion, merge and quick sort, animated step by step. Learn which one is stable, which one is in place, and why O(n log n) is the limi">
+<meta property="og:title" content="Sorting Algorithms · DSA · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#8fd46b} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<link rel="stylesheet" href="../assets/dsa.css">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="../assets/codemirror.min.css">
+<script defer src="../assets/codemirror.min.js"></script>
+</head>
+<body class="dsa-lesson">
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="sorting" data-lesson="dsa/sorting">
+  <div class="kicker">DSA · Lesson 6 of 17</div>
+  <h1>Sorting Algorithms</h1>
+  <div class="meta"><span>⏱ 16 min</span><span>🎬 Interactive visualizer</span><span>💻 Python · Java · C++ · JavaScript</span><span>🧩 4 practice problems</span></div>
+  <p class="lead">Bubble, selection, insertion, merge and quick sort, animated step by step. Learn which one is stable, which one is in place, and why O(n log n) is the limit for comparison sorts.</p>
+<h2>Why learn sorting if every language has <code>sort()</code>?</h2>
+<p>Interviews use sorting to test <strong>divide and conquer</strong>, <strong>partitioning</strong> and <strong>stability</strong>, and many problems become easy once the data is sorted (intervals, two pointers, greedy). You should be able to write merge sort and quick sort from memory and explain their trade-offs.</p>
+<div class="viz" data-viz="bubble-sort,selection-sort,insertion-sort,merge-sort,quick-sort"></div>
+<h2>The algorithms</h2>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th>Best</th>
+<th>Average</th>
+<th>Worst</th>
+<th>Space</th>
+<th>Stable?</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bubble sort</td>
+<td>O(n)</td>
+<td>O(n²)</td>
+<td>O(n²)</td>
+<td>O(1)</td>
+<td>✅</td>
+<td>Teaching only</td>
+</tr>
+<tr>
+<td>Selection sort</td>
+<td>O(n²)</td>
+<td>O(n²)</td>
+<td>O(n²)</td>
+<td>O(1)</td>
+<td>❌</td>
+<td>Fewest swaps</td>
+</tr>
+<tr>
+<td>Insertion sort</td>
+<td>O(n)</td>
+<td>O(n²)</td>
+<td>O(n²)</td>
+<td>O(1)</td>
+<td>✅</td>
+<td>Great for small or nearly sorted data</td>
+</tr>
+<tr>
+<td>Merge sort</td>
+<td>O(n log n)</td>
+<td>O(n log n)</td>
+<td>O(n log n)</td>
+<td>O(n)</td>
+<td>✅</td>
+<td>Predictable; used for linked lists and external sorting</td>
+</tr>
+<tr>
+<td>Quick sort</td>
+<td>O(n log n)</td>
+<td>O(n log n)</td>
+<td>O(n²)</td>
+<td>O(log n)</td>
+<td>❌</td>
+<td>Fastest in practice with a random pivot</td>
+</tr>
+<tr>
+<td>Heap sort</td>
+<td>O(n log n)</td>
+<td>O(n log n)</td>
+<td>O(n log n)</td>
+<td>O(1)</td>
+<td>❌</td>
+<td>In place, guaranteed</td>
+</tr>
+<tr>
+<td>Counting sort</td>
+<td>O(n + k)</td>
+<td>O(n + k)</td>
+<td>O(n + k)</td>
+<td>O(k)</td>
+<td>✅</td>
+<td>Small integer ranges</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Stable</strong> means equal keys keep their original order, which matters when you sort by one field after another. Python’s <code>sorted</code> (Timsort) and Java’s object sort are stable; C++ <code>std::sort</code> is not (<code>std::stable_sort</code> is).</p>
+<h2>Divide and conquer</h2>
+<p><strong>Merge sort</strong>: split in half, sort each half recursively, <strong>merge</strong> two sorted halves in O(n). The recursion depth is log n and each level does O(n) work, so the total is O(n log n).</p>
+<p><strong>Quick sort</strong>: choose a <strong>pivot</strong>, partition so smaller values go left and larger go right, then recurse on both sides. With a bad pivot (already sorted input, last element as pivot) it degrades to O(n²), so pick the pivot at random.</p>
+<h2 id="template">Code template</h2><div class="ctabs "><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py">def merge_sort(a):
+    if len(a) &lt;= 1:
+        return a
+    mid = len(a) // 2
+    left, right = merge_sort(a[:mid]), merge_sort(a[mid:])
+    out, i, j = [], 0, 0
+    while i &lt; len(left) and j &lt; len(right):
+        if left[i] &lt;= right[j]: out.append(left[i]); i += 1
+        else: out.append(right[j]); j += 1
+    return out + left[i:] + right[j:]
+
+import random
+def quick_sort(a, lo=0, hi=None):
+    if hi is None: hi = len(a) - 1
+    if lo &gt;= hi: return
+    p = random.randint(lo, hi); a[p], a[hi] = a[hi], a[p]   # random pivot
+    pivot, i = a[hi], lo
+    for j in range(lo, hi):
+        if a[j] &lt; pivot:
+            a[i], a[j] = a[j], a[i]; i += 1
+    a[i], a[hi] = a[hi], a[i]
+    quick_sort(a, lo, i - 1); quick_sort(a, i + 1, hi)</code></pre><pre data-l="java"><code class="lang-java">void mergeSort(int[] a, int[] tmp, int lo, int hi) {
+    if (lo &gt;= hi) return;
+    int mid = (lo + hi) / 2;
+    mergeSort(a, tmp, lo, mid); mergeSort(a, tmp, mid + 1, hi);
+    int i = lo, j = mid + 1, k = lo;
+    while (i &lt;= mid &amp;&amp; j &lt;= hi) tmp[k++] = a[i] &lt;= a[j] ? a[i++] : a[j++];
+    while (i &lt;= mid) tmp[k++] = a[i++];
+    while (j &lt;= hi) tmp[k++] = a[j++];
+    for (k = lo; k &lt;= hi; k++) a[k] = tmp[k];
+}
+
+java.util.Random rnd = new java.util.Random();
+void quickSort(int[] a, int lo, int hi) {
+    if (lo &gt;= hi) return;
+    int p = lo + rnd.nextInt(hi - lo + 1), t = a[p]; a[p] = a[hi]; a[hi] = t;   // random pivot
+    int pivot = a[hi], i = lo;
+    for (int j = lo; j &lt; hi; j++) if (a[j] &lt; pivot) { t = a[i]; a[i] = a[j]; a[j] = t; i++; }
+    t = a[i]; a[i] = a[hi]; a[hi] = t;
+    quickSort(a, lo, i - 1); quickSort(a, i + 1, hi);
+}</code></pre><pre data-l="cpp"><code class="lang-cpp">void mergeSort(vector&lt;int&gt;&amp; a, vector&lt;int&gt;&amp; tmp, int lo, int hi) {
+    if (lo &gt;= hi) return;
+    int mid = (lo + hi) / 2;
+    mergeSort(a, tmp, lo, mid); mergeSort(a, tmp, mid + 1, hi);
+    int i = lo, j = mid + 1, k = lo;
+    while (i &lt;= mid &amp;&amp; j &lt;= hi) tmp[k++] = a[i] &lt;= a[j] ? a[i++] : a[j++];
+    while (i &lt;= mid) tmp[k++] = a[i++];
+    while (j &lt;= hi) tmp[k++] = a[j++];
+    for (k = lo; k &lt;= hi; k++) a[k] = tmp[k];
+}
+
+void quickSort(vector&lt;int&gt;&amp; a, int lo, int hi) {
+    if (lo &gt;= hi) return;
+    swap(a[lo + rand() % (hi - lo + 1)], a[hi]);      // random pivot
+    int pivot = a[hi], i = lo;
+    for (int j = lo; j &lt; hi; j++) if (a[j] &lt; pivot) swap(a[i++], a[j]);
+    swap(a[i], a[hi]);
+    quickSort(a, lo, i - 1); quickSort(a, i + 1, hi);
+}</code></pre><pre data-l="js"><code class="lang-js">function mergeSort(a) {
+  if (a.length &lt;= 1) return a;
+  const mid = a.length &gt;&gt; 1, L = mergeSort(a.slice(0, mid)), R = mergeSort(a.slice(mid)), out = [];
+  let i = 0, j = 0;
+  while (i &lt; L.length &amp;&amp; j &lt; R.length) out.push(L[i] &lt;= R[j] ? L[i++] : R[j++]);
+  return out.concat(L.slice(i), R.slice(j));
+}
+
+function quickSort(a, lo = 0, hi = a.length - 1) {
+  if (lo &gt;= hi) return;
+  const p = lo + Math.floor(Math.random() * (hi - lo + 1));
+  [a[p], a[hi]] = [a[hi], a[p]];                    // random pivot
+  const pivot = a[hi]; let i = lo;
+  for (let j = lo; j &lt; hi; j++) if (a[j] &lt; pivot) { [a[i], a[j]] = [a[j], a[i]]; i++; }
+  [a[i], a[hi]] = [a[hi], a[i]];
+  quickSort(a, lo, i - 1); quickSort(a, i + 1, hi);
+}</code></pre></div>
+<h2>Custom comparators</h2>
+<p>Many problems are really “sort by the right key”: intervals by start, meetings by end time, the Largest Number problem by <code>a + b &gt; b + a</code>, people by (height desc, k asc).</p>
+<h2 id="practice">Practise this pattern (4 problems)</h2><p>Each problem has a statement, hints, approaches, solutions in 4 languages and a code runner. Solve them in order: easy first.</p><div class="ptw"><table class="ptab"><thead><tr><th aria-label="Solved"></th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead><tbody><tr data-id="sort-colors"><td class="st" aria-label="status"></td><td class="num">27</td><td><a href="problems/sort-colors.html">Sort Colors</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="merge-intervals"><td class="st" aria-label="status"></td><td class="num">28</td><td><a href="problems/merge-intervals.html">Merge Intervals</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="sort-an-array"><td class="st" aria-label="status"></td><td class="num">29</td><td><a href="problems/sort-an-array.html">Sort an Array</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="largest-number"><td class="st" aria-label="status"></td><td class="num">30</td><td><a href="problems/largest-number.html">Largest Number</a></td><td><span class="diff medium">Medium</span></td></tr></tbody></table></div><h2>Common mistakes</h2>
+<ul>
+<li>Comparator overflow in Java: <code>(a, b) -&gt; a - b</code> can overflow; use <code>Integer.compare(a, b)</code>.</li>
+<li>Forgetting that sorting costs O(n log n), which may dominate the rest of the solution.</li>
+<li>Using <code>sort()</code> on numbers in JavaScript without a comparator: it sorts as strings (<code>[10, 9, 1]</code> → <code>[1, 10, 9]</code>).</li>
+</ul>
+<details><summary>Check yourself: which sort would you choose for a linked list, and why?</summary>
+Merge sort. It needs only sequential access, splitting with fast/slow pointers and merging by relinking nodes, with no random indexing.</details>
+  <div class="pj-cta"><a class="btn" href="problems/index.html">🧩 All DSA problems</a><a class="btn ghost" href="visualizer/index.html">🎬 Algorithm visualizer</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="dsa/sorting"></script>
+<script src="../assets/engage.js"></script>
+<script src="../assets/dsa-viz.js"></script>
+<script src="../assets/dsa.js" data-base="../"></script>
+</body>
+</html>

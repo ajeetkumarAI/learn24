@@ -239,14 +239,47 @@ Hands-on labs built from Ajeetkumar’s Colab notebooks (free Groq key). Each la
 | 2 | [Assignment 17: Project & Behavioural Questions](https://learn24-lilac.vercel.app/assignments/assignment-17-project-behavioural-questions) | 10 questions with solutions · 4 must-know. |
 | 3 | [Assignment 18: Python & ML Essentials for GenAI Engineers](https://learn24-lilac.vercel.app/assignments/assignment-18-python-ml-essentials-for-genai-engineers) | 16 questions with solutions · 8 must-know · 4 coding tasks. |
 
+## 🧩 DSA: Data Structures & Algorithms
+
+Coding-interview prep in the style of LeetCode and GeeksforGeeks, built for learning by watching.
+
+| Page | What it does |
+|---|---|
+| [DSA lessons](https://learn24-lilac.vercel.app/dsa) | 17 visual lessons: idea, when to use the pattern, an animated step-by-step visualizer, a code template in **Python, Java, C++ and JavaScript**, complexity, common mistakes and a self-check. |
+| [Practice problems](https://learn24-lilac.vercel.app/dsa/problems) | 90 must-do problems (26 easy, 58 medium, 6 hard) by pattern. Each has a statement, examples, hints, brute-force → optimal approaches, a visualizer and verified solutions in 4 languages. |
+| Code editor | Split-screen editor (CodeMirror) with a language picker. **Run** the sample tests or **Submit** all tests in the browser: Python runs in Pyodide (WebAssembly), JavaScript runs in a Web Worker with a time limit. Java and C++ have starter code and reference solutions. Drafts and solved problems are saved in the browser. |
+| [Algorithm visualizer](https://learn24-lilac.vercel.app/dsa/visualizer) | 37 animations with your own input, play / step / speed controls and highlighted pseudocode: sorting, binary search, two pointers, sliding window, Kadane, stacks, linked lists, tree traversals, BST, heap, BFS, DFS, grid flood fill, topological sort, Dijkstra, union-find, backtracking, N-Queens and DP tables. |
+
+| # | Lesson | What is inside |
+|---|---|---|
+| 1 | [Big-O & Complexity](https://learn24-lilac.vercel.app/dsa/big-o) | How to measure an algorithm before you run it: time and space complexity, common growth rates, and how to read constraints in an interview. |
+| 2 | [Arrays, Hashing & Prefix Sums](https://learn24-lilac.vercel.app/dsa/arrays-hashing) | Hash maps and sets turn “search the whole array” into O(1) lookups. Prefix sums answer any range-sum question in O(1). |
+| 3 | [Two Pointers](https://learn24-lilac.vercel.app/dsa/two-pointers) | Two indices that move toward each other or in the same direction. They replace a nested loop with a single O(n) pass on sorted arrays and strings. |
+| 4 | [Sliding Window](https://learn24-lilac.vercel.app/dsa/sliding-window) | Keep a window over a contiguous range and update it in O(1) as it slides. The go-to pattern for “longest / shortest / best subarray or substring”. |
+| 5 | [Binary Search](https://learn24-lilac.vercel.app/dsa/binary-search) | Halve the search space each step for O(log n). Works on sorted arrays and, more powerfully, on any monotonic yes/no question about the answer. |
+| 6 | [Sorting Algorithms](https://learn24-lilac.vercel.app/dsa/sorting) | Bubble, selection, insertion, merge and quick sort, animated step by step. Learn which one is stable, which one is in place, and why O(n log n) is the limit for comparison sorts. |
+| 7 | [Stacks, Queues & Monotonic Stacks](https://learn24-lilac.vercel.app/dsa/stacks-queues) | LIFO and FIFO structures behind bracket matching, expression evaluation, BFS, and the powerful monotonic stack for “next greater element” problems. |
+| 8 | [Linked Lists](https://learn24-lilac.vercel.app/dsa/linked-lists) | Nodes joined by pointers: O(1) insert and delete once you are at a node. Master pointer surgery, dummy heads and the fast/slow technique. |
+| 9 | [Heaps & Priority Queues](https://learn24-lilac.vercel.app/dsa/heaps) | A heap always hands you the smallest (or largest) item in O(log n). The tool for top-k, k-way merge, scheduling and Dijkstra. |
+| 10 | [Binary Trees & BSTs](https://learn24-lilac.vercel.app/dsa/trees) | Recursion on trees: DFS in pre-, in- and post-order, BFS level by level, and the binary-search-tree property. The most common interview topic after arrays. |
+| 11 | [Graphs: BFS & DFS](https://learn24-lilac.vercel.app/dsa/graphs) | Model the problem as nodes and edges, then explore with breadth-first or depth-first search. This covers grids, islands, connectivity and shortest paths in unweighted graphs. |
+| 12 | [Topological Sort, Dijkstra & Union-Find](https://learn24-lilac.vercel.app/dsa/advanced-graphs) | Order tasks with dependencies, find cheapest paths with weights, and track connected groups as edges arrive. The three graph algorithms product companies ask most. |
+| 13 | [Recursion & Backtracking](https://learn24-lilac.vercel.app/dsa/backtracking) | Explore every choice, undo it, and try the next. The template behind subsets, permutations, combinations, N-Queens, Sudoku and word search. |
+| 14 | [Dynamic Programming (1-D)](https://learn24-lilac.vercel.app/dsa/dp-1d) | When a recursive solution recomputes the same subproblems, store them. Climbing stairs, house robber, coin change, word break and LIS, with the recurrence visualised. |
+| 15 | [Dynamic Programming (2-D)](https://learn24-lilac.vercel.app/dsa/dp-2d) | Tables indexed by two things: two strings (LCS, edit distance), a grid (paths), or items × capacity (knapsack). Watch every cell get filled. |
+| 16 | [Greedy & Intervals](https://learn24-lilac.vercel.app/dsa/greedy-intervals) | Make the locally best choice and prove it never hurts. Interval scheduling, merging, jump game and gas station, with the exchange-argument intuition. |
+| 17 | [Bit Manipulation](https://learn24-lilac.vercel.app/dsa/bit-manipulation) | XOR tricks, masks and counting bits. Short, elegant solutions that show you understand how numbers are stored. |
+
+Every reference solution was checked against every test in all four languages (Java and C++ compiled and run, Python and JavaScript run both natively and in the browser runner). Solving problems earns XP, the 🧩 Problem solver badge, the **DSA Problem Solver** certificate (30 problems) and ticks on the **DSA in 8 weeks** roadmap.
+
 ## 🔥 Practise & grow (engagement features)
 
 | Feature | Page | What it does |
 |---|---|---|
 | 🎤 Mock Interview | [/mock](https://learn24-lilac.vercel.app/mock) | Timed mock interviews from 1,400+ questions (company pages + assignments). Pick role, company, topics, difficulty and length; reveal model answers, rate yourself, get a readiness report with weak topics linked to lessons. |
-| 🔥 Daily Challenge | [/daily](https://learn24-lilac.vercel.app/daily) | One question a day (same for everyone), streaks, XP levels, 12 badges, a 10-week activity calendar and a downloadable streak card for LinkedIn / WhatsApp / Telegram. |
-| 🎓 Certificates | [/certificate](https://learn24-lilac.vercel.app/certificate) | 8 tracks unlock certificates (GenAI, LangChain, Agentic AI, AI in Finance, AWS, Interview Ready, Portfolio Builder, Roadmap Finisher). PNG download + "Add to LinkedIn profile". |
-| 🗺️ Career Roadmaps | [/roadmaps](https://learn24-lilac.vercel.app/roadmaps) | Week-by-week checklists: Fresher → GenAI Engineer (12 weeks), Data Scientist → GenAI (8), Service → Product company (8), AI in Banking (6). |
+| 🔥 Daily Challenge | [/daily](https://learn24-lilac.vercel.app/daily) | One question a day (same for everyone), streaks, XP levels, 13 badges, a 10-week activity calendar and a downloadable streak card for LinkedIn / WhatsApp / Telegram. |
+| 🎓 Certificates | [/certificate](https://learn24-lilac.vercel.app/certificate) | 10 tracks unlock certificates (GenAI, LangChain, Agentic AI, AI in Finance, AWS, DSA, DSA Problem Solver, Interview Ready, Portfolio Builder, Roadmap Finisher). PNG download + "Add to LinkedIn profile". |
+| 🗺️ Career Roadmaps | [/roadmaps](https://learn24-lilac.vercel.app/roadmaps) | Week-by-week checklists: Fresher → GenAI Engineer (12 weeks), Data Scientist → GenAI (8), Service → Product company (8), DSA for coding interviews (8), AI in Banking (6). |
 
 All progress (streak, XP, mocks, ticks, certificates) is stored in the visitor's browser (`localStorage` key `learn24-me`), with no sign-up and no server. The header shows a 🔥 streak pill. After adding or changing interview/assignment pages, run `python3 build_qbank.py` to refresh `assets/qbank.json`.
 
@@ -527,6 +560,11 @@ assets/stepper.css, .js    Lesson engine (steps, flows, typed text, charts)
 assets/lesson.js           Lesson top bar, breadcrumb, previous/next, "Mark as done"
 <topic>/index.html         Topic page
 <topic>/<lesson>.html      One lesson
+dsa/                       DSA lessons, dsa/problems/ (editor pages), dsa/visualizer/
+assets/dsa-viz.js          Algorithm visualizer engine
+assets/dsa.js, dsa.css     Code tabs, problem list, editor + runner UI
+assets/dsa-runner.js       Web Worker that runs Python (Pyodide) and JavaScript tests
+assets/codemirror.min.*    CodeMirror 5 editor (MIT), bundled locally
 api/jobs.js                Serverless job feed (Vercel function)
 jobs/                      Live AI jobs page + featured.json
 langchain-course/notebooks Colab notebooks (.ipynb) for the LangChain labs

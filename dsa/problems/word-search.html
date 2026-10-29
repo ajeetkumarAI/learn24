@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>67. Word Search · DSA Practice · Learn24</title>
+<meta name="description" content="Word Search (Medium, Recursion &amp; Backtracking): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta property="og:title" content="67. Word Search · DSA Practice · Learn24">
+<meta property="og:description" content="Word Search (Medium, Recursion &amp; Backtracking): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/pages.css">
+<link rel="stylesheet" href="../../assets/engage.css">
+<link rel="stylesheet" href="../../assets/theme.css">
+<link rel="stylesheet" href="../../assets/dsa.css">
+<script src="../../assets/theme.js"></script>
+<link rel="stylesheet" href="../../assets/codemirror.min.css">
+<script defer src="../../assets/codemirror.min.js"></script>
+</head>
+<body data-page="dsa-problem" data-topic="dsa">
+<main class="pp-shell">
+<div class="pp">
+  <section class="pp-left" aria-label="Problem">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../../index.html">Home</a><span>›</span><a href="../index.html">DSA</a><span>›</span><a href="index.html">Problems</a><span>›</span><span>Word Search</span></nav>
+    <h1>67. Word Search</h1>
+    <div class="pp-meta"><span class="diff medium">Medium</span><a class="pat" href="../backtracking.html">Recursion &amp; Backtracking</a><span class="solved-b" hidden>✓ Solved</span><a class="ext" href="https://leetcode.com/problems/word-search/" target="_blank" rel="noopener">Also on LeetCode ↗</a></div>
+    <div class="pp-tabs" role="tablist"><button type="button" role="tab" data-t="desc" aria-selected="true">Description</button><button type="button" role="tab" data-t="appr">Approach</button><button type="button" role="tab" data-t="sol">Solution</button><button type="button" role="tab" data-t="viz">Visualize</button></div>
+    <div class="pp-pane" data-t="desc"><p>Return <code>true</code> if <code>word</code> can be formed from letters of sequentially <strong>adjacent cells</strong> (up/down/left/right) in <code>board</code>. A cell may not be used twice in one word.</p><h3>Example 1</h3><div class="ex"><div><b>Input:</b> <code>board = [[&quot;C&quot;,&quot;A&quot;,&quot;T&quot;],[&quot;X&quot;,&quot;R&quot;,&quot;S&quot;],[&quot;O&quot;,&quot;D&quot;,&quot;E&quot;]], word = &quot;CAR&quot;</code></div><div><b>Output:</b> <code>true</code></div></div><h3>Example 2</h3><div class="ex"><div><b>Input:</b> <code>board = [[&quot;C&quot;,&quot;A&quot;,&quot;T&quot;],[&quot;X&quot;,&quot;R&quot;,&quot;S&quot;],[&quot;O&quot;,&quot;D&quot;,&quot;E&quot;]], word = &quot;CATS&quot;</code></div><div><b>Output:</b> <code>true</code></div></div><details class="hint"><summary>Hint 1</summary><p>Try every cell as a start and DFS letter by letter.</p></details><details class="hint"><summary>Hint 2</summary><p>Temporarily overwrite a cell to mark it as used, and restore it when you backtrack.</p></details><div class="tags"><span class="tag">Backtracking</span><span class="tag">Matrix</span></div></div>
+    <div class="pp-pane" data-t="appr" hidden><div class="appr"><h3>Approach 1: DFS backtracking ✅</h3><p>Mark/unmark cells along the path.</p><div class="cx"><span>⏱ Time <b>O(m · n · 4ᴸ)</b></span><span>💾 Space <b>O(L)</b></span></div></div></div>
+    <div class="pp-pane" data-t="sol" hidden><p>Reference solution for <b>DFS backtracking</b> (time O(m · n · 4ᴸ), space O(L)). Each solution passes every test in all four languages.</p><div class="ctabs sol"><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py">class Solution:
+    def exist(self, board: List[List[str]], word: str) -&gt; bool:
+        m, n = len(board), len(board[0])
+        def dfs(r, c, k):
+            if k == len(word):
+                return True
+            if r &lt; 0 or c &lt; 0 or r &gt;= m or c &gt;= n or board[r][c] != word[k]:
+                return False
+            board[r][c] = &#x27;#&#x27;                       # mark as used on this path
+            found = dfs(r + 1, c, k + 1) or dfs(r - 1, c, k + 1) or dfs(r, c + 1, k + 1) or dfs(r, c - 1, k + 1)
+            board[r][c] = word[k]                   # restore (backtrack)
+            return found
+        return any(dfs(r, c, 0) for r in range(m) for c in range(n))</code></pre><pre data-l="java"><code class="lang-java">class Solution {
+    public boolean exist(char[][] board, String word) {
+        for (int r = 0; r &lt; board.length; r++)
+            for (int c = 0; c &lt; board[0].length; c++)
+                if (dfs(board, word, r, c, 0)) return true;
+        return false;
+    }
+    private boolean dfs(char[][] b, String w, int r, int c, int k) {
+        if (k == w.length()) return true;
+        if (r &lt; 0 || c &lt; 0 || r &gt;= b.length || c &gt;= b[0].length || b[r][c] != w.charAt(k)) return false;
+        b[r][c] = &#x27;#&#x27;;
+        boolean found = dfs(b, w, r + 1, c, k + 1) || dfs(b, w, r - 1, c, k + 1) || dfs(b, w, r, c + 1, k + 1) || dfs(b, w, r, c - 1, k + 1);
+        b[r][c] = w.charAt(k);
+        return found;
+    }
+}</code></pre><pre data-l="cpp"><code class="lang-cpp">class Solution {
+    bool dfs(vector&lt;vector&lt;char&gt;&gt;&amp; b, const string&amp; w, int r, int c, int k) {
+        if (k == (int)w.size()) return true;
+        if (r &lt; 0 || c &lt; 0 || r &gt;= (int)b.size() || c &gt;= (int)b[0].size() || b[r][c] != w[k]) return false;
+        b[r][c] = &#x27;#&#x27;;
+        bool found = dfs(b, w, r + 1, c, k + 1) || dfs(b, w, r - 1, c, k + 1) || dfs(b, w, r, c + 1, k + 1) || dfs(b, w, r, c - 1, k + 1);
+        b[r][c] = w[k];
+        return found;
+    }
+public:
+    bool exist(vector&lt;vector&lt;char&gt;&gt;&amp; board, string word) {
+        for (int r = 0; r &lt; (int)board.size(); r++)
+            for (int c = 0; c &lt; (int)board[0].size(); c++)
+                if (dfs(board, word, r, c, 0)) return true;
+        return false;
+    }
+};</code></pre><pre data-l="js"><code class="lang-js">function exist(board, word) {
+  const m = board.length, n = board[0].length;
+  const dfs = (r, c, k) =&gt; {
+    if (k === word.length) return true;
+    if (r &lt; 0 || c &lt; 0 || r &gt;= m || c &gt;= n || board[r][c] !== word[k]) return false;
+    board[r][c] = &#x27;#&#x27;;
+    const found = dfs(r + 1, c, k + 1) || dfs(r - 1, c, k + 1) || dfs(r, c + 1, k + 1) || dfs(r, c - 1, k + 1);
+    board[r][c] = word[k];
+    return found;
+  };
+  for (let r = 0; r &lt; m; r++) for (let c = 0; c &lt; n; c++) if (dfs(r, c, 0)) return true;
+  return false;
+}</code></pre></div><p class="muted">Try solving it yourself first. Interviewers care more about how you explain the approach than about the finished code.</p></div>
+    <div class="pp-pane" data-t="viz" hidden><p>Watch the core idea of this problem step by step. Change the input and press <b>Visualize</b>.</p><div class="viz" data-viz="grid-bfs"></div><p class="muted">Explained in the lesson <a href="../backtracking.html">Recursion &amp; Backtracking</a>.</p></div>
+    <nav class="pp-nav"><a href="combination-sum.html">← 66. Combination Sum</a><a href="index.html">All problems</a><a href="generate-parentheses.html">68. Generate Parentheses →</a></nav>
+  </section>
+  <section class="pp-right" aria-label="Code editor">
+    <div class="pp-bar"><label class="sr" for="lang">Language</label><select id="lang"><option value="py">Python</option><option value="java">Java</option><option value="cpp">C++</option><option value="js">JavaScript</option></select>
+      <button type="button" class="b ghost" id="reset" title="Reset to the starter code">↺ Reset</button><span class="grow"></span>
+      <button type="button" class="b ghost" id="run">▶ Run</button><button type="button" class="b" id="submit">Submit</button></div>
+    <div class="pp-ed"><textarea id="code" spellcheck="false" aria-label="Code editor"></textarea></div>
+    <div class="pp-con"><div class="pp-ctabs" role="tablist"><button type="button" data-c="cases" aria-selected="true">Testcases</button><button type="button" data-c="result">Result</button></div>
+      <div class="pp-cbody" data-c="cases"></div><div class="pp-cbody" data-c="result" hidden><p class="muted">Run your code to see results here.</p></div></div>
+  </section>
+</div>
+<script type="application/json" id="pdata">{"id": "word-search", "lc": "word-search", "num": 67, "title": "Word Search", "diff": "Medium", "fn": "exist", "params": ["board", "word"], "types": ["grid", "str"], "ret": "bool", "inplace": null, "cmp": "exact", "tests": [[[["C", "A", "T"], ["X", "R", "S"], ["O", "D", "E"]], "CAR"], [[["C", "A", "T"], ["X", "R", "S"], ["O", "D", "E"]], "CATS"], [[["C", "A", "T"], ["X", "R", "S"], ["O", "D", "E"]], "DOG"], [[["C", "A", "T"], ["X", "R", "S"], ["O", "D", "E"]], "CAC"], [[["a"]], "a"], [[["a", "b"]], "ba"]], "expected": [true, true, false, false, true, true], "sample": 3, "starter": {"py": "class Solution:\n    def exist(self, board: List[List[str]], word: str) -> bool:\n        ", "java": "class Solution {\n    public boolean exist(char[][] board, String word) {\n        \n    }\n}", "cpp": "class Solution {\npublic:\n    bool exist(vector<vector<char>>& board, string word) {\n        \n    }\n};", "js": "/**\n * @param {character[][]} board\n * @param {string} word\n * @return {boolean}\n */\nfunction exist(board, word) {\n  \n}"}, "solution": {"py": "class Solution:\n    def exist(self, board: List[List[str]], word: str) -> bool:\n        m, n = len(board), len(board[0])\n        def dfs(r, c, k):\n            if k == len(word):\n                return True\n            if r < 0 or c < 0 or r >= m or c >= n or board[r][c] != word[k]:\n                return False\n            board[r][c] = '#'                       # mark as used on this path\n            found = dfs(r + 1, c, k + 1) or dfs(r - 1, c, k + 1) or dfs(r, c + 1, k + 1) or dfs(r, c - 1, k + 1)\n            board[r][c] = word[k]                   # restore (backtrack)\n            return found\n        return any(dfs(r, c, 0) for r in range(m) for c in range(n))", "java": "class Solution {\n    public boolean exist(char[][] board, String word) {\n        for (int r = 0; r < board.length; r++)\n            for (int c = 0; c < board[0].length; c++)\n                if (dfs(board, word, r, c, 0)) return true;\n        return false;\n    }\n    private boolean dfs(char[][] b, String w, int r, int c, int k) {\n        if (k == w.length()) return true;\n        if (r < 0 || c < 0 || r >= b.length || c >= b[0].length || b[r][c] != w.charAt(k)) return false;\n        b[r][c] = '#';\n        boolean found = dfs(b, w, r + 1, c, k + 1) || dfs(b, w, r - 1, c, k + 1) || dfs(b, w, r, c + 1, k + 1) || dfs(b, w, r, c - 1, k + 1);\n        b[r][c] = w.charAt(k);\n        return found;\n    }\n}", "cpp": "class Solution {\n    bool dfs(vector<vector<char>>& b, const string& w, int r, int c, int k) {\n        if (k == (int)w.size()) return true;\n        if (r < 0 || c < 0 || r >= (int)b.size() || c >= (int)b[0].size() || b[r][c] != w[k]) return false;\n        b[r][c] = '#';\n        bool found = dfs(b, w, r + 1, c, k + 1) || dfs(b, w, r - 1, c, k + 1) || dfs(b, w, r, c + 1, k + 1) || dfs(b, w, r, c - 1, k + 1);\n        b[r][c] = w[k];\n        return found;\n    }\npublic:\n    bool exist(vector<vector<char>>& board, string word) {\n        for (int r = 0; r < (int)board.size(); r++)\n            for (int c = 0; c < (int)board[0].size(); c++)\n                if (dfs(board, word, r, c, 0)) return true;\n        return false;\n    }\n};", "js": "function exist(board, word) {\n  const m = board.length, n = board[0].length;\n  const dfs = (r, c, k) => {\n    if (k === word.length) return true;\n    if (r < 0 || c < 0 || r >= m || c >= n || board[r][c] !== word[k]) return false;\n    board[r][c] = '#';\n    const found = dfs(r + 1, c, k + 1) || dfs(r - 1, c, k + 1) || dfs(r, c + 1, k + 1) || dfs(r, c - 1, k + 1);\n    board[r][c] = word[k];\n    return found;\n  };\n  for (let r = 0; r < m; r++) for (let c = 0; c < n; c++) if (dfs(r, c, 0)) return true;\n  return false;\n}"}}</script>
+</main>
+<script src="../../assets/data.js"></script>
+<script src="../../assets/site.js" data-base="../../"></script>
+<script src="../../assets/engage.js"></script>
+<script src="../../assets/dsa-viz.js"></script>
+<script src="../../assets/dsa.js" data-base="../../"></script>
+</body>
+</html>

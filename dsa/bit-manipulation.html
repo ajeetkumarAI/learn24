@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bit Manipulation · DSA · Learn24</title>
+<meta name="description" content="XOR tricks, masks and counting bits. Short, elegant solutions that show you understand how numbers are stored.">
+<meta property="og:title" content="Bit Manipulation · DSA · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#8fd46b} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<link rel="stylesheet" href="../assets/dsa.css">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="../assets/codemirror.min.css">
+<script defer src="../assets/codemirror.min.js"></script>
+</head>
+<body class="dsa-lesson">
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="bit-manipulation" data-lesson="dsa/bit-manipulation">
+  <div class="kicker">DSA · Lesson 17 of 17</div>
+  <h1>Bit Manipulation</h1>
+  <div class="meta"><span>⏱ 15 min</span><span>🎬 Interactive chart</span><span>💻 Python · Java · C++ · JavaScript</span><span>🧩 4 practice problems</span></div>
+  <p class="lead">XOR tricks, masks and counting bits. Short, elegant solutions that show you understand how numbers are stored.</p>
+<h2>The operators</h2>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Meaning</th>
+<th>Example (5 = 0101, 3 = 0011)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>a &amp; b</code></td>
+<td>AND: 1 where both are 1</td>
+<td>0001 = 1</td>
+</tr>
+<tr>
+<td><code>a | b</code></td>
+<td>OR: 1 where either is 1</td>
+<td>0111 = 7</td>
+</tr>
+<tr>
+<td><code>a ^ b</code></td>
+<td>XOR: 1 where they differ</td>
+<td>0110 = 6</td>
+</tr>
+<tr>
+<td><code>~a</code></td>
+<td>NOT: flip every bit</td>
+<td>−6 (two’s complement)</td>
+</tr>
+<tr>
+<td><code>a &lt;&lt; k</code></td>
+<td>shift left: × 2ᵏ</td>
+<td>5 &lt;&lt; 1 = 10</td>
+</tr>
+<tr>
+<td><code>a &gt;&gt; k</code></td>
+<td>shift right: ÷ 2ᵏ (floor)</td>
+<td>5 &gt;&gt; 1 = 2</td>
+</tr>
+</tbody>
+</table></div>
+<h2>Tricks worth memorising</h2>
+<ul>
+<li><code>x &amp; 1</code>: is x odd?</li>
+<li><code>x &amp; (x − 1)</code>: clears the lowest set bit. The loop runs once per 1-bit (Brian Kernighan), and <code>x &amp; (x − 1) == 0</code> tests for a power of two.</li>
+<li><code>x &amp; −x</code>: isolates the lowest set bit (used by Fenwick trees).</li>
+<li><code>a ^ a = 0</code> and <code>a ^ 0 = a</code>: XOR cancels pairs. Use it for Single Number and Missing Number, and to swap without a temporary.</li>
+<li><code>(mask &gt;&gt; i) &amp; 1</code>: is bit i set? <code>mask | (1 &lt;&lt; i)</code> sets it; <code>mask &amp; ~(1 &lt;&lt; i)</code> clears it.</li>
+<li><strong>Bitmask subsets</strong>: the numbers 0 .. 2ⁿ − 1 enumerate every subset of n items; bit i means “item i is in”.</li>
+</ul>
+<h2 id="template">Code template</h2><div class="ctabs "><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py">def is_power_of_two(x): return x &gt; 0 and x &amp; (x - 1) == 0
+
+def popcount(x):
+    c = 0
+    while x:
+        x &amp;= x - 1          # drop the lowest set bit
+        c += 1
+    return c
+
+def single(nums):
+    r = 0
+    for v in nums: r ^= v   # pairs cancel
+    return r
+
+def all_subsets(items):
+    n = len(items)
+    return [[items[i] for i in range(n) if mask &gt;&gt; i &amp; 1] for mask in range(1 &lt;&lt; n)]</code></pre><pre data-l="java"><code class="lang-java">boolean isPowerOfTwo(int x) { return x &gt; 0 &amp;&amp; (x &amp; (x - 1)) == 0; }
+
+int popcount(int x) { int c = 0; while (x != 0) { x &amp;= x - 1; c++; } return c; }   // or Integer.bitCount(x)
+
+int single(int[] nums) { int r = 0; for (int v : nums) r ^= v; return r; }
+
+List&lt;List&lt;Integer&gt;&gt; allSubsets(int[] items) {
+    List&lt;List&lt;Integer&gt;&gt; res = new ArrayList&lt;&gt;();
+    for (int mask = 0; mask &lt; (1 &lt;&lt; items.length); mask++) {
+        List&lt;Integer&gt; s = new ArrayList&lt;&gt;();
+        for (int i = 0; i &lt; items.length; i++) if ((mask &gt;&gt; i &amp; 1) == 1) s.add(items[i]);
+        res.add(s);
+    }
+    return res;
+}</code></pre><pre data-l="cpp"><code class="lang-cpp">bool isPowerOfTwo(int x) { return x &gt; 0 &amp;&amp; (x &amp; (x - 1)) == 0; }
+
+int popcount(unsigned x) { int c = 0; while (x) { x &amp;= x - 1; c++; } return c; }   // or __builtin_popcount
+
+int single(const vector&lt;int&gt;&amp; nums) { int r = 0; for (int v : nums) r ^= v; return r; }
+
+vector&lt;vector&lt;int&gt;&gt; allSubsets(const vector&lt;int&gt;&amp; items) {
+    int n = items.size(); vector&lt;vector&lt;int&gt;&gt; res;
+    for (int mask = 0; mask &lt; (1 &lt;&lt; n); mask++) {
+        vector&lt;int&gt; s;
+        for (int i = 0; i &lt; n; i++) if (mask &gt;&gt; i &amp; 1) s.push_back(items[i]);
+        res.push_back(s);
+    }
+    return res;
+}</code></pre><pre data-l="js"><code class="lang-js">const isPowerOfTwo = x =&gt; x &gt; 0 &amp;&amp; (x &amp; (x - 1)) === 0;
+
+function popcount(x) { let c = 0; while (x) { x &amp;= x - 1; c++; } return c; }
+
+const single = nums =&gt; nums.reduce((r, v) =&gt; r ^ v, 0);
+
+function allSubsets(items) {
+  const res = [];
+  for (let mask = 0; mask &lt; 1 &lt;&lt; items.length; mask++)
+    res.push(items.filter((_, i) =&gt; (mask &gt;&gt; i) &amp; 1));
+  return res;
+}</code></pre></div>
+<h2>Where it shows up</h2>
+<p>Single Number, Missing Number, Counting Bits (<code>ans[i] = ans[i &gt;&gt; 1] + (i &amp; 1)</code>), Reverse Bits, Sum of Two Integers without <code>+</code>, subset enumeration, bitmask DP (travelling salesman for n ≤ 20), Gray code.</p>
+<h2>Language gotchas</h2>
+<ul>
+<li>Python integers are unbounded: mask with <code>&amp; 0xFFFFFFFF</code> to imitate 32-bit behaviour.</li>
+<li>Java has <code>&gt;&gt;&gt;</code> (unsigned shift) as well as <code>&gt;&gt;</code> (sign-extending).</li>
+<li>JavaScript bit operators work on 32-bit signed integers: <code>&gt;&gt;&gt; 0</code> converts to unsigned.</li>
+</ul>
+<details><summary>Check yourself: what is 12 & 11, and what does it tell you?</summary>
+1100 & 1011 = 1000 = 8. The lowest set bit of 12 was cleared, so 12 is not a power of two (the result is not 0).</details><h2 id="practice">Practise this pattern (4 problems)</h2><p>Each problem has a statement, hints, approaches, solutions in 4 languages and a code runner. Solve them in order: easy first.</p><div class="ptw"><table class="ptab"><thead><tr><th aria-label="Solved"></th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead><tbody><tr data-id="single-number"><td class="st" aria-label="status"></td><td class="num">87</td><td><a href="problems/single-number.html">Single Number</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="number-of-1-bits"><td class="st" aria-label="status"></td><td class="num">88</td><td><a href="problems/number-of-1-bits.html">Number of 1 Bits</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="counting-bits"><td class="st" aria-label="status"></td><td class="num">89</td><td><a href="problems/counting-bits.html">Counting Bits</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="missing-number"><td class="st" aria-label="status"></td><td class="num">90</td><td><a href="problems/missing-number.html">Missing Number</a></td><td><span class="diff easy">Easy</span></td></tr></tbody></table></div>
+  <div class="pj-cta"><a class="btn" href="problems/index.html">🧩 All DSA problems</a><a class="btn ghost" href="visualizer/index.html">🎬 Algorithm visualizer</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="dsa/bit-manipulation"></script>
+<script src="../assets/engage.js"></script>
+<script src="../assets/dsa-viz.js"></script>
+<script src="../assets/dsa.js" data-base="../"></script>
+</body>
+</html>

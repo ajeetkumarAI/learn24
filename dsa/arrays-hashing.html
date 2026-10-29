@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Arrays, Hashing &amp; Prefix Sums · DSA · Learn24</title>
+<meta name="description" content="Hash maps and sets turn “search the whole array” into O(1) lookups. Prefix sums answer any range-sum question in O(1).">
+<meta property="og:title" content="Arrays, Hashing &amp; Prefix Sums · DSA · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#8fd46b} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<link rel="stylesheet" href="../assets/dsa.css">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="../assets/codemirror.min.css">
+<script defer src="../assets/codemirror.min.js"></script>
+</head>
+<body class="dsa-lesson">
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="arrays-hashing" data-lesson="dsa/arrays-hashing">
+  <div class="kicker">DSA · Lesson 2 of 17</div>
+  <h1>Arrays, Hashing &amp; Prefix Sums</h1>
+  <div class="meta"><span>⏱ 15 min</span><span>🎬 Interactive visualizer</span><span>💻 Python · Java · C++ · JavaScript</span><span>🧩 9 practice problems</span></div>
+  <p class="lead">Hash maps and sets turn “search the whole array” into O(1) lookups. Prefix sums answer any range-sum question in O(1).</p>
+<h2>The idea</h2>
+<p>An <strong>array</strong> gives O(1) access by index but O(n) search by value. A <strong>hash map</strong> (Python <code>dict</code>, Java <code>HashMap</code>, C++ <code>unordered_map</code>, JS <code>Map</code>) stores key → value pairs with <strong>average O(1)</strong> insert and lookup. A <strong>hash set</strong> is the same without values.</p>
+<p>Most “Easy/Medium array” interview problems become linear once you ask: <em>what would I like to look up instantly?</em></p>
+<div class="viz" data-viz="two-sum-hash,prefix-sum"></div>
+<h2>When to reach for a hash map</h2>
+<ul>
+<li>“Have I seen this before?” → <strong>set</strong> (duplicates, cycles, visited states)</li>
+<li>“Where did I see it?” → <strong>map value → index</strong> (Two Sum)</li>
+<li>“How many times?” → <strong>map value → count</strong> (anagrams, top-k, majority)</li>
+<li>“Group things that are equivalent” → <strong>map canonical key → list</strong> (group anagrams: key = sorted word)</li>
+</ul>
+<h2>Prefix sums</h2>
+<p>Store <code>prefix[i] = a[0] + … + a[i−1]</code>. Then the sum of <code>a[i..j]</code> is <code>prefix[j+1] − prefix[i]</code>: one subtraction instead of a loop.</p>
+<p>Combine prefix sums with a hash map to count subarrays with a target sum: a subarray <code>(i, j]</code> sums to <code>k</code> exactly when <code>prefix[j] − prefix[i] = k</code>, so for each prefix you count how many earlier prefixes equal <code>prefix − k</code>. Unlike sliding window, this works <strong>with negative numbers</strong>.</p>
+<h2 id="template">Code template</h2><div class="ctabs "><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py">from collections import defaultdict
+
+# Hash map: value -&gt; index (Two Sum pattern)
+def two_sum(nums, target):
+    seen = {}
+    for i, x in enumerate(nums):
+        if target - x in seen:
+            return [seen[target - x], i]
+        seen[x] = i
+
+# Prefix sums + counting (subarray sum = k)
+def count_subarrays(nums, k):
+    count, prefix = 0, 0
+    seen = defaultdict(int, {0: 1})
+    for x in nums:
+        prefix += x
+        count += seen[prefix - k]
+        seen[prefix] += 1
+    return count</code></pre><pre data-l="java"><code class="lang-java">// Hash map: value -&gt; index (Two Sum pattern)
+int[] twoSum(int[] nums, int target) {
+    Map&lt;Integer, Integer&gt; seen = new HashMap&lt;&gt;();
+    for (int i = 0; i &lt; nums.length; i++) {
+        Integer j = seen.get(target - nums[i]);
+        if (j != null) return new int[]{j, i};
+        seen.put(nums[i], i);
+    }
+    return new int[0];
+}
+
+// Prefix sums + counting (subarray sum = k)
+int countSubarrays(int[] nums, int k) {
+    Map&lt;Integer, Integer&gt; seen = new HashMap&lt;&gt;(Map.of(0, 1));
+    int count = 0, prefix = 0;
+    for (int x : nums) {
+        prefix += x;
+        count += seen.getOrDefault(prefix - k, 0);
+        seen.merge(prefix, 1, Integer::sum);
+    }
+    return count;
+}</code></pre><pre data-l="cpp"><code class="lang-cpp">// Hash map: value -&gt; index (Two Sum pattern)
+vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) {
+    unordered_map&lt;int, int&gt; seen;
+    for (int i = 0; i &lt; (int)nums.size(); i++) {
+        auto it = seen.find(target - nums[i]);
+        if (it != seen.end()) return {it-&gt;second, i};
+        seen[nums[i]] = i;
+    }
+    return {};
+}
+
+// Prefix sums + counting (subarray sum = k)
+int countSubarrays(vector&lt;int&gt;&amp; nums, int k) {
+    unordered_map&lt;int, int&gt; seen{{0, 1}};
+    int count = 0, prefix = 0;
+    for (int x : nums) { prefix += x; count += seen[prefix - k]; seen[prefix]++; }
+    return count;
+}</code></pre><pre data-l="js"><code class="lang-js">// Hash map: value -&gt; index (Two Sum pattern)
+function twoSum(nums, target) {
+  const seen = new Map();
+  for (let i = 0; i &lt; nums.length; i++) {
+    if (seen.has(target - nums[i])) return [seen.get(target - nums[i]), i];
+    seen.set(nums[i], i);
+  }
+}
+
+// Prefix sums + counting (subarray sum = k)
+function countSubarrays(nums, k) {
+  const seen = new Map([[0, 1]]);
+  let count = 0, prefix = 0;
+  for (const x of nums) {
+    prefix += x;
+    count += seen.get(prefix - k) || 0;
+    seen.set(prefix, (seen.get(prefix) || 0) + 1);
+  }
+  return count;
+}</code></pre></div>
+<h2>Complexity</h2>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Array</th>
+<th>Hash map / set</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Access by index</td>
+<td>O(1)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Search by value</td>
+<td>O(n)</td>
+<td>O(1) average</td>
+</tr>
+<tr>
+<td>Insert / delete</td>
+<td>O(n) (middle), O(1) (end)</td>
+<td>O(1) average</td>
+</tr>
+<tr>
+<td>Ordered iteration</td>
+<td>yes</td>
+<td>no (use a TreeMap / sorted structure)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="practice">Practise this pattern (9 problems)</h2><p>Each problem has a statement, hints, approaches, solutions in 4 languages and a code runner. Solve them in order: easy first.</p><div class="ptw"><table class="ptab"><thead><tr><th aria-label="Solved"></th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead><tbody><tr data-id="two-sum"><td class="st" aria-label="status"></td><td class="num">1</td><td><a href="problems/two-sum.html">Two Sum</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="contains-duplicate"><td class="st" aria-label="status"></td><td class="num">2</td><td><a href="problems/contains-duplicate.html">Contains Duplicate</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="valid-anagram"><td class="st" aria-label="status"></td><td class="num">3</td><td><a href="problems/valid-anagram.html">Valid Anagram</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="majority-element"><td class="st" aria-label="status"></td><td class="num">4</td><td><a href="problems/majority-element.html">Majority Element</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="group-anagrams"><td class="st" aria-label="status"></td><td class="num">5</td><td><a href="problems/group-anagrams.html">Group Anagrams</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="top-k-frequent-elements"><td class="st" aria-label="status"></td><td class="num">6</td><td><a href="problems/top-k-frequent-elements.html">Top K Frequent Elements</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="product-of-array-except-self"><td class="st" aria-label="status"></td><td class="num">7</td><td><a href="problems/product-of-array-except-self.html">Product of Array Except Self</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="longest-consecutive-sequence"><td class="st" aria-label="status"></td><td class="num">8</td><td><a href="problems/longest-consecutive-sequence.html">Longest Consecutive Sequence</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="subarray-sum-equals-k"><td class="st" aria-label="status"></td><td class="num">9</td><td><a href="problems/subarray-sum-equals-k.html">Subarray Sum Equals K</a></td><td><span class="diff medium">Medium</span></td></tr></tbody></table></div><h2>Common mistakes</h2>
+<ul>
+<li>Using a list for membership tests inside a loop (O(n²)). Use a set.</li>
+<li>Mutable keys: in Python, use a <code>tuple</code>, not a <code>list</code>, as a dict key.</li>
+<li>Forgetting <code>seen[0] = 1</code> (the empty prefix) when counting subarray sums.</li>
+<li>In Java, comparing <code>Integer</code> objects with <code>==</code> above 127. Use <code>.equals</code>, or unbox first.</li>
+</ul>
+<details><summary>Check yourself: why does sliding window fail for “subarray sum equals k” with negative numbers?</summary>
+With negatives, extending the window can make the sum smaller, so you can no longer decide whether to grow or shrink. Prefix sums with a hash map do not depend on monotonicity.</details>
+<details><summary>Check yourself: what key groups “eat”, “tea” and “ate” together?</summary>
+The sorted letters “aet”, or the 26-letter count vector.</details>
+  <div class="pj-cta"><a class="btn" href="problems/index.html">🧩 All DSA problems</a><a class="btn ghost" href="visualizer/index.html">🎬 Algorithm visualizer</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="dsa/arrays-hashing"></script>
+<script src="../assets/engage.js"></script>
+<script src="../assets/dsa-viz.js"></script>
+<script src="../assets/dsa.js" data-base="../"></script>
+</body>
+</html>

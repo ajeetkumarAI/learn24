@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>10. Valid Palindrome · DSA Practice · Learn24</title>
+<meta name="description" content="Valid Palindrome (Easy, Two Pointers): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta property="og:title" content="10. Valid Palindrome · DSA Practice · Learn24">
+<meta property="og:description" content="Valid Palindrome (Easy, Two Pointers): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/pages.css">
+<link rel="stylesheet" href="../../assets/engage.css">
+<link rel="stylesheet" href="../../assets/theme.css">
+<link rel="stylesheet" href="../../assets/dsa.css">
+<script src="../../assets/theme.js"></script>
+<link rel="stylesheet" href="../../assets/codemirror.min.css">
+<script defer src="../../assets/codemirror.min.js"></script>
+</head>
+<body data-page="dsa-problem" data-topic="dsa">
+<main class="pp-shell">
+<div class="pp">
+  <section class="pp-left" aria-label="Problem">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../../index.html">Home</a><span>›</span><a href="../index.html">DSA</a><span>›</span><a href="index.html">Problems</a><span>›</span><span>Valid Palindrome</span></nav>
+    <h1>10. Valid Palindrome</h1>
+    <div class="pp-meta"><span class="diff easy">Easy</span><a class="pat" href="../two-pointers.html">Two Pointers</a><span class="solved-b" hidden>✓ Solved</span><a class="ext" href="https://leetcode.com/problems/valid-palindrome/" target="_blank" rel="noopener">Also on LeetCode ↗</a></div>
+    <div class="pp-tabs" role="tablist"><button type="button" role="tab" data-t="desc" aria-selected="true">Description</button><button type="button" role="tab" data-t="appr">Approach</button><button type="button" role="tab" data-t="sol">Solution</button><button type="button" role="tab" data-t="viz">Visualize</button></div>
+    <div class="pp-pane" data-t="desc"><p>Ignoring case and every character that is not a letter or digit, does <code>s</code> read the same forwards and backwards?</p><h3>Example 1</h3><div class="ex"><div><b>Input:</b> <code>s = &quot;Was it a car, or a cat I saw?&quot;</code></div><div><b>Output:</b> <code>true</code></div></div><h3>Example 2</h3><div class="ex"><div><b>Input:</b> <code>s = &quot;race a car&quot;</code></div><div><b>Output:</b> <code>false</code></div></div><details class="hint"><summary>Hint 1</summary><p>Put one pointer at each end and walk them toward each other, skipping non-alphanumeric characters.</p></details><div class="tags"><span class="tag">Two Pointers</span><span class="tag">String</span></div></div>
+    <div class="pp-pane" data-t="appr" hidden><div class="appr"><h3>Approach 1: Clean and reverse</h3><p>Build a cleaned lowercase string and compare it with its reverse.</p><div class="cx"><span>⏱ Time <b>O(n)</b></span><span>💾 Space <b>O(n)</b></span></div></div><div class="appr"><h3>Approach 2: Two pointers ✅</h3><p>Compare from both ends in place, skipping junk characters.</p><div class="cx"><span>⏱ Time <b>O(n)</b></span><span>💾 Space <b>O(1)</b></span></div></div></div>
+    <div class="pp-pane" data-t="sol" hidden><p>Reference solution for <b>Two pointers</b> (time O(n), space O(1)). Each solution passes every test in all four languages.</p><div class="ctabs sol"><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py">class Solution:
+    def isPalindrome(self, s: str) -&gt; bool:
+        i, j = 0, len(s) - 1
+        while i &lt; j:
+            if not s[i].isalnum():
+                i += 1
+            elif not s[j].isalnum():
+                j -= 1
+            elif s[i].lower() != s[j].lower():
+                return False
+            else:
+                i += 1
+                j -= 1
+        return True</code></pre><pre data-l="java"><code class="lang-java">class Solution {
+    public boolean isPalindrome(String s) {
+        int i = 0, j = s.length() - 1;
+        while (i &lt; j) {
+            char a = s.charAt(i), b = s.charAt(j);
+            if (!Character.isLetterOrDigit(a)) i++;
+            else if (!Character.isLetterOrDigit(b)) j--;
+            else if (Character.toLowerCase(a) != Character.toLowerCase(b)) return false;
+            else { i++; j--; }
+        }
+        return true;
+    }
+}</code></pre><pre data-l="cpp"><code class="lang-cpp">class Solution {
+public:
+    bool isPalindrome(string s) {
+        int i = 0, j = (int)s.size() - 1;
+        while (i &lt; j) {
+            unsigned char a = s[i], b = s[j];
+            if (!isalnum(a)) i++;
+            else if (!isalnum(b)) j--;
+            else if (tolower(a) != tolower(b)) return false;
+            else { i++; j--; }
+        }
+        return true;
+    }
+};</code></pre><pre data-l="js"><code class="lang-js">function isPalindrome(s) {
+  const ok = c =&gt; /[a-z0-9]/i.test(c);
+  let i = 0, j = s.length - 1;
+  while (i &lt; j) {
+    if (!ok(s[i])) i++;
+    else if (!ok(s[j])) j--;
+    else if (s[i].toLowerCase() !== s[j].toLowerCase()) return false;
+    else { i++; j--; }
+  }
+  return true;
+}</code></pre></div><p class="muted">Try solving it yourself first. Interviewers care more about how you explain the approach than about the finished code.</p></div>
+    <div class="pp-pane" data-t="viz" hidden><p>This problem is explained in the lesson <a href="../two-pointers.html">Two Pointers</a>.</p></div>
+    <nav class="pp-nav"><a href="subarray-sum-equals-k.html">← 9. Subarray Sum Equals K</a><a href="index.html">All problems</a><a href="move-zeroes.html">11. Move Zeroes →</a></nav>
+  </section>
+  <section class="pp-right" aria-label="Code editor">
+    <div class="pp-bar"><label class="sr" for="lang">Language</label><select id="lang"><option value="py">Python</option><option value="java">Java</option><option value="cpp">C++</option><option value="js">JavaScript</option></select>
+      <button type="button" class="b ghost" id="reset" title="Reset to the starter code">↺ Reset</button><span class="grow"></span>
+      <button type="button" class="b ghost" id="run">▶ Run</button><button type="button" class="b" id="submit">Submit</button></div>
+    <div class="pp-ed"><textarea id="code" spellcheck="false" aria-label="Code editor"></textarea></div>
+    <div class="pp-con"><div class="pp-ctabs" role="tablist"><button type="button" data-c="cases" aria-selected="true">Testcases</button><button type="button" data-c="result">Result</button></div>
+      <div class="pp-cbody" data-c="cases"></div><div class="pp-cbody" data-c="result" hidden><p class="muted">Run your code to see results here.</p></div></div>
+  </section>
+</div>
+<script type="application/json" id="pdata">{"id": "valid-palindrome", "lc": "valid-palindrome", "num": 10, "title": "Valid Palindrome", "diff": "Easy", "fn": "isPalindrome", "params": ["s"], "types": ["str"], "ret": "bool", "inplace": null, "cmp": "exact", "tests": [["Was it a car, or a cat I saw?"], ["race a car"], [" "], ["0P"], ["No lemon, no melon"], ["ab_a"]], "expected": [true, false, true, false, true, true], "sample": 3, "starter": {"py": "class Solution:\n    def isPalindrome(self, s: str) -> bool:\n        ", "java": "class Solution {\n    public boolean isPalindrome(String s) {\n        \n    }\n}", "cpp": "class Solution {\npublic:\n    bool isPalindrome(string s) {\n        \n    }\n};", "js": "/**\n * @param {string} s\n * @return {boolean}\n */\nfunction isPalindrome(s) {\n  \n}"}, "solution": {"py": "class Solution:\n    def isPalindrome(self, s: str) -> bool:\n        i, j = 0, len(s) - 1\n        while i < j:\n            if not s[i].isalnum():\n                i += 1\n            elif not s[j].isalnum():\n                j -= 1\n            elif s[i].lower() != s[j].lower():\n                return False\n            else:\n                i += 1\n                j -= 1\n        return True", "java": "class Solution {\n    public boolean isPalindrome(String s) {\n        int i = 0, j = s.length() - 1;\n        while (i < j) {\n            char a = s.charAt(i), b = s.charAt(j);\n            if (!Character.isLetterOrDigit(a)) i++;\n            else if (!Character.isLetterOrDigit(b)) j--;\n            else if (Character.toLowerCase(a) != Character.toLowerCase(b)) return false;\n            else { i++; j--; }\n        }\n        return true;\n    }\n}", "cpp": "class Solution {\npublic:\n    bool isPalindrome(string s) {\n        int i = 0, j = (int)s.size() - 1;\n        while (i < j) {\n            unsigned char a = s[i], b = s[j];\n            if (!isalnum(a)) i++;\n            else if (!isalnum(b)) j--;\n            else if (tolower(a) != tolower(b)) return false;\n            else { i++; j--; }\n        }\n        return true;\n    }\n};", "js": "function isPalindrome(s) {\n  const ok = c => /[a-z0-9]/i.test(c);\n  let i = 0, j = s.length - 1;\n  while (i < j) {\n    if (!ok(s[i])) i++;\n    else if (!ok(s[j])) j--;\n    else if (s[i].toLowerCase() !== s[j].toLowerCase()) return false;\n    else { i++; j--; }\n  }\n  return true;\n}"}}</script>
+</main>
+<script src="../../assets/data.js"></script>
+<script src="../../assets/site.js" data-base="../../"></script>
+<script src="../../assets/engage.js"></script>
+<script src="../../assets/dsa-viz.js"></script>
+<script src="../../assets/dsa.js" data-base="../../"></script>
+</body>
+</html>

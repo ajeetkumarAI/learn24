@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>81. Partition Equal Subset Sum · DSA Practice · Learn24</title>
+<meta name="description" content="Partition Equal Subset Sum (Medium, Dynamic Programming (2-D)): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta property="og:title" content="81. Partition Equal Subset Sum · DSA Practice · Learn24">
+<meta property="og:description" content="Partition Equal Subset Sum (Medium, Dynamic Programming (2-D)): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/pages.css">
+<link rel="stylesheet" href="../../assets/engage.css">
+<link rel="stylesheet" href="../../assets/theme.css">
+<link rel="stylesheet" href="../../assets/dsa.css">
+<script src="../../assets/theme.js"></script>
+<link rel="stylesheet" href="../../assets/codemirror.min.css">
+<script defer src="../../assets/codemirror.min.js"></script>
+</head>
+<body data-page="dsa-problem" data-topic="dsa">
+<main class="pp-shell">
+<div class="pp">
+  <section class="pp-left" aria-label="Problem">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../../index.html">Home</a><span>›</span><a href="../index.html">DSA</a><span>›</span><a href="index.html">Problems</a><span>›</span><span>Partition Equal Subset Sum</span></nav>
+    <h1>81. Partition Equal Subset Sum</h1>
+    <div class="pp-meta"><span class="diff medium">Medium</span><a class="pat" href="../dp-2d.html">Dynamic Programming (2-D)</a><span class="solved-b" hidden>✓ Solved</span><a class="ext" href="https://leetcode.com/problems/partition-equal-subset-sum/" target="_blank" rel="noopener">Also on LeetCode ↗</a></div>
+    <div class="pp-tabs" role="tablist"><button type="button" role="tab" data-t="desc" aria-selected="true">Description</button><button type="button" role="tab" data-t="appr">Approach</button><button type="button" role="tab" data-t="sol">Solution</button><button type="button" role="tab" data-t="viz">Visualize</button></div>
+    <div class="pp-pane" data-t="desc"><p>Can <code>nums</code> be split into <strong>two subsets with equal sums</strong>?</p><h3>Example 1</h3><div class="ex"><div><b>Input:</b> <code>nums = [1,5,11,5]</code></div><div><b>Output:</b> <code>true</code></div><div><b>Explanation:</b> [1, 5, 5] and [11].</div></div><h3>Example 2</h3><div class="ex"><div><b>Input:</b> <code>nums = [1,2,3,5]</code></div><div><b>Output:</b> <code>false</code></div></div><details class="hint"><summary>Hint 1</summary><p>If the total is odd, the answer is no.</p></details><details class="hint"><summary>Hint 2</summary><p>Otherwise: is there a subset summing to total / 2? That is 0/1 knapsack.</p></details><div class="tags"><span class="tag">Dynamic Programming</span><span class="tag">Knapsack</span></div></div>
+    <div class="pp-pane" data-t="appr" hidden><div class="appr"><h3>Approach 1: Subset-sum DP</h3><p>Boolean knapsack over sums up to total/2.</p><div class="cx"><span>⏱ Time <b>O(n · S)</b></span><span>💾 Space <b>O(S)</b></span></div></div><div class="appr"><h3>Approach 2: Bitset ✅</h3><p>Shift-or a bitset for each number.</p><div class="cx"><span>⏱ Time <b>O(n · S / 64)</b></span><span>💾 Space <b>O(S)</b></span></div></div></div>
+    <div class="pp-pane" data-t="sol" hidden><p>Reference solution for <b>Bitset</b> (time O(n · S / 64), space O(S)). Each solution passes every test in all four languages.</p><div class="ctabs sol"><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py">class Solution:
+    def canPartition(self, nums: List[int]) -&gt; bool:
+        total = sum(nums)
+        if total % 2:
+            return False
+        target = total // 2
+        reach = [True] + [False] * target       # reach[s]: some subset sums to s
+        for x in nums:
+            for s in range(target, x - 1, -1):  # 0/1 knapsack: loop backwards
+                reach[s] = reach[s] or reach[s - x]
+        return reach[target]</code></pre><pre data-l="java"><code class="lang-java">class Solution {
+    public boolean canPartition(int[] nums) {
+        int total = 0;
+        for (int x : nums) total += x;
+        if (total % 2 != 0) return false;
+        int target = total / 2;
+        boolean[] reach = new boolean[target + 1];
+        reach[0] = true;
+        for (int x : nums)
+            for (int s = target; s &gt;= x; s--) reach[s] = reach[s] || reach[s - x];
+        return reach[target];
+    }
+}</code></pre><pre data-l="cpp"><code class="lang-cpp">class Solution {
+public:
+    bool canPartition(vector&lt;int&gt;&amp; nums) {
+        int total = accumulate(nums.begin(), nums.end(), 0);
+        if (total % 2) return false;
+        int target = total / 2;
+        vector&lt;bool&gt; reach(target + 1, false);
+        reach[0] = true;
+        for (int x : nums)
+            for (int s = target; s &gt;= x; s--) reach[s] = reach[s] || reach[s - x];
+        return reach[target];
+    }
+};</code></pre><pre data-l="js"><code class="lang-js">function canPartition(nums) {
+  const total = nums.reduce((a, b) =&gt; a + b, 0);
+  if (total % 2) return false;
+  const target = total / 2, reach = new Array(target + 1).fill(false);
+  reach[0] = true;
+  for (const x of nums)
+    for (let s = target; s &gt;= x; s--) reach[s] = reach[s] || reach[s - x];
+  return reach[target];
+}</code></pre></div><p class="muted">Try solving it yourself first. Interviewers care more about how you explain the approach than about the finished code.</p></div>
+    <div class="pp-pane" data-t="viz" hidden><p>Watch the core idea of this problem step by step. Change the input and press <b>Visualize</b>.</p><div class="viz" data-viz="knapsack"></div><p class="muted">Explained in the lesson <a href="../dp-2d.html">Dynamic Programming (2-D)</a>.</p></div>
+    <nav class="pp-nav"><a href="knapsack-0-1.html">← 80. 0/1 Knapsack</a><a href="index.html">All problems</a><a href="minimum-path-sum.html">82. Minimum Path Sum →</a></nav>
+  </section>
+  <section class="pp-right" aria-label="Code editor">
+    <div class="pp-bar"><label class="sr" for="lang">Language</label><select id="lang"><option value="py">Python</option><option value="java">Java</option><option value="cpp">C++</option><option value="js">JavaScript</option></select>
+      <button type="button" class="b ghost" id="reset" title="Reset to the starter code">↺ Reset</button><span class="grow"></span>
+      <button type="button" class="b ghost" id="run">▶ Run</button><button type="button" class="b" id="submit">Submit</button></div>
+    <div class="pp-ed"><textarea id="code" spellcheck="false" aria-label="Code editor"></textarea></div>
+    <div class="pp-con"><div class="pp-ctabs" role="tablist"><button type="button" data-c="cases" aria-selected="true">Testcases</button><button type="button" data-c="result">Result</button></div>
+      <div class="pp-cbody" data-c="cases"></div><div class="pp-cbody" data-c="result" hidden><p class="muted">Run your code to see results here.</p></div></div>
+  </section>
+</div>
+<script type="application/json" id="pdata">{"id": "partition-equal-subset-sum", "lc": "partition-equal-subset-sum", "num": 81, "title": "Partition Equal Subset Sum", "diff": "Medium", "fn": "canPartition", "params": ["nums"], "types": ["int[]"], "ret": "bool", "inplace": null, "cmp": "exact", "tests": [[[1, 5, 11, 5]], [[1, 2, 3, 5]], [[2, 2]], [[1]], [[3, 3, 3, 4, 5]]], "expected": [true, false, true, false, true], "sample": 3, "starter": {"py": "class Solution:\n    def canPartition(self, nums: List[int]) -> bool:\n        ", "java": "class Solution {\n    public boolean canPartition(int[] nums) {\n        \n    }\n}", "cpp": "class Solution {\npublic:\n    bool canPartition(vector<int>& nums) {\n        \n    }\n};", "js": "/**\n * @param {number[]} nums\n * @return {boolean}\n */\nfunction canPartition(nums) {\n  \n}"}, "solution": {"py": "class Solution:\n    def canPartition(self, nums: List[int]) -> bool:\n        total = sum(nums)\n        if total % 2:\n            return False\n        target = total // 2\n        reach = [True] + [False] * target       # reach[s]: some subset sums to s\n        for x in nums:\n            for s in range(target, x - 1, -1):  # 0/1 knapsack: loop backwards\n                reach[s] = reach[s] or reach[s - x]\n        return reach[target]", "java": "class Solution {\n    public boolean canPartition(int[] nums) {\n        int total = 0;\n        for (int x : nums) total += x;\n        if (total % 2 != 0) return false;\n        int target = total / 2;\n        boolean[] reach = new boolean[target + 1];\n        reach[0] = true;\n        for (int x : nums)\n            for (int s = target; s >= x; s--) reach[s] = reach[s] || reach[s - x];\n        return reach[target];\n    }\n}", "cpp": "class Solution {\npublic:\n    bool canPartition(vector<int>& nums) {\n        int total = accumulate(nums.begin(), nums.end(), 0);\n        if (total % 2) return false;\n        int target = total / 2;\n        vector<bool> reach(target + 1, false);\n        reach[0] = true;\n        for (int x : nums)\n            for (int s = target; s >= x; s--) reach[s] = reach[s] || reach[s - x];\n        return reach[target];\n    }\n};", "js": "function canPartition(nums) {\n  const total = nums.reduce((a, b) => a + b, 0);\n  if (total % 2) return false;\n  const target = total / 2, reach = new Array(target + 1).fill(false);\n  reach[0] = true;\n  for (const x of nums)\n    for (let s = target; s >= x; s--) reach[s] = reach[s] || reach[s - x];\n  return reach[target];\n}"}}</script>
+</main>
+<script src="../../assets/data.js"></script>
+<script src="../../assets/site.js" data-base="../../"></script>
+<script src="../../assets/engage.js"></script>
+<script src="../../assets/dsa-viz.js"></script>
+<script src="../../assets/dsa.js" data-base="../../"></script>
+</body>
+</html>

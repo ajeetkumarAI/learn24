@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>46. Invert Binary Tree · DSA Practice · Learn24</title>
+<meta name="description" content="Invert Binary Tree (Easy, Binary Trees &amp; BSTs): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta property="og:title" content="46. Invert Binary Tree · DSA Practice · Learn24">
+<meta property="og:description" content="Invert Binary Tree (Easy, Binary Trees &amp; BSTs): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/pages.css">
+<link rel="stylesheet" href="../../assets/engage.css">
+<link rel="stylesheet" href="../../assets/theme.css">
+<link rel="stylesheet" href="../../assets/dsa.css">
+<script src="../../assets/theme.js"></script>
+<link rel="stylesheet" href="../../assets/codemirror.min.css">
+<script defer src="../../assets/codemirror.min.js"></script>
+</head>
+<body data-page="dsa-problem" data-topic="dsa">
+<main class="pp-shell">
+<div class="pp">
+  <section class="pp-left" aria-label="Problem">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../../index.html">Home</a><span>›</span><a href="../index.html">DSA</a><span>›</span><a href="index.html">Problems</a><span>›</span><span>Invert Binary Tree</span></nav>
+    <h1>46. Invert Binary Tree</h1>
+    <div class="pp-meta"><span class="diff easy">Easy</span><a class="pat" href="../trees.html">Binary Trees &amp; BSTs</a><span class="solved-b" hidden>✓ Solved</span><a class="ext" href="https://leetcode.com/problems/invert-binary-tree/" target="_blank" rel="noopener">Also on LeetCode ↗</a></div>
+    <div class="pp-tabs" role="tablist"><button type="button" role="tab" data-t="desc" aria-selected="true">Description</button><button type="button" role="tab" data-t="appr">Approach</button><button type="button" role="tab" data-t="sol">Solution</button><button type="button" role="tab" data-t="viz">Visualize</button></div>
+    <div class="pp-pane" data-t="desc"><p>Mirror a binary tree: swap the left and right child of <strong>every</strong> node. Return the root.</p><h3>Example 1</h3><div class="ex"><div><b>Input:</b> <code>root = [4,2,7,1,3,6,9]</code></div><div><b>Output:</b> <code>[4,7,2,9,6,3,1]</code></div></div><h3>Example 2</h3><div class="ex"><div><b>Input:</b> <code>root = [2,1,3]</code></div><div><b>Output:</b> <code>[2,3,1]</code></div></div><details class="hint"><summary>Hint 1</summary><p>Swap the children of the root, then invert each subtree.</p></details><div class="tags"><span class="tag">Tree</span><span class="tag">DFS</span></div></div>
+    <div class="pp-pane" data-t="appr" hidden><div class="appr"><h3>Approach 1: Recursion ✅</h3><p>Swap children at every node.</p><div class="cx"><span>⏱ Time <b>O(n)</b></span><span>💾 Space <b>O(h)</b></span></div></div></div>
+    <div class="pp-pane" data-t="sol" hidden><p>Reference solution for <b>Recursion</b> (time O(n), space O(h)). Each solution passes every test in all four languages.</p><div class="ctabs sol"><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py">class Solution:
+    def invertTree(self, root: Optional[TreeNode]) -&gt; Optional[TreeNode]:
+        if root:
+            root.left, root.right = self.invertTree(root.right), self.invertTree(root.left)
+        return root</code></pre><pre data-l="java"><code class="lang-java">class Solution {
+    public TreeNode invertTree(TreeNode root) {
+        if (root == null) return null;
+        TreeNode left = invertTree(root.left);
+        root.left = invertTree(root.right);
+        root.right = left;
+        return root;
+    }
+}</code></pre><pre data-l="cpp"><code class="lang-cpp">class Solution {
+public:
+    TreeNode* invertTree(TreeNode* root) {
+        if (!root) return nullptr;
+        swap(root-&gt;left, root-&gt;right);
+        invertTree(root-&gt;left);
+        invertTree(root-&gt;right);
+        return root;
+    }
+};</code></pre><pre data-l="js"><code class="lang-js">function invertTree(root) {
+  if (!root) return null;
+  [root.left, root.right] = [invertTree(root.right), invertTree(root.left)];
+  return root;
+}</code></pre></div><p class="muted">Try solving it yourself first. Interviewers care more about how you explain the approach than about the finished code.</p></div>
+    <div class="pp-pane" data-t="viz" hidden><p>Watch the core idea of this problem step by step. Change the input and press <b>Visualize</b>.</p><div class="viz" data-viz="tree-traversal"></div><p class="muted">Explained in the lesson <a href="../trees.html">Binary Trees &amp; BSTs</a>.</p></div>
+    <nav class="pp-nav"><a href="maximum-depth-of-binary-tree.html">← 45. Maximum Depth of Binary Tree</a><a href="index.html">All problems</a><a href="same-tree.html">47. Same Tree →</a></nav>
+  </section>
+  <section class="pp-right" aria-label="Code editor">
+    <div class="pp-bar"><label class="sr" for="lang">Language</label><select id="lang"><option value="py">Python</option><option value="java">Java</option><option value="cpp">C++</option><option value="js">JavaScript</option></select>
+      <button type="button" class="b ghost" id="reset" title="Reset to the starter code">↺ Reset</button><span class="grow"></span>
+      <button type="button" class="b ghost" id="run">▶ Run</button><button type="button" class="b" id="submit">Submit</button></div>
+    <div class="pp-ed"><textarea id="code" spellcheck="false" aria-label="Code editor"></textarea></div>
+    <div class="pp-con"><div class="pp-ctabs" role="tablist"><button type="button" data-c="cases" aria-selected="true">Testcases</button><button type="button" data-c="result">Result</button></div>
+      <div class="pp-cbody" data-c="cases"></div><div class="pp-cbody" data-c="result" hidden><p class="muted">Run your code to see results here.</p></div></div>
+  </section>
+</div>
+<script type="application/json" id="pdata">{"id": "invert-binary-tree", "lc": "invert-binary-tree", "num": 46, "title": "Invert Binary Tree", "diff": "Easy", "fn": "invertTree", "params": ["root"], "types": ["tree"], "ret": "tree", "inplace": null, "cmp": "exact", "tests": [[[4, 2, 7, 1, 3, 6, 9]], [[2, 1, 3]], [[]], [[1, 2]]], "expected": [[4, 7, 2, 9, 6, 3, 1], [2, 3, 1], [], [1, null, 2]], "sample": 3, "starter": {"py": "# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:\n        ", "java": "/* class TreeNode { int val; TreeNode left, right; TreeNode(int val) { this.val = val; } } */\nclass Solution {\n    public TreeNode invertTree(TreeNode root) {\n        \n    }\n}", "cpp": "/* struct TreeNode { int val; TreeNode *left, *right; TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} }; */\nclass Solution {\npublic:\n    TreeNode* invertTree(TreeNode* root) {\n        \n    }\n};", "js": "/* function TreeNode(val, left, right) { this.val = val ?? 0; this.left = left ?? null; this.right = right ?? null; } */\n/**\n * @param {TreeNode} root\n * @return {TreeNode}\n */\nfunction invertTree(root) {\n  \n}"}, "solution": {"py": "class Solution:\n    def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:\n        if root:\n            root.left, root.right = self.invertTree(root.right), self.invertTree(root.left)\n        return root", "java": "class Solution {\n    public TreeNode invertTree(TreeNode root) {\n        if (root == null) return null;\n        TreeNode left = invertTree(root.left);\n        root.left = invertTree(root.right);\n        root.right = left;\n        return root;\n    }\n}", "cpp": "class Solution {\npublic:\n    TreeNode* invertTree(TreeNode* root) {\n        if (!root) return nullptr;\n        swap(root->left, root->right);\n        invertTree(root->left);\n        invertTree(root->right);\n        return root;\n    }\n};", "js": "function invertTree(root) {\n  if (!root) return null;\n  [root.left, root.right] = [invertTree(root.right), invertTree(root.left)];\n  return root;\n}"}}</script>
+</main>
+<script src="../../assets/data.js"></script>
+<script src="../../assets/site.js" data-base="../../"></script>
+<script src="../../assets/engage.js"></script>
+<script src="../../assets/dsa-viz.js"></script>
+<script src="../../assets/dsa.js" data-base="../../"></script>
+</body>
+</html>

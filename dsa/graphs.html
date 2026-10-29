@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Graphs: BFS &amp; DFS · DSA · Learn24</title>
+<meta name="description" content="Model the problem as nodes and edges, then explore with breadth-first or depth-first search. This covers grids, islands, connectivity and shortest paths in">
+<meta property="og:title" content="Graphs: BFS &amp; DFS · DSA · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#8fd46b} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<link rel="stylesheet" href="../assets/dsa.css">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="../assets/codemirror.min.css">
+<script defer src="../assets/codemirror.min.js"></script>
+</head>
+<body class="dsa-lesson">
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="graphs" data-lesson="dsa/graphs">
+  <div class="kicker">DSA · Lesson 11 of 17</div>
+  <h1>Graphs: BFS &amp; DFS</h1>
+  <div class="meta"><span>⏱ 15 min</span><span>🎬 Interactive visualizer</span><span>💻 Python · Java · C++ · JavaScript</span><span>🧩 5 practice problems</span></div>
+  <p class="lead">Model the problem as nodes and edges, then explore with breadth-first or depth-first search. This covers grids, islands, connectivity and shortest paths in unweighted graphs.</p>
+<h2>Modelling</h2>
+<p>A <strong>graph</strong> is a set of nodes connected by edges, which can be directed or undirected, weighted or unweighted. Interview graphs are often hidden: a grid (each cell is a node, neighbours are edges), word ladders (words that differ by one letter), states of a puzzle, course prerequisites.</p>
+<p>Store a graph as an <strong>adjacency list</strong>: <code>adj[u] = [v1, v2, …]</code>. It uses O(V + E) memory, which is better than a V × V matrix for sparse graphs.</p>
+<div class="viz" data-viz="bfs,dfs,grid-bfs"></div>
+<h2>BFS or DFS?</h2>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th></th>
+<th>BFS (queue)</th>
+<th>DFS (stack / recursion)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Order</td>
+<td>ring by ring from the start</td>
+<td>as deep as possible, then backtrack</td>
+</tr>
+<tr>
+<td>Shortest path in <strong>unweighted</strong> graphs</td>
+<td>✅ yes</td>
+<td>❌ no</td>
+</tr>
+<tr>
+<td>Memory</td>
+<td>O(width)</td>
+<td>O(depth)</td>
+</tr>
+<tr>
+<td>Natural for</td>
+<td>minimum steps, multi-source spreading (rotting oranges), level problems</td>
+<td>connectivity, flood fill, cycle detection, topological order, backtracking</td>
+</tr>
+</tbody>
+</table></div>
+<p>Both are <strong>O(V + E)</strong>. On an m × n grid that is O(m·n).</p>
+<h2>The template you will reuse forever</h2>
+<ol>
+<li>Build the adjacency list (or use the grid directions).</li>
+<li>Keep a <strong>visited</strong> set, and mark nodes when you <em>enqueue</em> them (not when you dequeue), so nothing is added twice.</li>
+<li>Loop over every node if the graph may be disconnected, counting components as you go.</li>
+</ol>
+<p><strong>Multi-source BFS</strong>: push <em>all</em> sources at once (every rotten orange, every gate) and expand layer by layer; the layer number is the distance to the nearest source.</p>
+<h2 id="template">Code template</h2><div class="ctabs "><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py">from collections import deque
+
+def bfs(adj, start):
+    dist = {start: 0}
+    q = deque([start])
+    while q:
+        u = q.popleft()
+        for v in adj[u]:
+            if v not in dist:              # mark when enqueuing
+                dist[v] = dist[u] + 1
+                q.append(v)
+    return dist
+
+def count_components(n, adj):
+    seen, comps = set(), 0
+    def dfs(u):
+        stack = [u]; seen.add(u)
+        while stack:
+            x = stack.pop()
+            for v in adj[x]:
+                if v not in seen:
+                    seen.add(v); stack.append(v)
+    for u in range(n):
+        if u not in seen:
+            comps += 1; dfs(u)
+    return comps
+
+DIRS = ((1, 0), (-1, 0), (0, 1), (0, -1))   # grid neighbours</code></pre><pre data-l="java"><code class="lang-java">Map&lt;Integer, Integer&gt; bfs(List&lt;List&lt;Integer&gt;&gt; adj, int start) {
+    Map&lt;Integer, Integer&gt; dist = new HashMap&lt;&gt;(Map.of(start, 0));
+    ArrayDeque&lt;Integer&gt; q = new ArrayDeque&lt;&gt;(List.of(start));
+    while (!q.isEmpty()) {
+        int u = q.poll();
+        for (int v : adj.get(u))
+            if (!dist.containsKey(v)) { dist.put(v, dist.get(u) + 1); q.add(v); }
+    }
+    return dist;
+}
+
+int countComponents(int n, List&lt;List&lt;Integer&gt;&gt; adj) {
+    boolean[] seen = new boolean[n];
+    int comps = 0;
+    for (int s = 0; s &lt; n; s++) {
+        if (seen[s]) continue;
+        comps++;
+        Deque&lt;Integer&gt; stack = new ArrayDeque&lt;&gt;(List.of(s)); seen[s] = true;
+        while (!stack.isEmpty()) for (int v : adj.get(stack.pop())) if (!seen[v]) { seen[v] = true; stack.push(v); }
+    }
+    return comps;
+}
+
+int[][] DIRS = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};   // grid neighbours</code></pre><pre data-l="cpp"><code class="lang-cpp">vector&lt;int&gt; bfs(const vector&lt;vector&lt;int&gt;&gt;&amp; adj, int start) {
+    vector&lt;int&gt; dist(adj.size(), -1);
+    queue&lt;int&gt; q; q.push(start); dist[start] = 0;
+    while (!q.empty()) {
+        int u = q.front(); q.pop();
+        for (int v : adj[u]) if (dist[v] == -1) { dist[v] = dist[u] + 1; q.push(v); }
+    }
+    return dist;
+}
+
+int countComponents(int n, const vector&lt;vector&lt;int&gt;&gt;&amp; adj) {
+    vector&lt;bool&gt; seen(n, false);
+    int comps = 0;
+    for (int s = 0; s &lt; n; s++) {
+        if (seen[s]) continue;
+        comps++;
+        vector&lt;int&gt; st{s}; seen[s] = true;
+        while (!st.empty()) { int u = st.back(); st.pop_back(); for (int v : adj[u]) if (!seen[v]) { seen[v] = true; st.push_back(v); } }
+    }
+    return comps;
+}
+
+int DR[] = {1, -1, 0, 0}, DC[] = {0, 0, 1, -1};   // grid neighbours</code></pre><pre data-l="js"><code class="lang-js">function bfs(adj, start) {
+  const dist = new Map([[start, 0]]), q = [start];
+  for (let h = 0; h &lt; q.length; h++) {
+    const u = q[h];
+    for (const v of adj[u]) if (!dist.has(v)) { dist.set(v, dist.get(u) + 1); q.push(v); }
+  }
+  return dist;
+}
+
+function countComponents(n, adj) {
+  const seen = new Array(n).fill(false);
+  let comps = 0;
+  for (let s = 0; s &lt; n; s++) {
+    if (seen[s]) continue;
+    comps++;
+    const stack = [s]; seen[s] = true;
+    while (stack.length) for (const v of adj[stack.pop()]) if (!seen[v]) { seen[v] = true; stack.push(v); }
+  }
+  return comps;
+}
+
+const DIRS = [[1, 0], [-1, 0], [0, 1], [0, -1]]; // grid neighbours</code></pre></div>
+<h2 id="practice">Practise this pattern (5 problems)</h2><p>Each problem has a statement, hints, approaches, solutions in 4 languages and a code runner. Solve them in order: easy first.</p><div class="ptw"><table class="ptab"><thead><tr><th aria-label="Solved"></th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead><tbody><tr data-id="flood-fill"><td class="st" aria-label="status"></td><td class="num">54</td><td><a href="problems/flood-fill.html">Flood Fill</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="find-if-path-exists-in-graph"><td class="st" aria-label="status"></td><td class="num">55</td><td><a href="problems/find-if-path-exists-in-graph.html">Find if Path Exists in Graph</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="number-of-islands"><td class="st" aria-label="status"></td><td class="num">56</td><td><a href="problems/number-of-islands.html">Number of Islands</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="max-area-of-island"><td class="st" aria-label="status"></td><td class="num">57</td><td><a href="problems/max-area-of-island.html">Max Area of Island</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="rotting-oranges"><td class="st" aria-label="status"></td><td class="num">58</td><td><a href="problems/rotting-oranges.html">Rotting Oranges</a></td><td><span class="diff medium">Medium</span></td></tr></tbody></table></div><h2>Common mistakes</h2>
+<ul>
+<li>Marking visited too late (on dequeue) in BFS, which adds duplicates and can blow up the queue.</li>
+<li>Forgetting disconnected components: loop over every node.</li>
+<li>Recursion depth on big grids (10⁶ cells): use an iterative stack or BFS.</li>
+</ul>
+<details><summary>Check yourself: why does BFS give shortest paths only in unweighted graphs?</summary>
+BFS counts edges. With weights, a path with more edges can be cheaper, so you need Dijkstra (non-negative weights) or Bellman–Ford.</details>
+  <div class="pj-cta"><a class="btn" href="problems/index.html">🧩 All DSA problems</a><a class="btn ghost" href="visualizer/index.html">🎬 Algorithm visualizer</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="dsa/graphs"></script>
+<script src="../assets/engage.js"></script>
+<script src="../assets/dsa-viz.js"></script>
+<script src="../assets/dsa.js" data-base="../"></script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>31. Valid Parentheses · DSA Practice · Learn24</title>
+<meta name="description" content="Valid Parentheses (Easy, Stacks, Queues &amp; Monotonic Stacks): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta property="og:title" content="31. Valid Parentheses · DSA Practice · Learn24">
+<meta property="og:description" content="Valid Parentheses (Easy, Stacks, Queues &amp; Monotonic Stacks): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/pages.css">
+<link rel="stylesheet" href="../../assets/engage.css">
+<link rel="stylesheet" href="../../assets/theme.css">
+<link rel="stylesheet" href="../../assets/dsa.css">
+<script src="../../assets/theme.js"></script>
+<link rel="stylesheet" href="../../assets/codemirror.min.css">
+<script defer src="../../assets/codemirror.min.js"></script>
+</head>
+<body data-page="dsa-problem" data-topic="dsa">
+<main class="pp-shell">
+<div class="pp">
+  <section class="pp-left" aria-label="Problem">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../../index.html">Home</a><span>›</span><a href="../index.html">DSA</a><span>›</span><a href="index.html">Problems</a><span>›</span><span>Valid Parentheses</span></nav>
+    <h1>31. Valid Parentheses</h1>
+    <div class="pp-meta"><span class="diff easy">Easy</span><a class="pat" href="../stacks-queues.html">Stacks, Queues &amp; Monotonic Stacks</a><span class="solved-b" hidden>✓ Solved</span><a class="ext" href="https://leetcode.com/problems/valid-parentheses/" target="_blank" rel="noopener">Also on LeetCode ↗</a></div>
+    <div class="pp-tabs" role="tablist"><button type="button" role="tab" data-t="desc" aria-selected="true">Description</button><button type="button" role="tab" data-t="appr">Approach</button><button type="button" role="tab" data-t="sol">Solution</button><button type="button" role="tab" data-t="viz">Visualize</button></div>
+    <div class="pp-pane" data-t="desc"><p><code>s</code> contains only the characters <code>()[]{}</code>. It is valid when every opening bracket is closed by the <strong>same type</strong> of bracket, in the <strong>correct order</strong>.</p><h3>Example 1</h3><div class="ex"><div><b>Input:</b> <code>s = &quot;()[]{}&quot;</code></div><div><b>Output:</b> <code>true</code></div></div><h3>Example 2</h3><div class="ex"><div><b>Input:</b> <code>s = &quot;(]&quot;</code></div><div><b>Output:</b> <code>false</code></div></div><details class="hint"><summary>Hint 1</summary><p>The most recent unclosed bracket must be closed first: last in, first out.</p></details><div class="tags"><span class="tag">Stack</span><span class="tag">String</span></div></div>
+    <div class="pp-pane" data-t="appr" hidden><div class="appr"><h3>Approach 1: Stack ✅</h3><p>Push openers; on a closer, pop and check the type.</p><div class="cx"><span>⏱ Time <b>O(n)</b></span><span>💾 Space <b>O(n)</b></span></div></div></div>
+    <div class="pp-pane" data-t="sol" hidden><p>Reference solution for <b>Stack</b> (time O(n), space O(n)). Each solution passes every test in all four languages.</p><div class="ctabs sol"><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py">class Solution:
+    def isValid(self, s: str) -&gt; bool:
+        pair = {&#x27;)&#x27;: &#x27;(&#x27;, &#x27;]&#x27;: &#x27;[&#x27;, &#x27;}&#x27;: &#x27;{&#x27;}
+        stack = []
+        for ch in s:
+            if ch in pair:
+                if not stack or stack.pop() != pair[ch]:
+                    return False          # wrong or missing opener
+            else:
+                stack.append(ch)
+        return not stack                  # nothing left unclosed</code></pre><pre data-l="java"><code class="lang-java">class Solution {
+    public boolean isValid(String s) {
+        Deque&lt;Character&gt; stack = new ArrayDeque&lt;&gt;();
+        for (char ch : s.toCharArray()) {
+            if (ch == &#x27;(&#x27; || ch == &#x27;[&#x27; || ch == &#x27;{&#x27;) stack.push(ch);
+            else {
+                if (stack.isEmpty()) return false;
+                char open = stack.pop();
+                if ((ch == &#x27;)&#x27; &amp;&amp; open != &#x27;(&#x27;) || (ch == &#x27;]&#x27; &amp;&amp; open != &#x27;[&#x27;) || (ch == &#x27;}&#x27; &amp;&amp; open != &#x27;{&#x27;)) return false;
+            }
+        }
+        return stack.isEmpty();
+    }
+}</code></pre><pre data-l="cpp"><code class="lang-cpp">class Solution {
+public:
+    bool isValid(string s) {
+        stack&lt;char&gt; st;
+        for (char ch : s) {
+            if (ch == &#x27;(&#x27; || ch == &#x27;[&#x27; || ch == &#x27;{&#x27;) st.push(ch);
+            else {
+                if (st.empty()) return false;
+                char open = st.top(); st.pop();
+                if ((ch == &#x27;)&#x27; &amp;&amp; open != &#x27;(&#x27;) || (ch == &#x27;]&#x27; &amp;&amp; open != &#x27;[&#x27;) || (ch == &#x27;}&#x27; &amp;&amp; open != &#x27;{&#x27;)) return false;
+            }
+        }
+        return st.empty();
+    }
+};</code></pre><pre data-l="js"><code class="lang-js">function isValid(s) {
+  const pair = { &#x27;)&#x27;: &#x27;(&#x27;, &#x27;]&#x27;: &#x27;[&#x27;, &#x27;}&#x27;: &#x27;{&#x27; }, stack = [];
+  for (const ch of s) {
+    if (ch in pair) { if (stack.pop() !== pair[ch]) return false; }
+    else stack.push(ch);
+  }
+  return stack.length === 0;
+}</code></pre></div><p class="muted">Try solving it yourself first. Interviewers care more about how you explain the approach than about the finished code.</p></div>
+    <div class="pp-pane" data-t="viz" hidden><p>Watch the core idea of this problem step by step. Change the input and press <b>Visualize</b>.</p><div class="viz" data-viz="parens"></div><p class="muted">Explained in the lesson <a href="../stacks-queues.html">Stacks, Queues &amp; Monotonic Stacks</a>.</p></div>
+    <nav class="pp-nav"><a href="largest-number.html">← 30. Largest Number</a><a href="index.html">All problems</a><a href="daily-temperatures.html">32. Daily Temperatures →</a></nav>
+  </section>
+  <section class="pp-right" aria-label="Code editor">
+    <div class="pp-bar"><label class="sr" for="lang">Language</label><select id="lang"><option value="py">Python</option><option value="java">Java</option><option value="cpp">C++</option><option value="js">JavaScript</option></select>
+      <button type="button" class="b ghost" id="reset" title="Reset to the starter code">↺ Reset</button><span class="grow"></span>
+      <button type="button" class="b ghost" id="run">▶ Run</button><button type="button" class="b" id="submit">Submit</button></div>
+    <div class="pp-ed"><textarea id="code" spellcheck="false" aria-label="Code editor"></textarea></div>
+    <div class="pp-con"><div class="pp-ctabs" role="tablist"><button type="button" data-c="cases" aria-selected="true">Testcases</button><button type="button" data-c="result">Result</button></div>
+      <div class="pp-cbody" data-c="cases"></div><div class="pp-cbody" data-c="result" hidden><p class="muted">Run your code to see results here.</p></div></div>
+  </section>
+</div>
+<script type="application/json" id="pdata">{"id": "valid-parentheses", "lc": "valid-parentheses", "num": 31, "title": "Valid Parentheses", "diff": "Easy", "fn": "isValid", "params": ["s"], "types": ["str"], "ret": "bool", "inplace": null, "cmp": "exact", "tests": [["()[]{}"], ["(]"], ["([{}])"], ["(("], ["){"], ["{[]}()"], ["([)]"]], "expected": [true, false, true, false, false, true, false], "sample": 3, "starter": {"py": "class Solution:\n    def isValid(self, s: str) -> bool:\n        ", "java": "class Solution {\n    public boolean isValid(String s) {\n        \n    }\n}", "cpp": "class Solution {\npublic:\n    bool isValid(string s) {\n        \n    }\n};", "js": "/**\n * @param {string} s\n * @return {boolean}\n */\nfunction isValid(s) {\n  \n}"}, "solution": {"py": "class Solution:\n    def isValid(self, s: str) -> bool:\n        pair = {')': '(', ']': '[', '}': '{'}\n        stack = []\n        for ch in s:\n            if ch in pair:\n                if not stack or stack.pop() != pair[ch]:\n                    return False          # wrong or missing opener\n            else:\n                stack.append(ch)\n        return not stack                  # nothing left unclosed", "java": "class Solution {\n    public boolean isValid(String s) {\n        Deque<Character> stack = new ArrayDeque<>();\n        for (char ch : s.toCharArray()) {\n            if (ch == '(' || ch == '[' || ch == '{') stack.push(ch);\n            else {\n                if (stack.isEmpty()) return false;\n                char open = stack.pop();\n                if ((ch == ')' && open != '(') || (ch == ']' && open != '[') || (ch == '}' && open != '{')) return false;\n            }\n        }\n        return stack.isEmpty();\n    }\n}", "cpp": "class Solution {\npublic:\n    bool isValid(string s) {\n        stack<char> st;\n        for (char ch : s) {\n            if (ch == '(' || ch == '[' || ch == '{') st.push(ch);\n            else {\n                if (st.empty()) return false;\n                char open = st.top(); st.pop();\n                if ((ch == ')' && open != '(') || (ch == ']' && open != '[') || (ch == '}' && open != '{')) return false;\n            }\n        }\n        return st.empty();\n    }\n};", "js": "function isValid(s) {\n  const pair = { ')': '(', ']': '[', '}': '{' }, stack = [];\n  for (const ch of s) {\n    if (ch in pair) { if (stack.pop() !== pair[ch]) return false; }\n    else stack.push(ch);\n  }\n  return stack.length === 0;\n}"}}</script>
+</main>
+<script src="../../assets/data.js"></script>
+<script src="../../assets/site.js" data-base="../../"></script>
+<script src="../../assets/engage.js"></script>
+<script src="../../assets/dsa-viz.js"></script>
+<script src="../../assets/dsa.js" data-base="../../"></script>
+</body>
+</html>

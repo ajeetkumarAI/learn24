@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sliding Window · DSA · Learn24</title>
+<meta name="description" content="Keep a window over a contiguous range and update it in O(1) as it slides. The go-to pattern for “longest / shortest / best subarray or substring”.">
+<meta property="og:title" content="Sliding Window · DSA · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#8fd46b} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<link rel="stylesheet" href="../assets/dsa.css">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="../assets/codemirror.min.css">
+<script defer src="../assets/codemirror.min.js"></script>
+</head>
+<body class="dsa-lesson">
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="sliding-window" data-lesson="dsa/sliding-window">
+  <div class="kicker">DSA · Lesson 4 of 17</div>
+  <h1>Sliding Window</h1>
+  <div class="meta"><span>⏱ 15 min</span><span>🎬 Interactive visualizer</span><span>💻 Python · Java · C++ · JavaScript</span><span>🧩 5 practice problems</span></div>
+  <p class="lead">Keep a window over a contiguous range and update it in O(1) as it slides. The go-to pattern for “longest / shortest / best subarray or substring”.</p>
+<h2>The idea</h2>
+<p>Many questions ask about the best <strong>contiguous</strong> subarray or substring. Re-computing each window from scratch is O(n·k). A <strong>sliding window</strong> keeps running state (a sum, counts, a set) and updates it as the right edge moves in and the left edge moves out, so each element enters and leaves once: <strong>O(n)</strong>.</p>
+<div class="viz" data-viz="window-fixed,window-var,kadane"></div>
+<h2>Two flavours</h2>
+<p><strong>Fixed size k</strong>: add <code>a[r]</code>, remove <code>a[r − k]</code>, record the answer. Examples: max sum of k elements, averages, sliding window maximum (with a monotonic deque).</p>
+<p><strong>Variable size</strong>: expand <code>right</code> every step; while the window breaks a rule, shrink from <code>left</code>. Record the best valid window. Examples:</p>
+<ul>
+<li>Longest substring without repeating characters (rule: no duplicates)</li>
+<li>Longest substring with at most k changes (rule: <code>len − maxFreq ≤ k</code>)</li>
+<li>Minimum window substring (shrink while the window still covers <code>t</code>)</li>
+</ul>
+<h2>Recognise it</h2>
+<ul>
+<li>“<strong>contiguous</strong> subarray / substring”</li>
+<li>“longest”, “shortest”, “at most k”, “maximum sum of size k”</li>
+<li>All values positive (so growing the window only increases the sum)</li>
+</ul>
+<h2 id="template">Code template</h2><div class="ctabs "><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py"># Variable-size window template
+def longest_valid(s):
+    count = {}
+    left = best = 0
+    for right, ch in enumerate(s):
+        count[ch] = count.get(ch, 0) + 1          # 1) grow: add s[right]
+        while count[ch] &gt; 1:                       # 2) shrink while invalid
+            count[s[left]] -= 1
+            left += 1
+        best = max(best, right - left + 1)         # 3) record the valid window
+    return best
+
+# Fixed-size window: max sum of k consecutive values
+def max_sum_k(a, k):
+    s = sum(a[:k]); best = s
+    for r in range(k, len(a)):
+        s += a[r] - a[r - k]
+        best = max(best, s)
+    return best</code></pre><pre data-l="java"><code class="lang-java">// Variable-size window template
+int longestValid(String s) {
+    Map&lt;Character, Integer&gt; count = new HashMap&lt;&gt;();
+    int left = 0, best = 0;
+    for (int right = 0; right &lt; s.length(); right++) {
+        char ch = s.charAt(right);
+        count.merge(ch, 1, Integer::sum);                 // 1) grow
+        while (count.get(ch) &gt; 1) {                         // 2) shrink while invalid
+            count.merge(s.charAt(left), -1, Integer::sum);
+            left++;
+        }
+        best = Math.max(best, right - left + 1);            // 3) record
+    }
+    return best;
+}
+
+// Fixed-size window: max sum of k consecutive values
+int maxSumK(int[] a, int k) {
+    int s = 0; for (int i = 0; i &lt; k; i++) s += a[i];
+    int best = s;
+    for (int r = k; r &lt; a.length; r++) { s += a[r] - a[r - k]; best = Math.max(best, s); }
+    return best;
+}</code></pre><pre data-l="cpp"><code class="lang-cpp">// Variable-size window template
+int longestValid(const string&amp; s) {
+    unordered_map&lt;char, int&gt; count;
+    int left = 0, best = 0;
+    for (int right = 0; right &lt; (int)s.size(); right++) {
+        char ch = s[right];
+        count[ch]++;                                  // 1) grow
+        while (count[ch] &gt; 1) count[s[left++]]--;     // 2) shrink while invalid
+        best = max(best, right - left + 1);           // 3) record
+    }
+    return best;
+}
+
+// Fixed-size window: max sum of k consecutive values
+int maxSumK(const vector&lt;int&gt;&amp; a, int k) {
+    int s = accumulate(a.begin(), a.begin() + k, 0), best = s;
+    for (int r = k; r &lt; (int)a.size(); r++) { s += a[r] - a[r - k]; best = max(best, s); }
+    return best;
+}</code></pre><pre data-l="js"><code class="lang-js">// Variable-size window template
+function longestValid(s) {
+  const count = new Map();
+  let left = 0, best = 0;
+  for (let right = 0; right &lt; s.length; right++) {
+    const ch = s[right];
+    count.set(ch, (count.get(ch) || 0) + 1);       // 1) grow
+    while (count.get(ch) &gt; 1) {                     // 2) shrink while invalid
+      count.set(s[left], count.get(s[left]) - 1);
+      left++;
+    }
+    best = Math.max(best, right - left + 1);        // 3) record
+  }
+  return best;
+}
+
+// Fixed-size window: max sum of k consecutive values
+function maxSumK(a, k) {
+  let s = a.slice(0, k).reduce((x, y) =&gt; x + y, 0), best = s;
+  for (let r = k; r &lt; a.length; r++) { s += a[r] - a[r - k]; best = Math.max(best, s); }
+  return best;
+}</code></pre></div>
+<h2>Complexity</h2>
+<p>O(n) time, because <code>left</code> and <code>right</code> each move at most n times. Space is O(1), or O(alphabet) for character counts.</p>
+<h2 id="practice">Practise this pattern (5 problems)</h2><p>Each problem has a statement, hints, approaches, solutions in 4 languages and a code runner. Solve them in order: easy first.</p><div class="ptw"><table class="ptab"><thead><tr><th aria-label="Solved"></th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead><tbody><tr data-id="best-time-to-buy-and-sell-stock"><td class="st" aria-label="status"></td><td class="num">16</td><td><a href="problems/best-time-to-buy-and-sell-stock.html">Best Time to Buy and Sell Stock</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="longest-substring-without-repeating-characters"><td class="st" aria-label="status"></td><td class="num">17</td><td><a href="problems/longest-substring-without-repeating-characters.html">Longest Substring Without Repeating Characters</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="longest-repeating-character-replacement"><td class="st" aria-label="status"></td><td class="num">18</td><td><a href="problems/longest-repeating-character-replacement.html">Longest Repeating Character Replacement</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="minimum-window-substring"><td class="st" aria-label="status"></td><td class="num">19</td><td><a href="problems/minimum-window-substring.html">Minimum Window Substring</a></td><td><span class="diff hard">Hard</span></td></tr><tr data-id="sliding-window-maximum"><td class="st" aria-label="status"></td><td class="num">20</td><td><a href="problems/sliding-window-maximum.html">Sliding Window Maximum</a></td><td><span class="diff hard">Hard</span></td></tr></tbody></table></div><h2>Common mistakes</h2>
+<ul>
+<li>Using a sliding window when values can be <strong>negative</strong> and you need an exact sum: use prefix sums + a hash map.</li>
+<li>Updating the answer at the wrong moment: for the <em>longest</em> window, record after shrinking; for the <em>shortest</em>, record inside the shrinking loop.</li>
+<li>Off-by-one errors in the window length: it is <code>right − left + 1</code>.</li>
+</ul>
+<details><summary>Check yourself: why is the variable window O(n) even though it has a while-loop inside a for-loop?</summary>
+The inner loop only moves <code>left</code> forward, and <code>left</code> can advance at most n times in total. Summed over the whole run, that is 2n moves.</details>
+  <div class="pj-cta"><a class="btn" href="problems/index.html">🧩 All DSA problems</a><a class="btn ghost" href="visualizer/index.html">🎬 Algorithm visualizer</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="dsa/sliding-window"></script>
+<script src="../assets/engage.js"></script>
+<script src="../assets/dsa-viz.js"></script>
+<script src="../assets/dsa.js" data-base="../"></script>
+</body>
+</html>

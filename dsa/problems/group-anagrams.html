@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>5. Group Anagrams · DSA Practice · Learn24</title>
+<meta name="description" content="Group Anagrams (Medium, Arrays, Hashing &amp; Prefix Sums): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta property="og:title" content="5. Group Anagrams · DSA Practice · Learn24">
+<meta property="og:description" content="Group Anagrams (Medium, Arrays, Hashing &amp; Prefix Sums): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/pages.css">
+<link rel="stylesheet" href="../../assets/engage.css">
+<link rel="stylesheet" href="../../assets/theme.css">
+<link rel="stylesheet" href="../../assets/dsa.css">
+<script src="../../assets/theme.js"></script>
+<link rel="stylesheet" href="../../assets/codemirror.min.css">
+<script defer src="../../assets/codemirror.min.js"></script>
+</head>
+<body data-page="dsa-problem" data-topic="dsa">
+<main class="pp-shell">
+<div class="pp">
+  <section class="pp-left" aria-label="Problem">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../../index.html">Home</a><span>›</span><a href="../index.html">DSA</a><span>›</span><a href="index.html">Problems</a><span>›</span><span>Group Anagrams</span></nav>
+    <h1>5. Group Anagrams</h1>
+    <div class="pp-meta"><span class="diff medium">Medium</span><a class="pat" href="../arrays-hashing.html">Arrays, Hashing &amp; Prefix Sums</a><span class="solved-b" hidden>✓ Solved</span><a class="ext" href="https://leetcode.com/problems/group-anagrams/" target="_blank" rel="noopener">Also on LeetCode ↗</a></div>
+    <div class="pp-tabs" role="tablist"><button type="button" role="tab" data-t="desc" aria-selected="true">Description</button><button type="button" role="tab" data-t="appr">Approach</button><button type="button" role="tab" data-t="sol">Solution</button><button type="button" role="tab" data-t="viz">Visualize</button></div>
+    <div class="pp-pane" data-t="desc"><p>Group the words in <code>strs</code> so that anagrams end up together. Return the groups in any order; words inside a group can be in any order too.</p><h3>Example 1</h3><div class="ex"><div><b>Input:</b> <code>strs = [&quot;note&quot;,&quot;tone&quot;,&quot;act&quot;,&quot;cat&quot;,&quot;stone&quot;,&quot;onset&quot;,&quot;tac&quot;]</code></div><div><b>Output:</b> <code>[[&quot;note&quot;,&quot;tone&quot;],[&quot;act&quot;,&quot;cat&quot;,&quot;tac&quot;],[&quot;stone&quot;,&quot;onset&quot;]]</code></div></div><h3>Example 2</h3><div class="ex"><div><b>Input:</b> <code>strs = [&quot;ab&quot;,&quot;ba&quot;,&quot;abc&quot;,&quot;cab&quot;,&quot;bca&quot;,&quot;xyz&quot;]</code></div><div><b>Output:</b> <code>[[&quot;ab&quot;,&quot;ba&quot;],[&quot;abc&quot;,&quot;cab&quot;,&quot;bca&quot;],[&quot;xyz&quot;]]</code></div></div><h3>Constraints</h3><ul class="cons"><li><code>1 ≤ strs.length ≤ 10⁴</code></li><li><code>0 ≤ strs[i].length ≤ 100</code></li></ul><details class="hint"><summary>Hint 1</summary><p>Find a key that is identical for all anagrams: the sorted word, or its letter counts.</p></details><div class="tags"><span class="tag">Hash Table</span><span class="tag">String</span><span class="tag">Sorting</span></div></div>
+    <div class="pp-pane" data-t="appr" hidden><div class="appr"><h3>Approach 1: Sorted-word key</h3><p>Sort each word’s letters and use it as a hash-map key.</p><div class="cx"><span>⏱ Time <b>O(n · k log k)</b></span><span>💾 Space <b>O(n · k)</b></span></div></div><div class="appr"><h3>Approach 2: Letter-count key ✅</h3><p>Use the 26 letter counts (as a tuple) as the key, avoiding the sort.</p><div class="cx"><span>⏱ Time <b>O(n · k)</b></span><span>💾 Space <b>O(n · k)</b></span></div></div></div>
+    <div class="pp-pane" data-t="sol" hidden><p>Reference solution for <b>Letter-count key</b> (time O(n · k), space O(n · k)). Each solution passes every test in all four languages.</p><div class="ctabs sol"><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py">class Solution:
+    def groupAnagrams(self, strs: List[str]) -&gt; List[List[str]]:
+        groups = defaultdict(list)
+        for w in strs:
+            key = [0] * 26                 # letter counts identify an anagram group
+            for ch in w:
+                key[ord(ch) - 97] += 1
+            groups[tuple(key)].append(w)
+        return list(groups.values())</code></pre><pre data-l="java"><code class="lang-java">class Solution {
+    public List&lt;List&lt;String&gt;&gt; groupAnagrams(String[] strs) {
+        Map&lt;String, List&lt;String&gt;&gt; groups = new HashMap&lt;&gt;();
+        for (String w : strs) {
+            char[] c = w.toCharArray();
+            Arrays.sort(c);                      // sorted letters = group key
+            groups.computeIfAbsent(new String(c), k -&gt; new ArrayList&lt;&gt;()).add(w);
+        }
+        return new ArrayList&lt;&gt;(groups.values());
+    }
+}</code></pre><pre data-l="cpp"><code class="lang-cpp">class Solution {
+public:
+    vector&lt;vector&lt;string&gt;&gt; groupAnagrams(vector&lt;string&gt;&amp; strs) {
+        unordered_map&lt;string, vector&lt;string&gt;&gt; groups;
+        for (const string&amp; w : strs) {
+            string key = w;
+            sort(key.begin(), key.end());        // sorted letters = group key
+            groups[key].push_back(w);
+        }
+        vector&lt;vector&lt;string&gt;&gt; res;
+        for (auto&amp; kv : groups) res.push_back(kv.second);
+        return res;
+    }
+};</code></pre><pre data-l="js"><code class="lang-js">function groupAnagrams(strs) {
+  const groups = new Map();
+  for (const w of strs) {
+    const key = [...w].sort().join(&#x27;&#x27;); // sorted letters = group key
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(w);
+  }
+  return [...groups.values()];
+}</code></pre></div><p class="muted">Try solving it yourself first. Interviewers care more about how you explain the approach than about the finished code.</p></div>
+    <div class="pp-pane" data-t="viz" hidden><p>This problem is explained in the lesson <a href="../arrays-hashing.html">Arrays, Hashing &amp; Prefix Sums</a>.</p></div>
+    <nav class="pp-nav"><a href="majority-element.html">← 4. Majority Element</a><a href="index.html">All problems</a><a href="top-k-frequent-elements.html">6. Top K Frequent Elements →</a></nav>
+  </section>
+  <section class="pp-right" aria-label="Code editor">
+    <div class="pp-bar"><label class="sr" for="lang">Language</label><select id="lang"><option value="py">Python</option><option value="java">Java</option><option value="cpp">C++</option><option value="js">JavaScript</option></select>
+      <button type="button" class="b ghost" id="reset" title="Reset to the starter code">↺ Reset</button><span class="grow"></span>
+      <button type="button" class="b ghost" id="run">▶ Run</button><button type="button" class="b" id="submit">Submit</button></div>
+    <div class="pp-ed"><textarea id="code" spellcheck="false" aria-label="Code editor"></textarea></div>
+    <div class="pp-con"><div class="pp-ctabs" role="tablist"><button type="button" data-c="cases" aria-selected="true">Testcases</button><button type="button" data-c="result">Result</button></div>
+      <div class="pp-cbody" data-c="cases"></div><div class="pp-cbody" data-c="result" hidden><p class="muted">Run your code to see results here.</p></div></div>
+  </section>
+</div>
+<script type="application/json" id="pdata">{"id": "group-anagrams", "lc": "group-anagrams", "num": 5, "title": "Group Anagrams", "diff": "Medium", "fn": "groupAnagrams", "params": ["strs"], "types": ["str[]"], "ret": "str[][]L", "inplace": null, "cmp": "sort2", "tests": [[["note", "tone", "act", "cat", "stone", "onset", "tac"]], [[""]], [["a"]], [["ab", "ba", "abc", "cab", "bca", "xyz"]]], "expected": [[["note", "tone"], ["act", "cat", "tac"], ["stone", "onset"]], [[""]], [["a"]], [["ab", "ba"], ["abc", "cab", "bca"], ["xyz"]]], "sample": 3, "starter": {"py": "class Solution:\n    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:\n        ", "java": "class Solution {\n    public List<List<String>> groupAnagrams(String[] strs) {\n        \n    }\n}", "cpp": "class Solution {\npublic:\n    vector<vector<string>> groupAnagrams(vector<string>& strs) {\n        \n    }\n};", "js": "/**\n * @param {string[]} strs\n * @return {string[][]}\n */\nfunction groupAnagrams(strs) {\n  \n}"}, "solution": {"py": "class Solution:\n    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:\n        groups = defaultdict(list)\n        for w in strs:\n            key = [0] * 26                 # letter counts identify an anagram group\n            for ch in w:\n                key[ord(ch) - 97] += 1\n            groups[tuple(key)].append(w)\n        return list(groups.values())", "java": "class Solution {\n    public List<List<String>> groupAnagrams(String[] strs) {\n        Map<String, List<String>> groups = new HashMap<>();\n        for (String w : strs) {\n            char[] c = w.toCharArray();\n            Arrays.sort(c);                      // sorted letters = group key\n            groups.computeIfAbsent(new String(c), k -> new ArrayList<>()).add(w);\n        }\n        return new ArrayList<>(groups.values());\n    }\n}", "cpp": "class Solution {\npublic:\n    vector<vector<string>> groupAnagrams(vector<string>& strs) {\n        unordered_map<string, vector<string>> groups;\n        for (const string& w : strs) {\n            string key = w;\n            sort(key.begin(), key.end());        // sorted letters = group key\n            groups[key].push_back(w);\n        }\n        vector<vector<string>> res;\n        for (auto& kv : groups) res.push_back(kv.second);\n        return res;\n    }\n};", "js": "function groupAnagrams(strs) {\n  const groups = new Map();\n  for (const w of strs) {\n    const key = [...w].sort().join(''); // sorted letters = group key\n    if (!groups.has(key)) groups.set(key, []);\n    groups.get(key).push(w);\n  }\n  return [...groups.values()];\n}"}}</script>
+</main>
+<script src="../../assets/data.js"></script>
+<script src="../../assets/site.js" data-base="../../"></script>
+<script src="../../assets/engage.js"></script>
+<script src="../../assets/dsa-viz.js"></script>
+<script src="../../assets/dsa.js" data-base="../../"></script>
+</body>
+</html>

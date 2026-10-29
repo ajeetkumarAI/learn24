@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>79. Edit Distance · DSA Practice · Learn24</title>
+<meta name="description" content="Edit Distance (Medium, Dynamic Programming (2-D)): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta property="og:title" content="79. Edit Distance · DSA Practice · Learn24">
+<meta property="og:description" content="Edit Distance (Medium, Dynamic Programming (2-D)): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/pages.css">
+<link rel="stylesheet" href="../../assets/engage.css">
+<link rel="stylesheet" href="../../assets/theme.css">
+<link rel="stylesheet" href="../../assets/dsa.css">
+<script src="../../assets/theme.js"></script>
+<link rel="stylesheet" href="../../assets/codemirror.min.css">
+<script defer src="../../assets/codemirror.min.js"></script>
+</head>
+<body data-page="dsa-problem" data-topic="dsa">
+<main class="pp-shell">
+<div class="pp">
+  <section class="pp-left" aria-label="Problem">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../../index.html">Home</a><span>›</span><a href="../index.html">DSA</a><span>›</span><a href="index.html">Problems</a><span>›</span><span>Edit Distance</span></nav>
+    <h1>79. Edit Distance</h1>
+    <div class="pp-meta"><span class="diff medium">Medium</span><a class="pat" href="../dp-2d.html">Dynamic Programming (2-D)</a><span class="solved-b" hidden>✓ Solved</span><a class="ext" href="https://leetcode.com/problems/edit-distance/" target="_blank" rel="noopener">Also on LeetCode ↗</a></div>
+    <div class="pp-tabs" role="tablist"><button type="button" role="tab" data-t="desc" aria-selected="true">Description</button><button type="button" role="tab" data-t="appr">Approach</button><button type="button" role="tab" data-t="sol">Solution</button><button type="button" role="tab" data-t="viz">Visualize</button></div>
+    <div class="pp-pane" data-t="desc"><p>Return the minimum number of operations (<strong>insert</strong>, <strong>delete</strong> or <strong>replace</strong> a character) needed to turn <code>word1</code> into <code>word2</code>.</p><h3>Example 1</h3><div class="ex"><div><b>Input:</b> <code>word1 = &quot;horse&quot;, word2 = &quot;ros&quot;</code></div><div><b>Output:</b> <code>3</code></div><div><b>Explanation:</b> horse → rorse (replace) → rose (delete) → ros (delete).</div></div><h3>Example 2</h3><div class="ex"><div><b>Input:</b> <code>word1 = &quot;kitten&quot;, word2 = &quot;sitting&quot;</code></div><div><b>Output:</b> <code>3</code></div></div><details class="hint"><summary>Hint 1</summary><p>dp[i][j] = edits to turn the first i chars of word1 into the first j chars of word2.</p></details><details class="hint"><summary>Hint 2</summary><p>Each of the three operations corresponds to one neighbouring cell.</p></details><div class="tags"><span class="tag">Dynamic Programming</span><span class="tag">String</span></div></div>
+    <div class="pp-pane" data-t="appr" hidden><div class="appr"><h3>Approach 1: 2-D DP (Levenshtein) ✅</h3><p>Fill the table from the empty-prefix base cases.</p><div class="cx"><span>⏱ Time <b>O(m · n)</b></span><span>💾 Space <b>O(m · n)</b></span></div></div></div>
+    <div class="pp-pane" data-t="sol" hidden><p>Reference solution for <b>2-D DP (Levenshtein)</b> (time O(m · n), space O(m · n)). Each solution passes every test in all four languages.</p><div class="ctabs sol"><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py">class Solution:
+    def minDistance(self, word1: str, word2: str) -&gt; int:
+        m, n = len(word1), len(word2)
+        dp = [[0] * (n + 1) for _ in range(m + 1)]   # dp[i][j]: edits for word1[:i] -&gt; word2[:j]
+        for i in range(m + 1): dp[i][0] = i          # delete everything
+        for j in range(n + 1): dp[0][j] = j          # insert everything
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
+                if word1[i - 1] == word2[j - 1]:
+                    dp[i][j] = dp[i - 1][j - 1]
+                else:
+                    dp[i][j] = 1 + min(dp[i - 1][j],      # delete
+                                       dp[i][j - 1],      # insert
+                                       dp[i - 1][j - 1])  # replace
+        return dp[m][n]</code></pre><pre data-l="java"><code class="lang-java">class Solution {
+    public int minDistance(String word1, String word2) {
+        int m = word1.length(), n = word2.length();
+        int[][] dp = new int[m + 1][n + 1];
+        for (int i = 0; i &lt;= m; i++) dp[i][0] = i;
+        for (int j = 0; j &lt;= n; j++) dp[0][j] = j;
+        for (int i = 1; i &lt;= m; i++)
+            for (int j = 1; j &lt;= n; j++)
+                dp[i][j] = word1.charAt(i - 1) == word2.charAt(j - 1) ? dp[i - 1][j - 1]
+                         : 1 + Math.min(dp[i - 1][j - 1], Math.min(dp[i - 1][j], dp[i][j - 1]));
+        return dp[m][n];
+    }
+}</code></pre><pre data-l="cpp"><code class="lang-cpp">class Solution {
+public:
+    int minDistance(string word1, string word2) {
+        int m = word1.size(), n = word2.size();
+        vector&lt;vector&lt;int&gt;&gt; dp(m + 1, vector&lt;int&gt;(n + 1));
+        for (int i = 0; i &lt;= m; i++) dp[i][0] = i;
+        for (int j = 0; j &lt;= n; j++) dp[0][j] = j;
+        for (int i = 1; i &lt;= m; i++)
+            for (int j = 1; j &lt;= n; j++)
+                dp[i][j] = word1[i - 1] == word2[j - 1] ? dp[i - 1][j - 1]
+                         : 1 + min({dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1]});
+        return dp[m][n];
+    }
+};</code></pre><pre data-l="js"><code class="lang-js">function minDistance(word1, word2) {
+  const m = word1.length, n = word2.length;
+  const dp = Array.from({ length: m + 1 }, (_, i) =&gt; Array.from({ length: n + 1 }, (_, j) =&gt; (i === 0 ? j : j === 0 ? i : 0)));
+  for (let i = 1; i &lt;= m; i++)
+    for (let j = 1; j &lt;= n; j++)
+      dp[i][j] = word1[i - 1] === word2[j - 1] ? dp[i - 1][j - 1]
+        : 1 + Math.min(dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1]);
+  return dp[m][n];
+}</code></pre></div><p class="muted">Try solving it yourself first. Interviewers care more about how you explain the approach than about the finished code.</p></div>
+    <div class="pp-pane" data-t="viz" hidden><p>Watch the core idea of this problem step by step. Change the input and press <b>Visualize</b>.</p><div class="viz" data-viz="lcs"></div><p class="muted">Explained in the lesson <a href="../dp-2d.html">Dynamic Programming (2-D)</a>.</p></div>
+    <nav class="pp-nav"><a href="longest-common-subsequence.html">← 78. Longest Common Subsequence</a><a href="index.html">All problems</a><a href="knapsack-0-1.html">80. 0/1 Knapsack →</a></nav>
+  </section>
+  <section class="pp-right" aria-label="Code editor">
+    <div class="pp-bar"><label class="sr" for="lang">Language</label><select id="lang"><option value="py">Python</option><option value="java">Java</option><option value="cpp">C++</option><option value="js">JavaScript</option></select>
+      <button type="button" class="b ghost" id="reset" title="Reset to the starter code">↺ Reset</button><span class="grow"></span>
+      <button type="button" class="b ghost" id="run">▶ Run</button><button type="button" class="b" id="submit">Submit</button></div>
+    <div class="pp-ed"><textarea id="code" spellcheck="false" aria-label="Code editor"></textarea></div>
+    <div class="pp-con"><div class="pp-ctabs" role="tablist"><button type="button" data-c="cases" aria-selected="true">Testcases</button><button type="button" data-c="result">Result</button></div>
+      <div class="pp-cbody" data-c="cases"></div><div class="pp-cbody" data-c="result" hidden><p class="muted">Run your code to see results here.</p></div></div>
+  </section>
+</div>
+<script type="application/json" id="pdata">{"id": "edit-distance", "lc": "edit-distance", "num": 79, "title": "Edit Distance", "diff": "Medium", "fn": "minDistance", "params": ["word1", "word2"], "types": ["str", "str"], "ret": "int", "inplace": null, "cmp": "exact", "tests": [["horse", "ros"], ["intention", "execution"], ["", "abc"], ["abc", "abc"], ["kitten", "sitting"]], "expected": [3, 5, 3, 0, 3], "sample": 3, "starter": {"py": "class Solution:\n    def minDistance(self, word1: str, word2: str) -> int:\n        ", "java": "class Solution {\n    public int minDistance(String word1, String word2) {\n        \n    }\n}", "cpp": "class Solution {\npublic:\n    int minDistance(string word1, string word2) {\n        \n    }\n};", "js": "/**\n * @param {string} word1\n * @param {string} word2\n * @return {number}\n */\nfunction minDistance(word1, word2) {\n  \n}"}, "solution": {"py": "class Solution:\n    def minDistance(self, word1: str, word2: str) -> int:\n        m, n = len(word1), len(word2)\n        dp = [[0] * (n + 1) for _ in range(m + 1)]   # dp[i][j]: edits for word1[:i] -> word2[:j]\n        for i in range(m + 1): dp[i][0] = i          # delete everything\n        for j in range(n + 1): dp[0][j] = j          # insert everything\n        for i in range(1, m + 1):\n            for j in range(1, n + 1):\n                if word1[i - 1] == word2[j - 1]:\n                    dp[i][j] = dp[i - 1][j - 1]\n                else:\n                    dp[i][j] = 1 + min(dp[i - 1][j],      # delete\n                                       dp[i][j - 1],      # insert\n                                       dp[i - 1][j - 1])  # replace\n        return dp[m][n]", "java": "class Solution {\n    public int minDistance(String word1, String word2) {\n        int m = word1.length(), n = word2.length();\n        int[][] dp = new int[m + 1][n + 1];\n        for (int i = 0; i <= m; i++) dp[i][0] = i;\n        for (int j = 0; j <= n; j++) dp[0][j] = j;\n        for (int i = 1; i <= m; i++)\n            for (int j = 1; j <= n; j++)\n                dp[i][j] = word1.charAt(i - 1) == word2.charAt(j - 1) ? dp[i - 1][j - 1]\n                         : 1 + Math.min(dp[i - 1][j - 1], Math.min(dp[i - 1][j], dp[i][j - 1]));\n        return dp[m][n];\n    }\n}", "cpp": "class Solution {\npublic:\n    int minDistance(string word1, string word2) {\n        int m = word1.size(), n = word2.size();\n        vector<vector<int>> dp(m + 1, vector<int>(n + 1));\n        for (int i = 0; i <= m; i++) dp[i][0] = i;\n        for (int j = 0; j <= n; j++) dp[0][j] = j;\n        for (int i = 1; i <= m; i++)\n            for (int j = 1; j <= n; j++)\n                dp[i][j] = word1[i - 1] == word2[j - 1] ? dp[i - 1][j - 1]\n                         : 1 + min({dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1]});\n        return dp[m][n];\n    }\n};", "js": "function minDistance(word1, word2) {\n  const m = word1.length, n = word2.length;\n  const dp = Array.from({ length: m + 1 }, (_, i) => Array.from({ length: n + 1 }, (_, j) => (i === 0 ? j : j === 0 ? i : 0)));\n  for (let i = 1; i <= m; i++)\n    for (let j = 1; j <= n; j++)\n      dp[i][j] = word1[i - 1] === word2[j - 1] ? dp[i - 1][j - 1]\n        : 1 + Math.min(dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1]);\n  return dp[m][n];\n}"}}</script>
+</main>
+<script src="../../assets/data.js"></script>
+<script src="../../assets/site.js" data-base="../../"></script>
+<script src="../../assets/engage.js"></script>
+<script src="../../assets/dsa-viz.js"></script>
+<script src="../../assets/dsa.js" data-base="../../"></script>
+</body>
+</html>

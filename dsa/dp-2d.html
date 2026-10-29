@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dynamic Programming (2-D) · DSA · Learn24</title>
+<meta name="description" content="Tables indexed by two things: two strings (LCS, edit distance), a grid (paths), or items × capacity (knapsack). Watch every cell get filled.">
+<meta property="og:title" content="Dynamic Programming (2-D) · DSA · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#8fd46b} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<link rel="stylesheet" href="../assets/dsa.css">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="../assets/codemirror.min.css">
+<script defer src="../assets/codemirror.min.js"></script>
+</head>
+<body class="dsa-lesson">
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="dp-2d" data-lesson="dsa/dp-2d">
+  <div class="kicker">DSA · Lesson 15 of 17</div>
+  <h1>Dynamic Programming (2-D)</h1>
+  <div class="meta"><span>⏱ 15 min</span><span>🎬 Interactive visualizer</span><span>💻 Python · Java · C++ · JavaScript</span><span>🧩 6 practice problems</span></div>
+  <p class="lead">Tables indexed by two things: two strings (LCS, edit distance), a grid (paths), or items × capacity (knapsack). Watch every cell get filled.</p>
+<h2>When you need two dimensions</h2>
+<p>The state needs two numbers when the subproblem depends on <strong>two moving parts</strong>:</p>
+<ul>
+<li><strong>Two strings</strong>: <code>dp[i][j]</code> = answer for the first <code>i</code> characters of A and the first <code>j</code> of B (LCS, edit distance, distinct subsequences, interleaving strings)</li>
+<li><strong>A grid</strong>: <code>dp[r][c]</code> = answer at cell (r, c) (unique paths, minimum path sum, maximal square)</li>
+<li><strong>Items × budget</strong>: <code>dp[i][w]</code> = best value using the first <code>i</code> items with capacity <code>w</code> (0/1 knapsack, subset sum, partition, target sum)</li>
+<li><strong>Intervals</strong>: <code>dp[l][r]</code> = answer for the substring or subarray l..r (longest palindromic subsequence, burst balloons, matrix-chain)</li>
+</ul>
+<div class="viz" data-viz="lcs,edit-distance,unique-paths,knapsack"></div>
+<h2>Reading a 2-D recurrence</h2>
+<p>Each cell looks at a few <strong>neighbours that are already filled</strong>: up <code>dp[i−1][j]</code>, left <code>dp[i][j−1]</code>, and the diagonal <code>dp[i−1][j−1]</code>. Fill row by row so those neighbours are ready.</p>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Match / take</th>
+<th>Otherwise</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LCS</td>
+<td>diagonal + 1</td>
+<td>max(up, left)</td>
+</tr>
+<tr>
+<td>Edit distance</td>
+<td>diagonal</td>
+<td>1 + min(up = delete, left = insert, diagonal = replace)</td>
+</tr>
+<tr>
+<td>Unique paths</td>
+<td></td>
+<td>up + left</td>
+</tr>
+<tr>
+<td>0/1 knapsack</td>
+<td>up-left by weight + value</td>
+<td>up (skip the item)</td>
+</tr>
+</tbody>
+</table></div>
+<h2>Space optimisation</h2>
+<p>When row <code>i</code> only needs row <code>i − 1</code>, keep one or two rows. In 0/1 knapsack with a single 1-D array, loop the capacity <strong>downwards</strong> so each item is used at most once; loop upwards for unlimited reuse (coin change, unbounded knapsack).</p>
+<h2 id="template">Code template</h2><div class="ctabs "><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py">def lcs(a, b):
+    m, n = len(a), len(b)
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if a[i - 1] == b[j - 1]:
+                dp[i][j] = dp[i - 1][j - 1] + 1
+            else:
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+    return dp[m][n]
+
+def knapsack(weights, values, cap):        # 0/1: each item once
+    dp = [0] * (cap + 1)
+    for w, v in zip(weights, values):
+        for c in range(cap, w - 1, -1):    # downwards!
+            dp[c] = max(dp[c], dp[c - w] + v)
+    return dp[cap]</code></pre><pre data-l="java"><code class="lang-java">int lcs(String a, String b) {
+    int m = a.length(), n = b.length();
+    int[][] dp = new int[m + 1][n + 1];
+    for (int i = 1; i &lt;= m; i++)
+        for (int j = 1; j &lt;= n; j++)
+            dp[i][j] = a.charAt(i - 1) == b.charAt(j - 1) ? dp[i - 1][j - 1] + 1 : Math.max(dp[i - 1][j], dp[i][j - 1]);
+    return dp[m][n];
+}
+
+int knapsack(int[] w, int[] v, int cap) {          // 0/1: each item once
+    int[] dp = new int[cap + 1];
+    for (int i = 0; i &lt; w.length; i++)
+        for (int c = cap; c &gt;= w[i]; c--) dp[c] = Math.max(dp[c], dp[c - w[i]] + v[i]);   // downwards!
+    return dp[cap];
+}</code></pre><pre data-l="cpp"><code class="lang-cpp">int lcs(const string&amp; a, const string&amp; b) {
+    int m = a.size(), n = b.size();
+    vector&lt;vector&lt;int&gt;&gt; dp(m + 1, vector&lt;int&gt;(n + 1, 0));
+    for (int i = 1; i &lt;= m; i++)
+        for (int j = 1; j &lt;= n; j++)
+            dp[i][j] = a[i - 1] == b[j - 1] ? dp[i - 1][j - 1] + 1 : max(dp[i - 1][j], dp[i][j - 1]);
+    return dp[m][n];
+}
+
+int knapsack(const vector&lt;int&gt;&amp; w, const vector&lt;int&gt;&amp; v, int cap) {   // 0/1
+    vector&lt;int&gt; dp(cap + 1, 0);
+    for (size_t i = 0; i &lt; w.size(); i++)
+        for (int c = cap; c &gt;= w[i]; c--) dp[c] = max(dp[c], dp[c - w[i]] + v[i]);   // downwards!
+    return dp[cap];
+}</code></pre><pre data-l="js"><code class="lang-js">function lcs(a, b) {
+  const m = a.length, n = b.length;
+  const dp = Array.from({ length: m + 1 }, () =&gt; new Array(n + 1).fill(0));
+  for (let i = 1; i &lt;= m; i++)
+    for (let j = 1; j &lt;= n; j++)
+      dp[i][j] = a[i - 1] === b[j - 1] ? dp[i - 1][j - 1] + 1 : Math.max(dp[i - 1][j], dp[i][j - 1]);
+  return dp[m][n];
+}
+
+function knapsack(w, v, cap) {             // 0/1: each item once
+  const dp = new Array(cap + 1).fill(0);
+  for (let i = 0; i &lt; w.length; i++)
+    for (let c = cap; c &gt;= w[i]; c--) dp[c] = Math.max(dp[c], dp[c - w[i]] + v[i]); // downwards!
+  return dp[cap];
+}</code></pre></div>
+<h2 id="practice">Practise this pattern (6 problems)</h2><p>Each problem has a statement, hints, approaches, solutions in 4 languages and a code runner. Solve them in order: easy first.</p><div class="ptw"><table class="ptab"><thead><tr><th aria-label="Solved"></th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead><tbody><tr data-id="unique-paths"><td class="st" aria-label="status"></td><td class="num">77</td><td><a href="problems/unique-paths.html">Unique Paths</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="longest-common-subsequence"><td class="st" aria-label="status"></td><td class="num">78</td><td><a href="problems/longest-common-subsequence.html">Longest Common Subsequence</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="edit-distance"><td class="st" aria-label="status"></td><td class="num">79</td><td><a href="problems/edit-distance.html">Edit Distance</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="knapsack-0-1"><td class="st" aria-label="status"></td><td class="num">80</td><td><a href="problems/knapsack-0-1.html">0/1 Knapsack</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="partition-equal-subset-sum"><td class="st" aria-label="status"></td><td class="num">81</td><td><a href="problems/partition-equal-subset-sum.html">Partition Equal Subset Sum</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="minimum-path-sum"><td class="st" aria-label="status"></td><td class="num">82</td><td><a href="problems/minimum-path-sum.html">Minimum Path Sum</a></td><td><span class="diff medium">Medium</span></td></tr></tbody></table></div><h2>Common mistakes</h2>
+<ul>
+<li>Off-by-one errors between string indices and dp indices: <code>dp[i][j]</code> uses <code>A[i−1]</code> and <code>B[j−1]</code>.</li>
+<li>Missing base row or column (the empty prefix).</li>
+<li>In 1-D knapsack, looping capacity upwards, which silently turns 0/1 into unbounded.</li>
+</ul>
+<details><summary>Check yourself: what is the LCS of “abcde” and “ace”, and which cells give +1?</summary>
+“ace”, length 3. The diagonal +1 happens at the matching pairs (a, a), (c, c) and (e, e).</details>
+  <div class="pj-cta"><a class="btn" href="problems/index.html">🧩 All DSA problems</a><a class="btn ghost" href="visualizer/index.html">🎬 Algorithm visualizer</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="dsa/dp-2d"></script>
+<script src="../assets/engage.js"></script>
+<script src="../assets/dsa-viz.js"></script>
+<script src="../assets/dsa.js" data-base="../"></script>
+</body>
+</html>

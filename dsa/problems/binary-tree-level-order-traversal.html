@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>50. Binary Tree Level Order Traversal · DSA Practice · Learn24</title>
+<meta name="description" content="Binary Tree Level Order Traversal (Medium, Binary Trees &amp; BSTs): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta property="og:title" content="50. Binary Tree Level Order Traversal · DSA Practice · Learn24">
+<meta property="og:description" content="Binary Tree Level Order Traversal (Medium, Binary Trees &amp; BSTs): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/pages.css">
+<link rel="stylesheet" href="../../assets/engage.css">
+<link rel="stylesheet" href="../../assets/theme.css">
+<link rel="stylesheet" href="../../assets/dsa.css">
+<script src="../../assets/theme.js"></script>
+<link rel="stylesheet" href="../../assets/codemirror.min.css">
+<script defer src="../../assets/codemirror.min.js"></script>
+</head>
+<body data-page="dsa-problem" data-topic="dsa">
+<main class="pp-shell">
+<div class="pp">
+  <section class="pp-left" aria-label="Problem">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../../index.html">Home</a><span>›</span><a href="../index.html">DSA</a><span>›</span><a href="index.html">Problems</a><span>›</span><span>Binary Tree Level Order Traversal</span></nav>
+    <h1>50. Binary Tree Level Order Traversal</h1>
+    <div class="pp-meta"><span class="diff medium">Medium</span><a class="pat" href="../trees.html">Binary Trees &amp; BSTs</a><span class="solved-b" hidden>✓ Solved</span><a class="ext" href="https://leetcode.com/problems/binary-tree-level-order-traversal/" target="_blank" rel="noopener">Also on LeetCode ↗</a></div>
+    <div class="pp-tabs" role="tablist"><button type="button" role="tab" data-t="desc" aria-selected="true">Description</button><button type="button" role="tab" data-t="appr">Approach</button><button type="button" role="tab" data-t="sol">Solution</button><button type="button" role="tab" data-t="viz">Visualize</button></div>
+    <div class="pp-pane" data-t="desc"><p>Return the node values <strong>level by level</strong>, from left to right.</p><h3>Example 1</h3><div class="ex"><div><b>Input:</b> <code>root = [3,9,20,null,null,15,7]</code></div><div><b>Output:</b> <code>[[3],[9,20],[15,7]]</code></div></div><h3>Example 2</h3><div class="ex"><div><b>Input:</b> <code>root = [1]</code></div><div><b>Output:</b> <code>[[1]]</code></div></div><details class="hint"><summary>Hint 1</summary><p>Breadth-first search with a queue.</p></details><details class="hint"><summary>Hint 2</summary><p>Process the queue in batches of its current size: one batch = one level.</p></details><div class="tags"><span class="tag">Tree</span><span class="tag">BFS</span></div></div>
+    <div class="pp-pane" data-t="appr" hidden><div class="appr"><h3>Approach 1: BFS with level batches ✅</h3><p>Queue + loop over the current queue size.</p><div class="cx"><span>⏱ Time <b>O(n)</b></span><span>💾 Space <b>O(w)</b></span></div></div></div>
+    <div class="pp-pane" data-t="sol" hidden><p>Reference solution for <b>BFS with level batches</b> (time O(n), space O(w)). Each solution passes every test in all four languages.</p><div class="ctabs sol"><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py">class Solution:
+    def levelOrder(self, root: Optional[TreeNode]) -&gt; List[List[int]]:
+        if not root:
+            return []
+        res, q = [], deque([root])
+        while q:
+            level = []
+            for _ in range(len(q)):        # exactly the nodes of this level
+                node = q.popleft()
+                level.append(node.val)
+                if node.left: q.append(node.left)
+                if node.right: q.append(node.right)
+            res.append(level)
+        return res</code></pre><pre data-l="java"><code class="lang-java">class Solution {
+    public List&lt;List&lt;Integer&gt;&gt; levelOrder(TreeNode root) {
+        List&lt;List&lt;Integer&gt;&gt; res = new ArrayList&lt;&gt;();
+        if (root == null) return res;
+        Queue&lt;TreeNode&gt; q = new ArrayDeque&lt;&gt;();
+        q.add(root);
+        while (!q.isEmpty()) {
+            List&lt;Integer&gt; level = new ArrayList&lt;&gt;();
+            for (int k = q.size(); k &gt; 0; k--) {
+                TreeNode node = q.poll();
+                level.add(node.val);
+                if (node.left != null) q.add(node.left);
+                if (node.right != null) q.add(node.right);
+            }
+            res.add(level);
+        }
+        return res;
+    }
+}</code></pre><pre data-l="cpp"><code class="lang-cpp">class Solution {
+public:
+    vector&lt;vector&lt;int&gt;&gt; levelOrder(TreeNode* root) {
+        vector&lt;vector&lt;int&gt;&gt; res;
+        if (!root) return res;
+        queue&lt;TreeNode*&gt; q;
+        q.push(root);
+        while (!q.empty()) {
+            vector&lt;int&gt; level;
+            for (int k = q.size(); k &gt; 0; k--) {
+                TreeNode* node = q.front(); q.pop();
+                level.push_back(node-&gt;val);
+                if (node-&gt;left) q.push(node-&gt;left);
+                if (node-&gt;right) q.push(node-&gt;right);
+            }
+            res.push_back(level);
+        }
+        return res;
+    }
+};</code></pre><pre data-l="js"><code class="lang-js">function levelOrder(root) {
+  if (!root) return [];
+  const res = [];
+  let level = [root];
+  while (level.length) {
+    res.push(level.map(n =&gt; n.val));
+    const next = [];
+    for (const n of level) { if (n.left) next.push(n.left); if (n.right) next.push(n.right); }
+    level = next;
+  }
+  return res;
+}</code></pre></div><p class="muted">Try solving it yourself first. Interviewers care more about how you explain the approach than about the finished code.</p></div>
+    <div class="pp-pane" data-t="viz" hidden><p>Watch the core idea of this problem step by step. Change the input and press <b>Visualize</b>.</p><div class="viz" data-viz="tree-traversal"></div><p class="muted">Explained in the lesson <a href="../trees.html">Binary Trees &amp; BSTs</a>.</p></div>
+    <nav class="pp-nav"><a href="binary-tree-inorder-traversal.html">← 49. Binary Tree Inorder Traversal</a><a href="index.html">All problems</a><a href="validate-binary-search-tree.html">51. Validate Binary Search Tree →</a></nav>
+  </section>
+  <section class="pp-right" aria-label="Code editor">
+    <div class="pp-bar"><label class="sr" for="lang">Language</label><select id="lang"><option value="py">Python</option><option value="java">Java</option><option value="cpp">C++</option><option value="js">JavaScript</option></select>
+      <button type="button" class="b ghost" id="reset" title="Reset to the starter code">↺ Reset</button><span class="grow"></span>
+      <button type="button" class="b ghost" id="run">▶ Run</button><button type="button" class="b" id="submit">Submit</button></div>
+    <div class="pp-ed"><textarea id="code" spellcheck="false" aria-label="Code editor"></textarea></div>
+    <div class="pp-con"><div class="pp-ctabs" role="tablist"><button type="button" data-c="cases" aria-selected="true">Testcases</button><button type="button" data-c="result">Result</button></div>
+      <div class="pp-cbody" data-c="cases"></div><div class="pp-cbody" data-c="result" hidden><p class="muted">Run your code to see results here.</p></div></div>
+  </section>
+</div>
+<script type="application/json" id="pdata">{"id": "binary-tree-level-order-traversal", "lc": "binary-tree-level-order-traversal", "num": 50, "title": "Binary Tree Level Order Traversal", "diff": "Medium", "fn": "levelOrder", "params": ["root"], "types": ["tree"], "ret": "int[][]L", "inplace": null, "cmp": "exact", "tests": [[[3, 9, 20, null, null, 15, 7]], [[1]], [[]], [[1, 2, 3, 4, null, null, 5]]], "expected": [[[3], [9, 20], [15, 7]], [[1]], [], [[1], [2, 3], [4, 5]]], "sample": 3, "starter": {"py": "# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:\n        ", "java": "/* class TreeNode { int val; TreeNode left, right; TreeNode(int val) { this.val = val; } } */\nclass Solution {\n    public List<List<Integer>> levelOrder(TreeNode root) {\n        \n    }\n}", "cpp": "/* struct TreeNode { int val; TreeNode *left, *right; TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} }; */\nclass Solution {\npublic:\n    vector<vector<int>> levelOrder(TreeNode* root) {\n        \n    }\n};", "js": "/* function TreeNode(val, left, right) { this.val = val ?? 0; this.left = left ?? null; this.right = right ?? null; } */\n/**\n * @param {TreeNode} root\n * @return {number[][]}\n */\nfunction levelOrder(root) {\n  \n}"}, "solution": {"py": "class Solution:\n    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:\n        if not root:\n            return []\n        res, q = [], deque([root])\n        while q:\n            level = []\n            for _ in range(len(q)):        # exactly the nodes of this level\n                node = q.popleft()\n                level.append(node.val)\n                if node.left: q.append(node.left)\n                if node.right: q.append(node.right)\n            res.append(level)\n        return res", "java": "class Solution {\n    public List<List<Integer>> levelOrder(TreeNode root) {\n        List<List<Integer>> res = new ArrayList<>();\n        if (root == null) return res;\n        Queue<TreeNode> q = new ArrayDeque<>();\n        q.add(root);\n        while (!q.isEmpty()) {\n            List<Integer> level = new ArrayList<>();\n            for (int k = q.size(); k > 0; k--) {\n                TreeNode node = q.poll();\n                level.add(node.val);\n                if (node.left != null) q.add(node.left);\n                if (node.right != null) q.add(node.right);\n            }\n            res.add(level);\n        }\n        return res;\n    }\n}", "cpp": "class Solution {\npublic:\n    vector<vector<int>> levelOrder(TreeNode* root) {\n        vector<vector<int>> res;\n        if (!root) return res;\n        queue<TreeNode*> q;\n        q.push(root);\n        while (!q.empty()) {\n            vector<int> level;\n            for (int k = q.size(); k > 0; k--) {\n                TreeNode* node = q.front(); q.pop();\n                level.push_back(node->val);\n                if (node->left) q.push(node->left);\n                if (node->right) q.push(node->right);\n            }\n            res.push_back(level);\n        }\n        return res;\n    }\n};", "js": "function levelOrder(root) {\n  if (!root) return [];\n  const res = [];\n  let level = [root];\n  while (level.length) {\n    res.push(level.map(n => n.val));\n    const next = [];\n    for (const n of level) { if (n.left) next.push(n.left); if (n.right) next.push(n.right); }\n    level = next;\n  }\n  return res;\n}"}}</script>
+</main>
+<script src="../../assets/data.js"></script>
+<script src="../../assets/site.js" data-base="../../"></script>
+<script src="../../assets/engage.js"></script>
+<script src="../../assets/dsa-viz.js"></script>
+<script src="../../assets/dsa.js" data-base="../../"></script>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Topological Sort, Dijkstra &amp; Union-Find · DSA · Learn24</title>
+<meta name="description" content="Order tasks with dependencies, find cheapest paths with weights, and track connected groups as edges arrive. The three graph algorithms product companies a">
+<meta property="og:title" content="Topological Sort, Dijkstra &amp; Union-Find · DSA · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#8fd46b} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<link rel="stylesheet" href="../assets/dsa.css">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="../assets/codemirror.min.css">
+<script defer src="../assets/codemirror.min.js"></script>
+</head>
+<body class="dsa-lesson">
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="advanced-graphs" data-lesson="dsa/advanced-graphs">
+  <div class="kicker">DSA · Lesson 12 of 17</div>
+  <h1>Topological Sort, Dijkstra &amp; Union-Find</h1>
+  <div class="meta"><span>⏱ 18 min</span><span>🎬 Interactive visualizer</span><span>💻 Python · Java · C++ · JavaScript</span><span>🧩 5 practice problems</span></div>
+  <p class="lead">Order tasks with dependencies, find cheapest paths with weights, and track connected groups as edges arrive. The three graph algorithms product companies ask most.</p>
+<h2>Topological sort (Kahn’s algorithm)</h2>
+<p>For a <strong>directed acyclic graph</strong> (DAG), a topological order lists every node before the nodes that depend on it: course prerequisites, build systems, task pipelines.</p>
+<ol>
+<li>Count the <strong>in-degree</strong> of every node.</li>
+<li>Queue every node with in-degree 0.</li>
+<li>Pop a node, append it to the order, and decrement its neighbours’ in-degrees. Queue any that reach 0.</li>
+<li>If fewer than V nodes were output, the graph has a <strong>cycle</strong>.</li>
+</ol>
+<h2>Dijkstra’s shortest paths</h2>
+<p>For graphs with <strong>non-negative weights</strong>, repeatedly finalise the closest unfinished node, using a min-heap of (distance, node). Skip stale heap entries. O(E log V). With negative weights use Bellman–Ford (O(V·E)); for all pairs on small graphs, Floyd–Warshall (O(V³)).</p>
+<h2>Union-Find (Disjoint Set Union)</h2>
+<p>Keeps track of which elements belong to the same group as edges are added. <code>find(x)</code> returns the group’s root; <code>union(a, b)</code> links two roots. With <strong>path compression</strong> and <strong>union by rank/size</strong>, each operation is almost O(1) (inverse Ackermann). Use it for counting components, detecting a cycle in an undirected graph (Redundant Connection), Kruskal’s minimum spanning tree and accounts merge.</p>
+<div class="viz" data-viz="topo-sort,dijkstra,union-find"></div>
+<h2 id="template">Code template</h2><div class="ctabs "><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py">import heapq
+from collections import deque
+
+def topo_order(n, edges):               # edges: (u, v) means u before v
+    adj = [[] for _ in range(n)]; indeg = [0] * n
+    for u, v in edges: adj[u].append(v); indeg[v] += 1
+    q = deque(i for i in range(n) if indeg[i] == 0); order = []
+    while q:
+        u = q.popleft(); order.append(u)
+        for v in adj[u]:
+            indeg[v] -= 1
+            if indeg[v] == 0: q.append(v)
+    return order if len(order) == n else []   # [] -&gt; cycle
+
+def dijkstra(adj, src):                 # adj[u] = [(v, w), ...]
+    dist = {src: 0}; heap = [(0, src)]
+    while heap:
+        d, u = heapq.heappop(heap)
+        if d &gt; dist.get(u, float(&#x27;inf&#x27;)): continue   # stale
+        for v, w in adj[u]:
+            if d + w &lt; dist.get(v, float(&#x27;inf&#x27;)):
+                dist[v] = d + w; heapq.heappush(heap, (d + w, v))
+    return dist
+
+class DSU:
+    def __init__(self, n): self.p = list(range(n)); self.size = [1] * n
+    def find(self, x):
+        while self.p[x] != x:
+            self.p[x] = self.p[self.p[x]]; x = self.p[x]
+        return x
+    def union(self, a, b):
+        a, b = self.find(a), self.find(b)
+        if a == b: return False
+        if self.size[a] &lt; self.size[b]: a, b = b, a
+        self.p[b] = a; self.size[a] += self.size[b]
+        return True</code></pre><pre data-l="java"><code class="lang-java">int[] topoOrder(int n, int[][] edges) {          // edge {u, v}: u before v
+    List&lt;List&lt;Integer&gt;&gt; adj = new ArrayList&lt;&gt;(); int[] indeg = new int[n];
+    for (int i = 0; i &lt; n; i++) adj.add(new ArrayList&lt;&gt;());
+    for (int[] e : edges) { adj.get(e[0]).add(e[1]); indeg[e[1]]++; }
+    ArrayDeque&lt;Integer&gt; q = new ArrayDeque&lt;&gt;();
+    for (int i = 0; i &lt; n; i++) if (indeg[i] == 0) q.add(i);
+    int[] order = new int[n]; int k = 0;
+    while (!q.isEmpty()) { int u = q.poll(); order[k++] = u; for (int v : adj.get(u)) if (--indeg[v] == 0) q.add(v); }
+    return k == n ? order : new int[0];
+}
+
+int[] dijkstra(List&lt;List&lt;int[]&gt;&gt; adj, int src) {   // adj.get(u) = {v, w}
+    int[] dist = new int[adj.size()]; Arrays.fill(dist, Integer.MAX_VALUE); dist[src] = 0;
+    PriorityQueue&lt;int[]&gt; heap = new PriorityQueue&lt;&gt;((a, b) -&gt; Integer.compare(a[0], b[0]));
+    heap.add(new int[]{0, src});
+    while (!heap.isEmpty()) {
+        int[] cur = heap.poll(); int d = cur[0], u = cur[1];
+        if (d &gt; dist[u]) continue;                   // stale
+        for (int[] e : adj.get(u)) if (d + e[1] &lt; dist[e[0]]) { dist[e[0]] = d + e[1]; heap.add(new int[]{dist[e[0]], e[0]}); }
+    }
+    return dist;
+}
+
+class DSU {
+    int[] p, size;
+    DSU(int n) { p = new int[n]; size = new int[n]; for (int i = 0; i &lt; n; i++) { p[i] = i; size[i] = 1; } }
+    int find(int x) { while (p[x] != x) { p[x] = p[p[x]]; x = p[x]; } return x; }
+    boolean union(int a, int b) {
+        a = find(a); b = find(b); if (a == b) return false;
+        if (size[a] &lt; size[b]) { int t = a; a = b; b = t; }
+        p[b] = a; size[a] += size[b]; return true;
+    }
+}</code></pre><pre data-l="cpp"><code class="lang-cpp">vector&lt;int&gt; topoOrder(int n, const vector&lt;pair&lt;int, int&gt;&gt;&amp; edges) {   // u before v
+    vector&lt;vector&lt;int&gt;&gt; adj(n); vector&lt;int&gt; indeg(n, 0), order;
+    for (auto [u, v] : edges) { adj[u].push_back(v); indeg[v]++; }
+    queue&lt;int&gt; q; for (int i = 0; i &lt; n; i++) if (!indeg[i]) q.push(i);
+    while (!q.empty()) { int u = q.front(); q.pop(); order.push_back(u); for (int v : adj[u]) if (--indeg[v] == 0) q.push(v); }
+    return (int)order.size() == n ? order : vector&lt;int&gt;{};
+}
+
+vector&lt;long long&gt; dijkstra(const vector&lt;vector&lt;pair&lt;int, int&gt;&gt;&gt;&amp; adj, int src) {
+    vector&lt;long long&gt; dist(adj.size(), LLONG_MAX); dist[src] = 0;
+    priority_queue&lt;pair&lt;long long, int&gt;, vector&lt;pair&lt;long long, int&gt;&gt;, greater&lt;&gt;&gt; heap;
+    heap.push({0, src});
+    while (!heap.empty()) {
+        auto [d, u] = heap.top(); heap.pop();
+        if (d &gt; dist[u]) continue;                   // stale
+        for (auto [v, w] : adj[u]) if (d + w &lt; dist[v]) { dist[v] = d + w; heap.push({dist[v], v}); }
+    }
+    return dist;
+}
+
+struct DSU {
+    vector&lt;int&gt; p, sz;
+    DSU(int n) : p(n), sz(n, 1) { iota(p.begin(), p.end(), 0); }
+    int find(int x) { while (p[x] != x) { p[x] = p[p[x]]; x = p[x]; } return x; }
+    bool unite(int a, int b) {
+        a = find(a); b = find(b); if (a == b) return false;
+        if (sz[a] &lt; sz[b]) swap(a, b);
+        p[b] = a; sz[a] += sz[b]; return true;
+    }
+};</code></pre><pre data-l="js"><code class="lang-js">function topoOrder(n, edges) {           // [u, v]: u before v
+  const adj = Array.from({ length: n }, () =&gt; []), indeg = new Array(n).fill(0);
+  for (const [u, v] of edges) { adj[u].push(v); indeg[v]++; }
+  const order = [];
+  for (let i = 0; i &lt; n; i++) if (!indeg[i]) order.push(i);
+  for (let h = 0; h &lt; order.length; h++) for (const v of adj[order[h]]) if (--indeg[v] === 0) order.push(v);
+  return order.length === n ? order : [];
+}
+
+// Dijkstra: see the MinHeap class in the Heaps lesson
+function dijkstra(adj, src) {            // adj[u] = [[v, w], ...]
+  const dist = new Array(adj.length).fill(Infinity), heap = new MinHeap((a, b) =&gt; a[0] &lt; b[0]);
+  dist[src] = 0; heap.push([0, src]);
+  while (heap.size) {
+    const [d, u] = heap.pop();
+    if (d &gt; dist[u]) continue;           // stale
+    for (const [v, w] of adj[u]) if (d + w &lt; dist[v]) { dist[v] = d + w; heap.push([dist[v], v]); }
+  }
+  return dist;
+}
+
+class DSU {
+  constructor(n) { this.p = [...Array(n).keys()]; this.size = new Array(n).fill(1); }
+  find(x) { while (this.p[x] !== x) { this.p[x] = this.p[this.p[x]]; x = this.p[x]; } return x; }
+  union(a, b) {
+    a = this.find(a); b = this.find(b); if (a === b) return false;
+    if (this.size[a] &lt; this.size[b]) [a, b] = [b, a];
+    this.p[b] = a; this.size[a] += this.size[b]; return true;
+  }
+}</code></pre></div>
+<h2>Which one?</h2>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Tool</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>“Order these tasks / can all be finished?”</td>
+<td>Topological sort</td>
+</tr>
+<tr>
+<td>“Cheapest / fastest route with costs”</td>
+<td>Dijkstra</td>
+</tr>
+<tr>
+<td>“Are these connected? how many groups? which edge closes a cycle?”</td>
+<td>Union-Find (or BFS/DFS)</td>
+</tr>
+<tr>
+<td>“Minimum cost to connect everything”</td>
+<td>Kruskal (sort edges + Union-Find) or Prim (heap)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="practice">Practise this pattern (5 problems)</h2><p>Each problem has a statement, hints, approaches, solutions in 4 languages and a code runner. Solve them in order: easy first.</p><div class="ptw"><table class="ptab"><thead><tr><th aria-label="Solved"></th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead><tbody><tr data-id="course-schedule"><td class="st" aria-label="status"></td><td class="num">59</td><td><a href="problems/course-schedule.html">Course Schedule</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="course-schedule-ii"><td class="st" aria-label="status"></td><td class="num">60</td><td><a href="problems/course-schedule-ii.html">Course Schedule II</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="network-delay-time"><td class="st" aria-label="status"></td><td class="num">61</td><td><a href="problems/network-delay-time.html">Network Delay Time</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="number-of-provinces"><td class="st" aria-label="status"></td><td class="num">62</td><td><a href="problems/number-of-provinces.html">Number of Provinces</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="redundant-connection"><td class="st" aria-label="status"></td><td class="num">63</td><td><a href="problems/redundant-connection.html">Redundant Connection</a></td><td><span class="diff medium">Medium</span></td></tr></tbody></table></div><h2>Common mistakes</h2>
+<ul>
+<li>Running Dijkstra with negative edges: the answer can be wrong.</li>
+<li>Forgetting to skip stale heap entries in Dijkstra (<code>if d &gt; dist[u]: continue</code>).</li>
+<li>Union without find: always union the <strong>roots</strong>, not the raw nodes.</li>
+</ul>
+<details><summary>Check yourself: what does it mean if Kahn’s algorithm outputs fewer nodes than the graph has?</summary>
+Some nodes never reached in-degree 0 because they lie on (or depend on) a cycle. No valid order exists.</details>
+  <div class="pj-cta"><a class="btn" href="problems/index.html">🧩 All DSA problems</a><a class="btn ghost" href="visualizer/index.html">🎬 Algorithm visualizer</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="dsa/advanced-graphs"></script>
+<script src="../assets/engage.js"></script>
+<script src="../assets/dsa-viz.js"></script>
+<script src="../assets/dsa.js" data-base="../"></script>
+</body>
+</html>

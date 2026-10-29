@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>42. Kth Largest Element in an Array · DSA Practice · Learn24</title>
+<meta name="description" content="Kth Largest Element in an Array (Medium, Heaps &amp; Priority Queues): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta property="og:title" content="42. Kth Largest Element in an Array · DSA Practice · Learn24">
+<meta property="og:description" content="Kth Largest Element in an Array (Medium, Heaps &amp; Priority Queues): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/pages.css">
+<link rel="stylesheet" href="../../assets/engage.css">
+<link rel="stylesheet" href="../../assets/theme.css">
+<link rel="stylesheet" href="../../assets/dsa.css">
+<script src="../../assets/theme.js"></script>
+<link rel="stylesheet" href="../../assets/codemirror.min.css">
+<script defer src="../../assets/codemirror.min.js"></script>
+</head>
+<body data-page="dsa-problem" data-topic="dsa">
+<main class="pp-shell">
+<div class="pp">
+  <section class="pp-left" aria-label="Problem">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../../index.html">Home</a><span>›</span><a href="../index.html">DSA</a><span>›</span><a href="index.html">Problems</a><span>›</span><span>Kth Largest Element in an Array</span></nav>
+    <h1>42. Kth Largest Element in an Array</h1>
+    <div class="pp-meta"><span class="diff medium">Medium</span><a class="pat" href="../heaps.html">Heaps &amp; Priority Queues</a><span class="solved-b" hidden>✓ Solved</span><a class="ext" href="https://leetcode.com/problems/kth-largest-element-in-an-array/" target="_blank" rel="noopener">Also on LeetCode ↗</a></div>
+    <div class="pp-tabs" role="tablist"><button type="button" role="tab" data-t="desc" aria-selected="true">Description</button><button type="button" role="tab" data-t="appr">Approach</button><button type="button" role="tab" data-t="sol">Solution</button><button type="button" role="tab" data-t="viz">Visualize</button></div>
+    <div class="pp-pane" data-t="desc"><p>Return the <code>k</code>-th largest element in <code>nums</code> (in sorted order, not the k-th distinct value). Can you avoid sorting the whole array?</p><h3>Example 1</h3><div class="ex"><div><b>Input:</b> <code>nums = [3,2,1,5,6,4], k = 2</code></div><div><b>Output:</b> <code>5</code></div></div><h3>Example 2</h3><div class="ex"><div><b>Input:</b> <code>nums = [3,2,3,1,2,4,5,5,6], k = 4</code></div><div><b>Output:</b> <code>4</code></div></div><details class="hint"><summary>Hint 1</summary><p>Keep only the k largest values seen so far in a min-heap.</p></details><details class="hint"><summary>Hint 2</summary><p>The heap’s top is then the k-th largest.</p></details><div class="tags"><span class="tag">Heap</span><span class="tag">Quickselect</span></div></div>
+    <div class="pp-pane" data-t="appr" hidden><div class="appr"><h3>Approach 1: Sort</h3><p>Sort descending and index k−1.</p><div class="cx"><span>⏱ Time <b>O(n log n)</b></span><span>💾 Space <b>O(1)</b></span></div></div><div class="appr"><h3>Approach 2: Min-heap of size k</h3><p>Push each value; pop when size exceeds k.</p><div class="cx"><span>⏱ Time <b>O(n log k)</b></span><span>💾 Space <b>O(k)</b></span></div></div><div class="appr"><h3>Approach 3: Quickselect ✅</h3><p>Partition like quicksort but recurse into one side only.</p><div class="cx"><span>⏱ Time <b>O(n) average</b></span><span>💾 Space <b>O(1)</b></span></div></div></div>
+    <div class="pp-pane" data-t="sol" hidden><p>Reference solution for <b>Quickselect</b> (time O(n) average, space O(1)). Each solution passes every test in all four languages.</p><div class="ctabs sol"><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py">class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -&gt; int:
+        heap = []                      # min-heap of the k largest values seen
+        for x in nums:
+            heapq.heappush(heap, x)
+            if len(heap) &gt; k:
+                heapq.heappop(heap)    # drop the smallest
+        return heap[0]                 # smallest of the k largest</code></pre><pre data-l="java"><code class="lang-java">class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        PriorityQueue&lt;Integer&gt; heap = new PriorityQueue&lt;&gt;();   // min-heap of k largest
+        for (int x : nums) {
+            heap.offer(x);
+            if (heap.size() &gt; k) heap.poll();
+        }
+        return heap.peek();
+    }
+}</code></pre><pre data-l="cpp"><code class="lang-cpp">class Solution {
+public:
+    int findKthLargest(vector&lt;int&gt;&amp; nums, int k) {
+        priority_queue&lt;int, vector&lt;int&gt;, greater&lt;int&gt;&gt; heap;   // min-heap of k largest
+        for (int x : nums) {
+            heap.push(x);
+            if ((int)heap.size() &gt; k) heap.pop();
+        }
+        return heap.top();
+    }
+};</code></pre><pre data-l="js"><code class="lang-js">class MinHeap {
+  constructor(less = (a, b) =&gt; a &lt; b) { this.a = []; this.less = less; }
+  get size() { return this.a.length; }
+  peek() { return this.a[0]; }
+  push(x) { const a = this.a; a.push(x); let i = a.length - 1;
+    while (i &gt; 0) { const p = (i - 1) &gt;&gt; 1; if (!this.less(a[i], a[p])) break; [a[i], a[p]] = [a[p], a[i]]; i = p; } }
+  pop() { const a = this.a, top = a[0], last = a.pop();
+    if (a.length) { a[0] = last; let i = 0;
+      while (true) { const l = 2 * i + 1, r = l + 1; let m = i;
+        if (l &lt; a.length &amp;&amp; this.less(a[l], a[m])) m = l;
+        if (r &lt; a.length &amp;&amp; this.less(a[r], a[m])) m = r;
+        if (m === i) break; [a[i], a[m]] = [a[m], a[i]]; i = m; } }
+    return top; }
+}
+
+function findKthLargest(nums, k) {
+  const heap = new MinHeap(); // min-heap of the k largest
+  for (const x of nums) {
+    heap.push(x);
+    if (heap.size &gt; k) heap.pop();
+  }
+  return heap.peek();
+}</code></pre></div><p class="muted">Try solving it yourself first. Interviewers care more about how you explain the approach than about the finished code.</p></div>
+    <div class="pp-pane" data-t="viz" hidden><p>Watch the core idea of this problem step by step. Change the input and press <b>Visualize</b>.</p><div class="viz" data-viz="heap"></div><p class="muted">Explained in the lesson <a href="../heaps.html">Heaps &amp; Priority Queues</a>.</p></div>
+    <nav class="pp-nav"><a href="last-stone-weight.html">← 41. Last Stone Weight</a><a href="index.html">All problems</a><a href="k-closest-points-to-origin.html">43. K Closest Points to Origin →</a></nav>
+  </section>
+  <section class="pp-right" aria-label="Code editor">
+    <div class="pp-bar"><label class="sr" for="lang">Language</label><select id="lang"><option value="py">Python</option><option value="java">Java</option><option value="cpp">C++</option><option value="js">JavaScript</option></select>
+      <button type="button" class="b ghost" id="reset" title="Reset to the starter code">↺ Reset</button><span class="grow"></span>
+      <button type="button" class="b ghost" id="run">▶ Run</button><button type="button" class="b" id="submit">Submit</button></div>
+    <div class="pp-ed"><textarea id="code" spellcheck="false" aria-label="Code editor"></textarea></div>
+    <div class="pp-con"><div class="pp-ctabs" role="tablist"><button type="button" data-c="cases" aria-selected="true">Testcases</button><button type="button" data-c="result">Result</button></div>
+      <div class="pp-cbody" data-c="cases"></div><div class="pp-cbody" data-c="result" hidden><p class="muted">Run your code to see results here.</p></div></div>
+  </section>
+</div>
+<script type="application/json" id="pdata">{"id": "kth-largest-element-in-an-array", "lc": "kth-largest-element-in-an-array", "num": 42, "title": "Kth Largest Element in an Array", "diff": "Medium", "fn": "findKthLargest", "params": ["nums", "k"], "types": ["int[]", "int"], "ret": "int", "inplace": null, "cmp": "exact", "tests": [[[3, 2, 1, 5, 6, 4], 2], [[3, 2, 3, 1, 2, 4, 5, 5, 6], 4], [[1], 1], [[7, 7, 7], 2], [[-1, -5, 0], 3]], "expected": [5, 4, 1, 7, -5], "sample": 3, "starter": {"py": "class Solution:\n    def findKthLargest(self, nums: List[int], k: int) -> int:\n        ", "java": "class Solution {\n    public int findKthLargest(int[] nums, int k) {\n        \n    }\n}", "cpp": "class Solution {\npublic:\n    int findKthLargest(vector<int>& nums, int k) {\n        \n    }\n};", "js": "/**\n * @param {number[]} nums\n * @param {number} k\n * @return {number}\n */\nfunction findKthLargest(nums, k) {\n  \n}"}, "solution": {"py": "class Solution:\n    def findKthLargest(self, nums: List[int], k: int) -> int:\n        heap = []                      # min-heap of the k largest values seen\n        for x in nums:\n            heapq.heappush(heap, x)\n            if len(heap) > k:\n                heapq.heappop(heap)    # drop the smallest\n        return heap[0]                 # smallest of the k largest", "java": "class Solution {\n    public int findKthLargest(int[] nums, int k) {\n        PriorityQueue<Integer> heap = new PriorityQueue<>();   // min-heap of k largest\n        for (int x : nums) {\n            heap.offer(x);\n            if (heap.size() > k) heap.poll();\n        }\n        return heap.peek();\n    }\n}", "cpp": "class Solution {\npublic:\n    int findKthLargest(vector<int>& nums, int k) {\n        priority_queue<int, vector<int>, greater<int>> heap;   // min-heap of k largest\n        for (int x : nums) {\n            heap.push(x);\n            if ((int)heap.size() > k) heap.pop();\n        }\n        return heap.top();\n    }\n};", "js": "class MinHeap {\n  constructor(less = (a, b) => a < b) { this.a = []; this.less = less; }\n  get size() { return this.a.length; }\n  peek() { return this.a[0]; }\n  push(x) { const a = this.a; a.push(x); let i = a.length - 1;\n    while (i > 0) { const p = (i - 1) >> 1; if (!this.less(a[i], a[p])) break; [a[i], a[p]] = [a[p], a[i]]; i = p; } }\n  pop() { const a = this.a, top = a[0], last = a.pop();\n    if (a.length) { a[0] = last; let i = 0;\n      while (true) { const l = 2 * i + 1, r = l + 1; let m = i;\n        if (l < a.length && this.less(a[l], a[m])) m = l;\n        if (r < a.length && this.less(a[r], a[m])) m = r;\n        if (m === i) break; [a[i], a[m]] = [a[m], a[i]]; i = m; } }\n    return top; }\n}\n\nfunction findKthLargest(nums, k) {\n  const heap = new MinHeap(); // min-heap of the k largest\n  for (const x of nums) {\n    heap.push(x);\n    if (heap.size > k) heap.pop();\n  }\n  return heap.peek();\n}"}}</script>
+</main>
+<script src="../../assets/data.js"></script>
+<script src="../../assets/site.js" data-base="../../"></script>
+<script src="../../assets/engage.js"></script>
+<script src="../../assets/dsa-viz.js"></script>
+<script src="../../assets/dsa.js" data-base="../../"></script>
+</body>
+</html>

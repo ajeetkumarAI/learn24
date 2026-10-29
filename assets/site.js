@@ -49,7 +49,8 @@
       <div class="home-eng">
         <a href="${base}daily/index.html"><i>🔥</i><b>Daily challenge</b><span>One interview question a day. Keep your streak alive.</span></a>
         <a href="${base}mock/index.html"><i>🎤</i><b>Mock interview</b><span>Timed questions from 1,400+ real ones, with a readiness report.</span></a>
-        <a href="${base}roadmaps/index.html"><i>🗺️</i><b>Career roadmaps</b><span>Week-by-week plans: fresher, switcher, product company, banking.</span></a>
+        <a href="${base}roadmaps/index.html"><i>🗺️</i><b>Career roadmaps</b><span>Week-by-week plans: fresher, switcher, DSA, product company, banking.</span></a>
+        <a href="${base}dsa/problems/index.html"><i>🧩</i><b>DSA practice</b><span>90 coding problems with a code editor, 4 languages and visualizers.</span></a>
         <a href="${base}projects/index.html"><i>🛠️</i><b>Portfolio projects</b><span>10 job-ready projects with code and resume lines.</span></a>
         <a href="${base}certificate/index.html"><i>🎓</i><b>Certificates</b><span>Finish a track and add it to LinkedIn.</span></a>
       </div>

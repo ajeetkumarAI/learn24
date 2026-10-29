@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>6. Top K Frequent Elements · DSA Practice · Learn24</title>
+<meta name="description" content="Top K Frequent Elements (Medium, Arrays, Hashing &amp; Prefix Sums): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta property="og:title" content="6. Top K Frequent Elements · DSA Practice · Learn24">
+<meta property="og:description" content="Top K Frequent Elements (Medium, Arrays, Hashing &amp; Prefix Sums): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/pages.css">
+<link rel="stylesheet" href="../../assets/engage.css">
+<link rel="stylesheet" href="../../assets/theme.css">
+<link rel="stylesheet" href="../../assets/dsa.css">
+<script src="../../assets/theme.js"></script>
+<link rel="stylesheet" href="../../assets/codemirror.min.css">
+<script defer src="../../assets/codemirror.min.js"></script>
+</head>
+<body data-page="dsa-problem" data-topic="dsa">
+<main class="pp-shell">
+<div class="pp">
+  <section class="pp-left" aria-label="Problem">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../../index.html">Home</a><span>›</span><a href="../index.html">DSA</a><span>›</span><a href="index.html">Problems</a><span>›</span><span>Top K Frequent Elements</span></nav>
+    <h1>6. Top K Frequent Elements</h1>
+    <div class="pp-meta"><span class="diff medium">Medium</span><a class="pat" href="../arrays-hashing.html">Arrays, Hashing &amp; Prefix Sums</a><span class="solved-b" hidden>✓ Solved</span><a class="ext" href="https://leetcode.com/problems/top-k-frequent-elements/" target="_blank" rel="noopener">Also on LeetCode ↗</a></div>
+    <div class="pp-tabs" role="tablist"><button type="button" role="tab" data-t="desc" aria-selected="true">Description</button><button type="button" role="tab" data-t="appr">Approach</button><button type="button" role="tab" data-t="sol">Solution</button><button type="button" role="tab" data-t="viz">Visualize</button></div>
+    <div class="pp-pane" data-t="desc"><p>Return the <code>k</code> most frequent values in <code>nums</code>, in any order. The answer is guaranteed to be unique.</p><h3>Example 1</h3><div class="ex"><div><b>Input:</b> <code>nums = [4,4,4,6,6,9], k = 2</code></div><div><b>Output:</b> <code>[4,6]</code></div></div><h3>Example 2</h3><div class="ex"><div><b>Input:</b> <code>nums = [7], k = 1</code></div><div><b>Output:</b> <code>[7]</code></div></div><h3>Constraints</h3><ul class="cons"><li><code>1 ≤ k ≤ number of distinct values</code></li></ul><details class="hint"><summary>Hint 1</summary><p>Count frequencies first.</p></details><details class="hint"><summary>Hint 2</summary><p>A frequency can be at most n, so you can bucket values by frequency instead of sorting.</p></details><div class="tags"><span class="tag">Hash Table</span><span class="tag">Bucket Sort</span><span class="tag">Heap</span></div></div>
+    <div class="pp-pane" data-t="appr" hidden><div class="appr"><h3>Approach 1: Sort by count</h3><p>Count with a hash map, sort the distinct values by count, take k.</p><div class="cx"><span>⏱ Time <b>O(n log n)</b></span><span>💾 Space <b>O(n)</b></span></div></div><div class="appr"><h3>Approach 2: Min-heap of size k</h3><p>Push (count, value) into a heap and pop when it grows beyond k.</p><div class="cx"><span>⏱ Time <b>O(n log k)</b></span><span>💾 Space <b>O(n)</b></span></div></div><div class="appr"><h3>Approach 3: Bucket sort ✅</h3><p>Put each value in bucket[count] and read buckets from high to low.</p><div class="cx"><span>⏱ Time <b>O(n)</b></span><span>💾 Space <b>O(n)</b></span></div></div></div>
+    <div class="pp-pane" data-t="sol" hidden><p>Reference solution for <b>Bucket sort</b> (time O(n), space O(n)). Each solution passes every test in all four languages.</p><div class="ctabs sol"><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py">class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -&gt; List[int]:
+        count = Counter(nums)
+        buckets = [[] for _ in range(len(nums) + 1)]   # buckets[f] = values seen f times
+        for x, f in count.items():
+            buckets[f].append(x)
+        res = []
+        for f in range(len(buckets) - 1, 0, -1):       # highest frequency first
+            for x in buckets[f]:
+                res.append(x)
+                if len(res) == k:
+                    return res
+        return res</code></pre><pre data-l="java"><code class="lang-java">class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+        Map&lt;Integer, Integer&gt; count = new HashMap&lt;&gt;();
+        for (int x : nums) count.merge(x, 1, Integer::sum);
+        List&lt;List&lt;Integer&gt;&gt; buckets = new ArrayList&lt;&gt;();          // buckets.get(f) = values seen f times
+        for (int i = 0; i &lt;= nums.length; i++) buckets.add(new ArrayList&lt;&gt;());
+        for (var e : count.entrySet()) buckets.get(e.getValue()).add(e.getKey());
+        int[] res = new int[k];
+        int i = 0;
+        for (int f = nums.length; f &gt; 0 &amp;&amp; i &lt; k; f--)
+            for (int x : buckets.get(f))
+                if (i &lt; k) res[i++] = x;
+        return res;
+    }
+}</code></pre><pre data-l="cpp"><code class="lang-cpp">class Solution {
+public:
+    vector&lt;int&gt; topKFrequent(vector&lt;int&gt;&amp; nums, int k) {
+        unordered_map&lt;int, int&gt; count;
+        for (int x : nums) count[x]++;
+        vector&lt;vector&lt;int&gt;&gt; buckets(nums.size() + 1);   // buckets[f] = values seen f times
+        for (auto&amp; kv : count) buckets[kv.second].push_back(kv.first);
+        vector&lt;int&gt; res;
+        for (int f = nums.size(); f &gt; 0 &amp;&amp; (int)res.size() &lt; k; f--)
+            for (int x : buckets[f])
+                if ((int)res.size() &lt; k) res.push_back(x);
+        return res;
+    }
+};</code></pre><pre data-l="js"><code class="lang-js">function topKFrequent(nums, k) {
+  const count = new Map();
+  for (const x of nums) count.set(x, (count.get(x) || 0) + 1);
+  const buckets = Array.from({ length: nums.length + 1 }, () =&gt; []); // buckets[f] = values seen f times
+  for (const [x, f] of count) buckets[f].push(x);
+  const res = [];
+  for (let f = nums.length; f &gt; 0 &amp;&amp; res.length &lt; k; f--)
+    for (const x of buckets[f]) if (res.length &lt; k) res.push(x);
+  return res;
+}</code></pre></div><p class="muted">Try solving it yourself first. Interviewers care more about how you explain the approach than about the finished code.</p></div>
+    <div class="pp-pane" data-t="viz" hidden><p>This problem is explained in the lesson <a href="../arrays-hashing.html">Arrays, Hashing &amp; Prefix Sums</a>.</p></div>
+    <nav class="pp-nav"><a href="group-anagrams.html">← 5. Group Anagrams</a><a href="index.html">All problems</a><a href="product-of-array-except-self.html">7. Product of Array Except Self →</a></nav>
+  </section>
+  <section class="pp-right" aria-label="Code editor">
+    <div class="pp-bar"><label class="sr" for="lang">Language</label><select id="lang"><option value="py">Python</option><option value="java">Java</option><option value="cpp">C++</option><option value="js">JavaScript</option></select>
+      <button type="button" class="b ghost" id="reset" title="Reset to the starter code">↺ Reset</button><span class="grow"></span>
+      <button type="button" class="b ghost" id="run">▶ Run</button><button type="button" class="b" id="submit">Submit</button></div>
+    <div class="pp-ed"><textarea id="code" spellcheck="false" aria-label="Code editor"></textarea></div>
+    <div class="pp-con"><div class="pp-ctabs" role="tablist"><button type="button" data-c="cases" aria-selected="true">Testcases</button><button type="button" data-c="result">Result</button></div>
+      <div class="pp-cbody" data-c="cases"></div><div class="pp-cbody" data-c="result" hidden><p class="muted">Run your code to see results here.</p></div></div>
+  </section>
+</div>
+<script type="application/json" id="pdata">{"id": "top-k-frequent-elements", "lc": "top-k-frequent-elements", "num": 6, "title": "Top K Frequent Elements", "diff": "Medium", "fn": "topKFrequent", "params": ["nums", "k"], "types": ["int[]", "int"], "ret": "int[]", "inplace": null, "cmp": "sort", "tests": [[[4, 4, 4, 6, 6, 9], 2], [[7], 1], [[1, 2, 2, 3, 3, 3], 1], [[5, 5, 5, 1, 1, 2, 2, 2, 2, 9], 2], [[-1, -1, 0, 0, 0, 3], 2]], "expected": [[4, 6], [7], [3], [2, 5], [0, -1]], "sample": 3, "starter": {"py": "class Solution:\n    def topKFrequent(self, nums: List[int], k: int) -> List[int]:\n        ", "java": "class Solution {\n    public int[] topKFrequent(int[] nums, int k) {\n        \n    }\n}", "cpp": "class Solution {\npublic:\n    vector<int> topKFrequent(vector<int>& nums, int k) {\n        \n    }\n};", "js": "/**\n * @param {number[]} nums\n * @param {number} k\n * @return {number[]}\n */\nfunction topKFrequent(nums, k) {\n  \n}"}, "solution": {"py": "class Solution:\n    def topKFrequent(self, nums: List[int], k: int) -> List[int]:\n        count = Counter(nums)\n        buckets = [[] for _ in range(len(nums) + 1)]   # buckets[f] = values seen f times\n        for x, f in count.items():\n            buckets[f].append(x)\n        res = []\n        for f in range(len(buckets) - 1, 0, -1):       # highest frequency first\n            for x in buckets[f]:\n                res.append(x)\n                if len(res) == k:\n                    return res\n        return res", "java": "class Solution {\n    public int[] topKFrequent(int[] nums, int k) {\n        Map<Integer, Integer> count = new HashMap<>();\n        for (int x : nums) count.merge(x, 1, Integer::sum);\n        List<List<Integer>> buckets = new ArrayList<>();          // buckets.get(f) = values seen f times\n        for (int i = 0; i <= nums.length; i++) buckets.add(new ArrayList<>());\n        for (var e : count.entrySet()) buckets.get(e.getValue()).add(e.getKey());\n        int[] res = new int[k];\n        int i = 0;\n        for (int f = nums.length; f > 0 && i < k; f--)\n            for (int x : buckets.get(f))\n                if (i < k) res[i++] = x;\n        return res;\n    }\n}", "cpp": "class Solution {\npublic:\n    vector<int> topKFrequent(vector<int>& nums, int k) {\n        unordered_map<int, int> count;\n        for (int x : nums) count[x]++;\n        vector<vector<int>> buckets(nums.size() + 1);   // buckets[f] = values seen f times\n        for (auto& kv : count) buckets[kv.second].push_back(kv.first);\n        vector<int> res;\n        for (int f = nums.size(); f > 0 && (int)res.size() < k; f--)\n            for (int x : buckets[f])\n                if ((int)res.size() < k) res.push_back(x);\n        return res;\n    }\n};", "js": "function topKFrequent(nums, k) {\n  const count = new Map();\n  for (const x of nums) count.set(x, (count.get(x) || 0) + 1);\n  const buckets = Array.from({ length: nums.length + 1 }, () => []); // buckets[f] = values seen f times\n  for (const [x, f] of count) buckets[f].push(x);\n  const res = [];\n  for (let f = nums.length; f > 0 && res.length < k; f--)\n    for (const x of buckets[f]) if (res.length < k) res.push(x);\n  return res;\n}"}}</script>
+</main>
+<script src="../../assets/data.js"></script>
+<script src="../../assets/site.js" data-base="../../"></script>
+<script src="../../assets/engage.js"></script>
+<script src="../../assets/dsa-viz.js"></script>
+<script src="../../assets/dsa.js" data-base="../../"></script>
+</body>
+</html>

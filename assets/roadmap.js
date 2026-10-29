@@ -8,7 +8,8 @@
   function render() {
     const r = RM.find(x => x.id === cur), st = S.roadmap[cur] = S.roadmap[cur] || { items: {} };
     const all = r.weeks.flatMap((w, wi) => w[1].map((it, ii) => `${wi}.${ii}`));
-    const isDone = (k, it) => !!st.items[k] || (lessonKey(it.h) && done.includes(lessonKey(it.h)));
+    const solvedP = (S.dsa && S.dsa.solved) || {}, pid = h => { const m = /\/dsa\/problems\/([^/#?]+)\.html$/.exec(h || ''); return m ? m[1] : ''; };
+    const isDone = (k, it) => !!st.items[k] || (lessonKey(it.h) && done.includes(lessonKey(it.h))) || (pid(it.h) && !!solvedP[pid(it.h)]);
     const n = r.weeks.reduce((a, w, wi) => a + w[1].filter((it, ii) => isDone(`${wi}.${ii}`, it)).length, 0), pct = Math.round(n / all.length * 100);
     app.innerHTML = `
     <div class="chips" style="margin-bottom:12px">${RM.map(x => `<button type="button" data-r="${x.id}" class="${x.id === cur ? 'on' : ''}">${x.icon} ${esc(x.title)}</button>`).join('')}</div>

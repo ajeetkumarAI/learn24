@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>18. Longest Repeating Character Replacement · DSA Practice · Learn24</title>
+<meta name="description" content="Longest Repeating Character Replacement (Medium, Sliding Window): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta property="og:title" content="18. Longest Repeating Character Replacement · DSA Practice · Learn24">
+<meta property="og:description" content="Longest Repeating Character Replacement (Medium, Sliding Window): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/pages.css">
+<link rel="stylesheet" href="../../assets/engage.css">
+<link rel="stylesheet" href="../../assets/theme.css">
+<link rel="stylesheet" href="../../assets/dsa.css">
+<script src="../../assets/theme.js"></script>
+<link rel="stylesheet" href="../../assets/codemirror.min.css">
+<script defer src="../../assets/codemirror.min.js"></script>
+</head>
+<body data-page="dsa-problem" data-topic="dsa">
+<main class="pp-shell">
+<div class="pp">
+  <section class="pp-left" aria-label="Problem">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../../index.html">Home</a><span>›</span><a href="../index.html">DSA</a><span>›</span><a href="index.html">Problems</a><span>›</span><span>Longest Repeating Character Replacement</span></nav>
+    <h1>18. Longest Repeating Character Replacement</h1>
+    <div class="pp-meta"><span class="diff medium">Medium</span><a class="pat" href="../sliding-window.html">Sliding Window</a><span class="solved-b" hidden>✓ Solved</span><a class="ext" href="https://leetcode.com/problems/longest-repeating-character-replacement/" target="_blank" rel="noopener">Also on LeetCode ↗</a></div>
+    <div class="pp-tabs" role="tablist"><button type="button" role="tab" data-t="desc" aria-selected="true">Description</button><button type="button" role="tab" data-t="appr">Approach</button><button type="button" role="tab" data-t="sol">Solution</button><button type="button" role="tab" data-t="viz">Visualize</button></div>
+    <div class="pp-pane" data-t="desc"><p><code>s</code> has uppercase letters. You may change at most <code>k</code> characters to any other uppercase letter. Return the length of the longest substring that can be made of <strong>one repeated letter</strong>.</p><h3>Example 1</h3><div class="ex"><div><b>Input:</b> <code>s = &quot;AABABBA&quot;, k = 1</code></div><div><b>Output:</b> <code>4</code></div></div><h3>Example 2</h3><div class="ex"><div><b>Input:</b> <code>s = &quot;ABAB&quot;, k = 2</code></div><div><b>Output:</b> <code>4</code></div></div><details class="hint"><summary>Hint 1</summary><p>A window is valid when (window length − count of its most frequent letter) ≤ k.</p></details><div class="tags"><span class="tag">Sliding Window</span><span class="tag">String</span></div></div>
+    <div class="pp-pane" data-t="appr" hidden><div class="appr"><h3>Approach 1: Try every letter</h3><p>For each of 26 letters run a window counting the other letters.</p><div class="cx"><span>⏱ Time <b>O(26 · n)</b></span><span>💾 Space <b>O(1)</b></span></div></div><div class="appr"><h3>Approach 2: Single window ✅</h3><p>Track the top frequency; shrink when the window needs more than k changes. <code>top</code> never needs to decrease.</p><div class="cx"><span>⏱ Time <b>O(n)</b></span><span>💾 Space <b>O(1)</b></span></div></div></div>
+    <div class="pp-pane" data-t="sol" hidden><p>Reference solution for <b>Single window</b> (time O(n), space O(1)). Each solution passes every test in all four languages.</p><div class="ctabs sol"><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py">class Solution:
+    def characterReplacement(self, s: str, k: int) -&gt; int:
+        count = defaultdict(int)
+        left = top = best = 0
+        for right, ch in enumerate(s):
+            count[ch] += 1
+            top = max(top, count[ch])                 # most common letter in the window
+            while (right - left + 1) - top &gt; k:       # too many letters to change
+                count[s[left]] -= 1
+                left += 1
+            best = max(best, right - left + 1)
+        return best</code></pre><pre data-l="java"><code class="lang-java">class Solution {
+    public int characterReplacement(String s, int k) {
+        int[] count = new int[26];
+        int left = 0, top = 0, best = 0;
+        for (int right = 0; right &lt; s.length(); right++) {
+            top = Math.max(top, ++count[s.charAt(right) - &#x27;A&#x27;]);
+            while (right - left + 1 - top &gt; k) count[s.charAt(left++) - &#x27;A&#x27;]--;
+            best = Math.max(best, right - left + 1);
+        }
+        return best;
+    }
+}</code></pre><pre data-l="cpp"><code class="lang-cpp">class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        int count[26] = {0}, left = 0, top = 0, best = 0;
+        for (int right = 0; right &lt; (int)s.size(); right++) {
+            top = max(top, ++count[s[right] - &#x27;A&#x27;]);
+            while (right - left + 1 - top &gt; k) count[s[left++] - &#x27;A&#x27;]--;
+            best = max(best, right - left + 1);
+        }
+        return best;
+    }
+};</code></pre><pre data-l="js"><code class="lang-js">function characterReplacement(s, k) {
+  const count = new Array(26).fill(0);
+  let left = 0, top = 0, best = 0;
+  for (let right = 0; right &lt; s.length; right++) {
+    top = Math.max(top, ++count[s.charCodeAt(right) - 65]);
+    while (right - left + 1 - top &gt; k) count[s.charCodeAt(left++) - 65]--;
+    best = Math.max(best, right - left + 1);
+  }
+  return best;
+}</code></pre></div><p class="muted">Try solving it yourself first. Interviewers care more about how you explain the approach than about the finished code.</p></div>
+    <div class="pp-pane" data-t="viz" hidden><p>Watch the core idea of this problem step by step. Change the input and press <b>Visualize</b>.</p><div class="viz" data-viz="window-var"></div><p class="muted">Explained in the lesson <a href="../sliding-window.html">Sliding Window</a>.</p></div>
+    <nav class="pp-nav"><a href="longest-substring-without-repeating-characters.html">← 17. Longest Substring Without Repeating Characters</a><a href="index.html">All problems</a><a href="minimum-window-substring.html">19. Minimum Window Substring →</a></nav>
+  </section>
+  <section class="pp-right" aria-label="Code editor">
+    <div class="pp-bar"><label class="sr" for="lang">Language</label><select id="lang"><option value="py">Python</option><option value="java">Java</option><option value="cpp">C++</option><option value="js">JavaScript</option></select>
+      <button type="button" class="b ghost" id="reset" title="Reset to the starter code">↺ Reset</button><span class="grow"></span>
+      <button type="button" class="b ghost" id="run">▶ Run</button><button type="button" class="b" id="submit">Submit</button></div>
+    <div class="pp-ed"><textarea id="code" spellcheck="false" aria-label="Code editor"></textarea></div>
+    <div class="pp-con"><div class="pp-ctabs" role="tablist"><button type="button" data-c="cases" aria-selected="true">Testcases</button><button type="button" data-c="result">Result</button></div>
+      <div class="pp-cbody" data-c="cases"></div><div class="pp-cbody" data-c="result" hidden><p class="muted">Run your code to see results here.</p></div></div>
+  </section>
+</div>
+<script type="application/json" id="pdata">{"id": "longest-repeating-character-replacement", "lc": "longest-repeating-character-replacement", "num": 18, "title": "Longest Repeating Character Replacement", "diff": "Medium", "fn": "characterReplacement", "params": ["s", "k"], "types": ["str", "int"], "ret": "int", "inplace": null, "cmp": "exact", "tests": [["AABABBA", 1], ["ABAB", 2], ["AAAB", 0], ["ABCDE", 1], ["BAAAB", 2], ["AABBBCC", 1], ["A", 0]], "expected": [4, 4, 3, 2, 5, 4, 1], "sample": 3, "starter": {"py": "class Solution:\n    def characterReplacement(self, s: str, k: int) -> int:\n        ", "java": "class Solution {\n    public int characterReplacement(String s, int k) {\n        \n    }\n}", "cpp": "class Solution {\npublic:\n    int characterReplacement(string s, int k) {\n        \n    }\n};", "js": "/**\n * @param {string} s\n * @param {number} k\n * @return {number}\n */\nfunction characterReplacement(s, k) {\n  \n}"}, "solution": {"py": "class Solution:\n    def characterReplacement(self, s: str, k: int) -> int:\n        count = defaultdict(int)\n        left = top = best = 0\n        for right, ch in enumerate(s):\n            count[ch] += 1\n            top = max(top, count[ch])                 # most common letter in the window\n            while (right - left + 1) - top > k:       # too many letters to change\n                count[s[left]] -= 1\n                left += 1\n            best = max(best, right - left + 1)\n        return best", "java": "class Solution {\n    public int characterReplacement(String s, int k) {\n        int[] count = new int[26];\n        int left = 0, top = 0, best = 0;\n        for (int right = 0; right < s.length(); right++) {\n            top = Math.max(top, ++count[s.charAt(right) - 'A']);\n            while (right - left + 1 - top > k) count[s.charAt(left++) - 'A']--;\n            best = Math.max(best, right - left + 1);\n        }\n        return best;\n    }\n}", "cpp": "class Solution {\npublic:\n    int characterReplacement(string s, int k) {\n        int count[26] = {0}, left = 0, top = 0, best = 0;\n        for (int right = 0; right < (int)s.size(); right++) {\n            top = max(top, ++count[s[right] - 'A']);\n            while (right - left + 1 - top > k) count[s[left++] - 'A']--;\n            best = max(best, right - left + 1);\n        }\n        return best;\n    }\n};", "js": "function characterReplacement(s, k) {\n  const count = new Array(26).fill(0);\n  let left = 0, top = 0, best = 0;\n  for (let right = 0; right < s.length; right++) {\n    top = Math.max(top, ++count[s.charCodeAt(right) - 65]);\n    while (right - left + 1 - top > k) count[s.charCodeAt(left++) - 65]--;\n    best = Math.max(best, right - left + 1);\n  }\n  return best;\n}"}}</script>
+</main>
+<script src="../../assets/data.js"></script>
+<script src="../../assets/site.js" data-base="../../"></script>
+<script src="../../assets/engage.js"></script>
+<script src="../../assets/dsa-viz.js"></script>
+<script src="../../assets/dsa.js" data-base="../../"></script>
+</body>
+</html>

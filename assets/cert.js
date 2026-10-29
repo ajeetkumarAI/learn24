@@ -12,12 +12,15 @@
   const mocks = S.mocks, last3 = mocks.slice(-3), avg3 = last3.length ? Math.round(last3.reduce((a, m) => a + m.score, 0) / last3.length) : 0;
   const projDone = done.filter(k => k.startsWith('projects/')).length;
   const rmDone = Object.entries(S.roadmap).filter(([k, v]) => v && v.complete).length;
+  const dsaSolved = Object.keys((S.dsa && S.dsa.solved) || {}).length;
   const TR = [
     topicTrack('genai-course', 'Generative AI Foundations'),
     topicTrack('langchain-course', 'LangChain Hands-on Developer'),
     topicTrack('agentic-ai', 'Agentic AI Fundamentals'),
     topicTrack('ai-finance', 'AI in Finance & Fraud Detection'),
     topicTrack('aws-saa', 'AWS Cloud Foundations'),
+    topicTrack('dsa', 'Data Structures & Algorithms'),
+    { id: 'dsa-solver', name: 'DSA Problem Solver', how: 'Solve 30 DSA practice problems (Submit until “Accepted”)', have: Math.min(30, dsaSolved), goal: 30, href: `${base}dsa/problems/index.html` },
     { id: 'interview-ready', name: 'AI Interview Ready', how: 'Finish 5 mock interviews, with your last 3 averaging 70%+', have: Math.min(5, mocks.length) + (mocks.length >= 5 && avg3 >= 70 ? 1 : 0), goal: 6, note: `${mocks.length} mocks · last-3 average ${avg3}%`, href: `${base}mock/index.html` },
     { id: 'portfolio-builder', name: 'AI Portfolio Builder', how: 'Finish 3 portfolio projects (press “Mark as done” on each project page)', have: projDone, goal: 3, href: `${base}projects/index.html` },
     { id: 'roadmap-finisher', name: 'Career Roadmap Finisher', how: 'Tick every step of one career roadmap', have: rmDone, goal: 1, href: `${base}roadmaps/index.html` },

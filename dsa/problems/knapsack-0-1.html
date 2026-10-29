@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>80. 0/1 Knapsack · DSA Practice · Learn24</title>
+<meta name="description" content="0/1 Knapsack (Medium, Dynamic Programming (2-D)): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta property="og:title" content="80. 0/1 Knapsack · DSA Practice · Learn24">
+<meta property="og:description" content="0/1 Knapsack (Medium, Dynamic Programming (2-D)): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/pages.css">
+<link rel="stylesheet" href="../../assets/engage.css">
+<link rel="stylesheet" href="../../assets/theme.css">
+<link rel="stylesheet" href="../../assets/dsa.css">
+<script src="../../assets/theme.js"></script>
+<link rel="stylesheet" href="../../assets/codemirror.min.css">
+<script defer src="../../assets/codemirror.min.js"></script>
+</head>
+<body data-page="dsa-problem" data-topic="dsa">
+<main class="pp-shell">
+<div class="pp">
+  <section class="pp-left" aria-label="Problem">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../../index.html">Home</a><span>›</span><a href="../index.html">DSA</a><span>›</span><a href="index.html">Problems</a><span>›</span><span>0/1 Knapsack</span></nav>
+    <h1>80. 0/1 Knapsack</h1>
+    <div class="pp-meta"><span class="diff medium">Medium</span><a class="pat" href="../dp-2d.html">Dynamic Programming (2-D)</a><span class="solved-b" hidden>✓ Solved</span><span class="ext muted">Classic problem (GeeksforGeeks style)</span></div>
+    <div class="pp-tabs" role="tablist"><button type="button" role="tab" data-t="desc" aria-selected="true">Description</button><button type="button" role="tab" data-t="appr">Approach</button><button type="button" role="tab" data-t="sol">Solution</button><button type="button" role="tab" data-t="viz">Visualize</button></div>
+    <div class="pp-pane" data-t="desc"><p>Item <code>i</code> has weight <code>weights[i]</code> and value <code>values[i]</code>. Each item can be taken <strong>at most once</strong>. Return the maximum total value that fits in a bag of the given <code>capacity</code>.
+This classic problem is the basis of many interview questions (subset sum, partition, target sum).</p><h3>Example 1</h3><div class="ex"><div><b>Input:</b> <code>weights = [1,3,4,5], values = [1,4,5,7], capacity = 7</code></div><div><b>Output:</b> <code>9</code></div><div><b>Explanation:</b> Take the items of weight 3 and 4: value 4 + 5 = 9.</div></div><h3>Example 2</h3><div class="ex"><div><b>Input:</b> <code>weights = [5,4,6,3], values = [10,40,30,50], capacity = 10</code></div><div><b>Output:</b> <code>90</code></div><div><b>Explanation:</b> Weights 4 + 3: value 40 + 50.</div></div><details class="hint"><summary>Hint 1</summary><p>dp[i][c] = max(skip item i, take item i if it fits).</p></details><details class="hint"><summary>Hint 2</summary><p>With a 1-D array, loop capacity downwards so an item is not reused.</p></details><div class="tags"><span class="tag">Dynamic Programming</span><span class="tag">Knapsack</span></div></div>
+    <div class="pp-pane" data-t="appr" hidden><div class="appr"><h3>Approach 1: Recursion</h3><p>Take or skip each item.</p><div class="cx"><span>⏱ Time <b>O(2ⁿ)</b></span><span>💾 Space <b>O(n)</b></span></div></div><div class="appr"><h3>Approach 2: 2-D table</h3><p>dp[i][c] over items and capacities.</p><div class="cx"><span>⏱ Time <b>O(n · W)</b></span><span>💾 Space <b>O(n · W)</b></span></div></div><div class="appr"><h3>Approach 3: 1-D array ✅</h3><p>Reverse capacity loop.</p><div class="cx"><span>⏱ Time <b>O(n · W)</b></span><span>💾 Space <b>O(W)</b></span></div></div></div>
+    <div class="pp-pane" data-t="sol" hidden><p>Reference solution for <b>1-D array</b> (time O(n · W), space O(W)). Each solution passes every test in all four languages.</p><div class="ctabs sol"><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py">class Solution:
+    def knapsack(self, weights: List[int], values: List[int], capacity: int) -&gt; int:
+        dp = [0] * (capacity + 1)              # dp[c] = best value with capacity c
+        for w, v in zip(weights, values):
+            for c in range(capacity, w - 1, -1):   # backwards so each item is used once
+                dp[c] = max(dp[c], dp[c - w] + v)
+        return dp[capacity]</code></pre><pre data-l="java"><code class="lang-java">class Solution {
+    public int knapsack(int[] weights, int[] values, int capacity) {
+        int[] dp = new int[capacity + 1];          // dp[c] = best value with capacity c
+        for (int i = 0; i &lt; weights.length; i++)
+            for (int c = capacity; c &gt;= weights[i]; c--)   // backwards: item used once
+                dp[c] = Math.max(dp[c], dp[c - weights[i]] + values[i]);
+        return dp[capacity];
+    }
+}</code></pre><pre data-l="cpp"><code class="lang-cpp">class Solution {
+public:
+    int knapsack(vector&lt;int&gt;&amp; weights, vector&lt;int&gt;&amp; values, int capacity) {
+        vector&lt;int&gt; dp(capacity + 1, 0);           // dp[c] = best value with capacity c
+        for (size_t i = 0; i &lt; weights.size(); i++)
+            for (int c = capacity; c &gt;= weights[i]; c--)   // backwards: item used once
+                dp[c] = max(dp[c], dp[c - weights[i]] + values[i]);
+        return dp[capacity];
+    }
+};</code></pre><pre data-l="js"><code class="lang-js">function knapsack(weights, values, capacity) {
+  const dp = new Array(capacity + 1).fill(0); // dp[c] = best value with capacity c
+  for (let i = 0; i &lt; weights.length; i++)
+    for (let c = capacity; c &gt;= weights[i]; c--) // backwards: item used once
+      dp[c] = Math.max(dp[c], dp[c - weights[i]] + values[i]);
+  return dp[capacity];
+}</code></pre></div><p class="muted">Try solving it yourself first. Interviewers care more about how you explain the approach than about the finished code.</p></div>
+    <div class="pp-pane" data-t="viz" hidden><p>Watch the core idea of this problem step by step. Change the input and press <b>Visualize</b>.</p><div class="viz" data-viz="knapsack"></div><p class="muted">Explained in the lesson <a href="../dp-2d.html">Dynamic Programming (2-D)</a>.</p></div>
+    <nav class="pp-nav"><a href="edit-distance.html">← 79. Edit Distance</a><a href="index.html">All problems</a><a href="partition-equal-subset-sum.html">81. Partition Equal Subset Sum →</a></nav>
+  </section>
+  <section class="pp-right" aria-label="Code editor">
+    <div class="pp-bar"><label class="sr" for="lang">Language</label><select id="lang"><option value="py">Python</option><option value="java">Java</option><option value="cpp">C++</option><option value="js">JavaScript</option></select>
+      <button type="button" class="b ghost" id="reset" title="Reset to the starter code">↺ Reset</button><span class="grow"></span>
+      <button type="button" class="b ghost" id="run">▶ Run</button><button type="button" class="b" id="submit">Submit</button></div>
+    <div class="pp-ed"><textarea id="code" spellcheck="false" aria-label="Code editor"></textarea></div>
+    <div class="pp-con"><div class="pp-ctabs" role="tablist"><button type="button" data-c="cases" aria-selected="true">Testcases</button><button type="button" data-c="result">Result</button></div>
+      <div class="pp-cbody" data-c="cases"></div><div class="pp-cbody" data-c="result" hidden><p class="muted">Run your code to see results here.</p></div></div>
+  </section>
+</div>
+<script type="application/json" id="pdata">{"id": "knapsack-0-1", "lc": "", "num": 80, "title": "0/1 Knapsack", "diff": "Medium", "fn": "knapsack", "params": ["weights", "values", "capacity"], "types": ["int[]", "int[]", "int"], "ret": "int", "inplace": null, "cmp": "exact", "tests": [[[1, 3, 4, 5], [1, 4, 5, 7], 7], [[4, 5, 1], [1, 2, 3], 4], [[2], [10], 1], [[1, 2, 3], [10, 15, 40], 6], [[5, 4, 6, 3], [10, 40, 30, 50], 10]], "expected": [9, 3, 0, 65, 90], "sample": 3, "starter": {"py": "class Solution:\n    def knapsack(self, weights: List[int], values: List[int], capacity: int) -> int:\n        ", "java": "class Solution {\n    public int knapsack(int[] weights, int[] values, int capacity) {\n        \n    }\n}", "cpp": "class Solution {\npublic:\n    int knapsack(vector<int>& weights, vector<int>& values, int capacity) {\n        \n    }\n};", "js": "/**\n * @param {number[]} weights\n * @param {number[]} values\n * @param {number} capacity\n * @return {number}\n */\nfunction knapsack(weights, values, capacity) {\n  \n}"}, "solution": {"py": "class Solution:\n    def knapsack(self, weights: List[int], values: List[int], capacity: int) -> int:\n        dp = [0] * (capacity + 1)              # dp[c] = best value with capacity c\n        for w, v in zip(weights, values):\n            for c in range(capacity, w - 1, -1):   # backwards so each item is used once\n                dp[c] = max(dp[c], dp[c - w] + v)\n        return dp[capacity]", "java": "class Solution {\n    public int knapsack(int[] weights, int[] values, int capacity) {\n        int[] dp = new int[capacity + 1];          // dp[c] = best value with capacity c\n        for (int i = 0; i < weights.length; i++)\n            for (int c = capacity; c >= weights[i]; c--)   // backwards: item used once\n                dp[c] = Math.max(dp[c], dp[c - weights[i]] + values[i]);\n        return dp[capacity];\n    }\n}", "cpp": "class Solution {\npublic:\n    int knapsack(vector<int>& weights, vector<int>& values, int capacity) {\n        vector<int> dp(capacity + 1, 0);           // dp[c] = best value with capacity c\n        for (size_t i = 0; i < weights.size(); i++)\n            for (int c = capacity; c >= weights[i]; c--)   // backwards: item used once\n                dp[c] = max(dp[c], dp[c - weights[i]] + values[i]);\n        return dp[capacity];\n    }\n};", "js": "function knapsack(weights, values, capacity) {\n  const dp = new Array(capacity + 1).fill(0); // dp[c] = best value with capacity c\n  for (let i = 0; i < weights.length; i++)\n    for (let c = capacity; c >= weights[i]; c--) // backwards: item used once\n      dp[c] = Math.max(dp[c], dp[c - weights[i]] + values[i]);\n  return dp[capacity];\n}"}}</script>
+</main>
+<script src="../../assets/data.js"></script>
+<script src="../../assets/site.js" data-base="../../"></script>
+<script src="../../assets/engage.js"></script>
+<script src="../../assets/dsa-viz.js"></script>
+<script src="../../assets/dsa.js" data-base="../../"></script>
+</body>
+</html>

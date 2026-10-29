@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>51. Validate Binary Search Tree · DSA Practice · Learn24</title>
+<meta name="description" content="Validate Binary Search Tree (Medium, Binary Trees &amp; BSTs): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta property="og:title" content="51. Validate Binary Search Tree · DSA Practice · Learn24">
+<meta property="og:description" content="Validate Binary Search Tree (Medium, Binary Trees &amp; BSTs): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/pages.css">
+<link rel="stylesheet" href="../../assets/engage.css">
+<link rel="stylesheet" href="../../assets/theme.css">
+<link rel="stylesheet" href="../../assets/dsa.css">
+<script src="../../assets/theme.js"></script>
+<link rel="stylesheet" href="../../assets/codemirror.min.css">
+<script defer src="../../assets/codemirror.min.js"></script>
+</head>
+<body data-page="dsa-problem" data-topic="dsa">
+<main class="pp-shell">
+<div class="pp">
+  <section class="pp-left" aria-label="Problem">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../../index.html">Home</a><span>›</span><a href="../index.html">DSA</a><span>›</span><a href="index.html">Problems</a><span>›</span><span>Validate Binary Search Tree</span></nav>
+    <h1>51. Validate Binary Search Tree</h1>
+    <div class="pp-meta"><span class="diff medium">Medium</span><a class="pat" href="../trees.html">Binary Trees &amp; BSTs</a><span class="solved-b" hidden>✓ Solved</span><a class="ext" href="https://leetcode.com/problems/validate-binary-search-tree/" target="_blank" rel="noopener">Also on LeetCode ↗</a></div>
+    <div class="pp-tabs" role="tablist"><button type="button" role="tab" data-t="desc" aria-selected="true">Description</button><button type="button" role="tab" data-t="appr">Approach</button><button type="button" role="tab" data-t="sol">Solution</button><button type="button" role="tab" data-t="viz">Visualize</button></div>
+    <div class="pp-pane" data-t="desc"><p>Check whether a binary tree is a valid <strong>binary search tree</strong>: every node’s left subtree holds only smaller values, its right subtree only larger values, and both subtrees are BSTs too.</p><h3>Example 1</h3><div class="ex"><div><b>Input:</b> <code>root = [2,1,3]</code></div><div><b>Output:</b> <code>true</code></div></div><h3>Example 2</h3><div class="ex"><div><b>Input:</b> <code>root = [5,4,6,null,null,3,7]</code></div><div><b>Output:</b> <code>false</code></div><div><b>Explanation:</b> 3 sits in the right subtree of 5, so it must be greater than 5.</div></div><details class="hint"><summary>Hint 1</summary><p>Checking only parent vs child is not enough.</p></details><details class="hint"><summary>Hint 2</summary><p>Pass down the allowed (low, high) range for each subtree.</p></details><div class="tags"><span class="tag">Tree</span><span class="tag">BST</span><span class="tag">DFS</span></div></div>
+    <div class="pp-pane" data-t="appr" hidden><div class="appr"><h3>Approach 1: In-order must be increasing</h3><p>In-order traversal of a BST is strictly increasing.</p><div class="cx"><span>⏱ Time <b>O(n)</b></span><span>💾 Space <b>O(h)</b></span></div></div><div class="appr"><h3>Approach 2: Range DFS ✅</h3><p>Each node narrows the valid range for its children.</p><div class="cx"><span>⏱ Time <b>O(n)</b></span><span>💾 Space <b>O(h)</b></span></div></div></div>
+    <div class="pp-pane" data-t="sol" hidden><p>Reference solution for <b>Range DFS</b> (time O(n), space O(h)). Each solution passes every test in all four languages.</p><div class="ctabs sol"><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py">class Solution:
+    def isValidBST(self, root: Optional[TreeNode]) -&gt; bool:
+        def ok(node, lo, hi):              # every value must lie strictly between lo and hi
+            if not node:
+                return True
+            if not (lo &lt; node.val &lt; hi):
+                return False
+            return ok(node.left, lo, node.val) and ok(node.right, node.val, hi)
+        return ok(root, float(&#x27;-inf&#x27;), float(&#x27;inf&#x27;))</code></pre><pre data-l="java"><code class="lang-java">class Solution {
+    public boolean isValidBST(TreeNode root) {
+        return ok(root, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
+    private boolean ok(TreeNode node, long lo, long hi) {
+        if (node == null) return true;
+        if (node.val &lt;= lo || node.val &gt;= hi) return false;
+        return ok(node.left, lo, node.val) &amp;&amp; ok(node.right, node.val, hi);
+    }
+}</code></pre><pre data-l="cpp"><code class="lang-cpp">class Solution {
+    bool ok(TreeNode* node, long long lo, long long hi) {
+        if (!node) return true;
+        if (node-&gt;val &lt;= lo || node-&gt;val &gt;= hi) return false;
+        return ok(node-&gt;left, lo, node-&gt;val) &amp;&amp; ok(node-&gt;right, node-&gt;val, hi);
+    }
+public:
+    bool isValidBST(TreeNode* root) {
+        return ok(root, LLONG_MIN, LLONG_MAX);
+    }
+};</code></pre><pre data-l="js"><code class="lang-js">function isValidBST(root) {
+  const ok = (node, lo, hi) =&gt; {
+    if (!node) return true;
+    if (node.val &lt;= lo || node.val &gt;= hi) return false;
+    return ok(node.left, lo, node.val) &amp;&amp; ok(node.right, node.val, hi);
+  };
+  return ok(root, -Infinity, Infinity);
+}</code></pre></div><p class="muted">Try solving it yourself first. Interviewers care more about how you explain the approach than about the finished code.</p></div>
+    <div class="pp-pane" data-t="viz" hidden><p>Watch the core idea of this problem step by step. Change the input and press <b>Visualize</b>.</p><div class="viz" data-viz="bst"></div><p class="muted">Explained in the lesson <a href="../trees.html">Binary Trees &amp; BSTs</a>.</p></div>
+    <nav class="pp-nav"><a href="binary-tree-level-order-traversal.html">← 50. Binary Tree Level Order Traversal</a><a href="index.html">All problems</a><a href="kth-smallest-element-in-a-bst.html">52. Kth Smallest Element in a BST →</a></nav>
+  </section>
+  <section class="pp-right" aria-label="Code editor">
+    <div class="pp-bar"><label class="sr" for="lang">Language</label><select id="lang"><option value="py">Python</option><option value="java">Java</option><option value="cpp">C++</option><option value="js">JavaScript</option></select>
+      <button type="button" class="b ghost" id="reset" title="Reset to the starter code">↺ Reset</button><span class="grow"></span>
+      <button type="button" class="b ghost" id="run">▶ Run</button><button type="button" class="b" id="submit">Submit</button></div>
+    <div class="pp-ed"><textarea id="code" spellcheck="false" aria-label="Code editor"></textarea></div>
+    <div class="pp-con"><div class="pp-ctabs" role="tablist"><button type="button" data-c="cases" aria-selected="true">Testcases</button><button type="button" data-c="result">Result</button></div>
+      <div class="pp-cbody" data-c="cases"></div><div class="pp-cbody" data-c="result" hidden><p class="muted">Run your code to see results here.</p></div></div>
+  </section>
+</div>
+<script type="application/json" id="pdata">{"id": "validate-binary-search-tree", "lc": "validate-binary-search-tree", "num": 51, "title": "Validate Binary Search Tree", "diff": "Medium", "fn": "isValidBST", "params": ["root"], "types": ["tree"], "ret": "bool", "inplace": null, "cmp": "exact", "tests": [[[2, 1, 3]], [[5, 1, 4, null, null, 3, 6]], [[5, 4, 6, null, null, 3, 7]], [[1, 1]], [[2147483647]], [[10, 5, 15, null, null, 11, 20]]], "expected": [true, false, false, false, true, true], "sample": 3, "starter": {"py": "# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def isValidBST(self, root: Optional[TreeNode]) -> bool:\n        ", "java": "/* class TreeNode { int val; TreeNode left, right; TreeNode(int val) { this.val = val; } } */\nclass Solution {\n    public boolean isValidBST(TreeNode root) {\n        \n    }\n}", "cpp": "/* struct TreeNode { int val; TreeNode *left, *right; TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} }; */\nclass Solution {\npublic:\n    bool isValidBST(TreeNode* root) {\n        \n    }\n};", "js": "/* function TreeNode(val, left, right) { this.val = val ?? 0; this.left = left ?? null; this.right = right ?? null; } */\n/**\n * @param {TreeNode} root\n * @return {boolean}\n */\nfunction isValidBST(root) {\n  \n}"}, "solution": {"py": "class Solution:\n    def isValidBST(self, root: Optional[TreeNode]) -> bool:\n        def ok(node, lo, hi):              # every value must lie strictly between lo and hi\n            if not node:\n                return True\n            if not (lo < node.val < hi):\n                return False\n            return ok(node.left, lo, node.val) and ok(node.right, node.val, hi)\n        return ok(root, float('-inf'), float('inf'))", "java": "class Solution {\n    public boolean isValidBST(TreeNode root) {\n        return ok(root, Long.MIN_VALUE, Long.MAX_VALUE);\n    }\n    private boolean ok(TreeNode node, long lo, long hi) {\n        if (node == null) return true;\n        if (node.val <= lo || node.val >= hi) return false;\n        return ok(node.left, lo, node.val) && ok(node.right, node.val, hi);\n    }\n}", "cpp": "class Solution {\n    bool ok(TreeNode* node, long long lo, long long hi) {\n        if (!node) return true;\n        if (node->val <= lo || node->val >= hi) return false;\n        return ok(node->left, lo, node->val) && ok(node->right, node->val, hi);\n    }\npublic:\n    bool isValidBST(TreeNode* root) {\n        return ok(root, LLONG_MIN, LLONG_MAX);\n    }\n};", "js": "function isValidBST(root) {\n  const ok = (node, lo, hi) => {\n    if (!node) return true;\n    if (node.val <= lo || node.val >= hi) return false;\n    return ok(node.left, lo, node.val) && ok(node.right, node.val, hi);\n  };\n  return ok(root, -Infinity, Infinity);\n}"}}</script>
+</main>
+<script src="../../assets/data.js"></script>
+<script src="../../assets/site.js" data-base="../../"></script>
+<script src="../../assets/engage.js"></script>
+<script src="../../assets/dsa-viz.js"></script>
+<script src="../../assets/dsa.js" data-base="../../"></script>
+</body>
+</html>

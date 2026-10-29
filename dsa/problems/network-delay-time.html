@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>61. Network Delay Time · DSA Practice · Learn24</title>
+<meta name="description" content="Network Delay Time (Medium, Topological Sort, Dijkstra &amp; Union-Find): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta property="og:title" content="61. Network Delay Time · DSA Practice · Learn24">
+<meta property="og:description" content="Network Delay Time (Medium, Topological Sort, Dijkstra &amp; Union-Find): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/pages.css">
+<link rel="stylesheet" href="../../assets/engage.css">
+<link rel="stylesheet" href="../../assets/theme.css">
+<link rel="stylesheet" href="../../assets/dsa.css">
+<script src="../../assets/theme.js"></script>
+<link rel="stylesheet" href="../../assets/codemirror.min.css">
+<script defer src="../../assets/codemirror.min.js"></script>
+</head>
+<body data-page="dsa-problem" data-topic="dsa">
+<main class="pp-shell">
+<div class="pp">
+  <section class="pp-left" aria-label="Problem">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../../index.html">Home</a><span>›</span><a href="../index.html">DSA</a><span>›</span><a href="index.html">Problems</a><span>›</span><span>Network Delay Time</span></nav>
+    <h1>61. Network Delay Time</h1>
+    <div class="pp-meta"><span class="diff medium">Medium</span><a class="pat" href="../advanced-graphs.html">Topological Sort, Dijkstra &amp; Union-Find</a><span class="solved-b" hidden>✓ Solved</span><a class="ext" href="https://leetcode.com/problems/network-delay-time/" target="_blank" rel="noopener">Also on LeetCode ↗</a></div>
+    <div class="pp-tabs" role="tablist"><button type="button" role="tab" data-t="desc" aria-selected="true">Description</button><button type="button" role="tab" data-t="appr">Approach</button><button type="button" role="tab" data-t="sol">Solution</button><button type="button" role="tab" data-t="viz">Visualize</button></div>
+    <div class="pp-pane" data-t="desc"><p><code>times[i] = [u, v, w]</code> is a directed edge from node <code>u</code> to node <code>v</code> that takes <code>w</code> time. A signal is sent from node <code>k</code> (nodes are <code>1..n</code>).
+Return the time until <strong>all</strong> nodes receive it, or <code>-1</code> if some node never does.</p><h3>Example 1</h3><div class="ex"><div><b>Input:</b> <code>times = [[2,1,1],[2,3,1],[3,4,1]], n = 4, k = 2</code></div><div><b>Output:</b> <code>2</code></div></div><h3>Example 2</h3><div class="ex"><div><b>Input:</b> <code>times = [[1,2,1]], n = 2, k = 1</code></div><div><b>Output:</b> <code>1</code></div></div><details class="hint"><summary>Hint 1</summary><p>You need the shortest time from k to every node, with positive weights: Dijkstra.</p></details><details class="hint"><summary>Hint 2</summary><p>The answer is the largest of those shortest times.</p></details><div class="tags"><span class="tag">Graph</span><span class="tag">Shortest Path</span><span class="tag">Heap</span></div></div>
+    <div class="pp-pane" data-t="appr" hidden><div class="appr"><h3>Approach 1: Bellman–Ford</h3><p>Relax every edge n−1 times.</p><div class="cx"><span>⏱ Time <b>O(V · E)</b></span><span>💾 Space <b>O(V)</b></span></div></div><div class="appr"><h3>Approach 2: Dijkstra with a heap ✅</h3><p>Always finalise the closest unfinished node.</p><div class="cx"><span>⏱ Time <b>O(E log V)</b></span><span>💾 Space <b>O(V + E)</b></span></div></div></div>
+    <div class="pp-pane" data-t="sol" hidden><p>Reference solution for <b>Dijkstra with a heap</b> (time O(E log V), space O(V + E)). Each solution passes every test in all four languages.</p><div class="ctabs sol"><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py">class Solution:
+    def networkDelayTime(self, times: List[List[int]], n: int, k: int) -&gt; int:
+        adj = defaultdict(list)
+        for u, v, w in times:
+            adj[u].append((v, w))
+        dist = {}
+        heap = [(0, k)]
+        while heap:                              # Dijkstra
+            d, u = heapq.heappop(heap)
+            if u in dist:
+                continue                         # already finalised with a shorter time
+            dist[u] = d
+            for v, w in adj[u]:
+                if v not in dist:
+                    heapq.heappush(heap, (d + w, v))
+        return max(dist.values()) if len(dist) == n else -1</code></pre><pre data-l="java"><code class="lang-java">class Solution {
+    public int networkDelayTime(int[][] times, int n, int k) {
+        List&lt;List&lt;int[]&gt;&gt; adj = new ArrayList&lt;&gt;();
+        for (int i = 0; i &lt;= n; i++) adj.add(new ArrayList&lt;&gt;());
+        for (int[] t : times) adj.get(t[0]).add(new int[]{t[1], t[2]});
+        int[] dist = new int[n + 1];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        PriorityQueue&lt;int[]&gt; heap = new PriorityQueue&lt;&gt;((a, b) -&gt; Integer.compare(a[0], b[0]));
+        heap.add(new int[]{0, k});
+        while (!heap.isEmpty()) {                      // Dijkstra
+            int[] cur = heap.poll();
+            int d = cur[0], u = cur[1];
+            if (dist[u] != Integer.MAX_VALUE) continue;
+            dist[u] = d;
+            for (int[] e : adj.get(u)) if (dist[e[0]] == Integer.MAX_VALUE) heap.add(new int[]{d + e[1], e[0]});
+        }
+        int best = 0;
+        for (int i = 1; i &lt;= n; i++) {
+            if (dist[i] == Integer.MAX_VALUE) return -1;
+            best = Math.max(best, dist[i]);
+        }
+        return best;
+    }
+}</code></pre><pre data-l="cpp"><code class="lang-cpp">class Solution {
+public:
+    int networkDelayTime(vector&lt;vector&lt;int&gt;&gt;&amp; times, int n, int k) {
+        vector&lt;vector&lt;pair&lt;int, int&gt;&gt;&gt; adj(n + 1);
+        for (auto&amp; t : times) adj[t[0]].push_back({t[1], t[2]});
+        vector&lt;int&gt; dist(n + 1, INT_MAX);
+        priority_queue&lt;pair&lt;int, int&gt;, vector&lt;pair&lt;int, int&gt;&gt;, greater&lt;&gt;&gt; heap;
+        heap.push({0, k});
+        while (!heap.empty()) {                        // Dijkstra
+            auto [d, u] = heap.top(); heap.pop();
+            if (dist[u] != INT_MAX) continue;
+            dist[u] = d;
+            for (auto [v, w] : adj[u]) if (dist[v] == INT_MAX) heap.push({d + w, v});
+        }
+        int best = 0;
+        for (int i = 1; i &lt;= n; i++) {
+            if (dist[i] == INT_MAX) return -1;
+            best = max(best, dist[i]);
+        }
+        return best;
+    }
+};</code></pre><pre data-l="js"><code class="lang-js">class MinHeap {
+  constructor(less = (a, b) =&gt; a &lt; b) { this.a = []; this.less = less; }
+  get size() { return this.a.length; }
+  peek() { return this.a[0]; }
+  push(x) { const a = this.a; a.push(x); let i = a.length - 1;
+    while (i &gt; 0) { const p = (i - 1) &gt;&gt; 1; if (!this.less(a[i], a[p])) break; [a[i], a[p]] = [a[p], a[i]]; i = p; } }
+  pop() { const a = this.a, top = a[0], last = a.pop();
+    if (a.length) { a[0] = last; let i = 0;
+      while (true) { const l = 2 * i + 1, r = l + 1; let m = i;
+        if (l &lt; a.length &amp;&amp; this.less(a[l], a[m])) m = l;
+        if (r &lt; a.length &amp;&amp; this.less(a[r], a[m])) m = r;
+        if (m === i) break; [a[i], a[m]] = [a[m], a[i]]; i = m; } }
+    return top; }
+}
+
+function networkDelayTime(times, n, k) {
+  const adj = Array.from({ length: n + 1 }, () =&gt; []);
+  for (const [u, v, w] of times) adj[u].push([v, w]);
+  const dist = new Array(n + 1).fill(Infinity);
+  const heap = new MinHeap((a, b) =&gt; a[0] &lt; b[0]);
+  heap.push([0, k]);
+  while (heap.size) { // Dijkstra
+    const [d, u] = heap.pop();
+    if (dist[u] !== Infinity) continue;
+    dist[u] = d;
+    for (const [v, w] of adj[u]) if (dist[v] === Infinity) heap.push([d + w, v]);
+  }
+  let best = 0;
+  for (let i = 1; i &lt;= n; i++) { if (dist[i] === Infinity) return -1; best = Math.max(best, dist[i]); }
+  return best;
+}</code></pre></div><p class="muted">Try solving it yourself first. Interviewers care more about how you explain the approach than about the finished code.</p></div>
+    <div class="pp-pane" data-t="viz" hidden><p>Watch the core idea of this problem step by step. Change the input and press <b>Visualize</b>.</p><div class="viz" data-viz="dijkstra"></div><p class="muted">Explained in the lesson <a href="../advanced-graphs.html">Topological Sort, Dijkstra &amp; Union-Find</a>.</p></div>
+    <nav class="pp-nav"><a href="course-schedule-ii.html">← 60. Course Schedule II</a><a href="index.html">All problems</a><a href="number-of-provinces.html">62. Number of Provinces →</a></nav>
+  </section>
+  <section class="pp-right" aria-label="Code editor">
+    <div class="pp-bar"><label class="sr" for="lang">Language</label><select id="lang"><option value="py">Python</option><option value="java">Java</option><option value="cpp">C++</option><option value="js">JavaScript</option></select>
+      <button type="button" class="b ghost" id="reset" title="Reset to the starter code">↺ Reset</button><span class="grow"></span>
+      <button type="button" class="b ghost" id="run">▶ Run</button><button type="button" class="b" id="submit">Submit</button></div>
+    <div class="pp-ed"><textarea id="code" spellcheck="false" aria-label="Code editor"></textarea></div>
+    <div class="pp-con"><div class="pp-ctabs" role="tablist"><button type="button" data-c="cases" aria-selected="true">Testcases</button><button type="button" data-c="result">Result</button></div>
+      <div class="pp-cbody" data-c="cases"></div><div class="pp-cbody" data-c="result" hidden><p class="muted">Run your code to see results here.</p></div></div>
+  </section>
+</div>
+<script type="application/json" id="pdata">{"id": "network-delay-time", "lc": "network-delay-time", "num": 61, "title": "Network Delay Time", "diff": "Medium", "fn": "networkDelayTime", "params": ["times", "n", "k"], "types": ["int[][]", "int", "int"], "ret": "int", "inplace": null, "cmp": "exact", "tests": [[[[2, 1, 1], [2, 3, 1], [3, 4, 1]], 4, 2], [[[1, 2, 1]], 2, 1], [[[1, 2, 1]], 2, 2], [[[1, 2, 4], [1, 3, 1], [3, 2, 1], [2, 4, 1]], 4, 1]], "expected": [2, 1, -1, 3], "sample": 3, "starter": {"py": "class Solution:\n    def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:\n        ", "java": "class Solution {\n    public int networkDelayTime(int[][] times, int n, int k) {\n        \n    }\n}", "cpp": "class Solution {\npublic:\n    int networkDelayTime(vector<vector<int>>& times, int n, int k) {\n        \n    }\n};", "js": "/**\n * @param {number[][]} times\n * @param {number} n\n * @param {number} k\n * @return {number}\n */\nfunction networkDelayTime(times, n, k) {\n  \n}"}, "solution": {"py": "class Solution:\n    def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:\n        adj = defaultdict(list)\n        for u, v, w in times:\n            adj[u].append((v, w))\n        dist = {}\n        heap = [(0, k)]\n        while heap:                              # Dijkstra\n            d, u = heapq.heappop(heap)\n            if u in dist:\n                continue                         # already finalised with a shorter time\n            dist[u] = d\n            for v, w in adj[u]:\n                if v not in dist:\n                    heapq.heappush(heap, (d + w, v))\n        return max(dist.values()) if len(dist) == n else -1", "java": "class Solution {\n    public int networkDelayTime(int[][] times, int n, int k) {\n        List<List<int[]>> adj = new ArrayList<>();\n        for (int i = 0; i <= n; i++) adj.add(new ArrayList<>());\n        for (int[] t : times) adj.get(t[0]).add(new int[]{t[1], t[2]});\n        int[] dist = new int[n + 1];\n        Arrays.fill(dist, Integer.MAX_VALUE);\n        PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> Integer.compare(a[0], b[0]));\n        heap.add(new int[]{0, k});\n        while (!heap.isEmpty()) {                      // Dijkstra\n            int[] cur = heap.poll();\n            int d = cur[0], u = cur[1];\n            if (dist[u] != Integer.MAX_VALUE) continue;\n            dist[u] = d;\n            for (int[] e : adj.get(u)) if (dist[e[0]] == Integer.MAX_VALUE) heap.add(new int[]{d + e[1], e[0]});\n        }\n        int best = 0;\n        for (int i = 1; i <= n; i++) {\n            if (dist[i] == Integer.MAX_VALUE) return -1;\n            best = Math.max(best, dist[i]);\n        }\n        return best;\n    }\n}", "cpp": "class Solution {\npublic:\n    int networkDelayTime(vector<vector<int>>& times, int n, int k) {\n        vector<vector<pair<int, int>>> adj(n + 1);\n        for (auto& t : times) adj[t[0]].push_back({t[1], t[2]});\n        vector<int> dist(n + 1, INT_MAX);\n        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> heap;\n        heap.push({0, k});\n        while (!heap.empty()) {                        // Dijkstra\n            auto [d, u] = heap.top(); heap.pop();\n            if (dist[u] != INT_MAX) continue;\n            dist[u] = d;\n            for (auto [v, w] : adj[u]) if (dist[v] == INT_MAX) heap.push({d + w, v});\n        }\n        int best = 0;\n        for (int i = 1; i <= n; i++) {\n            if (dist[i] == INT_MAX) return -1;\n            best = max(best, dist[i]);\n        }\n        return best;\n    }\n};", "js": "class MinHeap {\n  constructor(less = (a, b) => a < b) { this.a = []; this.less = less; }\n  get size() { return this.a.length; }\n  peek() { return this.a[0]; }\n  push(x) { const a = this.a; a.push(x); let i = a.length - 1;\n    while (i > 0) { const p = (i - 1) >> 1; if (!this.less(a[i], a[p])) break; [a[i], a[p]] = [a[p], a[i]]; i = p; } }\n  pop() { const a = this.a, top = a[0], last = a.pop();\n    if (a.length) { a[0] = last; let i = 0;\n      while (true) { const l = 2 * i + 1, r = l + 1; let m = i;\n        if (l < a.length && this.less(a[l], a[m])) m = l;\n        if (r < a.length && this.less(a[r], a[m])) m = r;\n        if (m === i) break; [a[i], a[m]] = [a[m], a[i]]; i = m; } }\n    return top; }\n}\n\nfunction networkDelayTime(times, n, k) {\n  const adj = Array.from({ length: n + 1 }, () => []);\n  for (const [u, v, w] of times) adj[u].push([v, w]);\n  const dist = new Array(n + 1).fill(Infinity);\n  const heap = new MinHeap((a, b) => a[0] < b[0]);\n  heap.push([0, k]);\n  while (heap.size) { // Dijkstra\n    const [d, u] = heap.pop();\n    if (dist[u] !== Infinity) continue;\n    dist[u] = d;\n    for (const [v, w] of adj[u]) if (dist[v] === Infinity) heap.push([d + w, v]);\n  }\n  let best = 0;\n  for (let i = 1; i <= n; i++) { if (dist[i] === Infinity) return -1; best = Math.max(best, dist[i]); }\n  return best;\n}"}}</script>
+</main>
+<script src="../../assets/data.js"></script>
+<script src="../../assets/site.js" data-base="../../"></script>
+<script src="../../assets/engage.js"></script>
+<script src="../../assets/dsa-viz.js"></script>
+<script src="../../assets/dsa.js" data-base="../../"></script>
+</body>
+</html>

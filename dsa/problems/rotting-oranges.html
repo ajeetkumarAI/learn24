@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>58. Rotting Oranges · DSA Practice · Learn24</title>
+<meta name="description" content="Rotting Oranges (Medium, Graphs: BFS &amp; DFS): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta property="og:title" content="58. Rotting Oranges · DSA Practice · Learn24">
+<meta property="og:description" content="Rotting Oranges (Medium, Graphs: BFS &amp; DFS): problem, hints, approaches, solutions in Python, Java, C++ and JavaScript, and an online code runner.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/pages.css">
+<link rel="stylesheet" href="../../assets/engage.css">
+<link rel="stylesheet" href="../../assets/theme.css">
+<link rel="stylesheet" href="../../assets/dsa.css">
+<script src="../../assets/theme.js"></script>
+<link rel="stylesheet" href="../../assets/codemirror.min.css">
+<script defer src="../../assets/codemirror.min.js"></script>
+</head>
+<body data-page="dsa-problem" data-topic="dsa">
+<main class="pp-shell">
+<div class="pp">
+  <section class="pp-left" aria-label="Problem">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../../index.html">Home</a><span>›</span><a href="../index.html">DSA</a><span>›</span><a href="index.html">Problems</a><span>›</span><span>Rotting Oranges</span></nav>
+    <h1>58. Rotting Oranges</h1>
+    <div class="pp-meta"><span class="diff medium">Medium</span><a class="pat" href="../graphs.html">Graphs: BFS &amp; DFS</a><span class="solved-b" hidden>✓ Solved</span><a class="ext" href="https://leetcode.com/problems/rotting-oranges/" target="_blank" rel="noopener">Also on LeetCode ↗</a></div>
+    <div class="pp-tabs" role="tablist"><button type="button" role="tab" data-t="desc" aria-selected="true">Description</button><button type="button" role="tab" data-t="appr">Approach</button><button type="button" role="tab" data-t="sol">Solution</button><button type="button" role="tab" data-t="viz">Visualize</button></div>
+    <div class="pp-pane" data-t="desc"><p>In <code>grid</code>, <code>0</code> is empty, <code>1</code> is a fresh orange and <code>2</code> is a rotten orange. Every minute, fresh oranges next to a rotten one (up/down/left/right) become rotten.
+Return the minutes until no fresh orange is left, or <code>-1</code> if that never happens.</p><h3>Example 1</h3><div class="ex"><div><b>Input:</b> <code>grid = [[2,1,1],[1,1,0],[0,1,1]]</code></div><div><b>Output:</b> <code>4</code></div></div><h3>Example 2</h3><div class="ex"><div><b>Input:</b> <code>grid = [[2,1,1],[0,1,1],[1,0,1]]</code></div><div><b>Output:</b> <code>-1</code></div></div><details class="hint"><summary>Hint 1</summary><p>Start a BFS from ALL rotten oranges at the same time (multi-source BFS).</p></details><details class="hint"><summary>Hint 2</summary><p>Each BFS layer is one minute.</p></details><div class="tags"><span class="tag">Graph</span><span class="tag">BFS</span><span class="tag">Matrix</span></div></div>
+    <div class="pp-pane" data-t="appr" hidden><div class="appr"><h3>Approach 1: Simulate minute by minute</h3><p>Rescan the grid every minute.</p><div class="cx"><span>⏱ Time <b>O((m·n)²)</b></span><span>💾 Space <b>O(1)</b></span></div></div><div class="appr"><h3>Approach 2: Multi-source BFS ✅</h3><p>Queue every rotten orange first, then expand layer by layer.</p><div class="cx"><span>⏱ Time <b>O(m · n)</b></span><span>💾 Space <b>O(m · n)</b></span></div></div></div>
+    <div class="pp-pane" data-t="sol" hidden><p>Reference solution for <b>Multi-source BFS</b> (time O(m · n), space O(m · n)). Each solution passes every test in all four languages.</p><div class="ctabs sol"><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py">class Solution:
+    def orangesRotting(self, grid: List[List[int]]) -&gt; int:
+        m, n = len(grid), len(grid[0])
+        q = deque((r, c) for r in range(m) for c in range(n) if grid[r][c] == 2)   # all sources at once
+        fresh = sum(row.count(1) for row in grid)
+        minutes = 0
+        while q and fresh:
+            for _ in range(len(q)):            # one BFS layer = one minute
+                r, c = q.popleft()
+                for nr, nc in ((r + 1, c), (r - 1, c), (r, c + 1), (r, c - 1)):
+                    if 0 &lt;= nr &lt; m and 0 &lt;= nc &lt; n and grid[nr][nc] == 1:
+                        grid[nr][nc] = 2
+                        fresh -= 1
+                        q.append((nr, nc))
+            minutes += 1
+        return -1 if fresh else minutes</code></pre><pre data-l="java"><code class="lang-java">class Solution {
+    public int orangesRotting(int[][] grid) {
+        int m = grid.length, n = grid[0].length, fresh = 0, minutes = 0;
+        ArrayDeque&lt;int[]&gt; q = new ArrayDeque&lt;&gt;();
+        for (int r = 0; r &lt; m; r++)
+            for (int c = 0; c &lt; n; c++) {
+                if (grid[r][c] == 2) q.add(new int[]{r, c});
+                else if (grid[r][c] == 1) fresh++;
+            }
+        int[][] dirs = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+        while (!q.isEmpty() &amp;&amp; fresh &gt; 0) {
+            for (int k = q.size(); k &gt; 0; k--) {        // one layer = one minute
+                int[] cur = q.poll();
+                for (int[] d : dirs) {
+                    int nr = cur[0] + d[0], nc = cur[1] + d[1];
+                    if (nr &gt;= 0 &amp;&amp; nc &gt;= 0 &amp;&amp; nr &lt; m &amp;&amp; nc &lt; n &amp;&amp; grid[nr][nc] == 1) {
+                        grid[nr][nc] = 2; fresh--; q.add(new int[]{nr, nc});
+                    }
+                }
+            }
+            minutes++;
+        }
+        return fresh &gt; 0 ? -1 : minutes;
+    }
+}</code></pre><pre data-l="cpp"><code class="lang-cpp">class Solution {
+public:
+    int orangesRotting(vector&lt;vector&lt;int&gt;&gt;&amp; grid) {
+        int m = grid.size(), n = grid[0].size(), fresh = 0, minutes = 0;
+        queue&lt;pair&lt;int, int&gt;&gt; q;
+        for (int r = 0; r &lt; m; r++)
+            for (int c = 0; c &lt; n; c++) {
+                if (grid[r][c] == 2) q.push({r, c});
+                else if (grid[r][c] == 1) fresh++;
+            }
+        int dr[] = {1, -1, 0, 0}, dc[] = {0, 0, 1, -1};
+        while (!q.empty() &amp;&amp; fresh &gt; 0) {
+            for (int k = q.size(); k &gt; 0; k--) {        // one layer = one minute
+                auto [r, c] = q.front(); q.pop();
+                for (int d = 0; d &lt; 4; d++) {
+                    int nr = r + dr[d], nc = c + dc[d];
+                    if (nr &gt;= 0 &amp;&amp; nc &gt;= 0 &amp;&amp; nr &lt; m &amp;&amp; nc &lt; n &amp;&amp; grid[nr][nc] == 1) {
+                        grid[nr][nc] = 2; fresh--; q.push({nr, nc});
+                    }
+                }
+            }
+            minutes++;
+        }
+        return fresh &gt; 0 ? -1 : minutes;
+    }
+};</code></pre><pre data-l="js"><code class="lang-js">function orangesRotting(grid) {
+  const m = grid.length, n = grid[0].length;
+  let q = [], fresh = 0, minutes = 0;
+  for (let r = 0; r &lt; m; r++) for (let c = 0; c &lt; n; c++) {
+    if (grid[r][c] === 2) q.push([r, c]); else if (grid[r][c] === 1) fresh++;
+  }
+  while (q.length &amp;&amp; fresh) {
+    const next = []; // one layer = one minute
+    for (const [r, c] of q)
+      for (const [nr, nc] of [[r + 1, c], [r - 1, c], [r, c + 1], [r, c - 1]])
+        if (nr &gt;= 0 &amp;&amp; nc &gt;= 0 &amp;&amp; nr &lt; m &amp;&amp; nc &lt; n &amp;&amp; grid[nr][nc] === 1) { grid[nr][nc] = 2; fresh--; next.push([nr, nc]); }
+    q = next;
+    minutes++;
+  }
+  return fresh ? -1 : minutes;
+}</code></pre></div><p class="muted">Try solving it yourself first. Interviewers care more about how you explain the approach than about the finished code.</p></div>
+    <div class="pp-pane" data-t="viz" hidden><p>Watch the core idea of this problem step by step. Change the input and press <b>Visualize</b>.</p><div class="viz" data-viz="grid-bfs"></div><p class="muted">Explained in the lesson <a href="../graphs.html">Graphs: BFS &amp; DFS</a>.</p></div>
+    <nav class="pp-nav"><a href="max-area-of-island.html">← 57. Max Area of Island</a><a href="index.html">All problems</a><a href="course-schedule.html">59. Course Schedule →</a></nav>
+  </section>
+  <section class="pp-right" aria-label="Code editor">
+    <div class="pp-bar"><label class="sr" for="lang">Language</label><select id="lang"><option value="py">Python</option><option value="java">Java</option><option value="cpp">C++</option><option value="js">JavaScript</option></select>
+      <button type="button" class="b ghost" id="reset" title="Reset to the starter code">↺ Reset</button><span class="grow"></span>
+      <button type="button" class="b ghost" id="run">▶ Run</button><button type="button" class="b" id="submit">Submit</button></div>
+    <div class="pp-ed"><textarea id="code" spellcheck="false" aria-label="Code editor"></textarea></div>
+    <div class="pp-con"><div class="pp-ctabs" role="tablist"><button type="button" data-c="cases" aria-selected="true">Testcases</button><button type="button" data-c="result">Result</button></div>
+      <div class="pp-cbody" data-c="cases"></div><div class="pp-cbody" data-c="result" hidden><p class="muted">Run your code to see results here.</p></div></div>
+  </section>
+</div>
+<script type="application/json" id="pdata">{"id": "rotting-oranges", "lc": "rotting-oranges", "num": 58, "title": "Rotting Oranges", "diff": "Medium", "fn": "orangesRotting", "params": ["grid"], "types": ["int[][]"], "ret": "int", "inplace": null, "cmp": "exact", "tests": [[[[2, 1, 1], [1, 1, 0], [0, 1, 1]]], [[[2, 1, 1], [0, 1, 1], [1, 0, 1]]], [[[0, 2]]], [[[1]]], [[[0]]], [[[2, 2], [1, 1]]]], "expected": [4, -1, 0, -1, 0, 1], "sample": 3, "starter": {"py": "class Solution:\n    def orangesRotting(self, grid: List[List[int]]) -> int:\n        ", "java": "class Solution {\n    public int orangesRotting(int[][] grid) {\n        \n    }\n}", "cpp": "class Solution {\npublic:\n    int orangesRotting(vector<vector<int>>& grid) {\n        \n    }\n};", "js": "/**\n * @param {number[][]} grid\n * @return {number}\n */\nfunction orangesRotting(grid) {\n  \n}"}, "solution": {"py": "class Solution:\n    def orangesRotting(self, grid: List[List[int]]) -> int:\n        m, n = len(grid), len(grid[0])\n        q = deque((r, c) for r in range(m) for c in range(n) if grid[r][c] == 2)   # all sources at once\n        fresh = sum(row.count(1) for row in grid)\n        minutes = 0\n        while q and fresh:\n            for _ in range(len(q)):            # one BFS layer = one minute\n                r, c = q.popleft()\n                for nr, nc in ((r + 1, c), (r - 1, c), (r, c + 1), (r, c - 1)):\n                    if 0 <= nr < m and 0 <= nc < n and grid[nr][nc] == 1:\n                        grid[nr][nc] = 2\n                        fresh -= 1\n                        q.append((nr, nc))\n            minutes += 1\n        return -1 if fresh else minutes", "java": "class Solution {\n    public int orangesRotting(int[][] grid) {\n        int m = grid.length, n = grid[0].length, fresh = 0, minutes = 0;\n        ArrayDeque<int[]> q = new ArrayDeque<>();\n        for (int r = 0; r < m; r++)\n            for (int c = 0; c < n; c++) {\n                if (grid[r][c] == 2) q.add(new int[]{r, c});\n                else if (grid[r][c] == 1) fresh++;\n            }\n        int[][] dirs = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};\n        while (!q.isEmpty() && fresh > 0) {\n            for (int k = q.size(); k > 0; k--) {        // one layer = one minute\n                int[] cur = q.poll();\n                for (int[] d : dirs) {\n                    int nr = cur[0] + d[0], nc = cur[1] + d[1];\n                    if (nr >= 0 && nc >= 0 && nr < m && nc < n && grid[nr][nc] == 1) {\n                        grid[nr][nc] = 2; fresh--; q.add(new int[]{nr, nc});\n                    }\n                }\n            }\n            minutes++;\n        }\n        return fresh > 0 ? -1 : minutes;\n    }\n}", "cpp": "class Solution {\npublic:\n    int orangesRotting(vector<vector<int>>& grid) {\n        int m = grid.size(), n = grid[0].size(), fresh = 0, minutes = 0;\n        queue<pair<int, int>> q;\n        for (int r = 0; r < m; r++)\n            for (int c = 0; c < n; c++) {\n                if (grid[r][c] == 2) q.push({r, c});\n                else if (grid[r][c] == 1) fresh++;\n            }\n        int dr[] = {1, -1, 0, 0}, dc[] = {0, 0, 1, -1};\n        while (!q.empty() && fresh > 0) {\n            for (int k = q.size(); k > 0; k--) {        // one layer = one minute\n                auto [r, c] = q.front(); q.pop();\n                for (int d = 0; d < 4; d++) {\n                    int nr = r + dr[d], nc = c + dc[d];\n                    if (nr >= 0 && nc >= 0 && nr < m && nc < n && grid[nr][nc] == 1) {\n                        grid[nr][nc] = 2; fresh--; q.push({nr, nc});\n                    }\n                }\n            }\n            minutes++;\n        }\n        return fresh > 0 ? -1 : minutes;\n    }\n};", "js": "function orangesRotting(grid) {\n  const m = grid.length, n = grid[0].length;\n  let q = [], fresh = 0, minutes = 0;\n  for (let r = 0; r < m; r++) for (let c = 0; c < n; c++) {\n    if (grid[r][c] === 2) q.push([r, c]); else if (grid[r][c] === 1) fresh++;\n  }\n  while (q.length && fresh) {\n    const next = []; // one layer = one minute\n    for (const [r, c] of q)\n      for (const [nr, nc] of [[r + 1, c], [r - 1, c], [r, c + 1], [r, c - 1]])\n        if (nr >= 0 && nc >= 0 && nr < m && nc < n && grid[nr][nc] === 1) { grid[nr][nc] = 2; fresh--; next.push([nr, nc]); }\n    q = next;\n    minutes++;\n  }\n  return fresh ? -1 : minutes;\n}"}}</script>
+</main>
+<script src="../../assets/data.js"></script>
+<script src="../../assets/site.js" data-base="../../"></script>
+<script src="../../assets/engage.js"></script>
+<script src="../../assets/dsa-viz.js"></script>
+<script src="../../assets/dsa.js" data-base="../../"></script>
+</body>
+</html>

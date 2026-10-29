@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Recursion &amp; Backtracking · DSA · Learn24</title>
+<meta name="description" content="Explore every choice, undo it, and try the next. The template behind subsets, permutations, combinations, N-Queens, Sudoku and word search.">
+<meta property="og:title" content="Recursion &amp; Backtracking · DSA · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#8fd46b} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<link rel="stylesheet" href="../assets/dsa.css">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="../assets/codemirror.min.css">
+<script defer src="../assets/codemirror.min.js"></script>
+</head>
+<body class="dsa-lesson">
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="backtracking" data-lesson="dsa/backtracking">
+  <div class="kicker">DSA · Lesson 13 of 17</div>
+  <h1>Recursion &amp; Backtracking</h1>
+  <div class="meta"><span>⏱ 14 min</span><span>🎬 Interactive visualizer</span><span>💻 Python · Java · C++ · JavaScript</span><span>🧩 6 practice problems</span></div>
+  <p class="lead">Explore every choice, undo it, and try the next. The template behind subsets, permutations, combinations, N-Queens, Sudoku and word search.</p>
+<h2>Recursion in one sentence</h2>
+<p>A recursive function solves a problem by calling itself on a <strong>smaller</strong> version, with a <strong>base case</strong> that stops. Draw the <strong>recursion tree</strong>: the number of nodes × the work per node is the complexity.</p>
+<h2>Backtracking</h2>
+<p>Backtracking is DFS over the tree of decisions. At each node you <strong>choose</strong> an option, <strong>explore</strong> further, then <strong>un-choose</strong> it (restore the state) before trying the next option. If a partial choice can already be ruled out, <strong>prune</strong> that whole branch, which is what makes N-Queens and Sudoku fast enough.</p>
+<div class="viz" data-viz="subsets,n-queens"></div>
+<h2>The universal template</h2>
+<pre><code>def backtrack(state):
+    if state is a complete solution:
+        record a COPY of it
+        return
+    for choice in options(state):
+        if not valid(choice): continue      # prune
+        make(choice)
+        backtrack(state)
+        undo(choice)
+</code></pre>
+<h2>Variations</h2>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Loop over</th>
+<th>Key detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Subsets</td>
+<td><code>i</code> from <code>start</code></td>
+<td>record at <strong>every</strong> node</td>
+</tr>
+<tr>
+<td>Combinations / combination sum</td>
+<td><code>i</code> from <code>start</code></td>
+<td>recurse with <code>i</code> (reuse) or <code>i + 1</code> (no reuse)</td>
+</tr>
+<tr>
+<td>Permutations</td>
+<td>all <code>i</code> not used</td>
+<td><code>used[]</code> array</td>
+</tr>
+<tr>
+<td>With duplicates (Subsets II)</td>
+<td>sorted input</td>
+<td>skip <code>nums[i] == nums[i−1]</code> at the same level</td>
+</tr>
+<tr>
+<td>Grid search (word search)</td>
+<td>4 directions</td>
+<td>mark the cell, recurse, restore it</td>
+</tr>
+<tr>
+<td>N-Queens</td>
+<td>columns of the current row</td>
+<td>sets for columns and both diagonals</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="template">Code template</h2><div class="ctabs "><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py">def subsets(nums):
+    res, path = [], []
+    def backtrack(start):
+        res.append(path[:])                 # record a copy
+        for i in range(start, len(nums)):
+            path.append(nums[i])            # choose
+            backtrack(i + 1)                # explore
+            path.pop()                      # un-choose
+    backtrack(0)
+    return res
+
+def permutations(nums):
+    res, path, used = [], [], [False] * len(nums)
+    def backtrack():
+        if len(path) == len(nums):
+            res.append(path[:]); return
+        for i in range(len(nums)):
+            if used[i]: continue
+            used[i] = True; path.append(nums[i])
+            backtrack()
+            path.pop(); used[i] = False
+    backtrack()
+    return res</code></pre><pre data-l="java"><code class="lang-java">List&lt;List&lt;Integer&gt;&gt; subsets(int[] nums) {
+    List&lt;List&lt;Integer&gt;&gt; res = new ArrayList&lt;&gt;();
+    backtrack(nums, 0, new ArrayList&lt;&gt;(), res);
+    return res;
+}
+void backtrack(int[] nums, int start, List&lt;Integer&gt; path, List&lt;List&lt;Integer&gt;&gt; res) {
+    res.add(new ArrayList&lt;&gt;(path));              // record a copy
+    for (int i = start; i &lt; nums.length; i++) {
+        path.add(nums[i]);                       // choose
+        backtrack(nums, i + 1, path, res);       // explore
+        path.remove(path.size() - 1);            // un-choose
+    }
+}</code></pre><pre data-l="cpp"><code class="lang-cpp">void backtrack(const vector&lt;int&gt;&amp; nums, int start, vector&lt;int&gt;&amp; path, vector&lt;vector&lt;int&gt;&gt;&amp; res) {
+    res.push_back(path);                         // record a copy
+    for (int i = start; i &lt; (int)nums.size(); i++) {
+        path.push_back(nums[i]);                 // choose
+        backtrack(nums, i + 1, path, res);       // explore
+        path.pop_back();                         // un-choose
+    }
+}
+vector&lt;vector&lt;int&gt;&gt; subsets(const vector&lt;int&gt;&amp; nums) {
+    vector&lt;vector&lt;int&gt;&gt; res; vector&lt;int&gt; path;
+    backtrack(nums, 0, path, res);
+    return res;
+}</code></pre><pre data-l="js"><code class="lang-js">function subsets(nums) {
+  const res = [], path = [];
+  const backtrack = start =&gt; {
+    res.push([...path]);                 // record a copy
+    for (let i = start; i &lt; nums.length; i++) {
+      path.push(nums[i]);                // choose
+      backtrack(i + 1);                  // explore
+      path.pop();                        // un-choose
+    }
+  };
+  backtrack(0);
+  return res;
+}</code></pre></div>
+<h2>Complexity</h2>
+<p>Exponential by nature: subsets O(n·2ⁿ), permutations O(n·n!). Space is O(depth) plus the output. Pruning does not change the worst case but makes real inputs fast.</p>
+<h2 id="practice">Practise this pattern (6 problems)</h2><p>Each problem has a statement, hints, approaches, solutions in 4 languages and a code runner. Solve them in order: easy first.</p><div class="ptw"><table class="ptab"><thead><tr><th aria-label="Solved"></th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead><tbody><tr data-id="subsets"><td class="st" aria-label="status"></td><td class="num">64</td><td><a href="problems/subsets.html">Subsets</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="permutations"><td class="st" aria-label="status"></td><td class="num">65</td><td><a href="problems/permutations.html">Permutations</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="combination-sum"><td class="st" aria-label="status"></td><td class="num">66</td><td><a href="problems/combination-sum.html">Combination Sum</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="word-search"><td class="st" aria-label="status"></td><td class="num">67</td><td><a href="problems/word-search.html">Word Search</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="generate-parentheses"><td class="st" aria-label="status"></td><td class="num">68</td><td><a href="problems/generate-parentheses.html">Generate Parentheses</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="n-queens"><td class="st" aria-label="status"></td><td class="num">69</td><td><a href="problems/n-queens.html">N-Queens</a></td><td><span class="diff hard">Hard</span></td></tr></tbody></table></div><h2>Common mistakes</h2>
+<ul>
+<li>Appending <code>path</code> itself instead of a copy (all results end up identical and empty).</li>
+<li>Forgetting to undo the choice, so state leaks into sibling branches.</li>
+<li>Generating duplicates: sort, then skip equal neighbours at the same depth.</li>
+</ul>
+<details><summary>Check yourself: why does Combination Sum recurse with i and not i + 1?</summary>
+Each number may be reused, so after choosing nums[i] the next choice may be nums[i] again. Starting at i (never earlier) still prevents producing the same multiset in a different order.</details>
+  <div class="pj-cta"><a class="btn" href="problems/index.html">🧩 All DSA problems</a><a class="btn ghost" href="visualizer/index.html">🎬 Algorithm visualizer</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="dsa/backtracking"></script>
+<script src="../assets/engage.js"></script>
+<script src="../assets/dsa-viz.js"></script>
+<script src="../assets/dsa.js" data-base="../"></script>
+</body>
+</html>
