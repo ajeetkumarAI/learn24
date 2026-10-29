@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PwC: GenAI Engineer Walk-In · Company Interview Questions · Learn24</title>
+<meta name="description" content="PwC: GenAI Engineer Walk-In: 8 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="PwC: GenAI Engineer Walk-In · Learn24">
+<meta property="og:description" content="PwC: GenAI Engineer Walk-In: 8 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="pwc-walk-in" data-lesson="interview-questions/pwc-walk-in">
+  <div class="kicker">Company Interview Questions · PwC</div>
+  <h1>PwC: GenAI Engineer Walk-In</h1>
+  <div class="meta"><span>❓ 8 questions</span><span>🏢 PwC</span></div>
+  <p class="lead">PwC Generative AI Engineer Walk-In Interview — Questions &amp; Answers Guide. Real questions from the interview, with detailed answers. Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<h2 class="prep-sec" id="s-1-poc-vs-production-architectures-vector"><span class="n">01</span>POC vs. Production Architectures &amp; Vector Databases</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">What is the difference between a POC (Proof of Concept) and a Production-Grade Generative AI architecture? What tech stack choices differentiate them?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Proof of Concept (POC):</strong></li>
+<li>Built for rapid validation of ideas using local, lightweight tools.</li>
+<li>Uses local, in-memory vector databases (e.g., ChromaDB, FAISS running on local disk).</li>
+<li>
+<p>Lacks enterprise security, authentication, robust error handling, monitoring, or scalable load balancing.</p>
+</li>
+<li>
+<p><strong>Production Architecture:</strong></p>
+</li>
+<li>Uses distributed, cloud-managed vector databases (e.g., Pinecone, Qdrant, Weaviate, or enterprise PGVector) capable of scaling, partitioning, and handling high concurrent query traffic.</li>
+<li>Incorporates robust API gateways, asynchronous message queues (e.g., Celery/Redis), secrets management, role-based access control (RBAC), monitoring (e.g., LangSmith, Phoenix), and cost/rate-limiting guardrails.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">How do you handle document ingestion and cost optimization for production-level PDF processing?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Ingestion Strategy:</strong> Use structured document parsers (e.g., Unstructured, LlamaParse) to split complex PDFs into clean text, tables, and image metadata. Apply <strong>incremental indexing (delta loads)</strong> so only modified or newly added PDFs are embedded and stored, avoiding full-store re-indexing costs.</li>
+<li><strong>Cost Optimization:</strong></li>
+<li><strong>Semantic Caching:</strong> Cache semantically similar queries using Redis to avoid repeating expensive vector searches and LLM generation calls.</li>
+<li><strong>Model Routing:</strong> Route simple extraction/summarization tasks to smaller, cost-effective models (e.g., GPT-4o-mini, Claude Haiku) and reserve large frontier models for complex reasoning.</li>
+<li><strong>Token Budgeting:</strong> Restrict chunk context size to relevant top-\(K\) passages rather than sending raw document pages.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-2-text-processing-fundamentals-retrieval"><span class="n">02</span>Text Processing Fundamentals &amp; Retrieval Mechanisms</h2>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">What is the difference between Tokenization and Chunking?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Tokenization:</strong> The process of breaking raw text into smaller sub-word or character-level units (<strong>tokens</strong>) using a vocabulary model (e.g., BPE, Tiktoken) for the LLM or embedding model to compute numerically.</li>
+<li><strong>Chunking:</strong> The higher-level structural splitting of a large document into cohesive semantic segments (e.g., paragraphs, sections of 500–1000 tokens) before generating vector embeddings for retrieval.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">What are vectors and tokens? Can an AI system work without a vector database, and why?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Tokens vs. Vectors:</strong></li>
+<li><strong>Tokens:</strong> The discrete text building blocks (sub-words) that an LLM reads and generates.</li>
+<li>
+<p><strong>Vectors:</strong> High-dimensional numerical arrays (embeddings) generated by neural networks to represent the semantic meaning of tokens or chunks.</p>
+</li>
+<li>
+<p><strong>Working Without a Vector Database:</strong></p>
+</li>
+<li><strong>Yes.</strong> An AI system can function without a dedicated vector database. Alternative approaches include:</li>
+<li>Passing information directly inside the LLM context window (if within token limits).</li>
+<li>Traditional keyword-based search engines (e.g., Elasticsearch with BM25).</li>
+<li>Relational/SQL databases querying structured data directly.</li>
+<li>
+<p>Graph databases (GraphRAG) using entity-relationship triples.</p>
+</li>
+<li>
+<p><em>Why Vector Databases Are Preferred for RAG:</em> They provide fast, high-dimensional Approximate Nearest Neighbor (ANN) vector similarity search across millions of un-structured text passages.</p>
+</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">How does the document retrieval process work during a RAG search query? What role do Top-K and Top-P play?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>
+<p><strong>Retrieval Process:</strong>
+1. User prompt is converted into a query embedding vector via an embedding model.
+2. The vector database runs an Approximate Nearest Neighbor (ANN) search comparing the query vector against indexed chunk vectors.
+3. The top \(K\) most semantically relevant chunks are retrieved, optionally filtered by metadata, and injected into the LLM system prompt as context.</p>
+</li>
+<li>
+<p><strong>Top-K vs. Top-P Roles in Retrieval vs. Generation:</strong></p>
+</li>
+<li><strong>Top-K in Retrieval:</strong> Defines the exact number of top context chunks fetched from the vector store (e.g., \(K=5\)).</li>
+<li><strong>Top-K &amp; Top-P in Generation:</strong> Sampling hyper-parameters that control the LLM's next-token selection mechanics during response synthesis.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-agentic-ai-fine-tuning"><span class="n">03</span>Agentic AI &amp; Fine-Tuning</h2>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">What is the fundamental difference between standard RAG and Agentic AI?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Standard RAG:</strong> Follows a linear, single-step pipeline: <code>Query -&gt; Retrieve Chunks -&gt; Construct Prompt -&gt; Generate Answer</code>.</li>
+<li><strong>Agentic AI:</strong> Uses an LLM inside an iterative reasoning loop (e.g., ReAct pattern) to evaluate tasks, plan multi-step execution paths, dynamically decide which external tools or APIs to call, process tool outputs, and adjust its actions autonomously until a goal is completed.</li>
+</ul></div></div></div>
+<div class="qa" id="q7"><div class="qa-h"><span class="qa-n">Q7</span><div class="qa-q">How do AI Agents make decisions, and how does the complete agent workflow operate?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Decision-Making Mechanism:</strong> The agent receives a task, analyzes tool descriptions and system guidelines provided in its prompt context, and reasons through next steps using structured reasoning frameworks.</li>
+<li><strong>Workflow Steps:</strong>
+1. <strong>Thought / Planning:</strong> LLM evaluates current state and user goal to choose the next action.
+2. <strong>Action / Tool Selection:</strong> Generates structured parameters (JSON) to call a specific tool (e.g., search database, run calculator, execute API).
+3. <strong>Observation:</strong> Receives the execution output from the tool environment.
+4. <strong>Reflection / Loop:</strong> Evaluates if the goal is satisfied; repeats the process or returns the final answer to the user.</li>
+</ul></div></div></div>
+<div class="qa" id="q8"><div class="qa-h"><span class="qa-n">Q8</span><div class="qa-q">How do you analyze and score LLM or RAG outputs? What steps and algorithms are used in model Fine-Tuning?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Analyzing &amp; Scoring Outputs:</strong></li>
+<li><strong>RAG Metrics:</strong> Evaluate <em>Context Precision</em> and <em>Context Recall</em> for retrieval; evaluate <em>Faithfulness/Groundedness</em> and <em>Answer Relevancy</em> for generation (using frameworks like RAGAS or DeepEval).</li>
+<li>
+<p><strong>Evaluation Methods:</strong> Combine automated G-Eval (LLM-as-a-Judge) patterns with human feedback scoring (RLHF/RLAIF).</p>
+</li>
+<li>
+<p><strong>Fine-Tuning Steps &amp; Algorithms:</strong>
+1. <strong>Dataset Preparation:</strong> Curate high-quality instruction-response pairs formatted for the target task.
+2. <strong>Parameter-Efficient Fine-Tuning (PEFT / LoRA):</strong> Freeze base model weights and train low-rank adapter matrices (\(A\) and \(B\)) to drastically reduce VRAM usage.
+3. <strong>Quantization (QLoRA):</strong> Quantize the base model to 4-bit precision while optimizing adapter weights, enabling fine-tuning on consumer-grade GPUs.</p>
+</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-4-summary-of-key-interview-takeaways-pro"><span class="n">04</span>Summary of Key Interview Takeaways &amp; Production Preparedness</h2><pre><code>               [ Candidate Preparation Matrix ]
+                              │
+  ┌───────────────────────────┼───────────────────────────┐
+  ▼                           ▼                           ▼
+[ Architecture Choice ]  [ Operational Rigor ]    [ Agentic Capabilities ]
+  • POC: ChromaDB/FAISS    • Metadata Pre-Filter    • Dynamic Planning
+  • Prod: Pinecone/Qdrant  • Delta Ingestion Loads  • Parameter Validation
+  • RBAC Data Scoping      • Evaluation via RAGAS   • Loop &amp; Fallback Rules
+
+</code></pre>
+<ol>
+<li><strong>Direction set by Introduction:</strong> Mentioning production projects will immediately trigger deep-dive questions into scaling, security, databases, and cost management.</li>
+<li><strong>POC vs. Production Distinctions:</strong> Expect immediate pushback if local or development-only tools (like ChromaDB or in-memory setups) are cited as production choices.</li>
+<li><strong>Pre-Retrieval Access Control:</strong> Security must be enforced at the vector database retrieval level via metadata filtering, never deferred to LLM prompt instructions.</li>
+<li><strong>Agentic AI Dominance:</strong> Enterprise demands are shifting toward multi-step, tool-calling agentic architectures with strict iteration limits, schemas, and human-in-the-loop controls.</li>
+</ol>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/pwc-walk-in"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

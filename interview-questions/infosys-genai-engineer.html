@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Infosys: GenAI Engineer Q&amp;A · Company Interview Questions · Learn24</title>
+<meta name="description" content="Infosys: GenAI Engineer Q&amp;A: 8 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Infosys: GenAI Engineer Q&amp;A · Learn24">
+<meta property="og:description" content="Infosys: GenAI Engineer Q&amp;A: 8 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="infosys-genai-engineer" data-lesson="interview-questions/infosys-genai-engineer">
+  <div class="kicker">Company Interview Questions · Infosys</div>
+  <h1>Infosys: GenAI Engineer Q&amp;A</h1>
+  <div class="meta"><span>❓ 8 questions</span><span>🏢 Infosys</span></div>
+  <p class="lead">Infosys Generative AI Engineer Interview — Questions &amp; Answers Guide. Real questions from the interview, with detailed answers. Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<h2 class="prep-sec" id="s-1-project-deep-dive-production-considera"><span class="n">01</span>Project Deep Dive &amp; Production Considerations</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">What were the key aspects of your project deep dive (problem statement, tech stack selection, deployment, target audience size, and document types)?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Problem Statement &amp; Scope:</strong> Solved enterprise knowledge retrieval challenges by building a enterprise hybrid system blending standard RAG (50%) with Agentic AI capabilities (50%) for autonomous task execution.</li>
+<li><strong>Tech Stack Selection:</strong></li>
+<li><strong>Frameworks:</strong> LangChain / LlamaIndex for RAG pipelines; LangGraph / CrewAI for multi-agent workflows.</li>
+<li><strong>Vector DB:</strong> Distributed cloud-managed vector stores (e.g., Pinecone / PGVector) with metadata filtering.</li>
+<li>
+<p><strong>LLM Engine:</strong> Azure OpenAI / vLLM-hosted models integrated via asynchronous endpoints.</p>
+</li>
+<li>
+<p><strong>Production Deployment &amp; Audience Scale:</strong> Hosted via containerized microservices (FastAPI on Kubernetes) with autoscaling policies to serve thousands of concurrent active employees with low tail latency.</p>
+</li>
+<li><strong>Document Types &amp; Processing:</strong> Handles heterogeneous enterprise inputs including structured tables, multi-page PDFs, scanned images, and raw text formats.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">How do document types and data volume impact cloud deployment costs and infrastructure architecture in RAG applications?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Parsing &amp; Extraction Costs:</strong> Complex document types (scanned PDFs, multi-column tables) require OCR and heavy parsing engines (e.g., Unstructured, LlamaParse) which increase compute overhead during ingestion compared to plain text.</li>
+<li><strong>Storage &amp; Vector Indexing:</strong> High document volumes increase vector storage footprints linearly. Indexing algorithms like HNSW require significant memory (RAM) for fast retrieval, driving up cloud infrastructure instance costs.</li>
+<li><strong>Deployment Optimization Strategy:</strong></li>
+<li>Implement <strong>incremental/delta ingestion pipelines</strong> so only modified or newly uploaded files are chunked and embedded.</li>
+<li>Apply <strong>pre-retrieval metadata pre-filtering</strong> to shrink search scopes and lower CPU/GPU compute during vector queries.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-2-technical-rag-mechanics-prompt-constru"><span class="n">02</span>Technical RAG Mechanics &amp; Prompt Construction</h2>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Walk through an end-to-end RAG pipeline, including document loading frameworks and chunking strategies.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ol>
+<li><strong>Document Ingestion &amp; Loading:</strong> Extract text using specialized document loaders (e.g., <code>PyPDFLoader</code>, <code>UnstructuredPDFLoader</code>) to preserve document structure.</li>
+<li><strong>Chunking Strategy:</strong></li>
+</ol>
+<ul>
+<li><strong>Recursive Character Chunking:</strong> Splits text hierarchically using double newlines, single newlines, and spaces to preserve natural structural units (e.g., 500–1000 tokens with 10% overlap).</li>
+<li><strong>Semantic Chunking:</strong> Computes embedding distance between consecutive sentences and creates boundary splits when semantic shift exceeds a set threshold.</li>
+</ul>
+<ol start="3">
+<li><strong>Embedding &amp; Indexing:</strong> Dense vectors generated via embedding models are indexed into a vector database using Approximate Nearest Neighbor (ANN) indexing (e.g., HNSW).</li>
+<li><strong>Retrieval &amp; Reranking:</strong> Query is embedded, top-\(K\) chunks are retrieved via vector search, and a cross-encoder reranker sorts candidate chunks by relevancy.</li>
+<li><strong>Generation:</strong> Re-ranked chunks are passed alongside the user query to the LLM to generate a grounded output.</li>
+</ol></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">What is the difference between a System Prompt and a User Prompt?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>System Prompt:</strong> Sets the core behavior, role identity, capabilities, tone, constraints, safety guardrails, and output rules for the LLM (e.g., <em>"You are an HR policy assistant. Answer ONLY using the provided documents."</em>). It remains constant across user sessions.</li>
+<li><strong>User Prompt:</strong> The dynamic, variable natural language input or query provided by the end user during an active session (e.g., <em>"What is the annual leave rollover policy?"</em>).</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-python-core-concepts-multithreading"><span class="n">03</span>Python Core Concepts &amp; Multithreading</h2>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">What is the difference between Multithreading and Multiprocessing in Python? How does GIL affect them?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Multithreading (<code>threading</code>):</strong> Runs multiple threads within a single process sharing the same memory space.</li>
+<li>
+<p><strong>GIL Impact:</strong> Python's <strong>Global Interpreter Lock (GIL)</strong> prevents multiple native threads from executing Python bytecode simultaneously. Therefore, multithreading provides speedups primarily for <strong>I/O-bound tasks</strong> (e.g., network API requests, database queries, file reading).</p>
+</li>
+<li>
+<p><strong>Multiprocessing (<code>multiprocessing</code>):</strong> Spawns distinct Python processes, each with its own Python interpreter and memory space.</p>
+</li>
+<li><strong>GIL Impact:</strong> Bypasses the GIL entirely, allowing true parallel execution across multi-core CPUs. Ideal for <strong>CPU-bound tasks</strong> (e.g., heavy data transformations, tokenization, text parsing, local matrix computations).</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">What is GIL (Global Interpreter Lock) in Python, and why is it important for Gen AI backend systems?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Definition:</strong> GIL is a mutual-exclusion lock used by the CPython interpreter to synchronize thread execution and ensure thread safety when managing object memory.</li>
+<li><strong>Relevance to Gen AI Backends:</strong> Since Gen AI backend services handle heavy I/O operations (fetching embeddings, hitting external LLM APIs, querying vector databases), multithreading or asynchronous frameworks (<code>asyncio</code>) remain highly efficient despite the GIL. However, CPU-heavy tasks like document parsing or embedding calculation should be offloaded to process pools (<code>ProcessPoolExecutor</code>) or worker queues (Celery) to prevent GIL bottlenecks.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-4-hallucinations-evaluation-monitoring"><span class="n">04</span>Hallucinations, Evaluation &amp; Monitoring</h2>
+<div class="qa" id="q7"><div class="qa-h"><span class="qa-n">Q7</span><div class="qa-q">Why do LLMs hallucinate? What parameters and factors contribute to hallucinations?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Why LLMs Hallucinate:</strong> LLMs generate responses by computing token probability distributions, not by querying an internal truth engine.</li>
+<li><strong>Contributing Factors &amp; Parameters:</strong></li>
+<li><strong>High Temperature / High Top-P:</strong> Flattens probability distributions, forcing the model to sample lower-probability tokens.</li>
+<li><strong>Poor Context Quality / Noise:</strong> Irrelevant, truncated, or conflicting retrieved chunks in a RAG prompt lead to fabricated synthesis.</li>
+<li><strong>Context Length Limits:</strong> Extremely long prompts can result in the model ignoring critical details buried in the middle of context ("lost in the middle").</li>
+</ul></div></div></div>
+<div class="qa" id="q8"><div class="qa-h"><span class="qa-n">Q8</span><div class="qa-q">How do you evaluate and monitor the performance of an LLM / RAG pipeline in production?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Evaluation Metrics (RAGAS / DeepEval):</strong></li>
+<li><strong>Faithfulness:</strong> Measures whether the generated answer relies <em>strictly</em> on retrieved context without outside inventions.</li>
+<li><strong>Answer Relevance:</strong> Evaluates how directly the output addresses the user query.</li>
+<li>
+<p><strong>Context Precision &amp; Recall:</strong> Measures how relevant the retrieved context chunks are relative to the true ground truth.</p>
+</li>
+<li>
+<p><strong>Production Monitoring Tools &amp; Frameworks:</strong></p>
+</li>
+<li>Deploy observability platforms like <strong>LangSmith</strong>, <strong>Phoenix (Arize)</strong>, or <strong>OpenTelemetry</strong> to trace every step of the pipeline.</li>
+<li>Monitor real-time telemetry metrics: Time-To-First-Token (TTFT), total token consumption, latency per component, error/refusal rates, and user feedback signals (thumbs up/down).</li>
+</ul></div></div></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/infosys-genai-engineer"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

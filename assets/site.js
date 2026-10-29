@@ -7,7 +7,7 @@
   const done = (() => { try { return JSON.parse(localStorage.getItem('learn24-done') || '[]'); } catch (e) { return []; } })();
   const isDone = (t, l) => done.includes(t + '/' + l);
   const live = t => t.lessons.filter(l => l.status === 'live');
-  const SHORT = { 'aws-saa': 'AWS', 'langchain-course': 'LangChain', 'interview-prep': 'Interview Prep', 'frameworks': 'Frameworks', 'ai-system-design': 'System Design' };   // short names for the top menu
+  const SHORT = { 'genai-course': 'GenAI', 'agentic-ai': 'Agentic AI', 'ai-security': 'Security', 'aws-saa': 'AWS', 'langchain-course': 'LangChain', 'interview-questions': 'Interviews', 'assignments': 'Assignments', 'frameworks': 'Frameworks', 'ai-system-design': 'Design' };   // short names for the top menu
   const lessonHref = (t, l) => `${base}${t.id}/${l.id}.html`;
 
   // header
@@ -22,7 +22,7 @@
     const d = isDone(t.id, l.id), soon = l.status !== 'live';
     const tag = soon ? 'div' : 'a';
     return `<${tag} class="lesson${soon ? ' soon' : ''}${d ? ' done' : ''}" style="--c:${t.color}"${soon ? ' aria-disabled="true"' : ` href="${lessonHref(t, l)}"`}>
-      <span class="ix"${l.bonus ? ' title="Visual lesson"' : ''}>${l.bonus ? '★' : (l.session || i + 1)}</span>
+      <span class="ix"${l.bonus ? ` title="${esc(l.bonusTitle || 'Visual lesson')}"` : ''}>${l.bonus ? '★' : (l.session || i + 1)}</span>
       <div style="min-width:0"><h4>${esc(l.title)}</h4><p>${esc(l.summary)}</p>
         <div class="tags"><span class="tag t">${esc(t.name)}</span>${l.tags.map(g => `<span class="tag">${esc(g)}</span>`).join('')}</div></div>
       <div class="side"><span class="pill">${soon ? 'Coming soon' : d ? 'Done' : 'Start'}</span><span>${esc(l.level)} · ${l.mins} min</span></div>
@@ -75,6 +75,7 @@
       <nav class="crumbs" aria-label="Breadcrumb"><a href="${base}index.html">Home</a><span>›</span><span>${esc(t.name)}</span></nav>
       <h1>${esc(t.name)}</h1><p>${esc(t.blurb)}</p>
       <div class="progress"><div class="bar"><i style="width:${lv.length ? n / lv.length * 100 : 0}%"></i></div><span>${n} of ${lv.length} live lessons done</span></div>
+      ${(t.links || []).map(x => `<a class="quest-cta" href="${base}${t.id}/${x.href}"><span class="qi">${x.icon}</span><span><b>${esc(x.title)}</b><small>${esc(x.text)}</small></span><span class="go">Open →</span></a>`).join('')}
       ${t.quest ? `<a class="quest-cta" href="${base}${t.id}/${t.quest}"><span class="qi">🎮</span><span><b>Quest mode: learn by playing</b><small>Short cards from basics to advanced, points for every right answer, real-world scenarios and interview questions.</small></span><span class="go">Play →</span></a>` : ''}
     </section>
     ${t.modules ? t.modules.map(m => `<section class="sec shell module">

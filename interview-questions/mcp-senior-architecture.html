@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MCP: Senior Architecture Interview · Company Interview Questions · Learn24</title>
+<meta name="description" content="MCP: Senior Architecture Interview: 4 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="MCP: Senior Architecture Interview · Learn24">
+<meta property="og:description" content="MCP: Senior Architecture Interview: 4 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="mcp-senior-architecture" data-lesson="interview-questions/mcp-senior-architecture">
+  <div class="kicker">Company Interview Questions · MCP (company not named)</div>
+  <h1>MCP: Senior Architecture Interview</h1>
+  <div class="meta"><span>❓ 4 questions</span><span>🏢 MCP (company not named)</span></div>
+  <p class="lead">Model Context Protocol (MCP) — Senior Architecture &amp; Production Interview Guide. Real questions from the interview, with detailed answers. Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>This document presents an executive-level engineering breakdown for <strong>Model Context Protocol (MCP)</strong> system design interviews. </p>
+<p>When evaluating candidates for MCP and AI Agent Infrastructure roles, top-tier engineering boards move beyond basic protocol definitions. They evaluate whether you can <strong>architect, secure, scale, and operate</strong> MCP server/client ecosystems in production.</p></details><h2 class="prep-sec" id="s-executive-summary-what-interviewers-are-">Executive Summary: What Interviewers Are Evaluating</h2><ul>
+<li><strong>Target Roles:</strong> AI Platform Engineer, GenAI Systems Architect, Enterprise Agentic AI Lead</li>
+<li><strong>Core Standard:</strong> Model Context Protocol (JSON-RPC 2.0 based open standard connecting LLMs to external data and execution environments)</li>
+<li><strong>Evaluation Matrix:</strong>
+  1. <strong>Topological Clarity:</strong> Understanding the boundary between Client, Server, Transport, and LLM.
+  2. <strong>Primitive Selection:</strong> Knowing precisely when to expose a capability as a Tool, Resource, or Prompt.
+  3. <strong>Protocol Flow Mechanics:</strong> Tracing asynchronous JSON-RPC message loops under latency constraints.
+  4. <strong>Production Hardening:</strong> Implementing mTLS, OAuth2, RBAC, timeouts, and Human-In-The-Loop (HITL) gates.
+  5. <strong>Resilience &amp; Orchestration:</strong> Managing multi-server context bloat, dynamic capability routing, and offline fallbacks.</li>
+</ul>
+<h2 class="prep-sec" id="s-the-5-pillar-mcp-solution-architecture-f">The 5-Pillar MCP Solution Architecture Framework</h2><pre><code>
+</code></pre>
+<pre><code>       [ User Request ]
+              │
+              ▼
+    ┌───────────────────┐
+    │   Host Platform   │
+    │  (Application)    │
+    └─────────┬─────────┘
+              │
+              ▼
+    ┌───────────────────┐        JSON-RPC 2.0        ┌───────────────────┐
+    │    MCP Client     │ ◄────────────────────────► │    MCP Server     │
+    └─────────┬─────────┘   (stdio / SSE / HTTP)     └─────────┬─────────┘
+              │                                                │
+              ▼                                                ▼
+    ┌───────────────────┐                            ┌───────────────────┐
+    │    LLM Engine     │                            │ External Systems  │
+    │ (Reasoning Loop)  │                            │ (DBs, APIs, OS)   │
+    └───────────────────┘                            └───────────────────┘
+</code></pre>
+<pre><code>
+</code></pre>
+<h2 class="prep-sec" id="s-pillar-1-core-system-topology-role-bound">Pillar 1: Core System Topology &amp; Role Boundaries</h2><p>In an interview, clearly delineate the three fundamental actors:</p>
+<ul>
+<li><strong>Host Application / MCP Client:</strong> The orchestrator running locally or on a backend server (e.g., Claude Desktop, IDE extension, custom enterprise agent runtime). It holds state, handles transport connections, enforces authorization, and injects context into the LLM.</li>
+<li><strong>LLM (The Reasoning Engine):</strong> Stateless model. It receives prompt contexts, processes schemas, decides <em>what</em> to invoke, and formats the final user-facing output. It does <strong>not</strong> make network calls directly to the MCP server.</li>
+<li><strong>MCP Server:</strong> An isolated process or microservice that exposes domain capabilities to the Client via standard JSON-RPC interface layers over <code>stdio</code> (local subprocesses) or <code>SSE</code> / <code>HTTP</code> (remote enterprise services).</li>
+</ul>
+<h2 class="prep-sec" id="s-pillar-2-defining-server-capabilities-th">Pillar 2: Defining Server Capabilities (The Primitives)</h2><p>Distinguishing between MCP’s three core primitive constructs demonstrates deep protocol fluency:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Capability</th>
+<th style="text-align: left;">Control Flow</th>
+<th style="text-align: left;">Side Effects</th>
+<th style="text-align: left;">Primary Use Cases</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Tools</strong> (<code>tools/list</code>, <code>tools/call</code>)</td>
+<td style="text-align: left;"><strong>Model-Driven:</strong> Model decides when and how to invoke based on Pydantic/JSON schemas.</td>
+<td style="text-align: left;"><strong>Yes</strong> (Mutable operations)</td>
+<td style="text-align: left;">Executing code, creating JIRA tickets, writing to databases, triggering deployment pipelines.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Resources</strong> (<code>resources/list</code>, <code>resources/read</code>)</td>
+<td style="text-align: left;"><strong>Application-Driven:</strong> Client/User explicitly attaches or fetches URI data; model reads passively.</td>
+<td style="text-align: left;"><strong>No</strong> (Read-Only context)</td>
+<td style="text-align: left;">Streaming log files (<code>logs://pod-123</code>), reading database schemas, attaching PDFs (<code>file:///docs/spec.pdf</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Prompts</strong> (<code>prompts/list</code>, <code>prompts/get</code>)</td>
+<td style="text-align: left;"><strong>User-Driven:</strong> Pre-engineered templates exposed by the server for standard workflows.</td>
+<td style="text-align: left;"><strong>No</strong></td>
+<td style="text-align: left;">Slash commands (<code>/debug-prod-incident</code>), standardized code review templates, multi-step system instructions.</td>
+</tr>
+</tbody>
+</table>
+<h2 class="prep-sec" id="s-pillar-3-end-to-end-request-protocol-exe">Pillar 3: End-to-End Request &amp; Protocol Execution Trace</h2><p>Walk the interviewer through a full lifecycle sequence for a model invoking a server tool:</p>
+<pre><code>
+[User Request] ──► [MCP Client] ──► (1) Construct Prompt + Schemas ──► [LLM Engine]
+│
+(2) Output Tool Call
+JSON-RPC Payload
+│
+[MCP Client] ◄──────────────────────────────────────────────────────────────┘
+│
+├──► (3) Validate Authorization &amp; Schema
+│
+├──► (4) Send `tools/call` JSON-RPC over stdio/SSE ──► [MCP Server]
+│                                                           │
+│                                                  (5) Execute API/DB
+│                                                           │
+[MCP Client] ◄── (6) Return `result` / `isError` payload ─────────┘
+│
+└──► (7) Forward Output Context ──► [LLM Engine] ──► [Final Answer to User]
+
+</code></pre>
+<ol>
+<li><strong>Discovery &amp; Handshake:</strong> On startup, Client calls <code>initialize</code> to negotiate protocol capabilities (<code>tools</code>, <code>resources</code>, <code>prompts</code>, <code>logging</code>).</li>
+<li><strong>Schema Injection:</strong> Client lists tools (<code>tools/list</code>) and appends JSON Schema definitions into the system context for the LLM.</li>
+<li><strong>Execution Decision:</strong> LLM emits a tool use block containing the target tool name and structured arguments.</li>
+<li><strong>Transport Bridge:</strong> Client intercepts the decision, validates parameters against schema rules, checks user permissions, and formats a JSON-RPC request (<code>tools/call</code>).</li>
+<li><strong>Server Execution &amp; Return:</strong> MCP Server handles business execution, traps runtime exceptions into standardized JSON-RPC error formats, and returns the result back to the Client.</li>
+<li><strong>Final Synthesis:</strong> Client appends the execution result to the conversation context and sends it back to the LLM to complete user-facing output generation.</li>
+</ol>
+<h2 class="prep-sec" id="s-pillar-4-production-engineering-security">Pillar 4: Production Engineering &amp; Security Layer</h2><p>A production-grade implementation requires addressing foundational enterprise requirements:</p>
+<pre><code>
+</code></pre>
+<pre><code>       ┌─────────────────────────────────────────────────┐
+       │              PRODUCTION MCP LAYER               │
+       ├─────────────────────────────────────────────────┤
+       │  [Auth] OAuth2 / OIDC / mTLS / API Keys          │
+       │  [Security] Sandboxing / Input Sanitization     │
+       │  [Control] Human-In-The-Loop (HITL) Gatekeepers │
+       │  [Reliability] Circuit Breakers &amp; Timeouts       │
+       │  [Telemetry] OpenTelemetry Tracing (OTel)       │
+       └─────────────────────────────────────────────────┘
+</code></pre>
+<pre><code>
+</code></pre>
+<ul>
+<li><strong>Authentication &amp; Authorization:</strong> </li>
+<li>Local (<code>stdio</code>): Inherits OS user execution permissions. Must sanitize environment variables (<code>PATH</code>, credentials).</li>
+<li>Remote (<code>SSE</code>/<code>HTTP</code>): Requires OAuth2 / OIDC bearer tokens. Pass user identity via protocol headers to enforce fine-grained <strong>Role-Based Access Control (RBAC)</strong> down to the target system.</li>
+<li><strong>Security &amp; Prompt Injection Defenses:</strong></li>
+<li><strong>Input Sanitization:</strong> Treat all LLM-generated tool arguments as untrusted inputs. Validate against JSON Schemas before invoking underlying system shells.</li>
+<li><strong>Egress Sandboxing:</strong> Run remote MCP server execution inside ephemeral Docker containers, gVisor, or WASM sandboxes to eliminate arbitrary system access.</li>
+<li><strong>Timeouts &amp; Deadlocks:</strong> Enforce explicit per-tool execution timeouts (\(10\text{s}\) for synchronous DB queries, async callback hooks for long-running batch processes).</li>
+<li><strong>Observability:</strong> Trace MCP calls end-to-end using OpenTelemetry (OTel), logging JSON-RPC message IDs, execution duration, token overhead, and error rate percentages.</li>
+</ul>
+<h2 class="prep-sec" id="s-pillar-5-deep-dive-trade-offs-strategic-">Pillar 5: Deep-Dive Trade-offs &amp; Strategic Interview Scenarios</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Scenario A: Tools vs. Resources Decision Framework</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><blockquote>
+<p><strong>Interviewer:</strong> <em>"We need to give our LLM agent access to a 500,000-row SQL database schema. Should we expose this as an MCP Resource or an MCP Tool?"</em></p>
+</blockquote>
+<pre><code>
+</code></pre>
+<pre><code>                      [ SQL Database Schema Access ]
+                                    │
+              ┌─────────────────────┴─────────────────────┐
+              ▼                                           ▼
+  [ Approach A: Resource ]                     [ Approach B: Tool ]
+</code></pre>
+<p>• Load full schema via URI                  • Expose <code>get_table_schema(table_name)</code>
+• Immediate context bloat                   • Dynamic, demand-driven retrieval
+• High token cost &amp; latency                 • Low context overhead
+• Simple implementation                     • Requires 1 extra tool-call loop</p>
+<pre><code>
+</code></pre>
+<ul>
+<li><strong>Recommended Answer:</strong></li>
+<li>Exposing the entire database schema as a single static <strong>Resource</strong> (<code>postgres://schema/full</code>) causes immediate context window bloat, increases latency, and risks hitting model token limits.</li>
+<li>Expose it as a hybrid combination:<ol>
+<li>A lightweight <strong>Resource</strong> (<code>postgres://tables/list</code>) providing a high-level summary list of table names.</li>
+<li>A targeted <strong>Tool</strong> (<code>get_table_schema(table_names: list[str])</code>) allowing the model to dynamically request schema details <em>only</em> for the specific tables relevant to the query.</li>
+</ol>
+</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Scenario B: Handling Multi-Server Context Bloat</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><blockquote>
+<p><strong>Interviewer:</strong> <em>"Your system connects to 30 enterprise MCP servers simultaneously, resulting in over 300 tools. The tool schemas alone consume 40,000 tokens per request. How do you resolve this context window overhead?"</em></p>
+</blockquote>
+<pre><code>
+</code></pre>
+<pre><code>       [ 30+ Remote MCP Servers ] ──► [ 300+ Total Available Tools ]
+                                                 │
+                                                 ▼
+                               [ Dynamic Tool Indexing Layer ]
+                               (Vector Search / BM25 / Intent)
+                                                 │
+                                                 ▼
+                               [ Top K (5-10) Relevant Tools ]
+                                                 │
+                                                 ▼
+                               [ Injected into LLM Prompt ]
+</code></pre>
+<pre><code>
+</code></pre>
+<ul>
+<li><strong>Architectural Strategy (Dynamic Tool Selection):</strong>
+  1. <strong>Deferred Registration / Tool Indexing:</strong> Do not inject all 300 tool schemas directly into the system prompt.
+  2. <strong>Semantic Search over Tool Definitions:</strong> Store tool descriptions and schemas inside an in-memory vector index (or BM25 search index).
+  3. <strong>Two-Pass Tool Retrieval:</strong><ul>
+<li><strong>Pass 1:</strong> Use user intent to retrieve the top \(K\) (e.g., \(K=8\)) relevant tool schemas dynamically.</li>
+<li><strong>Pass 2:</strong> Pass <em>only</em> those 8 tool definitions to the LLM system prompt for execution planning.</li>
+</ul>
+</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Scenario C: Preventing Unsafe Tool Calls (Human-In-The-Loop)</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><blockquote>
+<p><strong>Interviewer:</strong> <em>"An MCP tool allows an agent to execute database deletions (<code>DROP TABLE</code>, <code>DELETE FROM</code>). How do you architect safety gates into the MCP client/server pipeline?"</em></p>
+</blockquote>
+<pre><code>
+[ Model Requests Destruction ] ──► [ MCP Client Traps Call ] ──► [ Checks Risk Matrix ]
+│
+▼
+[ High Risk Operation ]
+│
+▼
+[ Request HITL Approval ]
+│
+┌────────────────────────┴────────────────────────┐
+▼                                                 ▼
+[ User Approves ]                                 [ User Denies ]
+│                                                 │
+▼                                                 ▼
+[ Dispatch to Server ]                            [ Return Abort Error ]
+
+</code></pre>
+<ul>
+<li><strong>Architectural Strategy:</strong>
+  1. <strong>Capability Annotations:</strong> Classify tools with a explicit risk metadata tier in their definition schema (<code>read_only</code>, <code>side_effect_safe</code>, <code>destructive</code>).
+  2. <strong>Interception at Client Level:</strong> The MCP Client intercepts any tool call marked <code>destructive</code> before emitting the JSON-RPC request to the server.
+  3. <strong>Human-In-The-Loop (HITL) Gatekeeping:</strong> Pause execution loop and trigger an interactive UI prompt or Slack confirmation modal asking the human user for approval.
+  4. <strong>Dry-Run Mode / Read-Only Transports:</strong> Configure server database connections with read-only connection strings by default, forcing explicit elevated access tokens for write operations.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Scenario D: Managing Server Downtime &amp; Circuit Breaking</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><blockquote>
+<p><strong>Interviewer:</strong> <em>"One of your remote MCP servers (e.g., Jira integration) goes down or times out mid-conversation. How do you prevent the agent from hanging or failing completely?"</em></p>
+</blockquote>
+<pre><code>
+[ MCP Server Fails / Times Out ] ──► [ Client Circuit Breaker Fires ]
+│
+▼
+[ Intercept Error at Client ]
+│
+▼
+[ Inject Synthetic System Notice ]
+&quot;Jira tool unavailable (HTTP 503)&quot;
+│
+▼
+[ Model Adjusts &amp; Gracefully Degrades ]
+
+</code></pre>
+<ul>
+<li><strong>Architectural Strategy:</strong>
+  1. <strong>Circuit Breaker Pattern:</strong> Wrap remote MCP transport calls with circuit breakers (e.g., using <code>pybreaker</code> or custom client middleware). If a server times out \(3\) consecutive times, open the circuit immediately.
+  2. <strong>Graceful Degraded Context:</strong> Instead of crashing the full agent run, capture the connection failure at the client layer and send a structured JSON-RPC system error payload back into the model conversation history:
+     <code>json
+     {
+       "status": "error",
+       "error_code": "SERVER_UNAVAILABLE",
+       "message": "The Jira MCP server is currently unreachable. Inform the user and suggest alternative steps."
+     }</code>
+  3. <strong>Fallback Execution:</strong> The LLM receives clear operational feedback that the integration is offline, allowing it to explain the issue gracefully or fall back to an alternate pathway rather than hanging indefinitely.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-final-summary-checklist-for-interviews">Final Summary Checklist for Interviews</h2><ol>
+<li><strong>System Boundaries:</strong> Always explicitly state <em>who</em> is making decisions (LLM), <em>who</em> handles protocol routing (MCP Client), and <em>who</em> executes actions (MCP Server).</li>
+<li><strong>Primitive Precision:</strong> Use <strong>Tools</strong> for state modifications, <strong>Resources</strong> for contextual reads, and <strong>Prompts</strong> for workflow blueprints.</li>
+<li><strong>Enterprise Defense:</strong> Include authentication (OAuth2/mTLS), input schema validation, sandboxing, and HITL approvals in every architecture blueprint.</li>
+<li><strong>Resilience Strategy:</strong> Be ready to detail real-world edge cases—handling context bloat via vector indexing, graceful transport error handling, and circuit breakers.</li>
+</ol>
+<p>```</p>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/mcp-senior-architecture"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

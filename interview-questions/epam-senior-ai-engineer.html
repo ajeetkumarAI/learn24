@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EPAM: Senior AI Engineer · Company Interview Questions · Learn24</title>
+<meta name="description" content="EPAM: Senior AI Engineer: 10 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="EPAM: Senior AI Engineer · Learn24">
+<meta property="og:description" content="EPAM: Senior AI Engineer: 10 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="epam-senior-ai-engineer" data-lesson="interview-questions/epam-senior-ai-engineer">
+  <div class="kicker">Company Interview Questions · EPAM</div>
+  <h1>EPAM: Senior AI Engineer</h1>
+  <div class="meta"><span>❓ 10 questions</span><span>🏢 EPAM</span></div>
+  <p class="lead">EPAM Systems — Senior AI Engineer Interview Guide (~25 LPA Level). Real questions from the interview, with detailed answers. Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>This document provides a comprehensive, production-grade interview guide for the <strong>Senior AI Engineer / LLM Engineer</strong> role at <strong>EPAM Systems</strong>, based directly on real interview transcripts. EPAM's evaluation heavily emphasizes end-to-end SDLC breakdown, hands-on production engineering, agentic state management, concurrency control, and system design.</p></details><h2 class="prep-sec" id="s-1-candidate-background-interview-process"><span class="n">01</span>Candidate Background &amp; Interview Process Summary</h2><ul>
+<li><strong>Role &amp; Company:</strong> Senior AI / LLM Engineer at <strong>EPAM Systems</strong> (Target Compensation Band: ~25 LPA).</li>
+<li><strong>Focus Areas:</strong> End-to-end System Design, Full SDLC Execution, Multi-Agent Orchestration (LangGraph), Production Incident Data Management, Fast-API Integration, and LLM/Agentic Reliability.</li>
+<li><strong>Round Structure:</strong>
+  1. <strong>Screening Round (Phone):</strong> Career background, previous project architectures, ownership scope, and SDLC responsibilities.
+  2. <strong>Technical Round 1 (System Design &amp; Architecture - 45-60 Mins):</strong> Oral whiteboarding, async concurrency, multi-agent fault isolation, state management, Fast-API integration, MCP, and fundamental NLP/LLM mechanics.
+  3. <strong>Technical Round 2 (Hands-On Coding &amp; Implementation):</strong> Live algorithmic coding, system-level Python scripting, and data structure manipulation.
+  4. <strong>Managerial &amp; Offer Discussion:</strong> Final evaluation of overall performance, client consulting readiness, and compensation mapping.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-multi-agent-systems-concurrency-resili"><span class="n">02</span>Multi-Agent Systems, Concurrency &amp; Resilience</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">How would you manage incident data efficiently in a database to support fast execution and low-latency RAG retrieval?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Database Partitioning:</strong> Partition incident tables by <strong>Time Window</strong> (e.g., monthly/weekly) and <strong>Severity</strong> (e.g., <code>Critical</code>, <code>High</code>, <code>Low</code>) to isolate heavy read/write volumes and avoid full-table scans.</li>
+<li><strong>Indexing Strategy:</strong> Create composite B-Tree indexes on heavily queried filtering columns, specifically <code>(incident_id, timestamp, severity)</code>.</li>
+<li><strong>Hybrid RAG Storage:</strong></li>
+<li>Keep structured operational data (status, assigned team, timestamps) in a relational store (PostgreSQL) or document store with partitioning.</li>
+<li>Offload raw, unstructured incident logs and post-mortems to a vector database (or <code>pgvector</code>) with metadata payload filters (<code>incident_id</code>, <code>created_at</code>) to enable fast, targeted semantic retrieval during automated RAG incident analysis.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">How would you execute three independent AI Agents in parallel, and how do you isolate failures so one agent&#x27;s crash does not affect the others?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code>
+</code></pre>
+<pre><code>                [ User Request / Event ]
+                           │
+                           ▼
+              [ async Task Orchestrator ]
+                (asyncio.gather / TaskGroup)
+                           │
+ ┌─────────────────────────┼─────────────────────────┐
+ ▼                         ▼                         ▼
+</code></pre>
+<pre><code>
+[ Agent A Task ]          [ Agent B Task ]          [ Agent C Task ]
+(Wrapped in try/except)   (Wrapped in try/except)   (Wrapped in try/except)
+│                         │                         │
+▼                         ▼                         ▼
+[ Success / Error ]       [ Success / Error ]       [ Success / Error ]
+│                         │                         │
+└─────────────────────────┼─────────────────────────┘
+│
+▼
+[ Aggregate Results &amp; Fallbacks ]
+
+</code></pre>
+<p><strong>Answer:</strong>
+* <strong>Asynchronous Execution:</strong> Use Python's <code>asyncio.gather(*tasks, return_exceptions=True)</code> or <code>asyncio.TaskGroup()</code> to spawn and run the agents concurrently on an async event loop, significantly reducing overall execution time compared to sequential calls.
+* <strong>Fault Isolation:</strong> Wrap each agent's execution logic in an isolated <code>try...except</code> block or execute them via safe worker tasks. 
+* <strong>Handling <code>return_exceptions=True</code>:</strong> Setting <code>return_exceptions=True</code> ensures that if Agent B throws an unhandled exception or API timeout, <code>asyncio.gather</code> does not cancel Agent A and Agent C. Instead, it captures the Exception object for Agent B while returning valid outputs for Agents A and C.</p>
+<pre><code class="language-python">import asyncio
+import logging
+from typing import Dict, Any, List, Union
+
+async def run_agent_a() -&gt; Dict[str, Any]:
+    # Simulating LLM call / Tool execution
+    await asyncio.sleep(0.5)
+    return {&quot;agent&quot;: &quot;Agent_A&quot;, &quot;status&quot;: &quot;success&quot;, &quot;data&quot;: &quot;Analysis complete&quot;}
+
+async def run_agent_b() -&gt; Dict[str, Any]:
+    await asyncio.sleep(0.3)
+    # Simulating a failure (e.g., API Rate Limit / Timeout)
+    raise TimeoutError(&quot;LLM Provider timed out during agent processing&quot;)
+
+async def run_agent_c() -&gt; Dict[str, Any]:
+    await asyncio.sleep(0.4)
+    return {&quot;agent&quot;: &quot;Agent_C&quot;, &quot;status&quot;: &quot;success&quot;, &quot;data&quot;: &quot;Routing verified&quot;}
+
+async def orchestrate_parallel_agents() -&gt; List[Dict[str, Any]]:
+    &quot;&quot;&quot;
+    Executes multiple agents concurrently while isolating individual failures.
+    &quot;&quot;&quot;
+    tasks = [
+        run_agent_a(),
+        run_agent_b(),
+        run_agent_c()
+    ]
+
+    # return_exceptions=True prevents one failing task from cancelling others
+    results: List[Union[Dict[str, Any], Exception]] = await asyncio.gather(*tasks, return_exceptions=True)
+
+    processed_responses = []
+    for idx, result in enumerate(results):
+        if isinstance(result, Exception):
+            logging.error(f&quot;Task {idx} failed with error: {result}&quot;)
+            processed_responses.append({
+                &quot;agent_index&quot;: idx,
+                &quot;status&quot;: &quot;failed&quot;,
+                &quot;error&quot;: str(result),
+                &quot;fallback_data&quot;: None
+            })
+        else:
+            processed_responses.append(result)
+
+    return processed_responses
+
+# Run event loop
+if __name__ == &quot;__main__&quot;:
+    output = asyncio.run(orchestrate_parallel_agents())
+    print(output)
+
+</code></pre></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">How do you design an automated retry mechanism with backoff for Agent execution?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>Use an explicit <strong>Retry Counter</strong> alongside <strong>Exponential Backoff with Jitter</strong> to prevent overwhelming downstream LLM providers or external API tools during rate limiting (\(429\)) or server errors (\(5xx\)).</li>
+<li>Stop retrying once <code>max_retries</code> is reached, and return a structured fallback response or route to an error state.</li>
+</ul>
+<pre><code class="language-python">import asyncio
+import random
+from typing import Callable, Any
+
+async def execute_with_retry(
+    agent_func: Callable[[], Any], 
+    max_retries: int = 3, 
+    initial_delay: float = 1.0
+) -&gt; Any:
+    &quot;&quot;&quot;
+    Executes an async agent function with exponential backoff and jitter.
+    &quot;&quot;&quot;
+    delay = initial_delay
+    for attempt in range(1, max_retries + 1):
+        try:
+            return await agent_func()
+        except Exception as e:
+            if attempt == max_retries:
+                print(f&quot;[FINAL FAILURE] Max retries ({max_retries}) reached. Error: {e}&quot;)
+                return {&quot;status&quot;: &quot;failed&quot;, &quot;reason&quot;: str(e)}
+
+            # Exponential delay calculation + random jitter
+            jitter = random.uniform(0, 0.5)
+            sleep_time = delay + jitter
+            print(f&quot;[RETRY {attempt}/{max_retries}] Sleeping for {sleep_time:.2f}s due to: {e}&quot;)
+            await asyncio.sleep(sleep_time)
+            delay *= 2  # Double the backoff interval
+
+</code></pre></div></div></div>
+<h2 class="prep-sec" id="s-3-langgraph-chains-vs-agents-and-fast-ap"><span class="n">03</span>LangGraph, Chains vs. Agents, and Fast-API Integration</h2>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">What is the primary difference between a Chain and an Agent?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Chain (e.g., LCEL / Sequential Pipeline):</strong> A hardcoded, deterministic execution graph where step sequence is predefined (<code>Step A -&gt; Step B -&gt; Step C</code>). The LLM is used strictly for data transformation or extraction at specific nodes.</li>
+<li><strong>Agent:</strong> An autonomous control loop driven dynamically by an LLM acting as a reasoning engine. The agent evaluates the user input, decides which tools to call, inspects tool outputs, and dynamically determines the next step until the objective is satisfied.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">How is State managed in LangGraph?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>State Schema via <code>TypedDict</code> or Pydantic:</strong> LangGraph manages state by defining a centralized schema (a Python <code>TypedDict</code> or <code>BaseModel</code>) that represents the memory payload accessible by all graph nodes.</li>
+<li><strong>Node Updates &amp; Reducers:</strong> Each node in a LangGraph graph receives the current state, executes its processing logic, and returns a dictionary with updated fields.</li>
+<li><strong>State Progression:</strong> Channels within the state can use reducer functions (e.g., <code>operator.add</code> for appending messages to a list) to update state deterministically as execution transitions between nodes.</li>
+</ul>
+<pre><code class="language-python">from typing import Annotated, TypedDict
+import operator
+
+# Defining LangGraph State using TypedDict and Reducers
+class AgentGraphState(TypedDict):
+    # 'operator.add' ensures new messages are appended rather than overwritten
+    messages: Annotated[list[str], operator.add]
+    current_agent: str
+    is_complete: bool
+    retry_count: int
+
+</code></pre></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Why is Fast-API preferred for Gen AI agent backends, and how does Pydantic fit in?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Fast-API:</strong> Provides high-throughput, native asynchronous (<code>async/await</code>) HTTP support built on Starlette and Pydantic. It enables non-blocking I/O operations necessary when streaming tokens or handling long-running LLM tool calls.</li>
+<li><strong>Pydantic Validation:</strong> Fast-API uses Pydantic models to automatically validate incoming JSON request payloads and enforce typed response schemas. For LLM backends, Pydantic is used to enforce <strong>Structured Outputs</strong> (e.g., tool schemas, function calling signatures) directly from the model.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-4-mcp-claude-integration-and-llm-hyperpa"><span class="n">04</span>MCP, Claude Integration, and LLM Hyperparameters</h2>
+<div class="qa" id="q7"><div class="qa-h"><span class="qa-n">Q7</span><div class="qa-q">What is MCP (Model Context Protocol), and how does its integration work?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Model Context Protocol (MCP):</strong> An open standard designed by Anthropic that standardizes how LLM clients securely connect to local or remote context providers (databases, search tools, enterprise applications).</li>
+<li><strong>Integration Mechanics:</strong> Operates via a <strong>Client-Server Architecture</strong>. An MCP Server exposes capability definitions (tools, prompts, resources) using a standardized JSON-RPC protocol over standard I/O (<code>stdio</code>) or Server-Sent Events (SSE). The LLM Client (e.g., Claude Desktop, custom agent) connects to the server, discovers exposed capabilities, and invokes them cleanly without requiring custom custom API wrappers for every separate data source.</li>
+</ul></div></div></div>
+<div class="qa" id="q8"><div class="qa-h"><span class="qa-n">Q8</span><div class="qa-q">Explain the differences between Temperature, Top-P, and Top-K.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Temperature:</strong> Scales the unnormalized logit values before applying the Softmax function.</li>
+<li>\(T \to 0\) (Greedy Decoding): Makes the model output deterministic by always choosing the highest-probability token.</li>
+<li>
+<p>High \(T\): Flattens the probability distribution, encouraging variety and creativity.</p>
+</li>
+<li>
+<p><strong>Top-K:</strong> Constrains selection strictly to the top \(K\) most probable next tokens, zeroing out probabilities for all tokens ranked outside \(K\).</p>
+</li>
+<li><strong>Top-P (Nucleus Sampling):</strong> Selects tokens dynamically from the top candidate pool whose cumulative probability sum reaches or exceeds threshold \(P\) (e.g., \(P = 0.90\)). The candidate set expands or contracts based on the model's confidence across different context points.</li>
+</ul></div></div></div>
+<div class="qa" id="q9"><div class="qa-h"><span class="qa-n">Q9</span><div class="qa-q">How do LLMs understand words with multiple meanings (e.g., &quot;bank&quot; of a river vs. financial &quot;bank&quot;)?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Self-Attention Mechanism:</strong> The Transformer's self-attention mechanism evaluates pairwise relationships between every token in the input sequence simultaneously.</li>
+<li><strong>Contextual Vector Representation:</strong> Rather than using static word lookup embeddings (like Word2Vec), the self-attention heads compute dynamic Query (\(Q\)), Key (\(K\)), and Value (\(V\)) transformations. The representation of the word "bank" changes dynamically based on attention weights assigned to surrounding context tokens (e.g., "river", "water", "mud" vs. "money", "deposit", "interest").</li>
+</ul></div></div></div>
+<div class="qa" id="q10"><div class="qa-h"><span class="qa-n">Q10</span><div class="qa-q">How do you detect and handle hallucinations in an Agentic system?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ol>
+<li><strong>Context Grounding Audit:</strong> Verify generated claims directly against retrieved source documents using an entailment classifier or automated evaluation suite (RAGAS / DeepEval).</li>
+<li><strong>ReAct Reflection &amp; Verification Loops:</strong> Program an explicitly defined "Verification Node" in LangGraph that evaluates tool outputs against generated text before finalizing output execution.</li>
+<li><strong>Strict System Constraints:</strong> Use deterministic system prompts mandating refusal ("I do not know") if facts are absent from the context.</li>
+<li><strong>Self-Correction Retry:</strong> If a hallucination is detected at an intermediary step, trigger a retry loop passing the error state back to the agent to regenerate the response with strict constraints.</li>
+</ol></div></div></div>
+<h2 class="prep-sec" id="s-5-coding-challenge-production-implementa"><span class="n">05</span>Coding Challenge &amp; Production Implementation</h2>
+<h2 class="prep-sec" id="s-problem-find-the-nearest-palindromic-num">Problem: Find the Nearest Palindromic Number</h2><ul>
+<li><strong>Task:</strong> Given an integer string <code>n</code>, find the closest palindromic integer (excluding <code>n</code> itself). Distance is measured by absolute numerical difference. If there is a tie, return the smaller numerical value.</li>
+</ul>
+<pre><code class="language-python">def nearest_palindromic(n: str) -&gt; str:
+    &quot;&quot;&quot;
+    Calculates the nearest palindromic number to string input n.
+    Handles edge cases including scale changes, ties, and boundary conditions.
+    &quot;&quot;&quot;
+    length = len(n)
+    num = int(n)
+
+    # Base candidates for scale boundaries (e.g., 100 -&gt; 99, 99 -&gt; 101)
+    candidates = {
+        str(10**(length - 1) - 1),  # Lower scale bound (e.g., 99...9)
+        str(10**length + 1)         # Upper scale bound (e.g., 100...01)
+    }
+
+    # Extract prefix
+    prefix_len = (length + 1) // 2
+    prefix = int(n[:prefix_len])
+
+    # Generate candidates by modifying prefix (-1, 0, +1)
+    for i in (-1, 0, 1):
+        new_prefix = str(prefix + i)
+        if length % 2 == 0:
+            # Even length: mirror entire prefix
+            candidate = new_prefix + new_prefix[::-1]
+        else:
+            # Odd length: mirror prefix excluding middle digit
+            candidate = new_prefix + new_prefix[:-1][::-1]
+        candidates.add(candidate)
+
+    # Remove original number if present
+    candidates.discard(n)
+
+    # Select candidate with minimum absolute difference
+    # Tie-breaker: choose smallest numerical value
+    best_candidate = None
+    min_diff = float('inf')
+
+    for cand in candidates:
+        cand_num = int(cand)
+        diff = abs(cand_num - num)
+
+        if diff &lt; min_diff:
+            min_diff = diff
+            best_candidate = cand_num
+        elif diff == min_diff:
+            best_candidate = min(best_candidate, cand_num)
+
+    return str(best_candidate)
+
+# Test Execution
+if __name__ == &quot;__main__&quot;:
+    test_cases = [&quot;123&quot;, &quot;1&quot;, &quot;10&quot;, &quot;88&quot;, &quot;1001&quot;]
+    for tc in test_cases:
+        print(f&quot;Input: {tc} -&gt; Nearest Palindrome: {nearest_palindromic(tc)}&quot;)
+
+</code></pre>
+<p>The comparison between <strong>Claude Code</strong> and <strong>Claude CoWork</strong> was included in the guide under <strong>Section 4, Question 7</strong>.</p>
+<p>An expanded breakdown highlights the specific differences:</p>
+<h2 class="prep-sec" id="s-claude-code-vs-claude-cowork">Claude Code vs. Claude CoWork</h2><pre><code>                         [ Shared Underlying Model ]
+                      (Claude 3.7 Sonnet / Opus Engine)
+                                     │
+           ┌─────────────────────────┴─────────────────────────┐
+           ▼                                                   ▼
+  [ Claude Code ]                                     [ Claude CoWork ]
+  • Developer-focused                                 • Non-technical/Operations-focused
+  • CLI / Terminal / IDE                             • Desktop App GUI / Sandboxed VM
+  • Codebases, Git, CI/CD, Shell                     • Documents, Spreadsheets, Research
+  • MCP via Config / Code Hooks                       • Connector Marketplace / UI Plugins
+
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th><strong>Claude Code</strong></th>
+<th><strong>Claude CoWork</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Target Audience</strong></td>
+<td>Software Engineers, LLM/AI Engineers, DevOps</td>
+<td>Non-technical knowledge workers, Operations, Legal, Finance</td>
+</tr>
+<tr>
+<td><strong>Primary Interface</strong></td>
+<td>Command-Line Interface (CLI / Terminal) &amp; IDE extension</td>
+<td>GUI (Integrated inside the Claude Desktop App)</td>
+</tr>
+<tr>
+<td><strong>Execution Surface</strong></td>
+<td>Direct filesystem/shell access within project workspace</td>
+<td>Sandboxed virtual workspace / isolated environment</td>
+</tr>
+<tr>
+<td><strong>Primary Deliverables</strong></td>
+<td>Pull Requests, Git diffs, feature implementation, refactors, unit tests</td>
+<td>Formatted reports, spreadsheets, contract data extraction, presentation slides</td>
+</tr>
+<tr>
+<td><strong>Tooling &amp; Integrations</strong></td>
+<td>Config-file-driven MCP servers, system hooks, terminal tools</td>
+<td>Plug-and-play visual Connector Marketplace (Salesforce, Slack, Notion)</td>
+</tr>
+<tr>
+<td><strong>Workflow Model</strong></td>
+<td>Plan mode, strict human-in-the-loop permission gates, diff review</td>
+<td>Automated background task execution and scheduled desktop workflows</td>
+</tr>
+</tbody>
+</table>
+<h2 class="prep-sec" id="s-key-interview-response-summary">Key Interview Response Summary</h2><blockquote>
+<p><em>"While both run on the same agentic loops and underlying Claude models, </em><em>Claude Code</em><em> is tailored for software engineering workflows (terminal execution, multi-file code diffs, Git operations, and direct shell tool access). </em><em>Claude CoWork</em><em>, on the other hand, targets general business productivity—running in an isolated, sandboxed desktop app to handle document processing, multi-source research, and office task automation using a click-and-connect marketplace rather than raw config files."</em></p>
+</blockquote>
+<h2 class="prep-sec" id="s-6-preparation-takeaways-for-epam-senior-"><span class="n">06</span>Preparation Takeaways for EPAM Senior AI Engineer Roles</h2><ol>
+<li><strong>Master Asynchronous Concurrency:</strong> Be ready to demonstrate <code>asyncio.gather</code>, task isolation (<code>return_exceptions=True</code>), exponential backoff, and state-preserving error handling live during system design discussions.</li>
+<li><strong>State Management Expertise:</strong> Know how state propagates inside <strong>LangGraph</strong> (<code>TypedDict</code>, state channels, state reducers) and how to manage state transitions across multi-agent workflows.</li>
+<li><strong>Bridge System Design with Classical Computer Science:</strong> Be prepared to transition smoothly between system design concepts (Fast-API, partitioning, database indexing) and fundamental algorithms/data manipulation tasks.</li>
+</ol>
+<pre><code>
+</code></pre>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/epam-senior-ai-engineer"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

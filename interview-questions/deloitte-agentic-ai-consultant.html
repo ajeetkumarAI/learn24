@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Deloitte: Agentic AI Consultant · Company Interview Questions · Learn24</title>
+<meta name="description" content="Deloitte: Agentic AI Consultant: 5 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Deloitte: Agentic AI Consultant · Learn24">
+<meta property="og:description" content="Deloitte: Agentic AI Consultant: 5 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="deloitte-agentic-ai-consultant" data-lesson="interview-questions/deloitte-agentic-ai-consultant">
+  <div class="kicker">Company Interview Questions · Deloitte</div>
+  <h1>Deloitte: Agentic AI Consultant</h1>
+  <div class="meta"><span>❓ 5 questions</span><span>🏢 Deloitte</span></div>
+  <p class="lead">Deloitte Agentic AI Consultant Interview — Questions &amp; Answers Guide. Real questions from the interview, with detailed answers. Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<h2 class="prep-sec" id="s-1-candidate-background-interview-process"><span class="n">01</span>Candidate Background &amp; Interview Process Summary</h2><ul>
+<li><strong>Role &amp; Company:</strong> Agentic AI Consultant at Deloitte (Selected Candidate).</li>
+<li><strong>Application Pathway:</strong> Direct recruiter outreach \(\rightarrow\) Profile registration on internal job portal.</li>
+<li><strong>Selection Process:</strong></li>
+<li><strong>Round 1 (Pure Technical - Python Focus):</strong> Python data manipulation, nested data structure grouping, and algorithm implementation under live coding pressure.</li>
+<li><strong>Round 2 (Techno-Managerial - AI Architecture &amp; Leadership):</strong> Project deep dives, agentic workflow mechanics, Text-to-SQL guardrails, situational leadership scenarios, and client engagement models.</li>
+<li><strong>Post-Interview:</strong> HR confirmation email within 2 days followed by offer letter issuance.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-technical-round-1-python-core-live-cod"><span class="n">02</span>Technical Round 1: Python Core &amp; Live Coding</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Given a dictionary containing nested tuple elements, group the data based on specific index values within the tuples.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python"># Input data: Dict mapping category keys to lists of tuples (ID, Category, Value)
+data = {
+    &quot;batch_1&quot;: [(101, &quot;A&quot;, 45), (102, &quot;B&quot;, 30), (103, &quot;A&quot;, 80)],
+    &quot;batch_2&quot;: [(104, &quot;B&quot;, 15), (105, &quot;A&quot;, 60), (106, &quot;C&quot;, 95)]
+}
+
+# Goal: Group all tuples across batches by their Category element (index 1)
+grouped_data = {}
+
+for batch in data.values():
+    for item in batch:
+        category = item[1]
+        if category not in grouped_data:
+            grouped_data[category] = []
+        grouped_data[category].append(item)
+
+print(grouped_data)
+
+</code></pre>
+<p><strong>Output:</strong></p>
+<pre><code class="language-text">{
+  'A': [(101, 'A', 45), (103, 'A', 80), (105, 'A', 60)],
+  'B': [(102, 'B', 30), (104, 'B', 15)],
+  'C': [(106, 'C', 95)]
+}
+
+</code></pre></div></div></div>
+<h2 class="prep-sec" id="s-3-technical-round-2-agentic-ai-text-to-s"><span class="n">03</span>Technical Round 2: Agentic AI, Text-to-SQL &amp; System Design</h2>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Walk through the exact execution sequence when an AI Agent receives a user query in an enterprise agentic chatbot system.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ol>
+<li><strong>User Query &amp; Context Orchestration:</strong> The user query hits the agent framework (e.g., LangGraph, CrewAI). The system retrieves short-term conversation memory and relevant state history.</li>
+<li><strong>ReAct Reasoning (Thought Phase):</strong> The LLM evaluates the user intent against available tool descriptions (defined via JSON Schemas) and decides whether to output a direct response or execute a tool call.</li>
+<li><strong>Tool Execution (Action Phase):</strong> The framework invokes external functions (e.g., vector database retrieval, enterprise search, code interpreter, or external REST API).</li>
+<li><strong>Observation &amp; Reflection (Evaluation Phase):</strong> The tool returns structured output back to the agent loop. The LLM verifies if the observation satisfies the goal. If error/incomplete, it retries or adjusts tool inputs.</li>
+<li><strong>Final Output Streaming:</strong> Once all sub-tasks complete, the final response is generated, passed through moderation/safety guardrails, and streamed back to the client.</li>
+</ol></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">In an enterprise Text-to-SQL agent, how do you prevent the LLM from executing destructive or hallucinated SQL queries?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Approach 1: Human-in-the-Loop (HITL)</strong></li>
+<li>
+<p>Interrupt the agent execution prior to database call. Present the generated SQL query to an authorized human operator via an interface/prompt for manual verification and approval.</p>
+</li>
+<li>
+<p><strong>Approach 2: Parameterized Template Search (Deterministic Pre-Approved SQL)</strong></p>
+</li>
+<li>Rather than permitting the LLM to generate raw arbitrary SQL strings, write pre-validated, parameterized SQL query templates stored inside a vector database.</li>
+<li>The agent uses semantic search to locate the correct query template and uses the LLM <em>only</em> to extract and populate entity parameters (e.g., <code>date_range</code>, <code>user_id</code>).</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">How does Deloitte handle framework selection for Agentic AI projects across different client engagements?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Client-Led Engagements:</strong> When a client arrives with a mandatory pre-existing tech stack (e.g., Azure OpenAI, AWS Bedrock, LangChain, or Semantic Kernel), the consultancy builds custom agentic pipelines bound strictly within those enterprise constraints.</li>
+<li><strong>Consultant-Led Engagements:</strong> When Deloitte retains full architectural ownership, the team selects the framework and stack based on project demands (e.g., choosing LangGraph for stateful multi-agent systems, AutoGen/CrewAI for collaborative agent roles, or custom Python orchestration using native APIs for low latency).</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-4-managerial-situational-questions"><span class="n">04</span>Managerial &amp; Situational Questions</h2>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">How do you handle a project scenario where your delivery team is lagging behind and risking an upcoming deadline?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ol>
+<li><strong>Identify the Bottleneck:</strong> Audit the sprint board to distinguish between technical blockers, scope creep, or missing external dependencies.</li>
+<li><strong>Re-Prioritize &amp; De-Scope:</strong> Conduct a backlog grooming session with stakeholders to freeze non-essential feature additions and focus resources strictly on the Minimum Viable Product (MVP).</li>
+<li><strong>Resource Re-Allocation &amp; Swarming:</strong> Pair senior developers with junior teammates on critical-path blocking tasks to clear execution hurdles quickly without introducing technical debt.</li>
+<li><strong>Transparent Stakeholder Communication:</strong> Proactively inform project managers and client leads with an updated burn-down chart, adjusted risk matrix, and clear mitigation timeline.</li>
+</ol></div></div></div>
+<h2 class="prep-sec" id="s-5-deloitte-agentic-ai-preparation-summar"><span class="n">05</span>Deloitte Agentic AI Preparation Summary</h2><ul>
+<li><strong>Phase 1: Master Core Python First:</strong> Expect live coding on data structures (lists, dicts, tuples, pandas) under time pressure before moving into AI architecture discussions.</li>
+<li><strong>Phase 2: Master Guardrails &amp; Production Safety:</strong> Be ready with concrete solutions for non-deterministic model behaviors (e.g., Text-to-SQL validation, HITL patterns, tool calling schema enforcement).</li>
+<li><strong>Phase 3: Mindset &amp; Resilience:</strong> Professional composure, adaptability during scheduling friction, and practical system design articulation are key differentiators evaluated during Deloitte techno-managerial rounds.</li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/deloitte-agentic-ai-consultant"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

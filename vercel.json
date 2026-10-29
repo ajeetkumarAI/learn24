@@ -52,6 +52,211 @@
       "source": "/langchain",
       "destination": "/langchain-course",
       "permanent": false
+    },
+    {
+      "source": "/interview-prep",
+      "destination": "/interview-questions",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/must-know-145",
+      "destination": "/assignments/must-know-145",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/assignment-01-nlp-basics-text-preprocessing",
+      "destination": "/assignments/assignment-01-nlp-basics-text-preprocessing",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/assignment-02-text-representation-word-embeddings",
+      "destination": "/assignments/assignment-02-text-representation-word-embeddings",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/assignment-03-neural-network-fundamentals",
+      "destination": "/assignments/assignment-03-neural-network-fundamentals",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/assignment-04-sequence-models-rnn-lstm-gru",
+      "destination": "/assignments/assignment-04-sequence-models-rnn-lstm-gru",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/assignment-05-attention-transformer-architecture",
+      "destination": "/assignments/assignment-05-attention-transformer-architecture",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/assignment-06-modern-transformer-variants-bert",
+      "destination": "/assignments/assignment-06-modern-transformer-variants-bert",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/assignment-07-llm-fundamentals",
+      "destination": "/assignments/assignment-07-llm-fundamentals",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/assignment-08-hugging-face-transformers",
+      "destination": "/assignments/assignment-08-hugging-face-transformers",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/assignment-09-prompt-engineering-generation-parameters",
+      "destination": "/assignments/assignment-09-prompt-engineering-generation-parameters",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/assignment-10-langchain-lcel",
+      "destination": "/assignments/assignment-10-langchain-lcel",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/assignment-11-rag-vector-databases",
+      "destination": "/assignments/assignment-11-rag-vector-databases",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/assignment-12-agents-tools-langgraph-crewai-mcp",
+      "destination": "/assignments/assignment-12-agents-tools-langgraph-crewai-mcp",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/assignment-13-fine-tuning-llms",
+      "destination": "/assignments/assignment-13-fine-tuning-llms",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/assignment-14-evaluation-of-llms-rag",
+      "destination": "/assignments/assignment-14-evaluation-of-llms-rag",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/assignment-15-llmops-deployment-safety",
+      "destination": "/assignments/assignment-15-llmops-deployment-safety",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/assignment-16-system-design-scenario-questions",
+      "destination": "/assignments/assignment-16-system-design-scenario-questions",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/assignment-17-project-behavioural-questions",
+      "destination": "/assignments/assignment-17-project-behavioural-questions",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/assignment-18-python-ml-essentials-for-genai-engineers",
+      "destination": "/assignments/assignment-18-python-ml-essentials-for-genai-engineers",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/tcs-genai-complete",
+      "destination": "/interview-questions/tcs-genai-complete",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/tcs-genai-guide",
+      "destination": "/interview-questions/tcs-genai-guide",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/tcs-coding-concurrency",
+      "destination": "/interview-questions/tcs-coding-concurrency",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/infosys-genai-experience",
+      "destination": "/interview-questions/infosys-genai-experience",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/infosys-genai-engineer",
+      "destination": "/interview-questions/infosys-genai-engineer",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/infosys-senior-final-round",
+      "destination": "/interview-questions/infosys-senior-final-round",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/wipro-walk-in",
+      "destination": "/interview-questions/wipro-walk-in",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/wipro-coding-production",
+      "destination": "/interview-questions/wipro-coding-production",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/deloitte-genai-technical",
+      "destination": "/interview-questions/deloitte-genai-technical",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/deloitte-agentic-ai-consultant",
+      "destination": "/interview-questions/deloitte-agentic-ai-consultant",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/ey-genai-engineer",
+      "destination": "/interview-questions/ey-genai-engineer",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/ey-scenarios-case-study",
+      "destination": "/interview-questions/ey-scenarios-case-study",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/pwc-walk-in",
+      "destination": "/interview-questions/pwc-walk-in",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/pwc-walk-in-selected",
+      "destination": "/interview-questions/pwc-walk-in-selected",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/google-cloud-prescreening-guide",
+      "destination": "/interview-questions/google-cloud-prescreening-guide",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/google-cloud-prescreening",
+      "destination": "/interview-questions/google-cloud-prescreening",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/google-ai-engineer-300",
+      "destination": "/interview-questions/google-ai-engineer-300",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/epam-senior-ai-engineer",
+      "destination": "/interview-questions/epam-senior-ai-engineer",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/mcp-senior-architecture",
+      "destination": "/interview-questions/mcp-senior-architecture",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/nlp-real-questions",
+      "destination": "/interview-questions/nlp-real-questions",
+      "permanent": true
+    },
+    {
+      "source": "/interview-prep/files/:file",
+      "destination": "/assignments/files/:file",
+      "permanent": true
     }
   ]
 }

@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PwC: Walk-In (Selected Candidate) · Company Interview Questions · Learn24</title>
+<meta name="description" content="PwC: Walk-In (Selected Candidate): 5 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="PwC: Walk-In (Selected Candidate) · Learn24">
+<meta property="og:description" content="PwC: Walk-In (Selected Candidate): 5 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="pwc-walk-in-selected" data-lesson="interview-questions/pwc-walk-in-selected">
+  <div class="kicker">Company Interview Questions · PwC</div>
+  <h1>PwC: Walk-In (Selected Candidate)</h1>
+  <div class="meta"><span>❓ 5 questions</span><span>🏢 PwC</span></div>
+  <p class="lead">PwC Generative AI Engineer Walk-In Interview (Selected Candidate) — Questions &amp; Answers Guide. Real questions from the interview, with detailed answers. Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<h2 class="prep-sec" id="s-1-candidate-background-interview-process"><span class="n">01</span>Candidate Background &amp; Interview Process Summary</h2><ul>
+<li><strong>Role &amp; Company:</strong> Generative AI Engineer at PricewaterhouseCoopers (PwC) — Selected Candidate Offer (Kolkata Walk-In).</li>
+<li><strong>Opportunity Source:</strong> Direct recruiter reachout via Naukri for a Kolkata walk-in event.</li>
+<li><strong>Round Structure:</strong></li>
+<li><strong>Round 1 (Technical &amp; System Design):</strong> Self-introduction, agentic workflow drawing, end-to-end RAG chatbot system design, machine learning fundamentals, and a live Pandas coding challenge.</li>
+<li><strong>Round 2 (Technical Leadership &amp; Fitment):</strong> Discussion on project ownership, client training/mentorship capabilities, preferred work location, and compensation expectations.</li>
+<li><strong>Post-Interview:</strong> HR document submission, CTC negotiation, and formal offer letter issuance within 15–20 days.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-system-design-agentic-architectures"><span class="n">02</span>System Design &amp; Agentic Architectures</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Sketch and explain the end-to-end architecture of a production-grade RAG chatbot from user query input to final answer generation.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code>                  [ User Query Input ]
+                           │
+                           ▼
+               [ API Gateway &amp; Auth ]
+                           │
+             ┌─────────────┴─────────────┐
+             ▼                           ▼
+  [ Semantic Redis Cache ]     [ Query Pre-Processing ]
+      (Cached Answer)          (Embedding &amp; HyDE)
+                                         │
+                                         ▼
+                           [ Scoped Vector Database ]
+                             (ANN Similarity Search)
+                                         │
+                                         ▼
+                           [ Cross-Encoder Reranker ]
+                             (Top-K Document Chunks)
+                                         │
+                                         ▼
+                           [ LLM Prompt Synthesis ]
+                             (System Guardrails)
+                                         │
+                                         ▼
+                           [ Groundedness Evaluator ]
+                             (Fallbacks / SSE Stream)
+
+</code></pre>
+<ol>
+<li><strong>Ingestion &amp; Indexing:</strong> Raw documents are extracted, chunked (e.g., 500–1,000 tokens), embedded into dense vectors, and stored in a vector database alongside access-control metadata.</li>
+<li><strong>Query Pipeline &amp; Pre-Processing:</strong> User query is authenticated via an API Gateway. Check a <strong>Semantic Cache (Redis)</strong> for existing answers. If missed, generate a query embedding (or apply Hypothetical Document Embeddings - HyDE).</li>
+<li><strong>Retrieval &amp; Reranking:</strong> Perform Approximate Nearest Neighbor (ANN) vector search against the vector database using metadata filters. Run candidate chunks through a <strong>Cross-Encoder Reranker</strong> to select the top-\(K\) most relevant passages.</li>
+<li><strong>LLM Synthesis &amp; Guardrails:</strong> Pass context chunks and user query inside a grounded system prompt to the LLM. Run an automated <strong>groundedness evaluation step</strong> before streaming the response via Server-Sent Events (SSE).</li>
+</ol></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">How do you design and draw an Agentic AI workflow? How does an AI Agent differ from a standard linear pipeline?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Standard Linear Pipeline:</strong> Rigid execution sequence (<code>Input -&gt; Search -&gt; Prompt -&gt; Output</code>) with zero dynamic adjustment or decision-making.</li>
+<li><strong>Agentic AI Workflow:</strong> An autonomous loop driven by an LLM acting as a reasoning engine:</li>
+<li><strong>Planning / ReAct Loop:</strong> Model breaks down a complex query into explicit sub-tasks (<code>Thought -&gt; Action -&gt; Observation</code>).</li>
+<li><strong>Tool Routing:</strong> Dynamically calls tools (e.g., SQL execution, Web Search, Calculator API) using structured JSON schemas based on user context.</li>
+<li><strong>Reflection &amp; Fallback:</strong> Evaluates tool execution outputs. If output is invalid or incomplete, it self-corrects and iterates up to a maximum step limit before delivering the final response.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-traditional-machine-learning-fundament"><span class="n">03</span>Traditional Machine Learning Fundamentals</h2>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Why are traditional ML concepts (Classification, Regression, Cost Functions, Loss Functions) still asked in Generative AI interviews?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>Gen AI solutions do not exist in isolation. Pre-retrieval query routing, content moderation, document categorization, and vector reranking often rely on classical supervised ML models (classifiers) rather than heavy LLM calls to keep latency and costs low.</li>
+<li><strong>Key Definitions:</strong></li>
+<li><strong>Loss Function vs. Cost Function:</strong> Loss function measures prediction error for a <em>single</em> data instance (e.g., Binary Cross-Entropy, MSE). Cost function is the average loss across the <em>entire dataset</em>.</li>
+<li><strong>Classification vs. Regression:</strong> Classification predicts discrete class labels (e.g., routing a user query to "Legal" vs "HR"); Regression predicts continuous numerical outputs.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">How do you detect and handle outliers in a dataset before feeding data into ML/Embedding models?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ol>
+<li>
+<p><strong>Detection Techniques:</strong>
+* <strong>Z-Score Method:</strong> Identifies data points lying beyond 3 standard deviations (\(\lvert Z \rvert &gt; 3\)) from the mean for normally distributed data.
+* <strong>IQR (Interquartile Range):</strong> Defines outliers as points falling below \(Q_1 - 1.5 \times \text{IQR}\) or above \(Q_3 + 1.5 \times \text{IQR}\) (robust for non-normal distributions).
+* <strong>Isolation Forests:</strong> Unsupervised tree algorithm ideal for high-dimensional anomaly detection.</p>
+</li>
+<li>
+<p><strong>Treatment Methods:</strong>
+* <strong>Trimming/Removal:</strong> Dropping verified corrupt or erroneous records.
+* <strong>Winsorization (Capping):</strong> Capping extreme values at set percentiles (e.g., 1st and 99th percentiles) to retain data volume without skewing feature scales.</p>
+</li>
+</ol></div></div></div>
+<h2 class="prep-sec" id="s-4-python-pandas-live-coding-challenge"><span class="n">04</span>Python &amp; Pandas Live Coding Challenge</h2>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Coding Task: Given a Pandas DataFrame with columns &#x27;Student&#x27; and &#x27;Marks&#x27;, filter out all students with marks less than 30 and update/add a new column &#x27;Result&#x27; with the value &#x27;Fail&#x27;.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">import pandas as pd
+
+# Sample Data Setup
+data = {
+    'Student': ['Alice', 'Bob', 'Charlie', 'David', 'Eve'],
+    'Marks': [85, 22, 45, 12, 67]
+}
+df = pd.DataFrame(data)
+
+# Vectorized pandas operation to assign 'Pass'/'Fail' based on threshold &lt; 30
+df['Result'] = 'Pass'
+df.loc[df['Marks'] &lt; 30, 'Result'] = 'Fail'
+
+print(df)
+
+</code></pre>
+<p><strong>Output:</strong></p>
+<pre><code class="language-text">   Student  Marks Result
+0    Alice     85   Pass
+1      Bob     22   Fail
+2  Charlie     45   Pass
+3    David     12   Fail
+4      Eve     67   Pass
+
+</code></pre></div></div></div>
+<h2 class="prep-sec" id="s-5-rapid-preparation-checklist-for-urgent"><span class="n">05</span>Rapid Preparation Checklist for Urgent Gen AI Interviews</h2><p>If you have an interview scheduled within <strong>24–48 hours</strong>, prioritize this high-impact checklist:</p>
+<ol>
+<li><strong>End-to-End RAG Architecture:</strong> Practice sketching a complete architecture diagram on paper (Ingestion \(\rightarrow\) Embeddings \(\rightarrow\) Vector DB \(\rightarrow\) Reranker \(\rightarrow\) LLM \(\rightarrow\) Guardrails).</li>
+<li><strong>Agentic Framework Concepts:</strong> Be prepared to explain multi-agent orchestration, tool calling, memory management (short-term vs. long-term), and planning loops (ReAct).</li>
+<li><strong>ROI &amp; Business Value:</strong> Formulate clear explanations of how your architecture optimizes cost (token usage, caching) and latency (streaming, quantization, TTFT).</li>
+<li><strong>Python Data Manipulation:</strong> Refresh vectorized Pandas operations (<code>loc</code>, <code>iloc</code>, filtering, <code>groupby</code>), generators, decorators, and async processing routines.</li>
+</ol>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/pwc-walk-in-selected"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>
