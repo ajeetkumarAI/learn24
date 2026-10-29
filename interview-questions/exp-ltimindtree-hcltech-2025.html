@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LTIMindtree &amp; HCLTech: GenAI / ML Engineer · Company Interview Questions · Learn24</title>
+<meta name="description" content="LTIMindtree &amp; HCLTech: GenAI / ML Engineer: 10 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="LTIMindtree &amp; HCLTech: GenAI / ML Engineer · Learn24">
+<meta property="og:description" content="LTIMindtree &amp; HCLTech: GenAI / ML Engineer: 10 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-ltimindtree-hcltech-2025" data-lesson="interview-questions/exp-ltimindtree-hcltech-2025">
+  <div class="kicker">Company Interview Questions · LTIMindtree &amp; HCLTech</div>
+  <h1>LTIMindtree &amp; HCLTech: GenAI / ML Engineer</h1>
+  <div class="meta"><span>❓ 10 questions</span><span>🏢 LTIMindtree &amp; HCLTech</span><span>🆕 2025 reports</span></div>
+  <p class="lead">LTIMindtree &amp; HCLTech: GenAI / ML Engineer Interview Questions (2025). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from a public process guide for the LTIMindtree GenAI Engineer role and a public HCLTech ML / GenAI candidate report (Bengaluru, July 2025). The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>LTIMindtree</th>
+<th>HCLTech</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>GenAI Engineer</td>
+<td>ML / Gen AI Engineer</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>Up to 6: screening → fundamentals → technical deep dive → architecture → managerial → HR</td>
+<td>A single expert panel</td>
+</tr>
+<tr>
+<td><strong>Timeline</strong></td>
+<td>About 4–6 weeks</td>
+<td>Not stated</td>
+</tr>
+<tr>
+<td><strong>Style</strong></td>
+<td>Fundamentals + enterprise system design</td>
+<td><strong>Scenario-heavy</strong>: an NLP coding question plus several scenarios</td>
+</tr>
+<tr>
+<td><strong>Outcome reported</strong></td>
+<td>Not stated</td>
+<td>Not selected; the panel was described as very knowledgeable and the interview as difficult</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>LTIMindtree:</strong> Transformers vs RNNs, data leakage, SFT vs RLHF, evaluating generative models, an enterprise RAG pipeline, latency, versioning and drift, API vs open source, protecting sensitive data, plus LoRA/PEFT and CI/CD for LLM apps.</li>
+<li><strong>HCLTech:</strong> which NLP libraries you would use and how; then scenarios to analyse live, so think aloud.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">What is data leakage and how do you prevent it?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Definition:</strong> information from outside the training data, often the target or the future, gets into training. Validation scores then look great while production performs badly.</li>
+<li><strong>Common causes:</strong></li>
+<li>Scaling or imputing on the full dataset before the split.</li>
+<li>Target encoding without folds.</li>
+<li>Random splits on time-series data.</li>
+<li>Duplicate rows that fall into both train and test.</li>
+<li>Features that are only known after the outcome.</li>
+<li><strong>Prevention:</strong></li>
+<li>Split first.</li>
+<li>Fit preprocessing <strong>inside</strong> a <code>Pipeline</code> per CV fold.</li>
+<li>Use time-based or group-based splits.</li>
+<li>Deduplicate.</li>
+<li>Review every feature for "would I know this at prediction time?"</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">What is the difference between supervised fine-tuning (SFT) and RLHF? Where does DPO fit?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>SFT:</strong> train on (prompt → ideal response) pairs with next-token loss. It teaches format, style and how to follow instructions.</li>
+<li><strong>RLHF:</strong>
+  1. Collect human <strong>preferences</strong> (response A is better than B).
+  2. Train a <strong>reward model</strong> on them.
+  3. Optimise the policy with <strong>PPO</strong> to maximise reward, with a KL penalty to stay close to the SFT model.</li>
+<li>It aligns the model to helpfulness and harmlessness.</li>
+<li><strong>DPO:</strong> optimises directly on preference pairs with a simple classification-style loss, with no reward model and no RL loop. It is simpler and more stable, and widely used now.</li>
+<li><strong>Typical pipeline:</strong> pre-training → SFT → preference tuning (RLHF, DPO or ORPO).</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">How do you evaluate generative models beyond perplexity?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Perplexity</strong> only measures how well the model predicts text. It doesn't tell you whether the answer is correct, helpful or safe.</li>
+<li><strong>Reference-based:</strong></li>
+<li>Exact match or F1 for QA</li>
+<li>BLEU or ROUGE for translation and summaries (limited)</li>
+<li>BERTScore (semantic)</li>
+<li><strong>Reference-free:</strong> LLM-as-judge with a rubric, pairwise preference (win rate), faithfulness to the context, and RAGAS for RAG.</li>
+<li><strong>Task benchmarks:</strong> MMLU, GSM8K, HumanEval, plus a domain-specific test set.</li>
+<li><strong>Human evaluation</strong> on a sample, plus safety and toxicity tests, latency and cost.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">How do you reduce LLM inference latency?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Model side:</strong></li>
+<li>Use a smaller or distilled model.</li>
+<li>Quantize (INT8 / 4-bit).</li>
+<li>Speculative decoding.</li>
+<li><strong>Serving:</strong></li>
+<li>vLLM or TGI with <strong>continuous batching</strong> and <strong>PagedAttention</strong> for the KV cache.</li>
+<li>Tensor parallelism.</li>
+<li>Optimised kernels (FlashAttention).</li>
+<li><strong>Application:</strong></li>
+<li>Stream tokens.</li>
+<li>Cache responses.</li>
+<li>Shorten prompts and outputs.</li>
+<li>Use prompt or prefix caching.</li>
+<li>Run retrieval and tools in parallel.</li>
+<li>Route simple queries to small models.</li>
+<li>Measure <strong>time to first token</strong> and <strong>tokens per second</strong> separately; they have different fixes.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">How do you handle model versioning and drift for an LLM application?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Version everything:</strong></li>
+<li>Model name and version</li>
+<li>Prompt templates (in git)</li>
+<li>Embedding model</li>
+<li>Index snapshot</li>
+<li>Evaluation set</li>
+<li>Record them all in each trace.</li>
+<li><strong>Kinds of drift:</strong></li>
+<li><strong>Data/query drift:</strong> users ask new things. Monitor the embedding distribution and topic clusters.</li>
+<li><strong>Knowledge drift:</strong> documents go out of date. Use a refresh pipeline and freshness metadata.</li>
+<li><strong>Provider drift:</strong> the hosted model is updated. Pin versions and re-run the evaluation before upgrading.</li>
+<li><strong>Respond:</strong> run the evaluation set nightly or weekly, alert on drops in quality or feedback, and roll back via a model or prompt registry.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">How do you protect sensitive data when fine-tuning?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Minimise:</strong> use only the fields you need, and <strong>detect and mask PII</strong> (Presidio, regex + NER) before training.</li>
+<li><strong>Environment:</strong> train in a private VPC or VNet, keep encryption at rest and in transit, and enforce strict IAM. Use a cloud provider's no-retention fine-tuning or self-host.</li>
+<li><strong>Memorisation risk:</strong> deduplicate, train for fewer epochs, consider differential privacy for highly sensitive data, and test for regurgitation of training records.</li>
+<li><strong>Governance:</strong> data-use approval, lineage, model cards, and access control on the resulting model.</li>
+</ul></div></div></div>
+<div class="qa" id="q7"><div class="qa-h"><span class="qa-n">Q7</span><div class="qa-q">What is LoRA/PEFT and why use it?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>LoRA:</strong> freeze the base weights W and learn a low-rank update ΔW = B·A (rank r = 4 to 64) only on selected layers, usually the attention projections.</li>
+<li><strong>Benefits:</strong></li>
+<li>Trains under 1% of the parameters.</li>
+<li>Needs far less GPU memory.</li>
+<li>Produces small adapter files, one per task, that can be swapped.</li>
+<li>Avoids catastrophic forgetting better than a full fine-tune.</li>
+<li><strong>QLoRA:</strong> LoRA on a 4-bit quantized base, so a 7B to 13B model can be fine-tuned on one GPU.</li>
+<li><strong>Other PEFT methods:</strong> prefix or prompt tuning, IA³, adapters.</li>
+</ul></div></div></div>
+<div class="qa" id="q8"><div class="qa-h"><span class="qa-n">Q8</span><div class="qa-q">What does CI/CD look like for an LLM application?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>CI (on each pull request):</strong></li>
+<li>Unit tests</li>
+<li>Linting</li>
+<li>Prompt and chain tests with mocked LLMs</li>
+<li>An <strong>evaluation gate</strong>: run the golden set and fail if faithfulness or accuracy drops more than X%</li>
+<li>Security scans</li>
+<li><strong>CD:</strong></li>
+<li>Build the container.</li>
+<li>Deploy to staging.</li>
+<li>Run smoke and evaluation tests.</li>
+<li>Canary or blue-green release to production.</li>
+<li>Automatic rollback on alerts.</li>
+<li><strong>Artefacts:</strong> prompts, configs and model versions in a registry; infrastructure as code (Terraform or Bicep).</li>
+</ul></div></div></div>
+<div class="qa" id="q9"><div class="qa-h"><span class="qa-n">Q9</span><div class="qa-q">HCLTech: which NLP libraries would you use for a text classification task, and how?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Quick baseline:</strong> scikit-learn <code>TfidfVectorizer</code> + <code>LogisticRegression</code> in a <code>Pipeline</code>, evaluated with stratified CV.</li>
+<li><strong>Preprocessing:</strong></li>
+<li>spaCy for tokenisation, lemmas and NER.</li>
+<li>NLTK for stop words and stemming in classic pipelines.</li>
+<li><code>re</code> for cleaning.</li>
+<li><strong>Better accuracy:</strong> Hugging Face <code>transformers</code>, fine-tuning DistilBERT or RoBERTa with <code>Trainer</code>, or sentence-transformer embeddings with a classifier.</li>
+<li><strong>LLM option:</strong> zero- or few-shot classification with structured output, useful when labels are scarce.</li>
+<li>Explain <strong>why</strong>: start simple, measure, then increase complexity only if needed.</li>
+</ul></div></div></div>
+<div class="qa" id="q10"><div class="qa-h"><span class="qa-n">Q10</span><div class="qa-q">HCLTech scenario: the chatbot gives correct answers in testing but users complain in production. What do you do?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ol>
+<li><strong>Collect evidence:</strong> pull production traces and look for negative-feedback clusters. Are failures tied to a topic, a language or long chats?</li>
+<li><strong>Compare distributions:</strong> production questions are often messier than the test set (typos, Hinglish, multi-part questions).</li>
+<li><strong>Find the root cause:</strong>
+   - Retrieval misses (low scores)?
+   - Stale documents?
+   - Lost context in long chats?
+   - Latency timeouts?</li>
+<li><strong>Fix and prevent:</strong>
+   - Add real queries to the evaluation set.
+   - Query rewriting.
+   - Better chunking.
+   - Memory summarisation.
+   - Monitor feedback by topic.</li>
+<li><strong>Communicate</strong> progress to stakeholders with metrics.</li>
+</ol></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare"><span class="n">03</span>How to prepare</h2><ul>
+<li><strong>LTIMindtree:</strong> many rounds, so keep stamina for architecture and managerial rounds, and know PEFT and CI/CD for LLMs.</li>
+<li><strong>HCLTech:</strong> practise scenario questions aloud with a clear structure (clarify → hypothesise → check → fix → prevent).</li>
+<li>For both: prepare one enterprise RAG design with security and cost.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://dataford.io/interview-guides/ltimindtree/genai-engineer">Dataford: LTIMindtree GenAI Engineer interview guide</a></li>
+<li><a href="https://www.glassdoor.ca/Interview/HCLTech-Interview-E553909-RVW98673496.htm">Glassdoor: HCLTech ML / Gen AI interview, Bengaluru (July 2025)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-ltimindtree-hcltech-2025"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Flipkart: Data Scientist 2, 6 Rounds (Offer) · Company Interview Questions · Learn24</title>
+<meta name="description" content="Flipkart: Data Scientist 2, 6 Rounds (Offer): 8 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Flipkart: Data Scientist 2, 6 Rounds (Offer) · Learn24">
+<meta property="og:description" content="Flipkart: Data Scientist 2, 6 Rounds (Offer): 8 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-flipkart-ds2" data-lesson="interview-questions/exp-flipkart-ds2">
+  <div class="kicker">Company Interview Questions · Flipkart</div>
+  <h1>Flipkart: Data Scientist 2, 6 Rounds (Offer)</h1>
+  <div class="meta"><span>❓ 8 questions</span><span>🏢 Flipkart</span><span>🆕 2025 reports</span></div>
+  <p class="lead">Flipkart: Data Scientist 2 Interview Experience (6 Rounds, Offer). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from a public candidate report for Flipkart Data Scientist 2 (Grade 9), an off-campus referral that ended in an offer. Rounds covered maths modelling, multimodal models (CLIP/BLIP), credit-risk ML design, a 2-hour coding round, and GenAI fine-tuning with DPO/PPO. The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Data Scientist 2 (Foundational Models team; Cleartrip team for the second HM round)</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>6: screening (30 min) → depth in maths modelling (1 h) → depth in DS / ML design (1 h) → coding (2 h) → HM, Foundational Models (1 h) → HM, Cleartrip (1 h)</td>
+</tr>
+<tr>
+<td><strong>Style</strong></td>
+<td>Repeated "why this, why not that" probing; coding with internet access <strong>limited to documentation</strong></td>
+</tr>
+<tr>
+<td><strong>Outcome</strong></td>
+<td>Offer</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Maths modelling:</strong> logistic regression derived from first principles (Bernoulli → BCE, Bayes, L2); CLIP/BLIP contrastive loss, Q-Former, batch handling; ROC-AUC vs PR-AUC, calibration, hard negatives, catastrophic forgetting.</li>
+<li><strong>DS design:</strong> credit risk for a new <strong>EMI</strong> feature with <strong>cold start</strong> (no user history, no bank data).</li>
+<li><strong>Coding (2 h):</strong> an end-to-end fraud detection solution, from loading data to inference.</li>
+<li><strong>HM rounds:</strong> LLM/VLM fine-tuning, DPO vs PPO; a dynamic-pricing case (discounts across shoe brands with competitors).</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Derive the logistic regression loss from first principles.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>Model y ∈ {0,1} as <strong>Bernoulli</strong> with p = σ(wᵀx) = 1 / (1 + e^(−wᵀx)).</li>
+<li>Likelihood: L = ∏ pᵢ^yᵢ (1 − pᵢ)^(1 − yᵢ). Taking the negative log gives the <strong>binary cross-entropy</strong>: −Σ [yᵢ log pᵢ + (1 − yᵢ) log(1 − pᵢ)].</li>
+<li><strong>Gradient:</strong> ∂/∂w = Σ (pᵢ − yᵢ) xᵢ. The loss is convex, so there is a unique optimum, found by gradient descent or Newton/IRLS.</li>
+<li><strong>L2 regularisation</strong> = a Gaussian prior on w (MAP estimate): add λ‖w‖².</li>
+<li><strong>Bayes link:</strong> the log-odds of the posterior, log P(y=1|x)/P(y=0|x), is linear in x when the class-conditional distributions are Gaussian with shared covariance (or from the exponential family).</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">How does CLIP work? What is the contrastive loss, and what does BLIP&#x27;s Q-Former add?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>CLIP:</strong> an image encoder (ViT) and a text encoder map into a shared embedding space.</li>
+<li>For a batch of N pairs (say 32), compute the N×N cosine-similarity matrix scaled by a learned temperature.</li>
+<li>The <strong>InfoNCE loss</strong> treats the diagonal as positives and the other N − 1 entries as negatives, symmetric over image→text and text→image.</li>
+<li>A bigger batch means more negatives, which gives better representations.</li>
+<li><strong>Weaknesses:</strong></li>
+<li>Bag-of-words behaviour: weak on compositional understanding (word order, counting, relations).</li>
+<li>Biases inherited from web data.</li>
+<li><strong>BLIP-2 Q-Former:</strong> a small Transformer with <strong>learned query tokens</strong> that cross-attend to a <em>frozen</em> image encoder. It extracts a fixed number of visual tokens that are fed to a <em>frozen</em> LLM, bridging vision and language cheaply.</li>
+<li><strong>Hard negatives</strong> (similar but wrong captions) improve fine-grained discrimination.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">ROC-AUC vs PR-AUC: when do you use each? What is calibration?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>ROC-AUC:</strong> the probability that a random positive ranks above a random negative. It is insensitive to class balance, so it can <strong>look great under heavy imbalance</strong>.</li>
+<li><strong>PR-AUC:</strong> focuses on the positive class (precision vs recall). Prefer it for fraud, credit default and other rare events.</li>
+<li><strong>Calibration:</strong> predicted probabilities should match observed frequencies (of loans scored 0.2, about 20% should default). Check with reliability curves or the Brier score; fix with Platt scaling or isotonic regression.</li>
+<li>It matters for <strong>pricing, credit limits and expected loss</strong>, where the probability value itself is used, not just the ranking.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">What is catastrophic forgetting and how do you avoid it when fine-tuning?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>What it is:</strong> fine-tuning on a new task overwrites the general abilities the model had (for example, after domain fine-tuning the LLM loses general reasoning or safety).</li>
+<li><strong>Mitigations:</strong></li>
+<li><strong>PEFT</strong> (LoRA): the base weights stay frozen.</li>
+<li>Lower learning rate and fewer epochs.</li>
+<li><strong>Replay:</strong> mix in 5–20% general or original data.</li>
+<li>Regularisation towards the original weights (EWC, or a KL penalty).</li>
+<li>Model merging.</li>
+<li><strong>Always</strong> evaluate on general benchmarks as well as the target task, before and after.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Design a credit-risk model to approve users for a new EMI feature with no history and no bank data (cold start).</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Target and constraints:</strong> P(default or 90+ DPD within 6–12 months). Regulatory explainability and fairness apply.</li>
+<li><strong>Signals available without bank data (with consent and policy):</strong></li>
+<li>Platform behaviour: account age, order frequency, return and cancellation rates, payment-method history (COD vs prepaid), address stability.</li>
+<li>Device and KYC signals.</li>
+<li>Bureau score, if permitted.</li>
+<li><strong>Cold-start strategy:</strong>
+  1. Start with <strong>rules + a conservative limit</strong> for a test cohort.
+  2. Use <strong>proxy labels</strong> from related products (pay-later or COD-refusal behaviour).
+  3. Transfer a model from a similar portfolio.
+  4. Grow limits gradually as repayment data arrives (explore/exploit).</li>
+<li><strong>Model:</strong> a gradient-boosted tree with monotonic constraints, plus a scorecard for explainability (SHAP or reason codes); calibrated probability → expected-loss-based limit.</li>
+<li><strong>Evaluation:</strong> a time-split, out-of-time test; KS and AUC; <strong>reject inference</strong> for unapproved applicants; fairness checks; monitoring of vintage curves.</li>
+<li><strong>Why not X?</strong> Deep models are hard to explain to regulators, and pure rules leave money on the table. Be ready to defend every choice.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Coding (2 h): build an end-to-end fraud detection pipeline. What would a clean solution look like?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">import pandas as pd, numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.pipeline import Pipeline
+from sklearn.metrics import average_precision_score, classification_report
+from sklearn.ensemble import HistGradientBoostingClassifier
+
+df = pd.read_csv(&quot;transactions.csv&quot;, parse_dates=[&quot;ts&quot;]).sort_values(&quot;ts&quot;)
+df[&quot;hour&quot;] = df.ts.dt.hour
+df[&quot;amt_log&quot;] = np.log1p(df.amount)
+df[&quot;user_txn_24h&quot;] = (df.groupby(&quot;user_id&quot;).rolling(&quot;24h&quot;, on=&quot;ts&quot;).amount.count()
+                        .reset_index(level=0, drop=True).values)
+num, cat = [&quot;amt_log&quot;, &quot;hour&quot;, &quot;user_txn_24h&quot;], [&quot;merchant_cat&quot;, &quot;device_type&quot;]
+cut = int(len(df) * 0.8)                       # time-based split, no leakage
+tr, te = df.iloc[:cut], df.iloc[cut:]
+pre = ColumnTransformer([(&quot;n&quot;, StandardScaler(), num),
+                         (&quot;c&quot;, OneHotEncoder(handle_unknown=&quot;ignore&quot;), cat)])
+model = Pipeline([(&quot;pre&quot;, pre), (&quot;clf&quot;, HistGradientBoostingClassifier(class_weight=&quot;balanced&quot;))])
+model.fit(tr[num + cat], tr.is_fraud)
+p = model.predict_proba(te[num + cat])[:, 1]
+print(&quot;PR-AUC&quot;, average_precision_score(te.is_fraud, p))
+</code></pre>
+<ul>
+<li>Talk through: a time-based split, velocity features, class imbalance, choosing the threshold on cost, and a <code>predict(txn)</code> function for inference. <strong>Code quality</strong> (functions, naming, comments) was explicitly assessed.</li>
+</ul></div></div></div>
+<div class="qa" id="q7"><div class="qa-h"><span class="qa-n">Q7</span><div class="qa-q">Compare PPO-based RLHF and DPO for aligning an LLM or VLM.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>PPO (RLHF):</strong> train a reward model on preferences, then do on-policy RL with a clipped objective and a KL penalty to the reference model.</li>
+<li>Powerful, but complex: 4 models in memory (policy, reference, reward, value), unstable, and expensive.</li>
+<li><strong>DPO:</strong> a closed-form re-parametrisation. Optimise the log-ratio of chosen vs rejected responses relative to the reference model, directly with a cross-entropy-style loss.</li>
+<li>No reward model, no sampling loop, and stable.</li>
+<li><strong>Choose:</strong></li>
+<li>DPO (or ORPO, KTO) for most preference tuning on fixed datasets.</li>
+<li>PPO or GRPO when you have a <strong>live reward signal</strong> (verifiable maths or code, or a learned reward) and want online exploration.</li>
+</ul></div></div></div>
+<div class="qa" id="q8"><div class="qa-h"><span class="qa-n">Q8</span><div class="qa-q">Case: set discounts across several shoe brands, given competitors, to maximise revenue.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Model demand per product:</strong> q = f(own price, competitor price, brand, seasonality, inventory, traffic). Estimate <strong>price elasticity</strong>, ideally with past experiments or with instruments or DML to handle the fact that prices are endogenous.</li>
+<li><strong>Optimise:</strong> maximise Σ (price × q(price)), or margin, subject to inventory, brand MAP rules, minimum margin and cannibalisation between brands (cross-elasticities).</li>
+<li><strong>Solve:</strong> a price grid plus constrained optimisation (or a contextual bandit for online learning).</li>
+<li><strong>Test:</strong> A/B or switchback experiments by region and time; guardrails on margin and returns.</li>
+<li>Always ask: "revenue or <strong>profit</strong>?" Revenue-only optimisation can destroy margin.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare-for-flipkart-ds"><span class="n">03</span>How to prepare for Flipkart DS</h2><ul>
+<li>Be able to <strong>derive</strong> losses (BCE, contrastive) and defend every modelling choice.</li>
+<li>Know multimodal basics (CLIP, BLIP-2) and alignment (SFT, DPO, PPO).</li>
+<li>Practise a 2-hour take-home-style build with only documentation; clean code matters.</li>
+<li>Prepare ML design for <strong>credit risk, fraud and pricing</strong>, which are common in Indian e-commerce and fintech.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://leetcode.com/discuss/post/6740402/flipkart-data-scientist-2-interview-by-a-is2i/">LeetCode Discuss: Flipkart Data Scientist 2 interview</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-flipkart-ds2"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

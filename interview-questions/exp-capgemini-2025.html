@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Capgemini: GenAI Engineer, 5 Reports (2025) · Company Interview Questions · Learn24</title>
+<meta name="description" content="Capgemini: GenAI Engineer, 5 Reports (2025): 10 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Capgemini: GenAI Engineer, 5 Reports (2025) · Learn24">
+<meta property="og:description" content="Capgemini: GenAI Engineer, 5 Reports (2025): 10 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-capgemini-2025" data-lesson="interview-questions/exp-capgemini-2025">
+  <div class="kicker">Company Interview Questions · Capgemini</div>
+  <h1>Capgemini: GenAI Engineer, 5 Reports (2025)</h1>
+  <div class="meta"><span>❓ 10 questions</span><span>🏢 Capgemini</span><span>🆕 2025 reports</span></div>
+  <p class="lead">Capgemini: GenAI Engineer Interview Experiences (2025). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from five public candidate reports for Capgemini GenAI Engineer roles (Hyderabad and other Indian locations, February–September 2025). The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>GenAI Engineer (L1/L2)</td>
+</tr>
+<tr>
+<td><strong>Rounds reported</strong></td>
+<td>2 technical rounds; some candidates also had a project / managerial discussion</td>
+</tr>
+<tr>
+<td><strong>Timeline</strong></td>
+<td>About 2 weeks to 2 months</td>
+</tr>
+<tr>
+<td><strong>Reported outcomes</strong></td>
+<td>2 offers, 1 offer declined, 2 rejections (one for "no deployment experience")</td>
+</tr>
+<tr>
+<td><strong>Difficulty</strong></td>
+<td>Easy to medium. The weight depends heavily on the interviewer</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Round 1: Fundamentals.</strong> Neural network basics (ANN, RNN, LSTM), Transformers, prompting techniques, the different LLMs, vector databases, plus easy Python coding.</li>
+<li><strong>Round 2: Projects + problem solving.</strong> Your NLP/GenAI projects, RAG, running local models (Ollama), quantization, agentic AI, and deployment.</li>
+<li><strong>Lesson from the rejections:</strong> one candidate was turned down in round 2 for lacking <strong>deployment</strong> experience. Another had an L2 round with only a Python question and no GenAI. Prepare for both.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Explain ANN, RNN and LSTM. Why did Transformers replace LSTMs?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>ANN (MLP):</strong> layers of neurons with non-linear activations, trained by backpropagation. They have no memory of sequence order.</li>
+<li><strong>RNN:</strong> reuses one cell across time steps with a hidden state <code>hₜ = f(W·xₜ + U·hₜ₋₁)</code>. It suffers from <strong>vanishing or exploding gradients</strong> on long sequences.</li>
+<li><strong>LSTM:</strong> adds a cell state plus <strong>forget, input and output gates</strong> that control what to keep, so it remembers longer. GRU is a lighter version.</li>
+<li><strong>Why Transformers won:</strong></li>
+<li>Self-attention links any two tokens directly.</li>
+<li>Training is fully parallel rather than step by step.</li>
+<li>They scale far better, which made pre-trained LLMs possible.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">What prompting techniques do you use?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Zero-shot:</strong> a clear instruction with a role, the task, constraints and the output format.</li>
+<li><strong>Few-shot:</strong> 2 to 5 examples that show the exact pattern, which is great for classification or extraction.</li>
+<li><strong>Chain-of-thought:</strong> ask the model to reason step by step. Use it for maths and logic, and hide the reasoning from end users if needed.</li>
+<li><strong>Self-consistency:</strong> sample several reasoning paths and take a majority vote.</li>
+<li><strong>ReAct:</strong> reasoning plus tool calls, which is the basis of agents.</li>
+<li><strong>Structured output:</strong> a JSON schema, delimiters around the context, and "answer only from the context, else say I don't know".</li>
+<li>Always <strong>evaluate prompts</strong> against a small labelled set rather than judging by eye.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Which LLMs have you worked with, and how do you choose between them?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Hosted:</strong> GPT-4o / 4.1 / o-series, Claude, Gemini.</li>
+<li><strong>Open-weight:</strong> Llama 3.x, Mistral/Mixtral, Qwen, Phi and Gemma.</li>
+<li><strong>Selection criteria:</strong></li>
+<li>Task quality on <em>your</em> evaluation set</li>
+<li>Context length</li>
+<li>Latency and cost per 1k tokens</li>
+<li>Data privacy (on-premises vs API)</li>
+<li>Licensing</li>
+<li>Tool-calling and JSON support</li>
+<li>Language support (Hindi or other regional languages)</li>
+<li><strong>Common pattern:</strong> a big model for complex reasoning, a small or cheap model for classification and routing, and an open model self-hosted when data cannot leave the network.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">What is a vector database and how does it work?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>What it stores:</strong> embeddings (dense vectors) together with metadata, and it returns the nearest neighbours for a query vector.</li>
+<li><strong>Similarity:</strong> usually cosine or dot product (L2 is also used).</li>
+<li><strong>ANN indexes</strong> make search fast at scale:</li>
+<li><strong>HNSW:</strong> a graph index with high recall that uses a lot of memory.</li>
+<li><strong>IVF:</strong> clustering; it searches only the nearest clusters.</li>
+<li><strong>PQ:</strong> product quantization, which compresses vectors.</li>
+<li><strong>Examples:</strong></li>
+<li>Libraries: FAISS.</li>
+<li>Databases: Chroma, Pinecone, Weaviate, Qdrant, Milvus.</li>
+<li>Extensions: pgvector, Azure AI Search.</li>
+<li><strong>Features to mention:</strong> metadata filtering, hybrid (keyword + vector) search, multi-tenancy, incremental upserts.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">How do you run an LLM locally with Ollama, and why would you?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><code>ollama pull llama3.1:8b</code>, then <code>ollama run llama3.1</code>. It serves a local REST API on port 11434, which LangChain uses through <code>ChatOllama</code>.</li>
+<li><strong>Why:</strong></li>
+<li>Data privacy: nothing leaves the machine.</li>
+<li>No API cost.</li>
+<li>Offline development.</li>
+<li>Quick testing of open models.</li>
+<li><strong>Limits:</strong> quality is below frontier models, it is bound by your hardware, and it is not built for high-concurrency serving. For production throughput use vLLM or TGI.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">What is quantization and how does it affect an LLM?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Definition:</strong> storing weights (and sometimes activations) in fewer bits, such as FP16 → INT8 → 4-bit.</li>
+<li><strong>Gains:</strong> about 2 to 4 times less memory, faster inference, and larger models fit on smaller GPUs or even laptops.</li>
+<li><strong>Methods:</strong></li>
+<li><strong>Post-training quantization:</strong> GPTQ, AWQ, bitsandbytes NF4, and GGUF (llama.cpp / Ollama).</li>
+<li><strong>QLoRA:</strong> fine-tuning adapters on top of a 4-bit base model.</li>
+<li><strong>Cost:</strong> a small loss of accuracy, larger at 3 bits or fewer and on reasoning-heavy tasks. Always re-run your evaluation set after quantizing.</li>
+</ul></div></div></div>
+<div class="qa" id="q7"><div class="qa-h"><span class="qa-n">Q7</span><div class="qa-q">Explain RAG end to end.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Ingestion:</strong> load documents → clean them → chunk them (for example 500 to 1,000 tokens with overlap) → embed → store in the vector DB with metadata.</li>
+<li><strong>Query:</strong></li>
+<li>Embed the question and retrieve the top-k chunks (hybrid search plus a re-ranker for quality).</li>
+<li>Build the prompt with the context, then generate a cited answer.</li>
+<li><strong>Evaluation:</strong></li>
+<li>Retrieval: recall@k and MRR.</li>
+<li>Generation: faithfulness, answer relevance and context precision (RAGAS).</li>
+<li><strong>Why RAG rather than fine-tuning for knowledge:</strong> the data stays fresh, answers cite sources, it is cheaper, and access control can be applied per document.</li>
+</ul></div></div></div>
+<div class="qa" id="q8"><div class="qa-h"><span class="qa-n">Q8</span><div class="qa-q">What is agentic AI? Give an example.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Definition:</strong> systems where an LLM <strong>decides the next step</strong>. It plans, calls tools or APIs, observes the result and iterates, often with memory and several specialised agents.</li>
+<li><strong>Example:</strong> an invoice-processing agent.
+  1. Extract the fields with a vision LLM.
+  2. Validate them against the ERP API.
+  3. Flag a mismatch to a human.
+  4. Post the entry.</li>
+<li><strong>Frameworks:</strong> LangGraph, CrewAI, AutoGen, Semantic Kernel, OpenAI Agents SDK.</li>
+<li><strong>Must-haves:</strong> step limits, typed tools, approval for actions with side effects, and tracing.</li>
+</ul></div></div></div>
+<div class="qa" id="q9"><div class="qa-h"><span class="qa-n">Q9</span><div class="qa-q">You haven&#x27;t deployed a model. How would you take your RAG app to production?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>FastAPI service → Docker image → Azure Container Apps, AKS or ECS.</li>
+<li>Keep <strong>secrets</strong> in Key Vault.</li>
+<li>Use a <strong>managed vector store</strong> and <strong>async</strong> endpoints with streaming.</li>
+<li><strong>Ingestion pipeline</strong> as a scheduled job.</li>
+<li><strong>CI/CD</strong> with tests plus an evaluation gate.</li>
+<li><strong>Monitoring:</strong> latency, tokens, cost, user feedback and traces.</li>
+<li><strong>Release:</strong> canary, with a rollback plan.</li>
+<li>Tip: deploy even a hobby project (Azure free tier, Render or Hugging Face Spaces) so you can say "I deployed it" truthfully. This is exactly what one rejected candidate was missing.</li>
+</ul></div></div></div>
+<div class="qa" id="q10"><div class="qa-h"><span class="qa-n">Q10</span><div class="qa-q">Python: reverse each word in a sentence but keep the word order.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">def reverse_words(s: str) -&gt; str:
+    return &quot; &quot;.join(w[::-1] for w in s.split())
+
+print(reverse_words(&quot;gen ai engineer&quot;))  # neg ia reeenigne
+</code></pre>
+<ul>
+<li><code>split()</code> with no argument handles multiple spaces. The function is O(n) in time and space.</li>
+<li>Explain edge cases aloud (empty string, punctuation). Interviewers at this level care about clarity, not tricks.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare-for-capgemini"><span class="n">03</span>How to prepare for Capgemini</h2><ul>
+<li>Revise DL basics (ANN, RNN, LSTM) as well as Transformers. Fundamentals do get asked.</li>
+<li>Have a <strong>deployed</strong> project and be able to draw its architecture.</li>
+<li>Know quantization, Ollama/local models and vector DB internals.</li>
+<li>Practise easy Python problems in a plain editor without autocomplete.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.jointaro.com/interviews/companies/capgemini/experiences/genai-engineer-india-august-13-2025-accepted-offer-positive-ac5febe3/">Taro: Capgemini GenAI Engineer, India (Aug 2025, offer)</a></li>
+<li><a href="https://www.jointaro.com/interviews/companies/capgemini/experiences/gen-ai-engineer-hyderabad-march-29-2025-declined-offer-positive-ed8bdb1e">Taro: Capgemini GenAI Engineer, Hyderabad (Mar 2025)</a></li>
+<li><a href="https://www.jointaro.com/interviews/companies/capgemini/experiences/genai-engineer-hyderabad-february-1-2025-no-offer-positive-f633d4cd/">Taro: Capgemini GenAI Engineer, Hyderabad (Feb 2025)</a></li>
+<li><a href="https://www.jointaro.com/interviews/companies/capgemini/experiences/gen-ai-engineer-india-september-23-2025-no-offer-negative-d93e7716">Taro: Capgemini GenAI Engineer, India (Sep 2025)</a></li>
+<li><a href="https://www.glassdoor.co.uk/Interview/Capgemini-Gen-AI-Engineer-Interview-Questions-EI_IE3803.0,9_KO10,25.htm">Glassdoor: Capgemini Gen AI Engineer interview reviews</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-capgemini-2025"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

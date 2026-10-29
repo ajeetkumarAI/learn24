@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Walmart Global Tech: Data Scientist (2025) · Company Interview Questions · Learn24</title>
+<meta name="description" content="Walmart Global Tech: Data Scientist (2025): 9 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Walmart Global Tech: Data Scientist (2025) · Learn24">
+<meta property="og:description" content="Walmart Global Tech: Data Scientist (2025): 9 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-walmart-data-scientist-2025" data-lesson="interview-questions/exp-walmart-data-scientist-2025">
+  <div class="kicker">Company Interview Questions · Walmart</div>
+  <h1>Walmart Global Tech: Data Scientist (2025)</h1>
+  <div class="meta"><span>❓ 9 questions</span><span>🏢 Walmart</span><span>🆕 2025 reports</span></div>
+  <p class="lead">Walmart Global Tech: Data Scientist Interview Experiences (2025). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from public candidate reports for Walmart Global Tech Data Scientist roles: Data Scientist 3 in Bengaluru (February 2025), Bengaluru (August 2025, offer), Sunnyvale (April 2025, offer) and Bentonville (July 2025, offer). The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Roles</strong></td>
+<td>Data Scientist 2 / 3</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>Bengaluru DS3: technical/coding 60 min → technical/coding 90 min → hiring manager 30 min → HR. Others: online assessment (HackerRank), project deep dive, coding, ML breadth/depth, case study, HM</td>
+</tr>
+<tr>
+<td><strong>Timeline</strong></td>
+<td>3 days (referral) to about 2 months</td>
+</tr>
+<tr>
+<td><strong>Reported outcomes</strong></td>
+<td>3 offers; 1 not selected (DS3, rated "difficult")</td>
+</tr>
+<tr>
+<td><strong>Topics</strong></td>
+<td>GenAI + classical ML + DL; LeetCode easy–medium Python &amp; SQL; KNN from scratch</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Coding:</strong> easy array problems, medium SQL, <strong>KNN from scratch</strong>.</li>
+<li><strong>ML theory:</strong> when a neural network behaves like a linear model, regularisation, PCA vs LDA, TF-IDF, overfitting.</li>
+<li><strong>GenAI:</strong> BERT vs Transformer decoder vs GPT-3; evaluating LLMs <strong>without ground truth</strong>.</li>
+<li><strong>Case study:</strong> an open-ended retail problem. Clarify the data, propose a baseline, then optimise.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">When does a complex neural network behave like a linear model?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>No non-linear activations</strong> (or identity or linear activations): stacking linear layers gives W₂(W₁x) = Wx, which is still linear.</li>
+<li><strong>Activations operating in their linear region:</strong> small pre-activations with tanh or sigmoid near 0, or ReLU units that are all active (always positive), behave linearly.</li>
+<li><strong>Very wide networks at initialisation (NTK regime):</strong> with a small learning rate, training behaves like a linear model in the parameters.</li>
+<li><strong>Heavy regularisation</strong> pushes weights towards 0, which keeps activations near their linear zone.</li>
+<li><strong>Takeaway:</strong> non-linearity comes from the activations; without it, depth adds nothing.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">How does regularisation help linear regression? Compare L1 and L2.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Purpose:</strong> it adds a penalty on the size of the weights to reduce variance and overfitting, especially when features are many or correlated.</li>
+<li><strong>L2 (Ridge), λ‖w‖²:</strong> shrinks all weights smoothly, handles multicollinearity, and has a closed form (XᵀX + λI)⁻¹Xᵀy.</li>
+<li><strong>L1 (Lasso), λ‖w‖₁:</strong> pushes some weights to <strong>exactly 0</strong>, which performs feature selection.</li>
+<li><strong>Elastic Net:</strong> a mix of both, good when there are groups of correlated features.</li>
+<li>Tune <strong>λ</strong> with cross-validation and always standardise features first.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">How do BERT (encoder), a Transformer decoder and GPT-3 work? What are their inputs and outputs?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>BERT (encoder-only, bidirectional):</strong></li>
+<li>Input: <code>[CLS] tokens [SEP]</code> with segment and position embeddings.</li>
+<li>Trained by <strong>masked language modelling</strong> (plus NSP originally).</li>
+<li>Output: contextual embeddings for every token. <code>[CLS]</code> is used for classification, and token vectors for NER or QA spans.</li>
+<li>It does not generate free text.</li>
+<li><strong>Original Transformer decoder (in encoder-decoder models such as T5 or translation):</strong> uses masked self-attention over the output so far plus <strong>cross-attention</strong> to the encoder output, and generates the target sequence token by token.</li>
+<li><strong>GPT-3 (decoder-only, causal):</strong></li>
+<li>Input: a prompt. A causal mask means each token sees only earlier tokens.</li>
+<li>Trained on next-token prediction.</li>
+<li>Output: a probability distribution over the next token, sampled repeatedly (autoregressively).</li>
+<li>Supports in-context learning (few-shot) and has 175B parameters.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">How do you evaluate LLM outputs when there is no ground truth?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>LLM-as-judge</strong> with a clear rubric (relevance, correctness, completeness, tone, scored 1–5) or <strong>pairwise comparison</strong> between two systems. Calibrate the judge on 50 to 100 human-labelled items.</li>
+<li><strong>Reference-free metrics:</strong></li>
+<li>Faithfulness or groundedness to the provided context (RAGAS).</li>
+<li>Self-consistency across samples.</li>
+<li>Uncertainty via log-probs.</li>
+<li><strong>Behavioural checks:</strong> format and JSON validity, policy and toxicity classifiers, length.</li>
+<li><strong>Human and online signals:</strong></li>
+<li>Expert review of a sample.</li>
+<li>Thumbs up/down.</li>
+<li>Edit distance (how much users change drafts).</li>
+<li>Task success and escalation rate.</li>
+<li>A/B tests.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Explain PCA and LDA. How do they differ?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>PCA (unsupervised):</strong></li>
+<li>Finds orthogonal directions of <strong>maximum variance</strong>: eigenvectors of the covariance matrix, or the SVD of the centred X.</li>
+<li>Keep the top components that explain, say, 95% of the variance.</li>
+<li>Uses: compression, denoising, visualisation.</li>
+<li><strong>LDA (supervised):</strong></li>
+<li>Finds directions that <strong>maximise between-class separation relative to within-class scatter</strong>.</li>
+<li>At most (C − 1) components.</li>
+<li>Uses: dimensionality reduction before classification.</li>
+<li><strong>Key difference:</strong> PCA ignores labels, so it may keep directions that are useless for classification; LDA uses labels but assumes Gaussian classes with shared covariance.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Explain TF-IDF, then use it to find the document most similar to a query.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>TF</strong> is how often a term appears in a document. <strong>IDF</strong> = log(N / (1 + df)) down-weights common words. TF × IDF highlights words that are distinctive for a document.</li>
+</ul>
+<pre><code class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+docs = [&quot;refund for damaged item&quot;, &quot;track my order&quot;, &quot;return policy for shoes&quot;]
+vec = TfidfVectorizer(ngram_range=(1, 2), stop_words=&quot;english&quot;)
+X = vec.fit_transform(docs)
+q = vec.transform([&quot;how to return shoes&quot;])
+best = cosine_similarity(q, X).argmax()
+print(docs[best])   # return policy for shoes
+</code></pre>
+<ul>
+<li><strong>Limitations:</strong> no semantics (synonyms are missed) and sparse, high-dimensional vectors. Dense embeddings or hybrid search fix this.</li>
+</ul></div></div></div>
+<div class="qa" id="q7"><div class="qa-h"><span class="qa-n">Q7</span><div class="qa-q">Implement KNN classification from scratch.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">import numpy as np
+from collections import Counter
+
+def knn_predict(X_train, y_train, X_test, k=5):
+    preds = []
+    for x in X_test:
+        d = np.sqrt(((X_train - x) ** 2).sum(axis=1))
+        idx = np.argpartition(d, k)[:k]
+        preds.append(Counter(y_train[idx]).most_common(1)[0][0])
+    return np.array(preds)
+</code></pre>
+<ul>
+<li>Prediction is O(n·d) per query, so use KD-trees, ball trees or ANN at scale. <strong>Scale features first.</strong> Choose k by cross-validation (odd k for binary problems). Distance-weighted voting is a common follow-up.</li>
+</ul></div></div></div>
+<div class="qa" id="q8"><div class="qa-h"><span class="qa-n">Q8</span><div class="qa-q">SQL: find the top 3 products by revenue in each category for the last 30 days.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-sql">WITH rev AS (
+  SELECT p.category, p.product_id, SUM(o.qty * o.price) AS revenue
+  FROM orders o JOIN products p ON p.product_id = o.product_id
+  WHERE o.order_date &gt;= CURRENT_DATE - INTERVAL '30' DAY
+  GROUP BY p.category, p.product_id
+)
+SELECT * FROM (
+  SELECT rev.*, ROW_NUMBER() OVER (PARTITION BY category ORDER BY revenue DESC) AS rn
+  FROM rev
+) t WHERE rn &lt;= 3;
+</code></pre>
+<ul>
+<li>Mention <code>ROW_NUMBER</code> vs <code>RANK</code> for ties, and an index on (order_date, product_id).</li>
+</ul></div></div></div>
+<div class="qa" id="q9"><div class="qa-h"><span class="qa-n">Q9</span><div class="qa-q">Case study: store sales of a product dropped 15% last month. How would you investigate and model it?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ol>
+<li><strong>Clarify the data:</strong> which stores, whether the drop is real (data pipeline issues, a holiday calendar shift), and the comparison with last year.</li>
+<li><strong>Decompose:</strong> traffic × conversion × basket size; by region, store and channel (online vs store).</li>
+<li><strong>Hypotheses:</strong> stock-outs, price change or competitor promotion, a product-page or listing change, seasonality, weather.</li>
+<li><strong>Quantify:</strong> a difference-in-differences against control stores, and an inventory join to detect lost sales.</li>
+<li><strong>Model:</strong> a demand forecast (LightGBM with lag, price, promotion and holiday features) to estimate the expected baseline, then attribute the gap to drivers.</li>
+<li><strong>Recommend actions</strong> with the expected impact, and monitor.</li>
+</ol></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare-for-walmart-global-tech"><span class="n">03</span>How to prepare for Walmart Global Tech</h2><ul>
+<li>Expect a <strong>mix</strong>: classical ML maths, DL/GenAI concepts and coding. Don't skip PCA, LDA or regularisation.</li>
+<li>Practise implementing <strong>KNN, linear and logistic regression</strong> from scratch and medium SQL.</li>
+<li>Prepare a retail case-study framework (decompose → hypotheses → data → model → action).</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.glassdoor.co.in/Interview/Walmart-Global-Tech-Interview-E3293060-RVW95431256.htm">Glassdoor: Walmart Global Tech DS3, Bengaluru (Feb 2025)</a></li>
+<li><a href="https://www.glassdoor.ca/Interview/Walmart-Global-Tech-Interview-E3293060-RVW100097365.htm">Glassdoor: Walmart Global Tech Data Scientist reviews (Sunnyvale, Bengaluru, Bentonville, 2025)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-walmart-data-scientist-2025"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

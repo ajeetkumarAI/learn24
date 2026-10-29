@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>JPMorgan &amp; Amex: AI / Data Science (2025) · Company Interview Questions · Learn24</title>
+<meta name="description" content="JPMorgan &amp; Amex: AI / Data Science (2025): 7 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="JPMorgan &amp; Amex: AI / Data Science (2025) · Learn24">
+<meta property="og:description" content="JPMorgan &amp; Amex: AI / Data Science (2025): 7 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-jpmorgan-amex-2025" data-lesson="interview-questions/exp-jpmorgan-amex-2025">
+  <div class="kicker">Company Interview Questions · JPMorgan &amp; Amex</div>
+  <h1>JPMorgan &amp; Amex: AI / Data Science (2025)</h1>
+  <div class="meta"><span>❓ 7 questions</span><span>🏢 JPMorgan &amp; Amex</span><span>🆕 2025 reports</span></div>
+  <p class="lead">JPMorgan Chase &amp; American Express: AI / Data Science Interview Experiences (2025). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from public candidate reports: JPMorgan Chase <strong>VP, AI/ML &amp; Data Science</strong> (Bengaluru, May 2025) and American Express <strong>AI Engineer</strong> (Hyderabad, campus, November 2025) and <strong>Analytics, Software &amp; Sciences</strong> (India, September 2025). Public process guides for both firms are used for context. The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>JPMorgan Chase</th>
+<th>American Express</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>VP, AI/ML &amp; Data Science</td>
+<td>AI Engineer (campus); Analytics, Software &amp; Sciences</td>
+</tr>
+<tr>
+<td><strong>Reported round</strong></td>
+<td>First round: <strong>hands-on EDA</strong> in Python/NumPy</td>
+<td>Project guesstimates, ML and DL basics, introduction and languages</td>
+</tr>
+<tr>
+<td><strong>Outcome</strong></td>
+<td>Not progressed after round 1 (candidate felt it went well)</td>
+<td>Not selected; both rated the experience positive</td>
+</tr>
+<tr>
+<td><strong>Lesson</strong></td>
+<td>Even VP roles start with practical coding and data skills</td>
+<td>Be ready to quantify your project with estimates</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>JPMC round 1:</strong> given a dataset, do EDA, <strong>find, handle and plot outliers</strong>, and explain your choices. Later rounds (from the guides): ML case studies (fraud, credit), system design, behavioural.</li>
+<li><strong>Amex:</strong> a guesstimate on your own project ("how many users or transactions would this handle?"), ML and DL basics, a short introduction. Amex teams work on credit risk, fraud and marketing models.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">JPMC: perform EDA on a dataset and handle the outliers. Walk through your code.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">import pandas as pd, numpy as np, matplotlib.pyplot as plt
+
+df = pd.read_csv(&quot;transactions.csv&quot;)
+print(df.shape, df.dtypes, df.isna().mean().round(3), sep=&quot;\n&quot;)
+print(df.describe(percentiles=[.01, .25, .5, .75, .99]).T)
+
+col = &quot;amount&quot;
+q1, q3 = df[col].quantile([.25, .75]); iqr = q3 - q1
+lo, hi = q1 - 1.5 * iqr, q3 + 1.5 * iqr
+out = (df[col] &lt; lo) | (df[col] &gt; hi)
+print(f&quot;outliers: {out.mean():.2%}&quot;)
+
+fig, ax = plt.subplots(1, 2, figsize=(10, 4))
+ax[0].boxplot(df[col].dropna()); ax[0].set_title(&quot;Amount (raw)&quot;)
+ax[1].hist(np.log1p(df[col].clip(lower=0)), bins=50); ax[1].set_title(&quot;log(1+amount)&quot;)
+plt.tight_layout(); plt.show()
+
+df[&quot;amount_capped&quot;] = df[col].clip(lo, df[col].quantile(.995))   # winsorise, keep the rows
+df[&quot;is_outlier&quot;] = out.astype(int)                              # keep the signal for fraud models
+</code></pre>
+<ul>
+<li><strong>Say why:</strong> in banking, outliers are often <strong>the signal</strong> (fraud), so flag them rather than deleting them. Cap them for linear models, and log-transform skewed money amounts.</li>
+<li>Also mention z-scores vs IQR (IQR is robust to skew), and Isolation Forest for multivariate outliers.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">How do you choose a method to handle outliers?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>First ask whether the outlier is an error or a real rare event.</strong> Data-entry errors get fixed or removed; real extremes (large transactions) are kept.</li>
+<li><strong>Options:</strong></li>
+<li>Winsorise or cap.</li>
+<li>Log or Box-Cox transform.</li>
+<li>Robust scaling (median/IQR).</li>
+<li>Tree models, which are insensitive to outliers.</li>
+<li>Robust losses (Huber).</li>
+<li>A separate model for the extreme segment.</li>
+<li><strong>Multivariate outliers:</strong> Isolation Forest, LOF, Mahalanobis distance.</li>
+<li><strong>Document the decision</strong> and its effect on model metrics; regulators may ask.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">How would you build a credit-card fraud detection system at a bank?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Real-time scoring</strong> within about 100 ms at authorisation.</li>
+<li><strong>Features:</strong></li>
+<li>Velocity (transactions in 1 h / 24 h).</li>
+<li>Amount vs the user's typical spend.</li>
+<li>Merchant risk, geography and travel distance.</li>
+<li>Device and channel.</li>
+<li>Time of day.</li>
+<li>Graph links (shared cards, devices, merchants).</li>
+<li><strong>Model:</strong> gradient boosting for tabular data plus rules for known patterns; consider a sequence model for transaction history.</li>
+<li><strong>Imbalance:</strong> class weights; PR-AUC; recall at a fixed false-positive rate.</li>
+<li><strong>Decision layer:</strong> approve / step-up (OTP) / decline, with thresholds tuned on fraud loss vs customer friction.</li>
+<li><strong>Operations:</strong></li>
+<li>Labels arrive with a delay (chargebacks), so handle that.</li>
+<li>Monitor drift, retrain weekly or monthly.</li>
+<li>Model risk management (SR 11-7 style validation) and explainability via reason codes.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">How do GenAI use cases in banking differ from other industries?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Common use cases:</strong></li>
+<li>Internal knowledge assistants (policies, procedures).</li>
+<li>Document extraction (KYC, trade documents).</li>
+<li>Call summarisation.</li>
+<li>Code assistants.</li>
+<li>Research summarisation for analysts.</li>
+<li><strong>Extra constraints:</strong></li>
+<li>Data residency.</li>
+<li><strong>No customer PII leaving the bank's boundary</strong> (private endpoints or self-hosted models).</li>
+<li>Explainability and audit trails.</li>
+<li>Model risk governance.</li>
+<li>Strict accuracy on numbers.</li>
+<li><strong>Patterns:</strong> RAG with citations, a human in the loop for any customer-facing or decision output, deterministic tools for calculations (never let the LLM do the arithmetic), and red-teaming for prompt injection.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Amex: guesstimate how many transactions per second your fraud model must handle.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Answer (show the structure, not the exact number):</strong></p>
+<ul>
+<li>Assume about 100 million active cards, with about 1.5 transactions per card per day → about 150 million transactions per day.</li>
+<li>150M / 86,400 s ≈ <strong>1,700 TPS on average</strong>. Peak (festive sales, evenings) is roughly 3–5× → <strong>design for about 8,000 TPS</strong>.</li>
+<li>At a p99 latency budget of about 50 ms per score, with each instance handling about 500 requests per second → about <strong>16 instances</strong>, plus headroom across 2 regions.</li>
+<li>State your assumptions clearly, sanity-check them, and <strong>tie them to the design</strong> (caching features in Redis, horizontal scaling).</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Explain the vanishing gradient problem and how modern networks avoid it.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>The problem:</strong> in backpropagation through many layers, gradients are products of derivatives. With sigmoid or tanh (derivatives below 1), they shrink exponentially, so early layers barely learn. RNNs suffer this over time steps.</li>
+<li><strong>Fixes:</strong></li>
+<li>ReLU / GELU activations.</li>
+<li><strong>Residual connections</strong> (ResNets, Transformers).</li>
+<li>Normalisation (Batch / Layer Norm).</li>
+<li>Careful initialisation (He / Xavier).</li>
+<li>LSTM / GRU gates for sequences.</li>
+<li>Gradient clipping, for exploding gradients.</li>
+</ul></div></div></div>
+<div class="qa" id="q7"><div class="qa-h"><span class="qa-n">Q7</span><div class="qa-q">Behavioural (JPMC VP): how do you lead a data science team through a model that fails validation?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Own it:</strong> "Our credit model failed independent validation on stability (PSI 0.3 in one segment)."</li>
+<li><strong>Act:</strong>
+  1. Run a root-cause review with the team, without blame.
+  2. Find the issue: a feature driven by a policy change.
+  3. Rebuild with stable features and add segment-level monitoring.
+  4. Communicate the timeline to the business and risk teams every week.</li>
+<li><strong>Result:</strong> "It passed revalidation in five weeks. We added stability tests to our standard development checklist, and the next two models passed on the first submission."</li>
+<li>A VP-level answer shows <strong>governance, communication, coaching and process improvement</strong>.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare-for-banking-ai-roles"><span class="n">03</span>How to prepare for banking AI roles</h2><ul>
+<li><strong>Hands-on first:</strong> practise timed EDA, outlier handling and plotting in pandas, NumPy and matplotlib.</li>
+<li>Know fraud, credit risk, imbalance, calibration and <strong>model risk management</strong> basics.</li>
+<li>For GenAI roles, emphasise privacy, governance, citations and human-in-the-loop design.</li>
+<li>Practise guesstimates on your own projects (users, TPS, cost).</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.jointaro.com/interviews/companies/jpmorgan-chase/experiences/vp-ai-machine-learning-and-data-science-bangalore-rural-karnataka-may-21-2025-no-offer-neutral-dec3f50e">Taro: JPMorgan Chase VP AI/ML &amp; Data Science, Bengaluru (May 2025)</a></li>
+<li><a href="https://www.jointaro.com/interviews/companies/american-express/experiences/ai-engineer-hyderabad-telangana-november-14-2025-no-offer-positive-22f5828b">Taro: American Express AI Engineer, Hyderabad (Nov 2025)</a></li>
+<li><a href="https://www.jointaro.com/interviews/companies/american-express/experiences/analytics-software-and-sciences-india-september-11-2025-no-offer-positive-b2a87899">Taro: American Express Analytics, Software &amp; Sciences (Sep 2025)</a></li>
+<li><a href="https://www.interviewquery.com/interview-guides/jp-morgan-chase-data-scientist">Interview Query: JPMorgan Chase data scientist guide</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-jpmorgan-amex-2025"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

@@ -239,9 +239,9 @@ Hands-on labs built from Ajeetkumar’s Colab notebooks (free Groq key). Each la
 | 2 | [Assignment 17: Project & Behavioural Questions](https://learn24-lilac.vercel.app/assignments/assignment-17-project-behavioural-questions) | 10 questions with solutions · 4 must-know. |
 | 3 | [Assignment 18: Python & ML Essentials for GenAI Engineers](https://learn24-lilac.vercel.app/assignments/assignment-18-python-ml-essentials-for-genai-engineers) | 16 questions with solutions · 8 must-know · 4 coding tasks. |
 
-### 🏢 Company Interview Questions (20 practice pages)
+### 🏢 Company Interview Questions (34 practice pages)
 
-543 real interview questions with detailed answers from 20 company rounds: TCS, Infosys, Wipro, Deloitte, EY, PwC, EPAM and Google, plus MCP and NLP deep-dives, in practice mode. Answers stay hidden until you try, then you rate yourself (knew it / partly / review again).
+664 real interview questions with detailed answers from 34 company pages: TCS, Infosys, Wipro, Deloitte, EY, PwC, EPAM, Google, plus new 2025 experiences from Accenture, Capgemini, IBM, Fractal, Amazon, Walmart, Flipkart, Zomato, JPMorgan, Amex and more, in practice mode. Answers stay hidden until you try, then you rate yourself (knew it / partly / review again).
 
 **Module 1 · IT Services: TCS, Infosys, Wipro**
 
@@ -260,23 +260,47 @@ Hands-on labs built from Ajeetkumar’s Colab notebooks (free Groq key). Each la
 
 | # | Page | What is inside |
 |---|---|---|
-| 1 | [Deloitte: GenAI Engineer, Technical Round](https://learn24-lilac.vercel.app/interview-questions/deloitte-genai-technical) | 10 real questions with detailed answers. |
-| 2 | [Deloitte: Agentic AI Consultant](https://learn24-lilac.vercel.app/interview-questions/deloitte-agentic-ai-consultant) | 5 real questions with detailed answers. |
-| 3 | [EY: GenAI Engineer Q&A](https://learn24-lilac.vercel.app/interview-questions/ey-genai-engineer) | 7 real questions with detailed answers. |
-| 4 | [EY: Scenarios, Case Study & Live Coding](https://learn24-lilac.vercel.app/interview-questions/ey-scenarios-case-study) | 6 real questions with detailed answers. |
-| 5 | [PwC: GenAI Engineer Walk-In](https://learn24-lilac.vercel.app/interview-questions/pwc-walk-in) | 8 real questions with detailed answers. |
-| 6 | [PwC: Walk-In (Selected Candidate)](https://learn24-lilac.vercel.app/interview-questions/pwc-walk-in-selected) | 5 real questions with detailed answers. |
+| 9 | [Deloitte: GenAI Engineer, Technical Round](https://learn24-lilac.vercel.app/interview-questions/deloitte-genai-technical) | 10 real questions with detailed answers. |
+| 10 | [Deloitte: Agentic AI Consultant](https://learn24-lilac.vercel.app/interview-questions/deloitte-agentic-ai-consultant) | 5 real questions with detailed answers. |
+| 11 | [EY: GenAI Engineer Q&A](https://learn24-lilac.vercel.app/interview-questions/ey-genai-engineer) | 7 real questions with detailed answers. |
+| 12 | [EY: Scenarios, Case Study & Live Coding](https://learn24-lilac.vercel.app/interview-questions/ey-scenarios-case-study) | 6 real questions with detailed answers. |
+| 13 | [PwC: GenAI Engineer Walk-In](https://learn24-lilac.vercel.app/interview-questions/pwc-walk-in) | 8 real questions with detailed answers. |
+| 14 | [PwC: Walk-In (Selected Candidate)](https://learn24-lilac.vercel.app/interview-questions/pwc-walk-in-selected) | 5 real questions with detailed answers. |
 
 **Module 3 · Product & Specialist: Google, EPAM, MCP, NLP**
 
 | # | Page | What is inside |
 |---|---|---|
-| 1 | [Google Cloud AI Engineer: Prescreening Prep Guide](https://learn24-lilac.vercel.app/interview-questions/google-cloud-prescreening-guide) | 46 real questions with detailed answers. |
-| 2 | [Google Cloud AI Engineer: Prescreening Round](https://learn24-lilac.vercel.app/interview-questions/google-cloud-prescreening) | 21 real questions with detailed answers. |
-| 3 | [Google AI Engineer: 300-Question Bank](https://learn24-lilac.vercel.app/interview-questions/google-ai-engineer-300) | 298 real questions with detailed answers. |
-| 4 | [EPAM: Senior AI Engineer](https://learn24-lilac.vercel.app/interview-questions/epam-senior-ai-engineer) | 10 real questions with detailed answers. |
-| 5 | [MCP: Senior Architecture Interview](https://learn24-lilac.vercel.app/interview-questions/mcp-senior-architecture) | 4 real questions with detailed answers. |
-| 6 | [NLP: Real Candidate-Reported Questions](https://learn24-lilac.vercel.app/interview-questions/nlp-real-questions) | 43 real questions with detailed answers. |
+| 15 | [Google Cloud AI Engineer: Prescreening Prep Guide](https://learn24-lilac.vercel.app/interview-questions/google-cloud-prescreening-guide) | 46 real questions with detailed answers. |
+| 16 | [Google Cloud AI Engineer: Prescreening Round](https://learn24-lilac.vercel.app/interview-questions/google-cloud-prescreening) | 21 real questions with detailed answers. |
+| 17 | [Google AI Engineer: 300-Question Bank](https://learn24-lilac.vercel.app/interview-questions/google-ai-engineer-300) | 298 real questions with detailed answers. |
+| 18 | [EPAM: Senior AI Engineer](https://learn24-lilac.vercel.app/interview-questions/epam-senior-ai-engineer) | 10 real questions with detailed answers. |
+| 19 | [MCP: Senior Architecture Interview](https://learn24-lilac.vercel.app/interview-questions/mcp-senior-architecture) | 4 real questions with detailed answers. |
+| 20 | [NLP: Real Candidate-Reported Questions](https://learn24-lilac.vercel.app/interview-questions/nlp-real-questions) | 43 real questions with detailed answers. |
+
+**Module 4 · 🆕 2025 Experiences: Services, Consulting & Analytics**
+
+| # | Page | What is inside |
+|---|---|---|
+| 21 | [Accenture: GenAI & AI/ML Engineer (2025)](https://learn24-lilac.vercel.app/interview-questions/exp-accenture-2025) | Rounds, reported questions and 10 model answers. |
+| 22 | [Capgemini: GenAI Engineer, 5 Reports (2025)](https://learn24-lilac.vercel.app/interview-questions/exp-capgemini-2025) | Rounds, reported questions and 10 model answers. |
+| 23 | [Deloitte: GenAI Engineer Reports (2025)](https://learn24-lilac.vercel.app/interview-questions/exp-deloitte-2025) | Rounds, reported questions and 8 model answers. |
+| 24 | [IBM: AI Engineer, Bengaluru (2025)](https://learn24-lilac.vercel.app/interview-questions/exp-ibm-2025) | Rounds, reported questions and 8 model answers. |
+| 25 | [LTIMindtree & HCLTech: GenAI / ML Engineer](https://learn24-lilac.vercel.app/interview-questions/exp-ltimindtree-hcltech-2025) | Rounds, reported questions and 10 model answers. |
+| 26 | [Fractal: Sr Data Scientist, GenAI (2025, Offer)](https://learn24-lilac.vercel.app/interview-questions/exp-fractal-2025) | Rounds, reported questions and 10 model answers. |
+| 27 | [Tiger Analytics: GenAI Engineer](https://learn24-lilac.vercel.app/interview-questions/exp-tiger-analytics) | Rounds, reported questions and 10 model answers. |
+
+**Module 5 · 🆕 2025 Experiences: Big Tech, Product & Banking**
+
+| # | Page | What is inside |
+|---|---|---|
+| 28 | [Amazon: Applied Scientist (2025)](https://learn24-lilac.vercel.app/interview-questions/exp-amazon-applied-scientist) | Rounds, reported questions and 8 model answers. |
+| 29 | [Google: ML Engineer & AI Engineer, India (2025)](https://learn24-lilac.vercel.app/interview-questions/exp-google-mle-2025) | Rounds, reported questions and 7 model answers. |
+| 30 | [Walmart Global Tech: Data Scientist (2025)](https://learn24-lilac.vercel.app/interview-questions/exp-walmart-data-scientist-2025) | Rounds, reported questions and 9 model answers. |
+| 31 | [Flipkart: Data Scientist 2, 6 Rounds (Offer)](https://learn24-lilac.vercel.app/interview-questions/exp-flipkart-ds2) | Rounds, reported questions and 8 model answers. |
+| 32 | [Zomato: ML Engineer, Campus (2025, Offer)](https://learn24-lilac.vercel.app/interview-questions/exp-zomato-mle-2025) | Rounds, reported questions and 7 model answers. |
+| 33 | [JPMorgan & Amex: AI / Data Science (2025)](https://learn24-lilac.vercel.app/interview-questions/exp-jpmorgan-amex-2025) | Rounds, reported questions and 7 model answers. |
+| 34 | [Qualcomm DS & Community Reports: LLM Engineer Rounds](https://learn24-lilac.vercel.app/interview-questions/exp-qualcomm-community-2025) | Rounds, reported questions and 9 model answers. |
 
 ### 💼 Live AI Jobs
 

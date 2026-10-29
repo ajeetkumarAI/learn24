@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tiger Analytics: GenAI Engineer · Company Interview Questions · Learn24</title>
+<meta name="description" content="Tiger Analytics: GenAI Engineer: 10 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Tiger Analytics: GenAI Engineer · Learn24">
+<meta property="og:description" content="Tiger Analytics: GenAI Engineer: 10 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-tiger-analytics" data-lesson="interview-questions/exp-tiger-analytics">
+  <div class="kicker">Company Interview Questions · Tiger Analytics</div>
+  <h1>Tiger Analytics: GenAI Engineer</h1>
+  <div class="meta"><span>❓ 10 questions</span><span>🏢 Tiger Analytics</span><span>🆕 2025 reports</span></div>
+  <p class="lead">Tiger Analytics: GenAI Engineer Interview Process and Questions. Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Based on a public interview-process guide for the Tiger Analytics GenAI Engineer role and candidate-reported topics. The questions are paraphrased, and the model answers are written by Learn24. Tiger is a consulting-style analytics firm, so expect client use cases and a deep dive into your projects.</p>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>GenAI Engineer / Data Scientist (GenAI)</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>Automated screening → remote technical (coding + architecture) → in-person technical with senior leaders</td>
+</tr>
+<tr>
+<td><strong>Timeline</strong></td>
+<td>About 3–5 weeks</td>
+</tr>
+<tr>
+<td><strong>Focus</strong></td>
+<td>Sampling and decoding, prompt design, RAG, system design for summarisation, fine-tune vs API, pandas coding, ROI</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Screening:</strong> an online test of Python, ML basics and aptitude.</li>
+<li><strong>Remote technical:</strong> coding (pandas and text cleaning) and architecture discussion.</li>
+<li><strong>In-person:</strong> senior engineers or DS leaders run system design and a deep dive on your hardest GenAI project, including business impact.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">What is the difference between top-k and top-p sampling? Where does temperature fit?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Temperature</strong> scales the logits before softmax. Low values (0 to 0.3) make output deterministic and focused; high values (above 0.8) make it more creative and random.</li>
+<li><strong>Top-k:</strong> sample only from the k most likely tokens, for example k=40. It is a fixed-size cut regardless of how confident the model is.</li>
+<li><strong>Top-p (nucleus):</strong> sample from the smallest set of tokens whose probabilities add up to p, for example 0.9. The set <strong>adapts</strong>: small when the model is confident, large when it isn't.</li>
+<li><strong>In practice:</strong></li>
+<li>Extraction, SQL or JSON: temperature 0.</li>
+<li>Chat: temperature around 0.7 with top-p 0.9.</li>
+<li>Avoid tuning top-k and top-p heavily at the same time.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">How do you approach prompt design for an enterprise use case?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ol>
+<li><strong>Define the task and success metric</strong> with the business, and collect 30 to 50 real examples.</li>
+<li><strong>Structure the prompt:</strong>
+   - A role
+   - The task
+   - The context in delimiters
+   - Rules (cite sources, never invent numbers)
+   - The output format, as a JSON schema
+   - 2 or 3 few-shot examples</li>
+<li><strong>Iterate against an evaluation set,</strong> not by eye. Version prompts in git.</li>
+<li><strong>Add guardrails:</strong> PII masking, refusal rules, a check on maximum length.</li>
+<li><strong>Optimise cost:</strong> a shorter system prompt, prompt caching, a smaller model where it is good enough.</li>
+</ol></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">What are the components of a RAG system, including data ingestion?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Ingestion:</strong></li>
+<li>Connectors (SharePoint, S3, databases)</li>
+<li>Parsing (PDF, tables, OCR)</li>
+<li>Cleaning and deduplication</li>
+<li>Chunking with metadata</li>
+<li>Embedding</li>
+<li>Indexing</li>
+<li>A scheduled or incremental refresh</li>
+<li><strong>Retrieval:</strong> query understanding or rewriting → hybrid search → filters → re-ranker.</li>
+<li><strong>Generation:</strong> prompt assembly, the LLM, citations, and output validation.</li>
+<li><strong>Platform:</strong> access control, caching, monitoring, an evaluation harness, and a feedback loop.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">What ethical risks do LLMs carry, and how would you test for bias?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Risks:</strong></li>
+<li>Hallucination</li>
+<li>Bias and unfair outcomes</li>
+<li>Toxic content</li>
+<li>Privacy leaks (PII in training data or prompts)</li>
+<li>Copyright</li>
+<li>Over-reliance by users</li>
+<li>Prompt injection</li>
+<li><strong>Testing for bias:</strong></li>
+<li>Build <strong>counterfactual pairs</strong>: the same input with only a protected attribute changed (name, gender, region), then compare outputs and scores.</li>
+<li>Measure differences in refusal or approval rates and in sentiment.</li>
+<li>Use benchmarks such as BBQ or StereoSet for a general check.</li>
+<li><strong>Mitigations:</strong></li>
+<li>Remove protected attributes from decision prompts.</li>
+<li>Add policy prompts and output filters.</li>
+<li>Keep a human in the loop for consequential decisions.</li>
+<li>Document everything in a model card, and audit regularly.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Design a system that summarises thousands of call transcripts every day.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Ingestion:</strong> audio → speech-to-text (Whisper or Azure Speech with speaker diarisation) → transcript stored with call metadata.</li>
+<li><strong>Processing:</strong> a queue (Kafka or Service Bus) feeding workers. Long calls use <strong>map-reduce</strong>: summarise chunks, then combine. A JSON schema captures the summary, intent, sentiment, action items and compliance flags.</li>
+<li><strong>Model choice:</strong> a small, cheap model for most calls; a large model for escalations. Use the <strong>batch API</strong> for overnight jobs, which costs about 50% less.</li>
+<li><strong>Quality:</strong> a sampled human review, LLM-judge faithfulness checks, and PII redaction before storage.</li>
+<li><strong>Output:</strong> written to a warehouse and dashboards; searchable through RAG for supervisors.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Should we fine-tune an open-source model or use a hosted API?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><table>
+<thead>
+<tr>
+<th>Factor</th>
+<th>Hosted API (GPT, Claude, Gemini)</th>
+<th>Fine-tuned open model (Llama, Mistral)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Time to value</td>
+<td>Days</td>
+<td>Weeks</td>
+</tr>
+<tr>
+<td>Quality on general tasks</td>
+<td>Highest</td>
+<td>Lower, unless the task is narrow</td>
+</tr>
+<tr>
+<td>Data privacy</td>
+<td>Vendor terms / private endpoint</td>
+<td>Full control</td>
+</tr>
+<tr>
+<td>Cost at high volume</td>
+<td>Grows per token</td>
+<td>Fixed GPU cost, cheaper at scale</td>
+</tr>
+<tr>
+<td>Ops burden</td>
+<td>Low</td>
+<td>High (serving, scaling, updates)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Recommendation pattern:</strong> start with an API plus RAG. Fine-tune (LoRA) only when you need a specific style or format, low latency or cost at scale, or must run on-premises. Prove it with an evaluation set first.</li>
+</ul></div></div></div>
+<div class="qa" id="q7"><div class="qa-h"><span class="qa-n">Q7</span><div class="qa-q">How do you keep an LLM application fast and highly available in production?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Latency:</strong></li>
+<li>Streaming</li>
+<li>Response and semantic caching</li>
+<li>Smaller models for routing</li>
+<li>Parallel tool and retrieval calls</li>
+<li>Shorter prompts</li>
+<li>Prompt caching</li>
+<li>Region close to users</li>
+<li><strong>Availability:</strong></li>
+<li>Multiple deployments or providers with <strong>fallback</strong></li>
+<li>Retries with exponential backoff</li>
+<li>Timeouts and circuit breakers</li>
+<li>Rate-limit and quota management</li>
+<li>Autoscaling stateless services</li>
+<li>Health checks</li>
+<li><strong>Monitor</strong> p50/p95 latency, error rate, tokens and cost, with alerts against SLOs.</li>
+</ul></div></div></div>
+<div class="qa" id="q8"><div class="qa-h"><span class="qa-n">Q8</span><div class="qa-q">pandas: filter and reshape a dataset of support tickets.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">import pandas as pd
+
+df = pd.read_csv(&quot;tickets.csv&quot;, parse_dates=[&quot;created_at&quot;])
+recent = df[(df.created_at &gt;= &quot;2025-01-01&quot;) &amp; (df.status != &quot;spam&quot;)]
+pivot = (recent.assign(month=recent.created_at.dt.to_period(&quot;M&quot;))
+               .pivot_table(index=&quot;month&quot;, columns=&quot;category&quot;,
+                            values=&quot;ticket_id&quot;, aggfunc=&quot;count&quot;, fill_value=0))
+long = pivot.reset_index().melt(id_vars=&quot;month&quot;, var_name=&quot;category&quot;, value_name=&quot;tickets&quot;)
+</code></pre>
+<ul>
+<li>Explain boolean masks, <code>pivot_table</code> vs <code>groupby().unstack()</code>, and <code>melt</code> to go back from wide to long format.</li>
+</ul></div></div></div>
+<div class="qa" id="q9"><div class="qa-h"><span class="qa-n">Q9</span><div class="qa-q">Clean a noisy text corpus before feeding it to a Transformer.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">import re, html, unicodedata
+
+def clean(t: str) -&gt; str:
+    t = html.unescape(t)
+    t = unicodedata.normalize(&quot;NFKC&quot;, t)
+    t = re.sub(r&quot;&lt;[^&gt;]+&gt;&quot;, &quot; &quot;, t)              # HTML tags
+    t = re.sub(r&quot;https?://\S+&quot;, &quot;&lt;URL&gt;&quot;, t)      # URLs
+    t = re.sub(r&quot;\S+@\S+&quot;, &quot;&lt;EMAIL&gt;&quot;, t)         # PII-ish
+    t = re.sub(r&quot;\s+&quot;, &quot; &quot;, t).strip()
+    return t
+</code></pre>
+<ul>
+<li>For Transformers, <strong>don't</strong> stem, remove stop words or lowercase blindly, because the tokenizer and model rely on natural text. Do deduplicate, drop boilerplate, fix encoding and filter by language.</li>
+</ul></div></div></div>
+<div class="qa" id="q10"><div class="qa-h"><span class="qa-n">Q10</span><div class="qa-q">How did you measure the business impact (ROI) of a GenAI solution?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Baseline first:</strong> average handling time, cost per ticket, error rate, all measured before launch.</li>
+<li><strong>After launch:</strong> A/B or phased rollout, then compare. Example: "Agents using the assistant cut handling time from 9.5 to 6.8 minutes (−28%) across 40k tickets a month, about ₹38 lakh a year saved, against ₹6 lakh a year of LLM and infrastructure cost."</li>
+<li>Include <strong>quality</strong> (CSAT and accuracy) and <strong>adoption</strong> (weekly active users), not just cost.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare-for-tiger-analytics"><span class="n">03</span>How to prepare for Tiger Analytics</h2><ul>
+<li>Be fluent in pandas and text cleaning; coding is practical, not LeetCode-heavy.</li>
+<li>Prepare one end-to-end GenAI system design (summarisation or RAG) with cost numbers.</li>
+<li>Know decoding parameters, fine-tune vs API trade-offs, and responsible-AI testing.</li>
+<li>Quantify your project's impact in rupees or hours saved.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://dataford.io/interview-guides/tiger-analytics/genai-engineer">Dataford: Tiger Analytics GenAI Engineer interview guide</a></li>
+<li><a href="https://www.interviewquery.com/interview-guides/tiger-analytics">Interview Query: Tiger Analytics interview guide</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-tiger-analytics"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Amazon: Applied Scientist (2025) · Company Interview Questions · Learn24</title>
+<meta name="description" content="Amazon: Applied Scientist (2025): 8 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Amazon: Applied Scientist (2025) · Learn24">
+<meta property="og:description" content="Amazon: Applied Scientist (2025): 8 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-amazon-applied-scientist" data-lesson="interview-questions/exp-amazon-applied-scientist">
+  <div class="kicker">Company Interview Questions · Amazon</div>
+  <h1>Amazon: Applied Scientist (2025)</h1>
+  <div class="meta"><span>❓ 8 questions</span><span>🏢 Amazon</span><span>🆕 2025 reports</span></div>
+  <p class="lead">Amazon: Applied Scientist Interview Experience (2025). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from public candidate reports for Amazon Applied Scientist roles: London (April 2025 phone screen) and Luxembourg (full loop, offer received, reviewed in 2025), with notes on 2026 AGI-team reports that covered LLM training. The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Applied Scientist (L5 / L6)</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>Hiring manager screen → coding screen → virtual onsite: <strong>tech talk</strong> + 4 interviews (Coding, Science Depth, Science Breadth, Science Application)</td>
+</tr>
+<tr>
+<td><strong>Behavioural</strong></td>
+<td>10–15 minutes of <strong>Leadership Principles</strong> questions in <em>every</em> round</td>
+</tr>
+<tr>
+<td><strong>Coding level</strong></td>
+<td>LeetCode medium–hard</td>
+</tr>
+<tr>
+<td><strong>Reported outcomes</strong></td>
+<td>London: no offer after the phone screen; Luxembourg: offer received (declined)</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Phone screen (about 60 minutes):</strong> about 30 minutes of coding (for example, implement a classic ML classifier from scratch), then skills from the job description.</li>
+<li><strong>Coding:</strong> data structures, for example the median of a data stream.</li>
+<li><strong>Science Breadth:</strong> rapid-fire questions across ML (bias-variance, regularisation, trees vs neural networks, evaluation).</li>
+<li><strong>Science Depth:</strong> deep questions on <em>your</em> research area (LLMs, NLP, recommender systems).</li>
+<li><strong>Science Application:</strong> design an ML system, for example summarising product reviews.</li>
+<li><strong>Tech talk:</strong> about 45 minutes presenting your past work, then questions.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Implement logistic regression from scratch (no ML libraries).</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">import numpy as np
+
+class LogReg:
+    def __init__(self, lr=0.1, epochs=1000, l2=0.0):
+        self.lr, self.epochs, self.l2 = lr, epochs, l2
+    def fit(self, X, y):
+        n, d = X.shape
+        self.w, self.b = np.zeros(d), 0.0
+        for _ in range(self.epochs):
+            p = 1 / (1 + np.exp(-(X @ self.w + self.b)))
+            gw = X.T @ (p - y) / n + self.l2 * self.w
+            gb = np.mean(p - y)
+            self.w -= self.lr * gw; self.b -= self.lr * gb
+        return self
+    def predict_proba(self, X):
+        return 1 / (1 + np.exp(-(X @ self.w + self.b)))
+    def predict(self, X, t=0.5):
+        return (self.predict_proba(X) &gt;= t).astype(int)
+</code></pre>
+<ul>
+<li>Explain the <strong>log-loss gradient</strong> <code>Xᵀ(p − y)/n</code>, why features should be standardised, L2 regularisation, and numerical stability (clip the logits).</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Find the median of a stream of numbers.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">import heapq
+
+class MedianFinder:
+    def __init__(self):
+        self.lo, self.hi = [], []          # max-heap (negated), min-heap
+    def add(self, x):
+        heapq.heappush(self.lo, -x)
+        heapq.heappush(self.hi, -heapq.heappop(self.lo))
+        if len(self.hi) &gt; len(self.lo):
+            heapq.heappush(self.lo, -heapq.heappop(self.hi))
+    def median(self):
+        if len(self.lo) &gt; len(self.hi): return -self.lo[0]
+        return (-self.lo[0] + self.hi[0]) / 2
+</code></pre>
+<ul>
+<li>Two heaps keep the lower half and the upper half: insert is O(log n) and reading the median is O(1).</li>
+<li>Follow-ups: a fixed window means lazy deletion; a bounded integer range means a counting array.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Science Application: design a system that summarises product reviews into key concepts.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Goal:</strong> a short "customers say..." summary plus pros and cons per product, kept fresh as reviews arrive.</li>
+<li><strong>Pipeline:</strong>
+  1. Filter spam and very short reviews.
+  2. <strong>Aspect extraction:</strong> an LLM or fine-tuned model tags aspects (battery, fit, delivery) with sentiment.
+  3. <strong>Aggregate:</strong> count aspects, weighted by helpfulness and recency.
+  4. <strong>Summarise:</strong> an LLM writes a grounded summary from the top aspects and representative quotes.</li>
+<li><strong>Scale:</strong> batch processing for millions of products; incremental updates when there are more than N new reviews; a smaller model for extraction and a larger one for the final text.</li>
+<li><strong>Evaluation:</strong></li>
+<li>Faithfulness: every claim must be supported by reviews.</li>
+<li>Coverage of the top aspects.</li>
+<li>Human ratings.</li>
+<li>Online A/B on conversion and returns.</li>
+<li><strong>Risks:</strong> hallucination, fake-review manipulation, and bias towards early reviews. Use guardrails and periodic audits.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Science Breadth: explain the bias-variance trade-off with examples.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Bias:</strong> error from wrong assumptions. The model is too simple (linear on non-linear data) and <strong>underfits</strong>.</li>
+<li><strong>Variance:</strong> error from sensitivity to the training sample. The model is too complex (a deep tree) and <strong>overfits</strong>.</li>
+<li>Expected error = bias² + variance + irreducible noise.</li>
+<li><strong>Levers:</strong></li>
+<li>More data reduces variance.</li>
+<li>Regularisation and bagging (random forests) reduce variance.</li>
+<li>Boosting and richer features reduce bias.</li>
+<li><strong>Diagnose with learning curves:</strong> if both errors are high, it's bias; if the gap is large, it's variance.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Science Depth (LLMs): explain how an LLM is pre-trained and then aligned.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Pre-training:</strong> next-token prediction on trillions of tokens of web, code and book text.</li>
+<li>Decoder-only Transformer with AdamW and warm-up plus cosine schedule.</li>
+<li>Mixed precision (bf16).</li>
+<li>Data, tensor and pipeline parallelism.</li>
+<li>Scaling laws (Chinchilla) guide the balance of model size and tokens.</li>
+<li><strong>Mid-training / continued pre-training</strong> on domain or long-context data.</li>
+<li><strong>Post-training:</strong></li>
+<li>SFT on instruction data.</li>
+<li>Preference optimisation (RLHF with PPO, or DPO).</li>
+<li>RL with verifiable rewards for reasoning (maths and code).</li>
+<li>Safety tuning.</li>
+<li><strong>Evaluation</strong> across benchmarks plus red-teaming. Watch for contamination and reward hacking.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Leadership Principles: tell me about a time you disagreed with your manager (Have Backbone; Disagree and Commit).</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Answer (STAR, about 2 minutes):</strong></p>
+<ul>
+<li><strong>Situation:</strong> "My manager wanted to launch the LLM classifier to all customers within two weeks."</li>
+<li><strong>Task:</strong> I believed precision on minority categories was too low.</li>
+<li><strong>Action:</strong> "I shared an error analysis: 18% false positives on refund requests. I proposed a two-week staged launch to 10% of traffic with human review. We agreed on the metrics up front."</li>
+<li><strong>Result:</strong> "The staged launch caught a labelling bug. The full launch went a week later with 94% precision. My manager adopted staged launches as the default."</li>
+<li>Use <strong>data</strong>, keep it respectful, and show that you <strong>committed</strong> once the decision was made.</li>
+</ul></div></div></div>
+<div class="qa" id="q7"><div class="qa-h"><span class="qa-n">Q7</span><div class="qa-q">Leadership Principles: tell me about a time you had to dive deep to find a root cause (Dive Deep).</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>Pick a story where you <strong>went beyond the dashboards</strong>. Example: "The model's AUC dropped 4 points in one region. I traced it to a change in an upstream feature pipeline: a currency field switched from INR to USD without notice."</li>
+<li>Explain the <strong>mechanisms you added</strong>: a data contract, a schema check, alerts on shifts in feature distributions.</li>
+<li>Quantify the impact: "We prevented about ₹X of mis-scored applications."</li>
+</ul></div></div></div>
+<div class="qa" id="q8"><div class="qa-h"><span class="qa-n">Q8</span><div class="qa-q">Tech talk: how should you structure the 45-minute presentation?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ol>
+<li><strong>Problem and why it matters</strong> (3 minutes): business impact.</li>
+<li><strong>Your approach</strong> (15 minutes): data, model choices and <strong>why</strong>, the alternatives you rejected.</li>
+<li><strong>Results</strong> (7 minutes): offline and online metrics, ablations, failure cases.</li>
+<li><strong>What you would do next</strong> (3 minutes), then questions.
+- Be precise about <strong>your own</strong> contribution. Expect "why not X?" probes, and prepare backup slides with maths details.</li>
+</ol></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare-for-amazon"><span class="n">03</span>How to prepare for Amazon</h2><ul>
+<li>Prepare <strong>two stories for each Leadership Principle</strong> (Customer Obsession, Ownership, Dive Deep, Have Backbone, Deliver Results) with numbers.</li>
+<li>Solve LeetCode medium–hard problems (heaps, graphs, DP) and implement 3 or 4 ML algorithms from scratch.</li>
+<li>Rehearse your tech talk and science-depth topic until you can handle any "why?" question.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.glassdoor.co.in/Interview/Amazon-Interview-E6036-RVW96647342.htm">Glassdoor: Amazon Applied Scientist, London (Apr 2025)</a></li>
+<li><a href="https://www.glassdoor.com/Interview/Amazon-Interview-E6036-RVW99133644.htm">Glassdoor: Amazon Applied Scientist, Luxembourg (full loop)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-amazon-applied-scientist"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

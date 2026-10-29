@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Google: ML Engineer &amp; AI Engineer, India (2025) · Company Interview Questions · Learn24</title>
+<meta name="description" content="Google: ML Engineer &amp; AI Engineer, India (2025): 7 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Google: ML Engineer &amp; AI Engineer, India (2025) · Learn24">
+<meta property="og:description" content="Google: ML Engineer &amp; AI Engineer, India (2025): 7 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-google-mle-2025" data-lesson="interview-questions/exp-google-mle-2025">
+  <div class="kicker">Company Interview Questions · Google</div>
+  <h1>Google: ML Engineer &amp; AI Engineer, India (2025)</h1>
+  <div class="meta"><span>❓ 7 questions</span><span>🏢 Google</span><span>🆕 2025 reports</span></div>
+  <p class="lead">Google: Machine Learning Engineer &amp; AI Engineer Interview Experiences (India, 2025). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from public candidate reports for Google ML Engineer roles (Hyderabad, July 2025; India, November 2025) and an AI Engineer role (Mumbai, May 2025). The questions are paraphrased, and the model answers are written by Learn24. For a full question bank and the Google Cloud prescreening round, see the other Google pages in this section.</p>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Roles</strong></td>
+<td>Machine Learning Engineer (mid level), AI Engineer (junior)</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>Typically 3–5: ML/system design, live coding (DSA), ML theory/concepts, Googleyness</td>
+</tr>
+<tr>
+<td><strong>Coding level</strong></td>
+<td>DSA-heavy; one candidate got a <strong>LeetCode hard DP</strong> problem</td>
+</tr>
+<tr>
+<td><strong>Reported outcomes</strong></td>
+<td>No offer in all three reports; every candidate rated the experience positive</td>
+</tr>
+<tr>
+<td><strong>Lesson</strong></td>
+<td>Being able to optimise a brute-force answer <strong>within time</strong> decides the result</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>ML system design:</strong> for example, "design an app that helps blind people navigate indoors". One candidate cleared this round.</li>
+<li><strong>Live coding:</strong> arrays, strings, hash maps, trees and graphs, recursion and DP, with a strong focus on time and space complexity.</li>
+<li><strong>ML concepts:</strong> for example precision vs recall for fraud detection, and other conceptual questions.</li>
+<li><strong>Note:</strong> one candidate expected an ML-theory round but got live coding, so prepare for both.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Precision vs recall: which matters more for fraud detection?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Recall</strong> (the share of frauds caught) usually matters more, because a missed fraud costs real money and trust.</li>
+<li>But <strong>precision</strong> can't collapse: false alarms block genuine customers, overload investigators and hurt the customer experience.</li>
+<li><strong>Correct answer: it depends on cost.</strong></li>
+<li>Estimate the cost of a false negative (the fraud amount) and of a false positive (review cost plus customer friction).</li>
+<li>Choose the threshold that <strong>minimises expected cost</strong>.</li>
+<li>Often use <strong>tiers</strong>: auto-block when the score is very high, step-up authentication (OTP) in the middle, and allow when low.</li>
+<li>Report <strong>PR-AUC</strong> and recall at a fixed precision (for example, recall @ 90% precision), because fraud data is highly imbalanced.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">System design: design an app that helps blind people navigate an indoor space.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Clarify:</strong> which buildings (malls, offices), the device (a phone, possibly with a wearable), offline needs, latency budget (under 200 ms for obstacle alerts), and privacy.</li>
+<li><strong>Sensing:</strong> camera + IMU; optionally BLE beacons or Wi-Fi for positioning, or a pre-mapped building (indoor maps / visual positioning).</li>
+<li><strong>On-device ML (real time):</strong></li>
+<li>Obstacle and hazard detection (stairs, doors, people) with a quantized detector such as MobileNet or YOLO-nano.</li>
+<li>Depth estimation.</li>
+<li>Text and sign reading (OCR).</li>
+<li><strong>Localisation and routing:</strong> visual-inertial odometry plus map matching; A* path planning on an indoor graph.</li>
+<li><strong>Output:</strong> spatial audio and haptics with concise instructions ("door, 2 metres, slightly left"); a voice query for help.</li>
+<li><strong>Cloud (optional):</strong> map updates and a VLM for rich scene description when the user asks.</li>
+<li><strong>Evaluation:</strong> obstacle recall (safety-critical), positioning error, task completion time, and user studies with blind participants.</li>
+<li><strong>Responsible AI:</strong> fail-safe behaviour on low confidence, battery use, and on-device privacy.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Coding (DP): what is the minimum number of coins that makes up an amount?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">def coin_change(coins, amount):
+    INF = amount + 1
+    dp = [0] + [INF] * amount
+    for a in range(1, amount + 1):
+        for c in coins:
+            if c &lt;= a:
+                dp[a] = min(dp[a], dp[a - c] + 1)
+    return -1 if dp[amount] == INF else dp[amount]
+</code></pre>
+<ul>
+<li>Bottom-up DP is O(amount × coins).</li>
+<li><strong>How to talk through it:</strong> define the state (<code>dp[a]</code> = fewest coins for amount a), the transition, the base case and the order of filling. Start from the recursive brute force, add memoisation, then convert to a table.</li>
+<li>Leave 10 minutes for edge cases and complexity. This is where one candidate ran out of time.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Coding: find the length of the longest substring without repeating characters.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">def longest_unique(s):
+    last, start, best = {}, 0, 0
+    for i, ch in enumerate(s):
+        if ch in last and last[ch] &gt;= start:
+            start = last[ch] + 1
+        last[ch] = i
+        best = max(best, i - start + 1)
+    return best
+</code></pre>
+<ul>
+<li>A sliding window with the last-seen index of each character: O(n) time, O(min(n, alphabet)) space.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">How do you handle highly imbalanced data, such as 0.1% fraud?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Metrics:</strong> PR-AUC and recall at a fixed precision; never accuracy.</li>
+<li><strong>Data:</strong> stratified splits; time-based validation (fraud patterns drift).</li>
+<li><strong>Techniques:</strong></li>
+<li>Class weights or a focal loss.</li>
+<li>Undersampling the majority class.</li>
+<li>SMOTE, carefully and only on the training fold.</li>
+<li>Anomaly-detection features.</li>
+<li><strong>Models:</strong> gradient boosting (XGBoost or LightGBM) with <code>scale_pos_weight</code>, plus graph features (shared device or IP).</li>
+<li><strong>Calibration and thresholds</strong> chosen on business cost; monitoring for drift and feedback delay, because labels arrive late.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Explain how you would evaluate and roll out a new ranking model.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Offline:</strong> NDCG@k, MRR and recall@k on a held-out, time-split log; check for position bias (use counterfactual or IPS estimates).</li>
+<li><strong>Online:</strong></li>
+<li>Shadow mode first.</li>
+<li>Then an <strong>A/B test</strong> with guardrail metrics (latency, complaints).</li>
+<li>A pre-registered primary metric (CTR or conversion) and a sample-size and power calculation.</li>
+<li><strong>Watch out for:</strong></li>
+<li>Novelty effects (run at least 1–2 weeks).</li>
+<li>Segment-level regressions.</li>
+<li>Feedback loops.</li>
+<li>Ramp up 1% → 10% → 50% → 100% with a kill switch.</li>
+</ul></div></div></div>
+<div class="qa" id="q7"><div class="qa-h"><span class="qa-n">Q7</span><div class="qa-q">Googleyness: tell me about a time you helped a teammate or worked with ambiguity.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>Google looks for <strong>collaboration, humility, comfort with ambiguity and user focus</strong>.</li>
+<li><strong>Example:</strong> "The requirements for the internal search tool were vague. I ran five short user interviews, wrote a one-page doc with three options and their trade-offs, and built a two-day prototype for the riskiest part. The team picked option B, and adoption reached 70% of analysts in a month. I also paired with a junior colleague to hand over the indexing code."</li>
+<li>Show that you <strong>listen, write things down and include others</strong>.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare-for-google"><span class="n">03</span>How to prepare for Google</h2><ul>
+<li><strong>DSA is decisive:</strong> practise 150+ LeetCode problems (DP, graphs, sliding window) with a timer and talk aloud.</li>
+<li>Practise <strong>ML system design</strong> with an end-to-end structure: clarify → data → model → serving → evaluation → risks.</li>
+<li>Know your metrics deeply (precision/recall trade-offs, ranking metrics, A/B testing).</li>
+<li>Mock-interview with the camera on; communication is scored.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.jointaro.com/interviews/companies/google/experiences/machine-learning-engineer-hyderabad-july-31-2025-no-offer-positive-b956ec0a/">Taro: Google ML Engineer, Hyderabad (July 2025)</a></li>
+<li><a href="https://www.jointaro.com/interviews/companies/google/experiences/machine-learning-engineer-india-november-5-2025-no-offer-positive-a24b17b1/">Taro: Google ML Engineer, India (Nov 2025)</a></li>
+<li><a href="https://www.jointaro.com/interviews/companies/google/experiences/ai-engineer-mumbai-may-1-2025-no-offer-positive-9b72eabc">Taro: Google AI Engineer, Mumbai (May 2025)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-google-mle-2025"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

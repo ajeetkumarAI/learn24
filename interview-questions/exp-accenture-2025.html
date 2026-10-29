@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Accenture: GenAI &amp; AI/ML Engineer (2025) · Company Interview Questions · Learn24</title>
+<meta name="description" content="Accenture: GenAI &amp; AI/ML Engineer (2025): 10 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Accenture: GenAI &amp; AI/ML Engineer (2025) · Learn24">
+<meta property="og:description" content="Accenture: GenAI &amp; AI/ML Engineer (2025): 10 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-accenture-2025" data-lesson="interview-questions/exp-accenture-2025">
+  <div class="kicker">Company Interview Questions · Accenture</div>
+  <h1>Accenture: GenAI &amp; AI/ML Engineer (2025)</h1>
+  <div class="meta"><span>❓ 10 questions</span><span>🏢 Accenture</span><span>🆕 2025 reports</span></div>
+  <p class="lead">Accenture: GenAI &amp; AI/ML Engineer Interview Experience (2025). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from public candidate reports for Accenture AI/ML and GenAI Engineer roles in India (June–July 2025) and a public GenAI-engineer process guide. The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Roles</strong></td>
+<td>AI/ML Engineer (mid level), GenAI Engineer, Senior GenAI Engineer</td>
+</tr>
+<tr>
+<td><strong>Rounds reported</strong></td>
+<td>2 technical rounds; some candidates also had a managerial / scenario round</td>
+</tr>
+<tr>
+<td><strong>Timeline</strong></td>
+<td>About 2–4 weeks</td>
+</tr>
+<tr>
+<td><strong>Reported outcome</strong></td>
+<td>Offer accepted (AI/ML Engineer, June 2025)</td>
+</tr>
+<tr>
+<td><strong>Difficulty</strong></td>
+<td>Medium. Expect deep follow-ups on your own project</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Round 1: Project + ML breadth + coding.</strong> Walk through a past project, then a quick review of ML algorithms, then a short Python coding task.</li>
+<li><strong>Round 2: Deployment + use case.</strong> How you deployed a model, plus one business use-case design question.</li>
+<li><strong>Managerial (some candidates).</strong> Scenario questions on handling disagreements, delivery pressure and production failures.</li>
+</ul>
+<p>Topics named by candidates: <strong>Transformer architecture, LangChain, model deployment</strong>. The process guide adds agents with tools and memory, RAG at scale, MCP, prompt-injection defence, and structured JSON output.</p>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Walk me through the Transformer architecture. Why does self-attention work better than RNNs?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Input:</strong> tokens are turned into embeddings, and <strong>positional encodings</strong> are added because attention alone has no sense of order.</li>
+<li><strong>Self-attention:</strong> each token creates a Query, Key and Value. Attention weights are <code>softmax(QKᵀ/√d)</code> and are applied to V, so every token can look at every other token in one step.</li>
+<li><strong>Multi-head:</strong> several attention heads run in parallel, each learning a different relationship (syntax, coreference, and so on). Their outputs are concatenated and projected.</li>
+<li><strong>Each block:</strong> attention → add &amp; layer-norm → feed-forward network → add &amp; layer-norm. Encoders (BERT) see the whole sentence; decoders (GPT) use a causal mask.</li>
+<li><strong>Why it beats RNNs:</strong> there is no step-by-step recurrence, so training is fully parallel on GPUs. Long-range dependencies are one hop away instead of N hops, which avoids vanishing gradients. It also scales cleanly with data and compute.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">How have you used LangChain in a project? What are its core building blocks?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Building blocks:</strong></li>
+<li><strong>Models:</strong> chat-model wrappers such as ChatOpenAI or Azure OpenAI.</li>
+<li><strong>Prompts:</strong> ChatPromptTemplate with variables.</li>
+<li><strong>Output parsers / structured output:</strong> Pydantic schemas.</li>
+<li><strong>Retrievers:</strong> a vector store via <code>.as_retriever()</code>.</li>
+<li><strong>Tools:</strong> decorated Python functions.</li>
+<li><strong>LCEL:</strong> chains such as <code>prompt | llm | parser</code> with <code>invoke</code>, <code>batch</code> and <code>stream</code>.</li>
+<li><strong>A typical project answer:</strong> "I built a RAG assistant over policy PDFs. A loader feeds a recursive splitter (800 tokens, 100 overlap), then embeddings go into FAISS or Chroma. A retriever with k=4 feeds a prompt that tells the model to answer only from the context and cite sources. Streaming responses are served through FastAPI. For agent steps I moved to LangGraph, because it gives explicit state, loops and human approval."</li>
+<li>Always say <strong>why</strong> you chose it (speed of integration, swapping providers) and what you would change, such as fewer abstraction layers for latency-critical paths.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">How did you deploy your model or GenAI application to production?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Packaging:</strong> wrap the model or chain in a <strong>FastAPI</strong> service with <code>/health</code> and <code>/predict</code> (or <code>/chat</code>) endpoints and Pydantic request/response models, then build a <strong>Docker</strong> image.</li>
+<li><strong>Hosting:</strong> use a managed endpoint (Azure ML, SageMaker or Vertex AI), or Kubernetes / AKS for scale, behind an API gateway that handles authentication and rate limits.</li>
+<li><strong>CI/CD:</strong> GitHub Actions or Azure DevOps runs tests and an evaluation suite (a golden question set for LLM apps), builds the image, and deploys blue-green or canary.</li>
+<li><strong>Operations:</strong></li>
+<li>Structured logs with request ID, latency and token count.</li>
+<li>Tracing with LangSmith or OpenTelemetry.</li>
+<li>Dashboards for p95 latency, error rate and cost.</li>
+<li>Alerts on drift or a drop in quality.</li>
+<li><strong>Secrets</strong> live in Key Vault or Secrets Manager, never in code.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Explain an AI agent you have built. What tools and memory did it use?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>The loop:</strong> the LLM is the reasoning engine. It reads the goal, chooses a tool, reads the tool result and repeats until it is done (the ReAct pattern).</li>
+<li><strong>Tools:</strong> typed functions such as <code>search_kb(query)</code>, <code>get_order(id)</code> or <code>create_ticket(...)</code>. Each has a clear description and a JSON schema, and only what the role needs is exposed.</li>
+<li><strong>Memory:</strong></li>
+<li><strong>Short-term:</strong> the conversation state in the graph or checkpointer.</li>
+<li><strong>Long-term:</strong> a vector store or database of user facts and past resolutions.</li>
+<li><strong>Summary memory:</strong> compresses long chats into a summary.</li>
+<li><strong>Safety:</strong> a maximum number of iterations, timeouts, human approval for write actions, and validation of tool arguments.</li>
+<li><strong>Example:</strong> "A support agent in LangGraph. It classifies the intent, retrieves policy, calls the order API, drafts a reply, and escalates to a human when confidence is low or a refund exceeds ₹5,000."</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">How do you scale RAG while keeping hallucinations and latency low?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Retrieval quality:</strong></li>
+<li>Use semantic or structure-aware chunking with metadata.</li>
+<li>Use hybrid search (BM25 + vectors) and a cross-encoder <strong>re-ranker</strong>.</li>
+<li>Filter on metadata (department, date).</li>
+<li><strong>Grounding:</strong></li>
+<li>Instruct the model to answer only from the context, and to say "I don't know" when it can't.</li>
+<li>Require citations.</li>
+<li>Run a faithfulness check (RAGAS or an LLM judge) on samples.</li>
+<li><strong>Latency:</strong></li>
+<li>Cache embeddings and answers (including a semantic cache).</li>
+<li>Use ANN indexes such as HNSW.</li>
+<li>Retrieve a small top-k after re-ranking.</li>
+<li>Stream tokens.</li>
+<li>Route easy questions to smaller models.</li>
+<li>Run async parallel retrieval.</li>
+<li><strong>Scale:</strong> shard or partition the index by tenant, update it incrementally, and monitor recall@k and p95 latency.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">How is an agentic system different from a traditional GenAI (prompt or RAG) system?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Traditional:</strong> a single pass of input → (retrieve) → generate. The flow is fixed by the developer and easy to test, cheap and predictable.</li>
+<li><strong>Agentic:</strong> the model <strong>plans and chooses actions</strong>. It calls tools, loops, reflects and may coordinate several agents. It handles open-ended, multi-step tasks.</li>
+<li><strong>Trade-offs:</strong> agents cost more and are slower and less predictable, so they need guardrails, step limits, tracing and evaluation of whole trajectories.</li>
+<li><strong>Rule of thumb:</strong> use a deterministic workflow when the steps are known, and an agent only when the path truly depends on intermediate results.</li>
+</ul></div></div></div>
+<div class="qa" id="q7"><div class="qa-h"><span class="qa-n">Q7</span><div class="qa-q">What is the Model Context Protocol (MCP) and why does it help?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>What it is:</strong> MCP is an open protocol for connecting LLM applications to tools and data in a standard way. A <strong>server</strong> exposes tools, resources and prompts, and any MCP-capable <strong>client</strong> (an IDE, a chat app or an agent) can use them.</li>
+<li><strong>Why it helps:</strong></li>
+<li>Write an integration once and reuse it across many models and apps, instead of writing custom function-calling glue for each one.</li>
+<li>It has clear capability discovery and keeps permissions and transport separate (stdio or HTTP).</li>
+<li><strong>Enterprise view:</strong> put authentication, least-privilege scopes and audit logs on the server side, and treat tool output as untrusted input.</li>
+</ul></div></div></div>
+<div class="qa" id="q8"><div class="qa-h"><span class="qa-n">Q8</span><div class="qa-q">How do you defend an enterprise LLM app against prompt injection and data leakage?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Separate instructions from data:</strong> retrieved documents and tool outputs are untrusted. Wrap them in delimiters and tell the model never to follow instructions found inside them.</li>
+<li><strong>Least privilege:</strong></li>
+<li>Tools get only the permissions they need.</li>
+<li>Document-level access control is applied <em>before</em> retrieval, so users only retrieve what they are allowed to see.</li>
+<li><strong>Filters:</strong></li>
+<li>On input, detect jailbreaks and injections.</li>
+<li>On output, mask PII and secrets and enforce policy (for example Azure AI Content Safety or Guardrails).</li>
+<li><strong>Human approval</strong> for sensitive actions (payments, emails, deletes).</li>
+<li><strong>Testing:</strong> red-team prompt sets in CI, plus logging and monitoring for anomalies.</li>
+</ul></div></div></div>
+<div class="qa" id="q9"><div class="qa-h"><span class="qa-n">Q9</span><div class="qa-q">How do you make an LLM return valid structured JSON every time?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>Use the provider's <strong>structured output or JSON schema mode</strong>, or function calling, with a Pydantic model.</li>
+<li>Validate the response. If validation fails, send the validation error back for <strong>a single retry</strong>. If it still fails, fall back to a safe default.</li>
+<li>Keep the schema small and give field descriptions and enums, with temperature at 0 to 0.2.</li>
+<li>In LangChain use <code>llm.with_structured_output(Model)</code>; parsers such as <code>PydanticOutputParser</code> work with any model.</li>
+</ul></div></div></div>
+<div class="qa" id="q10"><div class="qa-h"><span class="qa-n">Q10</span><div class="qa-q">Describe a production AI failure you debugged.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Answer (STAR structure):</strong></p>
+<ul>
+<li><strong>Situation:</strong> "Our RAG bot's answer accuracy dropped from about 85% to 60% after a document refresh."</li>
+<li><strong>Task:</strong> find the root cause within a day.</li>
+<li><strong>Action:</strong> "I checked traces in LangSmith and saw that the new PDFs were scanned images, so the extracted text was empty and retrieval was returning irrelevant chunks. I added OCR, a check that rejects documents with too little text, and an alert on mean retrieval score."</li>
+<li><strong>Result:</strong> accuracy came back to 86%, and the evaluation set now runs on every ingestion.</li>
+<li>Interviewers want to see <strong>observability, root-cause analysis and prevention</strong>, not just the fix.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare-for-accenture"><span class="n">03</span>How to prepare for Accenture</h2><ul>
+<li>Prepare a <strong>5-minute project story</strong> covering the architecture diagram, your own contribution, metrics and what you would improve.</li>
+<li>Revise Transformer internals, LangChain/LangGraph, RAG evaluation and deployment (FastAPI, Docker, Azure).</li>
+<li>Practise one <strong>use-case design</strong> question aloud, such as "an HR policy assistant for 50k employees".</li>
+<li>Keep Python basics fresh: decorators, generators, OOP and async with streaming.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.jointaro.com/interviews/companies/accenture/experiences/aiml-engineer-india-june-23-2025-accepted-offer-positive-b2c03913/">Taro: Accenture AI/ML Engineer, India (June 2025)</a></li>
+<li><a href="https://dataford.io/interview-guides/accenture/genai-engineer">Dataford: Accenture GenAI Engineer interview guide</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-accenture-2025"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

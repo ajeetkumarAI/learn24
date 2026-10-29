@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fractal: Sr Data Scientist, GenAI (2025, Offer) · Company Interview Questions · Learn24</title>
+<meta name="description" content="Fractal: Sr Data Scientist, GenAI (2025, Offer): 10 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Fractal: Sr Data Scientist, GenAI (2025, Offer) · Learn24">
+<meta property="og:description" content="Fractal: Sr Data Scientist, GenAI (2025, Offer): 10 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-fractal-2025" data-lesson="interview-questions/exp-fractal-2025">
+  <div class="kicker">Company Interview Questions · Fractal</div>
+  <h1>Fractal: Sr Data Scientist, GenAI (2025, Offer)</h1>
+  <div class="meta"><span>❓ 10 questions</span><span>🏢 Fractal</span><span>🆕 2025 reports</span></div>
+  <p class="lead">Fractal: Senior Data Scientist (Generative AI) Interview Experience (2025). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from public candidate reports for Fractal: a Senior Data Scientist (GenAI) role in Noida (October 2025, offer accepted) and a Data Scientist role in New Delhi (November 2025, offer accepted). The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Sr Data Scientist (Generative AI); Data Scientist</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>3: breadth → deep-dive technical → culture fit (the DS role had a take-home assignment instead of breadth)</td>
+</tr>
+<tr>
+<td><strong>Timeline</strong></td>
+<td>About 1 week for the DS role; applied through a recruiter</td>
+</tr>
+<tr>
+<td><strong>Reported outcomes</strong></td>
+<td>Both offers accepted; interviewers described as supportive</td>
+</tr>
+<tr>
+<td><strong>Difficulty</strong></td>
+<td>Breadth easy to medium; deep dive challenging</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Breadth (easy to medium):</strong> introduction and one project, ML preprocessing and evaluation, optimisers and gradient descent, RAG and LLMs, plus Python (print a series pattern, list and dict comprehensions).</li>
+<li><strong>Deep dive (hard):</strong> sentence transformers, benchmarking and evaluation, RAG architecture, <strong>RAGAS and DSPy</strong>, Transformer fundamentals, how word embeddings are trained, contextual embeddings, positional encoding.</li>
+<li><strong>Culture fit:</strong> preferred work style, values, and the kind of culture you do well in.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Explain the gradient descent optimisers: SGD, Momentum, RMSProp and Adam.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Batch GD</strong> uses the whole dataset per step. <strong>SGD / mini-batch</strong> uses small batches, which is noisier but faster and generalises well.</li>
+<li><strong>Momentum:</strong> keeps a moving average of gradients (<code>v = βv + g</code>) to speed through ravines and damp oscillation.</li>
+<li><strong>RMSProp:</strong> scales the learning rate per parameter by a running average of squared gradients, which suits non-stationary problems.</li>
+<li><strong>Adam:</strong> Momentum + RMSProp (first and second moments) with bias correction; the default for deep learning. <strong>AdamW</strong> decouples weight decay and is the standard for Transformers.</li>
+<li><strong>Learning-rate schedule:</strong> warm-up then cosine decay for LLM training or fine-tuning.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">How do you preprocess data and evaluate an ML model properly?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Preprocessing:</strong></li>
+<li>Handle missing values (impute plus a missing-indicator flag) and outliers.</li>
+<li>Encode categoricals (one-hot, target encoding inside the CV folds).</li>
+<li>Scale numeric features for distance-based or linear models.</li>
+<li>Engineer features from domain knowledge.</li>
+<li><strong>Avoid leakage:</strong> fit transformers only on the training fold, and use <code>Pipeline</code> + <code>ColumnTransformer</code>. For time-based data, use a time-based split.</li>
+<li><strong>Evaluation:</strong> stratified k-fold, a metric that matches the business (F1 or PR-AUC for imbalance, RMSE or MAPE for forecasting), a baseline to compare against, and error analysis by segment.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">What are sentence transformers and where do you use them?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>What they are:</strong> BERT-style encoders fine-tuned (often in a Siamese setup with contrastive or MultipleNegativesRanking loss) so that <strong>one vector represents a whole sentence</strong>, with cosine similarity reflecting meaning. Examples: <code>all-MiniLM-L6-v2</code>, <code>bge</code>, <code>e5</code>.</li>
+<li><strong>Uses:</strong></li>
+<li>Semantic search and RAG retrieval</li>
+<li>Clustering and topic discovery</li>
+<li>Deduplication</li>
+<li>Semantic textual similarity</li>
+<li>Zero-shot classification by similarity to label descriptions</li>
+<li><strong>Bi-encoder vs cross-encoder:</strong> a bi-encoder embeds the query and document separately (fast, indexable); a cross-encoder reads the pair together (slower, more accurate), so it is used for re-ranking.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">How are word embeddings trained, and how do contextual embeddings differ?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Word2Vec:</strong></li>
+<li><strong>Skip-gram</strong> predicts the context words from the centre word; <strong>CBOW</strong> predicts the centre word from its context.</li>
+<li>It is trained with negative sampling.</li>
+<li>Words that appear in similar contexts end up close together.</li>
+<li><strong>GloVe:</strong> factorises global co-occurrence statistics. <strong>FastText:</strong> adds sub-word n-grams, so it handles rare and misspelt words.</li>
+<li><strong>Limitation:</strong> one vector per word, so "bank" (river) = "bank" (money).</li>
+<li><strong>Contextual (ELMo, BERT, GPT):</strong> the vector for a token depends on the <strong>whole sentence</strong>, produced by deep bidirectional or causal Transformers, so different senses get different vectors.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Explain positional encoding. Why is it needed, and what variants exist?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Why:</strong> self-attention is permutation-invariant, so without position information, "dog bites man" = "man bites dog".</li>
+<li><strong>Sinusoidal (original Transformer):</strong> fixed sin and cos at different frequencies, added to the embeddings. It can extrapolate somewhat.</li>
+<li><strong>Learned absolute:</strong> a trainable vector per position (BERT, GPT-2), limited to the maximum length seen in training.</li>
+<li><strong>Relative / rotary (RoPE):</strong> rotates Q and K by position so attention depends on relative distance. Used in Llama, Mistral and Qwen, and extendable with scaling (NTK, YaRN) for long context.</li>
+<li><strong>ALiBi:</strong> adds a distance-based bias to the attention scores.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Design the RAG architecture you would build at Fractal for a client.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Ingestion:</strong> document parsing that keeps layout and tables → semantic or heading-based chunks with metadata → embeddings → vector DB, refreshed incrementally.</li>
+<li><strong>Retrieval:</strong></li>
+<li>Query rewriting or multi-query</li>
+<li>Hybrid BM25 + dense search</li>
+<li>Metadata filters for access control</li>
+<li>Cross-encoder re-rank to the top 5</li>
+<li><strong>Generation:</strong> a grounded prompt with citations and an "insufficient context" fallback. JSON output if a downstream system consumes it.</li>
+<li><strong>Evaluation and operations:</strong></li>
+<li>A RAGAS evaluation set</li>
+<li>Tracing and logging</li>
+<li>Feedback loop</li>
+<li>Cost and latency dashboards</li>
+<li>Guardrails for PII</li>
+</ul></div></div></div>
+<div class="qa" id="q7"><div class="qa-h"><span class="qa-n">Q7</span><div class="qa-q">How do RAGAS and DSPy help? What do they measure or do?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>RAGAS</strong> evaluates RAG systems, mostly using an LLM as the judge:</li>
+<li><strong>Faithfulness:</strong> are the claims supported by the context?</li>
+<li><strong>Answer relevancy</strong></li>
+<li><strong>Context precision / recall:</strong> did retrieval bring the right chunks?</li>
+<li><strong>Answer correctness</strong> against ground truth.</li>
+<li>It can also generate synthetic test sets.</li>
+<li><strong>DSPy</strong> <em>programs</em> LLM pipelines instead of hand-writing prompts:</li>
+<li>You declare <strong>signatures</strong> (input → output) and modules such as <code>ChainOfThought</code> or <code>Retrieve</code>.</li>
+<li>An <strong>optimiser</strong> (BootstrapFewShot, MIPRO) automatically tunes prompts and few-shot examples against your metric.</li>
+<li><strong>Together:</strong> DSPy optimises the pipeline, and RAGAS-style metrics act as the objective and the regression tests.</li>
+</ul></div></div></div>
+<div class="qa" id="q8"><div class="qa-h"><span class="qa-n">Q8</span><div class="qa-q">How do you benchmark one LLM or embedding model against another?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Public benchmarks for shortlisting:</strong></li>
+<li>MMLU and GPQA (knowledge)</li>
+<li>GSM8K and MATH (reasoning)</li>
+<li>HumanEval (code)</li>
+<li>MTEB (embeddings)</li>
+<li>LMSYS Arena (preference)</li>
+<li><strong>Decide on your own benchmark:</strong></li>
+<li>200+ in-domain examples</li>
+<li>Fixed prompts</li>
+<li>Temperature 0</li>
+<li>Several runs</li>
+<li>Metrics: accuracy / F1, faithfulness, latency, cost per 1k requests</li>
+<li><strong>Control variables:</strong> same context and same prompt format; watch for contamination. Report confidence intervals, and do a blind human review of a sample.</li>
+</ul></div></div></div>
+<div class="qa" id="q9"><div class="qa-h"><span class="qa-n">Q9</span><div class="qa-q">Python: build a dict of word → length for words longer than 3 characters, using a comprehension.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">words = [&quot;rag&quot;, &quot;agent&quot;, &quot;llm&quot;, &quot;vector&quot;, &quot;embedding&quot;]
+lengths = {w: len(w) for w in words if len(w) &gt; 3}
+squares = [n * n for n in range(1, 6)]      # list comprehension
+print(lengths, squares)
+</code></pre>
+<ul>
+<li>Comprehensions are concise and faster than equivalent <code>for</code> loops with append. Use a generator expression <code>( )</code> for large data to save memory.</li>
+</ul></div></div></div>
+<div class="qa" id="q10"><div class="qa-h"><span class="qa-n">Q10</span><div class="qa-q">Culture fit: what kind of work culture do you thrive in?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Answer (an honest, specific shape):</strong></p>
+<ul>
+<li>"I do my best work in teams that <strong>ship to real users</strong> and look at metrics. I like owning a problem end to end, from data to deployment."</li>
+<li>"I value <strong>candid feedback and knowledge sharing</strong>. In my current role I run a short weekly demo of what we learned."</li>
+<li>"I'm comfortable with ambiguity: I break a vague client ask into a small proof of concept within a week, then iterate."</li>
+<li>Fractal promotes a client-first, learning culture, so connect your answer to <strong>client impact</strong> and <strong>continuous learning</strong>.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare-for-fractal"><span class="n">03</span>How to prepare for Fractal</h2><ul>
+<li>Go deep on <strong>embeddings</strong>: Word2Vec, sentence transformers and positional encodings.</li>
+<li>Know at least one <strong>evaluation framework</strong> (RAGAS) and have heard of DSPy.</li>
+<li>Brush up on optimisers and basic ML evaluation. The breadth round really checks these.</li>
+<li>For DS roles, expect a <strong>take-home</strong>: clean notebook, clear README, metrics and business interpretation.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.glassdoor.ca/Interview/Fractal-Interview-E270403-RVW101037548.htm">Glassdoor: Fractal Sr Data Scientist (GenAI), Noida (Oct 2025)</a></li>
+<li><a href="https://www.glassdoor.co.uk/Interview/Fractal-Interview-E270403-RVW101552135.htm">Glassdoor: Fractal Data Scientist, New Delhi (Nov 2025)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-fractal-2025"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

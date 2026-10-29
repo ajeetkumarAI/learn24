@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Qualcomm DS &amp; Community Reports: LLM Engineer Rounds · Company Interview Questions · Learn24</title>
+<meta name="description" content="Qualcomm DS &amp; Community Reports: LLM Engineer Rounds: 9 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Qualcomm DS &amp; Community Reports: LLM Engineer Rounds · Learn24">
+<meta property="og:description" content="Qualcomm DS &amp; Community Reports: LLM Engineer Rounds: 9 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-qualcomm-community-2025" data-lesson="interview-questions/exp-qualcomm-community-2025">
+  <div class="kicker">Company Interview Questions · Qualcomm &amp; others</div>
+  <h1>Qualcomm DS &amp; Community Reports: LLM Engineer Rounds</h1>
+  <div class="meta"><span>❓ 9 questions</span><span>🏢 Qualcomm &amp; others</span><span>🆕 2025 reports</span></div>
+  <p class="lead">Qualcomm Data Scientist &amp; Community Reports: LLM / AI Engineer Rounds (India, 2025). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from a public Reddit discussion (r/MachineLearningJobs) where Indian candidates shared recent rounds: a <strong>Qualcomm Data Scientist</strong> round, a <strong>junior Python/GenAI</strong> role, and an engineer with about 7 years of experience who interviewed at 20–30 firms. The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Roles</strong></td>
+<td>Data Scientist (Qualcomm); Junior Python / GenAI Engineer; senior ML/AI engineer (about 7 years)</td>
+</tr>
+<tr>
+<td><strong>Qualcomm style</strong></td>
+<td><strong>Maths-heavy, by hand</strong>: probability, graph interpretation, equations, normalisation, activations, attention heads, PCA without libraries, gradient-descent derivation</td>
+</tr>
+<tr>
+<td><strong>GenAI role style</strong></td>
+<td>Easy–medium DSA in Python, project deep dive, LLM limits, RAG, vector DBs, token limits, hallucination, multithreading vs multiprocessing, chunking for long context</td>
+</tr>
+<tr>
+<td><strong>Outcome</strong></td>
+<td>Candidate cleared round 2 at both firms, with one final round pending</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Qualcomm DS:</strong> pen-and-paper style maths, so expect to derive things.</li>
+<li><strong>GenAI engineer:</strong> DSA plus a practical GenAI systems discussion.</li>
+<li><strong>Senior engineer (20–30 firms):</strong> ML algorithms from scratch, RAG, NLP, model architectures, DSA, <strong>DL system design</strong>, deployment at scale.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Derive the gradient descent update rule, including the learning rate.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>Minimise the loss L(θ). A first-order Taylor expansion gives L(θ + Δ) ≈ L(θ) + ∇L(θ)ᵀΔ.</li>
+<li>To decrease L fastest for a small step of fixed size, choose Δ in the <strong>direction opposite to the gradient</strong>: Δ = −η ∇L(θ).</li>
+<li><strong>Update:</strong> θₜ₊₁ = θₜ − η ∇L(θₜ), where the <strong>learning rate η</strong> controls the step size. Too large and it diverges or oscillates; too small and it is slow.</li>
+<li><strong>Example (MSE linear regression):</strong> L = (1/n)‖Xw − y‖² gives ∇L = (2/n)Xᵀ(Xw − y), so w ← w − η (2/n)Xᵀ(Xw − y).</li>
+<li><strong>Convergence:</strong> for an L-smooth convex function, η ≤ 1/L guarantees a decrease.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Implement PCA without libraries (NumPy only).</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">import numpy as np
+
+def pca(X, k):
+    Xc = X - X.mean(axis=0)                     # 1. centre
+    C = Xc.T @ Xc / (len(X) - 1)                # 2. covariance (d x d)
+    vals, vecs = np.linalg.eigh(C)              # 3. eigen-decomposition (symmetric)
+    order = np.argsort(vals)[::-1][:k]          # 4. top-k by variance
+    W = vecs[:, order]
+    return Xc @ W, vals[order] / vals.sum()     # projected data, explained-variance ratio
+</code></pre>
+<ul>
+<li>By hand: centre → covariance → eigenvalues and eigenvectors → sort → project. Using the SVD of Xc is numerically more stable.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Why normalise inputs, and which activation functions would you use where?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Normalisation</strong> (standardise or min-max): puts features on similar scales, so gradient descent converges faster (a rounder loss surface), distance-based models work, and regularisation treats features fairly. Inside networks, Batch or Layer Norm stabilise training.</li>
+<li><strong>Activations:</strong></li>
+<li><strong>ReLU:</strong> simple, no saturation for positive values, but can produce "dead" neurons.</li>
+<li><strong>Leaky ReLU / GELU / SiLU:</strong> smooth, standard in Transformers.</li>
+<li><strong>Sigmoid:</strong> binary output probabilities.</li>
+<li><strong>Softmax:</strong> multi-class output.</li>
+<li><strong>tanh:</strong> zero-centred, used in older RNNs.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Probability: two dice are rolled. What is P(sum = 7 | at least one die shows 3)?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>Outcomes with at least one 3: 6 + 6 − 1 = <strong>11</strong>.</li>
+<li>Of those, the sum is 7 for (3,4) and (4,3): <strong>2</strong>.</li>
+<li>P = <strong>2/11 ≈ 0.18</strong>.</li>
+<li><strong>Method:</strong> count the conditioning event first, then the favourable outcomes inside it. Bayes' rule P(A|B) = P(A∩B)/P(B) = (2/36)/(11/36).</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">What are multiple attention heads and why use them?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>Split d_model into h heads of size d_k = d_model/h. Each head has its own W_Q, W_K, W_V and computes attention in parallel. The outputs are concatenated and projected with W_O.</li>
+<li><strong>Why:</strong> different heads learn <strong>different relationships</strong> (syntax, coreference, position, delimiters) at the same compute cost as a single full-width head.</li>
+<li><strong>Variants:</strong> Multi-Query and Grouped-Query Attention (MQA / GQA) share K and V across heads, which shrinks the <strong>KV cache</strong> and speeds up inference (used in Llama 2/3 and Mistral).</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">What are the main limitations of LLMs, and how do you reduce hallucination?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Limitations:</strong></li>
+<li>Hallucination.</li>
+<li>Knowledge cutoff.</li>
+<li>Context-length limits and "lost in the middle".</li>
+<li>Weak exact arithmetic.</li>
+<li>Sensitivity to prompts.</li>
+<li>Bias.</li>
+<li>Cost and latency.</li>
+<li>Vulnerability to prompt injection.</li>
+<li><strong>Reducing hallucination:</strong></li>
+<li>Ground answers with RAG and citations.</li>
+<li>Tell the model to say "I don't know".</li>
+<li>Lower the temperature.</li>
+<li>Use tools for facts and maths.</li>
+<li>Structured outputs.</li>
+<li>Self-check or verification passes (a second model checks the claims).</li>
+<li>Retrieval-score thresholds.</li>
+<li>Evaluate faithfulness continuously.</li>
+</ul></div></div></div>
+<div class="qa" id="q7"><div class="qa-h"><span class="qa-n">Q7</span><div class="qa-q">Token limits: a document is longer than the context window. What chunking and retrieval strategies would you use?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Chunking:</strong></li>
+<li>Recursive or structure-aware (headings, sections) at 300–1,000 tokens with 10–20% overlap.</li>
+<li><strong>Semantic chunking</strong>: split where embedding similarity drops.</li>
+<li>Keep tables intact.</li>
+<li><strong>Hierarchical / parent-child:</strong> retrieve small chunks for precision, but send the <strong>parent section</strong> to the LLM for context.</li>
+<li><strong>Summaries:</strong> map-reduce or refine summarisation for "summarise the whole document"; a RAPTOR-style tree of summaries.</li>
+<li><strong>Long-context models:</strong> even with 128k–1M tokens, retrieval is cheaper and often more accurate. Put key context at the start or end of the prompt.</li>
+</ul></div></div></div>
+<div class="qa" id="q8"><div class="qa-h"><span class="qa-n">Q8</span><div class="qa-q">Multithreading vs multiprocessing in Python: which would you use for an LLM pipeline?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>GIL:</strong> in CPython only one thread runs Python bytecode at a time.</li>
+<li><strong>I/O-bound work</strong> (calling LLM APIs, vector-DB queries, HTTP): use <strong>threads</strong> or better <strong>asyncio</strong> (<code>asyncio.gather</code>), which releases the GIL while waiting. This gives large speedups for parallel API calls.</li>
+<li><strong>CPU-bound work</strong> (parsing PDFs, tokenising, local embeddings on CPU): use <strong>multiprocessing</strong> or <code>ProcessPoolExecutor</code>, which bypasses the GIL across processes.</li>
+<li><strong>Example:</strong> embed 10k documents through an API with asyncio, a semaphore (rate limit) and retries; parse PDFs with a process pool.</li>
+</ul></div></div></div>
+<div class="qa" id="q9"><div class="qa-h"><span class="qa-n">Q9</span><div class="qa-q">DL system design: how would you deploy a deep-learning model at scale?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Model:</strong> export to ONNX or TorchScript, quantize, batch requests dynamically.</li>
+<li><strong>Serving:</strong> Triton, TorchServe or vLLM (for LLMs) on GPU nodes; autoscale on queue depth or GPU utilisation.</li>
+<li><strong>Architecture:</strong> API gateway → stateless service → model server; feature store or cache; async queue for heavy jobs.</li>
+<li><strong>Reliability:</strong> canary releases, health checks, timeouts, fallback to a smaller model.</li>
+<li><strong>Monitoring:</strong> latency (p50/p95/p99), throughput, GPU memory, drift in inputs and outputs, and cost per 1,000 requests.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare"><span class="n">03</span>How to prepare</h2><ul>
+<li>For <strong>Qualcomm-type DS</strong> roles: practise derivations and probability <strong>on paper</strong>, and implement PCA, gradient descent and softmax in NumPy.</li>
+<li>For <strong>GenAI engineer</strong> roles: know LLM limitations, chunking, vector DBs, async Python, and your own project's numbers.</li>
+<li>For senior roles, expect wide variation between companies: prepare ML from scratch, DSA and DL system design.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://reddit.birdcat.cafe/r/MachineLearningJobs/comments/1m9vpld/interview_experiences_for_llm_ai_engineer_roles">Reddit r/MachineLearningJobs: interview experiences for LLM / AI engineer roles (mirror)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-qualcomm-community-2025"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

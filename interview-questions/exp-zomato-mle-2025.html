@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Zomato: ML Engineer, Campus (2025, Offer) · Company Interview Questions · Learn24</title>
+<meta name="description" content="Zomato: ML Engineer, Campus (2025, Offer): 7 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Zomato: ML Engineer, Campus (2025, Offer) · Learn24">
+<meta property="og:description" content="Zomato: ML Engineer, Campus (2025, Offer): 7 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-zomato-mle-2025" data-lesson="interview-questions/exp-zomato-mle-2025">
+  <div class="kicker">Company Interview Questions · Zomato</div>
+  <h1>Zomato: ML Engineer, Campus (2025, Offer)</h1>
+  <div class="meta"><span>❓ 7 questions</span><span>🏢 Zomato</span><span>🆕 2025 reports</span></div>
+  <p class="lead">Zomato: Machine Learning Engineer Interview Experience (Campus, 2025, Offer). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from a public candidate report for a junior Zomato Machine Learning Engineer role through on-campus placement in India (August 2025, offer accepted). The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Machine Learning Engineer (junior)</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>Online assessment → Technical 1 → Technical 2 → HR</td>
+</tr>
+<tr>
+<td><strong>Online assessment</strong></td>
+<td>4 MCQs (ML + Python) + <strong>implement a RAG pipeline end to end in LangChain</strong></td>
+</tr>
+<tr>
+<td><strong>Technical rounds</strong></td>
+<td>Resume + DL concepts (some candidates got a medium DSA problem); high-level design to <strong>improve an agentic pipeline</strong></td>
+</tr>
+<tr>
+<td><strong>Outcome</strong></td>
+<td>Offer accepted; HR round friendly (work and location preferences)</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Online assessment:</strong> practical GenAI coding, building a working RAG pipeline under time pressure.</li>
+<li><strong>Technical 1:</strong> BERT embeddings vs Word2Vec, the effect of tokenizer sub-word splitting, learned (patch/CNN) vs sinusoidal positional encodings, and optimising speech-to-text and text-to-speech models with quantization.</li>
+<li><strong>Technical 2:</strong> design improvements to an existing agentic pipeline.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Online assessment: implement a RAG pipeline in LangChain.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">from langchain_community.document_loaders import PyPDFLoader
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_community.vectorstores import FAISS
+from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.runnables import RunnablePassthrough
+from langchain_core.output_parsers import StrOutputParser
+
+docs = PyPDFLoader(&quot;menu_policy.pdf&quot;).load()
+chunks = RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=100).split_documents(docs)
+retriever = FAISS.from_documents(chunks, OpenAIEmbeddings()).as_retriever(search_kwargs={&quot;k&quot;: 4})
+
+prompt = ChatPromptTemplate.from_template(
+    &quot;Answer only from the context. If unsure, say you don't know.\n\nContext:\n{context}\n\nQuestion: {question}&quot;)
+fmt = lambda ds: &quot;\n\n&quot;.join(d.page_content for d in ds)
+chain = ({&quot;context&quot;: retriever | fmt, &quot;question&quot;: RunnablePassthrough()}
+         | prompt | ChatOpenAI(model=&quot;gpt-4o-mini&quot;, temperature=0) | StrOutputParser())
+print(chain.invoke(&quot;What is the refund policy for late deliveries?&quot;))
+</code></pre>
+<ul>
+<li>Mention what you would add with more time: metadata and citations, a re-ranker, evaluation (RAGAS) and streaming.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">How do BERT embeddings differ from Word2Vec?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Word2Vec:</strong></li>
+<li><strong>Static</strong>: one vector per word type, learned with a shallow skip-gram or CBOW network.</li>
+<li>No context ("bank" always has the same vector), out-of-vocabulary words are a problem, and it is cheap.</li>
+<li><strong>BERT:</strong></li>
+<li><strong>Contextual</strong>: the vector depends on the whole sentence through deep bidirectional self-attention.</li>
+<li>Uses sub-word (WordPiece) tokens, so there is no OOV problem.</li>
+<li>Captures syntax and senses, but costs more to compute.</li>
+<li>For sentence-level similarity, plain BERT <code>[CLS]</code> vectors are weak; use <strong>sentence-transformers</strong> fine-tuned contrastively.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">How does excessive sub-word splitting by the tokenizer affect sentiment analysis or NER?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Problems:</strong></li>
+<li>Words broken into many pieces ("un", "##believ", "##ably") dilute meaning across tokens and use up the context length.</li>
+<li>Rare names, Hinglish ("bahut tasty") and dish names ("paneer-tikka") fragment badly.</li>
+<li><strong>NER:</strong> entity boundaries must be re-aligned from sub-words to words; labelling only the first sub-word, or aggregating, adds noise.</li>
+<li><strong>Sentiment:</strong> negations and intensifiers split oddly; more tokens means more sequence and a higher chance of truncation.</li>
+<li><strong>Fixes:</strong></li>
+<li>A domain or multilingual tokenizer (or extend the vocabulary with domain tokens and fine-tune).</li>
+<li>Normalise text.</li>
+<li>Use word-level aggregation (first or mean sub-word) for NER.</li>
+<li>Choose models trained on Indic and code-mixed data.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Learned positional embeddings from a patch/CNN stem vs the fixed sinusoidal encodings of the original Transformer: what is the trade-off?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Sinusoidal (fixed):</strong> no parameters; it encodes relative offsets through sin/cos phase and can extrapolate somewhat to longer sequences.</li>
+<li><strong>Learned absolute</strong> (ViT patch positions, BERT): flexible and data-driven, but limited to the trained length or resolution. Changing image size requires <strong>interpolating</strong> the position grid.</li>
+<li><strong>Convolutional or patch stems</strong> bring <strong>implicit positional information</strong> (local inductive bias, zero-padding effects), which some models use instead of, or as well as, explicit embeddings, as in ConvNeXt-style or CvT designs.</li>
+<li><strong>Modern LLMs</strong> use <strong>RoPE or ALiBi</strong> (relative) for better length generalisation.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">How do you optimise speech-to-text and text-to-speech models for low-latency inference? How does quantization affect quality?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Speech-to-text (Whisper, Conformer):</strong></li>
+<li>A smaller or distilled model (distil-whisper).</li>
+<li><strong>Streaming / chunked</strong> decoding with VAD to skip silence.</li>
+<li>CTranslate2 or faster-whisper, batching, GPU FP16 or INT8.</li>
+<li><strong>Text-to-speech (FastSpeech, VITS):</strong></li>
+<li>Non-autoregressive models for speed.</li>
+<li>A streaming vocoder.</li>
+<li>Cache frequent phrases.</li>
+<li><strong>Quantization:</strong></li>
+<li>INT8 usually costs under 1% WER or MOS.</li>
+<li>4-bit can hurt accents, noisy audio and prosody noticeably.</li>
+<li>Measure <strong>WER</strong> (speech-to-text) and <strong>MOS or MCD</strong> (text-to-speech) on <em>your</em> data (Hindi or Hinglish, noisy restaurant audio) before and after.</li>
+<li>Use calibration data from the real domain.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Design improvements to an existing agentic pipeline (for example, a customer-support agent).</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ol>
+<li><strong>Measure first:</strong> trace every step (LangSmith or Langfuse) and find where it fails. Common culprits are wrong tool choice, loops and slow steps.</li>
+<li><strong>Routing:</strong> a cheap classifier or small LLM sends simple intents (order status) to deterministic flows. Only complex cases reach the full agent.</li>
+<li><strong>Tools:</strong> tighter descriptions and schemas, fewer and more specific tools, validation of arguments, idempotent APIs.</li>
+<li><strong>Memory and context:</strong> summarise long chats, retrieve only the relevant policy chunks, and cache user and order lookups.</li>
+<li><strong>Reliability:</strong> a maximum number of steps, timeouts, retries with backoff, fallback models, and human handoff for refunds above a threshold.</li>
+<li><strong>Evaluation:</strong> a trajectory test set; measure resolution rate, average steps, latency, cost per conversation and CSAT.</li>
+</ol></div></div></div>
+<div class="qa" id="q7"><div class="qa-h"><span class="qa-n">Q7</span><div class="qa-q">HR: are you open to relocating, and what kind of work do you want?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>Be honest and positive: "Yes, I'm flexible on location (Gurugram or Bengaluru). I'm most excited about applied ML that reaches users fast, like search, recommendations and support automation at Zomato's scale."</li>
+<li>Show that you know the product: delivery-time prediction, restaurant ranking, and the AI support assistant.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare-for-zomato-ml"><span class="n">03</span>How to prepare for Zomato ML</h2><ul>
+<li>Be able to <strong>build RAG in LangChain from memory</strong> in 30 to 40 minutes.</li>
+<li>Know embeddings and tokenizers deeply, including problems with Indic and code-mixed text.</li>
+<li>Prepare one agentic-system improvement story with metrics.</li>
+<li>Practise some medium DSA, since some candidates got it instead of DL questions.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.jointaro.com/interviews/companies/zomato/experiences/machine-learning-engineer-india-august-1-2025-accepted-offer-positive-029be4ea/">Taro: Zomato Machine Learning Engineer, India (Aug 2025, offer)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-zomato-mle-2025"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

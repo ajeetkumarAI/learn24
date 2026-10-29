@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Deloitte: GenAI Engineer Reports (2025) · Company Interview Questions · Learn24</title>
+<meta name="description" content="Deloitte: GenAI Engineer Reports (2025): 8 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Deloitte: GenAI Engineer Reports (2025) · Learn24">
+<meta property="og:description" content="Deloitte: GenAI Engineer Reports (2025): 8 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-deloitte-2025" data-lesson="interview-questions/exp-deloitte-2025">
+  <div class="kicker">Company Interview Questions · Deloitte</div>
+  <h1>Deloitte: GenAI Engineer Reports (2025)</h1>
+  <div class="meta"><span>❓ 8 questions</span><span>🏢 Deloitte</span><span>🆕 2025 reports</span></div>
+  <p class="lead">Deloitte: GenAI Engineer Interview Reports (Bengaluru, 2025). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from public candidate reports for Deloitte GenAI Engineer roles in Bengaluru (April and June 2025). The questions are paraphrased, and the model answers are written by Learn24. For full transcribed rounds, see the two other Deloitte pages in this section.</p>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Gen AI Engineer</td>
+</tr>
+<tr>
+<td><strong>Rounds reported</strong></td>
+<td>Either 1 technical round (about 1 hour), or 4 elimination rounds: technical ×2, partner, client</td>
+</tr>
+<tr>
+<td><strong>Focus</strong></td>
+<td>About 45 minutes of the hour on RAG and agents; 2 basic Python questions</td>
+</tr>
+<tr>
+<td><strong>Reported outcomes</strong></td>
+<td>One candidate cleared 3 of 4 rounds and was dropped in the <strong>client</strong> round; one was not selected after the technical round</td>
+</tr>
+<tr>
+<td><strong>Difficulty</strong></td>
+<td>Medium. The client round tests communication as much as tech</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Technical 1:</strong> two easy Python questions, then a deep dive into RAG vs agents, embeddings, and agent design.</li>
+<li><strong>Technical 2:</strong> RAG and agentic frameworks applied to a real scenario.</li>
+<li><strong>Partner round:</strong> business value, delivery, estimation, and how you handle ambiguity.</li>
+<li><strong>Client round:</strong> explain your solution to a non-technical client and answer "why should we trust this?"</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">How does a RAG system work, and how does an agent-based LLM system work?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>RAG:</strong> retrieve relevant chunks from a knowledge base and put them in the prompt, so the LLM answers from <strong>your data</strong> with citations. The flow is fixed: retrieve → augment → generate.</li>
+<li><strong>Agent:</strong> the LLM runs a <strong>loop</strong>: think → pick a tool → observe the result → repeat, until the goal is met. Retrieval can be <em>one of its tools</em>, alongside APIs, calculators, SQL and so on.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">What is the difference between RAG and agents? When would you pick each?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><table>
+<thead>
+<tr>
+<th></th>
+<th>RAG</th>
+<th>Agent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Control flow</td>
+<td>Fixed pipeline</td>
+<td>The model decides the steps</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>Q&amp;A over documents</td>
+<td>Multi-step tasks that need actions</td>
+</tr>
+<tr>
+<td>Cost / latency</td>
+<td>Low, predictable</td>
+<td>Higher, variable</td>
+</tr>
+<tr>
+<td>Testing</td>
+<td>Easy</td>
+<td>Needs trajectory evaluation</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Choose <strong>RAG</strong> for "answer questions from our policies".</li>
+<li>Choose an <strong>agent</strong> for "check the order status, apply the refund rule, email the customer".</li>
+<li>Many production systems are <strong>agentic RAG</strong>: an agent that decides when and where to retrieve.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">How do multiple agents share memory?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Shared state object:</strong> in LangGraph, a typed state (messages, plan, findings) is passed between nodes and persisted by a checkpointer, so every agent reads and writes the same state.</li>
+<li><strong>Blackboard / shared store:</strong> agents write findings to a shared database, cache or vector store that others query.</li>
+<li><strong>Message passing:</strong> a supervisor routes messages and each agent receives only what it needs, which saves tokens.</li>
+<li><strong>Design concerns:</strong></li>
+<li>Scope memory per user or session.</li>
+<li>Summarise to control context size.</li>
+<li>Prevent conflicting writes (one owner per field).</li>
+<li>Never put secrets in shared memory.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Scenario: design an agent for a business process. Walk me through it.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Answer (example: an expense-claim agent):</strong></p>
+<ol>
+<li><strong>Goal and scope:</strong> validate claims against policy and approve small ones automatically.</li>
+<li><strong>Tools:</strong>
+   - <code>read_receipt</code> (OCR or a vision LLM)
+   - <code>get_policy</code> (RAG)
+   - <code>get_employee_grade</code> (HR API)
+   - <code>submit_decision</code></li>
+<li><strong>Flow (LangGraph):</strong> extract → validate → decide. If the amount exceeds the limit or confidence is low, route to <strong>human approval</strong>.</li>
+<li><strong>Guardrails:</strong> typed tool arguments, read-only permissions except for <code>submit_decision</code>, a maximum of 8 steps, and an audit log.</li>
+<li><strong>Evaluation:</strong> 200 historical claims as a test set; measure decision accuracy, false approvals and time saved.</li>
+<li><strong>Rollout:</strong> run in shadow mode first, then auto-approve claims under ₹2,000.</li>
+</ol></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">How do you choose an embedding model?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>Check <strong>MTEB</strong> leaderboard scores for retrieval, then <strong>test on your own documents</strong>: build 50 to 100 question→document pairs and measure recall@5.</li>
+<li>Consider:</li>
+<li>Language support (multilingual for Hindi or other Indian languages)</li>
+<li>Domain (legal or medical text)</li>
+<li>Dimension size (cost and memory)</li>
+<li>Maximum input tokens</li>
+<li>Hosted API vs self-hosted (privacy)</li>
+<li><strong>Examples:</strong> OpenAI text-embedding-3-small/large, Cohere embed-v3, BGE / E5 / GTE (open models), and <code>all-MiniLM</code> for quick prototypes.</li>
+<li>Re-embed everything if you switch models, because vectors from different models are not comparable.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">The knowledge base is huge, with millions of documents. How do you retrieve from it efficiently?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Index design:</strong> ANN (HNSW or IVF-PQ), with the index sharded or partitioned by business unit or tenant.</li>
+<li><strong>Pre-filter with metadata</strong> (department, year, document type) so search runs only over a small slice.</li>
+<li><strong>Two-stage retrieval:</strong> a fast hybrid search returns the top 100, then a cross-encoder re-ranks them to the top 5.</li>
+<li><strong>Hierarchical retrieval:</strong> search document summaries first, then the chunks inside the best documents.</li>
+<li><strong>Operations:</strong> incremental indexing, caching of frequent queries, and monitoring of recall and latency. Use a managed service (Azure AI Search, Pinecone, Elasticsearch) for scale.</li>
+</ul></div></div></div>
+<div class="qa" id="q7"><div class="qa-h"><span class="qa-n">Q7</span><div class="qa-q">Python: count the frequency of each word in a text.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">from collections import Counter
+import re
+
+def word_freq(text):
+    words = re.findall(r&quot;[a-z0-9']+&quot;, text.lower())
+    return Counter(words).most_common()
+
+print(word_freq(&quot;RAG or agents? RAG first.&quot;))
+</code></pre>
+<ul>
+<li><code>Counter</code> is O(n). Mention normalising case and punctuation, and <code>most_common(k)</code> for the top k.</li>
+</ul></div></div></div>
+<div class="qa" id="q8"><div class="qa-h"><span class="qa-n">Q8</span><div class="qa-q">Client round: explain to a non-technical client why your GenAI assistant can be trusted.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Answer (keep it plain):</strong></p>
+<ul>
+<li>"It only answers from <strong>your approved documents</strong>, and every answer shows the source so your team can check it."</li>
+<li>"If it isn't sure, it says so and hands over to a person. It doesn't guess."</li>
+<li>"We tested it on 300 real questions from your team before launch. It was right 92% of the time, and every miss was logged and fixed."</li>
+<li>"Your data stays in your cloud tenant, access follows your existing permissions, and we monitor it every week."</li>
+<li>Finish with the business value: hours saved, faster responses, and a clear next step such as a pilot with one team.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare-for-deloitte"><span class="n">03</span>How to prepare for Deloitte</h2><ul>
+<li>Be crisp on <strong>RAG vs agents vs agentic RAG</strong> and multi-agent memory.</li>
+<li>Prepare one <strong>agent design</strong> you can whiteboard in 5 minutes.</li>
+<li>Practise explaining your project to a non-engineer. The client round is where people fail.</li>
+<li>Also see the other two Deloitte pages here for full transcribed rounds.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.jointaro.com/interviews/companies/deloitte/experiences/gen-ai-engineer-bengaluru-karnataka-june-1-2025-no-offer-positive-5eb74f34/">Taro: Deloitte Gen AI Engineer, Bengaluru (June 2025)</a></li>
+<li><a href="https://www.jointaro.com/interviews/companies/deloitte/experiences/gen-ai-engineer-bengaluru-karnataka-april-1-2025-no-offer-neutral-7ea08313">Taro: Deloitte Gen AI Engineer, Bengaluru (April 2025)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-deloitte-2025"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

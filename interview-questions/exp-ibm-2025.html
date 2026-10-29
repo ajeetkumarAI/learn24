@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>IBM: AI Engineer, Bengaluru (2025) · Company Interview Questions · Learn24</title>
+<meta name="description" content="IBM: AI Engineer, Bengaluru (2025): 8 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="IBM: AI Engineer, Bengaluru (2025) · Learn24">
+<meta property="og:description" content="IBM: AI Engineer, Bengaluru (2025): 8 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-ibm-2025" data-lesson="interview-questions/exp-ibm-2025">
+  <div class="kicker">Company Interview Questions · IBM</div>
+  <h1>IBM: AI Engineer, Bengaluru (2025)</h1>
+  <div class="meta"><span>❓ 8 questions</span><span>🏢 IBM</span><span>🆕 2025 reports</span></div>
+  <p class="lead">IBM: AI Engineer Interview Experience (Bengaluru, 2025). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from a public candidate report for an IBM AI Engineer role in Bengaluru (February 2025). The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>AI Engineer</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>3: HackerRank online test → technical discussion → senior manager + architect</td>
+</tr>
+<tr>
+<td><strong>Online test</strong></td>
+<td>2 DSA coding problems + 2 MySQL queries</td>
+</tr>
+<tr>
+<td><strong>Reported outcome</strong></td>
+<td>Not selected; the candidate rated the experience positive</td>
+</tr>
+<tr>
+<td><strong>Difficulty</strong></td>
+<td>Medium. The online test filters out many candidates</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Online assessment (HackerRank):</strong> two DSA problems (typically arrays, strings or hash maps, medium level) and two SQL queries (joins, GROUP BY, window functions).</li>
+<li><strong>Technical discussion:</strong> your projects (RAG and LLM usage), Python, ML and DL concepts, and model performance metrics.</li>
+<li><strong>Final round:</strong> a senior manager and a technical architect ask 2 or 3 general questions on approach, team fit and design thinking.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">SQL: find the second-highest salary in each department.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-sql">SELECT department_id, salary
+FROM (
+  SELECT department_id, salary,
+         DENSE_RANK() OVER (PARTITION BY department_id ORDER BY salary DESC) AS rk
+  FROM employees
+) t
+WHERE rk = 2;
+</code></pre>
+<ul>
+<li><code>DENSE_RANK</code> handles ties, so two people on the top salary are both rank 1. Window functions work in MySQL 8 and later.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">DSA: return the indices of the two numbers that add up to a target.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">def two_sum(nums, target):
+    seen = {}
+    for i, x in enumerate(nums):
+        if target - x in seen:
+            return [seen[target - x], i]
+        seen[x] = i
+    return []
+</code></pre>
+<ul>
+<li>One pass with a hash map: O(n) time and O(n) space, compared with O(n²) for brute force. State the brute force first, then optimise.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">How did you use RAG in your project, and what problems did you face?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Answer (a structure to follow):</strong></p>
+<ol>
+<li><strong>The problem:</strong> "Analysts spent hours searching 3,000 policy PDFs."</li>
+<li><strong>The architecture:</strong> loader → chunker (800 tokens, 120 overlap) → embeddings → vector DB → retriever (hybrid + re-rank) → LLM with a citation prompt → FastAPI + UI.</li>
+<li><strong>Problems and fixes:</strong>
+   - Tables were split badly, so I switched to layout-aware parsing.
+   - Wrong chunks were retrieved, so I added a re-ranker and metadata filters.
+   - The model hallucinated, so I made the prompt strict and showed "no answer" when the retrieval score was low.</li>
+<li><strong>Metrics:</strong> recall@5 went from 0.71 to 0.89, faithfulness reached 0.93, and p95 latency was 2.1 seconds.</li>
+</ol></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Which metrics do you use for classification models, and when?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Accuracy:</strong> only when classes are balanced.</li>
+<li><strong>Precision:</strong> of the items predicted positive, how many really are positive. Use it when false positives are costly, such as spam filters.</li>
+<li><strong>Recall:</strong> of the actual positives, how many were caught. Use it when misses are costly, such as fraud or disease detection.</li>
+<li><strong>F1:</strong> the harmonic mean of precision and recall, for imbalanced data.</li>
+<li><strong>ROC-AUC:</strong> ranking quality across thresholds. <strong>PR-AUC</strong> is better under heavy imbalance.</li>
+<li><strong>Confusion matrix:</strong> the full picture. Pick the decision <strong>threshold</strong> based on the business cost of each error type.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">How do you evaluate an LLM application?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Offline:</strong></li>
+<li>A golden set of 100 to 500 questions with expected answers.</li>
+<li>Retrieval metrics: recall@k and MRR.</li>
+<li>Generation metrics (RAGAS / DeepEval): faithfulness, answer relevance, correctness.</li>
+<li>Task-specific checks such as exact match for extraction or JSON validity.</li>
+<li><strong>LLM-as-judge</strong> with a clear rubric, calibrated against human labels.</li>
+<li><strong>Online:</strong> thumbs up/down, escalation rate, resolution rate, latency and cost per query, plus A/B tests for prompt or model changes.</li>
+<li><strong>Safety:</strong> toxicity, PII leakage, jailbreak test sets.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Explain overfitting and the ways to reduce it.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Overfitting:</strong> the model learns the noise in the training data, so it scores high on training and low on validation.</li>
+<li><strong>Fixes:</strong></li>
+<li>More or augmented data</li>
+<li>A simpler model</li>
+<li>Regularisation (L1/L2, dropout, weight decay)</li>
+<li>Early stopping</li>
+<li>Cross-validation</li>
+<li>Feature selection</li>
+<li>Ensembles (bagging)</li>
+<li><strong>For LLM fine-tuning:</strong> a lower learning rate, fewer epochs, LoRA instead of a full fine-tune, and a held-out evaluation set.</li>
+</ul></div></div></div>
+<div class="qa" id="q7"><div class="qa-h"><span class="qa-n">Q7</span><div class="qa-q">Python: what is the difference between a list and a tuple, and between deep copy and shallow copy?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>List vs tuple:</strong> a list is mutable; a tuple is <strong>immutable</strong>, hashable (if its elements are), slightly faster, and can be used as a dict key.</li>
+<li><strong>Shallow copy</strong> (<code>copy.copy</code>, <code>list[:]</code>): a new outer object whose nested objects are <strong>shared</strong>.</li>
+<li><strong>Deep copy</strong> (<code>copy.deepcopy</code>): recursively copies everything, so changing a nested item does not affect the original.</li>
+</ul></div></div></div>
+<div class="qa" id="q8"><div class="qa-h"><span class="qa-n">Q8</span><div class="qa-q">Final round: how would you approach a new AI use case from a business team?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ol>
+<li><strong>Clarify:</strong> what problem, who the users are, what success looks like (a metric), and the constraints (data, privacy, budget).</li>
+<li><strong>Check feasibility:</strong> what data exists and its quality, whether a simple rule or classic ML would do before reaching for an LLM, and the risks.</li>
+<li><strong>Build a quick proof of concept</strong> on a small evaluation set and show it to users early.</li>
+<li><strong>Plan production:</strong> security, monitoring, cost and a human fallback.</li>
+<li><strong>Measure and iterate</strong> against the agreed metric.
+- Managers listen for <strong>business thinking + pragmatism</strong>, not just model names.</li>
+</ol></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare-for-ibm"><span class="n">03</span>How to prepare for IBM</h2><ul>
+<li>Practise HackerRank-style DSA (medium) and SQL window functions under time pressure.</li>
+<li>Be ready to explain the metrics you used in your project and why.</li>
+<li>Know IBM's stack at a high level: watsonx.ai, Granite models, Red Hat OpenShift.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.jointaro.com/interviews/companies/ibm/experiences/ai-engineer-bengaluru-february-1-2025-no-offer-positive-c881d31a">Taro: IBM AI Engineer, Bengaluru (Feb 2025)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-ibm-2025"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>
