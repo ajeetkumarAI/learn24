@@ -23,22 +23,22 @@
   <h1>Project 7: Support Ticket Triage &amp; Reply Copilot</h1>
   <div class="meta"><span>🛠️ Beginner</span><span>⏱ 1–2 weekends</span><span>📄 Resume lines included</span></div>
 <p>A business-friendly project combining <strong>classical NLP + LLMs</strong>: classify incoming tickets by intent, urgency and sentiment, route them, and draft grounded replies from a knowledge base for an agent to approve.</p>
-<h2>What you'll build</h2>
+<h2 id="what-you-ll-build">What you'll build</h2>
 <ul>
 <li>A classifier: intent (billing / delivery / refund / technical / other), priority and sentiment.</li>
 <li><strong>Routing rules</strong> and SLA timers per queue.</li>
 <li>A <strong>reply copilot:</strong> RAG over FAQ and policy articles drafts a reply with citations; the agent edits and approves.</li>
 <li>A dashboard: volume by intent, misroutes, time saved.</li>
 </ul>
-<h2>Architecture</h2>
+<h2 id="architecture">Architecture</h2>
 <pre><code>Ticket → PII masking → fast classifier (TF-IDF + LogReg or DistilBERT) → confidence?
      high → route to queue          low → LLM zero-shot classification fallback
      → RAG(KB) → draft reply (JSON: reply, citations, needs_human: bool) → agent review UI → send
 Feedback (edits, reroutes) → retraining data
 </code></pre>
-<h2>Tech stack</h2>
+<h2 id="tech-stack">Tech stack</h2>
 <p>scikit-learn or Hugging Face Transformers, an LLM, FAISS, FastAPI, Streamlit, plus a public dataset (e.g. customer-support ticket datasets on Kaggle or Hugging Face).</p>
-<h2>Step by step</h2>
+<h2 id="step-by-step">Step by step</h2>
 <ol>
 <li><strong>Dataset:</strong> load tickets with intent labels; split by time if timestamps exist.</li>
 <li><strong>Baseline:</strong> TF-IDF + logistic regression; report macro-F1 per intent.</li>
@@ -49,7 +49,7 @@ Feedback (edits, reroutes) → retraining data
 <li><strong>Agent UI:</strong> show the draft, the citations and an edit box; log the edit distance as a quality signal.</li>
 <li><strong>Measure:</strong> macro-F1, the share of drafts sent with minor edits, and average handling time saved.</li>
 </ol>
-<h2>Starter code</h2>
+<h2 id="starter-code">Starter code</h2>
 <pre><code class="language-python">from sklearn.pipeline import make_pipeline
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
@@ -63,20 +63,20 @@ def triage(text):
     if p.max() &lt; 0.6: intent = llm_classify(mask(text), labels=list(clf.classes_))
     return intent, float(p.max())
 </code></pre>
-<h2>Deploy it</h2>
+<h2 id="deploy-it">Deploy it</h2>
 <p>FastAPI (classifier + drafts) and a Streamlit agent console. Add a demo with 20 sample tickets and a short screen recording.</p>
-<h2>Put it on your resume</h2>
+<h2 id="put-it-on-your-resume">Put it on your resume</h2>
 <ul>
 <li>Built a <strong>ticket triage system</strong> (TF-IDF/DistilBERT with LLM fallback) reaching <strong>0.89 macro-F1</strong> across 6 intents, with PII masking and confidence-based routing.</li>
 <li>Added a <strong>RAG reply copilot</strong> whose drafts were sent with minor edits <strong>72% of the time</strong> in testing, cutting handling time by about 40%.</li>
 </ul>
-<h2>Interview questions you'll get</h2>
+<h2 id="interview-questions-you-ll-get">Interview questions you'll get</h2>
 <ul>
 <li>Why not use an LLM for everything? What about cost and latency trade-offs?</li>
 <li>How do you handle class imbalance and new intents?</li>
 <li>How do you keep humans in the loop, and how do you measure copilot quality?</li>
 </ul>
-<h2>Stretch goals</h2>
+<h2 id="stretch-goals">Stretch goals</h2>
 <ul>
 <li>Multilingual / Hinglish support.</li>
 <li>Auto-detect emerging issues (clustering new tickets).</li>

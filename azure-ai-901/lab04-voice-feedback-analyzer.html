@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lab 4: Voice Feedback Analyzer (BFSI) · Azure AI-901 · Learn24</title>
+<meta name="description" content="Build an end-to-end speech and text analytics app for a bank: transcribe spoken customer feedback with Azure Speech, extract sentiment, key phrases an">
+<meta property="og:title" content="Lab 4: Voice Feedback Analyzer (BFSI) · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#50b4ff} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} .pj-cta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0} .pj-cta a{text-decoration:none} article pre{background:#0b1220;color:#d6e0f0;border-radius:10px;padding:12px 14px;overflow-x:auto;font:13px/1.55 var(--mono);max-width:100%} article pre code{background:none;padding:0;border:0;border-radius:0;display:block;color:inherit;font:inherit;white-space:pre} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="lab04-voice-feedback-analyzer" data-lesson="azure-ai-901/lab04-voice-feedback-analyzer">
+  <div class="kicker">Azure AI-901 · Module 4 · Lab 4</div>
+  <h1>Lab 4: Voice Feedback Analyzer (BFSI)</h1>
+  <div class="meta"><span>⏱ 10 min read</span><span>🧪 Hands-on lab</span><span>☁️ Microsoft Foundry</span></div>
+<p>Build an end-to-end speech and text analytics app for a bank: transcribe spoken customer feedback with Azure Speech, extract sentiment, key phrases and a summary with Azure Language, generate a short reply and speak it back, and save everything to a CSV report.</p>
+<p><strong>Time:</strong> 2 hours · <strong>Project:</strong> #3 Voice Feedback Analyzer · <strong>You need:</strong> the Foundry resource key, region and endpoint; your chat model deployment; 3–5 short WAV recordings.</p>
+<blockquote>
+<p><strong>Outcome.</strong> An end-to-end speech + text analytics app.</p>
+</blockquote>
+<h2 id="step-1-prepare-the-audio">Step 1: Prepare the audio</h2>
+<p>Record 3–5 clips of 10–20 seconds (phone voice recorder → convert to <strong>WAV, 16 kHz mono</strong>; free tools such as Audacity can export WAV). Example scripts:</p>
+<ol>
+<li><em>“I have been charged a late fee even though I paid my credit card bill on time. This is the second time and I am really upset.”</em></li>
+<li><em>“The new app is fantastic. I opened a fixed deposit in two minutes.”</em></li>
+<li><em>“I visited the Whitefield branch to update my address and the queue took one hour.”</em></li>
+</ol>
+<p>Save them as <code>audio/feedback1.wav</code>, <code>audio/feedback2.wav</code> and so on.</p>
+<h2 id="step-2-configuration">Step 2: Configuration</h2>
+<pre><code class="language-bash">pip install azure-cognitiveservices-speech azure-ai-textanalytics azure-ai-projects azure-identity python-dotenv
+</code></pre>
+<p><code>.env</code>:</p>
+<pre><code class="language-bash">FOUNDRY_KEY=&lt;key 1&gt;
+FOUNDRY_REGION=&lt;region, e.g. eastus2&gt;
+FOUNDRY_RESOURCE_ENDPOINT=https://&lt;resource&gt;.services.ai.azure.com/
+FOUNDRY_PROJECT_ENDPOINT=https://&lt;resource&gt;.services.ai.azure.com/api/projects/&lt;project&gt;
+FOUNDRY_MODEL_NAME=chat-model
+</code></pre>
+<h2 id="step-3-the-analyzer">Step 3: The analyzer</h2>
+<p><code>analyzer.py</code>:</p>
+<pre><code class="language-python">import os, csv, glob, datetime
+from dotenv import load_dotenv
+import azure.cognitiveservices.speech as speechsdk
+from azure.core.credentials import AzureKeyCredential
+from azure.ai.textanalytics import TextAnalyticsClient
+from azure.identity import DefaultAzureCredential
+from azure.ai.projects import AIProjectClient
+
+load_dotenv()
+speech_config = speechsdk.SpeechConfig(subscription=os.environ[&quot;FOUNDRY_KEY&quot;], region=os.environ[&quot;FOUNDRY_REGION&quot;])
+speech_config.speech_recognition_language = &quot;en-IN&quot;
+speech_config.speech_synthesis_voice_name = &quot;en-IN-NeerjaNeural&quot;
+language = TextAnalyticsClient(os.environ[&quot;FOUNDRY_RESOURCE_ENDPOINT&quot;], AzureKeyCredential(os.environ[&quot;FOUNDRY_KEY&quot;]))
+llm = AIProjectClient(endpoint=os.environ[&quot;FOUNDRY_PROJECT_ENDPOINT&quot;], credential=DefaultAzureCredential()).get_openai_client()
+
+def transcribe(path):
+    audio = speechsdk.audio.AudioConfig(filename=path)
+    result = speechsdk.SpeechRecognizer(speech_config=speech_config, audio_config=audio).recognize_once_async().get()
+    return result.text if result.reason == speechsdk.ResultReason.RecognizedSpeech else &quot;&quot;
+
+def analyse(text):
+    s = language.analyze_sentiment([text])[0]
+    phrases = language.extract_key_phrases([text])[0].key_phrases
+    first = next(iter(language.begin_abstract_summary([text]).result()))     # one result per document
+    summary = &quot; &quot;.join(x.text for x in first.summaries)
+    return s.sentiment, s.confidence_scores, phrases, summary
+
+def draft_reply(text, sentiment):
+    r = llm.responses.create(
+        model=os.environ[&quot;FOUNDRY_MODEL_NAME&quot;],
+        instructions=&quot;You write short, empathetic replies (max 40 words) for Contoso Bank. Never promise refunds; say the team will review.&quot;,
+        input=f&quot;Customer feedback ({sentiment}): {text}&quot;,
+    )
+    return r.output_text
+
+def speak(text, out_path):
+    out = speechsdk.audio.AudioOutputConfig(filename=out_path)
+    speechsdk.SpeechSynthesizer(speech_config=speech_config, audio_config=out).speak_text_async(text).get()
+
+rows = []
+for path in sorted(glob.glob(&quot;audio/*.wav&quot;)):
+    transcript = transcribe(path)
+    if not transcript:
+        print(&quot;Could not transcribe&quot;, path); continue
+    sentiment, scores, phrases, summary = analyse(transcript)
+    reply = draft_reply(transcript, sentiment)
+    reply_audio = path.replace(&quot;.wav&quot;, &quot;-reply.wav&quot;)
+    speak(reply, reply_audio)
+    rows.append({&quot;file&quot;: path, &quot;transcript&quot;: transcript, &quot;sentiment&quot;: sentiment,
+                 &quot;negative_score&quot;: round(scores.negative, 2), &quot;key_phrases&quot;: &quot;; &quot;.join(phrases),
+                 &quot;summary&quot;: summary, &quot;reply&quot;: reply, &quot;reply_audio&quot;: reply_audio})
+    print(f&quot;✔ {path}: {sentiment} | {', '.join(phrases[:4])}&quot;)
+
+report = f&quot;feedback-report-{datetime.date.today()}.csv&quot;
+with open(report, &quot;w&quot;, newline=&quot;&quot;, encoding=&quot;utf-8&quot;) as f:
+    writer = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
+    writer.writeheader(); writer.writerows(rows)
+print(&quot;Report saved:&quot;, report)
+</code></pre>
+<blockquote>
+<p><code>recognize_once</code> stops at the first pause. For clips longer than about 15 seconds, switch to continuous recognition, or split the recording.</p>
+</blockquote>
+<h2 id="step-4-run-and-review">Step 4: Run and review</h2>
+<pre><code class="language-bash">python analyzer.py
+</code></pre>
+<p>Open the CSV in Excel. Check that:</p>
+<ul>
+<li>clip 1 is <strong>negative</strong>, with key phrases like <em>late fee</em> and <em>credit card bill</em>;</li>
+<li>clip 2 is <strong>positive</strong>;</li>
+<li>every reply is under 40 words and does not promise a refund;</li>
+<li>the <code>-reply.wav</code> files play in the chosen voice.</li>
+</ul>
+<h2 id="step-5-stretch-goals">Step 5: Stretch goals</h2>
+<ol>
+<li>Add <strong>PII redaction</strong> (<code>recognize_pii_entities</code>) before saving transcripts.</li>
+<li>Flag rows with <code>negative_score &gt; 0.8</code> as <strong>escalations</strong> and email them (or write a second CSV).</li>
+<li>Detect the language and pick a matching voice (<code>hi-IN-SwaraNeural</code> for Hindi).</li>
+<li>Wrap it in Streamlit with an upload button and an audio player.</li>
+<li>Replace steps 1–2 with a single call to a speech-capable multimodal model and compare quality and cost.</li>
+</ol>
+<p><strong>Resume line:</strong> <em>Built a BFSI voice-feedback analytics pipeline on Microsoft Foundry: Azure Speech transcription, Azure Language sentiment, key-phrase and summary extraction, LLM-drafted replies read back with neural TTS, and CSV reporting.</em></p>
+<h2 id="check-yourself">Check yourself</h2>
+<details><summary>Which two Foundry Tools does this lab combine, and in which order?</summary>
+Azure Speech (speech-to-text), then Azure Language (sentiment, key phrases, summary), then Azure Speech again (text-to-speech) for the reply.</details>
+
+<details><summary>Why redact PII before storing transcripts?</summary>
+Privacy and security: customers may say phone, account or card numbers, which should not be kept in plain-text reports.</details><div class="pj-cta"><a class="btn" href="practice/index.html">📝 AI-901 exam practice</a></div>
+  <div class="pj-cta"><a class="btn" href="../mock/index.html">🎤 Practise in a mock interview</a><a class="btn ghost" href="../daily/index.html">🔥 Daily challenge</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="azure-ai-901/lab04-voice-feedback-analyzer"></script>
+
+</body>
+</html>

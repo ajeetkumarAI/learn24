@@ -7,7 +7,7 @@
   const done = (() => { try { return JSON.parse(localStorage.getItem('learn24-done') || '[]'); } catch (e) { return []; } })();
   const isDone = (t, l) => done.includes(t + '/' + l);
   const live = t => t.lessons.filter(l => l.status === 'live');
-  const SHORT = { 'genai-course': 'GenAI', 'agentic-ai': 'Agentic AI', 'ai-security': 'Security', 'aws-saa': 'AWS', 'langchain-course': 'LangChain', 'interview-questions': 'Interviews', 'assignments': 'Assignments', 'frameworks': 'Frameworks', 'ai-system-design': 'Design', 'projects': 'Projects', 'ai-finance': 'Finance AI' };   // short names for the top menu
+  const SHORT = { 'genai-course': 'GenAI', 'agentic-ai': 'Agentic AI', 'ai-security': 'Security', 'aws-saa': 'AWS', 'langchain-course': 'LangChain', 'interview-questions': 'Interviews', 'assignments': 'Assignments', 'frameworks': 'Frameworks', 'ai-system-design': 'Design', 'projects': 'Projects', 'ai-finance': 'Finance AI', 'azure-ai-901': 'Azure AI-901', 'dsa': 'DSA' };   // short names for the top menu
   const lessonHref = (t, l) => `${base}${t.id}/${l.id}.html`;
 
   // header

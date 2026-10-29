@@ -25,7 +25,7 @@
   <h1>Bit Manipulation</h1>
   <div class="meta"><span>⏱ 15 min</span><span>🎬 Interactive chart</span><span>💻 Python · Java · C++ · JavaScript</span><span>🧩 4 practice problems</span></div>
   <p class="lead">XOR tricks, masks and counting bits. Short, elegant solutions that show you understand how numbers are stored.</p>
-<h2>The operators</h2>
+<h2 id="the-operators">The operators</h2>
 <div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
 <thead>
 <tr>
@@ -67,7 +67,7 @@
 </tr>
 </tbody>
 </table></div>
-<h2>Tricks worth memorising</h2>
+<h2 id="tricks-worth-memorising">Tricks worth memorising</h2>
 <ul>
 <li><code>x &amp; 1</code>: is x odd?</li>
 <li><code>x &amp; (x − 1)</code>: clears the lowest set bit. The loop runs once per 1-bit (Brian Kernighan), and <code>x &amp; (x − 1) == 0</code> tests for a power of two.</li>
@@ -132,9 +132,9 @@ function allSubsets(items) {
     res.push(items.filter((_, i) =&gt; (mask &gt;&gt; i) &amp; 1));
   return res;
 }</code></pre></div>
-<h2>Where it shows up</h2>
+<h2 id="where-it-shows-up">Where it shows up</h2>
 <p>Single Number, Missing Number, Counting Bits (<code>ans[i] = ans[i &gt;&gt; 1] + (i &amp; 1)</code>), Reverse Bits, Sum of Two Integers without <code>+</code>, subset enumeration, bitmask DP (travelling salesman for n ≤ 20), Gray code.</p>
-<h2>Language gotchas</h2>
+<h2 id="language-gotchas">Language gotchas</h2>
 <ul>
 <li>Python integers are unbounded: mask with <code>&amp; 0xFFFFFFFF</code> to imitate 32-bit behaviour.</li>
 <li>Java has <code>&gt;&gt;&gt;</code> (unsigned shift) as well as <code>&gt;&gt;</code> (sign-extending).</li>

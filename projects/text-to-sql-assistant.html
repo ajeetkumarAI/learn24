@@ -23,21 +23,21 @@
   <h1>Project 4: Text-to-SQL Analytics Assistant</h1>
   <div class="meta"><span>🛠️ Intermediate</span><span>⏱ 1–2 weekends</span><span>📄 Resume lines included</span></div>
 <p>Every company wants "chat with our data". You'll build an assistant that turns business questions into <strong>safe, validated SQL</strong>, runs them, and explains the result with a chart. You'll also measure accuracy on a test set.</p>
-<h2>What you'll build</h2>
+<h2 id="what-you-ll-build">What you'll build</h2>
 <ul>
 <li>Ask "Top 5 cities by revenue last quarter?" and get SQL, a table, a chart and a one-paragraph insight.</li>
 <li><strong>Safety:</strong> read-only connection, SELECT-only validation, row limits, schema allow-list.</li>
 <li>An evaluation on 40 questions with <strong>execution accuracy</strong> (does the result match the gold query?).</li>
 </ul>
-<h2>Architecture</h2>
+<h2 id="architecture">Architecture</h2>
 <pre><code>Question → schema retriever (relevant tables + column descriptions + few-shot examples)
         → LLM generates SQL (structured output) → validator (sqlglot: SELECT-only, allowed tables, LIMIT)
         → execute (read-only) → on error: send error back to LLM once (self-correct)
         → result → chart + LLM explanation
 </code></pre>
-<h2>Tech stack</h2>
+<h2 id="tech-stack">Tech stack</h2>
 <p>SQLite or Postgres (a sample sales DB such as Chinook or Northwind), SQLAlchemy, sqlglot, an LLM, pandas, Plotly, Streamlit.</p>
-<h2>Step by step</h2>
+<h2 id="step-by-step">Step by step</h2>
 <ol>
 <li><strong>Pick a dataset</strong> and write a <strong>semantic layer:</strong> table and column descriptions plus 10 example question→SQL pairs.</li>
 <li><strong>Schema retrieval:</strong> embed the table descriptions and include only the relevant tables in the prompt.</li>
@@ -48,7 +48,7 @@
 <li><strong>Explain:</strong> the LLM summarises the result table (numbers come from the data, not from the LLM).</li>
 <li><strong>Evaluate</strong> execution accuracy on 40 questions; log the failures by type.</li>
 </ol>
-<h2>Starter code</h2>
+<h2 id="starter-code">Starter code</h2>
 <pre><code class="language-python">import sqlite3, sqlglot, pandas as pd
 from sqlglot import exp
 ALLOWED = {&quot;invoices&quot;, &quot;customers&quot;, &quot;invoice_items&quot;, &quot;tracks&quot;}
@@ -66,21 +66,21 @@ def run(question):
         df = pd.read_sql(q, sqlite3.connect(&quot;file:chinook.db?mode=ro&quot;, uri=True))
     return q, df
 </code></pre>
-<h2>Deploy it</h2>
+<h2 id="deploy-it">Deploy it</h2>
 <p>A Streamlit app on Hugging Face Spaces with the SQLite file bundled, showing the generated SQL in an expander for transparency.</p>
-<h2>Put it on your resume</h2>
+<h2 id="put-it-on-your-resume">Put it on your resume</h2>
 <ul>
 <li>Built a <strong>text-to-SQL assistant</strong> with schema retrieval, sqlglot validation (SELECT-only, table allow-list, row limits) and self-correction, reaching <strong>78% execution accuracy</strong> on a 40-question benchmark.</li>
 <li>Added an auto-generated chart and LLM insight summary; deployed on Streamlit with a read-only database role.</li>
 </ul>
-<h2>Interview questions you'll get</h2>
+<h2 id="interview-questions-you-ll-get">Interview questions you'll get</h2>
 <ul>
 <li>How do you stop the LLM from running DELETE or accessing restricted tables?</li>
 <li>How do you handle large schemas with hundreds of tables?</li>
 <li>How do you evaluate text-to-SQL? Exact match vs execution accuracy?</li>
 <li>What about ambiguous questions ("best customers")?</li>
 </ul>
-<h2>Stretch goals</h2>
+<h2 id="stretch-goals">Stretch goals</h2>
 <ul>
 <li>A metrics layer (dbt semantic layer) so "revenue" always means one definition.</li>
 <li>Clarifying questions when the request is ambiguous.</li>

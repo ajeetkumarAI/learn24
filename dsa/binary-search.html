@@ -25,16 +25,16 @@
   <h1>Binary Search</h1>
   <div class="meta"><span>⏱ 16 min</span><span>🎬 Interactive visualizer</span><span>💻 Python · Java · C++ · JavaScript</span><span>🧩 6 practice problems</span></div>
   <p class="lead">Halve the search space each step for O(log n). Works on sorted arrays and, more powerfully, on any monotonic yes/no question about the answer.</p>
-<h2>The idea</h2>
+<h2 id="the-idea">The idea</h2>
 <p>If the data is sorted, compare with the <strong>middle</strong> element and throw away the half that cannot contain the answer. A billion elements need only about 30 comparisons.</p>
 <div class="viz" data-viz="binary-search"></div>
-<h2>Three templates worth memorising</h2>
+<h2 id="three-templates-worth-memorising">Three templates worth memorising</h2>
 <ol>
 <li><strong>Exact match</strong>: <code>while lo &lt;= hi</code>, return on equality.</li>
 <li><strong>Lower bound</strong> (first index with <code>a[i] &gt;= x</code>): half-open range <code>[lo, hi)</code>, <code>while lo &lt; hi</code>, set <code>hi = mid</code> when <code>a[mid] &gt;= x</code>. This gives insertion positions, first and last occurrences, and LIS in O(n log n).</li>
 <li><strong>Binary search on the answer</strong>: when “can we do it with value <code>k</code>?” is monotonic (false … false, true … true), binary-search the smallest <code>k</code> that works. Examples: Koko eating bananas, ship packages within D days, split array largest sum, minimum time to finish tasks.</li>
 </ol>
-<h2>Recognise it</h2>
+<h2 id="recognise-it">Recognise it</h2>
 <ul>
 <li>Sorted input, or a sorted matrix</li>
 <li>“Find the minimum / maximum value such that …”</li>
@@ -129,9 +129,9 @@ function smallestOk(lo, hi, ok) {
   while (lo &lt; hi) { const mid = Math.floor((lo + hi) / 2); if (ok(mid)) hi = mid; else lo = mid + 1; }
   return lo;
 }</code></pre></div>
-<h2>Complexity</h2>
+<h2 id="complexity">Complexity</h2>
 <p>O(log n) for a search. Binary search on the answer is O(log V × cost of one feasibility check), often O(n log V).</p>
-<h2 id="practice">Practise this pattern (6 problems)</h2><p>Each problem has a statement, hints, approaches, solutions in 4 languages and a code runner. Solve them in order: easy first.</p><div class="ptw"><table class="ptab"><thead><tr><th aria-label="Solved"></th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead><tbody><tr data-id="binary-search"><td class="st" aria-label="status"></td><td class="num">21</td><td><a href="problems/binary-search.html">Binary Search</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="search-insert-position"><td class="st" aria-label="status"></td><td class="num">22</td><td><a href="problems/search-insert-position.html">Search Insert Position</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="find-minimum-in-rotated-sorted-array"><td class="st" aria-label="status"></td><td class="num">23</td><td><a href="problems/find-minimum-in-rotated-sorted-array.html">Find Minimum in Rotated Sorted Array</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="search-in-rotated-sorted-array"><td class="st" aria-label="status"></td><td class="num">24</td><td><a href="problems/search-in-rotated-sorted-array.html">Search in Rotated Sorted Array</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="koko-eating-bananas"><td class="st" aria-label="status"></td><td class="num">25</td><td><a href="problems/koko-eating-bananas.html">Koko Eating Bananas</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="search-a-2d-matrix"><td class="st" aria-label="status"></td><td class="num">26</td><td><a href="problems/search-a-2d-matrix.html">Search a 2D Matrix</a></td><td><span class="diff medium">Medium</span></td></tr></tbody></table></div><h2>Common mistakes</h2>
+<h2 id="practice">Practise this pattern (6 problems)</h2><p>Each problem has a statement, hints, approaches, solutions in 4 languages and a code runner. Solve them in order: easy first.</p><div class="ptw"><table class="ptab"><thead><tr><th aria-label="Solved"></th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead><tbody><tr data-id="binary-search"><td class="st" aria-label="status"></td><td class="num">21</td><td><a href="problems/binary-search.html">Binary Search</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="search-insert-position"><td class="st" aria-label="status"></td><td class="num">22</td><td><a href="problems/search-insert-position.html">Search Insert Position</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="find-minimum-in-rotated-sorted-array"><td class="st" aria-label="status"></td><td class="num">23</td><td><a href="problems/find-minimum-in-rotated-sorted-array.html">Find Minimum in Rotated Sorted Array</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="search-in-rotated-sorted-array"><td class="st" aria-label="status"></td><td class="num">24</td><td><a href="problems/search-in-rotated-sorted-array.html">Search in Rotated Sorted Array</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="koko-eating-bananas"><td class="st" aria-label="status"></td><td class="num">25</td><td><a href="problems/koko-eating-bananas.html">Koko Eating Bananas</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="search-a-2d-matrix"><td class="st" aria-label="status"></td><td class="num">26</td><td><a href="problems/search-a-2d-matrix.html">Search a 2D Matrix</a></td><td><span class="diff medium">Medium</span></td></tr></tbody></table></div><h2 id="common-mistakes">Common mistakes</h2>
 <ul>
 <li><code>mid = (lo + hi) / 2</code> overflow in Java/C++ for big values: use <code>lo + (hi − lo) / 2</code>.</li>
 <li>Infinite loops: with <code>while lo &lt; hi</code>, always shrink the range (<code>lo = mid + 1</code> or <code>hi = mid</code>, never <code>lo = mid</code>).</li>

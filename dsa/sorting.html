@@ -25,10 +25,10 @@
   <h1>Sorting Algorithms</h1>
   <div class="meta"><span>⏱ 16 min</span><span>🎬 Interactive visualizer</span><span>💻 Python · Java · C++ · JavaScript</span><span>🧩 4 practice problems</span></div>
   <p class="lead">Bubble, selection, insertion, merge and quick sort, animated step by step. Learn which one is stable, which one is in place, and why O(n log n) is the limit for comparison sorts.</p>
-<h2>Why learn sorting if every language has <code>sort()</code>?</h2>
+<h2 id="why-learn-sorting-if-every-language-has-sort">Why learn sorting if every language has <code>sort()</code>?</h2>
 <p>Interviews use sorting to test <strong>divide and conquer</strong>, <strong>partitioning</strong> and <strong>stability</strong>, and many problems become easy once the data is sorted (intervals, two pointers, greedy). You should be able to write merge sort and quick sort from memory and explain their trade-offs.</p>
 <div class="viz" data-viz="bubble-sort,selection-sort,insertion-sort,merge-sort,quick-sort"></div>
-<h2>The algorithms</h2>
+<h2 id="the-algorithms">The algorithms</h2>
 <div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
 <thead>
 <tr>
@@ -108,7 +108,7 @@
 </tbody>
 </table></div>
 <p><strong>Stable</strong> means equal keys keep their original order, which matters when you sort by one field after another. Python’s <code>sorted</code> (Timsort) and Java’s object sort are stable; C++ <code>std::sort</code> is not (<code>std::stable_sort</code> is).</p>
-<h2>Divide and conquer</h2>
+<h2 id="divide-and-conquer">Divide and conquer</h2>
 <p><strong>Merge sort</strong>: split in half, sort each half recursively, <strong>merge</strong> two sorted halves in O(n). The recursion depth is log n and each level does O(n) work, so the total is O(n log n).</p>
 <p><strong>Quick sort</strong>: choose a <strong>pivot</strong>, partition so smaller values go left and larger go right, then recurse on both sides. With a bad pivot (already sorted input, last element as pivot) it degrades to O(n²), so pick the pivot at random.</p>
 <h2 id="template">Code template</h2><div class="ctabs "><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py">def merge_sort(a):
@@ -186,9 +186,9 @@ function quickSort(a, lo = 0, hi = a.length - 1) {
   [a[i], a[hi]] = [a[hi], a[i]];
   quickSort(a, lo, i - 1); quickSort(a, i + 1, hi);
 }</code></pre></div>
-<h2>Custom comparators</h2>
+<h2 id="custom-comparators">Custom comparators</h2>
 <p>Many problems are really “sort by the right key”: intervals by start, meetings by end time, the Largest Number problem by <code>a + b &gt; b + a</code>, people by (height desc, k asc).</p>
-<h2 id="practice">Practise this pattern (4 problems)</h2><p>Each problem has a statement, hints, approaches, solutions in 4 languages and a code runner. Solve them in order: easy first.</p><div class="ptw"><table class="ptab"><thead><tr><th aria-label="Solved"></th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead><tbody><tr data-id="sort-colors"><td class="st" aria-label="status"></td><td class="num">27</td><td><a href="problems/sort-colors.html">Sort Colors</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="merge-intervals"><td class="st" aria-label="status"></td><td class="num">28</td><td><a href="problems/merge-intervals.html">Merge Intervals</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="sort-an-array"><td class="st" aria-label="status"></td><td class="num">29</td><td><a href="problems/sort-an-array.html">Sort an Array</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="largest-number"><td class="st" aria-label="status"></td><td class="num">30</td><td><a href="problems/largest-number.html">Largest Number</a></td><td><span class="diff medium">Medium</span></td></tr></tbody></table></div><h2>Common mistakes</h2>
+<h2 id="practice">Practise this pattern (4 problems)</h2><p>Each problem has a statement, hints, approaches, solutions in 4 languages and a code runner. Solve them in order: easy first.</p><div class="ptw"><table class="ptab"><thead><tr><th aria-label="Solved"></th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead><tbody><tr data-id="sort-colors"><td class="st" aria-label="status"></td><td class="num">27</td><td><a href="problems/sort-colors.html">Sort Colors</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="merge-intervals"><td class="st" aria-label="status"></td><td class="num">28</td><td><a href="problems/merge-intervals.html">Merge Intervals</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="sort-an-array"><td class="st" aria-label="status"></td><td class="num">29</td><td><a href="problems/sort-an-array.html">Sort an Array</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="largest-number"><td class="st" aria-label="status"></td><td class="num">30</td><td><a href="problems/largest-number.html">Largest Number</a></td><td><span class="diff medium">Medium</span></td></tr></tbody></table></div><h2 id="common-mistakes">Common mistakes</h2>
 <ul>
 <li>Comparator overflow in Java: <code>(a, b) -&gt; a - b</code> can overflow; use <code>Integer.compare(a, b)</code>.</li>
 <li>Forgetting that sorting costs O(n log n), which may dominate the rest of the solution.</li>

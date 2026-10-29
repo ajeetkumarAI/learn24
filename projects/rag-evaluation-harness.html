@@ -23,21 +23,21 @@
   <h1>Project 6: LLM &amp; RAG Evaluation Harness</h1>
   <div class="meta"><span>🛠️ Advanced</span><span>⏱ 2–3 weekends</span><span>📄 Resume lines included</span></div>
 <p>Most candidates build a chatbot; very few can <strong>prove it works</strong>. This project builds a reusable evaluation harness for RAG and LLM apps: golden datasets, retrieval and generation metrics, LLM-as-judge, regression reports and a CI gate. It's a strong signal for senior and LLMOps roles.</p>
-<h2>What you'll build</h2>
+<h2 id="what-you-ll-build">What you'll build</h2>
 <ul>
 <li>A dataset format: question, reference answer, gold document IDs, tags.</li>
 <li>Metrics: <strong>recall@k, MRR, faithfulness, answer correctness, citation accuracy, latency and cost</strong>.</li>
 <li>A CLI: <code>evalrag run --config configs/chunk800.yaml</code>, producing an HTML/Markdown report and a comparison against the previous run.</li>
 <li>A <strong>GitHub Actions gate</strong> that fails the build if faithfulness drops by more than 3 points.</li>
 </ul>
-<h2>Architecture</h2>
+<h2 id="architecture">Architecture</h2>
 <pre><code>configs/*.yaml (retriever, k, prompt, model) → runner → for each question: retrieve → generate → log
    → metrics: retrieval (gold IDs) + generation (LLM judge with rubric, calibrated on 30 human labels)
    → results.parquet → report.md (scores, deltas vs baseline, worst 10 failures by category)
 </code></pre>
-<h2>Tech stack</h2>
+<h2 id="tech-stack">Tech stack</h2>
 <p>Python, Pydantic, pandas, an LLM judge (with a fixed rubric and temperature 0), RAGAS or DeepEval (optional), Typer (CLI), Jinja2 (report), GitHub Actions.</p>
-<h2>Step by step</h2>
+<h2 id="step-by-step">Step by step</h2>
 <ol>
 <li><strong>Golden set:</strong> write 50–100 realistic questions with domain experts; include unanswerable ones (expected: "I don't know").</li>
 <li><strong>Retrieval metrics:</strong> recall@k and MRR against the gold document IDs.</li>
@@ -47,7 +47,7 @@
 <li><strong>Report:</strong> a table of metrics, deltas vs baseline, and failure buckets (retrieval miss / wrong synthesis / refusal error).</li>
 <li><strong>CI gate:</strong> run on pull requests that change prompts or configs.</li>
 </ol>
-<h2>Starter code</h2>
+<h2 id="starter-code">Starter code</h2>
 <pre><code class="language-python">import json, hashlib, statistics as st
 JUDGE = &quot;&quot;&quot;Rate the ANSWER for faithfulness to CONTEXT (1-5): 5 = every claim supported, 1 = mostly unsupported.
 Return JSON {&quot;faithfulness&quot;: int, &quot;unsupported_claims&quot;: [..]}.&quot;&quot;&quot;
@@ -65,21 +65,21 @@ def run(dataset, pipeline):
                      &quot;faith&quot;: judge(&quot;\n&quot;.join(d.text for d in docs), ans)[&quot;faithfulness&quot;]})
     return {k: round(st.mean(r[k] for r in rows), 3) for k in rows[0]}
 </code></pre>
-<h2>Deploy it</h2>
+<h2 id="deploy-it">Deploy it</h2>
 <p>Publish the harness as a pip-installable package or a GitHub template repo, and add a sample report to the README. Write a LinkedIn post showing "how chunk size changed faithfulness".</p>
-<h2>Put it on your resume</h2>
+<h2 id="put-it-on-your-resume">Put it on your resume</h2>
 <ul>
 <li>Built a <strong>RAG evaluation harness</strong> (recall@k, MRR, LLM-judge faithfulness calibrated to human labels, κ = 0.71) with cached runs, regression reports and a <strong>CI quality gate</strong>.</li>
 <li>Used it to compare 6 retrieval configurations, improving faithfulness by <strong>+11 points</strong> while cutting cost per query by 35%.</li>
 </ul>
-<h2>Interview questions you'll get</h2>
+<h2 id="interview-questions-you-ll-get">Interview questions you'll get</h2>
 <ul>
 <li>How do you evaluate an LLM app without ground truth? How do you trust an LLM judge?</li>
 <li>Which metrics catch retrieval problems vs generation problems?</li>
 <li>How do you prevent quality regressions when prompts or models change?</li>
 </ul>
 <p>Practise these in <strong><a href="../mock/index.html?topic=System%20Design%20%26%20MLOps">Mock Interview → System Design &amp; MLOps</a></strong>.</p>
-<h2>Stretch goals</h2>
+<h2 id="stretch-goals">Stretch goals</h2>
 <ul>
 <li>Synthetic question generation from documents (with human filtering).</li>
 <li>Pairwise A/B judging between two pipelines.</li>

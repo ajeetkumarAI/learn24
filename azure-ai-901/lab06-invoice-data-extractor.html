@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lab 6: Invoice Data Extractor · Azure AI-901 · Learn24</title>
+<meta name="description" content="Build a document-processing app: create a Content Understanding analyzer for invoices, extract invoice number, date, vendor, line items and totals fro">
+<meta property="og:title" content="Lab 6: Invoice Data Extractor · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#50b4ff} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} .pj-cta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0} .pj-cta a{text-decoration:none} article pre{background:#0b1220;color:#d6e0f0;border-radius:10px;padding:12px 14px;overflow-x:auto;font:13px/1.55 var(--mono);max-width:100%} article pre code{background:none;padding:0;border:0;border-radius:0;display:block;color:inherit;font:inherit;white-space:pre} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="lab06-invoice-data-extractor" data-lesson="azure-ai-901/lab06-invoice-data-extractor">
+  <div class="kicker">Azure AI-901 · Module 6 · Lab 6</div>
+  <h1>Lab 6: Invoice Data Extractor</h1>
+  <div class="meta"><span>⏱ 10 min read</span><span>🧪 Hands-on lab</span><span>☁️ Microsoft Foundry</span></div>
+<p>Build a document-processing app: create a Content Understanding analyzer for invoices, extract invoice number, date, vendor, line items and totals from sample PDFs, run the extraction from Python and save it as JSON and CSV, then try the same idea on an image and a short audio or video clip.</p>
+<p><strong>Time:</strong> 2 hours · <strong>Project:</strong> #5 Invoice Data Extractor · <strong>You need:</strong> your Foundry resource (in a region that supports Content Understanding), its endpoint and key, and 3–5 sample invoices (PDF or photos).</p>
+<blockquote>
+<p><strong>Outcome.</strong> A document-processing app that turns PDFs into clean structured data.</p>
+</blockquote>
+<h2 id="step-1-connect-content-understanding-to-your-foundry-resourc">Step 1: Connect Content Understanding to your Foundry resource</h2>
+<ol>
+<li>Open <strong>Content Understanding Studio</strong> (from the Foundry portal’s tools area, or <code>contentunderstanding.ai.azure.com</code>).</li>
+<li>Go to <strong>Settings</strong> → <strong>+ Add resource</strong>, select your Foundry resource → <strong>Next</strong> → <strong>Save</strong>.</li>
+<li>Make sure <strong>Enable autodeployment for required models if no defaults are available</strong> is ticked. Content Understanding uses default model deployments (a chat model and an embedding model) behind the scenes.</li>
+</ol>
+<h2 id="step-2-create-an-invoice-analyzer">Step 2: Create an invoice analyzer</h2>
+<ol>
+<li>In Studio, create a new <strong>project / analyzer</strong> from the <strong>document</strong> template, and upload one sample invoice.</li>
+<li>Start from the <strong>invoice</strong> template (or the prebuilt invoice analyzer) and review the suggested fields.</li>
+<li>Define (or confirm) the schema:</li>
+</ol>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>InvoiceNumber</code></td>
+<td>string</td>
+<td>extract</td>
+</tr>
+<tr>
+<td><code>InvoiceDate</code></td>
+<td>date</td>
+<td>extract</td>
+</tr>
+<tr>
+<td><code>VendorName</code></td>
+<td>string</td>
+<td>extract</td>
+</tr>
+<tr>
+<td><code>VendorGSTIN</code></td>
+<td>string</td>
+<td>extract</td>
+</tr>
+<tr>
+<td><code>LineItems</code></td>
+<td>array: Description (string), Quantity (number), UnitPrice (number), Amount (number)</td>
+<td>extract</td>
+</tr>
+<tr>
+<td><code>TaxAmount</code></td>
+<td>number</td>
+<td>extract</td>
+</tr>
+<tr>
+<td><code>TotalAmount</code></td>
+<td>number</td>
+<td>extract</td>
+</tr>
+<tr>
+<td><code>ExpenseCategory</code></td>
+<td>string: travel / IT / office / other</td>
+<td>classify</td>
+</tr>
+</tbody>
+</table></div>
+<ol start="4">
+<li>Select <strong>Test / Run analysis</strong> on 2–3 invoices. Check each field’s value, <strong>confidence</strong> and highlighted <strong>source</strong> on the page. Refine the field descriptions where values are wrong (for example <em>“TotalAmount: the grand total payable, including GST”</em>).</li>
+<li><strong>Build / save</strong> the analyzer and note its <strong>analyzer ID</strong>, for example <code>contoso-invoice</code>.</li>
+</ol>
+<h2 id="step-3-run-the-extraction-from-python">Step 3: Run the extraction from Python</h2>
+<p>Host your sample PDFs where the service can read them: an Azure Blob Storage container with a <strong>SAS URL</strong> (or a public sample URL to start with). Then create <code>extract.py</code>:</p>
+<pre><code class="language-python">import os, time, json, csv, requests
+from dotenv import load_dotenv
+
+load_dotenv()
+ENDPOINT = os.environ[&quot;FOUNDRY_RESOURCE_ENDPOINT&quot;].rstrip(&quot;/&quot;)
+KEY = os.environ[&quot;FOUNDRY_KEY&quot;]
+ANALYZER = os.environ.get(&quot;CU_ANALYZER_ID&quot;, &quot;prebuilt-invoice&quot;)
+API = &quot;2025-11-01&quot;
+
+def analyze(url):
+    r = requests.post(f&quot;{ENDPOINT}/contentunderstanding/analyzers/{ANALYZER}:analyze?api-version={API}&quot;,
+                      headers={&quot;Ocp-Apim-Subscription-Key&quot;: KEY, &quot;Content-Type&quot;: &quot;application/json&quot;},
+                      json={&quot;inputs&quot;: [{&quot;url&quot;: url}]})
+    r.raise_for_status()
+    op = r.headers[&quot;Operation-Location&quot;]
+    while (res := requests.get(op, headers={&quot;Ocp-Apim-Subscription-Key&quot;: KEY}).json())[&quot;status&quot;] not in (&quot;Succeeded&quot;, &quot;Failed&quot;):
+        time.sleep(2)
+    if res[&quot;status&quot;] == &quot;Failed&quot;:
+        raise RuntimeError(json.dumps(res)[:500])
+    return res[&quot;result&quot;][&quot;contents&quot;][0][&quot;fields&quot;]
+
+def val(field):
+    &quot;&quot;&quot;Return the typed value of a Content Understanding field (string, number, date, object, array).&quot;&quot;&quot;
+    if field is None:
+        return None
+    t = field.get(&quot;type&quot;)
+    if t == &quot;array&quot;:
+        return [val(x) for x in field.get(&quot;valueArray&quot;, [])]
+    if t == &quot;object&quot;:
+        return {k: val(v) for k, v in field.get(&quot;valueObject&quot;, {}).items()}
+    return next((v for k, v in field.items() if k.startswith(&quot;value&quot;)), None)
+
+urls = [line.strip() for line in open(&quot;invoices.txt&quot;) if line.strip()]    # one URL per line
+records = []
+for url in urls:
+    f = analyze(url)
+    rec = {name: val(f.get(name)) for name in f}
+    rec[&quot;_source&quot;] = url
+    rec[&quot;_low_confidence&quot;] = [n for n, x in f.items() if isinstance(x, dict) and x.get(&quot;confidence&quot;, 1) &lt; 0.7]
+    records.append(rec)
+    print(&quot;✔&quot;, url.split(&quot;/&quot;)[-1], &quot;| fields:&quot;, len(f), &quot;| low confidence:&quot;, rec[&quot;_low_confidence&quot;])
+
+json.dump(records, open(&quot;invoices.json&quot;, &quot;w&quot;), indent=2, default=str)
+
+# flat CSV: one row per invoice (line items as a JSON string)
+cols = sorted({k for r in records for k in r})
+with open(&quot;invoices.csv&quot;, &quot;w&quot;, newline=&quot;&quot;, encoding=&quot;utf-8&quot;) as out:
+    w = csv.DictWriter(out, fieldnames=cols)
+    w.writeheader()
+    for r in records:
+        w.writerow({k: json.dumps(v, default=str) if isinstance(v, (list, dict)) else v for k, v in r.items()})
+print(&quot;Saved invoices.json and invoices.csv&quot;)
+</code></pre>
+<p>Set <code>CU_ANALYZER_ID=contoso-invoice</code> in <code>.env</code> to use your custom analyzer; leave it unset to use <code>prebuilt-invoice</code>.</p>
+<h2 id="step-4-validate-the-output">Step 4: Validate the output</h2>
+<ul>
+<li>Does <code>TotalAmount</code> equal the sum of line-item amounts plus <code>TaxAmount</code>? Add a check and flag mismatches.</li>
+<li>Send rows with fields in <code>_low_confidence</code> to a <strong>review queue</strong> (a separate CSV). This is the <em>human-in-the-loop</em> pattern that keeps the solution reliable and accountable.</li>
+</ul>
+<h2 id="step-5-beyond-documents">Step 5: Beyond documents</h2>
+<ol>
+<li><strong>Image</strong>: create an image analyzer with fields such as <code>ProductName</code>, <code>PriceShown</code>, <code>ShelfIsFull: boolean</code> and test it on a shop-shelf photo.</li>
+<li><strong>Audio</strong>: create an audio analyzer for a 1-minute mock support call with <code>Summary</code>, <code>CustomerSentiment</code> (classify) and <code>RefundRequested: boolean</code>.</li>
+<li><strong>Video</strong>: try a short clip and inspect the segments, key frames and transcript in the result JSON.</li>
+</ol>
+<h2 id="step-6-portfolio">Step 6: Portfolio</h2>
+<p>Push to GitHub with a README (problem, architecture <em>PDF → Content Understanding → JSON/CSV → review queue</em>, schema table, sample output, screenshots). Never commit real customer invoices; use samples.</p>
+<p><strong>Resume line:</strong> <em>Built an invoice-extraction pipeline with Azure Content Understanding (custom schema, confidence-based human review) that converts PDF invoices into validated JSON and CSV.</em></p>
+<h2 id="check-yourself">Check yourself</h2>
+<details><summary>Why route low-confidence fields to a human?</summary>
+To keep the process reliable and accountable: uncertain extractions are verified before they reach accounting systems.</details>
+
+<details><summary>What must be true about the invoice URL you send to the service?</summary>
+The service must be able to read it: a public URL or a Blob Storage URL with a valid SAS token.</details><div class="pj-cta"><a class="btn" href="practice/index.html">📝 AI-901 exam practice</a></div>
+  <div class="pj-cta"><a class="btn" href="../mock/index.html">🎤 Practise in a mock interview</a><a class="btn ghost" href="../daily/index.html">🔥 Daily challenge</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="azure-ai-901/lab06-invoice-data-extractor"></script>
+
+</body>
+</html>

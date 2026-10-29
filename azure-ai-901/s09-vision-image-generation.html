@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Session 9: Vision &amp; Image Generation · Azure AI-901 · Learn24</title>
+<meta name="description" content="Use a deployed multimodal model to interpret images in prompts (captions, visual question answering, object description), create new images with gener">
+<meta property="og:title" content="Session 9: Vision &amp; Image Generation · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#50b4ff} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} .pj-cta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0} .pj-cta a{text-decoration:none} article pre{background:#0b1220;color:#d6e0f0;border-radius:10px;padding:12px 14px;overflow-x:auto;font:13px/1.55 var(--mono);max-width:100%} article pre code{background:none;padding:0;border:0;border-radius:0;display:block;color:inherit;font:inherit;white-space:pre} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="s09-vision-image-generation" data-lesson="azure-ai-901/s09-vision-image-generation">
+  <div class="kicker">Azure AI-901 · Module 5 · Session 9</div>
+  <h1>Session 9: Vision &amp; Image Generation</h1>
+  <div class="meta"><span>⏱ 10 min read</span><span>📘 Live-session notes</span><span>☁️ Microsoft Foundry</span></div>
+<p>Use a deployed multimodal model to interpret images in prompts (captions, visual question answering, object description), create new images with generative models (prompts, sizes, quality and styles), apply responsible image generation with content filters, and build a lightweight vision app.</p>
+<h2 id="interpreting-visual-input-with-a-multimodal-model">Interpreting visual input with a multimodal model</h2>
+<p>A <strong>multimodal</strong> model accepts <strong>text and images in the same prompt</strong>. Models in the GPT-4o, GPT-4.1 and GPT-5 families, and several open models (for example Phi multimodal and Llama vision models), support image input. Check <strong>Input: image</strong> on the model card.</p>
+<p>What you can ask:</p>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Example prompt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Captioning</strong></td>
+<td>“Write a one-sentence alt-text caption for this image.”</td>
+</tr>
+<tr>
+<td><strong>Visual question answering (VQA)</strong></td>
+<td>“Is the cheque signed? What amount is written in words?”</td>
+</tr>
+<tr>
+<td><strong>Object description</strong></td>
+<td>“List the products on this shelf with their colours.”</td>
+</tr>
+<tr>
+<td><strong>Reading text (OCR-like)</strong></td>
+<td>“Transcribe the text on this receipt.”</td>
+</tr>
+<tr>
+<td><strong>Reasoning</strong></td>
+<td>“Does this car photo show damage consistent with a front-end collision?”</td>
+</tr>
+<tr>
+<td><strong>Structured output</strong></td>
+<td>“Return JSON: {merchant, date, total} from this receipt.”</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="sending-an-image-from-python">Sending an image from Python</h2>
+<p>Images go in as a <strong>URL</strong> or a <strong>base64 data URL</strong>:</p>
+<pre><code class="language-python">import base64, os
+from dotenv import load_dotenv
+from azure.identity import DefaultAzureCredential
+from azure.ai.projects import AIProjectClient
+
+load_dotenv()
+client = AIProjectClient(endpoint=os.environ[&quot;FOUNDRY_PROJECT_ENDPOINT&quot;],
+                         credential=DefaultAzureCredential()).get_openai_client()
+
+def as_data_url(path):
+    mime = &quot;image/png&quot; if path.lower().endswith(&quot;.png&quot;) else &quot;image/jpeg&quot;
+    return f&quot;data:{mime};base64,&quot; + base64.b64encode(open(path, &quot;rb&quot;).read()).decode()
+
+response = client.responses.create(
+    model=os.environ[&quot;FOUNDRY_MODEL_NAME&quot;],                 # a deployment that accepts image input
+    input=[{
+        &quot;role&quot;: &quot;user&quot;,
+        &quot;content&quot;: [
+            {&quot;type&quot;: &quot;input_text&quot;, &quot;text&quot;: &quot;Describe this receipt and give the total amount.&quot;},
+            {&quot;type&quot;: &quot;input_image&quot;, &quot;image_url&quot;: as_data_url(&quot;receipt.jpg&quot;)},
+        ],
+    }],
+)
+print(response.output_text)
+</code></pre>
+<p>With the Chat Completions API the same image goes in as <code>{"type": "image_url", "image_url": {"url": "&lt;data or https URL&gt;"}}</code> inside a user message.</p>
+<p><strong>Follow-up questions</strong> work like any chat: keep the history (or use <code>previous_response_id</code>) so the model still “sees” the image when you ask <em>“And what was the GST amount?”</em></p>
+<blockquote>
+<p>🎯 <strong>Exam tip.</strong> To interpret an image you need a deployment of a model that supports <strong>image input</strong>. A text-only model or an image-<em>generation</em> model is the wrong choice for a captioning question.</p>
+</blockquote>
+<h2 id="creating-new-images">Creating new images</h2>
+<p><strong>Image-generation models</strong> in Foundry include <strong>GPT-Image-1</strong> (and its newer and mini variants) and partner models such as <strong>FLUX</strong>. You can try them in the <strong>Images playground</strong> before writing code.</p>
+<pre><code class="language-python">import base64, os
+from openai import OpenAI
+
+client = OpenAI(base_url=os.environ[&quot;FOUNDRY_OPENAI_ENDPOINT&quot;], api_key=os.environ[&quot;FOUNDRY_KEY&quot;])
+
+result = client.images.generate(
+    model=os.environ[&quot;IMAGE_MODEL_DEPLOYMENT&quot;],     # e.g. your gpt-image-1 deployment
+    prompt=&quot;Flat vector illustration of a young couple holding house keys in front of a new home, &quot;
+           &quot;warm sunset colours, clean minimal style, no text&quot;,
+    size=&quot;1024x1024&quot;,                               # also 1536x1024 (landscape) or 1024x1536 (portrait)
+    quality=&quot;medium&quot;,                               # low | medium | high
+    n=1,
+)
+with open(&quot;home-loan-banner.png&quot;, &quot;wb&quot;) as f:
+    f.write(base64.b64decode(result.data[0].b64_json))
+print(&quot;Saved home-loan-banner.png&quot;)
+</code></pre>
+<p>Image generation is also available as a <strong>tool</strong> in the Responses API and in agents (<code>tools=[{"type": "image_generation"}]</code>), so a chat assistant can create pictures as part of a conversation.</p>
+<p><strong>Prompting images well:</strong> subject + setting + <strong>style</strong> (photo, watercolour, flat vector, 3D render) + <strong>composition</strong> (close-up, wide shot) + <strong>lighting and colour</strong> + what to <strong>avoid</strong> (“no text, no logos”). Iterate: change one element at a time.</p>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>prompt</code></td>
+<td>What to draw: the biggest factor in quality</td>
+</tr>
+<tr>
+<td><code>size</code></td>
+<td>Resolution and aspect ratio</td>
+</tr>
+<tr>
+<td><code>quality</code></td>
+<td>Detail vs speed and cost</td>
+</tr>
+<tr>
+<td><code>n</code></td>
+<td>Number of images</td>
+</tr>
+<tr>
+<td>Edit / inpaint (images edit API)</td>
+<td>Change part of an existing image using a mask</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="responsible-use-of-image-generation">Responsible use of image generation</h2>
+<ul>
+<li><strong>Content filters</strong> check both the prompt and the generated image for hate, sexual content, violence and self-harm. Blocked requests return an error (often HTTP 400 with a content-filter reason) instead of an image.</li>
+<li><strong>Policy restrictions</strong>: no deceptive images of real people, no copyrighted characters or brand logos without rights.</li>
+<li><strong>Transparency</strong>: tell users the image is AI-generated. Outputs can include <strong>content credentials</strong> (C2PA provenance metadata).</li>
+<li><strong>Accountability</strong>: a human approves marketing images before publication.</li>
+</ul>
+<h2 id="building-a-lightweight-vision-app">Building a lightweight vision app</h2>
+<p>A typical small app:</p>
+<pre><code>Upload image ─► multimodal model: caption + VQA ─► show text
+Text prompt  ─► image model: generate ─► show or save PNG
+</code></pre>
+<p>Wrap it in a command-line menu or a Streamlit page (<code>st.file_uploader</code>, <code>st.image</code>, <code>st.text_input</code>), which is Lab 5.</p>
+<h2 id="check-yourself">Check yourself</h2>
+<details><summary>Which content part sends an image in a Responses API request?</summary>
+<code>{"type": "input_image", "image_url": "data:image/jpeg;base64,..."}</code> (or an https URL), alongside an <code>input_text</code> part.</details>
+
+<details><summary>A marketing team wants a new poster image from a description. Multimodal model or image-generation model?</summary>
+An image-generation model such as GPT-Image-1.</details>
+
+<details><summary>A user’s image request returns a content-filter error. Which responsible AI principle is the filter serving?</summary>
+Reliability and safety (preventing harmful output), supported by the platform’s content safety system.</details>
+
+<details><summary>How do you ask follow-up questions about the same image?</summary>
+Keep the image and earlier turns in the conversation history (or chain with <code>previous_response_id</code>).</details><div class="pj-cta"><a class="btn" href="practice/index.html">📝 AI-901 exam practice</a></div>
+  <div class="pj-cta"><a class="btn" href="../mock/index.html">🎤 Practise in a mock interview</a><a class="btn ghost" href="../daily/index.html">🔥 Daily challenge</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="azure-ai-901/s09-vision-image-generation"></script>
+
+</body>
+</html>

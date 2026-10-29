@@ -25,7 +25,7 @@
   <h1>Stacks, Queues &amp; Monotonic Stacks</h1>
   <div class="meta"><span>⏱ 13 min</span><span>🎬 Interactive visualizer</span><span>💻 Python · Java · C++ · JavaScript</span><span>🧩 4 practice problems</span></div>
   <p class="lead">LIFO and FIFO structures behind bracket matching, expression evaluation, BFS, and the powerful monotonic stack for “next greater element” problems.</p>
-<h2>Stack (LIFO) and queue (FIFO)</h2>
+<h2 id="stack-lifo-and-queue-fifo">Stack (LIFO) and queue (FIFO)</h2>
 <p>A <strong>stack</strong> is last-in-first-out: push on top, pop from the top. A <strong>queue</strong> is first-in-first-out: enqueue at the back, dequeue from the front. A <strong>deque</strong> allows both ends.</p>
 <div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
 <thead>
@@ -56,14 +56,14 @@
 </table></div>
 <p>Never use <code>list.pop(0)</code> in Python or <code>array.shift()</code> in a hot JS loop: both are O(n).</p>
 <div class="viz" data-viz="parens,mono-stack"></div>
-<h2>Where stacks appear</h2>
+<h2 id="where-stacks-appear">Where stacks appear</h2>
 <ul>
 <li><strong>Matching</strong>: brackets, HTML tags, undo history</li>
 <li><strong>Expression evaluation</strong>: Reverse Polish Notation, calculators (operator stack)</li>
 <li><strong>Iterative DFS</strong> and the iterative in-order tree traversal</li>
 <li><strong>Monotonic stack</strong>: a stack whose values are always increasing or always decreasing</li>
 </ul>
-<h2>The monotonic stack</h2>
+<h2 id="the-monotonic-stack">The monotonic stack</h2>
 <p>For “<strong>next greater / next smaller element</strong>” questions, keep a stack of indices still waiting for an answer, with values in decreasing order. When a bigger value arrives, it is the answer for every smaller value on top: pop them and record. Each index is pushed and popped once, so the whole thing is <strong>O(n)</strong> instead of O(n²).</p>
 <p>Classic uses: Daily Temperatures, Next Greater Element, Stock Span, Largest Rectangle in Histogram, Trapping Rain Water, Sum of Subarray Minimums.</p>
 <h2 id="template">Code template</h2><div class="ctabs "><div class="ctabs-h" role="tablist"><button type="button" role="tab" data-l="py">Python</button><button type="button" role="tab" data-l="java">Java</button><button type="button" role="tab" data-l="cpp">C++</button><button type="button" role="tab" data-l="js">JavaScript</button><button type="button" class="ct-copy" title="Copy code">Copy</button></div><pre data-l="py"><code class="lang-py"># Next greater element for each index (-1 if none)
@@ -111,7 +111,7 @@ function nextGreater(a) {
 
 // O(1) queue: array + head pointer (avoid shift())
 const q = [1, 2, 3]; let head = 0; const front = q[head++];</code></pre></div>
-<h2 id="practice">Practise this pattern (4 problems)</h2><p>Each problem has a statement, hints, approaches, solutions in 4 languages and a code runner. Solve them in order: easy first.</p><div class="ptw"><table class="ptab"><thead><tr><th aria-label="Solved"></th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead><tbody><tr data-id="valid-parentheses"><td class="st" aria-label="status"></td><td class="num">31</td><td><a href="problems/valid-parentheses.html">Valid Parentheses</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="daily-temperatures"><td class="st" aria-label="status"></td><td class="num">32</td><td><a href="problems/daily-temperatures.html">Daily Temperatures</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="evaluate-reverse-polish-notation"><td class="st" aria-label="status"></td><td class="num">33</td><td><a href="problems/evaluate-reverse-polish-notation.html">Evaluate Reverse Polish Notation</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="largest-rectangle-in-histogram"><td class="st" aria-label="status"></td><td class="num">34</td><td><a href="problems/largest-rectangle-in-histogram.html">Largest Rectangle in Histogram</a></td><td><span class="diff hard">Hard</span></td></tr></tbody></table></div><h2>Common mistakes</h2>
+<h2 id="practice">Practise this pattern (4 problems)</h2><p>Each problem has a statement, hints, approaches, solutions in 4 languages and a code runner. Solve them in order: easy first.</p><div class="ptw"><table class="ptab"><thead><tr><th aria-label="Solved"></th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead><tbody><tr data-id="valid-parentheses"><td class="st" aria-label="status"></td><td class="num">31</td><td><a href="problems/valid-parentheses.html">Valid Parentheses</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="daily-temperatures"><td class="st" aria-label="status"></td><td class="num">32</td><td><a href="problems/daily-temperatures.html">Daily Temperatures</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="evaluate-reverse-polish-notation"><td class="st" aria-label="status"></td><td class="num">33</td><td><a href="problems/evaluate-reverse-polish-notation.html">Evaluate Reverse Polish Notation</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="largest-rectangle-in-histogram"><td class="st" aria-label="status"></td><td class="num">34</td><td><a href="problems/largest-rectangle-in-histogram.html">Largest Rectangle in Histogram</a></td><td><span class="diff hard">Hard</span></td></tr></tbody></table></div><h2 id="common-mistakes">Common mistakes</h2>
 <ul>
 <li>Popping from an empty stack: check first.</li>
 <li>Storing values when you need distances: store <strong>indices</strong> in a monotonic stack.</li>

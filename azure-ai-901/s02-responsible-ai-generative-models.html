@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Session 2: Responsible AI &amp; How Generative Models Work · Azure AI-901 · Learn24</title>
+<meta name="description" content="The six Microsoft responsible AI principles applied to real scenarios, then how large language models actually produce text: tokens, embeddings, conte">
+<meta property="og:title" content="Session 2: Responsible AI &amp; How Generative Models Work · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#50b4ff} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} .pj-cta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0} .pj-cta a{text-decoration:none} article pre{background:#0b1220;color:#d6e0f0;border-radius:10px;padding:12px 14px;overflow-x:auto;font:13px/1.55 var(--mono);max-width:100%} article pre code{background:none;padding:0;border:0;border-radius:0;display:block;color:inherit;font:inherit;white-space:pre} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="s02-responsible-ai-generative-models" data-lesson="azure-ai-901/s02-responsible-ai-generative-models">
+  <div class="kicker">Azure AI-901 · Module 1 · Session 2</div>
+  <h1>Session 2: Responsible AI &amp; How Generative Models Work</h1>
+  <div class="meta"><span>⏱ 10 min read</span><span>📘 Live-session notes</span><span>☁️ Microsoft Foundry</span></div>
+<p>The six Microsoft responsible AI principles applied to real scenarios, then how large language models actually produce text: tokens, embeddings, context windows, model choice, deployment options and the parameters that change every answer.</p>
+<h2 id="the-six-responsible-ai-principles">The six responsible AI principles</h2>
+<p>Microsoft builds and judges AI solutions against six principles. The exam gives a scenario and asks <strong>which principle</strong> is involved, so learn the <em>trigger words</em> for each.</p>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Principle</th>
+<th>The question it asks</th>
+<th>Trigger words in a scenario</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fairness</strong></td>
+<td>Does it treat all people equally?</td>
+<td>bias, discriminate, gender, age, caste, region, “approves fewer loans for…”</td>
+</tr>
+<tr>
+<td><strong>Reliability and safety</strong></td>
+<td>Does it work correctly and fail safely, even in unusual conditions?</td>
+<td>testing, edge cases, errors, “must not give harmful medical advice”, monitoring</td>
+</tr>
+<tr>
+<td><strong>Privacy and security</strong></td>
+<td>Does it protect personal data and resist misuse?</td>
+<td>personal data, consent, PII, encryption, data retention, attacks</td>
+</tr>
+<tr>
+<td><strong>Inclusiveness</strong></td>
+<td>Does it empower everyone, including people with disabilities?</td>
+<td>accessibility, screen readers, captions, multiple languages, low literacy</td>
+</tr>
+<tr>
+<td><strong>Transparency</strong></td>
+<td>Can people understand how and why it works?</td>
+<td>explain the decision, “users must know they are talking to AI”, documentation, limitations</td>
+</tr>
+<tr>
+<td><strong>Accountability</strong></td>
+<td>Who is responsible for it?</td>
+<td>human oversight, governance, audit, “a person must be able to override”</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p>🎯 <strong>Exam tip.</strong> <em>Transparency</em> is about <strong>understanding</strong> the system (explanations, disclosure, documenting limitations). <em>Accountability</em> is about <strong>people being responsible</strong> (governance, oversight, ownership). These two are the most often confused.</p>
+</blockquote>
+<h3>Applying the principles</h3>
+<p><strong>Hiring.</strong> A CV-screening model rejects more women because past hires were mostly men → <strong>fairness</strong>. Fix: test outcomes by group, remove proxy features, keep a human reviewer.</p>
+<p><strong>Lending.</strong> A customer is declined and asks why → <strong>transparency</strong> (give reason codes). The bank must name an owner for the model and review its decisions → <strong>accountability</strong>. Applicants’ income data must be encrypted and not reused without consent → <strong>privacy and security</strong>.</p>
+<p><strong>Healthcare chatbot.</strong> It must never suggest a dangerous dose and must hand over to a doctor when unsure → <strong>reliability and safety</strong>. It should support voice input and regional languages for elderly patients → <strong>inclusiveness</strong>. Patients must be told they are chatting with an AI → <strong>transparency</strong>.</p>
+<p>In Microsoft Foundry these principles show up as concrete features: <strong>content filters</strong> (guardrails) on model deployments, <strong>evaluations</strong> to test quality and safety, and documentation such as transparency notes.</p>
+<h2 id="how-generative-language-models-work">How generative language models work</h2>
+<ol>
+<li><strong>Tokens.</strong> Text is split into tokens: whole words, word pieces or punctuation. Roughly, 1 token ≈ 4 characters of English ≈ ¾ of a word. Pricing and limits are counted in tokens.</li>
+<li><strong>Embeddings.</strong> Each token becomes a long vector of numbers. Words with similar meaning get vectors close together (“bank loan” is near “credit”, far from “river bank” in context).</li>
+<li><strong>Transformer.</strong> Layers of <strong>attention</strong> let every token look at every other token to understand context.</li>
+<li><strong>Next-token prediction.</strong> The model outputs a probability for every possible next token, picks one, appends it and repeats. A response is generated <strong>one token at a time</strong>.</li>
+<li><strong>Context window.</strong> The maximum number of tokens the model can consider at once: the system prompt, conversation history, your documents <strong>and</strong> the answer. Anything beyond it is cut off.</li>
+</ol>
+<blockquote>
+<p>A language model does not look facts up in a database. It predicts plausible text, so it can <strong>hallucinate</strong>: confidently state something false. Grounding with your own data, which you will see in Session 5, reduces this.</p>
+</blockquote>
+<p><strong>Embeddings power semantic search.</strong> Convert documents and questions to embeddings and find the closest vectors. That is the “retrieval” in retrieval-augmented generation (RAG).</p>
+<h2 id="choosing-a-model-by-capability">Choosing a model by capability</h2>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Need</th>
+<th>Choose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>General chat, writing, summarising</td>
+<td>A <strong>language</strong> (chat) model, such as the GPT family, Llama, Mistral or Phi</td>
+</tr>
+<tr>
+<td>Understand images <strong>and</strong> text in one prompt</td>
+<td>A <strong>multimodal</strong> model that accepts image input, such as GPT-4o or the GPT-5 family</td>
+</tr>
+<tr>
+<td>Speech in or out</td>
+<td>A speech-capable model (such as the GPT-4o audio models) <strong>or</strong> Azure Speech in Foundry Tools</td>
+</tr>
+<tr>
+<td>Create images</td>
+<td>An <strong>image-generation</strong> model, such as GPT-Image-1 or FLUX</td>
+</tr>
+<tr>
+<td>Semantic search</td>
+<td>An <strong>embedding</strong> model, such as text-embedding-3</td>
+</tr>
+<tr>
+<td>Complex multi-step reasoning, maths, code</td>
+<td>A <strong>reasoning</strong> model (o-series, GPT-5): slower and costlier, but stronger</td>
+</tr>
+<tr>
+<td>Low cost, low latency, on a device or at the edge</td>
+<td>A <strong>small language model (SLM)</strong> such as Phi</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Small vs large.</strong> Large models are more capable but cost more per token and respond more slowly. Small models are cheaper and faster, and often good enough for focused tasks like classification or extraction. Compare candidates on the <strong>model leaderboard</strong> and with your own test prompts in the Foundry portal.</p>
+<h2 id="deployment-options-in-microsoft-foundry">Deployment options in Microsoft Foundry</h2>
+<p>You never call a model in the catalog directly: you first create a <strong>deployment</strong>, which gets a <strong>deployment name</strong> that your code uses.</p>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>What it means</th>
+<th>When to use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Global Standard</strong></td>
+<td>Pay per token; Azure routes traffic to any region with capacity</td>
+<td>Default choice: highest availability, lowest friction</td>
+</tr>
+<tr>
+<td><strong>Data Zone Standard</strong></td>
+<td>Pay per token; processing stays inside a geographic zone (for example the EU or the US)</td>
+<td>Data-residency requirements</td>
+</tr>
+<tr>
+<td><strong>Standard (regional)</strong></td>
+<td>Pay per token; processed in your resource’s region</td>
+<td>Strict single-region needs</td>
+</tr>
+<tr>
+<td><strong>Provisioned (PTU)</strong></td>
+<td>Reserve throughput capacity for a fixed price</td>
+<td>High, steady, predictable traffic needing guaranteed latency</td>
+</tr>
+<tr>
+<td><strong>Batch</strong></td>
+<td>Submit large jobs that complete asynchronously at lower cost</td>
+<td>Offline bulk processing (classify a million reviews overnight)</td>
+</tr>
+<tr>
+<td><strong>Serverless API / managed compute</strong></td>
+<td>For partner and open models: pay per token, or host on VMs you choose</td>
+<td>Models outside the Azure OpenAI family</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="configuration-parameters">Configuration parameters</h2>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Effect</th>
+<th>Typical setting</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>System prompt</strong> (instructions)</td>
+<td>Sets the role, tone, rules and format for the whole conversation</td>
+<td>“You are a polite bank FAQ assistant. Answer only about our products.”</td>
+</tr>
+<tr>
+<td><strong>Temperature</strong> (0–2)</td>
+<td>Randomness. Low = focused and repeatable, high = creative and varied</td>
+<td>0–0.3 for facts and extraction; 0.7–1.0 for creative writing</td>
+</tr>
+<tr>
+<td><strong>Top-p</strong> (0–1)</td>
+<td>Samples only from the smallest set of tokens whose probabilities add up to <em>p</em></td>
+<td>Adjust temperature <strong>or</strong> top-p, not both</td>
+</tr>
+<tr>
+<td><strong>Max tokens</strong> (max output tokens)</td>
+<td>Upper limit on response length; controls cost and verbosity</td>
+<td>Enough for the expected answer</td>
+</tr>
+<tr>
+<td><strong>Stop sequences</strong></td>
+<td>Text that ends generation</td>
+<td><code>"\n\n"</code>, <code>"END"</code></td>
+</tr>
+<tr>
+<td><strong>Frequency / presence penalty</strong></td>
+<td>Discourage repeating the same words or topics</td>
+<td>Small positive values for less repetition</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p>Reasoning models (o-series, GPT-5 family) do not use temperature; they offer a <strong>reasoning effort</strong> setting instead. To experiment with temperature, use a non-reasoning chat model.</p>
+</blockquote>
+<h2 id="check-yourself">Check yourself</h2>
+<details><summary>An AI loan system approves fewer applicants from one region with the same income and credit history. Which principle is violated?</summary>
+Fairness: people in similar situations are treated differently.</details>
+
+<details><summary>A chatbot must tell users they are talking to an AI, and the team publishes its known limitations. Which principle?</summary>
+Transparency.</details>
+
+<details><summary>You need short, consistent answers when extracting invoice fields. Which temperature would you choose?</summary>
+A low temperature such as 0 to 0.2, for focused and repeatable output.</details>
+
+<details><summary>What is a context window?</summary>
+The maximum number of tokens a model can process in one request, including the system prompt, history, any added documents and the generated answer.</details>
+
+<details><summary>Your traffic is huge and constant, and you need guaranteed latency. Which deployment type fits?</summary>
+Provisioned throughput (PTU).</details><div class="pj-cta"><a class="btn" href="practice/index.html">📝 AI-901 exam practice</a></div>
+  <div class="pj-cta"><a class="btn" href="../mock/index.html">🎤 Practise in a mock interview</a><a class="btn ghost" href="../daily/index.html">🔥 Daily challenge</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="azure-ai-901/s02-responsible-ai-generative-models"></script>
+
+</body>
+</html>

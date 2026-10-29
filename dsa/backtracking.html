@@ -25,12 +25,12 @@
   <h1>Recursion &amp; Backtracking</h1>
   <div class="meta"><span>⏱ 14 min</span><span>🎬 Interactive visualizer</span><span>💻 Python · Java · C++ · JavaScript</span><span>🧩 6 practice problems</span></div>
   <p class="lead">Explore every choice, undo it, and try the next. The template behind subsets, permutations, combinations, N-Queens, Sudoku and word search.</p>
-<h2>Recursion in one sentence</h2>
+<h2 id="recursion-in-one-sentence">Recursion in one sentence</h2>
 <p>A recursive function solves a problem by calling itself on a <strong>smaller</strong> version, with a <strong>base case</strong> that stops. Draw the <strong>recursion tree</strong>: the number of nodes × the work per node is the complexity.</p>
-<h2>Backtracking</h2>
+<h2 id="backtracking">Backtracking</h2>
 <p>Backtracking is DFS over the tree of decisions. At each node you <strong>choose</strong> an option, <strong>explore</strong> further, then <strong>un-choose</strong> it (restore the state) before trying the next option. If a partial choice can already be ruled out, <strong>prune</strong> that whole branch, which is what makes N-Queens and Sudoku fast enough.</p>
 <div class="viz" data-viz="subsets,n-queens"></div>
-<h2>The universal template</h2>
+<h2 id="the-universal-template">The universal template</h2>
 <pre><code>def backtrack(state):
     if state is a complete solution:
         record a COPY of it
@@ -41,7 +41,7 @@
         backtrack(state)
         undo(choice)
 </code></pre>
-<h2>Variations</h2>
+<h2 id="variations">Variations</h2>
 <div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
 <thead>
 <tr>
@@ -142,9 +142,9 @@ vector&lt;vector&lt;int&gt;&gt; subsets(const vector&lt;int&gt;&amp; nums) {
   backtrack(0);
   return res;
 }</code></pre></div>
-<h2>Complexity</h2>
+<h2 id="complexity">Complexity</h2>
 <p>Exponential by nature: subsets O(n·2ⁿ), permutations O(n·n!). Space is O(depth) plus the output. Pruning does not change the worst case but makes real inputs fast.</p>
-<h2 id="practice">Practise this pattern (6 problems)</h2><p>Each problem has a statement, hints, approaches, solutions in 4 languages and a code runner. Solve them in order: easy first.</p><div class="ptw"><table class="ptab"><thead><tr><th aria-label="Solved"></th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead><tbody><tr data-id="subsets"><td class="st" aria-label="status"></td><td class="num">64</td><td><a href="problems/subsets.html">Subsets</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="permutations"><td class="st" aria-label="status"></td><td class="num">65</td><td><a href="problems/permutations.html">Permutations</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="combination-sum"><td class="st" aria-label="status"></td><td class="num">66</td><td><a href="problems/combination-sum.html">Combination Sum</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="word-search"><td class="st" aria-label="status"></td><td class="num">67</td><td><a href="problems/word-search.html">Word Search</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="generate-parentheses"><td class="st" aria-label="status"></td><td class="num">68</td><td><a href="problems/generate-parentheses.html">Generate Parentheses</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="n-queens"><td class="st" aria-label="status"></td><td class="num">69</td><td><a href="problems/n-queens.html">N-Queens</a></td><td><span class="diff hard">Hard</span></td></tr></tbody></table></div><h2>Common mistakes</h2>
+<h2 id="practice">Practise this pattern (6 problems)</h2><p>Each problem has a statement, hints, approaches, solutions in 4 languages and a code runner. Solve them in order: easy first.</p><div class="ptw"><table class="ptab"><thead><tr><th aria-label="Solved"></th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead><tbody><tr data-id="subsets"><td class="st" aria-label="status"></td><td class="num">64</td><td><a href="problems/subsets.html">Subsets</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="permutations"><td class="st" aria-label="status"></td><td class="num">65</td><td><a href="problems/permutations.html">Permutations</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="combination-sum"><td class="st" aria-label="status"></td><td class="num">66</td><td><a href="problems/combination-sum.html">Combination Sum</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="word-search"><td class="st" aria-label="status"></td><td class="num">67</td><td><a href="problems/word-search.html">Word Search</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="generate-parentheses"><td class="st" aria-label="status"></td><td class="num">68</td><td><a href="problems/generate-parentheses.html">Generate Parentheses</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="n-queens"><td class="st" aria-label="status"></td><td class="num">69</td><td><a href="problems/n-queens.html">N-Queens</a></td><td><span class="diff hard">Hard</span></td></tr></tbody></table></div><h2 id="common-mistakes">Common mistakes</h2>
 <ul>
 <li>Appending <code>path</code> itself instead of a copy (all results end up identical and empty).</li>
 <li>Forgetting to undo the choice, so state leaks into sibling branches.</li>

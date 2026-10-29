@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Session 6: Chat App with the Foundry SDK · Azure AI-901 · Learn24</title>
+<meta name="description" content="Connect Python to your Foundry project with keys or keyless sign-in, build a lightweight chat client with the Foundry SDK, keep conversation history a">
+<meta property="og:title" content="Session 6: Chat App with the Foundry SDK · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#50b4ff} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} .pj-cta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0} .pj-cta a{text-decoration:none} article pre{background:#0b1220;color:#d6e0f0;border-radius:10px;padding:12px 14px;overflow-x:auto;font:13px/1.55 var(--mono);max-width:100%} article pre code{background:none;padding:0;border:0;border-radius:0;display:block;color:inherit;font:inherit;white-space:pre} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="s06-chat-app-foundry-sdk" data-lesson="azure-ai-901/s06-chat-app-foundry-sdk">
+  <div class="kicker">Azure AI-901 · Module 3 · Session 6</div>
+  <h1>Session 6: Chat App with the Foundry SDK</h1>
+  <div class="meta"><span>⏱ 10 min read</span><span>📘 Live-session notes</span><span>☁️ Microsoft Foundry</span></div>
+<p>Connect Python to your Foundry project with keys or keyless sign-in, build a lightweight chat client with the Foundry SDK, keep conversation history across turns, handle errors, rate limits and token usage, and optionally put a Streamlit front end on it.</p>
+<h2 id="the-pieces">The pieces</h2>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Piece</th>
+<th>Value</th>
+<th>Where to find it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Project endpoint</strong></td>
+<td><code>https://&lt;resource&gt;.services.ai.azure.com/api/projects/&lt;project&gt;</code></td>
+<td>Project Overview page</td>
+</tr>
+<tr>
+<td><strong>Deployment name</strong></td>
+<td>the name you gave the deployed model, for example <code>chat-model</code></td>
+<td>Models → Deployments</td>
+</tr>
+<tr>
+<td><strong>Azure OpenAI v1 endpoint</strong> (key option)</td>
+<td><code>https://&lt;resource&gt;.openai.azure.com/openai/v1/</code></td>
+<td>Project Overview / resource keys page</td>
+</tr>
+<tr>
+<td><strong>API key</strong> (key option)</td>
+<td>a secret string</td>
+<td>Project Overview, or the resource’s <em>Keys and Endpoint</em> page</td>
+</tr>
+</tbody>
+</table></div>
+<p>Install the packages (Python 3.10+):</p>
+<pre><code class="language-bash">pip install &quot;azure-ai-projects&gt;=2.3.0&quot; azure-identity openai python-dotenv
+</code></pre>
+<h2 id="option-1-keyless-authentication-recommended">Option 1: keyless authentication (recommended)</h2>
+<p>The <strong>Foundry SDK</strong> (<code>azure-ai-projects</code>) uses <strong>Microsoft Entra ID</strong> through <code>DefaultAzureCredential</code>. Run <code>az login</code> first, and make sure your account has a role such as <strong>Azure AI User</strong> on the project. The project client gives you a ready OpenAI client:</p>
+<pre><code class="language-python">import os
+from dotenv import load_dotenv
+from azure.identity import DefaultAzureCredential
+from azure.ai.projects import AIProjectClient
+
+load_dotenv()
+
+project = AIProjectClient(
+    endpoint=os.environ[&quot;FOUNDRY_PROJECT_ENDPOINT&quot;],
+    credential=DefaultAzureCredential(),
+)
+client = project.get_openai_client()          # OpenAI-compatible client for this project
+
+response = client.responses.create(
+    model=os.environ[&quot;FOUNDRY_MODEL_NAME&quot;],      # the DEPLOYMENT name
+    instructions=&quot;You are a helpful assistant for Contoso Bank. Keep answers short.&quot;,
+    input=&quot;What is a fixed deposit?&quot;,
+)
+print(response.output_text)
+</code></pre>
+<p><code>DefaultAzureCredential</code> tries several sign-in methods in order: environment variables, a <strong>managed identity</strong> (when running in Azure), the Azure CLI login, VS Code and others. The same code works on your laptop and in production.</p>
+<h2 id="option-2-api-key">Option 2: API key</h2>
+<pre><code class="language-python">import os
+from dotenv import load_dotenv
+from openai import OpenAI
+
+load_dotenv()
+client = OpenAI(
+    base_url=os.environ[&quot;FOUNDRY_OPENAI_ENDPOINT&quot;],   # https://&lt;resource&gt;.openai.azure.com/openai/v1/
+    api_key=os.environ[&quot;FOUNDRY_API_KEY&quot;],
+)
+response = client.responses.create(model=os.environ[&quot;FOUNDRY_MODEL_NAME&quot;], input=&quot;Hello!&quot;)
+print(response.output_text)
+</code></pre>
+<p>Keys are quick for labs, but store them only in <code>.env</code> or <strong>Azure Key Vault</strong>, never in code or Git, and rotate them if they leak.</p>
+<h2 id="responses-api-vs-chat-completions">Responses API vs Chat Completions</h2>
+<p>Foundry supports both OpenAI-style APIs. The <strong>Responses API</strong> (<code>client.responses.create</code>) is the newer one: it takes <code>instructions</code> and <code>input</code>, returns <code>output_text</code>, can keep state with <code>previous_response_id</code>, and supports tools. The older <strong>Chat Completions API</strong> (<code>client.chat.completions.create(messages=[...])</code>) returns <code>choices[0].message.content</code>. Know both shapes for the exam.</p>
+<h2 id="managing-conversation-history">Managing conversation history</h2>
+<p>A model is <strong>stateless</strong>: it remembers nothing between calls unless you send the history.</p>
+<p><strong>Approach A: send the full message list yourself</strong></p>
+<pre><code class="language-python">history = [{&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;You are Asha, Contoso Bank's FAQ assistant. Answer in under 80 words.&quot;}]
+
+while True:
+    user = input(&quot;You: &quot;).strip()
+    if user.lower() in {&quot;quit&quot;, &quot;exit&quot;}:
+        break
+    history.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: user})
+    response = client.responses.create(model=os.environ[&quot;FOUNDRY_MODEL_NAME&quot;], input=history)
+    answer = response.output_text
+    history.append({&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: answer})
+    print(&quot;Asha:&quot;, answer)
+</code></pre>
+<p><strong>Approach B: let the service chain turns</strong></p>
+<pre><code class="language-python">first = client.responses.create(model=MODEL, input=&quot;What is the size of France in square miles?&quot;)
+follow = client.responses.create(model=MODEL, input=&quot;And what is the capital city?&quot;,
+                                 previous_response_id=first.id)     # the service keeps the context
+print(follow.output_text)
+</code></pre>
+<p>Long conversations grow the token count (and cost) on every turn. Keep the last <em>N</em> turns, or summarise older turns into one message, so you stay inside the <strong>context window</strong>.</p>
+<h2 id="errors-rate-limits-and-token-usage">Errors, rate limits and token usage</h2>
+<p>Each deployment has a <strong>tokens-per-minute (TPM)</strong> and <strong>requests-per-minute (RPM)</strong> quota. Exceeding it returns <strong>HTTP 429 (Too Many Requests)</strong>. Retry with exponential backoff:</p>
+<pre><code class="language-python">import time
+from openai import RateLimitError, APIConnectionError, APIStatusError
+
+def ask(messages, retries=4):
+    for attempt in range(retries):
+        try:
+            r = client.responses.create(model=MODEL, input=messages, max_output_tokens=400)
+            u = r.usage
+            print(f&quot;[tokens] in={u.input_tokens} out={u.output_tokens} total={u.total_tokens}&quot;)
+            return r.output_text
+        except RateLimitError:
+            wait = 2 ** attempt
+            print(f&quot;Rate limited, retrying in {wait}s...&quot;)
+            time.sleep(wait)
+        except APIConnectionError:
+            print(&quot;Network problem, retrying...&quot;)
+            time.sleep(2)
+        except APIStatusError as e:          # 400 (bad request / content filter), 401, 404...
+            print(&quot;Request failed:&quot;, e.status_code, e.message)
+            return None
+    return None
+</code></pre>
+<p>Common errors:</p>
+<ul>
+<li><strong>401 / 403</strong>: wrong key, or your identity lacks a role on the project.</li>
+<li><strong>404</strong>: wrong endpoint or <strong>deployment name</strong>.</li>
+<li><strong>400 with content filter</strong>: the prompt or answer was blocked by the deployment’s guardrails.</li>
+<li><strong>429</strong>: rate limit. Back off, or raise the deployment’s TPM quota.</li>
+</ul>
+<h2 id="optional-a-streamlit-front-end">Optional: a Streamlit front end</h2>
+<pre><code class="language-python"># app.py  -&gt;  run with:  streamlit run app.py
+import os, streamlit as st
+from dotenv import load_dotenv
+from azure.identity import DefaultAzureCredential
+from azure.ai.projects import AIProjectClient
+
+load_dotenv()
+MODEL = os.environ[&quot;FOUNDRY_MODEL_NAME&quot;]
+
+@st.cache_resource
+def get_client():
+    project = AIProjectClient(endpoint=os.environ[&quot;FOUNDRY_PROJECT_ENDPOINT&quot;], credential=DefaultAzureCredential())
+    return project.get_openai_client()
+
+st.title(&quot;🏦 Contoso Bank Assistant&quot;)
+if &quot;history&quot; not in st.session_state:
+    st.session_state.history = [{&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;You are a concise, polite bank FAQ assistant.&quot;}]
+
+for m in st.session_state.history[1:]:
+    st.chat_message(m[&quot;role&quot;]).write(m[&quot;content&quot;])
+
+if prompt := st.chat_input(&quot;Ask about accounts, cards or UPI&quot;):
+    st.session_state.history.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt})
+    st.chat_message(&quot;user&quot;).write(prompt)
+    answer = get_client().responses.create(model=MODEL, input=st.session_state.history).output_text
+    st.session_state.history.append({&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: answer})
+    st.chat_message(&quot;assistant&quot;).write(answer)
+</code></pre>
+<h2 id="check-yourself">Check yourself</h2>
+<details><summary>Which Python class from the Foundry SDK connects to your project, and which method returns an OpenAI client?</summary>
+<code>AIProjectClient</code>, and <code>get_openai_client()</code>.</details>
+
+<details><summary>Your app gets HTTP 429 errors at peak time. What should the code do?</summary>
+Retry with exponential backoff and, if needed, increase the deployment’s tokens-per-minute quota or spread the load.</details>
+
+<details><summary>Why does the model “forget” the user’s name between two separate calls?</summary>
+Models are stateless. You must send the conversation history (or use <code>previous_response_id</code>) for context.</details>
+
+<details><summary>Which credential class lets the same code work locally (Azure CLI login) and in Azure (managed identity)?</summary>
+<code>DefaultAzureCredential</code>.</details><div class="pj-cta"><a class="btn" href="practice/index.html">📝 AI-901 exam practice</a></div>
+  <div class="pj-cta"><a class="btn" href="../mock/index.html">🎤 Practise in a mock interview</a><a class="btn ghost" href="../daily/index.html">🔥 Daily challenge</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="azure-ai-901/s06-chat-app-foundry-sdk"></script>
+
+</body>
+</html>

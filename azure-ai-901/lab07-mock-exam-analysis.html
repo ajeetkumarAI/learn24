@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lab 7: Mock Exam Analysis · Azure AI-901 · Learn24</title>
+<meta name="description" content="Turn two mock exams into a personal revision plan: attempt Mock Exams 1 and 2 under timed conditions, log every wrong answer with the skill it tests, ">
+<meta property="og:title" content="Lab 7: Mock Exam Analysis · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#50b4ff} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} .pj-cta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0} .pj-cta a{text-decoration:none} article pre{background:#0b1220;color:#d6e0f0;border-radius:10px;padding:12px 14px;overflow-x:auto;font:13px/1.55 var(--mono);max-width:100%} article pre code{background:none;padding:0;border:0;border-radius:0;display:block;color:inherit;font:inherit;white-space:pre} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="lab07-mock-exam-analysis" data-lesson="azure-ai-901/lab07-mock-exam-analysis">
+  <div class="kicker">Azure AI-901 · Module 7 · Lab 7</div>
+  <h1>Lab 7: Mock Exam Analysis</h1>
+  <div class="meta"><span>⏱ 10 min read</span><span>🧪 Hands-on lab</span><span>☁️ Microsoft Foundry</span></div>
+<p>Turn two mock exams into a personal revision plan: attempt Mock Exams 1 and 2 under timed conditions, log every wrong answer with the skill it tests, redo the related lab step for each weak skill, and build your revision checklist.</p>
+<p><strong>Time:</strong> 2–3 hours · <strong>You need:</strong> the <a href="practice/index.html">AI-901 Exam Practice</a> page, and a spreadsheet or notebook.</p>
+<blockquote>
+<p><strong>Outcome.</strong> A clear, personal list of what to revise before the exam.</p>
+</blockquote>
+<h2 id="step-1-attempt-both-mocks-under-timed-conditions">Step 1: Attempt both mocks under timed conditions</h2>
+<ol>
+<li>Open <a href="practice/index.html#mock1">Mock Exam 1</a> in <strong>exam mode</strong> (45 minutes, no feedback until the end).</li>
+<li>Take a 10-minute break, then <a href="practice/index.html#mock2">Mock Exam 2</a>.</li>
+<li>Note both scores. The practice page saves your best score per mock on this device.</li>
+</ol>
+<h2 id="step-2-log-every-wrong-answer">Step 2: Log every wrong answer</h2>
+<p>Use the review screen after each mock. Copy each wrong (or guessed) answer into a log:</p>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Mock</th>
+<th>Q#</th>
+<th>Skill tested</th>
+<th>Why I got it wrong (knowledge / misread / guessed)</th>
+<th>Correct idea in one line</th>
+<th>Lab step to redo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>7</td>
+<td>Agents: tools</td>
+<td>knowledge</td>
+<td>Code interpreter runs Python for calculations; file search searches documents</td>
+<td>Lab 3, Step 4</td>
+</tr>
+<tr>
+<td>1</td>
+<td>15</td>
+<td>Responsible AI</td>
+<td>misread (“NOT”)</td>
+<td>Accountability = human oversight and governance</td>
+<td>Lab 1, Step 6</td>
+</tr>
+<tr>
+<td>2</td>
+<td>22</td>
+<td>Content Understanding</td>
+<td>knowledge</td>
+<td>Analyze is async: poll Operation-Location</td>
+<td>Lab 6, Step 3</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Pattern check:</strong> if more than a third of your errors are <em>misreads</em>, slow down on the question stem; if they cluster in one skill, that skill is your priority.</p>
+<h2 id="step-3-redo-the-lab-step-for-each-weak-skill">Step 3: Redo the lab step for each weak skill</h2>
+<p>Hands-on repetition is the fastest fix for Domain 2 gaps. For each skill in your log, redo the listed step <strong>without looking at the solution</strong>, then compare:</p>
+<ul>
+<li><strong>Chat SDK</strong> → write the <code>AIProjectClient</code> → <code>get_openai_client()</code> → <code>responses.create()</code> script from memory (Lab 3).</li>
+<li><strong>Agents</strong> → create a new agent version with different instructions and a file search tool; call it with a conversation (Lab 3).</li>
+<li><strong>Language / Speech</strong> → recognise one WAV file and analyse its sentiment (Lab 4).</li>
+<li><strong>Vision</strong> → send one image with an <code>input_image</code> part (Lab 5).</li>
+<li><strong>Content Understanding</strong> → analyze one invoice and read <code>TotalAmount</code> from the result (Lab 6).</li>
+</ul>
+<h2 id="step-4-retest-the-weak-topics">Step 4: Retest the weak topics</h2>
+<p>On the practice page, open <strong>Topic practice</strong>, choose each weak skill and answer the drill in <strong>study mode</strong> (instant explanations) until you reach <strong>80%+</strong> on that topic.</p>
+<h2 id="step-5-build-your-revision-checklist">Step 5: Build your revision checklist</h2>
+<p>Create a one-page checklist for the last week, for example:</p>
+<ul>
+<li>[ ] Six responsible AI principles with one scenario each, from memory</li>
+<li>[ ] Temperature vs top-p vs max tokens; reasoning models use reasoning effort instead</li>
+<li>[ ] Deployment types: Global Standard, Data Zone, Standard, Provisioned, Batch</li>
+<li>[ ] Project endpoint vs resource endpoint, and keys vs Entra ID</li>
+<li>[ ] Agent = model + instructions + tools + knowledge; conversations keep history</li>
+<li>[ ] Language methods: sentiment, key phrases, entities, PII, language detection, summarisation</li>
+<li>[ ] Speech: <code>SpeechConfig</code>, recognizer, synthesizer, voice name, SSML, output format</li>
+<li>[ ] <code>input_image</code> for vision; <code>images.generate</code> (or the image_generation tool) for new images</li>
+<li>[ ] Content Understanding: analyzer, field schema (extract / generate / classify), async polling, confidence</li>
+</ul>
+<h2 id="check-yourself">Check yourself</h2>
+<details><summary>Most of your errors are in questions with words like “NOT” or “least”. What is the fix?</summary>
+A reading technique, not more content: read the last line first and underline constraints before looking at options.</details><div class="pj-cta"><a class="btn" href="practice/index.html">📝 AI-901 exam practice</a></div>
+  <div class="pj-cta"><a class="btn" href="../mock/index.html">🎤 Practise in a mock interview</a><a class="btn ghost" href="../daily/index.html">🔥 Daily challenge</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="azure-ai-901/lab07-mock-exam-analysis"></script>
+
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lab 2: AI Workload Explorer · Azure AI-901 · Learn24</title>
+<meta name="description" content="Get hands-on with every Domain 1 workload in one sitting: run sentiment, key phrase and entity detection on customer reviews, convert speech to text a">
+<meta property="og:title" content="Lab 2: AI Workload Explorer · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#50b4ff} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} .pj-cta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0} .pj-cta a{text-decoration:none} article pre{background:#0b1220;color:#d6e0f0;border-radius:10px;padding:12px 14px;overflow-x:auto;font:13px/1.55 var(--mono);max-width:100%} article pre code{background:none;padding:0;border:0;border-radius:0;display:block;color:inherit;font:inherit;white-space:pre} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="lab02-ai-workload-explorer" data-lesson="azure-ai-901/lab02-ai-workload-explorer">
+  <div class="kicker">Azure AI-901 · Module 2 · Lab 2</div>
+  <h1>Lab 2: AI Workload Explorer</h1>
+  <div class="meta"><span>⏱ 10 min read</span><span>🧪 Hands-on lab</span><span>☁️ Microsoft Foundry</span></div>
+<p>Get hands-on with every Domain 1 workload in one sitting: run sentiment, key phrase and entity detection on customer reviews, convert speech to text and back, caption an image, read text from a scanned document, and finish the workload-matching sheet.</p>
+<p><strong>Time:</strong> 75–90 minutes · <strong>You need:</strong> the Foundry project from Lab 1 (with a multimodal chat model deployed, such as <code>gpt-4o-mini</code> or a GPT-5 family model), a short audio clip, an image and a scanned document (photos from your phone are fine).</p>
+<blockquote>
+<p><strong>Outcome.</strong> Hands-on familiarity with every AI workload tested in Domain 1.</p>
+</blockquote>
+<p>Foundry gives you two ways to try each workload. The <strong>Foundry Tools playgrounds</strong> (Language, Speech and others, found under the tools / AI services area of your project) call the specialised services. The <strong>chat playground</strong> with a multimodal model does the same tasks through prompting. Try both where you can and compare the outputs.</p>
+<h2 id="step-1-text-analysis-on-customer-reviews">Step 1: Text analysis on customer reviews</h2>
+<p>Sample reviews:</p>
+<pre><code>1. The new Contoso credit card has excellent cashback but the mobile app keeps logging me out.
+2. Very disappointed. My UPI refund of Rs 2,450 from 12 March is still pending. Ref: TXN99812.
+3. Ananya at the Koramangala branch was extremely helpful in opening my daughter's account.
+4. Fees are okay. Nothing special.
+</code></pre>
+<p><strong>A. With Azure Language (Foundry Tools playground).</strong> Open the <strong>Language</strong> playground in your project, choose each feature in turn, paste the reviews and run:</p>
+<ul>
+<li><strong>Sentiment analysis</strong>: note the document label <em>and</em> the sentence-level labels. Review 1 should come out as <strong>mixed</strong>.</li>
+<li><strong>Key phrase extraction</strong>: which phrases appear for review 2?</li>
+<li><strong>Named entity recognition</strong>: find the Person, Location, DateTime and Quantity entities.</li>
+<li><strong>PII detection</strong>: see the redacted version of review 2.</li>
+</ul>
+<p><strong>B. With the chat model.</strong> In the chat playground, try:</p>
+<pre><code>For each review below, return JSON with: sentiment (positive/negative/neutral/mixed),
+key_phrases (list), entities (list of {text, category}). Reviews:
+&lt;paste the four reviews&gt;
+</code></pre>
+<p>Compare: the Language service gives <strong>calibrated confidence scores</strong> and a fixed schema; the LLM is flexible but its output format and labels depend on your prompt.</p>
+<h2 id="step-2-speech-to-text-and-text-to-speech">Step 2: Speech to text and text to speech</h2>
+<ol>
+<li>Record a 10–15 second clip on your phone, for example: <em>“Hi, I want to know why my debit card was charged an annual fee of four hundred rupees.”</em> Save it as WAV or MP3.</li>
+<li>In the <strong>Speech</strong> playground, open <strong>real-time speech to text</strong>, upload the file (or use your microphone) and read the transcript. Try the language set to <em>English (India)</em>.</li>
+<li>Open <strong>text to speech</strong> (voice gallery). Type a reply: <em>“We have reversed the annual fee. It will reflect in two working days.”</em> Try two voices, such as <code>en-IN-NeerjaNeural</code> and <code>en-IN-PrabhatNeural</code>, and change the speaking rate.</li>
+</ol>
+<h2 id="step-3-analyse-and-caption-an-image">Step 3: Analyse and caption an image</h2>
+<p>In the chat playground (multimodal model), attach a photo, for example a shop front, a product or a street, and ask:</p>
+<pre><code>1. Write a one-sentence caption for this image.
+2. List the main objects you can see.
+3. Is there any visible text? Transcribe it exactly.
+</code></pre>
+<p>Then ask a follow-up visual question, such as <em>“How many people are in the photo?”</em> This is <strong>visual question answering</strong>.</p>
+<h2 id="step-4-ocr-on-a-scanned-document">Step 4: OCR on a scanned document</h2>
+<p>Attach a photo of a printed receipt, bill or form and ask:</p>
+<pre><code>Extract all printed text exactly as it appears, preserving line breaks.
+Then list: merchant name, date, total amount.
+</code></pre>
+<p>Check what it got right and what it misread (smudges, small fonts, handwriting). In Session 10 you will do this at scale with Content Understanding, which returns typed fields with confidence scores.</p>
+<h2 id="step-5-workload-matching-sheet">Step 5: Workload-matching sheet</h2>
+<p>Pick the right Azure capability for each scenario.</p>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Scenario</th>
+<th>Your answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Mask phone numbers in chat transcripts</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Narrate account statements for visually impaired customers</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Get invoice totals from PDFs into Excel</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Generate a banner image for a new home-loan offer</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Know which branch is mentioned most in complaints</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Caption photos uploaded by field agents</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>Transcribe and summarise recorded sales calls</td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>Answer policy questions and log a ticket automatically</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<details><summary>Show answers</summary>
+1 Azure Language PII detection · 2 Azure Speech text-to-speech · 3 Content Understanding (document analyzer) · 4 Image-generation model (GPT-Image-1) · 5 Azure Language named entity recognition (Location) · 6 Multimodal model captioning · 7 Azure Speech speech-to-text, then summarisation (or a Content Understanding audio analyzer) · 8 An agent with file search and a ticketing tool</details>
+
+<h2 id="check-yourself">Check yourself</h2>
+<details><summary>Review 1 praised the cashback and criticised the app. What document-level sentiment did you get?</summary>
+Mixed: one positive and one negative sentence.</details>
+
+<details><summary>Why might you prefer Azure Language over prompting an LLM for sentiment at scale?</summary>
+It returns a fixed schema with calibrated confidence scores, costs less per record and behaves consistently without prompt tuning.</details>
+
+<details><summary>Which playground converts a typed reply into spoken audio?</summary>
+The Speech playground’s text-to-speech feature.</details><div class="pj-cta"><a class="btn" href="practice/index.html">📝 AI-901 exam practice</a></div>
+  <div class="pj-cta"><a class="btn" href="../mock/index.html">🎤 Practise in a mock interview</a><a class="btn ghost" href="../daily/index.html">🔥 Daily challenge</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="azure-ai-901/lab02-ai-workload-explorer"></script>
+
+</body>
+</html>

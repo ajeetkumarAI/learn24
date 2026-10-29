@@ -13,6 +13,7 @@
   const projDone = done.filter(k => k.startsWith('projects/')).length;
   const rmDone = Object.entries(S.roadmap).filter(([k, v]) => v && v.complete).length;
   const dsaSolved = Object.keys((S.dsa && S.dsa.solved) || {}).length;
+  const azBest = ((S.az && S.az.best) || {}), azMocks = ['mock1', 'mock2', 'mock3'].filter(m => azBest[m] !== undefined).length;
   const TR = [
     topicTrack('genai-course', 'Generative AI Foundations'),
     topicTrack('langchain-course', 'LangChain Hands-on Developer'),
@@ -20,6 +21,8 @@
     topicTrack('ai-finance', 'AI in Finance & Fraud Detection'),
     topicTrack('aws-saa', 'AWS Cloud Foundations'),
     topicTrack('dsa', 'Data Structures & Algorithms'),
+    topicTrack('azure-ai-901', 'Azure AI Fundamentals (AI-901) Course'),
+    { id: 'az-901-ready', name: 'AI-901 Exam Ready', how: 'Attempt all 3 AI-901 mock exams and score 80%+ on Mock Exam 3', have: azMocks + ((azBest.mock3 || 0) >= 80 ? 1 : 0), goal: 4, note: `${azMocks}/3 mocks · Mock 3 best ${azBest.mock3 !== undefined ? azBest.mock3 + '%' : '–'}`, href: `${base}azure-ai-901/practice/index.html` },
     { id: 'dsa-solver', name: 'DSA Problem Solver', how: 'Solve 30 DSA practice problems (Submit until “Accepted”)', have: Math.min(30, dsaSolved), goal: 30, href: `${base}dsa/problems/index.html` },
     { id: 'interview-ready', name: 'AI Interview Ready', how: 'Finish 5 mock interviews, with your last 3 averaging 70%+', have: Math.min(5, mocks.length) + (mocks.length >= 5 && avg3 >= 70 ? 1 : 0), goal: 6, note: `${mocks.length} mocks · last-3 average ${avg3}%`, href: `${base}mock/index.html` },
     { id: 'portfolio-builder', name: 'AI Portfolio Builder', how: 'Finish 3 portfolio projects (press “Mark as done” on each project page)', have: projDone, goal: 3, href: `${base}projects/index.html` },

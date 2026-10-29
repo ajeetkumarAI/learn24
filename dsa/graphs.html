@@ -25,11 +25,11 @@
   <h1>Graphs: BFS &amp; DFS</h1>
   <div class="meta"><span>⏱ 15 min</span><span>🎬 Interactive visualizer</span><span>💻 Python · Java · C++ · JavaScript</span><span>🧩 5 practice problems</span></div>
   <p class="lead">Model the problem as nodes and edges, then explore with breadth-first or depth-first search. This covers grids, islands, connectivity and shortest paths in unweighted graphs.</p>
-<h2>Modelling</h2>
+<h2 id="modelling">Modelling</h2>
 <p>A <strong>graph</strong> is a set of nodes connected by edges, which can be directed or undirected, weighted or unweighted. Interview graphs are often hidden: a grid (each cell is a node, neighbours are edges), word ladders (words that differ by one letter), states of a puzzle, course prerequisites.</p>
 <p>Store a graph as an <strong>adjacency list</strong>: <code>adj[u] = [v1, v2, …]</code>. It uses O(V + E) memory, which is better than a V × V matrix for sparse graphs.</p>
 <div class="viz" data-viz="bfs,dfs,grid-bfs"></div>
-<h2>BFS or DFS?</h2>
+<h2 id="bfs-or-dfs">BFS or DFS?</h2>
 <div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
 <thead>
 <tr>
@@ -62,7 +62,7 @@
 </tbody>
 </table></div>
 <p>Both are <strong>O(V + E)</strong>. On an m × n grid that is O(m·n).</p>
-<h2>The template you will reuse forever</h2>
+<h2 id="the-template-you-will-reuse-forever">The template you will reuse forever</h2>
 <ol>
 <li>Build the adjacency list (or use the grid directions).</li>
 <li>Keep a <strong>visited</strong> set, and mark nodes when you <em>enqueue</em> them (not when you dequeue), so nothing is added twice.</li>
@@ -163,7 +163,7 @@ function countComponents(n, adj) {
 }
 
 const DIRS = [[1, 0], [-1, 0], [0, 1], [0, -1]]; // grid neighbours</code></pre></div>
-<h2 id="practice">Practise this pattern (5 problems)</h2><p>Each problem has a statement, hints, approaches, solutions in 4 languages and a code runner. Solve them in order: easy first.</p><div class="ptw"><table class="ptab"><thead><tr><th aria-label="Solved"></th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead><tbody><tr data-id="flood-fill"><td class="st" aria-label="status"></td><td class="num">54</td><td><a href="problems/flood-fill.html">Flood Fill</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="find-if-path-exists-in-graph"><td class="st" aria-label="status"></td><td class="num">55</td><td><a href="problems/find-if-path-exists-in-graph.html">Find if Path Exists in Graph</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="number-of-islands"><td class="st" aria-label="status"></td><td class="num">56</td><td><a href="problems/number-of-islands.html">Number of Islands</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="max-area-of-island"><td class="st" aria-label="status"></td><td class="num">57</td><td><a href="problems/max-area-of-island.html">Max Area of Island</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="rotting-oranges"><td class="st" aria-label="status"></td><td class="num">58</td><td><a href="problems/rotting-oranges.html">Rotting Oranges</a></td><td><span class="diff medium">Medium</span></td></tr></tbody></table></div><h2>Common mistakes</h2>
+<h2 id="practice">Practise this pattern (5 problems)</h2><p>Each problem has a statement, hints, approaches, solutions in 4 languages and a code runner. Solve them in order: easy first.</p><div class="ptw"><table class="ptab"><thead><tr><th aria-label="Solved"></th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead><tbody><tr data-id="flood-fill"><td class="st" aria-label="status"></td><td class="num">54</td><td><a href="problems/flood-fill.html">Flood Fill</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="find-if-path-exists-in-graph"><td class="st" aria-label="status"></td><td class="num">55</td><td><a href="problems/find-if-path-exists-in-graph.html">Find if Path Exists in Graph</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="number-of-islands"><td class="st" aria-label="status"></td><td class="num">56</td><td><a href="problems/number-of-islands.html">Number of Islands</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="max-area-of-island"><td class="st" aria-label="status"></td><td class="num">57</td><td><a href="problems/max-area-of-island.html">Max Area of Island</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="rotting-oranges"><td class="st" aria-label="status"></td><td class="num">58</td><td><a href="problems/rotting-oranges.html">Rotting Oranges</a></td><td><span class="diff medium">Medium</span></td></tr></tbody></table></div><h2 id="common-mistakes">Common mistakes</h2>
 <ul>
 <li>Marking visited too late (on dequeue) in BFS, which adds duplicates and can blow up the queue.</li>
 <li>Forgetting disconnected components: loop over every node.</li>

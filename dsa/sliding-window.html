@@ -25,10 +25,10 @@
   <h1>Sliding Window</h1>
   <div class="meta"><span>⏱ 15 min</span><span>🎬 Interactive visualizer</span><span>💻 Python · Java · C++ · JavaScript</span><span>🧩 5 practice problems</span></div>
   <p class="lead">Keep a window over a contiguous range and update it in O(1) as it slides. The go-to pattern for “longest / shortest / best subarray or substring”.</p>
-<h2>The idea</h2>
+<h2 id="the-idea">The idea</h2>
 <p>Many questions ask about the best <strong>contiguous</strong> subarray or substring. Re-computing each window from scratch is O(n·k). A <strong>sliding window</strong> keeps running state (a sum, counts, a set) and updates it as the right edge moves in and the left edge moves out, so each element enters and leaves once: <strong>O(n)</strong>.</p>
 <div class="viz" data-viz="window-fixed,window-var,kadane"></div>
-<h2>Two flavours</h2>
+<h2 id="two-flavours">Two flavours</h2>
 <p><strong>Fixed size k</strong>: add <code>a[r]</code>, remove <code>a[r − k]</code>, record the answer. Examples: max sum of k elements, averages, sliding window maximum (with a monotonic deque).</p>
 <p><strong>Variable size</strong>: expand <code>right</code> every step; while the window breaks a rule, shrink from <code>left</code>. Record the best valid window. Examples:</p>
 <ul>
@@ -36,7 +36,7 @@
 <li>Longest substring with at most k changes (rule: <code>len − maxFreq ≤ k</code>)</li>
 <li>Minimum window substring (shrink while the window still covers <code>t</code>)</li>
 </ul>
-<h2>Recognise it</h2>
+<h2 id="recognise-it">Recognise it</h2>
 <ul>
 <li>“<strong>contiguous</strong> subarray / substring”</li>
 <li>“longest”, “shortest”, “at most k”, “maximum sum of size k”</li>
@@ -122,9 +122,9 @@ function maxSumK(a, k) {
   for (let r = k; r &lt; a.length; r++) { s += a[r] - a[r - k]; best = Math.max(best, s); }
   return best;
 }</code></pre></div>
-<h2>Complexity</h2>
+<h2 id="complexity">Complexity</h2>
 <p>O(n) time, because <code>left</code> and <code>right</code> each move at most n times. Space is O(1), or O(alphabet) for character counts.</p>
-<h2 id="practice">Practise this pattern (5 problems)</h2><p>Each problem has a statement, hints, approaches, solutions in 4 languages and a code runner. Solve them in order: easy first.</p><div class="ptw"><table class="ptab"><thead><tr><th aria-label="Solved"></th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead><tbody><tr data-id="best-time-to-buy-and-sell-stock"><td class="st" aria-label="status"></td><td class="num">16</td><td><a href="problems/best-time-to-buy-and-sell-stock.html">Best Time to Buy and Sell Stock</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="longest-substring-without-repeating-characters"><td class="st" aria-label="status"></td><td class="num">17</td><td><a href="problems/longest-substring-without-repeating-characters.html">Longest Substring Without Repeating Characters</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="longest-repeating-character-replacement"><td class="st" aria-label="status"></td><td class="num">18</td><td><a href="problems/longest-repeating-character-replacement.html">Longest Repeating Character Replacement</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="minimum-window-substring"><td class="st" aria-label="status"></td><td class="num">19</td><td><a href="problems/minimum-window-substring.html">Minimum Window Substring</a></td><td><span class="diff hard">Hard</span></td></tr><tr data-id="sliding-window-maximum"><td class="st" aria-label="status"></td><td class="num">20</td><td><a href="problems/sliding-window-maximum.html">Sliding Window Maximum</a></td><td><span class="diff hard">Hard</span></td></tr></tbody></table></div><h2>Common mistakes</h2>
+<h2 id="practice">Practise this pattern (5 problems)</h2><p>Each problem has a statement, hints, approaches, solutions in 4 languages and a code runner. Solve them in order: easy first.</p><div class="ptw"><table class="ptab"><thead><tr><th aria-label="Solved"></th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead><tbody><tr data-id="best-time-to-buy-and-sell-stock"><td class="st" aria-label="status"></td><td class="num">16</td><td><a href="problems/best-time-to-buy-and-sell-stock.html">Best Time to Buy and Sell Stock</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="longest-substring-without-repeating-characters"><td class="st" aria-label="status"></td><td class="num">17</td><td><a href="problems/longest-substring-without-repeating-characters.html">Longest Substring Without Repeating Characters</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="longest-repeating-character-replacement"><td class="st" aria-label="status"></td><td class="num">18</td><td><a href="problems/longest-repeating-character-replacement.html">Longest Repeating Character Replacement</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="minimum-window-substring"><td class="st" aria-label="status"></td><td class="num">19</td><td><a href="problems/minimum-window-substring.html">Minimum Window Substring</a></td><td><span class="diff hard">Hard</span></td></tr><tr data-id="sliding-window-maximum"><td class="st" aria-label="status"></td><td class="num">20</td><td><a href="problems/sliding-window-maximum.html">Sliding Window Maximum</a></td><td><span class="diff hard">Hard</span></td></tr></tbody></table></div><h2 id="common-mistakes">Common mistakes</h2>
 <ul>
 <li>Using a sliding window when values can be <strong>negative</strong> and you need an exact sum: use prefix sums + a hash map.</li>
 <li>Updating the answer at the wrong moment: for the <em>longest</em> window, record after shrinking; for the <em>shortest</em>, record inside the shrinking loop.</li>

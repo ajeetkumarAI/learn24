@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Session 13: Topic-wise Practice Questions · Azure AI-901 · Learn24</title>
+<meta name="description" content="Work through Domain 1 practice (responsible AI, model concepts, AI workloads) and Domain 2 practice (Foundry apps and agents, text, speech, vision, Co">
+<meta property="og:title" content="Session 13: Topic-wise Practice Questions · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#50b4ff} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} .pj-cta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0} .pj-cta a{text-decoration:none} article pre{background:#0b1220;color:#d6e0f0;border-radius:10px;padding:12px 14px;overflow-x:auto;font:13px/1.55 var(--mono);max-width:100%} article pre code{background:none;padding:0;border:0;border-radius:0;display:block;color:inherit;font:inherit;white-space:pre} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="s13-topic-wise-practice" data-lesson="azure-ai-901/s13-topic-wise-practice">
+  <div class="kicker">Azure AI-901 · Module 8 · Session 13</div>
+  <h1>Session 13: Topic-wise Practice Questions</h1>
+  <div class="meta"><span>⏱ 10 min read</span><span>📘 Live-session notes</span><span>☁️ Microsoft Foundry</span></div>
+<p>Work through Domain 1 practice (responsible AI, model concepts, AI workloads) and Domain 2 practice (Foundry apps and agents, text, speech, vision, Content Understanding), solve scenario and case-study questions with explanations, and learn the common traps and how to eliminate wrong options.</p>
+<blockquote>
+<p>▶ Open <a href="practice/index.html#topics">AI-901 Exam Practice → Topic practice</a>. Use <strong>study mode</strong> so each answer shows its explanation immediately.</p>
+</blockquote>
+<h2 id="how-to-practise-in-this-session">How to practise in this session</h2>
+<ol>
+<li>Do the <strong>Domain 1</strong> sets first (about 40–45% of the exam), then <strong>Domain 2</strong> (55–60%).</li>
+<li>In study mode, before revealing the answer, say <em>why</em> each option is right or wrong.</li>
+<li>Any topic below 80% → read its lesson summary table, then retry the set.</li>
+</ol>
+<h2 id="domain-1-traps">Domain 1 traps</h2>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Trap</th>
+<th>How to beat it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Transparency vs accountability</td>
+<td>Understanding and explaining = transparency; people responsible and overseeing = accountability</td>
+</tr>
+<tr>
+<td>Inclusiveness vs fairness</td>
+<td>Fairness = equal <em>outcomes</em> across groups; inclusiveness = <em>access</em> for everyone (disabilities, languages)</td>
+</tr>
+<tr>
+<td>Classification vs object detection</td>
+<td>Detection gives <strong>locations</strong> (bounding boxes)</td>
+</tr>
+<tr>
+<td>OCR vs captioning</td>
+<td>OCR reads text; captioning describes the scene</td>
+</tr>
+<tr>
+<td>Key phrases vs entities</td>
+<td>Entities have <strong>categories</strong> (Person, Location…)</td>
+</tr>
+<tr>
+<td>Temperature on reasoning models</td>
+<td>Reasoning models use <strong>reasoning effort</strong>, not temperature</td>
+</tr>
+<tr>
+<td>“Agent” for every chatbot</td>
+<td>Use an agent only when tools, actions or multi-step work are needed</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="domain-2-traps">Domain 2 traps</h2>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Trap</th>
+<th>How to beat it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Model name vs deployment name in code</td>
+<td>Code uses the <strong>deployment name</strong></td>
+</tr>
+<tr>
+<td>Project endpoint vs resource endpoint</td>
+<td>Foundry SDK and agents use the <strong>project endpoint</strong>; Language, Speech and Content Understanding use the <strong>resource endpoint</strong></td>
+</tr>
+<tr>
+<td>Stateless models</td>
+<td>Keep history yourself, use <code>previous_response_id</code>, or use an agent <strong>conversation</strong></td>
+</tr>
+<tr>
+<td>File search vs code interpreter</td>
+<td>Documents → file search; maths, charts, CSV analysis → code interpreter</td>
+</tr>
+<tr>
+<td>Speech: recognizer vs synthesizer</td>
+<td>Recognizer = audio → text; synthesizer = text → audio</td>
+</tr>
+<tr>
+<td>Voice and style control</td>
+<td><code>speech_synthesis_voice_name</code> and <strong>SSML</strong></td>
+</tr>
+<tr>
+<td>Vision input vs image generation</td>
+<td>Understanding an image needs a model with <strong>image input</strong>; creating needs an <strong>image-generation</strong> model</td>
+</tr>
+<tr>
+<td>Content Understanding is async</td>
+<td>POST analyze → <strong>Operation-Location</strong> → poll until <code>Succeeded</code></td>
+</tr>
+<tr>
+<td>Prebuilt vs custom analyzer</td>
+<td>Common document types → prebuilt (for example invoices); your own fields → custom <strong>field schema</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="worked-case-study-contoso-bank">Worked case study: Contoso Bank</h2>
+<p><em>Contoso Bank wants to (1) answer customer questions from its fee schedule PDF, (2) analyse recorded support calls for sentiment and complaint categories, (3) extract data from loan application forms, and (4) let visually impaired customers hear their balance. The bank requires keyless authentication and wants the least custom code.</em></p>
+<details><summary>(1) Which approach answers questions from the fee schedule?</summary>
+An agent in Foundry with the file search tool (the PDF uploaded as knowledge), or a model grounded on the document (RAG).</details>
+
+<details><summary>(2) Which services analyse the calls?</summary>
+Azure Speech (speech-to-text) plus Azure Language (sentiment, key phrases, summarisation), or a Content Understanding audio analyzer with fields such as Sentiment and ComplaintCategory.</details>
+
+<details><summary>(3) Which service extracts fields from the loan forms?</summary>
+Azure Content Understanding with a document analyzer and a custom field schema.</details>
+
+<details><summary>(4) Which capability reads the balance aloud, and which responsible AI principle does it support?</summary>
+Azure Speech text-to-speech; inclusiveness.</details>
+
+<details><summary>How do the apps authenticate without keys?</summary>
+Microsoft Entra ID: DefaultAzureCredential with a managed identity (in Azure) or the developer’s sign-in, plus a role assignment such as Azure AI User.</details>
+
+<h2 id="speed-drill">Speed drill</h2>
+<p>Set a 10-minute timer and answer the <strong>Quick 10</strong> set on the practice page. The target is 8/10 or better in under 8 minutes.</p><div class="pj-cta"><a class="btn" href="practice/index.html">📝 AI-901 exam practice</a></div>
+  <div class="pj-cta"><a class="btn" href="../mock/index.html">🎤 Practise in a mock interview</a><a class="btn ghost" href="../daily/index.html">🔥 Daily challenge</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="azure-ai-901/s13-topic-wise-practice"></script>
+
+</body>
+</html>

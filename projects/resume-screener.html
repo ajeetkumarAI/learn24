@@ -23,22 +23,22 @@
   <h1>Project 5: AI Resume Screener &amp; Job Matcher</h1>
   <div class="meta"><span>🛠️ Beginner</span><span>⏱ 1–2 weekends</span><span>📄 Resume lines included</span></div>
 <p>A project every recruiter instantly understands. You'll parse resumes, extract skills into structured JSON, <strong>match them against job descriptions with explainable scores</strong>, and check the system for bias.</p>
-<h2>What you'll build</h2>
+<h2 id="what-you-ll-build">What you'll build</h2>
 <ul>
 <li>Upload resumes (PDF/DOCX) and a job description.</li>
 <li><strong>Structured extraction</strong> of skills, years of experience, education, projects and links (JSON schema).</li>
 <li>A <strong>match score</strong> combining semantic similarity and must-have skill coverage, with an explanation ("missing: Kubernetes").</li>
 <li>A <strong>fairness check:</strong> scores don't change when names or genders are swapped.</li>
 </ul>
-<h2>Architecture</h2>
+<h2 id="architecture">Architecture</h2>
 <pre><code>Resume → text extraction (pdfplumber / python-docx) → LLM structured extraction (Pydantic schema)
 JD → requirement extraction (must-have, nice-to-have, years)
 Match = 0.5 · embedding similarity + 0.4 · must-have coverage + 0.1 · experience fit
       → ranked list + explanation + gaps → recruiter UI (human decides)
 </code></pre>
-<h2>Tech stack</h2>
+<h2 id="tech-stack">Tech stack</h2>
 <p>pdfplumber, python-docx, an LLM with JSON schema output, sentence-transformers, pandas, Streamlit, plus a simple bias test harness.</p>
-<h2>Step by step</h2>
+<h2 id="step-by-step">Step by step</h2>
 <ol>
 <li><strong>Define the schema:</strong> name (stored separately), skills[], total_years, roles[], education[], projects[].</li>
 <li><strong>Extract</strong> with an LLM in structured-output mode; validate with Pydantic and retry once on failure.</li>
@@ -49,7 +49,7 @@ Match = 0.5 · embedding similarity + 0.4 · must-have coverage + 0.1 · experie
 <li><strong>Bias test:</strong> <strong>remove names, photos, gender and age signals</strong> before scoring; run counterfactual swaps and check the score difference is about 0.</li>
 <li><strong>UI:</strong> a ranked table, filters and export to CSV. <strong>The recruiter makes the decision.</strong></li>
 </ol>
-<h2>Starter code</h2>
+<h2 id="starter-code">Starter code</h2>
 <pre><code class="language-python">from pydantic import BaseModel
 from sentence_transformers import SentenceTransformer, util
 class Resume(BaseModel): skills: list[str]; total_years: float; roles: list[str]; summary: str
@@ -60,21 +60,21 @@ def score(r: Resume, jd_text: str, must: list[str], years: float):
     exp_fit = min(1.0, r.total_years / max(years, 0.5))
     return round(100 * (0.5 * sim + 0.4 * cov + 0.1 * exp_fit)), [m for m in must if m.lower() not in have]
 </code></pre>
-<h2>Deploy it</h2>
+<h2 id="deploy-it">Deploy it</h2>
 <p>Streamlit on Hugging Face Spaces, using <strong>sample, synthetic resumes only</strong>. Never upload real people's resumes publicly. State in the README that the tool assists, and never replaces, human judgement.</p>
-<h2>Put it on your resume</h2>
+<h2 id="put-it-on-your-resume">Put it on your resume</h2>
 <ul>
 <li>Built an <strong>LLM-powered resume screener</strong> with structured extraction (Pydantic), skill normalisation and an explainable match score combining embeddings and must-have coverage.</li>
 <li>Added <strong>bias safeguards</strong>: PII redaction before scoring and counterfactual name/gender swap tests (score delta &lt; 1 point).</li>
 </ul>
-<h2>Interview questions you'll get</h2>
+<h2 id="interview-questions-you-ll-get">Interview questions you'll get</h2>
 <ul>
 <li>How did you get reliable JSON from the LLM? What if a field is missing?</li>
 <li>How do you handle synonyms and skill levels?</li>
 <li>What are the ethical and legal risks of automated screening, and how did you mitigate them?</li>
 <li>How would you evaluate ranking quality against recruiter decisions?</li>
 </ul>
-<h2>Stretch goals</h2>
+<h2 id="stretch-goals">Stretch goals</h2>
 <ul>
 <li>Learning-to-rank from recruiter feedback.</li>
 <li>Job-seeker mode: "how to improve my resume for this JD".</li>

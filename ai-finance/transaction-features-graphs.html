@@ -23,7 +23,7 @@
   <h1>Feature Engineering for Transactions &amp; Graph Fraud</h1>
   <div class="meta"><span>⏱ 10 min read</span><span>✅ Check-yourself quiz</span><span>🏦 Banking & fintech</span></div>
 <p>In fraud detection, <strong>features matter more than the algorithm</strong>. A plain gradient-boosted model with strong behavioural features beats a fancy model on raw columns. This lesson covers the main feature families and how graphs expose fraud rings.</p>
-<h2>Behavioural (velocity) features</h2>
+<h2 id="behavioural-velocity-features">Behavioural (velocity) features</h2>
 <p>Compare <strong>now</strong> with <strong>the customer's normal behaviour</strong>:</p>
 <ul>
 <li>Count and sum of transactions in the last 1 h / 24 h / 7 d, per card, device, IP and merchant.</li>
@@ -41,14 +41,14 @@ df[&quot;amt_vs_avg&quot;] = df.amount / df.groupby(&quot;card_id&quot;).amount.
 <ul>
 <li><strong>Point-in-time correctness:</strong> each feature must use <strong>only data available before the transaction</strong>. Notice <code>shift()</code> above, which excludes the current row.</li>
 </ul>
-<h2>Entity and context features</h2>
+<h2 id="entity-and-context-features">Entity and context features</h2>
 <ul>
 <li><strong>Merchant risk:</strong> historical fraud rate (target-encoded with smoothing, computed out-of-fold), category (MCC), merchant age.</li>
 <li><strong>Device and network:</strong> emulator or rooted flags, IP reputation, VPN/proxy, device age.</li>
 <li><strong>Channel:</strong> card-present vs online, wallet, UPI, recurring payment.</li>
 <li><strong>Customer profile:</strong> tenure, KYC level, product holdings.</li>
 </ul>
-<h2>Graph features: catching rings</h2>
+<h2 id="graph-features-catching-rings">Graph features: catching rings</h2>
 <p>Fraudsters reuse resources: devices, phone numbers, addresses, beneficiary accounts. Build a graph:</p>
 <ul>
 <li><strong>Nodes:</strong> customers, accounts, devices, phones, emails, IPs, merchants.</li>
@@ -68,13 +68,13 @@ G.add_edges_from(zip(&quot;acct:&quot; + df.account_id, &quot;dev:&quot; + df.de
 size = {n: len(c) for c in nx.connected_components(G) for n in c}
 df[&quot;device_cluster_size&quot;] = (&quot;acct:&quot; + df.account_id).map(size)
 </code></pre>
-<h2>Serving features in real time</h2>
+<h2 id="serving-features-in-real-time">Serving features in real time</h2>
 <ul>
 <li>A <strong>streaming layer</strong> (Kafka + Flink/Spark Streaming) updates aggregates as events arrive.</li>
 <li>An <strong>online feature store</strong> (Redis, Feast) serves them in milliseconds.</li>
 <li>The <strong>same feature definitions</strong> feed offline training, which avoids training-serving skew.</li>
 </ul>
-<h2>Check yourself</h2>
+<h2 id="check-yourself">Check yourself</h2>
 <details><summary>What is point-in-time correctness and why does it matter?</summary>
 Each feature value must be computed only from data available before the event. Otherwise the model learns from the future (leakage), and offline performance will not hold in production.</details>
 

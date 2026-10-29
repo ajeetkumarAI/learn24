@@ -23,21 +23,21 @@
   <h1>Project 9: Fine-Tune a Small LLM with LoRA / QLoRA</h1>
   <div class="meta"><span>🛠️ Advanced</span><span>⏱ 2–3 weekends</span><span>📄 Resume lines included</span></div>
 <p>Show that you can <strong>adapt a model, not just call an API</strong>. You'll fine-tune a small open model (1–8B) with QLoRA on a free Colab GPU for a narrow task, then prove with an evaluation that it beats prompting the base model.</p>
-<h2>What you'll build</h2>
+<h2 id="what-you-ll-build">What you'll build</h2>
 <ul>
 <li>A task with a clear format, for example <strong>support-ticket → JSON (intent, priority, summary)</strong>, or a domain Q&amp;A style.</li>
 <li>Data prep: 1–3k instruction examples in chat format, with a train/validation/test split.</li>
 <li><strong>QLoRA fine-tuning</strong> (4-bit base + LoRA adapters) with PEFT/TRL on Colab.</li>
 <li>An evaluation comparing <strong>base zero-shot vs base few-shot vs fine-tuned</strong> on accuracy, JSON validity and latency.</li>
 </ul>
-<h2>Architecture</h2>
+<h2 id="architecture">Architecture</h2>
 <pre><code>Raw examples → clean + dedupe → chat template (system/user/assistant) → train/val/test
 Base model (4-bit NF4) + LoRA (r=16, alpha=32, target q,k,v,o) → SFTTrainer (2–3 epochs, lr 2e-4)
 → adapter weights (~50 MB) → merge (optional) → evaluate → push to Hugging Face Hub → serve (vLLM / Ollama GGUF)
 </code></pre>
-<h2>Tech stack</h2>
+<h2 id="tech-stack">Tech stack</h2>
 <p>Hugging Face Transformers, PEFT, TRL (SFTTrainer), bitsandbytes, datasets, Colab T4/L4 GPU, the evaluate library, optionally vLLM or Ollama for serving.</p>
-<h2>Step by step</h2>
+<h2 id="step-by-step">Step by step</h2>
 <ol>
 <li><strong>Pick the task and metric</strong> first (e.g. exact-match intent accuracy plus JSON validity).</li>
 <li><strong>Build the dataset:</strong> existing labelled data turned into instructions, or synthetic data from a big model, <strong>filtered and spot-checked by you</strong>.</li>
@@ -47,7 +47,7 @@ Base model (4-bit NF4) + LoRA (r=16, alpha=32, target q,k,v,o) → SFTTrainer (2
 <li><strong>Evaluate</strong> on the test set: accuracy, JSON validity, latency, plus general-ability spot checks (catastrophic forgetting).</li>
 <li><strong>Publish</strong> the adapter with a model card covering data, intended use, limitations and metrics.</li>
 </ol>
-<h2>Starter code</h2>
+<h2 id="starter-code">Starter code</h2>
 <pre><code class="language-python">from datasets import load_dataset
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 from peft import LoraConfig
@@ -63,14 +63,14 @@ cfg = SFTConfig(output_dir=&quot;out&quot;, num_train_epochs=2, per_device_train
                 learning_rate=2e-4, logging_steps=20, eval_strategy=&quot;steps&quot;, eval_steps=100, bf16=True)
 SFTTrainer(model=model, args=cfg, train_dataset=ds[&quot;train&quot;], eval_dataset=ds[&quot;validation&quot;], peft_config=peft, processing_class=tok).train()
 </code></pre>
-<h2>Deploy it</h2>
+<h2 id="deploy-it">Deploy it</h2>
 <p>Push the adapter to the Hugging Face Hub and add a Gradio demo Space. Optionally convert to GGUF and run it locally with Ollama.</p>
-<h2>Put it on your resume</h2>
+<h2 id="put-it-on-your-resume">Put it on your resume</h2>
 <ul>
 <li><strong>Fine-tuned Qwen2.5-1.5B with QLoRA</strong> on 2.4k ticket examples, raising intent accuracy <strong>from 71% (few-shot base) to 92%</strong> with <strong>99.6% valid JSON</strong>, served at about 3× lower latency than a hosted API.</li>
 <li>Published the adapter and model card on Hugging Face, with an evaluation comparing zero-shot, few-shot and fine-tuned variants.</li>
 </ul>
-<h2>Interview questions you'll get</h2>
+<h2 id="interview-questions-you-ll-get">Interview questions you'll get</h2>
 <ul>
 <li>When should you fine-tune instead of using prompting or RAG?</li>
 <li>Explain LoRA vs QLoRA. What do r and alpha control?</li>
@@ -78,7 +78,7 @@ SFTTrainer(model=model, args=cfg, train_dataset=ds[&quot;train&quot;], eval_data
 <li>How did you build and validate the training data?</li>
 </ul>
 <p>Practise these in <strong><a href="../mock/index.html?topic=LLMs%20%26%20Prompting">Mock Interview → LLMs &amp; Prompting</a></strong>.</p>
-<h2>Stretch goals</h2>
+<h2 id="stretch-goals">Stretch goals</h2>
 <ul>
 <li>DPO preference tuning on chosen/rejected pairs.</li>
 <li>Compare r = 8/16/64 and target modules (an ablation table).</li>

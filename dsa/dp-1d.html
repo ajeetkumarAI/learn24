@@ -25,14 +25,14 @@
   <h1>Dynamic Programming (1-D)</h1>
   <div class="meta"><span>⏱ 15 min</span><span>🎬 Interactive visualizer</span><span>💻 Python · Java · C++ · JavaScript</span><span>🧩 7 practice problems</span></div>
   <p class="lead">When a recursive solution recomputes the same subproblems, store them. Climbing stairs, house robber, coin change, word break and LIS, with the recurrence visualised.</p>
-<h2>What makes a problem “DP”?</h2>
+<h2 id="what-makes-a-problem-dp">What makes a problem “DP”?</h2>
 <ol>
 <li><strong>Optimal substructure</strong>: the best answer is built from best answers to smaller subproblems.</li>
 <li><strong>Overlapping subproblems</strong>: plain recursion would solve the same subproblem many times.</li>
 </ol>
 <p>Fibonacci by plain recursion is O(2ⁿ). Store each <code>fib(i)</code> once and it becomes O(n).</p>
 <div class="viz" data-viz="house-robber,coin-change,kadane"></div>
-<h2>The 4-step recipe (say it out loud in interviews)</h2>
+<h2 id="the-4-step-recipe-say-it-out-loud-in-interviews">The 4-step recipe (say it out loud in interviews)</h2>
 <ol>
 <li><strong>State</strong>: what does <code>dp[i]</code> mean, in words? (“the most money robbing houses 0..i”)</li>
 <li><strong>Recurrence</strong>: how does <code>dp[i]</code> depend on smaller states? (<code>max(dp[i−1], dp[i−2] + a[i])</code>)</li>
@@ -40,12 +40,12 @@
 <li><strong>Order and answer</strong>: fill from small to large; the answer is <code>dp[n−1]</code>, or <code>max(dp)</code>.</li>
 </ol>
 <p>Then optimise space: if <code>dp[i]</code> only looks back a fixed number of steps, keep a few variables instead of an array.</p>
-<h2>Top-down or bottom-up?</h2>
+<h2 id="top-down-or-bottom-up">Top-down or bottom-up?</h2>
 <ul>
 <li><strong>Top-down (memoisation)</strong>: write the recursion, cache results (<code>@lru_cache</code> in Python, a map or array elsewhere). Easy to derive.</li>
 <li><strong>Bottom-up (tabulation)</strong>: fill an array in order. No recursion-depth issues, easy to optimise space.</li>
 </ul>
-<h2>Classic 1-D recurrences</h2>
+<h2 id="classic-1-d-recurrences">Classic 1-D recurrences</h2>
 <div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
 <thead>
 <tr>
@@ -170,7 +170,7 @@ function coinChange(coins, amount) {
   for (let a = 1; a &lt;= amount; a++) for (const c of coins) if (c &lt;= a) dp[a] = Math.min(dp[a], dp[a - c] + 1);
   return dp[amount] === Infinity ? -1 : dp[amount];
 }</code></pre></div>
-<h2 id="practice">Practise this pattern (7 problems)</h2><p>Each problem has a statement, hints, approaches, solutions in 4 languages and a code runner. Solve them in order: easy first.</p><div class="ptw"><table class="ptab"><thead><tr><th aria-label="Solved"></th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead><tbody><tr data-id="climbing-stairs"><td class="st" aria-label="status"></td><td class="num">70</td><td><a href="problems/climbing-stairs.html">Climbing Stairs</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="house-robber"><td class="st" aria-label="status"></td><td class="num">71</td><td><a href="problems/house-robber.html">House Robber</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="coin-change"><td class="st" aria-label="status"></td><td class="num">72</td><td><a href="problems/coin-change.html">Coin Change</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="longest-increasing-subsequence"><td class="st" aria-label="status"></td><td class="num">73</td><td><a href="problems/longest-increasing-subsequence.html">Longest Increasing Subsequence</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="word-break"><td class="st" aria-label="status"></td><td class="num">74</td><td><a href="problems/word-break.html">Word Break</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="maximum-subarray"><td class="st" aria-label="status"></td><td class="num">75</td><td><a href="problems/maximum-subarray.html">Maximum Subarray</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="decode-ways"><td class="st" aria-label="status"></td><td class="num">76</td><td><a href="problems/decode-ways.html">Decode Ways</a></td><td><span class="diff medium">Medium</span></td></tr></tbody></table></div><h2>Common mistakes</h2>
+<h2 id="practice">Practise this pattern (7 problems)</h2><p>Each problem has a statement, hints, approaches, solutions in 4 languages and a code runner. Solve them in order: easy first.</p><div class="ptw"><table class="ptab"><thead><tr><th aria-label="Solved"></th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead><tbody><tr data-id="climbing-stairs"><td class="st" aria-label="status"></td><td class="num">70</td><td><a href="problems/climbing-stairs.html">Climbing Stairs</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="house-robber"><td class="st" aria-label="status"></td><td class="num">71</td><td><a href="problems/house-robber.html">House Robber</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="coin-change"><td class="st" aria-label="status"></td><td class="num">72</td><td><a href="problems/coin-change.html">Coin Change</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="longest-increasing-subsequence"><td class="st" aria-label="status"></td><td class="num">73</td><td><a href="problems/longest-increasing-subsequence.html">Longest Increasing Subsequence</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="word-break"><td class="st" aria-label="status"></td><td class="num">74</td><td><a href="problems/word-break.html">Word Break</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="maximum-subarray"><td class="st" aria-label="status"></td><td class="num">75</td><td><a href="problems/maximum-subarray.html">Maximum Subarray</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="decode-ways"><td class="st" aria-label="status"></td><td class="num">76</td><td><a href="problems/decode-ways.html">Decode Ways</a></td><td><span class="diff medium">Medium</span></td></tr></tbody></table></div><h2 id="common-mistakes">Common mistakes</h2>
 <ul>
 <li>Starting to code before defining the state in words.</li>
 <li>Greedy instead of DP: coin change with coins [1, 3, 4] and amount 6, where greedy gives 4+1+1 but the optimum is 3+3.</li>

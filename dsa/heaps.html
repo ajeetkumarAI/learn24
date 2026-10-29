@@ -25,7 +25,7 @@
   <h1>Heaps &amp; Priority Queues</h1>
   <div class="meta"><span>⏱ 14 min</span><span>🎬 Interactive visualizer</span><span>💻 Python · Java · C++ · JavaScript</span><span>🧩 4 practice problems</span></div>
   <p class="lead">A heap always hands you the smallest (or largest) item in O(log n). The tool for top-k, k-way merge, scheduling and Dijkstra.</p>
-<h2>The idea</h2>
+<h2 id="the-idea">The idea</h2>
 <p>A <strong>binary heap</strong> is a complete binary tree stored in an array where every parent is ≤ its children (a min-heap). The minimum is always at index 0. Children of index <code>i</code> are <code>2i + 1</code> and <code>2i + 2</code>; the parent is <code>(i − 1) / 2</code>.</p>
 <ul>
 <li><strong>push</strong>: append at the end, then <em>sift up</em> while smaller than the parent: O(log n)</li>
@@ -33,7 +33,7 @@
 <li><strong>peek</strong>: O(1). <strong>Building</strong> a heap from n items: O(n).</li>
 </ul>
 <div class="viz" data-viz="heap"></div>
-<h2>Patterns</h2>
+<h2 id="patterns">Patterns</h2>
 <ul>
 <li><strong>Top-k / k-th largest</strong>: keep a <em>min</em>-heap of size k; whenever it exceeds k, pop. The root is the k-th largest. O(n log k).</li>
 <li><strong>K-way merge</strong>: push the head of each sorted list and repeatedly pop the smallest (Merge k Sorted Lists, smallest range).</li>
@@ -41,7 +41,7 @@
 <li><strong>Scheduling / greedy</strong>: always process the most urgent item (meeting rooms, task scheduler, CPU scheduling).</li>
 <li><strong>Shortest paths</strong>: Dijkstra pops the closest unfinished node.</li>
 </ul>
-<h2>Language notes</h2>
+<h2 id="language-notes">Language notes</h2>
 <div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
 <thead>
 <tr>
@@ -125,7 +125,7 @@ priority_queue&lt;int&gt; maxHeap;   // max-heap by default</code></pre><pre dat
     return top;
   }
 }</code></pre></div>
-<h2 id="practice">Practise this pattern (4 problems)</h2><p>Each problem has a statement, hints, approaches, solutions in 4 languages and a code runner. Solve them in order: easy first.</p><div class="ptw"><table class="ptab"><thead><tr><th aria-label="Solved"></th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead><tbody><tr data-id="last-stone-weight"><td class="st" aria-label="status"></td><td class="num">41</td><td><a href="problems/last-stone-weight.html">Last Stone Weight</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="kth-largest-element-in-an-array"><td class="st" aria-label="status"></td><td class="num">42</td><td><a href="problems/kth-largest-element-in-an-array.html">Kth Largest Element in an Array</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="k-closest-points-to-origin"><td class="st" aria-label="status"></td><td class="num">43</td><td><a href="problems/k-closest-points-to-origin.html">K Closest Points to Origin</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="merge-k-sorted-lists"><td class="st" aria-label="status"></td><td class="num">44</td><td><a href="problems/merge-k-sorted-lists.html">Merge k Sorted Lists</a></td><td><span class="diff hard">Hard</span></td></tr></tbody></table></div><h2>Common mistakes</h2>
+<h2 id="practice">Practise this pattern (4 problems)</h2><p>Each problem has a statement, hints, approaches, solutions in 4 languages and a code runner. Solve them in order: easy first.</p><div class="ptw"><table class="ptab"><thead><tr><th aria-label="Solved"></th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead><tbody><tr data-id="last-stone-weight"><td class="st" aria-label="status"></td><td class="num">41</td><td><a href="problems/last-stone-weight.html">Last Stone Weight</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="kth-largest-element-in-an-array"><td class="st" aria-label="status"></td><td class="num">42</td><td><a href="problems/kth-largest-element-in-an-array.html">Kth Largest Element in an Array</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="k-closest-points-to-origin"><td class="st" aria-label="status"></td><td class="num">43</td><td><a href="problems/k-closest-points-to-origin.html">K Closest Points to Origin</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="merge-k-sorted-lists"><td class="st" aria-label="status"></td><td class="num">44</td><td><a href="problems/merge-k-sorted-lists.html">Merge k Sorted Lists</a></td><td><span class="diff hard">Hard</span></td></tr></tbody></table></div><h2 id="common-mistakes">Common mistakes</h2>
 <ul>
 <li>C++ <code>priority_queue</code> is a <strong>max</strong>-heap by default.</li>
 <li>Python <code>heapq</code> with tuples compares the second element on ties: add an index as a tie-breaker so objects are never compared.</li>

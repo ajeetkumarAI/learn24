@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Session 5: Prompts &amp; Model Deployment · Azure AI-901 · Learn24</title>
+<meta name="description" content="Write prompts that work: clear instructions, few-shot examples and a defined output format. Understand system vs user prompts, compare models in the F">
+<meta property="og:title" content="Session 5: Prompts &amp; Model Deployment · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#50b4ff} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} .pj-cta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0} .pj-cta a{text-decoration:none} article pre{background:#0b1220;color:#d6e0f0;border-radius:10px;padding:12px 14px;overflow-x:auto;font:13px/1.55 var(--mono);max-width:100%} article pre code{background:none;padding:0;border:0;border-radius:0;display:block;color:inherit;font:inherit;white-space:pre} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="s05-prompts-model-deployment" data-lesson="azure-ai-901/s05-prompts-model-deployment">
+  <div class="kicker">Azure AI-901 · Module 3 · Session 5</div>
+  <h1>Session 5: Prompts &amp; Model Deployment</h1>
+  <div class="meta"><span>⏱ 10 min read</span><span>📘 Live-session notes</span><span>☁️ Microsoft Foundry</span></div>
+<p>Write prompts that work: clear instructions, few-shot examples and a defined output format. Understand system vs user prompts, compare models in the Foundry catalog on capability, cost and region, deploy and test a model, and get an overview of grounding answers in your own data.</p>
+<h2 id="prompt-engineering-five-habits">Prompt engineering: five habits</h2>
+<ol>
+<li><strong>Be specific about the task and audience.</strong> “Summarise this” is weak. “Summarise this complaint in 3 bullet points for a branch manager, and include the amount and date” is strong.</li>
+<li><strong>Give context.</strong> Paste the policy text, the product details or the customer history the model needs. It cannot know your internal data.</li>
+<li><strong>Show examples (few-shot).</strong> One to five input → output examples teach format and tone far better than a description.</li>
+<li><strong>Specify the output format.</strong> Ask for JSON with named keys, a table or numbered steps, and give a length limit.</li>
+<li><strong>Break big tasks into steps</strong> and let the model think step by step for reasoning problems (or use a reasoning model).</li>
+</ol>
+<p><strong>Zero-shot vs few-shot</strong></p>
+<pre><code>Zero-shot:
+Classify the sentiment of: &quot;Loan approved in 2 days, very happy!&quot;
+
+Few-shot:
+Classify the sentiment as positive, negative or neutral.
+Review: &quot;App crashed during payment.&quot;          -&gt; negative
+Review: &quot;Branch timings are 10 to 4.&quot;           -&gt; neutral
+Review: &quot;Got my refund the same day, thanks!&quot;   -&gt; positive
+Review: &quot;Loan approved in 2 days, very happy!&quot;  -&gt;
+</code></pre>
+<p><strong>Output format example</strong></p>
+<pre><code>Extract the fields from the message below and reply with JSON only, using exactly these keys:
+{&quot;customer_name&quot;: string, &quot;issue_type&quot;: &quot;card&quot;|&quot;upi&quot;|&quot;loan&quot;|&quot;other&quot;, &quot;amount&quot;: number|null}
+Message: &quot;Hi, this is Priya. ₹1,200 was debited twice for one UPI payment.&quot;
+</code></pre>
+<h2 id="system-prompts-vs-user-prompts">System prompts vs user prompts</h2>
+<p>A chat conversation is a list of <strong>messages</strong>, each with a <strong>role</strong>:</p>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Who writes it</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>system</strong> (also called <em>instructions</em> or <em>developer</em> message)</td>
+<td>The app developer</td>
+<td>Persona, rules, tone, scope, safety limits, output format: applies to the whole conversation</td>
+</tr>
+<tr>
+<td><strong>user</strong></td>
+<td>The end user</td>
+<td>The actual question or task for this turn</td>
+</tr>
+<tr>
+<td><strong>assistant</strong></td>
+<td>The model</td>
+<td>Previous answers, which you send back as history</td>
+</tr>
+</tbody>
+</table></div>
+<pre><code class="language-json">[
+  {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;You are a concise assistant for Contoso Bank. Answer only banking questions.&quot;},
+  {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;How do I reset my UPI PIN?&quot;},
+  {&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: &quot;Open the app &gt; Profile &gt; UPI settings &gt; Reset PIN, then verify with your debit card.&quot;},
+  {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;And if I don't have my debit card?&quot;}
+]
+</code></pre>
+<blockquote>
+<p>🎯 <strong>Exam tip.</strong> Put <strong>rules and persona in the system prompt</strong>, not in every user message. The system prompt is the main lever for safe, on-brand behaviour, together with the content filters on the deployment.</p>
+</blockquote>
+<p>A good system prompt contains: <strong>role</strong> (“You are…”), <strong>scope</strong> (what to answer, what to refuse), <strong>style</strong> (length, language, tone), <strong>safety rules</strong> (never ask for OTPs), <strong>format</strong>, and <strong>what to do when unsure</strong> (“say you don’t know and suggest the helpline”).</p>
+<h2 id="choosing-a-model-in-the-foundry-catalog">Choosing a model in the Foundry catalog</h2>
+<p>The <strong>model catalog</strong> lists models from Microsoft, OpenAI, Meta, Mistral, DeepSeek, Cohere, xAI and others. Compare them on:</p>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Factor</th>
+<th>Where to look</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Capability</strong>: chat, reasoning, vision input, audio, image generation, embeddings</td>
+<td>The model card’s tasks, input/output modalities and context length</td>
+</tr>
+<tr>
+<td><strong>Quality</strong></td>
+<td>Model <strong>leaderboards</strong> and benchmark comparisons in the portal, plus your own test prompts</td>
+</tr>
+<tr>
+<td><strong>Cost</strong></td>
+<td>Price per million input and output tokens (or per image or minute)</td>
+</tr>
+<tr>
+<td><strong>Latency / throughput</strong></td>
+<td>Leaderboard speed metrics; smaller models are faster</td>
+</tr>
+<tr>
+<td><strong>Region and deployment types</strong></td>
+<td>The model card lists the regions and deployment types (Global Standard, Data Zone, Provisioned…)</td>
+</tr>
+<tr>
+<td><strong>Licence and hosting</strong></td>
+<td>Models <strong>sold directly by Azure</strong> vs partner/community models; serverless vs managed compute</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="deploy-and-test">Deploy and test</h2>
+<ol>
+<li><strong>Models</strong> → pick a model → <strong>Deploy</strong>.</li>
+<li>Choose the <strong>deployment type</strong> and <strong>deployment name</strong>. Optionally set the <strong>tokens-per-minute (TPM) rate limit</strong> and the <strong>content filter</strong> (guardrail) configuration.</li>
+<li><strong>Open in playground</strong>: set the system message, try user prompts, adjust parameters.</li>
+<li>Use <strong>View code</strong> in the playground to get a ready-made Python snippet with your endpoint and deployment name, which is the starting point for Session 6.</li>
+</ol>
+<h2 id="grounding-responses-with-your-own-data-overview">Grounding responses with your own data (overview)</h2>
+<p>Models only know their training data. To answer from <strong>your</strong> documents (policies, product sheets, FAQs) use <strong>retrieval-augmented generation (RAG)</strong>:</p>
+<pre><code>User question → search your indexed documents (Azure AI Search / file search) → top relevant chunks
+→ prompt = system rules + retrieved chunks + question → model → grounded answer (with citations)
+</code></pre>
+<p>Benefits: fresher, organisation-specific answers, fewer hallucinations, citations you can check. In Foundry you can ground a model by connecting <strong>Azure AI Search</strong> (“add your data”), or give an <strong>agent</strong> a <strong>file search</strong> tool with uploaded documents (Session 7).</p>
+<p><strong>Grounding vs fine-tuning:</strong> grounding adds <em>knowledge</em> at query time and is easy to update. Fine-tuning changes the model’s <em>behaviour or style</em> through extra training. For “answer from our latest policy PDF”, choose grounding.</p>
+<h2 id="check-yourself">Check yourself</h2>
+<details><summary>Where should the rule “Never reveal internal fee codes” go: the system prompt or the user prompt?</summary>
+The system prompt: it is a rule for the whole conversation, set by the developer.</details>
+
+<details><summary>You add three labelled examples to the prompt before the real input. What is this technique called?</summary>
+Few-shot prompting.</details>
+
+<details><summary>A bank wants answers based on its current fee schedule PDF, which changes every quarter. Grounding or fine-tuning?</summary>
+Grounding (RAG). It uses the latest document at query time without retraining.</details>
+
+<details><summary>Which playground feature gives you sample code for your deployment?</summary>
+View code.</details><div class="pj-cta"><a class="btn" href="practice/index.html">📝 AI-901 exam practice</a></div>
+  <div class="pj-cta"><a class="btn" href="../mock/index.html">🎤 Practise in a mock interview</a><a class="btn ghost" href="../daily/index.html">🔥 Daily challenge</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="azure-ai-901/s05-prompts-model-deployment"></script>
+
+</body>
+</html>

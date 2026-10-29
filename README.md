@@ -239,6 +239,42 @@ Hands-on labs built from Ajeetkumar’s Colab notebooks (free Groq key). Each la
 | 2 | [Assignment 17: Project & Behavioural Questions](https://learn24-lilac.vercel.app/assignments/assignment-17-project-behavioural-questions) | 10 questions with solutions · 4 must-know. |
 | 3 | [Assignment 18: Python & ML Essentials for GenAI Engineers](https://learn24-lilac.vercel.app/assignments/assignment-18-python-ml-essentials-for-genai-engineers) | 16 questions with solutions · 8 must-know · 4 coding tasks. |
 
+## ☁️ Azure AI Fundamentals (AI-901)
+
+Ajeetkumar's 7-weekend AI-901 program as a self-paced course: 14 session lessons and 8 hands-on labs in syllabus order, mapped to Microsoft's skills outline (as of 15 April 2026). Code uses the current Foundry SDK (`azure-ai-projects` 2.x), Azure Language, Azure Speech and Content Understanding (API 2025-11-01).
+
+| Page | What it does |
+|---|---|
+| [Course](https://learn24-lilac.vercel.app/azure-ai-901) | 8 modules: AI concepts & responsible AI → AI workloads → generative AI apps & agents in Microsoft Foundry → text & speech → vision & image generation → Content Understanding → revision & mocks → exam-practice weekend. 5 portfolio projects (labs 3–6). |
+| [Exam practice](https://learn24-lilac.vercel.app/azure-ai-901/practice) | 185 original questions in the real formats (multiple choice, multiple answers, Yes/No statements, drop-down completion, matching). 3 timed mock exams (40 questions, 45 min, weighted like the exam), 13 topic drills in study mode, Quick 10, domain- and topic-wise scores, full review with explanations. |
+
+| Lesson | What is inside |
+|---|---|
+| [Session 1: The AI Landscape & Setup](https://learn24-lilac.vercel.app/azure-ai-901/s01-ai-landscape-setup) | Start from zero: what AI, machine learning, deep learning, generative AI and agentic AI really mean, where they are used, what the AI-901 exam looks… |
+| [Session 2: Responsible AI & How Generative Models Work](https://learn24-lilac.vercel.app/azure-ai-901/s02-responsible-ai-generative-models) | The six Microsoft responsible AI principles applied to real scenarios, then how large language models actually produce text: tokens, embeddings,… |
+| [Lab 1: Your First Model in Microsoft Foundry](https://learn24-lilac.vercel.app/azure-ai-901/lab01-first-model-foundry) | Create an Azure free account, a resource group and a Microsoft Foundry project, deploy a chat model, test how temperature and the system prompt… |
+| [Session 3: Generative, Agentic, Text & Speech Workloads](https://learn24-lilac.vercel.app/azure-ai-901/s03-generative-agentic-text-speech) | Learn to recognise AI workloads from a business description: when generative AI is enough and when you need an agent, the classic text-analysis… |
+| [Session 4: Vision & Information Extraction Workloads](https://learn24-lilac.vercel.app/azure-ai-901/s04-vision-information-extraction) | Computer vision (image analysis, captioning, object detection, OCR), what image-generation models can and cannot do, and how to pull structured… |
+| [Lab 2: AI Workload Explorer](https://learn24-lilac.vercel.app/azure-ai-901/lab02-ai-workload-explorer) | Get hands-on with every Domain 1 workload in one sitting: run sentiment, key phrase and entity detection on customer reviews, convert speech to text… |
+| [Session 5: Prompts & Model Deployment](https://learn24-lilac.vercel.app/azure-ai-901/s05-prompts-model-deployment) | Write prompts that work: clear instructions, few-shot examples and a defined output format. Understand system vs user prompts, compare models in the… |
+| [Session 6: Chat App with the Foundry SDK](https://learn24-lilac.vercel.app/azure-ai-901/s06-chat-app-foundry-sdk) | Connect Python to your Foundry project with keys or keyless sign-in, build a lightweight chat client with the Foundry SDK, keep conversation history… |
+| [Session 7: Building Your First Agent](https://learn24-lilac.vercel.app/azure-ai-901/s07-first-agent) | What makes an agent (model + instructions + tools + knowledge), how to create and test a single-agent solution in the Foundry portal, which tools to… |
+| [Lab 3: Chat Assistant & Customer Support Agent](https://learn24-lilac.vercel.app/azure-ai-901/lab03-chat-assistant-support-agent) | Build two portfolio projects: a Python chat assistant with the Foundry SDK that remembers the conversation and follows a banking FAQ persona, and a… |
+| [Session 8: Language & Speech in Foundry Tools](https://learn24-lilac.vercel.app/azure-ai-901/s08-language-speech-foundry-tools) | Build apps that understand text and speech: a text-analysis app with Azure Language in Foundry Tools, spoken prompts answered by a deployed… |
+| [Lab 4: Voice Feedback Analyzer (BFSI)](https://learn24-lilac.vercel.app/azure-ai-901/lab04-voice-feedback-analyzer) | Build an end-to-end speech and text analytics app for a bank: transcribe spoken customer feedback with Azure Speech, extract sentiment, key phrases… |
+| [Session 9: Vision & Image Generation](https://learn24-lilac.vercel.app/azure-ai-901/s09-vision-image-generation) | Use a deployed multimodal model to interpret images in prompts (captions, visual question answering, object description), create new images with… |
+| [Lab 5: Image Describer & Generator](https://learn24-lilac.vercel.app/azure-ai-901/lab05-image-describer-generator) | Build a small Python app that both understands and creates images: caption a product or receipt photo with a multimodal model, ask follow-up visual… |
+| [Session 10: Azure Content Understanding](https://learn24-lilac.vercel.app/azure-ai-901/s10-content-understanding) | Turn documents, images, audio and video into structured data with Azure Content Understanding in Foundry Tools: what it does and when to use it,… |
+| [Lab 6: Invoice Data Extractor](https://learn24-lilac.vercel.app/azure-ai-901/lab06-invoice-data-extractor) | Build a document-processing app: create a Content Understanding analyzer for invoices, extract invoice number, date, vendor, line items and totals… |
+| [Session 11: Mock Exam 1 & Gap Review](https://learn24-lilac.vercel.app/azure-ai-901/s11-mock-exam-1-gap-review) | Sit the first timed, full-length mock exam, review every question with its reasoning, analyse your score by domain and skill, and revise the weak… |
+| [Session 12: Mock Exam 2 & Exam Strategy](https://learn24-lilac.vercel.app/azure-ai-901/s12-mock-exam-2-exam-strategy) | The second timed mock and its review, then the strategy that adds marks without extra study: time management, scenario questions, eliminating wrong… |
+| [Lab 7: Mock Exam Analysis](https://learn24-lilac.vercel.app/azure-ai-901/lab07-mock-exam-analysis) | Turn two mock exams into a personal revision plan: attempt Mock Exams 1 and 2 under timed conditions, log every wrong answer with the skill it tests,… |
+| [Session 13: Topic-wise Practice Questions](https://learn24-lilac.vercel.app/azure-ai-901/s13-topic-wise-practice) | Work through Domain 1 practice (responsible AI, model concepts, AI workloads) and Domain 2 practice (Foundry apps and agents, text, speech, vision,… |
+| [Session 14: Mock Exam 3 & Exam-Day Readiness](https://learn24-lilac.vercel.app/azure-ai-901/s14-mock-exam-3-exam-day) | The final timed, full-length mock exam, a live review of every question with reasoning and Microsoft Learn references, a personal readiness check,… |
+| [Lab 8: Final Readiness Drill](https://learn24-lilac.vercel.app/azure-ai-901/lab08-final-readiness-drill) | The last lab: solve topic-wise practice sets against the clock, attempt Mock Exam 3 aiming above 80%, fill in the readiness scorecard for every exam… |
+
+The **AI-901 Exam Ready** certificate unlocks after all three mocks, with 80%+ on Mock 3, and the **Azure AI-901 in 7 weekends** roadmap tracks the syllabus.
+
 ## 🧩 DSA: Data Structures & Algorithms
 
 Coding-interview prep in the style of LeetCode and GeeksforGeeks, built for learning by watching.
@@ -278,8 +314,8 @@ Every reference solution was checked against every test in all four languages (J
 |---|---|---|
 | 🎤 Mock Interview | [/mock](https://learn24-lilac.vercel.app/mock) | Timed mock interviews from 1,400+ questions (company pages + assignments). Pick role, company, topics, difficulty and length; reveal model answers, rate yourself, get a readiness report with weak topics linked to lessons. |
 | 🔥 Daily Challenge | [/daily](https://learn24-lilac.vercel.app/daily) | One question a day (same for everyone), streaks, XP levels, 13 badges, a 10-week activity calendar and a downloadable streak card for LinkedIn / WhatsApp / Telegram. |
-| 🎓 Certificates | [/certificate](https://learn24-lilac.vercel.app/certificate) | 10 tracks unlock certificates (GenAI, LangChain, Agentic AI, AI in Finance, AWS, DSA, DSA Problem Solver, Interview Ready, Portfolio Builder, Roadmap Finisher). PNG download + "Add to LinkedIn profile". |
-| 🗺️ Career Roadmaps | [/roadmaps](https://learn24-lilac.vercel.app/roadmaps) | Week-by-week checklists: Fresher → GenAI Engineer (12 weeks), Data Scientist → GenAI (8), Service → Product company (8), DSA for coding interviews (8), AI in Banking (6). |
+| 🎓 Certificates | [/certificate](https://learn24-lilac.vercel.app/certificate) | 12 tracks unlock certificates (GenAI, LangChain, Agentic AI, AI in Finance, AWS, DSA, DSA Problem Solver, AI-901 course, AI-901 Exam Ready, Interview Ready, Portfolio Builder, Roadmap Finisher). PNG download + "Add to LinkedIn profile". |
+| 🗺️ Career Roadmaps | [/roadmaps](https://learn24-lilac.vercel.app/roadmaps) | Week-by-week checklists: Fresher → GenAI Engineer (12 weeks), Data Scientist → GenAI (8), Service → Product company (8), DSA for coding interviews (8), Azure AI-901 (7 weekends), AI in Banking (6). |
 
 All progress (streak, XP, mocks, ticks, certificates) is stored in the visitor's browser (`localStorage` key `learn24-me`), with no sign-up and no server. The header shows a 🔥 streak pill. After adding or changing interview/assignment pages, run `python3 build_qbank.py` to refresh `assets/qbank.json`.
 

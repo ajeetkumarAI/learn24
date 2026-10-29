@@ -23,20 +23,20 @@
   <h1>Project 1: RAG Chatbot over PDFs with Citations</h1>
   <div class="meta"><span>🛠️ Beginner</span><span>⏱ 1–2 weekends</span><span>📄 Resume lines included</span></div>
 <p>The most asked-about GenAI project in interviews. You'll build a chatbot that answers questions from a set of PDFs (policies, manuals, research papers), <strong>cites its sources</strong> and says "I don't know" when the answer isn't there. Then you'll measure its quality.</p>
-<h2>What you'll build</h2>
+<h2 id="what-you-ll-build">What you'll build</h2>
 <ul>
 <li>Upload or point to a folder of PDFs, which are parsed, chunked, embedded and indexed.</li>
 <li>A chat UI that streams answers with clickable <strong>[source: file, page]</strong> citations.</li>
 <li>An evaluation script reporting <strong>retrieval recall@k</strong> and <strong>faithfulness</strong> on 30 test questions.</li>
 </ul>
-<h2>Architecture</h2>
+<h2 id="architecture">Architecture</h2>
 <pre><code>PDFs → loader (PyPDF / unstructured) → splitter (800 tokens, 100 overlap) → embeddings → FAISS/Chroma
 User question → retriever (k=8) → re-ranker (top 4) → prompt with context + rules → LLM → answer + citations
                                                           ↘ logs (question, chunks, answer, latency)
 </code></pre>
-<h2>Tech stack</h2>
+<h2 id="tech-stack">Tech stack</h2>
 <p>Python, LangChain (LCEL), FAISS or Chroma, <code>bge-small</code> or OpenAI embeddings, an LLM (OpenAI / Groq / Ollama), FastAPI, Streamlit, RAGAS.</p>
-<h2>Step by step</h2>
+<h2 id="step-by-step">Step by step</h2>
 <ol>
 <li><strong>Ingest:</strong> load the PDFs with page numbers in the metadata; clean headers and footers.</li>
 <li><strong>Chunk:</strong> a recursive splitter, about 800 tokens with 100 overlap; keep <code>source</code> and <code>page</code>.</li>
@@ -47,7 +47,7 @@ User question → retriever (k=8) → re-ranker (top 4) → prompt with context 
 <li><strong>Evaluate:</strong> write 30 Q&amp;A pairs, then compute recall@k and RAGAS faithfulness and answer relevancy.</li>
 <li><strong>Iterate:</strong> try chunk sizes, hybrid search and re-ranking; record the scores in a table.</li>
 </ol>
-<h2>Starter code</h2>
+<h2 id="starter-code">Starter code</h2>
 <pre><code class="language-python">from langchain_community.document_loaders import PyPDFDirectoryLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
@@ -67,18 +67,18 @@ def ask(q):
     c = &quot;\n\n&quot;.join(f&quot;[{d.metadata['source'].split('/')[-1]}:{d.metadata.get('page', 0) + 1}] {d.page_content}&quot; for d in ctx)
     return llm.invoke(prompt.format(context=c, q=q)).content
 </code></pre>
-<h2>Deploy it</h2>
+<h2 id="deploy-it">Deploy it</h2>
 <ul>
 <li><strong>Free options:</strong> Hugging Face Spaces (Streamlit), Render or Railway (FastAPI), or the Streamlit Community Cloud.</li>
 <li>Keep API keys in <strong>secrets / environment variables</strong>, never in code. Add a README with a GIF demo and the evaluation table.</li>
 </ul>
-<h2>Put it on your resume</h2>
+<h2 id="put-it-on-your-resume">Put it on your resume</h2>
 <ul>
 <li>Built a <strong>RAG chatbot over 200+ PDFs</strong> using LangChain, FAISS and a cross-encoder re-ranker, answering with page-level citations and a refusal for out-of-scope queries.</li>
 <li>Improved <strong>retrieval recall@4 from 0.68 to 0.89</strong> and <strong>faithfulness to 0.93 (RAGAS)</strong> through chunk-size tuning, hybrid search and re-ranking; deployed with FastAPI and Streamlit.</li>
 </ul>
 <p>(Use your own real numbers from the evaluation step.)</p>
-<h2>Interview questions you'll get</h2>
+<h2 id="interview-questions-you-ll-get">Interview questions you'll get</h2>
 <ul>
 <li>How did you choose chunk size and overlap? What happens if chunks are too small or too large?</li>
 <li>Why add a re-ranker? What is the difference between a bi-encoder and a cross-encoder?</li>
@@ -86,7 +86,7 @@ def ask(q):
 <li>How would you scale to a million documents and keep the index fresh?</li>
 </ul>
 <p>Practise these in <strong><a href="../mock/index.html?topic=RAG%20%26%20Retrieval">Mock Interview → RAG &amp; Retrieval</a></strong>.</p>
-<h2>Stretch goals</h2>
+<h2 id="stretch-goals">Stretch goals</h2>
 <ul>
 <li>Hybrid BM25 + dense search with Reciprocal Rank Fusion.</li>
 <li>Conversation memory with question rewriting.</li>

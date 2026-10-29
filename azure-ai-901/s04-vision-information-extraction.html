@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Session 4: Vision &amp; Information Extraction Workloads · Azure AI-901 · Learn24</title>
+<meta name="description" content="Computer vision (image analysis, captioning, object detection, OCR), what image-generation models can and cannot do, and how to pull structured inform">
+<meta property="og:title" content="Session 4: Vision &amp; Information Extraction Workloads · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#50b4ff} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} .pj-cta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0} .pj-cta a{text-decoration:none} article pre{background:#0b1220;color:#d6e0f0;border-radius:10px;padding:12px 14px;overflow-x:auto;font:13px/1.55 var(--mono);max-width:100%} article pre code{background:none;padding:0;border:0;border-radius:0;display:block;color:inherit;font:inherit;white-space:pre} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="s04-vision-information-extraction" data-lesson="azure-ai-901/s04-vision-information-extraction">
+  <div class="kicker">Azure AI-901 · Module 2 · Session 4</div>
+  <h1>Session 4: Vision &amp; Information Extraction Workloads</h1>
+  <div class="meta"><span>⏱ 10 min read</span><span>📘 Live-session notes</span><span>☁️ Microsoft Foundry</span></div>
+<p>Computer vision (image analysis, captioning, object detection, OCR), what image-generation models can and cannot do, and how to pull structured information out of text, images, audio and video. The session ends with a 15-scenario workload drill and a Domain 1 practice quiz.</p>
+<h2 id="computer-vision-capabilities">Computer vision capabilities</h2>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Capability</th>
+<th>Output</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Image analysis / tagging</strong></td>
+<td>Tags describing content (“car”, “road”, “outdoor”)</td>
+<td>Organise a photo library</td>
+</tr>
+<tr>
+<td><strong>Image captioning</strong></td>
+<td>A human-readable sentence</td>
+<td>“A woman holding a credit card in front of a laptop”</td>
+</tr>
+<tr>
+<td><strong>Dense captions</strong></td>
+<td>Captions for regions of the image</td>
+<td>Describe each product on a shelf</td>
+</tr>
+<tr>
+<td><strong>Object detection</strong></td>
+<td>Objects <strong>with bounding boxes</strong> (coordinates)</td>
+<td>Count vehicles in a parking lot</td>
+</tr>
+<tr>
+<td><strong>Image classification</strong></td>
+<td>One label (or a few) for the whole image</td>
+<td>Damaged vs undamaged parcel</td>
+</tr>
+<tr>
+<td><strong>OCR (optical character recognition)</strong></td>
+<td>Printed and handwritten text, with positions</td>
+<td>Read a cheque, a shop sign or a scanned form</td>
+</tr>
+<tr>
+<td><strong>Face detection</strong></td>
+<td>Location of faces (and limited attributes)</td>
+<td>Blur faces in CCTV footage</td>
+</tr>
+<tr>
+<td><strong>Visual question answering</strong></td>
+<td>An answer to a question about an image</td>
+<td>“How many people are wearing helmets?”</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p>🎯 <strong>Exam tip.</strong> <strong>Classification</strong> says <em>what</em> the image is. <strong>Object detection</strong> says <em>what and where</em> (bounding boxes). <strong>OCR</strong> reads <em>text</em>. Captioning describes the <em>scene in a sentence</em>.</p>
+</blockquote>
+<p><strong>Two ways to do vision in Foundry:</strong></p>
+<ol>
+<li>A <strong>multimodal generative model</strong> (one that accepts image input): send an image plus a question in the prompt and get captions, descriptions, VQA and reasoning in natural language. This is the AI-901 focus (Session 9).</li>
+<li><strong>Specialised services</strong> such as Azure Vision in Foundry Tools, or Content Understanding for extraction, when you need structured outputs at scale.</li>
+</ol>
+<p>Responsible use: facial recognition and identification features are <strong>restricted</strong> (Limited Access) under Microsoft’s responsible AI policy, and some attributes (emotion, gender, age inference) are not offered.</p>
+<h2 id="image-generation-models">Image-generation models</h2>
+<p>Models such as <strong>GPT-Image-1</strong> and <strong>FLUX</strong> create images from a <strong>text prompt</strong>, and some can <strong>edit</strong> an existing image (inpainting: change only a masked area).</p>
+<p><strong>They can:</strong> create original illustrations, product mock-ups, marketing visuals and concept art, and follow style instructions (“flat vector, pastel colours”).</p>
+<p><strong>They cannot (reliably):</strong> guarantee accurate text inside the image, exact counts and positions, real people’s likenesses or trademarked characters (blocked by safety policies), factual diagrams, or the same character across many images without care.</p>
+<p><strong>Safety:</strong> every request passes through <strong>content filters</strong> (violence, sexual content, hate, self-harm), and outputs can carry provenance metadata (<strong>content credentials</strong>) showing the image is AI-generated.</p>
+<h2 id="extracting-information-from-any-content">Extracting information from any content</h2>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Content</th>
+<th>What you extract</th>
+<th>Tool</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Text</strong></td>
+<td>Entities, key phrases, PII, custom fields</td>
+<td>Azure Language, or an LLM with a structured-output prompt</td>
+</tr>
+<tr>
+<td><strong>Documents and forms</strong> (PDF, scans)</td>
+<td>Fields (invoice number, total, dates), tables, key-value pairs, layout</td>
+<td><strong>Azure Content Understanding</strong> (or Document Intelligence)</td>
+</tr>
+<tr>
+<td><strong>Images</strong></td>
+<td>Descriptions, objects, text, custom fields (“is the meter reading visible?”)</td>
+<td>Content Understanding or a multimodal model</td>
+</tr>
+<tr>
+<td><strong>Audio</strong></td>
+<td>Transcript, speakers, summary, custom fields (“did the agent mention the fee?”)</td>
+<td>Content Understanding or Azure Speech</td>
+</tr>
+<tr>
+<td><strong>Video</strong></td>
+<td>Key frames, scene descriptions, transcript, chapters, custom fields</td>
+<td>Content Understanding</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Content Understanding</strong> uses an <strong>analyzer</strong>: a prebuilt one (for example invoices) or a custom one where you define a <strong>field schema</strong> (the fields you want and their types). One service handles documents, images, audio and video and returns <strong>structured JSON</strong> with confidence scores. You build one in Session 10.</p>
+<h2 id="scenario-drill-choose-the-workload">Scenario drill: choose the workload</h2>
+<p>Cover the answers and decide yourself first.</p>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Business problem</th>
+<th>Workload</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Draft personalised follow-up emails after a sales call</td>
+<td>Generative AI</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Find out whether app-store reviews are mostly negative</td>
+<td>Text analysis: sentiment</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Read totals and dates from 10,000 supplier invoices</td>
+<td>Information extraction (documents)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Count people entering a mall from CCTV</td>
+<td>Computer vision: object detection</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Turn customer phone calls into searchable text</td>
+<td>Speech recognition</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Read SMS alerts aloud for visually impaired users</td>
+<td>Speech synthesis</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Detect Aadhaar and PAN numbers in chat logs and mask them</td>
+<td>Text analysis: PII detection</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Create a poster image for a festival offer</td>
+<td>Image generation</td>
+</tr>
+<tr>
+<td>9</td>
+<td>A bot that checks an order in the ERP and issues a refund</td>
+<td>Agentic AI</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Pull the main topics from 5,000 survey comments</td>
+<td>Text analysis: key phrase extraction</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Read the number plate in a photo</td>
+<td>Computer vision: OCR</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Summarise each recorded sales video into chapters</td>
+<td>Information extraction (video)</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Translate support chat between Hindi and English live</td>
+<td>Translation</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Describe uploaded product photos for alt text</td>
+<td>Computer vision: captioning</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Identify which language each incoming email is written in</td>
+<td>Text analysis: language detection</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="domain-1-practice-quiz">Domain 1 practice quiz</h2>
+<details><summary>1. Which responsible AI principle requires that people can understand how a system reaches decisions?</summary>
+Transparency.</details>
+
+<details><summary>2. Which parameter makes output more random and creative?</summary>
+A higher temperature (or a higher top-p).</details>
+
+<details><summary>3. You need the location of each car in an image. Classification or object detection?</summary>
+Object detection: it returns bounding boxes.</details>
+
+<details><summary>4. A model must accept a photo of a damaged car and a question about it. What type of model?</summary>
+A multimodal model that supports image input.</details>
+
+<details><summary>5. Which technique returns “positive”, “neutral”, “negative” or “mixed” with confidence scores?</summary>
+Sentiment analysis.</details>
+
+<details><summary>6. What does an analyzer’s field schema define in Content Understanding?</summary>
+The fields to extract and their types (for example InvoiceNumber: string, Total: number).</details>
+
+<details><summary>7. Name one thing image-generation models cannot reliably do.</summary>
+Render exact text, guarantee precise counts and layouts, or depict real people or trademarked characters (blocked by policy).</details><div class="pj-cta"><a class="btn" href="practice/index.html">📝 AI-901 exam practice</a></div>
+  <div class="pj-cta"><a class="btn" href="../mock/index.html">🎤 Practise in a mock interview</a><a class="btn ghost" href="../daily/index.html">🔥 Daily challenge</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="azure-ai-901/s04-vision-information-extraction"></script>
+
+</body>
+</html>

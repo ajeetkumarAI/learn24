@@ -25,7 +25,7 @@
   <h1>Two Pointers</h1>
   <div class="meta"><span>⏱ 15 min</span><span>🎬 Interactive visualizer</span><span>💻 Python · Java · C++ · JavaScript</span><span>🧩 6 practice problems</span></div>
   <p class="lead">Two indices that move toward each other or in the same direction. They replace a nested loop with a single O(n) pass on sorted arrays and strings.</p>
-<h2>The idea</h2>
+<h2 id="the-idea">The idea</h2>
 <p>Instead of checking every pair <code>(i, j)</code> with two loops (O(n²)), keep <strong>two indices</strong> and move one of them each step based on what you see. Every move rules out a whole set of pairs, so the total work is O(n).</p>
 <p>Two common shapes:</p>
 <ol>
@@ -33,9 +33,9 @@
 <li><strong>Same direction (read / write)</strong>: a fast “read” pointer scans while a slow “write” pointer marks where the next kept element goes. Used to remove duplicates, move zeroes, partition (Dutch flag) and merge sorted arrays.</li>
 </ol>
 <div class="viz" data-viz="two-pointers,dutch-flag"></div>
-<h2>Why it is correct (pair sum)</h2>
+<h2 id="why-it-is-correct-pair-sum">Why it is correct (pair sum)</h2>
 <p>The array is sorted. If <code>a[lo] + a[hi] &lt; target</code>, then <code>a[lo]</code> paired with <strong>any</strong> element left of <code>hi</code> is even smaller, so <code>a[lo]</code> can never be part of the answer and it is safe to do <code>lo++</code>. The symmetric argument justifies <code>hi--</code>.</p>
-<h2>Recognise it</h2>
+<h2 id="recognise-it">Recognise it</h2>
 <ul>
 <li>The input is <strong>sorted</strong> (or you can sort it) and you need pairs or triplets</li>
 <li>“In place”, “O(1) extra space”</li>
@@ -113,9 +113,9 @@ function dedupe(a) {
   for (let r = 0; r &lt; a.length; r++) if (r === 0 || a[r] !== a[r - 1]) a[w++] = a[r];
   return w;
 }</code></pre></div>
-<h2>Complexity</h2>
+<h2 id="complexity">Complexity</h2>
 <p>O(n) time and O(1) space for one pass. Sorting first costs O(n log n). 3Sum is O(n²): n choices for the first element, then O(n) two pointers.</p>
-<h2 id="practice">Practise this pattern (6 problems)</h2><p>Each problem has a statement, hints, approaches, solutions in 4 languages and a code runner. Solve them in order: easy first.</p><div class="ptw"><table class="ptab"><thead><tr><th aria-label="Solved"></th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead><tbody><tr data-id="valid-palindrome"><td class="st" aria-label="status"></td><td class="num">10</td><td><a href="problems/valid-palindrome.html">Valid Palindrome</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="move-zeroes"><td class="st" aria-label="status"></td><td class="num">11</td><td><a href="problems/move-zeroes.html">Move Zeroes</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="two-sum-ii-input-array-is-sorted"><td class="st" aria-label="status"></td><td class="num">12</td><td><a href="problems/two-sum-ii-input-array-is-sorted.html">Two Sum II (Sorted Input)</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="3sum"><td class="st" aria-label="status"></td><td class="num">13</td><td><a href="problems/3sum.html">3Sum</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="container-with-most-water"><td class="st" aria-label="status"></td><td class="num">14</td><td><a href="problems/container-with-most-water.html">Container With Most Water</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="trapping-rain-water"><td class="st" aria-label="status"></td><td class="num">15</td><td><a href="problems/trapping-rain-water.html">Trapping Rain Water</a></td><td><span class="diff hard">Hard</span></td></tr></tbody></table></div><h2>Common mistakes</h2>
+<h2 id="practice">Practise this pattern (6 problems)</h2><p>Each problem has a statement, hints, approaches, solutions in 4 languages and a code runner. Solve them in order: easy first.</p><div class="ptw"><table class="ptab"><thead><tr><th aria-label="Solved"></th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead><tbody><tr data-id="valid-palindrome"><td class="st" aria-label="status"></td><td class="num">10</td><td><a href="problems/valid-palindrome.html">Valid Palindrome</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="move-zeroes"><td class="st" aria-label="status"></td><td class="num">11</td><td><a href="problems/move-zeroes.html">Move Zeroes</a></td><td><span class="diff easy">Easy</span></td></tr><tr data-id="two-sum-ii-input-array-is-sorted"><td class="st" aria-label="status"></td><td class="num">12</td><td><a href="problems/two-sum-ii-input-array-is-sorted.html">Two Sum II (Sorted Input)</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="3sum"><td class="st" aria-label="status"></td><td class="num">13</td><td><a href="problems/3sum.html">3Sum</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="container-with-most-water"><td class="st" aria-label="status"></td><td class="num">14</td><td><a href="problems/container-with-most-water.html">Container With Most Water</a></td><td><span class="diff medium">Medium</span></td></tr><tr data-id="trapping-rain-water"><td class="st" aria-label="status"></td><td class="num">15</td><td><a href="problems/trapping-rain-water.html">Trapping Rain Water</a></td><td><span class="diff hard">Hard</span></td></tr></tbody></table></div><h2 id="common-mistakes">Common mistakes</h2>
 <ul>
 <li>Using two pointers on an <strong>unsorted</strong> array for a pair sum: sort first, or use a hash map.</li>
 <li><code>while lo &lt;= hi</code> versus <code>while lo &lt; hi</code>: for pairs you need two different positions, so use <code>&lt;</code>.</li>

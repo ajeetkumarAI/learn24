@@ -23,13 +23,13 @@
   <h1>Project 2: Multi-Agent Research Assistant (LangGraph)</h1>
   <div class="meta"><span>🛠️ Intermediate</span><span>⏱ 1–2 weekends</span><span>📄 Resume lines included</span></div>
 <p>Agents are the hottest interview topic of 2025–26. You'll build a <strong>supervisor + specialist agents</strong> system that researches a topic, writes a report with sources, and has a reviewer agent check it, with step limits, tracing and a human-approval step.</p>
-<h2>What you'll build</h2>
+<h2 id="what-you-ll-build">What you'll build</h2>
 <ul>
 <li>A user asks: "Compare vector databases for a startup."</li>
 <li>A <strong>Planner</strong> breaks the question into sub-questions, a <strong>Researcher</strong> searches the web or docs, a <strong>Writer</strong> drafts the report, and a <strong>Reviewer</strong> checks claims against sources and asks for fixes.</li>
 <li>The final markdown report includes citations, a cost and latency summary, and a trace.</li>
 </ul>
-<h2>Architecture</h2>
+<h2 id="architecture">Architecture</h2>
 <pre><code>User → Supervisor (LangGraph state machine)
           ├─ planner  → sub-questions
           ├─ researcher → tools: web_search, fetch_page, vector_search  (max 6 tool calls)
@@ -37,9 +37,9 @@
           └─ reviewer → pass / revise (max 2 loops) → human approval → final report
 State: {question, plan[], notes[], draft, review, steps, sources[]}
 </code></pre>
-<h2>Tech stack</h2>
+<h2 id="tech-stack">Tech stack</h2>
 <p>LangGraph, LangChain tools, Tavily or DuckDuckGo search, an LLM with tool calling, Pydantic for structured outputs, LangSmith or Langfuse for tracing, Streamlit for the UI.</p>
-<h2>Step by step</h2>
+<h2 id="step-by-step">Step by step</h2>
 <ol>
 <li><strong>Define typed state</strong> with Pydantic or a <code>TypedDict</code>.</li>
 <li><strong>Planner node:</strong> structured output gives a list of 3–5 sub-questions.</li>
@@ -50,7 +50,7 @@ State: {question, plan[], notes[], draft, review, steps, sources[]}
 <li><strong>Tracing:</strong> log tokens, latency and cost per node.</li>
 <li><strong>Evaluate</strong> on 10 topics: citation accuracy, factual errors found, time and cost.</li>
 </ol>
-<h2>Starter code</h2>
+<h2 id="starter-code">Starter code</h2>
 <pre><code class="language-python">from typing import TypedDict, List
 from langgraph.graph import StateGraph, END
 class S(TypedDict): question: str; plan: List[str]; notes: List[str]; draft: str; review: str; loops: int
@@ -68,14 +68,14 @@ g.add_conditional_edges(&quot;reviewer&quot;, route, {&quot;writer&quot;: &quot;
 app = g.compile()
 print(app.invoke({&quot;question&quot;: &quot;Compare vector databases for a startup&quot;})[&quot;draft&quot;])
 </code></pre>
-<h2>Deploy it</h2>
+<h2 id="deploy-it">Deploy it</h2>
 <p>Use a Streamlit UI showing each agent's progress live (stream graph events), hosted on Hugging Face Spaces. Store API keys in secrets. Record a 60-second demo video for LinkedIn.</p>
-<h2>Put it on your resume</h2>
+<h2 id="put-it-on-your-resume">Put it on your resume</h2>
 <ul>
 <li>Built a <strong>multi-agent research assistant in LangGraph</strong> (planner, researcher, writer, reviewer) with tool calling, step limits, a reviewer feedback loop and human approval.</li>
 <li>Cut factual errors by <strong>~60% vs a single-agent baseline</strong> on a 10-topic evaluation set, tracking cost and latency per node with LangSmith.</li>
 </ul>
-<h2>Interview questions you'll get</h2>
+<h2 id="interview-questions-you-ll-get">Interview questions you'll get</h2>
 <ul>
 <li>When should you use multiple agents instead of one? What are the costs?</li>
 <li>How do agents share memory and state? How do you stop infinite loops?</li>
@@ -83,7 +83,7 @@ print(app.invoke({&quot;question&quot;: &quot;Compare vector databases for a sta
 <li>How do you secure tool calls (prompt injection from web pages)?</li>
 </ul>
 <p>Practise these in <strong><a href="../mock/index.html?topic=Agents%20%26%20MCP">Mock Interview → Agents &amp; MCP</a></strong>.</p>
-<h2>Stretch goals</h2>
+<h2 id="stretch-goals">Stretch goals</h2>
 <ul>
 <li>Expose the tools through an <strong>MCP server</strong>.</li>
 <li>Parallel research branches (fan-out / fan-in).</li>

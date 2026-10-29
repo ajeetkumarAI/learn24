@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Session 1: The AI Landscape &amp; Setup · Azure AI-901 · Learn24</title>
+<meta name="description" content="Start from zero: what AI, machine learning, deep learning, generative AI and agentic AI really mean, where they are used, what the AI-901 exam looks l">
+<meta property="og:title" content="Session 1: The AI Landscape &amp; Setup · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#50b4ff} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} .pj-cta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0} .pj-cta a{text-decoration:none} article pre{background:#0b1220;color:#d6e0f0;border-radius:10px;padding:12px 14px;overflow-x:auto;font:13px/1.55 var(--mono);max-width:100%} article pre code{background:none;padding:0;border:0;border-radius:0;display:block;color:inherit;font:inherit;white-space:pre} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="s01-ai-landscape-setup" data-lesson="azure-ai-901/s01-ai-landscape-setup">
+  <div class="kicker">Azure AI-901 · Module 1 · Session 1</div>
+  <h1>Session 1: The AI Landscape &amp; Setup</h1>
+  <div class="meta"><span>⏱ 10 min read</span><span>📘 Live-session notes</span><span>☁️ Microsoft Foundry</span></div>
+<p>Start from zero: what AI, machine learning, deep learning, generative AI and agentic AI really mean, where they are used, what the AI-901 exam looks like, and how to set up Azure and Python so every lab in this course runs.</p>
+<blockquote>
+<p><strong>Course map.</strong> Module 1 (Sessions 1–2) builds concepts and responsible AI. Module 2 (Sessions 3–4) maps AI workloads. Modules 3–6 (Sessions 5–10) build real apps in <strong>Microsoft Foundry</strong>. Modules 7–8 (Sessions 11–14) are revision, practice and three mock exams. Every module ends with a hands-on lab.</p>
+</blockquote>
+<h2 id="ai-machine-learning-and-deep-learning">AI, machine learning and deep learning</h2>
+<p>Think of three circles, one inside the other.</p>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>What it is</th>
+<th>Everyday example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Artificial intelligence (AI)</strong></td>
+<td>Any software that does something we would call “intelligent”: reasoning, perceiving, understanding language, making decisions</td>
+<td>A chatbot that answers banking FAQs</td>
+</tr>
+<tr>
+<td><strong>Machine learning (ML)</strong></td>
+<td>A way to build AI: the system <strong>learns patterns from data</strong> instead of following hand-written rules</td>
+<td>A model that predicts loan default from past loans</td>
+</tr>
+<tr>
+<td><strong>Deep learning (DL)</strong></td>
+<td>ML with <strong>neural networks of many layers</strong>; great at images, audio and text</td>
+<td>Face unlock, speech recognition, translation</td>
+</tr>
+</tbody>
+</table></div>
+<p>A <strong>model</strong> is the learned result: a function that takes an input (an image, a sentence, a row of data) and produces an output (a label, a number, new text). Training creates the model; <strong>inference</strong> is using it.</p>
+<p>Classic ML tasks you should recognise:</p>
+<ul>
+<li><strong>Regression</strong>: predict a number (house price, monthly sales).</li>
+<li><strong>Classification</strong>: predict a category (fraud / not fraud, spam / not spam).</li>
+<li><strong>Clustering</strong>: group similar items without labels (customer segments).</li>
+</ul>
+<h2 id="generative-ai-and-agentic-ai-what-changed">Generative AI and agentic AI: what changed</h2>
+<p><strong>Generative AI</strong> models <em>create</em> new content (text, images, code, audio) instead of only labelling existing content. They are built on very large neural networks called <strong>foundation models</strong>; the text ones are <strong>large language models (LLMs)</strong>. You talk to them with a <strong>prompt</strong>.</p>
+<p><strong>Agentic AI</strong> goes one step further. An <strong>agent</strong> is a model plus <strong>instructions</strong>, <strong>tools</strong> and <strong>knowledge</strong>, so it can plan, call tools (search a document, run code, call an API) and complete a multi-step task, not just reply once.</p>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th></th>
+<th>Traditional ML</th>
+<th>Generative AI</th>
+<th>Agentic AI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Output</td>
+<td>A label or number</td>
+<td>New content</td>
+<td>Actions + content</td>
+</tr>
+<tr>
+<td>Interaction</td>
+<td>Feed data, get a prediction</td>
+<td>Prompt → response</td>
+<td>Goal → plan → tool calls → result</td>
+</tr>
+<tr>
+<td>Example</td>
+<td>Fraud score</td>
+<td>“Write a polite reply to this complaint”</td>
+<td>“Check this customer’s policy document and open a ticket if the claim is valid”</td>
+</tr>
+</tbody>
+</table></div>
+<p>Why it matters: one general model can now do summarisation, translation, extraction and Q&amp;A that used to need a separately trained model for each task.</p>
+<h2 id="real-world-use-cases">Real-world use cases</h2>
+<ul>
+<li><strong>BFSI</strong>: KYC document extraction, fraud alerts explained in plain language, customer-support assistants, call-centre speech analytics.</li>
+<li><strong>Healthcare</strong>: summarising clinical notes, transcribing doctor–patient conversations, triage chatbots (with strict human oversight).</li>
+<li><strong>Retail</strong>: product descriptions, visual search, review sentiment, demand forecasting.</li>
+<li><strong>Education</strong>: personalised tutors, auto-generated quizzes, speech-to-text for accessibility.</li>
+</ul>
+<h2 id="the-ai-901-exam-at-a-glance">The AI-901 exam at a glance</h2>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Exam</td>
+<td><strong>AI-901: Microsoft Azure AI Fundamentals</strong> (replaced AI-900)</td>
+</tr>
+<tr>
+<td>Domain 1</td>
+<td>Identify AI concepts and capabilities: <strong>40–45%</strong></td>
+</tr>
+<tr>
+<td>Domain 2</td>
+<td>Implement AI solutions by using Microsoft Foundry: <strong>55–60%</strong></td>
+</tr>
+<tr>
+<td>Passing score</td>
+<td><strong>700</strong> on a scale of 1–1000</td>
+</tr>
+<tr>
+<td>Time</td>
+<td>Fundamentals exams run <strong>45 minutes</strong> of exam time (about 65 minutes in the seat)</td>
+</tr>
+<tr>
+<td>Question styles</td>
+<td>Multiple choice, multiple answers, drag and drop, hot area (Yes/No grids, drop-down completion), and scenario questions</td>
+</tr>
+<tr>
+<td>Booking</td>
+<td>Through the Microsoft Learn exam page; delivered by <strong>Pearson VUE</strong> online or at a test centre</td>
+</tr>
+<tr>
+<td>Practice</td>
+<td>Free official Practice Assessment and the exam sandbox demo (<code>aka.ms/examdemo</code>)</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p>🎯 <strong>Exam tip.</strong> Domain 2 is the bigger half and it is hands-on: expect questions about which SDK call, which portal page, or which Foundry tool to use. Doing the labs is the best preparation.</p>
+</blockquote>
+<h2 id="azure-basics-you-need-on-day-one">Azure basics you need on day one</h2>
+<ul>
+<li><strong>Microsoft Entra ID tenant</strong>: your organisation’s identity directory (users, groups, sign-in).</li>
+<li><strong>Subscription</strong>: the billing container. Everything you create is charged to a subscription.</li>
+<li><strong>Resource group</strong>: a folder for related resources. Delete the resource group and everything inside goes with it, which is the easiest way to clean up after a lab.</li>
+<li><strong>Region</strong>: the data-centre location (for example <em>Sweden Central</em>, <em>East US 2</em>, <em>Central India</em>). Not every model is available in every region, so check the model catalog before choosing.</li>
+<li><strong>Resource</strong>: one service instance. For this course the key one is the <strong>Microsoft Foundry resource</strong>, which gives you a <strong>project</strong> to deploy models and build agents, plus access to <strong>Foundry Tools</strong> (Azure Language, Azure Speech, Azure Content Understanding and more).</li>
+</ul>
+<p><strong>Pricing awareness.</strong> Most AI services are pay-as-you-go: you pay per <strong>token</strong> (text models), per minute of audio, per image or per page. A new Azure free account includes starting credit for the first 30 days, and Azure for Students gives credit without a credit card. Set a <strong>budget alert</strong> in Cost Management, and delete lab resource groups when you finish.</p>
+<blockquote>
+<p><strong>Naming you will see.</strong> <em>Microsoft Foundry</em> was previously called Azure AI Foundry, and before that Azure AI Studio. <em>Foundry Tools</em> is the new name for what used to be called Azure AI services (and before that, Cognitive Services). The exam uses the new names.</p>
+</blockquote>
+<h2 id="set-up-your-python-environment">Set up your Python environment</h2>
+<p>You need <strong>Python 3.10 or later</strong>, <strong>VS Code</strong>, and the <strong>Azure CLI</strong> (for keyless sign-in).</p>
+<pre><code class="language-bash"># 1) create and activate a virtual environment
+python -m venv .venv
+# Windows:
+.venv\Scripts\activate
+# macOS / Linux:
+source .venv/bin/activate
+
+# 2) install the packages used across the course
+pip install azure-ai-projects azure-identity openai python-dotenv
+
+# 3) sign in so DefaultAzureCredential can use your account
+az login
+</code></pre>
+<p>Keep secrets out of your code with a <strong><code>.env</code></strong> file in the project folder:</p>
+<pre><code class="language-bash"># .env  (never commit this file: add it to .gitignore)
+FOUNDRY_PROJECT_ENDPOINT=https://&lt;your-resource&gt;.services.ai.azure.com/api/projects/&lt;your-project&gt;
+FOUNDRY_MODEL_NAME=&lt;your-deployment-name&gt;
+</code></pre>
+<pre><code class="language-python">import os
+from dotenv import load_dotenv
+
+load_dotenv()                                   # reads .env into environment variables
+endpoint = os.environ[&quot;FOUNDRY_PROJECT_ENDPOINT&quot;]
+print(&quot;Endpoint loaded:&quot;, endpoint[:40] + &quot;...&quot;)
+</code></pre>
+<p><strong>API keys vs keyless authentication</strong></p>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th></th>
+<th>API key</th>
+<th>Keyless (Microsoft Entra ID)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>How</td>
+<td>Send a secret key with every request</td>
+<td>Sign in (<code>az login</code>, managed identity); the SDK gets a token</td>
+</tr>
+<tr>
+<td>Python</td>
+<td><code>api_key=os.environ["KEY"]</code></td>
+<td><code>DefaultAzureCredential()</code></td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Key can leak; must be rotated</td>
+<td>No secret in code; access controlled by Azure roles (RBAC)</td>
+</tr>
+<tr>
+<td>Recommended for production</td>
+<td>No</td>
+<td><strong>Yes</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="check-yourself">Check yourself</h2>
+<details><summary>A bank wants a system that reads past loan applications and predicts whether a new applicant will default. Is that generative AI?</summary>
+No. It predicts a category from data, so it is classic machine learning (classification). Generative AI creates new content.</details>
+
+<details><summary>What is the difference between a subscription and a resource group?</summary>
+A subscription is the billing boundary. A resource group is a logical folder inside a subscription that groups related resources so you can manage and delete them together.</details>
+
+<details><summary>Why is keyless authentication preferred over API keys?</summary>
+There is no secret to leak or rotate; access is granted through Microsoft Entra ID identities and Azure role assignments, which can be audited and revoked.</details>
+
+<details><summary>What is the passing score for AI-901, and which domain carries more weight?</summary>
+700 out of 1000. Domain 2 (implementing AI solutions with Microsoft Foundry) carries 55–60%.</details><div class="pj-cta"><a class="btn" href="practice/index.html">📝 AI-901 exam practice</a></div>
+  <div class="pj-cta"><a class="btn" href="../mock/index.html">🎤 Practise in a mock interview</a><a class="btn ghost" href="../daily/index.html">🔥 Daily challenge</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="azure-ai-901/s01-ai-landscape-setup"></script>
+
+</body>
+</html>

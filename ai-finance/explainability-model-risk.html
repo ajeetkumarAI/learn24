@@ -23,7 +23,7 @@
   <h1>Explainability, Fairness &amp; Model Risk Management</h1>
   <div class="meta"><span>⏱ 10 min read</span><span>✅ Check-yourself quiz</span><span>🏦 Banking & fintech</span></div>
 <p>In finance a model is not finished when it reaches a good AUC. It must be <strong>explainable, fair, documented, validated and monitored</strong>. This lesson covers SHAP and reason codes, fairness testing, and the model risk management lifecycle that validators and regulators expect.</p>
-<h2>Global vs local explanations</h2>
+<h2 id="global-vs-local-explanations">Global vs local explanations</h2>
 <ul>
 <li><strong>Global:</strong> which features drive the model overall (mean |SHAP|, permutation importance, partial dependence).</li>
 <li><strong>Local:</strong> why <strong>this</strong> customer got <strong>this</strong> score (SHAP values per prediction). These become <strong>reason codes</strong>.</li>
@@ -40,14 +40,14 @@ reasons = [f&quot;{f} increased risk&quot; for f, v in top if v &gt; 0]
 <li><strong>Map features to human reason codes</strong>, e.g. <code>util_ratio</code> → "High credit utilisation", <code>dpd_6m</code> → "Recent missed payments".</li>
 <li><strong>Be careful with correlated features:</strong> SHAP splits credit between them, so group related features into reasons.</li>
 </ul>
-<h2>Fairness testing</h2>
+<h2 id="fairness-testing">Fairness testing</h2>
 <ul>
 <li><strong>Do not use protected attributes as inputs</strong>, and check for <strong>proxies</strong> (e.g. some PIN codes or names).</li>
 <li><strong>Compare outcomes across groups</strong> where lawful and appropriate: approval-rate ratios, false-positive and false-negative rates, calibration by group.</li>
 <li>Common metrics are demographic parity difference, equal opportunity (TPR gap) and the disparate-impact ratio (the "80% rule" heuristic).</li>
 <li><strong>Mitigate</strong> with feature review, reweighting, threshold policies or constraints, and document the trade-offs.</li>
 </ul>
-<h2>Model risk management (MRM) lifecycle</h2>
+<h2 id="model-risk-management-mrm-lifecycle">Model risk management (MRM) lifecycle</h2>
 <ol>
 <li><strong>Inventory:</strong> every model is registered with its owner, purpose, tier (materiality) and status.</li>
 <li><strong>Development documentation:</strong> data, assumptions, methodology, alternatives considered, limitations.</li>
@@ -57,14 +57,14 @@ reasons = [f&quot;{f} increased risk&quot; for f, v in top if v &gt; 0]
 <li><strong>Periodic revalidation</strong>, and retirement when the model is no longer fit for purpose.</li>
 </ol>
 <p>US guidance such as <strong>SR 11-7</strong> formalised these ideas, and banks worldwide, including in India, run similar frameworks.</p>
-<h2>GenAI under model risk</h2>
+<h2 id="genai-under-model-risk">GenAI under model risk</h2>
 <p>LLM apps (chatbots, document extraction, summarisation) are increasingly brought into MRM:</p>
 <ul>
 <li><strong>Define the intended use and out-of-scope uses.</strong></li>
 <li><strong>Evaluation sets:</strong> accuracy, faithfulness and hallucination rate, toxicity, prompt-injection robustness.</li>
 <li><strong>Controls:</strong> human-in-the-loop for customer-impacting outputs, citations, logging, vendor-model change management (pin versions, re-test on upgrade).</li>
 </ul>
-<h2>Check yourself</h2>
+<h2 id="check-yourself">Check yourself</h2>
 <details><summary>What is the difference between global and local explainability?</summary>
 Global explains the model's overall behaviour (which features matter most). Local explains one specific prediction (why this applicant was declined). Reason codes come from local explanations.</details>
 

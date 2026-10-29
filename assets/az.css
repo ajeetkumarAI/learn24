@@ -1,0 +1,45 @@
+/* Learn24 AI-901 exam practice */
+.az-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:16px}
+.az-card{display:flex;flex-direction:column;gap:3px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;text-decoration:none;color:var(--fg)}
+.az-card:hover{border-color:var(--accent)}
+.az-card i{font-style:normal;font-size:26px}.az-card b{font-size:17px}.az-card span{color:var(--muted);font-size:14px}.az-card small{margin-top:6px;color:var(--muted)}
+.ok{color:var(--green)}.mid{color:var(--amber)}.no{color:var(--red)}
+.az-topics{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px;margin-bottom:8px}
+.az-topics a{display:flex;flex-direction:column;gap:2px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;text-decoration:none;color:var(--fg);background:var(--bg)}
+.az-topics a:hover{border-color:var(--accent)}.az-topics small{color:var(--muted)}
+.az-stem{font-size:18px;line-height:1.5;color:var(--fg);margin:10px 0 14px}
+.az-stem code,.az-opt code,.az-yn code,.az-match code{font-family:var(--mono);font-size:.88em;background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:1px 5px}
+.az-hint{font-size:13.5px;color:var(--muted);margin:-6px 0 8px}
+.az-opts{display:grid;gap:8px}
+.az-opt{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer;background:var(--bg);line-height:1.45}
+.az-opt:hover{border-color:var(--accent)}
+.az-opt input{margin-top:3px;flex:none;width:17px;height:17px;accent-color:var(--accent)}
+.az-opt.right{border-color:var(--green);background:color-mix(in srgb,var(--green) 12%,var(--bg))}
+.az-opt.wrong{border-color:var(--red);background:color-mix(in srgb,var(--red) 10%,var(--bg))}
+.az-dd{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.az-dd select{max-width:100%;width:auto;min-width:220px}
+.az-yn{width:100%;border-collapse:collapse;font-size:15px;display:table!important}
+.az-yn th{text-align:left;font-size:12px;text-transform:uppercase;color:var(--muted);padding:6px 8px;border-bottom:1px solid var(--line)}
+.az-yn th:nth-child(n+2),.az-yn td:nth-child(n+2){text-align:center;width:56px}
+.az-yn td{padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.45}
+.az-yn input{width:18px;height:18px;accent-color:var(--accent)}
+.az-yn tr.right td:first-child{border-left:3px solid var(--green)}.az-yn tr.wrong td:first-child{border-left:3px solid var(--red)}
+.az-yn small{color:var(--muted)}
+.az-match{display:grid;gap:8px}
+.az-match>div{display:grid;grid-template-columns:minmax(0,1fr) minmax(160px,260px);gap:6px 12px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:9px 12px;background:var(--bg)}
+.az-match>div.right{border-color:var(--green)}.az-match>div.wrong{border-color:var(--red)}
+.az-match small{grid-column:1/-1;color:var(--green)}
+.az-match select{width:100%}
+@media (max-width:560px){.az-match>div{grid-template-columns:minmax(0,1fr)}.az-stem{font-size:16.5px}}
+.az-nav{display:flex;flex-wrap:wrap;gap:5px;margin-top:16px}
+.az-nav button{width:34px;height:32px;border-radius:7px;border:1px solid var(--line);background:var(--bg);color:var(--fg);font:600 12.5px var(--mono);cursor:pointer}
+.az-nav button.done{background:color-mix(in srgb,var(--accent) 25%,var(--bg));border-color:var(--accent)}
+.az-nav button.flag{box-shadow:inset 0 -3px 0 var(--amber)}
+.az-nav button.cur{outline:2px solid var(--fg);outline-offset:1px}
+.az-legend{font-size:13px}
+.linkish{background:none;border:0;color:var(--accent);cursor:pointer;font:inherit;text-decoration:underline;padding:0}
+.ans.az-ok{border-left-color:var(--green)}.ans.az-part{border-left-color:var(--amber)}.ans.az-no{border-left-color:var(--red)}
+.az-review{padding-left:22px}.az-review li{margin:8px 0}
+.az-review details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;background:var(--bg)}
+.az-review summary{cursor:pointer;line-height:1.45}
+.az-review .az-q{margin-top:10px}
+.mk-act .btn[disabled]{opacity:.45;cursor:default}

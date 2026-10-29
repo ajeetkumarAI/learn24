@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lab 5: Image Describer &amp; Generator · Azure AI-901 · Learn24</title>
+<meta name="description" content="Build a small Python app that both understands and creates images: caption a product or receipt photo with a multimodal model, ask follow-up visual qu">
+<meta property="og:title" content="Lab 5: Image Describer &amp; Generator · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#50b4ff} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} .pj-cta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0} .pj-cta a{text-decoration:none} article pre{background:#0b1220;color:#d6e0f0;border-radius:10px;padding:12px 14px;overflow-x:auto;font:13px/1.55 var(--mono);max-width:100%} article pre code{background:none;padding:0;border:0;border-radius:0;display:block;color:inherit;font:inherit;white-space:pre} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="lab05-image-describer-generator" data-lesson="azure-ai-901/lab05-image-describer-generator">
+  <div class="kicker">Azure AI-901 · Module 5 · Lab 5</div>
+  <h1>Lab 5: Image Describer &amp; Generator</h1>
+  <div class="meta"><span>⏱ 10 min read</span><span>🧪 Hands-on lab</span><span>☁️ Microsoft Foundry</span></div>
+<p>Build a small Python app that both understands and creates images: caption a product or receipt photo with a multimodal model, ask follow-up visual questions, generate a marketing image from a text prompt, and wrap both features in one menu (or Streamlit) app.</p>
+<p><strong>Time:</strong> 90 minutes · <strong>Project:</strong> #4 Image Describer &amp; Generator · <strong>You need:</strong> a multimodal chat deployment (image input) and an image-generation deployment (for example <code>gpt-image-1</code>) in a region that offers it.</p>
+<blockquote>
+<p><strong>Outcome.</strong> A vision app that both understands and creates images.</p>
+</blockquote>
+<h2 id="step-1-deploy-the-models">Step 1: Deploy the models</h2>
+<ol>
+<li>In your Foundry project → <strong>Models</strong>, confirm your chat deployment supports <strong>image input</strong> (the model card lists the input modalities).</li>
+<li>Search the catalog for <strong>gpt-image-1</strong> (or the current GPT-Image or FLUX model available in your region) → <strong>Deploy</strong>. Name it <code>image-model</code>.</li>
+<li>Try it in the <strong>Images playground</strong> with <em>“A watercolour of a Mumbai local train at sunrise”</em> to confirm the deployment works.</li>
+</ol>
+<p><code>.env</code>:</p>
+<pre><code class="language-bash">FOUNDRY_PROJECT_ENDPOINT=https://&lt;resource&gt;.services.ai.azure.com/api/projects/&lt;project&gt;
+FOUNDRY_MODEL_NAME=chat-model
+FOUNDRY_OPENAI_ENDPOINT=https://&lt;resource&gt;.openai.azure.com/openai/v1/
+FOUNDRY_KEY=&lt;key&gt;
+IMAGE_MODEL_DEPLOYMENT=image-model
+</code></pre>
+<h2 id="step-2-the-app">Step 2: The app</h2>
+<p><code>vision_app.py</code>:</p>
+<pre><code class="language-python">import os, base64, datetime
+from dotenv import load_dotenv
+from openai import OpenAI, BadRequestError
+from azure.identity import DefaultAzureCredential
+from azure.ai.projects import AIProjectClient
+
+load_dotenv()
+chat = AIProjectClient(endpoint=os.environ[&quot;FOUNDRY_PROJECT_ENDPOINT&quot;], credential=DefaultAzureCredential()).get_openai_client()
+images = OpenAI(base_url=os.environ[&quot;FOUNDRY_OPENAI_ENDPOINT&quot;], api_key=os.environ[&quot;FOUNDRY_KEY&quot;])
+MODEL = os.environ[&quot;FOUNDRY_MODEL_NAME&quot;]
+
+def data_url(path):
+    mime = &quot;image/png&quot; if path.lower().endswith(&quot;.png&quot;) else &quot;image/jpeg&quot;
+    return f&quot;data:{mime};base64,&quot; + base64.b64encode(open(path, &quot;rb&quot;).read()).decode()
+
+def describe(path):
+    history = [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: [
+        {&quot;type&quot;: &quot;input_text&quot;, &quot;text&quot;: &quot;Give a one-sentence caption, then list the key objects and any visible text.&quot;},
+        {&quot;type&quot;: &quot;input_image&quot;, &quot;image_url&quot;: data_url(path)}]}]
+    r = chat.responses.create(model=MODEL, input=history)
+    print(&quot;\n&quot; + r.output_text)
+    history.append({&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: r.output_text})
+    while (q := input(&quot;\nAsk about the image (Enter to stop): &quot;).strip()):
+        history.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: q})              # visual Q&amp;A with history
+        r = chat.responses.create(model=MODEL, input=history)
+        history.append({&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: r.output_text})
+        print(r.output_text)
+
+def generate(prompt):
+    try:
+        res = images.images.generate(model=os.environ[&quot;IMAGE_MODEL_DEPLOYMENT&quot;], prompt=prompt,
+                                     size=&quot;1536x1024&quot;, quality=&quot;medium&quot;, n=1)
+    except BadRequestError as e:                                   # content filter or invalid request
+        print(&quot;Request blocked or invalid:&quot;, e.message); return
+    name = f&quot;generated-{datetime.datetime.now():%H%M%S}.png&quot;
+    open(name, &quot;wb&quot;).write(base64.b64decode(res.data[0].b64_json))
+    print(&quot;Saved&quot;, name)
+
+while True:
+    choice = input(&quot;\n1) Describe an image  2) Generate an image  3) Quit\n&gt; &quot;).strip()
+    if choice == &quot;1&quot;:
+        describe(input(&quot;Image path: &quot;).strip())
+    elif choice == &quot;2&quot;:
+        generate(input(&quot;Describe the image to create: &quot;).strip())
+    else:
+        break
+</code></pre>
+<h2 id="step-3-test">Step 3: Test</h2>
+<ol>
+<li><strong>Product photo</strong>: caption it, then ask <em>“What colour is it?”</em> and <em>“Suggest a 10-word product title.”</em></li>
+<li><strong>Receipt photo</strong>: ask <em>“What is the total and the date?”</em> then <em>“Is GST shown separately?”</em></li>
+<li><strong>Generate</strong>: <em>“Marketing banner for a zero-fee UPI credit card, modern flat illustration, blue and white, young professionals, no text.”</em></li>
+<li><strong>Safety test</strong>: try a prompt that should be refused (for example, a realistic image of a real celebrity endorsing your bank) and confirm the app handles the error gracefully.</li>
+</ol>
+<h2 id="step-4-optional-streamlit-front-end">Step 4: Optional Streamlit front end</h2>
+<pre><code class="language-python">import streamlit as st, tempfile
+# reuse data_url / chat / images / MODEL from vision_app.py (move them into a helpers module)
+tab1, tab2 = st.tabs([&quot;Describe&quot;, &quot;Generate&quot;])
+with tab1:
+    up = st.file_uploader(&quot;Upload an image&quot;, type=[&quot;jpg&quot;, &quot;jpeg&quot;, &quot;png&quot;])
+    q = st.text_input(&quot;Question&quot;, &quot;Describe this image.&quot;)
+    if up and st.button(&quot;Ask&quot;):
+        tmp = tempfile.NamedTemporaryFile(delete=False, suffix=&quot;.png&quot;); tmp.write(up.read()); tmp.close()
+        st.image(tmp.name)
+        r = chat.responses.create(model=MODEL, input=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: [
+            {&quot;type&quot;: &quot;input_text&quot;, &quot;text&quot;: q}, {&quot;type&quot;: &quot;input_image&quot;, &quot;image_url&quot;: data_url(tmp.name)}]}])
+        st.write(r.output_text)
+with tab2:
+    p = st.text_area(&quot;Prompt&quot;)
+    if p and st.button(&quot;Generate&quot;):
+        res = images.images.generate(model=os.environ[&quot;IMAGE_MODEL_DEPLOYMENT&quot;], prompt=p, size=&quot;1024x1024&quot;)
+        st.image(base64.b64decode(res.data[0].b64_json))
+</code></pre>
+<p><strong>Resume line:</strong> <em>Built a Python vision app on Microsoft Foundry that captions images and answers follow-up visual questions with a multimodal model, and generates marketing images with GPT-Image, with content-filter handling.</em></p>
+<h2 id="check-yourself">Check yourself</h2>
+<details><summary>Why does the describe function keep a history list?</summary>
+So follow-up questions keep the image and earlier answers in context: the model is stateless.</details>
+
+<details><summary>What does the app do when the image request is blocked?</summary>
+It catches <code>BadRequestError</code> (for example a content-filter rejection) and shows a message instead of crashing.</details><div class="pj-cta"><a class="btn" href="practice/index.html">📝 AI-901 exam practice</a></div>
+  <div class="pj-cta"><a class="btn" href="../mock/index.html">🎤 Practise in a mock interview</a><a class="btn ghost" href="../daily/index.html">🔥 Daily challenge</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="azure-ai-901/lab05-image-describer-generator"></script>
+
+</body>
+</html>

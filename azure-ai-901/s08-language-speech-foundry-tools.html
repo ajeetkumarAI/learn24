@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Session 8: Language &amp; Speech in Foundry Tools · Azure AI-901 · Learn24</title>
+<meta name="description" content="Build apps that understand text and speech: a text-analysis app with Azure Language in Foundry Tools, spoken prompts answered by a deployed multimodal">
+<meta property="og:title" content="Session 8: Language &amp; Speech in Foundry Tools · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#50b4ff} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} .pj-cta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0} .pj-cta a{text-decoration:none} article pre{background:#0b1220;color:#d6e0f0;border-radius:10px;padding:12px 14px;overflow-x:auto;font:13px/1.55 var(--mono);max-width:100%} article pre code{background:none;padding:0;border:0;border-radius:0;display:block;color:inherit;font:inherit;white-space:pre} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="s08-language-speech-foundry-tools" data-lesson="azure-ai-901/s08-language-speech-foundry-tools">
+  <div class="kicker">Azure AI-901 · Module 4 · Session 8</div>
+  <h1>Session 8: Language &amp; Speech in Foundry Tools</h1>
+  <div class="meta"><span>⏱ 10 min read</span><span>📘 Live-session notes</span><span>☁️ Microsoft Foundry</span></div>
+<p>Build apps that understand text and speech: a text-analysis app with Azure Language in Foundry Tools, spoken prompts answered by a deployed multimodal model, speech-to-text and text-to-speech with Azure Speech in Foundry Tools, choosing voices and output formats, and combining speech and language in one pipeline.</p>
+<h2 id="endpoints-and-keys-for-foundry-tools">Endpoints and keys for Foundry Tools</h2>
+<p>Your <strong>Foundry resource</strong> also exposes Foundry Tools such as Azure Language and Azure Speech. On the resource’s <strong>Keys and Endpoint</strong> page (in the Azure portal) you find:</p>
+<ul>
+<li>the <strong>resource endpoint</strong>: <code>https://&lt;resource&gt;.services.ai.azure.com/</code> (or <code>.cognitiveservices.azure.com/</code>). Note: this is <strong>not</strong> the project endpoint with <code>/api/projects/...</code>.</li>
+<li><strong>Key 1 / Key 2</strong> and the <strong>region</strong> (Speech also accepts region + key).</li>
+</ul>
+<pre><code class="language-bash">pip install azure-ai-textanalytics azure-cognitiveservices-speech azure-identity python-dotenv openai
+</code></pre>
+<h2 id="a-text-analysis-app-with-azure-language">A text-analysis app with Azure Language</h2>
+<pre><code class="language-python">import os
+from dotenv import load_dotenv
+from azure.core.credentials import AzureKeyCredential
+from azure.ai.textanalytics import TextAnalyticsClient
+# keyless alternative: from azure.identity import DefaultAzureCredential
+
+load_dotenv()
+client = TextAnalyticsClient(
+    endpoint=os.environ[&quot;FOUNDRY_RESOURCE_ENDPOINT&quot;],              # https://&lt;resource&gt;.services.ai.azure.com/
+    credential=AzureKeyCredential(os.environ[&quot;FOUNDRY_KEY&quot;]),      # or DefaultAzureCredential()
+)
+
+docs = [&quot;The Platinum card has great lounge access, but the app keeps crashing when I pay bills.&quot;,
+        &quot;Ravi from the Andheri branch fixed my KYC issue in ten minutes. Brilliant service!&quot;]
+
+for doc, s in zip(docs, client.analyze_sentiment(docs, show_opinion_mining=True)):
+    print(f&quot;\n{doc}\n  sentiment: {s.sentiment}  scores: {s.confidence_scores}&quot;)
+    for sent in s.sentences:
+        for op in sent.mined_opinions:
+            print(f&quot;  aspect '{op.target.text}' -&gt; {op.target.sentiment}&quot;)
+
+for r in client.extract_key_phrases(docs):
+    print(&quot;key phrases:&quot;, r.key_phrases)
+
+for r in client.recognize_entities(docs):
+    print(&quot;entities:&quot;, [(e.text, e.category, round(e.confidence_score, 2)) for e in r.entities])
+
+pii = client.recognize_pii_entities([&quot;Call me on 9876543210, my PAN is ABCDE1234F&quot;])[0]
+print(&quot;redacted:&quot;, pii.redacted_text)
+
+print(&quot;language:&quot;, client.detect_language([&quot;Mera card block ho gaya hai&quot;])[0].primary_language.name)
+</code></pre>
+<p><strong>Summarisation</strong> is a long-running operation:</p>
+<pre><code class="language-python">poller = client.begin_abstract_summary([&quot;&lt;a long complaint or call transcript&gt;&quot;])
+for result in poller.result():
+    for summary in result.summaries:
+        print(&quot;summary:&quot;, summary.text)
+# begin_extract_summary() returns the most important original sentences instead
+</code></pre>
+<blockquote>
+<p>🎯 <strong>Exam tip.</strong> Each result comes back <strong>per document in the same order</strong> you sent them, and each item can be an error (<code>is_error</code>), so check before reading fields in production code.</p>
+</blockquote>
+<h2 id="speech-to-text-with-azure-speech">Speech-to-text with Azure Speech</h2>
+<pre><code class="language-python">import os
+import azure.cognitiveservices.speech as speechsdk
+from dotenv import load_dotenv
+
+load_dotenv()
+speech_config = speechsdk.SpeechConfig(subscription=os.environ[&quot;FOUNDRY_KEY&quot;], region=os.environ[&quot;FOUNDRY_REGION&quot;])
+speech_config.speech_recognition_language = &quot;en-IN&quot;
+
+audio_config = speechsdk.audio.AudioConfig(filename=&quot;feedback.wav&quot;)      # or use_default_microphone=True
+recognizer = speechsdk.SpeechRecognizer(speech_config=speech_config, audio_config=audio_config)
+
+result = recognizer.recognize_once_async().get()
+if result.reason == speechsdk.ResultReason.RecognizedSpeech:
+    print(&quot;Transcript:&quot;, result.text)
+elif result.reason == speechsdk.ResultReason.NoMatch:
+    print(&quot;No speech could be recognised.&quot;)
+else:
+    print(&quot;Canceled:&quot;, result.cancellation_details.reason, result.cancellation_details.error_details)
+</code></pre>
+<p><code>recognize_once</code> handles a single utterance (up to about 15 seconds, or until silence). For long audio use <strong>continuous recognition</strong> (<code>start_continuous_recognition()</code> with event handlers), or <strong>batch transcription</strong> for large recorded files.</p>
+<h2 id="text-to-speech-voices-and-output-formats">Text-to-speech: voices and output formats</h2>
+<pre><code class="language-python">speech_config.speech_synthesis_voice_name = &quot;en-IN-NeerjaNeural&quot;          # pick from the voice gallery
+speech_config.set_speech_synthesis_output_format(
+    speechsdk.SpeechSynthesisOutputFormat.Audio16Khz32KBitRateMonoMp3)     # MP3 instead of default WAV
+
+audio_out = speechsdk.audio.AudioOutputConfig(filename=&quot;reply.mp3&quot;)      # or use_default_speaker=True
+synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config, audio_config=audio_out)
+
+result = synthesizer.speak_text_async(&quot;Your refund has been processed and will reflect in two days.&quot;).get()
+if result.reason == speechsdk.ResultReason.SynthesizingAudioCompleted:
+    print(&quot;Saved reply.mp3&quot;)
+</code></pre>
+<p><strong>SSML</strong> gives fine control:</p>
+<pre><code class="language-python">ssml = &quot;&quot;&quot;&lt;speak version='1.0' xml:lang='en-IN' xmlns='http://www.w3.org/2001/10/synthesis'&gt;
+  &lt;voice name='en-IN-PrabhatNeural'&gt;
+    Your OTP is &lt;say-as interpret-as='characters'&gt;4821&lt;/say-as&gt;.
+    &lt;break time='500ms'/&gt; &lt;prosody rate='-10%'&gt;Please do not share it with anyone.&lt;/prosody&gt;
+  &lt;/voice&gt;
+&lt;/speak&gt;&quot;&quot;&quot;
+synthesizer.speak_ssml_async(ssml).get()
+</code></pre>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Choice</th>
+<th>Options</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Voice</td>
+<td>Neural voices per locale (<code>en-IN-NeerjaNeural</code>, <code>hi-IN-SwaraNeural</code>, <code>ta-IN-PallaviNeural</code> and many more); some support styles such as <em>cheerful</em> or <em>empathetic</em></td>
+</tr>
+<tr>
+<td>Output format</td>
+<td>WAV/RIFF PCM (default), MP3, Opus/OGG, at sample rates such as 16 kHz, 24 kHz or 48 kHz</td>
+</tr>
+<tr>
+<td>SSML elements</td>
+<td><code>voice</code>, <code>prosody</code> (rate, pitch, volume), <code>break</code>, <code>emphasis</code>, <code>say-as</code> (numbers, dates, characters)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="responding-to-spoken-prompts-with-a-multimodal-model">Responding to spoken prompts with a multimodal model</h2>
+<p>Some deployed models accept <strong>audio directly</strong> in the prompt (speech-capable models in the GPT-4o family, such as <code>gpt-4o-audio-preview</code> or <code>gpt-audio</code>). The model listens and answers in one step, with no separate transcription:</p>
+<pre><code class="language-python">import base64, os
+from openai import OpenAI
+
+client = OpenAI(base_url=os.environ[&quot;FOUNDRY_OPENAI_ENDPOINT&quot;], api_key=os.environ[&quot;FOUNDRY_KEY&quot;])
+audio_b64 = base64.b64encode(open(&quot;question.wav&quot;, &quot;rb&quot;).read()).decode()
+
+completion = client.chat.completions.create(
+    model=os.environ[&quot;AUDIO_MODEL_DEPLOYMENT&quot;],               # a deployed speech-capable model
+    modalities=[&quot;text&quot;],
+    messages=[
+        {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;You are a helpful bank assistant. Answer briefly.&quot;},
+        {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: [
+            {&quot;type&quot;: &quot;text&quot;, &quot;text&quot;: &quot;Answer the customer's spoken question.&quot;},
+            {&quot;type&quot;: &quot;input_audio&quot;, &quot;input_audio&quot;: {&quot;data&quot;: audio_b64, &quot;format&quot;: &quot;wav&quot;}},
+        ]},
+    ],
+)
+print(completion.choices[0].message.content)
+</code></pre>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>When to use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Azure Speech</strong> STT → language model → <strong>Azure Speech</strong> TTS</td>
+<td>You need control: custom vocabulary, specific voices, SSML, batch transcription, diarisation, lower cost per minute</td>
+</tr>
+<tr>
+<td><strong>Multimodal audio model</strong></td>
+<td>The simplest voice Q&amp;A, where the model hears tone and content together; fewer moving parts</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="one-pipeline-speech-language">One pipeline: speech + language</h2>
+<pre><code>feedback.wav ─► Azure Speech (STT) ─► transcript ─► Azure Language (sentiment, key phrases, summary)
+             ─► model drafts reply ─► Azure Speech (TTS) ─► reply.mp3   + a CSV row for the report
+</code></pre>
+<p>You build exactly this in Lab 4.</p>
+<h2 id="check-yourself">Check yourself</h2>
+<details><summary>Which Python class performs sentiment analysis, and which method enables aspect-level results?</summary>
+<code>TextAnalyticsClient.analyze_sentiment(..., show_opinion_mining=True)</code>.</details>
+
+<details><summary>Which property selects the voice used by the speech synthesiser?</summary>
+<code>speech_config.speech_synthesis_voice_name</code>.</details>
+
+<details><summary>You need to read an OTP digit by digit with a short pause before the warning. What do you use?</summary>
+SSML, with <code>say-as interpret-as="characters"</code> and <code>break</code>.</details>
+
+<details><summary>Which message content type sends a recording to a speech-capable multimodal model?</summary>
+An <code>input_audio</code> content part with base64 data and the audio format.</details><div class="pj-cta"><a class="btn" href="practice/index.html">📝 AI-901 exam practice</a></div>
+  <div class="pj-cta"><a class="btn" href="../mock/index.html">🎤 Practise in a mock interview</a><a class="btn ghost" href="../daily/index.html">🔥 Daily challenge</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="azure-ai-901/s08-language-speech-foundry-tools"></script>
+
+</body>
+</html>

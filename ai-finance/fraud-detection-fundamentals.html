@@ -23,7 +23,7 @@
   <h1>Fraud Detection Fundamentals</h1>
   <div class="meta"><span>⏱ 10 min read</span><span>✅ Check-yourself quiz</span><span>🏦 Banking & fintech</span></div>
 <p>Fraud detection is a <strong>real-time decision under uncertainty</strong>: in roughly 100 milliseconds, decide whether to approve, challenge or decline a transaction. This lesson covers the fraud types, the system around the model, and how to choose the decision thresholds.</p>
-<h2>Common fraud types</h2>
+<h2 id="common-fraud-types">Common fraud types</h2>
 <ul>
 <li><strong>Card-not-present (CNP) fraud:</strong> stolen card details used online.</li>
 <li><strong>Account takeover (ATO):</strong> a fraudster logs in as the customer (phishing, SIM swap, credential stuffing) and moves money.</li>
@@ -32,7 +32,7 @@
 <li><strong>Synthetic identity:</strong> a fake identity built from real and invented details.</li>
 <li><strong>Merchant fraud and collusion:</strong> fake merchants or transaction laundering.</li>
 </ul>
-<h2>The fraud system, not just the model</h2>
+<h2 id="the-fraud-system-not-just-the-model">The fraud system, not just the model</h2>
 <pre><code>Transaction → Feature service (real-time aggregates) → Rules engine + ML score → Decision policy
           → approve | step-up (OTP / 3-D Secure) | decline | queue for review
           → Case management (analysts) → Labels (confirmed fraud, chargebacks) → Retraining
@@ -43,7 +43,7 @@
 <li><strong>The decision policy</strong> combines the score, the amount, customer value and risk appetite.</li>
 <li><strong>Analysts</strong> review the grey zone and produce the labels that improve the model.</li>
 </ul>
-<h2>Thresholds are a business decision</h2>
+<h2 id="thresholds-are-a-business-decision">Thresholds are a business decision</h2>
 <p>For each threshold you get a precision (how many alerts are real fraud) and a recall (how much fraud you catch). Pick the threshold by <strong>expected cost</strong>:</p>
 <ul>
 <li><strong>Cost of a false negative</strong> = the fraud amount lost, plus operational cost.</li>
@@ -76,7 +76,7 @@
 </tr>
 </tbody>
 </table></div>
-<h2>Metrics that matter</h2>
+<h2 id="metrics-that-matter">Metrics that matter</h2>
 <ul>
 <li><strong>Fraud detection rate</strong> (recall by count, and <strong>by value</strong>).</li>
 <li><strong>False positive ratio:</strong> false alerts per true fraud (e.g. 5:1).</li>
@@ -84,7 +84,7 @@
 <li><strong>Customer impact:</strong> the share of genuine transactions declined or challenged.</li>
 <li><strong>Alert-queue capacity:</strong> analysts can only review so many cases a day, so the threshold must respect it.</li>
 </ul>
-<h2>A minimal model in Python</h2>
+<h2 id="a-minimal-model-in-python">A minimal model in Python</h2>
 <pre><code class="language-python">import pandas as pd
 from sklearn.metrics import average_precision_score, precision_recall_curve
 from lightgbm import LGBMClassifier
@@ -99,7 +99,7 @@ p = m.predict_proba(te[feats])[:, 1]
 print(&quot;PR-AUC&quot;, average_precision_score(te.is_fraud, p))
 prec, rec, thr = precision_recall_curve(te.is_fraud, p)
 </code></pre>
-<h2>Check yourself</h2>
+<h2 id="check-yourself">Check yourself</h2>
 <details><summary>Why use an out-of-time split instead of a random split?</summary>
 In production the model always scores future transactions. A random split leaks future patterns into training and overstates performance. A time-based split mimics deployment.</details>
 

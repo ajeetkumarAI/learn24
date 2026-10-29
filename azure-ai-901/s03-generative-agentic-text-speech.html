@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Session 3: Generative, Agentic, Text &amp; Speech Workloads · Azure AI-901 · Learn24</title>
+<meta name="description" content="Learn to recognise AI workloads from a business description: when generative AI is enough and when you need an agent, the classic text-analysis techni">
+<meta property="og:title" content="Session 3: Generative, Agentic, Text &amp; Speech Workloads · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#50b4ff} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} .pj-cta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0} .pj-cta a{text-decoration:none} article pre{background:#0b1220;color:#d6e0f0;border-radius:10px;padding:12px 14px;overflow-x:auto;font:13px/1.55 var(--mono);max-width:100%} article pre code{background:none;padding:0;border:0;border-radius:0;display:block;color:inherit;font:inherit;white-space:pre} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="s03-generative-agentic-text-speech" data-lesson="azure-ai-901/s03-generative-agentic-text-speech">
+  <div class="kicker">Azure AI-901 · Module 2 · Session 3</div>
+  <h1>Session 3: Generative, Agentic, Text &amp; Speech Workloads</h1>
+  <div class="meta"><span>⏱ 10 min read</span><span>📘 Live-session notes</span><span>☁️ Microsoft Foundry</span></div>
+<p>Learn to recognise AI workloads from a business description: when generative AI is enough and when you need an agent, the classic text-analysis techniques (key phrases, entities, sentiment, summarisation, language and PII detection, translation), and speech recognition and synthesis.</p>
+<blockquote>
+<p><strong>How the exam asks it.</strong> “A company wants to … Which AI workload should they use?” Read the verb in the scenario: <em>create</em> → generative, <em>act / complete a task with tools</em> → agentic, <em>detect / extract / classify text</em> → text analysis, <em>transcribe / speak</em> → speech.</p>
+</blockquote>
+<h2 id="generative-ai-vs-agentic-ai">Generative AI vs agentic AI</h2>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th></th>
+<th>Generative AI app</th>
+<th>Agent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What it does</td>
+<td>Produces content in response to a prompt</td>
+<td>Pursues a goal: reasons, chooses and calls <strong>tools</strong>, may take several steps</td>
+</tr>
+<tr>
+<td>Building blocks</td>
+<td>Model + prompt (+ optional grounding data)</td>
+<td>Model + <strong>instructions</strong> + <strong>tools</strong> + <strong>knowledge</strong></td>
+</tr>
+<tr>
+<td>Typical tasks</td>
+<td>Draft an email, summarise a report, answer FAQs, write code</td>
+<td>Look up an order in a system, check policy, create a ticket, book a slot, run calculations</td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Wrong or made-up text</td>
+<td>Wrong <strong>actions</strong>, so tool permissions and human approval matter</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>An agent is the right answer when</strong> the task needs live data or actions (APIs, databases, files), multiple steps with decisions in between, or calculations the model should not do “in its head”. <strong>Plain generative AI is enough when</strong> the answer can come from the prompt and the model’s knowledge, or from documents you add to the prompt.</p>
+<p>Examples:</p>
+<ul>
+<li>“Generate five subject lines for our Diwali campaign” → <strong>generative AI</strong>.</li>
+<li>“When a customer reports a lost card, verify identity, block the card in the core banking system and send a confirmation” → <strong>agent</strong> (tools + steps).</li>
+<li>“Answer employee questions from the HR policy PDF” → <strong>generative AI with grounding</strong>, or an agent with a <strong>file search</strong> tool.</li>
+</ul>
+<h2 id="text-analysis-techniques">Text analysis techniques</h2>
+<p>These are the capabilities of <strong>Azure Language in Foundry Tools</strong>. A general LLM can also do them through prompting; the exam expects you to know what each technique returns.</p>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Technique</th>
+<th>What it returns</th>
+<th>Example input → output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Key phrase extraction</strong> (keyword extraction)</td>
+<td>The main talking points</td>
+<td>“The UPI app crashes during payment and support never replies” → <em>UPI app</em>, <em>payment</em>, <em>support</em></td>
+</tr>
+<tr>
+<td><strong>Named entity recognition (NER)</strong></td>
+<td>Entities with categories: Person, Location, Organization, DateTime, Quantity…</td>
+<td>“Ravi flew to Pune on 3 May” → Ravi (Person), Pune (Location), 3 May (DateTime)</td>
+</tr>
+<tr>
+<td><strong>Entity linking</strong></td>
+<td>Entities matched to a knowledge base (for example a Wikipedia URL)</td>
+<td>“Mercury” → the planet or the element, decided by context</td>
+</tr>
+<tr>
+<td><strong>Sentiment analysis</strong></td>
+<td>Positive / negative / neutral / mixed, with confidence scores per document and sentence</td>
+<td>“Great rates but terrible app” → <strong>mixed</strong></td>
+</tr>
+<tr>
+<td><strong>Opinion mining</strong></td>
+<td>Sentiment about specific aspects</td>
+<td><em>rates</em> → positive, <em>app</em> → negative</td>
+</tr>
+<tr>
+<td><strong>Summarisation</strong></td>
+<td>Extractive (picks key sentences) or abstractive (writes a new summary)</td>
+<td>Long complaint → two-line summary</td>
+</tr>
+<tr>
+<td><strong>Language detection</strong></td>
+<td>The language and a confidence score</td>
+<td>“Mera account block ho gaya” → Hindi (romanised) or a mixed result</td>
+</tr>
+<tr>
+<td><strong>PII detection</strong></td>
+<td>Personal data found, with a <strong>redacted</strong> copy of the text</td>
+<td>“PAN ABCDE1234F” → <code>PAN **********</code></td>
+</tr>
+<tr>
+<td><strong>Translation</strong> (Azure Translator)</td>
+<td>Text in another language</td>
+<td>English → Tamil</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p>🎯 <strong>Exam tip.</strong> Sentiment returns a label <strong>and confidence scores</strong>, not a star rating. PII detection returns the entities <strong>and redacted text</strong>. Key phrases are phrases, not full sentences.</p>
+</blockquote>
+<h2 id="speech-workloads">Speech workloads</h2>
+<p><strong>Azure Speech in Foundry Tools</strong> covers:</p>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Capability</th>
+<th>Direction</th>
+<th>Use cases</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Speech recognition</strong> (speech-to-text, STT)</td>
+<td>Audio → text</td>
+<td>Call-centre transcripts, captions, voice commands, meeting notes</td>
+</tr>
+<tr>
+<td><strong>Speech synthesis</strong> (text-to-speech, TTS)</td>
+<td>Text → audio</td>
+<td>IVR menus, reading replies aloud, accessibility, audiobooks</td>
+</tr>
+<tr>
+<td><strong>Speech translation</strong></td>
+<td>Audio in one language → text or audio in another</td>
+<td>Live multilingual meetings, travel assistants</td>
+</tr>
+<tr>
+<td><strong>Speaker recognition / diarisation</strong></td>
+<td>Who spoke when</td>
+<td>Separating agent and customer in a call recording</td>
+</tr>
+</tbody>
+</table></div>
+<p>Key ideas:</p>
+<ul>
+<li><strong>Real-time</strong> recognition (streaming from a microphone) vs <strong>batch</strong> transcription (large recorded files).</li>
+<li><strong>Neural voices</strong> sound natural. You choose a <strong>voice name</strong> such as <code>en-IN-NeerjaNeural</code> or <code>hi-IN-SwaraNeural</code>.</li>
+<li><strong>SSML</strong> (Speech Synthesis Markup Language) controls pronunciation, pauses, speed, pitch and emphasis.</li>
+<li><strong>Custom speech</strong> improves recognition of domain words (product names, medical terms). <strong>Custom voice</strong> creates a branded voice, with strict responsible-AI approval.</li>
+</ul>
+<p><strong>Voice-enabled assistants</strong> chain the pieces: <em>speech-to-text → language model → text-to-speech</em>. Multimodal models that accept audio can also take the spoken prompt directly (Session 8).</p>
+<h2 id="check-yourself">Check yourself</h2>
+<details><summary>A retailer wants to know whether reviews are positive or negative about delivery specifically. Which technique?</summary>
+Sentiment analysis with opinion mining (aspect-based sentiment).</details>
+
+<details><summary>A hospital must remove patient names and phone numbers from notes before sharing them for research. Which capability?</summary>
+PII detection (with redaction).</details>
+
+<details><summary>An insurer wants software that reads a claim, checks the policy system, calculates the payout and files the claim. Generative AI or agent?</summary>
+An agent: it needs tools (policy lookup, calculation, filing) and multiple steps.</details>
+
+<details><summary>Which capability turns a recorded call into text: speech synthesis or speech recognition?</summary>
+Speech recognition (speech-to-text). Synthesis goes the other way, text to audio.</details>
+
+<details><summary>Which markup language adjusts the speed and pauses of synthesised speech?</summary>
+SSML (Speech Synthesis Markup Language).</details><div class="pj-cta"><a class="btn" href="practice/index.html">📝 AI-901 exam practice</a></div>
+  <div class="pj-cta"><a class="btn" href="../mock/index.html">🎤 Practise in a mock interview</a><a class="btn ghost" href="../daily/index.html">🔥 Daily challenge</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="azure-ai-901/s03-generative-agentic-text-speech"></script>
+
+</body>
+</html>

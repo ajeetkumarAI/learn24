@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Session 7: Building Your First Agent · Azure AI-901 · Learn24</title>
+<meta name="description" content="What makes an agent (model + instructions + tools + knowledge), how to create and test a single-agent solution in the Foundry portal, which tools to a">
+<meta property="og:title" content="Session 7: Building Your First Agent · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#50b4ff} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} .pj-cta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0} .pj-cta a{text-decoration:none} article pre{background:#0b1220;color:#d6e0f0;border-radius:10px;padding:12px 14px;overflow-x:auto;font:13px/1.55 var(--mono);max-width:100%} article pre code{background:none;padding:0;border:0;border-radius:0;display:block;color:inherit;font:inherit;white-space:pre} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="s07-first-agent" data-lesson="azure-ai-901/s07-first-agent">
+  <div class="kicker">Azure AI-901 · Module 3 · Session 7</div>
+  <h1>Session 7: Building Your First Agent</h1>
+  <div class="meta"><span>⏱ 10 min read</span><span>📘 Live-session notes</span><span>☁️ Microsoft Foundry</span></div>
+<p>What makes an agent (model + instructions + tools + knowledge), how to create and test a single-agent solution in the Foundry portal, which tools to add (file search, code interpreter, custom functions), how to call the agent from a lightweight Python client, and how agents differ from chat apps.</p>
+<h2 id="anatomy-of-an-agent">Anatomy of an agent</h2>
+<pre><code>                 ┌──────────────── Agent ────────────────┐
+User goal ─────► │  Model        (reasoning engine)       │
+                 │  Instructions (role, rules, steps)     │ ──► Answer
+                 │  Tools        (file search, code,      │     + actions taken
+                 │                functions, APIs, web)   │
+                 │  Knowledge    (uploaded files, indexes)│
+                 └────────────────────────────────────────┘
+                     ▲ conversation (thread) keeps state
+</code></pre>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Purpose</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Model</strong></td>
+<td>Decides what to do and writes the reply</td>
+<td><code>gpt-5-mini</code> or <code>gpt-4.1-mini</code></td>
+</tr>
+<tr>
+<td><strong>Instructions</strong></td>
+<td>The agent’s system prompt: goal, persona, rules, when to use each tool</td>
+<td>“Answer claims questions using the policy document. Always quote the clause.”</td>
+</tr>
+<tr>
+<td><strong>Tools</strong></td>
+<td>Capabilities beyond text</td>
+<td><strong>File search</strong> (RAG over uploaded files), <strong>code interpreter</strong> (runs Python for maths, charts, CSV analysis), <strong>function calling</strong> (your own code or APIs), <strong>Azure AI Search</strong>, <strong>web search</strong>, <strong>OpenAPI</strong> and <strong>MCP</strong> tools</td>
+</tr>
+<tr>
+<td><strong>Knowledge</strong></td>
+<td>Grounding data</td>
+<td>A policy PDF in a vector store, an Azure AI Search index</td>
+</tr>
+<tr>
+<td><strong>Conversation</strong></td>
+<td>Stores the messages so the agent keeps context across turns</td>
+<td>One conversation per customer chat</td>
+</tr>
+</tbody>
+</table></div>
+<p>The <strong>Foundry Agent Service</strong> hosts the agent: it runs the model–tool loop for you, stores conversations and applies content safety.</p>
+<h2 id="create-and-test-an-agent-in-the-portal">Create and test an agent in the portal</h2>
+<ol>
+<li>In your Foundry project, open <strong>Agents</strong> → <strong>Create agent</strong> (or <strong>+ New agent</strong>).</li>
+<li>Give it a <strong>name</strong> (for example <code>support-agent</code>) and choose a <strong>model deployment</strong>.</li>
+<li>Write the <strong>instructions</strong>:</li>
+</ol>
+<pre><code>You are the customer support agent for Contoso Bank.
+- Answer questions about fees, cards and account rules using ONLY the attached policy document.
+- Quote the relevant section name in your answer.
+- If the policy does not cover the question, say so and offer to raise a ticket.
+- Never ask for OTPs, PINs or full card numbers.
+</code></pre>
+<ol start="4">
+<li><strong>Add tools / knowledge:</strong>
+   - <strong>File search</strong>: upload <code>contoso-bank-policy.pdf</code>. Foundry chunks it, creates embeddings and stores them in a <strong>vector store</strong> that the agent searches.
+   - <strong>Code interpreter</strong>: lets the agent run Python, for example to calculate EMI or summarise a CSV of transactions.
+   - <strong>Function / OpenAPI / MCP tools</strong>: describe your own operations (for example <code>create_ticket(customer_id, issue)</code>) so the agent can request them.</li>
+<li>Select <strong>Try in playground</strong> and test: an answerable question, a calculation, an out-of-scope question and a prompt-injection attempt. Open the <strong>run details / trace</strong> to see which tool the agent used and why.</li>
+<li><strong>Save</strong>. Each save creates an agent <strong>version</strong>, so you can change instructions safely and roll back.</li>
+</ol>
+<blockquote>
+<p>🎯 <strong>Exam tip.</strong> File search = answer from <strong>your documents</strong>. Code interpreter = <strong>run code / do maths / analyse files</strong>. Function calling = the model asks <strong>your code</strong> to perform an action, and your code returns the result.</p>
+</blockquote>
+<h2 id="a-lightweight-python-client-for-the-agent">A lightweight Python client for the agent</h2>
+<p>Install <code>pip install "azure-ai-projects&gt;=2.3.0" azure-identity</code> and sign in with <code>az login</code>.</p>
+<p><strong>Create (or update) the agent in code</strong></p>
+<pre><code class="language-python">import os
+from dotenv import load_dotenv
+from azure.identity import DefaultAzureCredential
+from azure.ai.projects import AIProjectClient
+from azure.ai.projects.models import PromptAgentDefinition
+
+load_dotenv()
+project = AIProjectClient(endpoint=os.environ[&quot;FOUNDRY_PROJECT_ENDPOINT&quot;], credential=DefaultAzureCredential())
+
+agent = project.agents.create_version(
+    agent_name=&quot;support-agent&quot;,
+    definition=PromptAgentDefinition(
+        model=os.environ[&quot;FOUNDRY_MODEL_NAME&quot;],
+        instructions=&quot;You are Contoso Bank's support agent. Be brief and polite.&quot;,
+    ),
+)
+print(f&quot;Agent {agent.name}, version {agent.version}&quot;)
+</code></pre>
+<p><strong>Chat with the agent (multi-turn)</strong></p>
+<pre><code class="language-python">openai = project.get_openai_client(agent_name=&quot;support-agent&quot;)   # client bound to the agent
+conversation = openai.conversations.create()                      # holds the chat history
+
+for question in [&quot;What is the annual fee on the Platinum card?&quot;,
+                 &quot;Can it be waived?&quot;]:
+    response = openai.responses.create(conversation=conversation.id, input=question)
+    print(&quot;You:  &quot;, question)
+    print(&quot;Agent:&quot;, response.output_text)
+</code></pre>
+<p>The <strong>conversation</strong> stores every message, so the second question (“Can <strong>it</strong> be waived?”) is understood in context. The agent created in the portal, with its file search knowledge, can be called the same way by name.</p>
+<h2 id="agents-vs-chat-apps">Agents vs chat apps</h2>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th></th>
+<th>Chat app (Session 6)</th>
+<th>Agent (Session 7)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Who manages history</td>
+<td>Your code (message list or <code>previous_response_id</code>)</td>
+<td>The service (<strong>conversation</strong>)</td>
+</tr>
+<tr>
+<td>Tools</td>
+<td>None by default</td>
+<td>File search, code interpreter, functions, search, MCP…</td>
+</tr>
+<tr>
+<td>Logic</td>
+<td>One model call per turn</td>
+<td>The service loops: model → tool → model → … until done</td>
+</tr>
+<tr>
+<td>Configuration</td>
+<td>In your code (system prompt, parameters)</td>
+<td>Stored and <strong>versioned</strong> in Foundry (instructions, tools, knowledge)</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>Simple Q&amp;A, drafting, summarising</td>
+<td>Tasks needing data lookup, calculations or actions</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="check-yourself">Check yourself</h2>
+<details><summary>An agent must answer from a 200-page HR policy. Which tool do you add?</summary>
+File search, with the policy uploaded to a vector store.</details>
+
+<details><summary>Users ask an agent to compute loan EMIs and plot repayments. Which tool helps?</summary>
+Code interpreter, which runs Python for calculations and charts.</details>
+
+<details><summary>In the Python client, what object keeps the multi-turn history for an agent?</summary>
+A conversation, created with <code>openai.conversations.create()</code> and passed as <code>conversation=conversation.id</code>.</details>
+
+<details><summary>Name the four building blocks of an agent.</summary>
+Model, instructions, tools and knowledge.</details><div class="pj-cta"><a class="btn" href="practice/index.html">📝 AI-901 exam practice</a></div>
+  <div class="pj-cta"><a class="btn" href="../mock/index.html">🎤 Practise in a mock interview</a><a class="btn ghost" href="../daily/index.html">🔥 Daily challenge</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="azure-ai-901/s07-first-agent"></script>
+
+</body>
+</html>
