@@ -35,7 +35,7 @@
   const bar = document.createElement('div');
   bar.className = 'l24-bar';
   bar.innerHTML = `<div class="l24-in"><a class="l24-brand" href="../index.html">Learn<span>24</span></a>
-    <nav class="l24-crumb" aria-label="Breadcrumb"><a class="l24-t" href="../index.html">Home</a><span class="l24-t">›</span><a href="index.html">${esc(t.name)}</a><span>›</span><b>${esc(l ? l.title : '')}</b></nav><a class="l24-gl" href="../glossary.html" title="Glossary of AI terms">📖<span class="l24-glt"> Glossary</span></a></div>`;
+    <nav class="l24-crumb" aria-label="Breadcrumb"><a class="l24-t" href="../index.html">Home</a><span class="l24-t">›</span><a href="index.html">${esc(t.name)}</a><span>›</span><b>${esc(l ? l.title : '')}</b></nav><a class="l24-gl" href="../jobs/index.html" title="Live AI jobs">💼<span class="l24-glt"> Jobs</span></a><a class="l24-gl" style="margin-left:14px" href="../glossary.html" title="Glossary of AI terms">📖<span class="l24-glt"> Glossary</span></a></div>`;
   bar.style.setProperty('--l24-tc', t.color);
   document.body.prepend(bar);
 

@@ -1,7 +1,7 @@
 /* Learn24: dark, technical, matching the animated lessons. Display face for headings, Plex for reading, Plex Mono for labels and data. */
 :root{
   --bg:#0b111c; --bg2:#0f1726; --panel:#141e30; --panel2:#1a2740; --line:#26344d; --fg:#e8eef8; --muted:#8d9bb3; --dim:#59677f;
-  --accent:#7cb4ff; --c:#7cb4ff;
+  --accent:#7cb4ff; --c:#7cb4ff; --green:#45d19b; --amber:#f2b84b; --red:#ff6b6b; --body:#c9d3e3;
   --display:"Bricolage Grotesque","IBM Plex Sans",system-ui,sans-serif;
   --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
@@ -30,7 +30,7 @@ img{max-width:100%}
 .top .l24-theme{margin-left:8px}
 @media (max-width:760px){.top .l24-theme{margin-left:auto}}
 .nav .nav-x{color:var(--fg)}
-@media (max-width:1100px){.nav .nav-x{display:none}}
+.nav .nav-x{display:none}  /* Start here and Glossary stay on the home page and lesson bars; the menu holds topics + Jobs */
 @media (max-width:1180px) and (min-width:761px){.nav a{padding:6px 7px;font-size:13.5px}}
 .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
 .btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:600;font-size:15px;border-radius:10px;padding:10px 16px;background:var(--accent);color:var(--bg);border:1px solid var(--accent)}
@@ -127,3 +127,10 @@ footer .links a{color:var(--muted)}
 .quest-cta b{display:block;font-size:16px}
 .quest-cta small{display:block;color:var(--muted);font-size:13.5px;margin-top:2px}
 .quest-cta .go{margin-left:auto;flex:none;font-weight:700;color:var(--c)}
+
+.jobs-pill{flex:none;display:inline-flex;align-items:center;gap:7px;font:600 13.5px var(--sans);padding:6px 12px;border-radius:999px;border:1.5px solid var(--green);color:var(--fg);text-decoration:none;margin-left:6px;white-space:nowrap}
+.jobs-pill:hover,.jobs-pill[aria-current="page"]{background:color-mix(in srgb,var(--green) 16%,transparent)}
+.jobs-pill .lv{width:8px;height:8px;border-radius:50%;background:var(--green);animation:jbp2 1.8s infinite}
+@keyframes jbp2{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--green) 60%,transparent)}70%,100%{box-shadow:0 0 0 7px transparent}}
+@media (prefers-reduced-motion:reduce){.jobs-pill .lv{animation:none}}
+@media (max-width:760px){.jobs-pill{margin-left:auto}.top .l24-theme{margin-left:8px}}

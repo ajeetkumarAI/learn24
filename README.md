@@ -278,6 +278,23 @@ Hands-on labs built from Ajeetkumar’s Colab notebooks (free Groq key). Each la
 | 5 | [MCP: Senior Architecture Interview](https://learn24-lilac.vercel.app/interview-questions/mcp-senior-architecture) | 4 real questions with detailed answers. |
 | 6 | [NLP: Real Candidate-Reported Questions](https://learn24-lilac.vercel.app/interview-questions/nlp-real-questions) | 43 real questions with detailed answers. |
 
+### 💼 Live AI Jobs
+
+[learn24-lilac.vercel.app/jobs](https://learn24-lilac.vercel.app/jobs) shows fresh AI, GenAI, ML and data roles from several platforms in one list, with filters (role, India / remote, posted within, platform), search, saved jobs, "new" badges and auto-refresh every 15 minutes. Apply buttons open the original post. One-click searches on LinkedIn, Naukri, Indeed, Glassdoor, foundit, Google Jobs and Wellfound use the same filters.
+
+How it works: `api/jobs.js` is a Vercel serverless function. The page calls `/api/jobs?source=…` for each platform; Vercel caches each answer (Remotive 6 h, Jobicy and Remote OK 1 h, Adzuna 30 min), which keeps us inside each platform's usage terms. Attribution to every source is shown on the page.
+
+**Turn on India jobs (Adzuna, free):** sign up at the Adzuna developer site, then in Vercel → Project → Settings → Environment Variables add `ADZUNA_APP_ID` and `ADZUNA_APP_KEY`, and redeploy. Until then the Adzuna chip shows "–" and the other platforms still work.
+
+**Post your own openings (referrals, community jobs):** edit `jobs/featured.json` and push. Each job needs `title`, `company`, `location`, `url`; optional `posted` (ISO date), `type`, `salary`, `note`, `expires` (ISO date; the job hides itself after it):
+
+```json
+[
+  {"title": "GenAI Engineer", "company": "Example Ltd", "location": "Pune, India", "url": "https://example.com/careers/123",
+   "posted": "2026-10-29", "type": "Full time", "note": "DM me on Telegram for a referral.", "expires": "2026-11-30"}
+]
+```
+
 ### 🧩 AI Frameworks
 | Notes | Level | What you'll learn |
 |---|---|---|
@@ -337,6 +354,8 @@ assets/stepper.css, .js    Lesson engine (steps, flows, typed text, charts)
 assets/lesson.js           Lesson top bar, breadcrumb, previous/next, "Mark as done"
 <topic>/index.html         Topic page
 <topic>/<lesson>.html      One lesson
+api/jobs.js                Serverless job feed (Vercel function)
+jobs/                      Live AI jobs page + featured.json
 langchain-course/notebooks Colab notebooks (.ipynb) for the LangChain labs
 vercel.json                Clean URLs on Vercel
 ```

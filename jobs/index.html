@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Live AI &amp; GenAI Jobs · Learn24</title>
+<meta name="description" content="Live AI, GenAI, ML and data science job openings from several platforms in one place, with filters for India and remote roles. Apply on the original site in one click.">
+<meta property="og:title" content="Live AI &amp; GenAI Jobs · Learn24">
+<meta property="og:description" content="Fresh AI, GenAI, ML and data roles from several job platforms, updated through the day.">
+<meta name="theme-color" content="#0b111c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+<style>
+:root{--ac:#5aa9ff}
+#jobs{max-width:1080px;margin:0 auto;padding:0 max(20px,env(safe-area-inset-left,0px)) 40px}
+.jb-hero{padding:28px 0 6px}.jb-hero h1{margin:8px 0 8px}
+.jb-status{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:14.5px;color:var(--muted);margin:12px 0 4px}
+.jb-status .dot{width:10px;height:10px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 color-mix(in srgb,var(--green) 60%,transparent);animation:jbp 1.8s infinite}
+.jb-status.off .dot{background:var(--amber);animation:none}
+@keyframes jbp{70%{box-shadow:0 0 0 9px transparent}100%{box-shadow:0 0 0 0 transparent}}
+@media (prefers-reduced-motion:reduce){.jb-status .dot{animation:none}}
+.jb-bar{position:sticky;top:60px;z-index:10;background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 0;margin:10px 0 6px;display:flex;flex-direction:column;gap:7px}
+.jb-bar input{font:15px var(--sans);padding:10px 13px;border-radius:11px;border:1.5px solid var(--line);background:var(--panel);color:var(--fg);width:100%;box-sizing:border-box}
+.jb-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.jb-row>span{display:inline-flex;flex-wrap:wrap;gap:6px}
+.jb-lab{font:700 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin:0 2px 0 6px}
+.jb-chip{font:600 13px var(--sans);padding:6px 11px;border-radius:999px;border:1.5px solid var(--line);background:var(--panel2);color:var(--muted);cursor:pointer;white-space:nowrap}
+.jb-chip[aria-pressed="true"]{border-color:var(--ac);color:var(--fg);background:color-mix(in srgb,var(--ac) 16%,var(--panel2))}
+.jb-chip b{color:var(--ac);font-weight:700}
+.jb-count{font-size:13.5px;color:var(--muted);margin:10px 0 4px}
+.jb-list{display:grid;gap:10px}
+.jb-card{display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:14px;align-items:start;background:var(--panel);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px;transition:border-color .15s,transform .15s}
+.jb-card:hover{border-color:var(--ac);transform:translateY(-1px)}
+.jb-card.featured{border-color:color-mix(in srgb,#f2b84b 70%,var(--line));background:color-mix(in srgb,#f2b84b 6%,var(--panel))}
+.jb-logo{position:relative;width:48px;height:48px;border-radius:12px;background:var(--panel2);border:1px solid var(--line);display:grid;place-items:center;overflow:hidden;font:700 15px var(--sans);color:var(--ac)}
+.jb-logo img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff}
+.jb-main{min-width:0}.jb-main h3{margin:0 0 3px;font-size:16.5px;line-height:1.35}.jb-main h3 a{color:var(--fg);text-decoration:none}.jb-main h3 a:hover{color:var(--ac)}
+.jb-meta{margin:0;font-size:14px;color:var(--muted);overflow-wrap:anywhere}.jb-meta b{color:var(--body)}
+.jb-noteline{margin:6px 0 0;font-size:14px;color:var(--body)}
+.jb-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}.jb-tags span{font:600 11.5px var(--sans);padding:2px 8px;border-radius:999px;background:var(--panel2);border:1px solid var(--line);color:var(--muted)}
+.jb-tags .new{background:var(--green);border-color:var(--green);color:#06210f}
+.jb-side{display:flex;flex-direction:column;align-items:flex-end;gap:6px;text-align:right}
+.jb-ago{font-size:13px;color:var(--muted);white-space:nowrap}.jb-src{font-size:12.5px;color:var(--dim)}.jb-src.feat{color:#c98a00;font-weight:600}
+.jb-acts{display:flex;gap:6px;align-items:center;margin-top:4px}
+.jb-btn{display:inline-block;font:700 14px var(--sans);padding:8px 14px;border-radius:10px;border:0;background:var(--ac);color:var(--bg);text-decoration:none;cursor:pointer;white-space:nowrap}
+.jb-btn.ghost{background:transparent;color:var(--fg);border:1.5px solid var(--line);font-weight:600}
+.jb-save{font-size:19px;line-height:1;width:38px;height:36px;border-radius:10px;border:1.5px solid var(--line);background:var(--panel2);color:var(--muted);cursor:pointer}
+.jb-save[aria-pressed="true"]{color:#f2b84b;border-color:#f2b84b}
+.jb-empty{text-align:center;color:var(--muted);padding:26px 10px;border:1.5px dashed var(--line);border-radius:14px}
+.jb-more{text-align:center;margin:14px 0}
+.jb-feat{margin:10px 0 14px}.jb-feat h2,.jb-plat h2{font-size:19px;margin:16px 0 4px}.jb-sub,.jb-plat p{color:var(--muted);font-size:14px;margin:0 0 10px}
+.jb-links{display:flex;flex-wrap:wrap;gap:8px}
+.jb-warn{background:color-mix(in srgb,var(--amber) 10%,var(--panel));border:1px solid color-mix(in srgb,var(--amber) 55%,var(--line));border-radius:12px;padding:11px 14px;font-size:14.5px;margin:22px 0 10px}
+.jb-attr{font-size:13px;color:var(--muted)}
+.prep-toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--fg);color:var(--bg);font:600 14px var(--sans);padding:9px 16px;border-radius:999px;z-index:60}
+@media (max-width:640px){.jb-card{grid-template-columns:40px minmax(0,1fr)}.jb-logo{width:40px;height:40px}.jb-side{grid-column:1/-1;flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:space-between;text-align:left}.jb-acts{margin:0;margin-left:auto}.jb-bar{top:56px}}
+</style>
+</head>
+<body data-page="jobs">
+<main><div id="jobs"></div></main>
+<script src="../assets/data.js"></script>
+<script src="../assets/site.js" data-base="../"></script>
+<script src="../assets/jobs.js"></script>
+</body>
+</html>
