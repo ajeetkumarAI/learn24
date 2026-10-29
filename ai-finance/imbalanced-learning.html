@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Imbalanced Learning &amp; Cost-Sensitive Evaluation · AI in Finance &amp; Fraud · Learn24</title>
+<meta name="description" content="In fraud, default and AML problems the positive class is rare, often well under 1%. Models trained naively learn to predict &quot;not fraud&quot; and look great">
+<meta property="og:title" content="Imbalanced Learning &amp; Cost-Sensitive Evaluation · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#5ad1c4} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} .pj-cta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0} .pj-cta a{text-decoration:none} article pre{background:#0b1220;color:#d6e0f0;border-radius:10px;padding:12px 14px;overflow-x:auto;font:13px/1.55 var(--mono);max-width:100%} article pre code{background:none;padding:0;border:0;border-radius:0;display:block;color:inherit;font:inherit;white-space:pre} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="imbalanced-learning" data-lesson="ai-finance/imbalanced-learning">
+  <div class="kicker">AI in Finance &amp; Fraud · Lesson 3 of 8</div>
+  <h1>Imbalanced Learning &amp; Cost-Sensitive Evaluation</h1>
+  <div class="meta"><span>⏱ 10 min read</span><span>✅ Check-yourself quiz</span><span>🏦 Banking & fintech</span></div>
+<p>In fraud, default and AML problems the positive class is rare, often well under 1%. Models trained naively learn to predict "not fraud" and look great on accuracy. This lesson covers the techniques that actually work.</p>
+<h2>Pick the right metrics first</h2>
+<ul>
+<li><strong>PR-AUC (average precision):</strong> focuses on the rare class. Prefer it to ROC-AUC under heavy imbalance.</li>
+<li><strong>Recall at a fixed precision</strong> (or at a fixed alert rate): matches how operations teams work.</li>
+<li><strong>Cost-weighted metrics:</strong> expected loss = FN × fraud cost + FP × review/friction cost.</li>
+<li><strong>Calibration:</strong> if a probability feeds a pricing or limit decision, check reliability curves or the Brier score.</li>
+</ul>
+<h2>Data-level techniques</h2>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Technique</th>
+<th>Idea</th>
+<th>Watch out for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Random undersampling</td>
+<td>Drop majority rows</td>
+<td>Loses information; re-weight or calibrate afterwards</td>
+</tr>
+<tr>
+<td>Oversampling / SMOTE</td>
+<td>Duplicate or synthesise minority rows</td>
+<td>Apply <strong>only inside the training folds</strong>; can create unrealistic points</td>
+</tr>
+<tr>
+<td>Time-aware sampling</td>
+<td>Keep the temporal order</td>
+<td>Required for out-of-time validation</td>
+</tr>
+</tbody>
+</table></div>
+<h2>Algorithm-level techniques</h2>
+<ul>
+<li><strong>Class weights:</strong> <code>class_weight="balanced"</code> (scikit-learn) or <code>scale_pos_weight ≈ negatives / positives</code> (XGBoost, LightGBM).</li>
+<li><strong>Focal loss:</strong> down-weights easy negatives in neural networks.</li>
+<li><strong>Anomaly detection:</strong> Isolation Forest or autoencoders when labels are very scarce. Use them as features or as a first filter.</li>
+<li><strong>Ensembles of balanced subsets</strong> (EasyEnsemble, BalancedRandomForest).</li>
+</ul>
+<h2>Undersampling changes probabilities: correct them</h2>
+<p>If you keep only a fraction β of the negatives, the model's predicted probability p_s is inflated. The corrected probability is:</p>
+<p>[ p = \frac{\beta\, p_s}{\beta\, p_s - p_s + 1} ]</p>
+<p>Or simply recalibrate on untouched validation data with Platt scaling or isotonic regression.</p>
+<h2>Choose the threshold by cost</h2>
+<pre><code class="language-python">import numpy as np
+def best_threshold(y, p, cost_fn=5000, cost_fp=50):
+    ts = np.linspace(0.01, 0.99, 99)
+    costs = [((p &lt; t) &amp; (y == 1)).sum() * cost_fn + ((p &gt;= t) &amp; (y == 0)).sum() * cost_fp for t in ts]
+    return ts[int(np.argmin(costs))]
+</code></pre>
+<ul>
+<li>Add <strong>operational constraints</strong>, for example "at most 2,000 alerts a day", and pick the best threshold that satisfies them.</li>
+</ul>
+<h2>Validation design</h2>
+<ul>
+<li>Use <strong>out-of-time</strong> validation (train Jan–Sep, validate Oct–Dec).</li>
+<li>Use <strong>grouped splits</strong> by customer, so the same customer never appears in both train and test.</li>
+<li>Report the metrics <strong>with confidence intervals</strong>; rare positives make estimates noisy.</li>
+</ul>
+<h2>Check yourself</h2>
+<details><summary>Where should SMOTE be applied in cross-validation?</summary>
+Only to the training portion of each fold, inside a pipeline. Applying it before splitting leaks synthetic copies of validation points into training.</details>
+
+<details><summary>Your model was trained on 10% of the negatives. Can you use its probabilities directly for loss estimates?</summary>
+No. They are inflated. Apply the prior-correction formula or recalibrate on a representative, untouched validation set.</details>
+
+<details><summary>Why can ROC-AUC look excellent while the model is useless operationally?</summary>
+ROC-AUC counts true negatives, which are abundant. A model can rank well overall but still produce far too many false positives at the thresholds operations can afford. PR curves expose this.</details>
+  <div class="pj-cta"><a class="btn" href="../mock/index.html">🎤 Practise in a mock interview</a><a class="btn ghost" href="../daily/index.html">🔥 Daily challenge</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="ai-finance/imbalanced-learning"></script>
+
+</body>
+</html>

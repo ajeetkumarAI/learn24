@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Credit Risk Modelling &amp; Scorecards · AI in Finance &amp; Fraud · Learn24</title>
+<meta name="description" content="Credit risk models estimate the chance a borrower won&#x27;t repay. They decide who gets a loan, how much and at what price, so they are among the most reg">
+<meta property="og:title" content="Credit Risk Modelling &amp; Scorecards · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#5ad1c4} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} .pj-cta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0} .pj-cta a{text-decoration:none} article pre{background:#0b1220;color:#d6e0f0;border-radius:10px;padding:12px 14px;overflow-x:auto;font:13px/1.55 var(--mono);max-width:100%} article pre code{background:none;padding:0;border:0;border-radius:0;display:block;color:inherit;font:inherit;white-space:pre} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="credit-risk-scorecards" data-lesson="ai-finance/credit-risk-scorecards">
+  <div class="kicker">AI in Finance &amp; Fraud · Lesson 5 of 8</div>
+  <h1>Credit Risk Modelling &amp; Scorecards</h1>
+  <div class="meta"><span>⏱ 10 min read</span><span>✅ Check-yourself quiz</span><span>🏦 Banking & fintech</span></div>
+<p>Credit risk models estimate the chance a borrower won't repay. They decide who gets a loan, how much and at what price, so they are among the most regulated models in any bank. This lesson covers PD/LGD/EAD, scorecards with WoE and IV, and how ML fits in.</p>
+<h2>The building blocks</h2>
+<ul>
+<li><strong>PD (probability of default):</strong> the chance of default (e.g. 90+ days past due) within a horizon, usually 12 months.</li>
+<li><strong>LGD (loss given default):</strong> the share of the exposure lost if default happens, after recoveries and collateral.</li>
+<li><strong>EAD (exposure at default):</strong> how much is owed at the time of default (credit cards: the current balance plus expected further drawdown).</li>
+<li><strong>Expected loss</strong> = PD × LGD × EAD. It drives pricing, provisioning (IFRS 9 / Ind AS 109 expected-credit-loss) and capital.</li>
+</ul>
+<h2>Classic scorecard workflow</h2>
+<ol>
+<li><strong>Define the target:</strong> "bad" = 90+ DPD within 12 months of the application; exclude indeterminate cases.</li>
+<li><strong>Binning:</strong> split each variable into bins with monotonic bad rates (e.g. age, income, utilisation).</li>
+<li><strong>Weight of Evidence:</strong> for each bin, WoE = ln(%good / %bad).</li>
+<li><strong>Information Value:</strong> IV = Σ (%good − %bad) × WoE. A common rule of thumb is &lt; 0.02 useless, 0.02–0.1 weak, 0.1–0.3 medium, &gt; 0.3 strong (and check for leakage if suspiciously high).</li>
+<li><strong>Logistic regression</strong> on the WoE-transformed variables.</li>
+<li><strong>Scaling to points:</strong> score = offset + factor × ln(odds), often "20 points to double the odds" (PDO).</li>
+</ol>
+<pre><code class="language-python">import numpy as np, pandas as pd
+def woe_iv(df, col, target=&quot;bad&quot;, bins=5):
+    d = df[[col, target]].copy(); d[&quot;bin&quot;] = pd.qcut(d[col], bins, duplicates=&quot;drop&quot;)
+    g = d.groupby(&quot;bin&quot;, observed=True)[target].agg([&quot;sum&quot;, &quot;count&quot;]); g[&quot;good&quot;] = g[&quot;count&quot;] - g[&quot;sum&quot;]
+    g[&quot;pg&quot;] = (g.good + .5) / g.good.sum(); g[&quot;pb&quot;] = (g[&quot;sum&quot;] + .5) / g[&quot;sum&quot;].sum()
+    g[&quot;woe&quot;] = np.log(g.pg / g.pb); iv = ((g.pg - g.pb) * g.woe).sum()
+    return g[[&quot;count&quot;, &quot;sum&quot;, &quot;woe&quot;]], iv
+</code></pre>
+<h2>Where gradient boosting fits</h2>
+<ul>
+<li>GBMs often beat scorecards on AUC/KS, especially with alternative data (transactions, bureau trends).</li>
+<li><strong>Requirements</strong> make them usable:</li>
+<li><strong>Monotonic constraints:</strong> e.g. higher utilisation must never lower risk.</li>
+<li><strong>SHAP-based reason codes:</strong> "declined because of high utilisation and recent missed payments".</li>
+<li><strong>Stability testing</strong> and documentation for validators.</li>
+<li><strong>Common hybrid:</strong> a GBM for ranking, plus a scorecard-style explanation layer, or a challenger model run alongside the champion.</li>
+</ul>
+<h2>Evaluation for credit models</h2>
+<ul>
+<li><strong>Discrimination:</strong> AUC/Gini (Gini = 2·AUC − 1) and the <strong>KS statistic</strong>.</li>
+<li><strong>Calibration:</strong> predicted vs observed bad rate by score band.</li>
+<li><strong>Stability:</strong> <strong>PSI</strong> (population stability index) of the score and features over time; PSI &gt; 0.25 is a common "investigate" threshold.</li>
+<li><strong>Vintage analysis:</strong> bad rates by origination month, to see how cohorts mature.</li>
+<li><strong>Reject inference:</strong> you only observe outcomes for approved applicants. Techniques such as parcelling or augmentation reduce that bias.</li>
+</ul>
+<h2>Fairness and regulation</h2>
+<ul>
+<li>Avoid protected attributes and <strong>proxies</strong> for them; test outcomes across groups.</li>
+<li>Give <strong>adverse-action reasons</strong> to declined customers where regulation requires.</li>
+<li>Follow the full governance cycle: documentation, independent validation, monitoring, periodic recalibration.</li>
+</ul>
+<h2>Check yourself</h2>
+<details><summary>What is expected loss and how is it computed?</summary>
+EL = PD × LGD × EAD: the probability of default times the share lost if default happens times the exposure at default. It drives pricing, provisions and capital planning.</details>
+
+<details><summary>Why use monotonic constraints in a credit GBM?</summary>
+They enforce business logic (e.g. more missed payments can only increase risk). That makes the model stable, explainable and acceptable to validators and regulators.</details>
+
+<details><summary>What does PSI measure?</summary>
+How much a variable's distribution (or the score distribution) has shifted between a baseline period and a recent one. A large PSI signals population drift that may require recalibration.</details>
+  <div class="pj-cta"><a class="btn" href="../mock/index.html">🎤 Practise in a mock interview</a><a class="btn ghost" href="../daily/index.html">🔥 Daily challenge</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="ai-finance/credit-risk-scorecards"></script>
+
+</body>
+</html>

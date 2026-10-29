@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Project 5: AI Resume Screener &amp; Job Matcher · Portfolio Projects · Learn24</title>
+<meta name="description" content="A project every recruiter instantly understands. You&#x27;ll parse resumes, extract skills into structured JSON, match them against job descriptions with e">
+<meta property="og:title" content="Project 5: AI Resume Screener &amp; Job Matcher · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ffb86b} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} .pj-cta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0} .pj-cta a{text-decoration:none} article pre{background:#0b1220;color:#d6e0f0;border-radius:10px;padding:12px 14px;overflow-x:auto;font:13px/1.55 var(--mono);max-width:100%} article pre code{background:none;padding:0;border:0;border-radius:0;display:block;color:inherit;font:inherit;white-space:pre} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="resume-screener" data-lesson="projects/resume-screener">
+  <div class="kicker">Portfolio Projects · Project 5 of 10</div>
+  <h1>Project 5: AI Resume Screener &amp; Job Matcher</h1>
+  <div class="meta"><span>🛠️ Beginner</span><span>⏱ 1–2 weekends</span><span>📄 Resume lines included</span></div>
+<p>A project every recruiter instantly understands. You'll parse resumes, extract skills into structured JSON, <strong>match them against job descriptions with explainable scores</strong>, and check the system for bias.</p>
+<h2>What you'll build</h2>
+<ul>
+<li>Upload resumes (PDF/DOCX) and a job description.</li>
+<li><strong>Structured extraction</strong> of skills, years of experience, education, projects and links (JSON schema).</li>
+<li>A <strong>match score</strong> combining semantic similarity and must-have skill coverage, with an explanation ("missing: Kubernetes").</li>
+<li>A <strong>fairness check:</strong> scores don't change when names or genders are swapped.</li>
+</ul>
+<h2>Architecture</h2>
+<pre><code>Resume → text extraction (pdfplumber / python-docx) → LLM structured extraction (Pydantic schema)
+JD → requirement extraction (must-have, nice-to-have, years)
+Match = 0.5 · embedding similarity + 0.4 · must-have coverage + 0.1 · experience fit
+      → ranked list + explanation + gaps → recruiter UI (human decides)
+</code></pre>
+<h2>Tech stack</h2>
+<p>pdfplumber, python-docx, an LLM with JSON schema output, sentence-transformers, pandas, Streamlit, plus a simple bias test harness.</p>
+<h2>Step by step</h2>
+<ol>
+<li><strong>Define the schema:</strong> name (stored separately), skills[], total_years, roles[], education[], projects[].</li>
+<li><strong>Extract</strong> with an LLM in structured-output mode; validate with Pydantic and retry once on failure.</li>
+<li><strong>Normalise skills</strong> with a synonym map ("PyTorch" = "pytorch", "GenAI" ≈ "Generative AI").</li>
+<li><strong>Parse the JD</strong> into must-have and nice-to-have skills and the years required.</li>
+<li><strong>Score:</strong> cosine similarity of embeddings (resume summary vs JD), coverage of must-haves, and experience fit.</li>
+<li><strong>Explain:</strong> matched skills, missing skills, evidence snippets.</li>
+<li><strong>Bias test:</strong> <strong>remove names, photos, gender and age signals</strong> before scoring; run counterfactual swaps and check the score difference is about 0.</li>
+<li><strong>UI:</strong> a ranked table, filters and export to CSV. <strong>The recruiter makes the decision.</strong></li>
+</ol>
+<h2>Starter code</h2>
+<pre><code class="language-python">from pydantic import BaseModel
+from sentence_transformers import SentenceTransformer, util
+class Resume(BaseModel): skills: list[str]; total_years: float; roles: list[str]; summary: str
+emb = SentenceTransformer(&quot;all-MiniLM-L6-v2&quot;)
+def score(r: Resume, jd_text: str, must: list[str], years: float):
+    sim = float(util.cos_sim(emb.encode(r.summary), emb.encode(jd_text)))
+    have = {s.lower() for s in r.skills}; cov = sum(m.lower() in have for m in must) / max(1, len(must))
+    exp_fit = min(1.0, r.total_years / max(years, 0.5))
+    return round(100 * (0.5 * sim + 0.4 * cov + 0.1 * exp_fit)), [m for m in must if m.lower() not in have]
+</code></pre>
+<h2>Deploy it</h2>
+<p>Streamlit on Hugging Face Spaces, using <strong>sample, synthetic resumes only</strong>. Never upload real people's resumes publicly. State in the README that the tool assists, and never replaces, human judgement.</p>
+<h2>Put it on your resume</h2>
+<ul>
+<li>Built an <strong>LLM-powered resume screener</strong> with structured extraction (Pydantic), skill normalisation and an explainable match score combining embeddings and must-have coverage.</li>
+<li>Added <strong>bias safeguards</strong>: PII redaction before scoring and counterfactual name/gender swap tests (score delta &lt; 1 point).</li>
+</ul>
+<h2>Interview questions you'll get</h2>
+<ul>
+<li>How did you get reliable JSON from the LLM? What if a field is missing?</li>
+<li>How do you handle synonyms and skill levels?</li>
+<li>What are the ethical and legal risks of automated screening, and how did you mitigate them?</li>
+<li>How would you evaluate ranking quality against recruiter decisions?</li>
+</ul>
+<h2>Stretch goals</h2>
+<ul>
+<li>Learning-to-rank from recruiter feedback.</li>
+<li>Job-seeker mode: "how to improve my resume for this JD".</li>
+<li>Batch processing with a queue for 1,000+ resumes.</li>
+</ul>
+  <div class="pj-cta"><a class="btn" href="../mock/index.html">🎤 Practise in a mock interview</a><a class="btn ghost" href="../daily/index.html">🔥 Daily challenge</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="projects/resume-screener"></script>
+
+</body>
+</html>

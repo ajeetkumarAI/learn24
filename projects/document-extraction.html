@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Project 8: Invoice &amp; KYC Document Extraction Pipeline · Portfolio Projects · Learn24</title>
+<meta name="description" content="Document intelligence is one of the most deployed GenAI use cases in banking, insurance and operations. You&#x27;ll turn messy PDFs and scans into validate">
+<meta property="og:title" content="Project 8: Invoice &amp; KYC Document Extraction Pipeline · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ffb86b} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} .pj-cta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0} .pj-cta a{text-decoration:none} article pre{background:#0b1220;color:#d6e0f0;border-radius:10px;padding:12px 14px;overflow-x:auto;font:13px/1.55 var(--mono);max-width:100%} article pre code{background:none;padding:0;border:0;border-radius:0;display:block;color:inherit;font:inherit;white-space:pre} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="document-extraction" data-lesson="projects/document-extraction">
+  <div class="kicker">Portfolio Projects · Project 8 of 10</div>
+  <h1>Project 8: Invoice &amp; KYC Document Extraction Pipeline</h1>
+  <div class="meta"><span>🛠️ Intermediate</span><span>⏱ 1–2 weekends</span><span>📄 Resume lines included</span></div>
+<p>Document intelligence is one of the most deployed GenAI use cases in banking, insurance and operations. You'll turn messy PDFs and scans into <strong>validated, structured JSON</strong>, measure field-level accuracy, and route low-confidence documents to humans.</p>
+<h2>What you'll build</h2>
+<ul>
+<li>Upload invoices (or bank statements / KYC forms; use synthetic or public samples only).</li>
+<li><strong>OCR + layout parsing</strong>, then an LLM extracts fields into a strict schema: vendor, invoice number, date, line items, tax, total.</li>
+<li><strong>Validation rules:</strong> totals add up, dates are valid, GSTIN format, duplicate detection.</li>
+<li>A <strong>review queue</strong> for documents failing validation or with low confidence.</li>
+</ul>
+<h2>Architecture</h2>
+<pre><code>PDF / image → (scanned?) OCR (Tesseract / PaddleOCR / cloud OCR) → text + layout blocks
+   → LLM structured extraction (JSON schema) → validators (sum check, regex, cross-field rules)
+   → pass → export (CSV / ERP API)        fail → human review UI → corrections → evaluation set
+</code></pre>
+<h2>Tech stack</h2>
+<p>pdfplumber or PyMuPDF, Tesseract or PaddleOCR, an LLM (or vision LLM) with JSON schema output, Pydantic validators, FastAPI, Streamlit.</p>
+<h2>Step by step</h2>
+<ol>
+<li><strong>Collect 30–50 sample documents</strong> (public invoice datasets or ones you create) and label the target fields.</li>
+<li><strong>Text path:</strong> digital PDFs go through pdfplumber with table extraction; scans go through OCR.</li>
+<li><strong>Extraction prompt:</strong> the schema, field definitions, "return null if missing", never guess.</li>
+<li><strong>Pydantic validation:</strong> types, formats (dates, GSTIN, amounts), <code>sum(line_items) + tax == total</code> within tolerance.</li>
+<li><strong>Confidence:</strong> validation-failure flags, plus self-consistency (extract twice and compare) to route to review.</li>
+<li><strong>Evaluate:</strong> field-level precision and recall, document-level exact match, straight-through-processing rate.</li>
+<li><strong>Review UI:</strong> side-by-side view of the document and the editable fields; save corrections for the evaluation set.</li>
+</ol>
+<h2>Starter code</h2>
+<pre><code class="language-python">from pydantic import BaseModel, field_validator, model_validator
+from datetime import date
+import re
+class Line(BaseModel): desc: str; qty: float; unit_price: float; amount: float
+class Invoice(BaseModel):
+    vendor: str; invoice_no: str; invoice_date: date; gstin: str | None = None
+    lines: list[Line]; tax: float; total: float
+    @field_validator(&quot;gstin&quot;)
+    @classmethod
+    def gst_fmt(cls, v):
+        if v and not re.fullmatch(r&quot;\d{2}[A-Z]{5}\d{4}[A-Z][1-9A-Z]Z[0-9A-Z]&quot;, v): raise ValueError(&quot;bad GSTIN&quot;)
+        return v
+    @model_validator(mode=&quot;after&quot;)
+    def totals(self):
+        if abs(sum(l.amount for l in self.lines) + self.tax - self.total) &gt; 1: raise ValueError(&quot;totals do not add up&quot;)
+        return self
+def extract(text):
+    raw = llm_json(f&quot;Extract the invoice into this JSON schema. Use null if missing; never guess.\n{Invoice.model_json_schema()}\n\n{text}&quot;)
+    try: return Invoice.model_validate(raw), &quot;auto&quot;
+    except Exception as e: return raw, f&quot;review: {e}&quot;
+</code></pre>
+<h2>Deploy it</h2>
+<p>A Streamlit app on Hugging Face Spaces with sample documents. Add a metrics table (field F1, STP rate) to the README.</p>
+<h2>Put it on your resume</h2>
+<ul>
+<li>Built a <strong>document extraction pipeline</strong> (OCR + LLM structured output + Pydantic validation) achieving <strong>96% field-level F1</strong> on 50 invoices and <strong>78% straight-through processing</strong>.</li>
+<li>Implemented cross-field validation (sum checks, GSTIN format) and confidence-based routing to a human review queue.</li>
+</ul>
+<h2>Interview questions you'll get</h2>
+<ul>
+<li>How do you make extraction reliable and avoid hallucinated values?</li>
+<li>OCR vs vision LLMs: trade-offs in cost, accuracy and privacy?</li>
+<li>How do you measure accuracy, and decide what goes to human review?</li>
+</ul>
+<h2>Stretch goals</h2>
+<ul>
+<li>A layout-aware model (e.g. LayoutLM-style) for tables.</li>
+<li>Duplicate-invoice and fraud checks.</li>
+<li>Batch processing with a queue and an ERP export.</li>
+</ul>
+  <div class="pj-cta"><a class="btn" href="../mock/index.html">🎤 Practise in a mock interview</a><a class="btn ghost" href="../daily/index.html">🔥 Daily challenge</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="projects/document-extraction"></script>
+
+</body>
+</html>

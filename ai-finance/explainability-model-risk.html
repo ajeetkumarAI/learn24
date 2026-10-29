@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Explainability, Fairness &amp; Model Risk Management · AI in Finance &amp; Fraud · Learn24</title>
+<meta name="description" content="In finance a model is not finished when it reaches a good AUC. It must be explainable, fair, documented, validated and monitored. This lesson covers S">
+<meta property="og:title" content="Explainability, Fairness &amp; Model Risk Management · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#5ad1c4} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} .pj-cta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0} .pj-cta a{text-decoration:none} article pre{background:#0b1220;color:#d6e0f0;border-radius:10px;padding:12px 14px;overflow-x:auto;font:13px/1.55 var(--mono);max-width:100%} article pre code{background:none;padding:0;border:0;border-radius:0;display:block;color:inherit;font:inherit;white-space:pre} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="explainability-model-risk" data-lesson="ai-finance/explainability-model-risk">
+  <div class="kicker">AI in Finance &amp; Fraud · Lesson 7 of 8</div>
+  <h1>Explainability, Fairness &amp; Model Risk Management</h1>
+  <div class="meta"><span>⏱ 10 min read</span><span>✅ Check-yourself quiz</span><span>🏦 Banking & fintech</span></div>
+<p>In finance a model is not finished when it reaches a good AUC. It must be <strong>explainable, fair, documented, validated and monitored</strong>. This lesson covers SHAP and reason codes, fairness testing, and the model risk management lifecycle that validators and regulators expect.</p>
+<h2>Global vs local explanations</h2>
+<ul>
+<li><strong>Global:</strong> which features drive the model overall (mean |SHAP|, permutation importance, partial dependence).</li>
+<li><strong>Local:</strong> why <strong>this</strong> customer got <strong>this</strong> score (SHAP values per prediction). These become <strong>reason codes</strong>.</li>
+</ul>
+<pre><code class="language-python">import shap
+explainer = shap.TreeExplainer(model)
+sv = explainer.shap_values(X_valid)            # per-feature contribution to each prediction (log-odds)
+shap.summary_plot(sv, X_valid)                 # global view
+row = 42
+top = sorted(zip(X_valid.columns, sv[row]), key=lambda t: -t[1])[:3]
+reasons = [f&quot;{f} increased risk&quot; for f, v in top if v &gt; 0]
+</code></pre>
+<ul>
+<li><strong>Map features to human reason codes</strong>, e.g. <code>util_ratio</code> → "High credit utilisation", <code>dpd_6m</code> → "Recent missed payments".</li>
+<li><strong>Be careful with correlated features:</strong> SHAP splits credit between them, so group related features into reasons.</li>
+</ul>
+<h2>Fairness testing</h2>
+<ul>
+<li><strong>Do not use protected attributes as inputs</strong>, and check for <strong>proxies</strong> (e.g. some PIN codes or names).</li>
+<li><strong>Compare outcomes across groups</strong> where lawful and appropriate: approval-rate ratios, false-positive and false-negative rates, calibration by group.</li>
+<li>Common metrics are demographic parity difference, equal opportunity (TPR gap) and the disparate-impact ratio (the "80% rule" heuristic).</li>
+<li><strong>Mitigate</strong> with feature review, reweighting, threshold policies or constraints, and document the trade-offs.</li>
+</ul>
+<h2>Model risk management (MRM) lifecycle</h2>
+<ol>
+<li><strong>Inventory:</strong> every model is registered with its owner, purpose, tier (materiality) and status.</li>
+<li><strong>Development documentation:</strong> data, assumptions, methodology, alternatives considered, limitations.</li>
+<li><strong>Independent validation:</strong> conceptual soundness, data quality, outcome analysis (back-testing), sensitivity and stress tests, benchmarks or challenger models.</li>
+<li><strong>Approval and controls:</strong> usage limits, overrides policy, fallback procedures.</li>
+<li><strong>Ongoing monitoring:</strong> performance, PSI/drift, overrides, incidents, with thresholds that trigger review.</li>
+<li><strong>Periodic revalidation</strong>, and retirement when the model is no longer fit for purpose.</li>
+</ol>
+<p>US guidance such as <strong>SR 11-7</strong> formalised these ideas, and banks worldwide, including in India, run similar frameworks.</p>
+<h2>GenAI under model risk</h2>
+<p>LLM apps (chatbots, document extraction, summarisation) are increasingly brought into MRM:</p>
+<ul>
+<li><strong>Define the intended use and out-of-scope uses.</strong></li>
+<li><strong>Evaluation sets:</strong> accuracy, faithfulness and hallucination rate, toxicity, prompt-injection robustness.</li>
+<li><strong>Controls:</strong> human-in-the-loop for customer-impacting outputs, citations, logging, vendor-model change management (pin versions, re-test on upgrade).</li>
+</ul>
+<h2>Check yourself</h2>
+<details><summary>What is the difference between global and local explainability?</summary>
+Global explains the model's overall behaviour (which features matter most). Local explains one specific prediction (why this applicant was declined). Reason codes come from local explanations.</details>
+
+<details><summary>Why can removing a protected attribute fail to make a model fair?</summary>
+Other features can act as proxies (location, names, some spending patterns), so outcomes can still differ by group. You must test outcomes and investigate proxies.</details>
+
+<details><summary>Name three things independent validation checks.</summary>
+Conceptual soundness of the method, data quality and representativeness, and outcome analysis (back-testing, stability, sensitivity), plus documentation completeness and limitations.</details>
+  <div class="pj-cta"><a class="btn" href="../mock/index.html">🎤 Practise in a mock interview</a><a class="btn ghost" href="../daily/index.html">🔥 Daily challenge</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="ai-finance/explainability-model-risk"></script>
+
+</body>
+</html>

@@ -7,7 +7,7 @@
   const done = (() => { try { return JSON.parse(localStorage.getItem('learn24-done') || '[]'); } catch (e) { return []; } })();
   const isDone = (t, l) => done.includes(t + '/' + l);
   const live = t => t.lessons.filter(l => l.status === 'live');
-  const SHORT = { 'genai-course': 'GenAI', 'agentic-ai': 'Agentic AI', 'ai-security': 'Security', 'aws-saa': 'AWS', 'langchain-course': 'LangChain', 'interview-questions': 'Interviews', 'assignments': 'Assignments', 'frameworks': 'Frameworks', 'ai-system-design': 'Design' };   // short names for the top menu
+  const SHORT = { 'genai-course': 'GenAI', 'agentic-ai': 'Agentic AI', 'ai-security': 'Security', 'aws-saa': 'AWS', 'langchain-course': 'LangChain', 'interview-questions': 'Interviews', 'assignments': 'Assignments', 'frameworks': 'Frameworks', 'ai-system-design': 'Design', 'projects': 'Projects', 'ai-finance': 'Finance AI' };   // short names for the top menu
   const lessonHref = (t, l) => `${base}${t.id}/${l.id}.html`;
 
   // header
@@ -16,6 +16,7 @@
   head.innerHTML = `<div class="shell"><a class="brand" href="${base}index.html" aria-label="${esc(D.site.name)} home">Learn<span class="n">24</span></a>
     <nav class="nav" aria-label="Topics">${D.topics.map(t => `<a href="${base}${t.id}/index.html"${document.body.dataset.topic === t.id ? ' aria-current="page"' : ''}>${esc(SHORT[t.id] || t.name)}</a>`).join('')}
       <a class="nav-x" href="${base}start.html"${page === 'start' ? ' aria-current="page"' : ''}>Start here</a><a class="nav-x" href="${base}glossary.html"${page === 'glossary' ? ' aria-current="page"' : ''}>Glossary</a></nav>
+    ${(() => { try { const m = JSON.parse(localStorage.getItem('learn24-me') || '{}'), days = m.days || {}; let n = 0; const d = new Date(); const k = x => new Date(x.getTime() - x.getTimezoneOffset() * 6e4).toISOString().slice(0, 10); if (!days[k(d)]) d.setDate(d.getDate() - 1); while (days[k(d)]) { n++; d.setDate(d.getDate() - 1); } return `<a class="streak-pill" href="${base}daily/index.html" title="Daily challenge streak">🔥 ${n}</a>`; } catch (e) { return ''; } })()}
     <a class="jobs-pill" href="${base}jobs/index.html"${page === 'jobs' ? ' aria-current="page"' : ''}><span class="lv"></span>Jobs</a></div>`;
   document.body.prepend(head);
 
@@ -42,6 +43,16 @@
       <div class="pipe" aria-hidden="true"><span>tokens</span><i>→</i><span>transformer</span><i>→</i><span>agents</span><i>→</i><span>guardrails</span><i>→</i><span>production</span></div>
       <label class="search" for="q"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
         <input id="q" type="search" placeholder="Search lessons: RLHF, prompt injection, MCP…" autocomplete="off"></label>
+    </section>
+    <section class="sec shell">
+      <div class="sec-h"><h2>Practise & grow</h2><span class="meta">streaks, XP, badges and certificates</span></div>
+      <div class="home-eng">
+        <a href="${base}daily/index.html"><i>🔥</i><b>Daily challenge</b><span>One interview question a day. Keep your streak alive.</span></a>
+        <a href="${base}mock/index.html"><i>🎤</i><b>Mock interview</b><span>Timed questions from 1,400+ real ones, with a readiness report.</span></a>
+        <a href="${base}roadmaps/index.html"><i>🗺️</i><b>Career roadmaps</b><span>Week-by-week plans: fresher, switcher, product company, banking.</span></a>
+        <a href="${base}projects/index.html"><i>🛠️</i><b>Portfolio projects</b><span>10 job-ready projects with code and resume lines.</span></a>
+        <a href="${base}certificate/index.html"><i>🎓</i><b>Certificates</b><span>Finish a track and add it to LinkedIn.</span></a>
+      </div>
     </section>
     <section class="sec shell" id="topics-sec">
       <div class="sec-h"><h2>Topics</h2><span class="meta">${total} lessons live, more every week</span></div>

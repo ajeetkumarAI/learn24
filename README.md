@@ -239,6 +239,49 @@ Hands-on labs built from Ajeetkumar’s Colab notebooks (free Groq key). Each la
 | 2 | [Assignment 17: Project & Behavioural Questions](https://learn24-lilac.vercel.app/assignments/assignment-17-project-behavioural-questions) | 10 questions with solutions · 4 must-know. |
 | 3 | [Assignment 18: Python & ML Essentials for GenAI Engineers](https://learn24-lilac.vercel.app/assignments/assignment-18-python-ml-essentials-for-genai-engineers) | 16 questions with solutions · 8 must-know · 4 coding tasks. |
 
+## 🔥 Practise & grow (engagement features)
+
+| Feature | Page | What it does |
+|---|---|---|
+| 🎤 Mock Interview | [/mock](https://learn24-lilac.vercel.app/mock) | Timed mock interviews from 1,400+ questions (company pages + assignments). Pick role, company, topics, difficulty and length; reveal model answers, rate yourself, get a readiness report with weak topics linked to lessons. |
+| 🔥 Daily Challenge | [/daily](https://learn24-lilac.vercel.app/daily) | One question a day (same for everyone), streaks, XP levels, 12 badges, a 10-week activity calendar and a downloadable streak card for LinkedIn / WhatsApp / Telegram. |
+| 🎓 Certificates | [/certificate](https://learn24-lilac.vercel.app/certificate) | 8 tracks unlock certificates (GenAI, LangChain, Agentic AI, AI in Finance, AWS, Interview Ready, Portfolio Builder, Roadmap Finisher). PNG download + "Add to LinkedIn profile". |
+| 🗺️ Career Roadmaps | [/roadmaps](https://learn24-lilac.vercel.app/roadmaps) | Week-by-week checklists: Fresher → GenAI Engineer (12 weeks), Data Scientist → GenAI (8), Service → Product company (8), AI in Banking (6). |
+
+All progress (streak, XP, mocks, ticks, certificates) is stored in the visitor's browser (`localStorage` key `learn24-me`), with no sign-up and no server. The header shows a 🔥 streak pill. After adding or changing interview/assignment pages, run `python3 build_qbank.py` to refresh `assets/qbank.json`.
+
+### 🛠️ Portfolio Projects (10 pages)
+
+10 job-ready AI projects with architecture, step-by-step build, starter code, free deployment, resume bullets and the interview questions each project triggers.
+
+| # | Page | What is inside |
+|---|---|---|
+| 1 | [RAG Chatbot over PDFs with Citations](https://learn24-lilac.vercel.app/projects/rag-pdf-chatbot) | The most asked-about GenAI project in interviews. You'll build a chatbot that answers questions from a set of PDFs (policies, manuals, research papers), cites its… |
+| 2 | [Multi-Agent Research Assistant (LangGraph)](https://learn24-lilac.vercel.app/projects/multi-agent-research-assistant) | Agents are the hottest interview topic of 2025–26. You'll build a supervisor + specialist agents system that researches a topic, writes a report with sources, and has a… |
+| 3 | [End-to-End Card Fraud Detection System](https://learn24-lilac.vercel.app/projects/fraud-detection-system) | A classic ML project that stands out when done end to end: real-time features, a cost-based threshold, an API, explainability and drift monitoring. Perfect for banking,… |
+| 4 | [Text-to-SQL Analytics Assistant](https://learn24-lilac.vercel.app/projects/text-to-sql-assistant) | Every company wants "chat with our data". You'll build an assistant that turns business questions into safe, validated SQL, runs them, and explains the result with a… |
+| 5 | [AI Resume Screener & Job Matcher](https://learn24-lilac.vercel.app/projects/resume-screener) | A project every recruiter instantly understands. You'll parse resumes, extract skills into structured JSON, match them against job descriptions with explainable scores,… |
+| 6 | [LLM & RAG Evaluation Harness](https://learn24-lilac.vercel.app/projects/rag-evaluation-harness) | Most candidates build a chatbot; very few can prove it works. This project builds a reusable evaluation harness for RAG and LLM apps: golden datasets, retrieval and… |
+| 7 | [Support Ticket Triage & Reply Copilot](https://learn24-lilac.vercel.app/projects/support-ticket-triage) | A business-friendly project combining classical NLP + LLMs: classify incoming tickets by intent, urgency and sentiment, route them, and draft grounded replies from a… |
+| 8 | [Invoice & KYC Document Extraction Pipeline](https://learn24-lilac.vercel.app/projects/document-extraction) | Document intelligence is one of the most deployed GenAI use cases in banking, insurance and operations. You'll turn messy PDFs and scans into validated, structured JSON,… |
+| 9 | [Fine-Tune a Small LLM with LoRA / QLoRA](https://learn24-lilac.vercel.app/projects/lora-fine-tuning) | Show that you can adapt a model, not just call an API. You'll fine-tune a small open model (1–8B) with QLoRA on a free Colab GPU for a narrow task, then prove with an… |
+| 10 | [Build an MCP Server and Connect an Agent](https://learn24-lilac.vercel.app/projects/mcp-server-agent) | The Model Context Protocol (MCP) is becoming the standard way to give AI apps tools and data. You'll write an MCP server that exposes a few useful tools, connect it to… |
+
+### 🏦 AI in Finance & Fraud (8 pages)
+
+How AI really works in banks and fintech: fraud detection, imbalanced learning, transaction and graph features, credit scorecards, AML, explainability and model risk, and GenAI with guardrails. By a practitioner in financial-services AI.
+
+| # | Page | What is inside |
+|---|---|---|
+| 1 | [AI in Banking & Finance: The Big Picture](https://learn24-lilac.vercel.app/ai-finance/ai-in-banking) | Banks were among the first industries to use machine learning at scale. Credit scoring, fraud alerts and anti-money-laundering checks all run on models today. This… |
+| 2 | [Fraud Detection Fundamentals](https://learn24-lilac.vercel.app/ai-finance/fraud-detection-fundamentals) | Fraud detection is a real-time decision under uncertainty: in roughly 100 milliseconds, decide whether to approve, challenge or decline a transaction. This lesson covers… |
+| 3 | [Imbalanced Learning & Cost-Sensitive Evaluation](https://learn24-lilac.vercel.app/ai-finance/imbalanced-learning) | In fraud, default and AML problems the positive class is rare, often well under 1%. Models trained naively learn to predict "not fraud" and look great on accuracy. This… |
+| 4 | [Feature Engineering for Transactions & Graph Fraud](https://learn24-lilac.vercel.app/ai-finance/transaction-features-graphs) | In fraud detection, features matter more than the algorithm. A plain gradient-boosted model with strong behavioural features beats a fancy model on raw columns. This… |
+| 5 | [Credit Risk Modelling & Scorecards](https://learn24-lilac.vercel.app/ai-finance/credit-risk-scorecards) | Credit risk models estimate the chance a borrower won't repay. They decide who gets a loan, how much and at what price, so they are among the most regulated models in… |
+| 6 | [AML & Transaction Monitoring with ML](https://learn24-lilac.vercel.app/ai-finance/aml-transaction-monitoring) | Anti-money laundering (AML) systems try to spot criminals moving illicit money through the financial system. Traditional rule-based monitoring creates huge numbers of… |
+| 7 | [Explainability, Fairness & Model Risk Management](https://learn24-lilac.vercel.app/ai-finance/explainability-model-risk) | In finance a model is not finished when it reaches a good AUC. It must be explainable, fair, documented, validated and monitored. This lesson covers SHAP and reason… |
+| 8 | [GenAI in Banking: Use Cases, Architecture & Guardrails](https://learn24-lilac.vercel.app/ai-finance/genai-in-banking) | Generative AI is moving from pilots to production in banks: assistants for employees, document processing, and carefully controlled customer chat. This lesson covers the… |
+
 ### 🏢 Company Interview Questions (88 practice pages, 124 companies)
 
 989 interview questions with detailed answers across 124 companies and 88 pages: real transcribed rounds from TCS, Infosys, Wipro, Deloitte, EY, PwC, EPAM and Google, plus recent interview experiences grouped by sector. Pick a company below, then practise with answers hidden. Answers stay hidden until you try, then you rate yourself (knew it / partly / review again). Use **🏢 Pick a company** at the top of the section to filter by company or sector.

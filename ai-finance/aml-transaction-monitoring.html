@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AML &amp; Transaction Monitoring with ML · AI in Finance &amp; Fraud · Learn24</title>
+<meta name="description" content="Anti-money laundering (AML) systems try to spot criminals moving illicit money through the financial system. Traditional rule-based monitoring creates">
+<meta property="og:title" content="AML &amp; Transaction Monitoring with ML · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#5ad1c4} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} .pj-cta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0} .pj-cta a{text-decoration:none} article pre{background:#0b1220;color:#d6e0f0;border-radius:10px;padding:12px 14px;overflow-x:auto;font:13px/1.55 var(--mono);max-width:100%} article pre code{background:none;padding:0;border:0;border-radius:0;display:block;color:inherit;font:inherit;white-space:pre} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="aml-transaction-monitoring" data-lesson="ai-finance/aml-transaction-monitoring">
+  <div class="kicker">AI in Finance &amp; Fraud · Lesson 6 of 8</div>
+  <h1>AML &amp; Transaction Monitoring with ML</h1>
+  <div class="meta"><span>⏱ 10 min read</span><span>✅ Check-yourself quiz</span><span>🏦 Banking & fintech</span></div>
+<p>Anti-money laundering (AML) systems try to spot criminals moving illicit money through the financial system. Traditional rule-based monitoring creates huge numbers of false alerts. ML helps prioritise and find new patterns, but <strong>explainability and audit trails are mandatory</strong>.</p>
+<h2>How money laundering works (the 3 stages)</h2>
+<ol>
+<li><strong>Placement:</strong> cash enters the system (deposits split into small amounts, called "structuring").</li>
+<li><strong>Layering:</strong> money moves rapidly through many accounts, entities or countries to hide its origin.</li>
+<li><strong>Integration:</strong> the "clean" money returns as investments, property or business income.</li>
+</ol>
+<h2>The AML stack</h2>
+<ul>
+<li><strong>KYC / CDD:</strong> verify identity, assess the customer's risk (occupation, geography, PEP status).</li>
+<li><strong>Sanctions and watch-list screening:</strong> fuzzy name matching against sanctions lists, plus entity resolution.</li>
+<li><strong>Transaction monitoring:</strong> rules such as "cash deposits just under the reporting threshold", "rapid in-and-out", "high-risk corridors".</li>
+<li><strong>Alert investigation:</strong> analysts review alerts. Suspicious cases are reported to the Financial Intelligence Unit (STR/SAR).</li>
+</ul>
+<h2>Where ML adds value</h2>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>ML approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>90%+ false-positive alerts</td>
+<td><strong>Alert prioritisation model:</strong> score each alert by the likelihood it leads to an STR, so investigators see the riskiest first</td>
+</tr>
+<tr>
+<td>Unknown patterns</td>
+<td><strong>Unsupervised anomaly detection</strong> per customer segment (Isolation Forest, autoencoders)</td>
+</tr>
+<tr>
+<td>Networks of mules / shell companies</td>
+<td><strong>Graph analytics:</strong> communities, cycles, fan-in/fan-out patterns, GNNs</td>
+</tr>
+<tr>
+<td>Name screening noise</td>
+<td><strong>Entity resolution</strong> with fuzzy matching plus ML match scores</td>
+</tr>
+<tr>
+<td>Investigator time</td>
+<td><strong>GenAI case summaries:</strong> summarise the transaction history, links and adverse media, with citations</td>
+</tr>
+</tbody>
+</table></div>
+<h2>Typical features</h2>
+<ul>
+<li>Cash intensity, round-amount ratios, just-below-threshold counts.</li>
+<li>Pass-through ratio (money out / money in within N days), velocity.</li>
+<li>Number of counterparties, new counterparties, high-risk geographies.</li>
+<li>Mismatch between the stated profile (salary, business type) and observed activity.</li>
+<li>Graph metrics: component size, cycles, centrality, links to previously reported entities.</li>
+</ul>
+<h2>Explainability and governance</h2>
+<ul>
+<li>Every alert decision must be <strong>traceable</strong>: why was it raised, and what did the analyst conclude?</li>
+<li>Prefer models whose drivers can be explained (GBM + SHAP), and keep <strong>rules</strong> for regulatory scenarios.</li>
+<li><strong>Never auto-close</strong> alerts without approved policy. ML usually <strong>prioritises</strong>; humans decide.</li>
+<li>Monitor for drift and for <strong>coverage gaps</strong>: a model that hides a typology from analysts is a regulatory risk.</li>
+</ul>
+<h2>GenAI for investigators (with care)</h2>
+<ul>
+<li><strong>RAG over</strong> policies, typology guides and prior case notes.</li>
+<li><strong>Case narrative drafts</strong> for STRs, which the analyst edits and approves.</li>
+<li><strong>Guardrails:</strong> no data leaving the bank, a citation for every claim, full audit logs.</li>
+</ul>
+<h2>Check yourself</h2>
+<details><summary>What is "structuring" in money laundering?</summary>
+Splitting large amounts into many smaller deposits or transfers, often just below reporting thresholds, to avoid triggering mandatory reports.</details>
+
+<details><summary>Why do banks often use ML to prioritise alerts rather than suppress them?</summary>
+Regulators expect every relevant scenario to be covered and reviewed. Prioritisation reduces analyst workload while keeping humans responsible for decisions, which is safer and more defensible than auto-closing alerts.</details>
+
+<details><summary>Give two graph patterns that suggest laundering.</summary>
+Fan-in/fan-out (many small inflows quickly sent out to many accounts), and cycles where money returns to the origin through intermediaries. Shared devices or addresses among unrelated customers are another strong signal.</details>
+  <div class="pj-cta"><a class="btn" href="../mock/index.html">🎤 Practise in a mock interview</a><a class="btn ghost" href="../daily/index.html">🔥 Daily challenge</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="ai-finance/aml-transaction-monitoring"></script>
+
+</body>
+</html>

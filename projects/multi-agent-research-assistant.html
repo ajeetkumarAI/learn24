@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Project 2: Multi-Agent Research Assistant (LangGraph) · Portfolio Projects · Learn24</title>
+<meta name="description" content="Agents are the hottest interview topic of 2025–26. You&#x27;ll build a supervisor + specialist agents system that researches a topic, writes a report with ">
+<meta property="og:title" content="Project 2: Multi-Agent Research Assistant (LangGraph) · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ffb86b} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} .pj-cta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0} .pj-cta a{text-decoration:none} article pre{background:#0b1220;color:#d6e0f0;border-radius:10px;padding:12px 14px;overflow-x:auto;font:13px/1.55 var(--mono);max-width:100%} article pre code{background:none;padding:0;border:0;border-radius:0;display:block;color:inherit;font:inherit;white-space:pre} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="multi-agent-research-assistant" data-lesson="projects/multi-agent-research-assistant">
+  <div class="kicker">Portfolio Projects · Project 2 of 10</div>
+  <h1>Project 2: Multi-Agent Research Assistant (LangGraph)</h1>
+  <div class="meta"><span>🛠️ Intermediate</span><span>⏱ 1–2 weekends</span><span>📄 Resume lines included</span></div>
+<p>Agents are the hottest interview topic of 2025–26. You'll build a <strong>supervisor + specialist agents</strong> system that researches a topic, writes a report with sources, and has a reviewer agent check it, with step limits, tracing and a human-approval step.</p>
+<h2>What you'll build</h2>
+<ul>
+<li>A user asks: "Compare vector databases for a startup."</li>
+<li>A <strong>Planner</strong> breaks the question into sub-questions, a <strong>Researcher</strong> searches the web or docs, a <strong>Writer</strong> drafts the report, and a <strong>Reviewer</strong> checks claims against sources and asks for fixes.</li>
+<li>The final markdown report includes citations, a cost and latency summary, and a trace.</li>
+</ul>
+<h2>Architecture</h2>
+<pre><code>User → Supervisor (LangGraph state machine)
+          ├─ planner  → sub-questions
+          ├─ researcher → tools: web_search, fetch_page, vector_search  (max 6 tool calls)
+          ├─ writer   → draft report with [n] citations
+          └─ reviewer → pass / revise (max 2 loops) → human approval → final report
+State: {question, plan[], notes[], draft, review, steps, sources[]}
+</code></pre>
+<h2>Tech stack</h2>
+<p>LangGraph, LangChain tools, Tavily or DuckDuckGo search, an LLM with tool calling, Pydantic for structured outputs, LangSmith or Langfuse for tracing, Streamlit for the UI.</p>
+<h2>Step by step</h2>
+<ol>
+<li><strong>Define typed state</strong> with Pydantic or a <code>TypedDict</code>.</li>
+<li><strong>Planner node:</strong> structured output gives a list of 3–5 sub-questions.</li>
+<li><strong>Researcher node:</strong> a tool-calling loop with a <strong>max-steps guard</strong>; save notes with source URLs.</li>
+<li><strong>Writer node:</strong> compose the report using only the notes, citing [n].</li>
+<li><strong>Reviewer node:</strong> a checklist of claims supported, coverage, clarity; it returns <code>pass</code> or <code>revise</code> with feedback.</li>
+<li><strong>Conditional edges:</strong> <code>revise</code> goes back to the writer (at most 2 times); <code>pass</code> goes to human approval (an interrupt).</li>
+<li><strong>Tracing:</strong> log tokens, latency and cost per node.</li>
+<li><strong>Evaluate</strong> on 10 topics: citation accuracy, factual errors found, time and cost.</li>
+</ol>
+<h2>Starter code</h2>
+<pre><code class="language-python">from typing import TypedDict, List
+from langgraph.graph import StateGraph, END
+class S(TypedDict): question: str; plan: List[str]; notes: List[str]; draft: str; review: str; loops: int
+
+def planner(s):    s[&quot;plan&quot;] = plan_llm(s[&quot;question&quot;]); return s
+def researcher(s): s[&quot;notes&quot;] = [research(q) for q in s[&quot;plan&quot;]]; return s
+def writer(s):     s[&quot;draft&quot;] = write_llm(s[&quot;question&quot;], s[&quot;notes&quot;], s.get(&quot;review&quot;, &quot;&quot;)); return s
+def reviewer(s):   s[&quot;review&quot;] = review_llm(s[&quot;draft&quot;], s[&quot;notes&quot;]); s[&quot;loops&quot;] = s.get(&quot;loops&quot;, 0) + 1; return s
+route = lambda s: &quot;writer&quot; if s[&quot;review&quot;].startswith(&quot;REVISE&quot;) and s[&quot;loops&quot;] &lt; 2 else END
+
+g = StateGraph(S)
+for n, f in [(&quot;planner&quot;, planner), (&quot;researcher&quot;, researcher), (&quot;writer&quot;, writer), (&quot;reviewer&quot;, reviewer)]: g.add_node(n, f)
+g.set_entry_point(&quot;planner&quot;); g.add_edge(&quot;planner&quot;, &quot;researcher&quot;); g.add_edge(&quot;researcher&quot;, &quot;writer&quot;); g.add_edge(&quot;writer&quot;, &quot;reviewer&quot;)
+g.add_conditional_edges(&quot;reviewer&quot;, route, {&quot;writer&quot;: &quot;writer&quot;, END: END})
+app = g.compile()
+print(app.invoke({&quot;question&quot;: &quot;Compare vector databases for a startup&quot;})[&quot;draft&quot;])
+</code></pre>
+<h2>Deploy it</h2>
+<p>Use a Streamlit UI showing each agent's progress live (stream graph events), hosted on Hugging Face Spaces. Store API keys in secrets. Record a 60-second demo video for LinkedIn.</p>
+<h2>Put it on your resume</h2>
+<ul>
+<li>Built a <strong>multi-agent research assistant in LangGraph</strong> (planner, researcher, writer, reviewer) with tool calling, step limits, a reviewer feedback loop and human approval.</li>
+<li>Cut factual errors by <strong>~60% vs a single-agent baseline</strong> on a 10-topic evaluation set, tracking cost and latency per node with LangSmith.</li>
+</ul>
+<h2>Interview questions you'll get</h2>
+<ul>
+<li>When should you use multiple agents instead of one? What are the costs?</li>
+<li>How do agents share memory and state? How do you stop infinite loops?</li>
+<li>How do you evaluate an agent's trajectory, not just its final answer?</li>
+<li>How do you secure tool calls (prompt injection from web pages)?</li>
+</ul>
+<p>Practise these in <strong><a href="../mock/index.html?topic=Agents%20%26%20MCP">Mock Interview → Agents &amp; MCP</a></strong>.</p>
+<h2>Stretch goals</h2>
+<ul>
+<li>Expose the tools through an <strong>MCP server</strong>.</li>
+<li>Parallel research branches (fan-out / fan-in).</li>
+<li>Long-term memory of past reports in a vector store.</li>
+</ul>
+  <div class="pj-cta"><a class="btn" href="../mock/index.html">🎤 Practise in a mock interview</a><a class="btn ghost" href="../daily/index.html">🔥 Daily challenge</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="projects/multi-agent-research-assistant"></script>
+
+</body>
+</html>

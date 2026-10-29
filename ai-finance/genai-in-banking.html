@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GenAI in Banking: Use Cases, Architecture &amp; Guardrails · AI in Finance &amp; Fraud · Learn24</title>
+<meta name="description" content="Generative AI is moving from pilots to production in banks: assistants for employees, document processing, and carefully controlled customer chat. Thi">
+<meta property="og:title" content="GenAI in Banking: Use Cases, Architecture &amp; Guardrails · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#5ad1c4} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} .pj-cta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0} .pj-cta a{text-decoration:none} article pre{background:#0b1220;color:#d6e0f0;border-radius:10px;padding:12px 14px;overflow-x:auto;font:13px/1.55 var(--mono);max-width:100%} article pre code{background:none;padding:0;border:0;border-radius:0;display:block;color:inherit;font:inherit;white-space:pre} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="genai-in-banking" data-lesson="ai-finance/genai-in-banking">
+  <div class="kicker">AI in Finance &amp; Fraud · Lesson 8 of 8</div>
+  <h1>GenAI in Banking: Use Cases, Architecture &amp; Guardrails</h1>
+  <div class="meta"><span>⏱ 10 min read</span><span>✅ Check-yourself quiz</span><span>🏦 Banking & fintech</span></div>
+<p>Generative AI is moving from pilots to production in banks: assistants for employees, document processing, and carefully controlled customer chat. This lesson covers the high-value use cases, a reference architecture, and the guardrails that make GenAI acceptable to risk and compliance teams.</p>
+<h2>High-value use cases (most to least common)</h2>
+<ol>
+<li><strong>Employee knowledge assistants:</strong> RAG over policies, product manuals and SOPs, with citations.</li>
+<li><strong>Document intelligence:</strong> extract fields from KYC documents, bank statements, invoices and trade documents into structured JSON.</li>
+<li><strong>Contact-centre copilots:</strong> live call summaries, suggested replies, after-call notes and complaint classification.</li>
+<li><strong>Developer productivity:</strong> code assistants, test generation, legacy code explanation.</li>
+<li><strong>Risk and compliance support:</strong> AML case summaries, regulatory change analysis, policy gap checks.</li>
+<li><strong>Customer-facing chat:</strong> account FAQs and guided journeys. This is the most guarded tier: no free-form financial advice, and strict escalation.</li>
+</ol>
+<h2>Reference architecture</h2>
+<pre><code>User (employee / customer) → Auth (SSO, entitlements) → GenAI gateway
+   → Guardrails in (PII masking, injection &amp; jailbreak filters, topic policy)
+   → Orchestrator (RAG / tools / agent with allow-listed actions)
+        → Retrieval: hybrid search over approved docs, filtered by user entitlements
+        → Tools: read-only APIs (balance, transactions); write actions need confirmation
+        → LLM: private endpoint / self-hosted model, pinned version
+   → Guardrails out (grounding check, citation required, policy and tone filters)
+   → Response + citations → Logging (prompt, sources, output, user feedback) → Monitoring
+</code></pre>
+<h2>Guardrails that matter in finance</h2>
+<ul>
+<li><strong>Data protection:</strong> PII redaction before the LLM, no training on customer data without consent, data residency, encryption, short retention.</li>
+<li><strong>Grounding:</strong> answers only from retrieved, approved sources. Respond "I don't know" if retrieval confidence is low, and require citations.</li>
+<li><strong>Numbers:</strong> never let the LLM do arithmetic for balances, EMIs or interest. Call deterministic calculators or APIs instead.</li>
+<li><strong>Actions:</strong> least-privilege tools, human confirmation for anything that moves money or changes records, full audit trail.</li>
+<li><strong>Security:</strong> prompt-injection defences (treat documents as data, not instructions), output encoding, rate limits.</li>
+<li><strong>Conduct:</strong> no personalised investment advice unless the system is licensed and approved for it, with clear disclaimers.</li>
+</ul>
+<h2>Evaluating a banking GenAI app</h2>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>How to measure</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accuracy / faithfulness</td>
+<td>Golden Q&amp;A set signed off by SMEs; LLM-judge plus human review</td>
+</tr>
+<tr>
+<td>Retrieval quality</td>
+<td>Recall@k on gold documents; entitlement-leak tests (must be zero)</td>
+</tr>
+<tr>
+<td>Safety</td>
+<td>Red-team sets (jailbreaks, injection, toxic content); refusal correctness</td>
+</tr>
+<tr>
+<td>Business value</td>
+<td>Handle-time reduction, first-contact resolution, analyst hours saved</td>
+</tr>
+<tr>
+<td>Operations</td>
+<td>Latency, cost per query, uptime, escalation rate</td>
+</tr>
+</tbody>
+</table></div>
+<h2>Build a tiny compliant RAG answerer</h2>
+<pre><code class="language-python">SYSTEM = &quot;&quot;&quot;You are the bank's internal policy assistant.
+Answer ONLY from the provided context and cite sources as [doc:section].
+If the context does not contain the answer, reply: &quot;I can't find this in approved policy documents.&quot;
+Never give investment advice. Never perform calculations; say a calculator tool is required.&quot;&quot;&quot;
+def answer(question, user):
+    docs = search(question, filters={&quot;business_unit&quot;: user.bu, &quot;status&quot;: &quot;approved&quot;}, k=5)
+    if not docs or docs[0].score &lt; 0.35:
+        return &quot;I can't find this in approved policy documents.&quot;
+    ctx = &quot;\n\n&quot;.join(f&quot;[{d.id}:{d.section}] {d.text}&quot; for d in docs)
+    return llm(system=SYSTEM, user=f&quot;Context:\n{ctx}\n\nQuestion: {question}&quot;, temperature=0)
+</code></pre>
+<h2>Check yourself</h2>
+<details><summary>Why should a banking assistant never compute EMIs or interest itself?</summary>
+LLMs can make arithmetic mistakes and errors here cause customer harm and regulatory issues. The assistant should call a deterministic, tested calculator or core-banking API and present that result.</details>
+
+<details><summary>What is an "entitlement leak" test?</summary>
+A test that checks users can never retrieve or see documents and data they are not authorised for. Retrieval must apply the same access rules as the source systems.</details>
+
+<details><summary>Which GenAI use case is usually safest to launch first, and why?</summary>
+An internal employee knowledge assistant over approved documents. Users are trained staff, the data is controlled, answers cite sources, and mistakes are caught before they reach customers.</details>
+  <div class="pj-cta"><a class="btn" href="../mock/index.html">🎤 Practise in a mock interview</a><a class="btn ghost" href="../daily/index.html">🔥 Daily challenge</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="ai-finance/genai-in-banking"></script>
+
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Project 1: RAG Chatbot over PDFs with Citations · Portfolio Projects · Learn24</title>
+<meta name="description" content="The most asked-about GenAI project in interviews. You&#x27;ll build a chatbot that answers questions from a set of PDFs (policies, manuals, research papers">
+<meta property="og:title" content="Project 1: RAG Chatbot over PDFs with Citations · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ffb86b} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} .pj-cta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0} .pj-cta a{text-decoration:none} article pre{background:#0b1220;color:#d6e0f0;border-radius:10px;padding:12px 14px;overflow-x:auto;font:13px/1.55 var(--mono);max-width:100%} article pre code{background:none;padding:0;border:0;border-radius:0;display:block;color:inherit;font:inherit;white-space:pre} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="rag-pdf-chatbot" data-lesson="projects/rag-pdf-chatbot">
+  <div class="kicker">Portfolio Projects · Project 1 of 10</div>
+  <h1>Project 1: RAG Chatbot over PDFs with Citations</h1>
+  <div class="meta"><span>🛠️ Beginner</span><span>⏱ 1–2 weekends</span><span>📄 Resume lines included</span></div>
+<p>The most asked-about GenAI project in interviews. You'll build a chatbot that answers questions from a set of PDFs (policies, manuals, research papers), <strong>cites its sources</strong> and says "I don't know" when the answer isn't there. Then you'll measure its quality.</p>
+<h2>What you'll build</h2>
+<ul>
+<li>Upload or point to a folder of PDFs, which are parsed, chunked, embedded and indexed.</li>
+<li>A chat UI that streams answers with clickable <strong>[source: file, page]</strong> citations.</li>
+<li>An evaluation script reporting <strong>retrieval recall@k</strong> and <strong>faithfulness</strong> on 30 test questions.</li>
+</ul>
+<h2>Architecture</h2>
+<pre><code>PDFs → loader (PyPDF / unstructured) → splitter (800 tokens, 100 overlap) → embeddings → FAISS/Chroma
+User question → retriever (k=8) → re-ranker (top 4) → prompt with context + rules → LLM → answer + citations
+                                                          ↘ logs (question, chunks, answer, latency)
+</code></pre>
+<h2>Tech stack</h2>
+<p>Python, LangChain (LCEL), FAISS or Chroma, <code>bge-small</code> or OpenAI embeddings, an LLM (OpenAI / Groq / Ollama), FastAPI, Streamlit, RAGAS.</p>
+<h2>Step by step</h2>
+<ol>
+<li><strong>Ingest:</strong> load the PDFs with page numbers in the metadata; clean headers and footers.</li>
+<li><strong>Chunk:</strong> a recursive splitter, about 800 tokens with 100 overlap; keep <code>source</code> and <code>page</code>.</li>
+<li><strong>Embed and index:</strong> build FAISS and persist it to disk.</li>
+<li><strong>Retrieve:</strong> similarity search with k=8, then a cross-encoder re-ranker down to the top 4.</li>
+<li><strong>Prompt:</strong> "Answer only from the context, cite [file:page], otherwise say you don't know."</li>
+<li><strong>Serve:</strong> a FastAPI <code>/chat</code> endpoint with streaming; Streamlit as the front end.</li>
+<li><strong>Evaluate:</strong> write 30 Q&amp;A pairs, then compute recall@k and RAGAS faithfulness and answer relevancy.</li>
+<li><strong>Iterate:</strong> try chunk sizes, hybrid search and re-ranking; record the scores in a table.</li>
+</ol>
+<h2>Starter code</h2>
+<pre><code class="language-python">from langchain_community.document_loaders import PyPDFDirectoryLoader
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_community.vectorstores import FAISS
+from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_openai import ChatOpenAI
+
+docs = PyPDFDirectoryLoader(&quot;data/&quot;).load()
+chunks = RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=100).split_documents(docs)
+db = FAISS.from_documents(chunks, HuggingFaceEmbeddings(model_name=&quot;BAAI/bge-small-en-v1.5&quot;)); db.save_local(&quot;index&quot;)
+retriever = db.as_retriever(search_kwargs={&quot;k&quot;: 4})
+prompt = ChatPromptTemplate.from_template(
+  &quot;Answer ONLY from the context. Cite sources as [file:page]. If unsure, say \&quot;I don't know\&quot;.\n\n{context}\n\nQ: {q}&quot;)
+llm = ChatOpenAI(model=&quot;gpt-4o-mini&quot;, temperature=0)
+def ask(q):
+    ctx = retriever.invoke(q)
+    c = &quot;\n\n&quot;.join(f&quot;[{d.metadata['source'].split('/')[-1]}:{d.metadata.get('page', 0) + 1}] {d.page_content}&quot; for d in ctx)
+    return llm.invoke(prompt.format(context=c, q=q)).content
+</code></pre>
+<h2>Deploy it</h2>
+<ul>
+<li><strong>Free options:</strong> Hugging Face Spaces (Streamlit), Render or Railway (FastAPI), or the Streamlit Community Cloud.</li>
+<li>Keep API keys in <strong>secrets / environment variables</strong>, never in code. Add a README with a GIF demo and the evaluation table.</li>
+</ul>
+<h2>Put it on your resume</h2>
+<ul>
+<li>Built a <strong>RAG chatbot over 200+ PDFs</strong> using LangChain, FAISS and a cross-encoder re-ranker, answering with page-level citations and a refusal for out-of-scope queries.</li>
+<li>Improved <strong>retrieval recall@4 from 0.68 to 0.89</strong> and <strong>faithfulness to 0.93 (RAGAS)</strong> through chunk-size tuning, hybrid search and re-ranking; deployed with FastAPI and Streamlit.</li>
+</ul>
+<p>(Use your own real numbers from the evaluation step.)</p>
+<h2>Interview questions you'll get</h2>
+<ul>
+<li>How did you choose chunk size and overlap? What happens if chunks are too small or too large?</li>
+<li>Why add a re-ranker? What is the difference between a bi-encoder and a cross-encoder?</li>
+<li>How do you stop hallucinations? How did you measure faithfulness?</li>
+<li>How would you scale to a million documents and keep the index fresh?</li>
+</ul>
+<p>Practise these in <strong><a href="../mock/index.html?topic=RAG%20%26%20Retrieval">Mock Interview → RAG &amp; Retrieval</a></strong>.</p>
+<h2>Stretch goals</h2>
+<ul>
+<li>Hybrid BM25 + dense search with Reciprocal Rank Fusion.</li>
+<li>Conversation memory with question rewriting.</li>
+<li>Access control: filter retrieval by user role.</li>
+<li>A query-routing agent that decides when to retrieve.</li>
+</ul>
+  <div class="pj-cta"><a class="btn" href="../mock/index.html">🎤 Practise in a mock interview</a><a class="btn ghost" href="../daily/index.html">🔥 Daily challenge</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="projects/rag-pdf-chatbot"></script>
+
+</body>
+</html>

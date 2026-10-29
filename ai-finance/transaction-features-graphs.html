@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Feature Engineering for Transactions &amp; Graph Fraud · AI in Finance &amp; Fraud · Learn24</title>
+<meta name="description" content="In fraud detection, features matter more than the algorithm. A plain gradient-boosted model with strong behavioural features beats a fancy model on ra">
+<meta property="og:title" content="Feature Engineering for Transactions &amp; Graph Fraud · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#5ad1c4} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} .pj-cta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0} .pj-cta a{text-decoration:none} article pre{background:#0b1220;color:#d6e0f0;border-radius:10px;padding:12px 14px;overflow-x:auto;font:13px/1.55 var(--mono);max-width:100%} article pre code{background:none;padding:0;border:0;border-radius:0;display:block;color:inherit;font:inherit;white-space:pre} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="transaction-features-graphs" data-lesson="ai-finance/transaction-features-graphs">
+  <div class="kicker">AI in Finance &amp; Fraud · Lesson 4 of 8</div>
+  <h1>Feature Engineering for Transactions &amp; Graph Fraud</h1>
+  <div class="meta"><span>⏱ 10 min read</span><span>✅ Check-yourself quiz</span><span>🏦 Banking & fintech</span></div>
+<p>In fraud detection, <strong>features matter more than the algorithm</strong>. A plain gradient-boosted model with strong behavioural features beats a fancy model on raw columns. This lesson covers the main feature families and how graphs expose fraud rings.</p>
+<h2>Behavioural (velocity) features</h2>
+<p>Compare <strong>now</strong> with <strong>the customer's normal behaviour</strong>:</p>
+<ul>
+<li>Count and sum of transactions in the last 1 h / 24 h / 7 d, per card, device, IP and merchant.</li>
+<li>Amount relative to the customer's average: <code>amount / mean_amount_90d</code>, z-score.</li>
+<li>Time since the last transaction; time since the account or card was created.</li>
+<li>New merchant, new device, new country for this customer.</li>
+<li>Distance from the usual location; "impossible travel" (two far-apart places within minutes).</li>
+</ul>
+<pre><code class="language-python">df = df.sort_values(&quot;ts&quot;)
+g = df.set_index(&quot;ts&quot;).groupby(&quot;card_id&quot;)[&quot;amount&quot;]
+df[&quot;cnt_1h&quot;]  = g.rolling(&quot;1h&quot;).count().reset_index(level=0, drop=True).values
+df[&quot;sum_24h&quot;] = g.rolling(&quot;24h&quot;).sum().reset_index(level=0, drop=True).values
+df[&quot;amt_vs_avg&quot;] = df.amount / df.groupby(&quot;card_id&quot;).amount.transform(lambda s: s.shift().expanding().mean()).fillna(df.amount)
+</code></pre>
+<ul>
+<li><strong>Point-in-time correctness:</strong> each feature must use <strong>only data available before the transaction</strong>. Notice <code>shift()</code> above, which excludes the current row.</li>
+</ul>
+<h2>Entity and context features</h2>
+<ul>
+<li><strong>Merchant risk:</strong> historical fraud rate (target-encoded with smoothing, computed out-of-fold), category (MCC), merchant age.</li>
+<li><strong>Device and network:</strong> emulator or rooted flags, IP reputation, VPN/proxy, device age.</li>
+<li><strong>Channel:</strong> card-present vs online, wallet, UPI, recurring payment.</li>
+<li><strong>Customer profile:</strong> tenure, KYC level, product holdings.</li>
+</ul>
+<h2>Graph features: catching rings</h2>
+<p>Fraudsters reuse resources: devices, phone numbers, addresses, beneficiary accounts. Build a graph:</p>
+<ul>
+<li><strong>Nodes:</strong> customers, accounts, devices, phones, emails, IPs, merchants.</li>
+<li><strong>Edges:</strong> "uses", "pays to", "shares".</li>
+</ul>
+<p>Useful signals:</p>
+<ul>
+<li><strong>Connected-component size</strong> around a customer (how many accounts share this device or phone).</li>
+<li><strong>Degree</strong> of a beneficiary account (how many senders); mule accounts receive from many.</li>
+<li><strong>Distance to known fraud:</strong> hops from a confirmed fraudster.</li>
+<li><strong>PageRank or label propagation</strong> of fraud risk across the graph.</li>
+<li><strong>Graph neural networks</strong> (GraphSAGE, GAT) for large graphs, with features learned from neighbours.</li>
+</ul>
+<pre><code class="language-python">import networkx as nx
+G = nx.Graph()
+G.add_edges_from(zip(&quot;acct:&quot; + df.account_id, &quot;dev:&quot; + df.device_id))
+size = {n: len(c) for c in nx.connected_components(G) for n in c}
+df[&quot;device_cluster_size&quot;] = (&quot;acct:&quot; + df.account_id).map(size)
+</code></pre>
+<h2>Serving features in real time</h2>
+<ul>
+<li>A <strong>streaming layer</strong> (Kafka + Flink/Spark Streaming) updates aggregates as events arrive.</li>
+<li>An <strong>online feature store</strong> (Redis, Feast) serves them in milliseconds.</li>
+<li>The <strong>same feature definitions</strong> feed offline training, which avoids training-serving skew.</li>
+</ul>
+<h2>Check yourself</h2>
+<details><summary>What is point-in-time correctness and why does it matter?</summary>
+Each feature value must be computed only from data available before the event. Otherwise the model learns from the future (leakage), and offline performance will not hold in production.</details>
+
+<details><summary>How do graph features help detect money mules?</summary>
+Mule accounts often receive money from many unrelated senders and quickly pass it on. A high in-degree from new senders, shared devices or phones with other suspicious accounts, and proximity to confirmed fraud all stand out in a graph.</details>
+
+<details><summary>How should merchant fraud rate be encoded without leakage?</summary>
+Use out-of-fold target encoding with smoothing towards the global rate, computed only from transactions before the scoring time.</details>
+  <div class="pj-cta"><a class="btn" href="../mock/index.html">🎤 Practise in a mock interview</a><a class="btn ghost" href="../daily/index.html">🔥 Daily challenge</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="ai-finance/transaction-features-graphs"></script>
+
+</body>
+</html>

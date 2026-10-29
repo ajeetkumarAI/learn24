@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI in Banking &amp; Finance: The Big Picture · AI in Finance &amp; Fraud · Learn24</title>
+<meta name="description" content="Banks were among the first industries to use machine learning at scale. Credit scoring, fraud alerts and anti-money-laundering checks all run on model">
+<meta property="og:title" content="AI in Banking &amp; Finance: The Big Picture · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#5ad1c4} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} .pj-cta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0} .pj-cta a{text-decoration:none} article pre{background:#0b1220;color:#d6e0f0;border-radius:10px;padding:12px 14px;overflow-x:auto;font:13px/1.55 var(--mono);max-width:100%} article pre code{background:none;padding:0;border:0;border-radius:0;display:block;color:inherit;font:inherit;white-space:pre} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="ai-in-banking" data-lesson="ai-finance/ai-in-banking">
+  <div class="kicker">AI in Finance &amp; Fraud · Lesson 1 of 8</div>
+  <h1>AI in Banking &amp; Finance: The Big Picture</h1>
+  <div class="meta"><span>⏱ 10 min read</span><span>✅ Check-yourself quiz</span><span>🏦 Banking & fintech</span></div>
+<p>Banks were among the first industries to use machine learning at scale. Credit scoring, fraud alerts and anti-money-laundering checks all run on models today. This lesson maps where AI is used in financial services, what makes the domain different, and which skills employers look for.</p>
+<h2>Where AI is used in a bank</h2>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Typical AI use</th>
+<th>Main model types</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Payments &amp; cards</strong></td>
+<td>Real-time fraud scoring at authorisation</td>
+<td>Gradient boosting, graph features, rules</td>
+</tr>
+<tr>
+<td><strong>Lending</strong></td>
+<td>Credit scoring, limit setting, collections</td>
+<td>Scorecards, logistic regression, GBMs</td>
+</tr>
+<tr>
+<td><strong>Compliance</strong></td>
+<td>Anti-money laundering (AML), sanctions screening, KYC</td>
+<td>Rules + anomaly detection, entity resolution, NLP</td>
+</tr>
+<tr>
+<td><strong>Operations</strong></td>
+<td>Document extraction, cheque and claims processing</td>
+<td>OCR, layout models, LLMs with structured output</td>
+</tr>
+<tr>
+<td><strong>Customer service</strong></td>
+<td>Chatbots, call summarisation, complaint triage</td>
+<td>LLMs + RAG, intent classifiers</td>
+</tr>
+<tr>
+<td><strong>Markets</strong></td>
+<td>Forecasting, risk models, research assistants</td>
+<td>Time series, NLP on news, LLM copilots</td>
+</tr>
+<tr>
+<td><strong>Marketing</strong></td>
+<td>Next-best offer, churn, cross-sell</td>
+<td>Uplift models, recommenders</td>
+</tr>
+</tbody>
+</table></div>
+<h2>What makes finance different</h2>
+<ol>
+<li><strong>Regulation.</strong> Models that affect customers (credit, fraud blocks) must be explainable, validated and monitored. Regulators expect documentation, testing and governance. In the US this is guidance such as SR 11-7 on model risk management; in India the RBI expects similar discipline from regulated entities.</li>
+<li><strong>Extreme class imbalance.</strong> Fraud can be 0.1% of transactions or less. Accuracy is useless as a metric, and precision/recall trade-offs map directly to money.</li>
+<li><strong>Adversaries.</strong> Fraudsters adapt. When you block one pattern they move to another, so concept drift is constant.</li>
+<li><strong>Delayed and noisy labels.</strong> A chargeback may arrive 30–90 days after the transaction, and not every fraud is ever reported.</li>
+<li><strong>Cost asymmetry.</strong> A missed fraud loses money; a false decline annoys a genuine customer and may lose them for good.</li>
+<li><strong>Privacy and data residency.</strong> Customer data is sensitive. Many GenAI uses need private deployments and strict access control.</li>
+</ol>
+<h2>The typical ML lifecycle in a bank</h2>
+<ol>
+<li><strong>Business case:</strong> define the decision, for example "block, step-up or approve a card transaction".</li>
+<li><strong>Data:</strong> transactions, customer profile, device and channel data, bureau data, all with consent and lineage.</li>
+<li><strong>Development:</strong> features, model, evaluation on <strong>out-of-time</strong> data.</li>
+<li><strong>Independent validation:</strong> a separate team challenges assumptions, stability and fairness.</li>
+<li><strong>Approval and deployment:</strong> a model inventory entry, monitoring plan and fallback rules.</li>
+<li><strong>Monitoring:</strong> performance, drift (PSI), override rates, periodic revalidation.</li>
+</ol>
+<h2>Skills employers look for</h2>
+<ul>
+<li><strong>Core ML:</strong> gradient boosting, logistic regression, imbalanced learning, calibration.</li>
+<li><strong>Feature engineering on transactions:</strong> velocity, aggregates, time windows.</li>
+<li><strong>Explainability:</strong> SHAP and reason codes.</li>
+<li><strong>Evaluation:</strong> cost-based thresholds, out-of-time validation.</li>
+<li><strong>Governance:</strong> documentation, monitoring, fairness.</li>
+<li><strong>GenAI with guardrails:</strong> RAG over policies, document extraction, human review.</li>
+<li><strong>Communication:</strong> explaining model behaviour to risk, compliance and business teams.</li>
+</ul>
+<h2>Check yourself</h2>
+<details><summary>Why is accuracy a poor metric for fraud detection?</summary>
+With 0.1% fraud, a model that predicts "not fraud" for everything is 99.9% accurate and catches nothing. Use precision, recall, PR-AUC and the cost of each error instead.</details>
+
+<details><summary>Name two reasons fraud models drift faster than most models.</summary>
+Fraudsters adapt to whatever gets blocked (adversarial drift), and products, channels and customer behaviour change, for example new payment methods or festive-season spending.</details>
+
+<details><summary>What does independent model validation do?</summary>
+A team separate from the developers reviews the data, assumptions, performance, stability, fairness and documentation before the model is approved, and again at regular intervals.</details>
+  <div class="pj-cta"><a class="btn" href="../mock/index.html">🎤 Practise in a mock interview</a><a class="btn ghost" href="../daily/index.html">🔥 Daily challenge</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="ai-finance/ai-in-banking"></script>
+
+</body>
+</html>

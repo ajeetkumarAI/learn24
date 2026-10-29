@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fraud Detection Fundamentals · AI in Finance &amp; Fraud · Learn24</title>
+<meta name="description" content="Fraud detection is a real-time decision under uncertainty: in roughly 100 milliseconds, decide whether to approve, challenge or decline a transaction.">
+<meta property="og:title" content="Fraud Detection Fundamentals · Learn24">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#5ad1c4} details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel)} details summary{cursor:pointer;font-weight:600} .pj-cta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0} .pj-cta a{text-decoration:none} article pre{background:#0b1220;color:#d6e0f0;border-radius:10px;padding:12px 14px;overflow-x:auto;font:13px/1.55 var(--mono);max-width:100%} article pre code{background:none;padding:0;border:0;border-radius:0;display:block;color:inherit;font:inherit;white-space:pre} article table{display:block;overflow-x:auto;max-width:100%;font-size:14px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article data-page="fraud-detection-fundamentals" data-lesson="ai-finance/fraud-detection-fundamentals">
+  <div class="kicker">AI in Finance &amp; Fraud · Lesson 2 of 8</div>
+  <h1>Fraud Detection Fundamentals</h1>
+  <div class="meta"><span>⏱ 10 min read</span><span>✅ Check-yourself quiz</span><span>🏦 Banking & fintech</span></div>
+<p>Fraud detection is a <strong>real-time decision under uncertainty</strong>: in roughly 100 milliseconds, decide whether to approve, challenge or decline a transaction. This lesson covers the fraud types, the system around the model, and how to choose the decision thresholds.</p>
+<h2>Common fraud types</h2>
+<ul>
+<li><strong>Card-not-present (CNP) fraud:</strong> stolen card details used online.</li>
+<li><strong>Account takeover (ATO):</strong> a fraudster logs in as the customer (phishing, SIM swap, credential stuffing) and moves money.</li>
+<li><strong>Authorised push-payment (APP) / social-engineering scams:</strong> the real customer is tricked into paying, as in UPI "collect request" scams or fake KYC calls.</li>
+<li><strong>First-party fraud:</strong> the customer themselves borrows or spends with no intention of repaying.</li>
+<li><strong>Synthetic identity:</strong> a fake identity built from real and invented details.</li>
+<li><strong>Merchant fraud and collusion:</strong> fake merchants or transaction laundering.</li>
+</ul>
+<h2>The fraud system, not just the model</h2>
+<pre><code>Transaction → Feature service (real-time aggregates) → Rules engine + ML score → Decision policy
+          → approve | step-up (OTP / 3-D Secure) | decline | queue for review
+          → Case management (analysts) → Labels (confirmed fraud, chargebacks) → Retraining
+</code></pre>
+<ul>
+<li><strong>Rules</strong> catch known patterns quickly and give explainable hard stops ("card used in two countries within 10 minutes").</li>
+<li><strong>The ML score</strong> catches complex, subtle patterns.</li>
+<li><strong>The decision policy</strong> combines the score, the amount, customer value and risk appetite.</li>
+<li><strong>Analysts</strong> review the grey zone and produce the labels that improve the model.</li>
+</ul>
+<h2>Thresholds are a business decision</h2>
+<p>For each threshold you get a precision (how many alerts are real fraud) and a recall (how much fraud you catch). Pick the threshold by <strong>expected cost</strong>:</p>
+<ul>
+<li><strong>Cost of a false negative</strong> = the fraud amount lost, plus operational cost.</li>
+<li><strong>Cost of a false positive</strong> = review cost, plus customer friction or churn.</li>
+</ul>
+<p>A common pattern is <strong>tiered actions</strong>:</p>
+<div class="tw2" style="overflow-x:auto;max-width:100%;margin:10px 0"><table>
+<thead>
+<tr>
+<th>Score band</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Very high</td>
+<td>Decline and block the card</td>
+</tr>
+<tr>
+<td>High</td>
+<td>Step-up authentication (OTP, biometric)</td>
+</tr>
+<tr>
+<td>Medium</td>
+<td>Approve, but queue for analyst review</td>
+</tr>
+<tr>
+<td>Low</td>
+<td>Approve</td>
+</tr>
+</tbody>
+</table></div>
+<h2>Metrics that matter</h2>
+<ul>
+<li><strong>Fraud detection rate</strong> (recall by count, and <strong>by value</strong>).</li>
+<li><strong>False positive ratio:</strong> false alerts per true fraud (e.g. 5:1).</li>
+<li><strong>Fraud basis points:</strong> fraud loss per ₹10,000 of transaction value.</li>
+<li><strong>Customer impact:</strong> the share of genuine transactions declined or challenged.</li>
+<li><strong>Alert-queue capacity:</strong> analysts can only review so many cases a day, so the threshold must respect it.</li>
+</ul>
+<h2>A minimal model in Python</h2>
+<pre><code class="language-python">import pandas as pd
+from sklearn.metrics import average_precision_score, precision_recall_curve
+from lightgbm import LGBMClassifier
+
+df = pd.read_parquet(&quot;transactions.parquet&quot;).sort_values(&quot;ts&quot;)
+cut = df.ts.quantile(0.8)                          # out-of-time split
+tr, te = df[df.ts &lt; cut], df[df.ts &gt;= cut]
+feats = [&quot;amount_log&quot;, &quot;txn_count_1h&quot;, &quot;amt_vs_user_avg&quot;, &quot;new_device&quot;, &quot;merchant_risk&quot;, &quot;hour&quot;, &quot;geo_km_from_home&quot;]
+m = LGBMClassifier(n_estimators=600, learning_rate=0.03, num_leaves=63, scale_pos_weight=50)
+m.fit(tr[feats], tr.is_fraud)
+p = m.predict_proba(te[feats])[:, 1]
+print(&quot;PR-AUC&quot;, average_precision_score(te.is_fraud, p))
+prec, rec, thr = precision_recall_curve(te.is_fraud, p)
+</code></pre>
+<h2>Check yourself</h2>
+<details><summary>Why use an out-of-time split instead of a random split?</summary>
+In production the model always scores future transactions. A random split leaks future patterns into training and overstates performance. A time-based split mimics deployment.</details>
+
+<details><summary>What is "step-up authentication" and why is it useful?</summary>
+Asking for extra verification (an OTP or biometric) for medium-risk transactions. It stops many frauds without fully declining genuine customers, which reduces friction compared with a hard decline.</details>
+
+<details><summary>Why measure fraud caught by value, not just by count?</summary>
+Catching ten ₹500 frauds while missing one ₹5 lakh fraud looks good by count and bad for the business. Value-weighted recall reflects the real loss.</details>
+  <div class="pj-cta"><a class="btn" href="../mock/index.html">🎤 Practise in a mock interview</a><a class="btn ghost" href="../daily/index.html">🔥 Daily challenge</a><a class="btn ghost" href="../certificate/index.html">🎓 Certificates</a></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="ai-finance/fraud-detection-fundamentals"></script>
+
+</body>
+</html>
