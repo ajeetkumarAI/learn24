@@ -7,7 +7,7 @@
   const API = root.dataset.api || '../api/jobs', FEAT = root.dataset.featured || '../jobs/featured.json';
   const SRC = { remotive: ['Remotive', 'https://remotive.com'], jobicy: ['Jobicy', 'https://jobicy.com'], remoteok: ['Remote OK', 'https://remoteok.com'], adzuna: ['Adzuna', 'https://www.adzuna.in'] };
   const CATS = [['all', 'All AI roles'], ['genai', '🤖 GenAI & LLM'], ['ml', '📊 ML & Data Science'], ['data-eng', '🛠 Data Engineering'], ['mlops', '☁️ MLOps & Platform'], ['ai', '✨ Other AI']];
-  const WHERE = [['any', '🌏 Anywhere'], ['india', '🇮🇳 India'], ['remote', '🏠 Remote']];
+  const WHERE = [['any', '🌏 Anywhere'], ['india', '📍 India'], ['remote', '🏠 Remote']];
   const WHEN = [['0', 'Any time'], ['1', 'Last 24 h'], ['3', '3 days'], ['7', '7 days'], ['30', '30 days']];
   const KEY = 'learn24-jobs', load = () => { try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { return {}; } };
   const save = v => { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (e) {} };
@@ -54,7 +54,7 @@
       <div class="jb-main"><h3><a href="${esc(j.url)}" target="_blank" rel="noopener nofollow">${esc(j.title)}</a></h3>
         <p class="jb-meta"><b>${esc(j.company)}</b> · 📍 ${esc(j.location || 'Not stated')}${j.type ? ` · ${esc(j.type)}` : ''}${j.salary ? ` · 💰 ${esc(j.salary)}` : ''}</p>
         ${j.note ? `<p class="jb-noteline">${esc(j.note)}</p>` : ''}
-        <div class="jb-tags">${fresh ? '<span class="new">NEW</span>' : ''}${newVisit && !fresh ? '<span class="new">New since your last visit</span>' : ''}${isIndia(j) ? '<span>🇮🇳 India / APAC</span>' : ''}${j.remote ? '<span>🏠 Remote</span>' : ''}${(j.tags || []).slice(0, 3).map(t => `<span>${esc(t)}</span>`).join('')}</div></div>
+        <div class="jb-tags">${fresh ? '<span class="new">NEW</span>' : ''}${newVisit && !fresh ? '<span class="new">New since your last visit</span>' : ''}${isIndia(j) ? '<span>📍 India / APAC</span>' : ''}${j.remote ? '<span>🏠 Remote</span>' : ''}${(j.tags || []).slice(0, 3).map(t => `<span>${esc(t)}</span>`).join('')}</div></div>
       <div class="jb-side"><span class="jb-ago">${esc(ago(j.posted))}</span>${src}
         <div class="jb-acts"><button type="button" class="jb-save" data-id="${esc(j.id)}" aria-pressed="${saved}" title="${saved ? 'Remove from saved' : 'Save for later'}">${saved ? '★' : '☆'}</button><a class="jb-btn" href="${esc(j.url)}" target="_blank" rel="noopener nofollow">Apply →</a></div></div></article>`;
   }

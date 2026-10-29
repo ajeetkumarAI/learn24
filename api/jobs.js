@@ -82,9 +82,11 @@ module.exports = async function handler(req, res) {
     for (const j of await src.fetch()) {
       if (!j.title || !j.url || seen.has(j.id)) continue;
       const tags = (j.tags || []).map(String);
-      if (!AI.test(j.title + ' ' + tags.join(' ')) || NOT.test(j.title)) continue;
+      if (!AI.test(j.title) || NOT.test(j.title)) continue;                 // match on the job title, so broad industry tags don't let non-AI roles in
       seen.add(j.id);
-      const posted = j.posted ? new Date(j.posted) : null;
+      let posted = j.posted ? new Date(j.posted) : null;
+      if (posted && name === 'adzuna') posted = new Date(posted - 5.5 * 3600e3);   // Adzuna India sends IST times labelled as UTC
+      if (posted && posted > Date.now()) posted = new Date();           // some feeds send local time marked as UTC; never show a future date
       jobs.push({ ...j, title: strip(j.title), company: strip(j.company) || 'Company not named', location: strip(j.location), tags,
                   posted: posted && !isNaN(posted) ? posted.toISOString() : '', cat: category(j.title, tags), source: name });
     }
