@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TCS: GenAI Engineer Q&amp;A Guide · Interview Prep · Learn24</title>
+<meta name="description" content="TCS: GenAI Engineer Q&amp;A Guide: 14 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="TCS: GenAI Engineer Q&amp;A Guide · Learn24">
+<meta property="og:description" content="TCS: GenAI Engineer Q&amp;A Guide: 14 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="tcs-genai-guide" data-lesson="interview-prep/tcs-genai-guide">
+  <div class="kicker">Interview Prep · Company interview · TCS</div>
+  <h1>TCS: GenAI Engineer Q&amp;A Guide</h1>
+  <div class="meta"><span>❓ 14 questions</span><span>🏢 TCS</span></div>
+  <p class="lead">TCS Generative AI Engineer Interview — Questions &amp; Answers Guide. Real questions from the interview, with detailed answers. Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="https://github.com/ajeetkumarAI/Company-Specific-Gen-AI-Agentic-AI-Interview-Question-Answer-Bank/blob/main/TCS/interview2.md" target=_blank rel=noopener>Source on GitHub ↗</a></div>
+<h2 class="prep-sec" id="s-1-llm-fundamentals-hyperparameters-model"><span class="n">01</span>LLM Fundamentals, Hyperparameters &amp; Model Architectures</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">What is the difference between Top-K and Top-P sampling? Where are they used, and what are their real-life use cases?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Top-K Sampling:</strong> Filters the candidate token pool to strictly the top \(K\) most probable next tokens, redistributing probability among only those \(K\) options.</li>
+<li>
+<p><em>Use Case:</em> Useful when you want tight boundaries over generation choices, but can produce repetitive output if \(K\) is too low or include low-quality tokens if \(K\) is static across varying probability distributions.</p>
+</li>
+<li>
+<p><strong>Top-P (Nucleus) Sampling:</strong> Dynamically selects the smallest set of top tokens whose cumulative probability mass equals or exceeds threshold \(P\) (e.g., \(0.90\)).</p>
+</li>
+<li>
+<p><em>Use Case:</em> Highly adaptive across varying contexts. In predictable contexts, the candidate pool shrinks automatically; in creative contexts, it expands naturally.</p>
+</li>
+<li>
+<p><strong>Real-World Application:</strong> Factual corporate extraction or code generation uses low \(P\) (\(0.1–0.3\)) or small \(K\), whereas creative copywriting or brainstorming tasks use higher \(P\) (\(0.8–0.95\)).</p>
+</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">What is the Transformer architecture, and why do LLMs rely on it instead of traditional RNNs?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Transformer Architecture:</strong> Introduced in "Attention Is All You Need," transformers rely entirely on the <strong>Self-Attention Mechanism</strong> to model dependencies between tokens across an entire sequence simultaneously without sequential recurrence.</li>
+<li><strong>Why Transformers Replace RNNs:</strong></li>
+<li><strong>Parallelization:</strong> RNNs process text sequentially (token-by-token), creating a severe hardware bottleneck during training. Transformers process full context sequences in parallel on modern GPUs.</li>
+<li><strong>Long-Range Dependencies:</strong> RNNs suffer from vanishing/exploding gradients over long contexts. Transformers compute direct pairwise attention weights between all tokens regardless of sequence distance.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">What is the difference between Decoder-Only models and Encoder-Decoder models?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Decoder-Only Models (e.g., GPT-4, Llama):</strong></li>
+<li>Uses causal self-attention (tokens can only attend to previous tokens).</li>
+<li>
+<p><em>Best For:</em> Autoregressive text generation, open-ended conversation, reasoning, and code completion.</p>
+</li>
+<li>
+<p><strong>Encoder-Decoder Models (e.g., T5, BART):</strong></p>
+</li>
+<li>The encoder processes the full source sequence bidirectionally; the decoder generates the output autoregressively while cross-attending to the encoded representation.</li>
+<li><em>Best For:</em> Sequence-to-sequence transformation tasks like language translation, summarization, and conditional text generation.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-2-hallucinations-evaluation-metrics"><span class="n">02</span>Hallucinations &amp; Evaluation Metrics</h2>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">What is hallucination in LLMs? Why does it happen, and what parameters influence it?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Definition:</strong> Hallucination occurs when an LLM generates plausible-sounding text that is factually incorrect, ungrounded, or completely fabricated relative to real-world knowledge or provided context.</li>
+<li><strong>Root Causes:</strong></li>
+<li>Probabilistic nature of next-token prediction without internal truth verification mechanisms.</li>
+<li>
+<p>Out-of-distribution prompts, noisy training data, or missing context in the prompt payload.</p>
+</li>
+<li>
+<p><strong>Influencing Parameters:</strong> High temperature, high Top-P, and long unstructured prompt sequences elevate hallucination risks.</p>
+</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">How do you evaluate hallucination? What metrics are used?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Faithfulness / Groundedness Metric:</strong> Evaluates what fraction of claims made in the generated answer can be directly inferred from the retrieved reference context.</li>
+<li><strong>Context Recall &amp; Precision:</strong> Measures whether the necessary source text was retrieved and if irrelevant noise was excluded.</li>
+<li><strong>Evaluation Frameworks:</strong> Frameworks like <strong>RAGAS</strong> or <strong>DeepEval</strong> utilize G-Eval (LLM-as-a-Judge) patterns alongside semantic entailment classifiers (NLI models) to systematically score hallucination severity before production release.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-rag-architecture-vector-dbs-deployment"><span class="n">03</span>RAG Architecture, Vector DBs &amp; Deployment</h2>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Explain the end-to-end RAG system design and pipeline.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ol>
+<li><strong>Ingestion:</strong> Document parsing, text extraction, semantic chunking, embedding generation via vector encoders.</li>
+<li><strong>Indexing:</strong> Storing vector representations and metadata in a vector database (e.g., FAISS, Pinecone).</li>
+<li><strong>Retrieval:</strong> User query embedding, approximate nearest neighbor (ANN) vector search, metadata filtering, optional reranking.</li>
+<li><strong>Synthesis:</strong> System prompt construction (injecting retrieved chunks), LLM inference, guardrail validation, and response streaming to the client.</li>
+</ol></div></div></div>
+<div class="qa" id="q7"><div class="qa-h"><span class="qa-n">Q7</span><div class="qa-q">How do you handle unrestricted vs. restricted data during retrieval in RAG systems?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Pre-Retrieval Metadata Filtering:</strong> Do not rely on prompt directives to restrict data access. Attach explicit security metadata tags (<code>role</code>, <code>department_id</code>, <code>access_level</code>) to vector chunks during ingestion.</li>
+<li><strong>RBAC Vector Scoping:</strong> Scope the vector search query execution directly to match the authenticated user's access rights. Unrestricted data is accessible globally; restricted data chunks are returned <em>only</em> if the user's validated token matches chunk security tags.</li>
+</ul></div></div></div>
+<div class="qa" id="q8"><div class="qa-h"><span class="qa-n">Q8</span><div class="qa-q">What is FAISS, and what is PEFT?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>FAISS (Facebook AI Similarity Search):</strong> An open-source library optimized for efficient similarity search and clustering of dense vectors, offering GPU-accelerated Indexing (e.g., IVF-PQ, HNSW) for high-speed retrieval.</li>
+<li><strong>PEFT (Parameter-Efficient Fine-Tuning):</strong> A set of techniques (e.g., <strong>LoRA</strong>, <strong>QLoRA</strong>) that fine-tunes large language models by updating only a small fraction of parameters (adapter matrices) while freezing base model weights, drastically reducing compute and VRAM requirements.</li>
+</ul></div></div></div>
+<div class="qa" id="q9"><div class="qa-h"><span class="qa-n">Q9</span><div class="qa-q">How would you host your LLM for latency optimization when handling high traffic spikes?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ol>
+<li><strong>Specialized Serving Frameworks:</strong> Deploy models using high-throughput inference engines like <strong>vLLM</strong> or <strong>TGI (Text Generation Inference)</strong> utilizing PagedAttention and continuous batching.</li>
+<li><strong>Quantization:</strong> Load models in 4-bit or 8-bit precision (AWQ / GPTQ) to reduce memory bandwidth bottlenecks.</li>
+<li><strong>Autoscaling &amp; Replicas:</strong> Deploy model replicas behind an asynchronous load balancer with autoscaling triggered by GPU utilization and queue depth.</li>
+<li><strong>Caching &amp; Speculative Decoding:</strong> Implement semantic response caching (Redis) and speculative decoding (using a draft smaller model to speed up generation).</li>
+</ol></div></div></div>
+<h2 class="prep-sec" id="s-4-python-fundamentals-for-ai-backends"><span class="n">04</span>Python Fundamentals for AI Backends</h2>
+<div class="qa" id="q10"><div class="qa-h"><span class="qa-n">Q10</span><div class="qa-q">What is the difference between Decorators and Generators in Python? How do Generators relate to streaming LLM responses?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Decorator:</strong> A higher-order function that takes another function as an argument, extends its behavior without explicitly modifying it, and returns a new function (e.g., <code>@app.get()</code>, <code>@time_it</code>).</li>
+<li><strong>Generator:</strong> A function that produces a sequence of values over time using the <code>yield</code> keyword instead of <code>return</code>, maintaining its internal state between execution calls.</li>
+<li><strong>LLM Streaming Connection:</strong> When an LLM API streams tokens back chunk-by-chunk (Time-To-First-Token optimization), Python backend services use <strong>generators</strong> (or async generators) to yield server-sent events (SSE) continuously to the frontend interface without loading the entire response into memory at once.</li>
+</ul></div></div></div>
+<div class="qa" id="q11"><div class="qa-h"><span class="qa-n">Q11</span><div class="qa-q">How do you handle and process large quantities of data in Python without encountering Out-Of-Memory (OOM) errors?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ol>
+<li><strong>Iterative Data Streaming:</strong> Use generators and file streaming streams (<code>ijson</code>, <code>pandas</code> chunking via <code>chunksize</code>) to process data sequentially line-by-line or batch-by-batch instead of loading entire datasets into memory.</li>
+<li><strong>Memory-Efficient Data Structures:</strong> Utilize <code>numpy</code> arrays, Polars, or PyArrow backends instead of native high-overhead Python objects.</li>
+<li><strong>Distributed Processing:</strong> Scale out large ETL tasks using distributed processing engines like PySpark or Dask when single-node memory capacity is exceeded.</li>
+</ol></div></div></div>
+<h2 class="prep-sec" id="s-5-chunking-strategies-model-context-prot"><span class="n">05</span>Chunking Strategies &amp; Model Context Protocols</h2>
+<div class="qa" id="q12"><div class="qa-h"><span class="qa-n">Q12</span><div class="qa-q">What are the different types of chunking strategies, and what parameters do you pass during chunking?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Strategies:</strong></li>
+<li><strong>Fixed-Size Chunking:</strong> Splits text by character/token count with a fixed overlap window.</li>
+<li><strong>Recursive Chunking:</strong> Splits hierarchy-wise by natural boundaries (paragraphs, sentences, punctuation) to keep semantic thoughts intact.</li>
+<li>
+<p><strong>Semantic Chunking:</strong> Computes embedding distances between adjacent sentences and splits text when semantic divergence exceeds a set threshold.</p>
+</li>
+<li>
+<p><strong>Key Parameters:</strong> <code>chunk_size</code> (token/character limit), <code>chunk_overlap</code> (boundary continuity window), <code>separators</code> (delimiter priority order), and <code>length_function</code> (<code>len</code> vs. token counters).</p>
+</li>
+</ul></div></div></div>
+<div class="qa" id="q13"><div class="qa-h"><span class="qa-n">Q13</span><div class="qa-q">What is Function Calling in an LLM, and when does the model trigger it?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Function Calling:</strong> An LLM capability where the model evaluates a user query against provided JSON schemas of external tools/functions, detects when external data or actions are required, and outputs structured JSON arguments matching the tool's parameter signature rather than plain text.</li>
+<li><strong>Triggering:</strong> Triggered automatically when the user prompt demands external information (e.g., checking order status, querying a database) or side-effect actions that the LLM's static weights cannot resolve internally.</li>
+</ul></div></div></div>
+<div class="qa" id="q14"><div class="qa-h"><span class="qa-n">Q14</span><div class="qa-q">What is MCP (Model Context Protocol), and why was it introduced?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Model Context Protocol (MCP):</strong> An open standard designed to standardize connections between AI applications (LLM hosts) and external tools, databases, and context providers.</li>
+<li><strong>Why Introduced:</strong> Eliminates the fragmentation of writing custom, proprietary API integration wrappers for every distinct tool and model provider by establishing a uniform server-client protocol interface for tool discovery, resource management, and prompt handling.</li>
+</ul></div></div></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-prep/tcs-genai-guide"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

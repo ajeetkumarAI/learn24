@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wipro: GenAI Engineer Walk-In · Interview Prep · Learn24</title>
+<meta name="description" content="Wipro: GenAI Engineer Walk-In: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Wipro: GenAI Engineer Walk-In · Learn24">
+<meta property="og:description" content="Wipro: GenAI Engineer Walk-In: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="wipro-walk-in" data-lesson="interview-prep/wipro-walk-in">
+  <div class="kicker">Interview Prep · Company interview · Wipro</div>
+  <h1>Wipro: GenAI Engineer Walk-In</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 Wipro</span></div>
+  <p class="lead">Wipro Generative AI Engineer Walk-In Interview Guide. Real questions from the interview, with detailed answers. Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="https://github.com/ajeetkumarAI/Company-Specific-Gen-AI-Agentic-AI-Interview-Question-Answer-Bank/blob/main/Wipro/interview1.md" target=_blank rel=noopener>Source on GitHub ↗</a></div>
+<h2 class="prep-sec" id="s-1-candidate-background-interview-process"><span class="n">01</span>Candidate Background &amp; Interview Process Summary</h2><ul>
+<li><strong>Role &amp; Company:</strong> Generative AI Engineer at Wipro (Walk-In Drive).</li>
+<li><strong>Application Pathway:</strong> Online job portal application \(\rightarrow\) HR phone screening \(\rightarrow\) On-site Saturday walk-in interview.</li>
+<li><strong>Format:</strong></li>
+<li><strong>HR Phone Screening:</strong> Confirmed current role, total years of experience, notice period, expected CTC, and technical stack.</li>
+<li><strong>3-Day Sprint Preparation Strategy:</strong><ul>
+<li><em>Day 1:</em> RAG pipeline, chunking strategies, embeddings, vector databases, and retrieval logic.</li>
+<li><em>Day 2:</em> LLM fundamentals (Attention mechanisms, Temperature, Top-P, Fine-tuning vs. RAG, Hallucination mitigation).</li>
+<li><em>Day 3:</em> AI Agents, tool calling/schemas, Model Context Protocol (MCP), evaluation frameworks, and project architecture rehearsal.</li>
+</ul>
+</li>
+<li><strong>Technical Interview (40 Minutes):</strong> Conducted by a Senior Engineer and a Technical Lead. Covered project architecture, advanced retrieval debugging, LLM security (prompt injection), memory management, rapid-fire fundamentals, and live Python coding with system-design explanations.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-advanced-rag-retrieval-optimization-de"><span class="n">02</span>Advanced RAG, Retrieval Optimization &amp; Debugging</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">How do you improve document retrieval when user queries diverge significantly from the raw context text?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Query Rewriting / Expansion:</strong> Use a lightweight LLM step to rephrase, expand, or break down messy or ambiguous user queries into well-formed sub-queries before searching the vector index.</li>
+<li><strong>Hypothetical Document Embeddings (HyDE):</strong> Prompt an LLM to generate a hypothetical answer to the user's question, embed that generated answer, and execute vector similarity search against real context chunks.</li>
+<li><strong>Hybrid Search (Dense + Sparse):</strong> Combine <strong>Dense Vector Retrieval</strong> (capturing semantic intent via embeddings) with <strong>Sparse Keyword Retrieval</strong> (e.g., BM25 for exact match acronyms, IDs, or medical/legal terminology) using Reciprocal Rank Fusion (RRF).</li>
+<li><strong>Cross-Encoder Reranking:</strong> Fetch a larger candidate pool (e.g., top-50 chunks) via vector search and pass them through a cross-encoder model (e.g., Cohere Rerank, BGE-Reranker) to output fine-grained relevancy scores for the final top-\(K\) selection.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">If the retrieved chunks are accurate but the LLM still generates an incorrect or incomplete answer, how do you debug the system?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code>
+</code></pre>
+<pre><code>                [ User Query ]
+                      │
+                      ▼
+           [ Vector Index Search ]
+                      │
+                      ▼
+          [ Context Chunks Loaded ]
+                      │
+     ┌────────────────┴────────────────┐
+     ▼                                 ▼
+</code></pre>
+<pre><code>
+[ Context Precision /             [ Context Chunk
+Recall Check ]                   Ordering Check ]
+(Are key facts missing           (Evaluate &quot;Lost in the
+or contaminated?)                  Middle&quot; positioning)
+│                                 │
+└────────────────┬────────────────┘
+│
+▼
+[ Prompt Template Audit ]
+(Check system guardrails, rules,
+and delimiter separation)
+│
+▼
+[ Parameter Configuration ]
+(Lower Temperature to ~0.0;
+adjust Top-P parameters)
+│
+▼
+[ Final Model Isolation ]
+(Test with larger LLM context window /
+higher-capacity reasoning model)
+
+</code></pre>
+<ol>
+<li><strong>Isolate Retrieval vs. Generation:</strong> Evaluate context precision and recall using metrics (e.g., RAGAS) to confirm whether the necessary facts exist within the retrieved chunks.</li>
+<li><strong>Inspect Context Ordering ("Lost in the Middle"):</strong> LLMs tend to pay more attention to tokens at the very beginning and end of long prompts. Reorder top chunks so the highest-scoring passages sit at the top or bottom rather than hidden in the middle.</li>
+<li><strong>Audit Prompt Template &amp; Delimiters:</strong> Ensure clear boundary markers (e.g., <code>&lt;context&gt; ... &lt;/context&gt;</code>) separate retrieved passages from system instructions, preventing the model from confusing context with user rules.</li>
+<li><strong>Tune Generation Hyperparameters:</strong> Reduce the model's temperature (e.g., set to \(0.0\)) and adjust Top-P to enforce deterministic, factual extraction instead of loose creative sampling.</li>
+</ol></div></div></div>
+<h2 class="prep-sec" id="s-3-llm-security-memory-operations"><span class="n">03</span>LLM Security, Memory &amp; Operations</h2>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">What is Prompt Injection, and how do you protect production Gen AI applications against it?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Definition:</strong> Prompt injection occurs when untrusted user input contains malicious instructions designed to bypass system prompts, override safety rules, exfiltrate system instructions, or hijack tool calls.</li>
+<li><strong>Defense-in-Depth Mitigation Strategy:</strong></li>
+<li><strong>Input Validation &amp; Sanitization:</strong> Strip harmful control tags, enforce strict character/token limits, and run user inputs through dedicated moderation classifiers (e.g., Llama Guard) prior to prompt construction.</li>
+<li><strong>Strict Structural Separation:</strong> Keep system instructions and variable user inputs isolated using clear API structures or prompt boundary tags rather than raw string concatenation.</li>
+<li><strong>Privilege Restriction on Tools:</strong> Enforce least-privilege access on external function/tool integrations (e.g., restrict database tools to read-only views; mandate human confirmation for side-effects).</li>
+<li><strong>Output Guardrails &amp; Filtering:</strong> Inspect generated outputs for sensitive data leaks (PII) or unauthorized system prompt regurgitation before returning responses to users.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">How do you handle long-term conversation memory in LLMs without exceeding context window limits or inflating token costs?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Sliding Window Buffer:</strong> Retain only the most recent \(N\) message turns (e.g., last 5 interactions) while discarding older messages.</li>
+<li><strong>Conversation Summarization:</strong> Use a background LLM process to periodically condense older conversation turns into a running summary block appended to the system prompt.</li>
+<li><strong>Vector-Backed Episodic Memory:</strong> Store historic user interactions in a vector database. Retrieve relevant past dialogue turns dynamically using semantic similarity search based on the user's active topic.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-4-rapid-fire-technical-fundamentals"><span class="n">04</span>Rapid-Fire Technical Fundamentals</h2><ul>
+<li><strong>Embeddings:</strong> High-dimensional vector representations of text that capture semantic meaning, context, and relationships in a continuous vector space.</li>
+<li><strong>Chunk Overlap:</strong> Including duplicate trailing/leading tokens across adjacent text chunks to prevent losing semantic context split across chunk boundaries.</li>
+<li><strong>Temperature = 0:</strong> Forces greedy decoding, causing the LLM to pick the highest-probability next token at every step for maximum determinism.</li>
+<li><strong>Reranker:</strong> A cross-encoder model that scores query-document pairs together to compute an accurate relevancy ranking over a preliminary list of candidates retrieved via vector search.</li>
+</ul>
+<h2 class="prep-sec" id="s-5-live-coding-challenges-with-production"><span class="n">05</span>Live Coding Challenges (with Production Explanations)</h2>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Task 1: Write a Python function that executes an API call with exponential backoff retries when encountering errors.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">import time
+import requests
+
+def call_api_with_exponential_backoff(url: str, max_retries: int = 5, initial_delay: float = 1.0) -&gt; dict:
+    &quot;&quot;&quot;
+    Executes an HTTP GET request with exponential backoff logic.
+    Doubles the delay after each failed attempt to prevent service overloading.
+    &quot;&quot;&quot;
+    delay = initial_delay
+
+    for attempt in range(1, max_retries + 1):
+        try:
+            response = requests.get(url, timeout=5)
+            response.raise_for_status()  # Raises HTTPError for 4xx/5xx codes
+            return response.json()
+        except (requests.RequestException, Exception) as err:
+            print(f&quot;[Attempt {attempt}/{max_retries}] Failed: {err}. Retrying in {delay} seconds...&quot;)
+            if attempt == max_retries:
+                raise RuntimeError(f&quot;API call failed after {max_retries} attempts.&quot;) from err
+
+            time.sleep(delay)
+            delay *= 2  # Exponential escalation (1s, 2s, 4s, 8s...)
+
+# Architectural Explanation provided to Interviewer:
+# Exponential backoff prevents &quot;thundering herd&quot; problems during transient API outages or rate limits.
+# In production, adding random jitter (e.g., delay + random.uniform(0, 0.5)) prevents synchronized retry spikes.
+
+</code></pre></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Task 2: Implement an In-Memory Cache for LLM Queries to eliminate duplicate API calls for identical inputs.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">import hashlib
+from typing import Optional
+
+class LLMQueryCache:
+    &quot;&quot;&quot;
+    In-memory caching layer for LLM responses using SHA-256 hashed queries as keys.
+    &quot;&quot;&quot;
+    def __init__(self):
+        self._cache: dict[str, str] = {}
+
+    def _generate_key(self, prompt: str) -&gt; str:
+        # Standardize formatting and hash string to fixed key length
+        normalized_prompt = prompt.strip().lower()
+        return hashlib.sha256(normalized_prompt.encode('utf-8')).hexdigest()
+
+    def get(self, prompt: str) -&gt; Optional[str]:
+        key = self._generate_key(prompt)
+        return self._cache.get(key)
+
+    def set(self, prompt: str, response: str) -&gt; None:
+        key = self._generate_key(prompt)
+        self._cache[key] = response
+
+# Example Usage
+cache = LLMQueryCache()
+user_prompt = &quot;What is the capital of France?&quot;
+
+# First execution (Cache Miss)
+cached_res = cache.get(user_prompt)
+if cached_res is None:
+    # Simulate LLM Call
+    llm_output = &quot;The capital of France is Paris.&quot;
+    cache.set(user_prompt, llm_output)
+    print(&quot;Fetched from LLM API.&quot;)
+else:
+    print(f&quot;Cache Hit: {cached_res}&quot;)
+
+# Second execution (Cache Hit)
+cached_res = cache.get(user_prompt)
+if cached_res:
+    print(f&quot;Cache Hit: {cached_res}&quot;)
+
+# Architectural Explanation provided to Interviewer:
+# Direct string hashing provides exact-match caching with O(1) lookup time.
+# Production Enhancement: Replace exact matching with Semantic Caching (e.g., Redis VL / GPTCache) 
+# using embedding similarity thresholds (e.g., cosine distance &lt; 0.05) to catch rephrased queries.
+
+</code></pre>
+<pre><code>
+</code></pre></div></div></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-prep/wipro-walk-in"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

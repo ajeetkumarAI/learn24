@@ -7,7 +7,7 @@
   const done = (() => { try { return JSON.parse(localStorage.getItem('learn24-done') || '[]'); } catch (e) { return []; } })();
   const isDone = (t, l) => done.includes(t + '/' + l);
   const live = t => t.lessons.filter(l => l.status === 'live');
-  const SHORT = { 'aws-saa': 'AWS', 'langchain-course': 'LangChain', 'frameworks': 'Frameworks', 'ai-system-design': 'System Design' };   // short names for the top menu
+  const SHORT = { 'aws-saa': 'AWS', 'langchain-course': 'LangChain', 'interview-prep': 'Interview Prep', 'frameworks': 'Frameworks', 'ai-system-design': 'System Design' };   // short names for the top menu
   const lessonHref = (t, l) => `${base}${t.id}/${l.id}.html`;
 
   // header
@@ -78,7 +78,7 @@
       ${t.quest ? `<a class="quest-cta" href="${base}${t.id}/${t.quest}"><span class="qi">🎮</span><span><b>Quest mode: learn by playing</b><small>Short cards from basics to advanced, points for every right answer, real-world scenarios and interview questions.</small></span><span class="go">Play →</span></a>` : ''}
     </section>
     ${t.modules ? t.modules.map(m => `<section class="sec shell module">
-      <div class="mod-h" style="--c:${t.color}"><span class="mod-n">Module ${m.n}</span><div style="flex:1;min-width:0"><h2>${esc(m.title)}</h2><p>${esc(m.objective)} · ${({ 'aws-saa': 'Days', 'langchain-course': 'Labs' })[t.id] || 'Sessions'} ${m.sessions[0]}–${m.sessions[m.sessions.length - 1]}</p></div><a class="cheat" href="${base}${t.id}/cheatsheet-m${m.n}.html">📄 Cheat sheet</a></div>
+      <div class="mod-h" style="--c:${t.color}"><span class="mod-n">Module ${m.n}</span><div style="flex:1;min-width:0"><h2>${esc(m.title)}</h2><p>${esc(m.objective)} · ${m.label ? esc(m.label) : `${({ 'aws-saa': 'Days', 'langchain-course': 'Labs' })[t.id] || 'Sessions'} ${m.sessions[0]}–${m.sessions[m.sessions.length - 1]}`}</p></div>${t.nocheat ? '' : `<a class="cheat" href="${base}${t.id}/cheatsheet-m${m.n}.html">📄 Cheat sheet</a>`}</div>
       <div class="lessons">${t.lessons.filter(l => l.module === m.n).map((l, i) => lessonRow(t, l, i)).join('')}</div></section>`).join('')
       : `<section class="sec shell"><div class="lessons">${t.lessons.map((l, i) => lessonRow(t, l, i)).join('')}</div></section>`}`;
   }

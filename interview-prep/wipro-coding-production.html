@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wipro: Coding &amp; Production Systems Round · Interview Prep · Learn24</title>
+<meta name="description" content="Wipro: Coding &amp; Production Systems Round: 14 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Wipro: Coding &amp; Production Systems Round · Learn24">
+<meta property="og:description" content="Wipro: Coding &amp; Production Systems Round: 14 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="wipro-coding-production" data-lesson="interview-prep/wipro-coding-production">
+  <div class="kicker">Interview Prep · Company interview · Wipro</div>
+  <h1>Wipro: Coding &amp; Production Systems Round</h1>
+  <div class="meta"><span>❓ 14 questions</span><span>🏢 Wipro</span></div>
+  <p class="lead">Wipro — Generative AI Engineer Technical Interview Guide (Coding &amp; Production Systems Round). Real questions from the interview, with detailed answers. Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="https://github.com/ajeetkumarAI/Company-Specific-Gen-AI-Agentic-AI-Interview-Question-Answer-Bank/blob/main/Wipro/interview2.md" target=_blank rel=noopener>Source on GitHub ↗</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>This document provides a comprehensive, production-grade guide on a <strong>Generative AI Engineer Coding &amp; System Resilience Round</strong> at <strong>Wipro</strong>. </p>
+<p>Unlike standard algorithmic coding sessions, this interview evaluates how candidates translate real-world LLM production failures (flaky APIs, high latency, context limits, retrieval noise, structured output validation) into resilient Python code and backend system designs.</p></details><h2 class="prep-sec" id="s-1-candidate-background-interview-overvie"><span class="n">01</span>Candidate Background &amp; Interview Overview</h2><ul>
+<li><strong>Company &amp; Role:</strong> Generative AI Engineer / LLM Engineer at <strong>Wipro</strong> (Walk-in Drive &amp; Technical Rounds).</li>
+<li><strong>Format:</strong> Interactive Hands-on Live Coding &amp; Applied Production System Design.</li>
+<li><strong>Evaluation Core:</strong> Rather than static LeetCode-style data structures, the interviewer constructs dynamic, evolving production edge cases around candidate code solutions (e.g., <em>"What if the API returns 400?"</em>, <em>"What if cached data goes stale?"</em>, <em>"What if all top retrieved documents are duplicates?"</em>).</li>
+<li><strong>Key Technical Domains Covered:</strong>
+  1. Resilient External API Execution (Exponential Backoff, Jitter, Status Handling).
+  2. Cost Optimization &amp; Latency Control via Caching (In-Memory, Redis, TTL Strategies).
+  3. Context Window Management &amp; Chunking Strategies (Fixed-size, Overlap, Semantic Chunking).
+  4. Advanced RAG Retrieval &amp; Diversity Re-ranking (Top-K, Over-retrieval, Cross-Encoders).
+  5. Output Validation &amp; Guardrails for Dynamic LLM Schemas (Pydantic, Structural Fallbacks).</li>
+</ul>
+<h2 class="prep-sec" id="s-2-dynamic-interview-questions-code-imple"><span class="n">02</span>Dynamic Interview Questions, Code Implementations &amp; Production Edge Cases</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Problem 1: Flaky External LLM APIs &amp; Resilient Retries</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><h4>Base Question:</h4>
+<p>How do you write a Python wrapper/decorator to handle intermittent failures when calling external LLM APIs with exponential backoff?</p>
+<h4>Candidate Approach &amp; Code Solution:</h4>
+<p>Implement an exponential backoff loop bounded by a maximum retry count to prevent infinite execution loops in production environments.</p>
+<pre><code class="language-python">import time
+import random
+import logging
+from typing import Callable, Any
+
+logging.basicConfig(level=logging.INFO)
+
+def call_llm_api_stub() -&gt; str:
+    &quot;&quot;&quot;Simulated LLM API call that may fail intermittently.&quot;&quot;&quot;
+    if random.random() &lt; 0.7:
+        raise TimeoutError(&quot;504 Gateway Timeout: LLM provider unresponsive&quot;)
+    return &quot;LLM Response: Generation Successful&quot;
+
+def execute_with_exponential_backoff(
+    api_func: Callable[[], Any],
+    max_retries: int = 3,
+    base_delay: float = 1.0,
+    backoff_factor: float = 2.0
+) -&gt; Any:
+    &quot;&quot;&quot;
+    Executes an API call with configurable retry counts and exponential delays.
+    &quot;&quot;&quot;
+    delay = base_delay
+    for attempt in range(1, max_retries + 1):
+        try:
+            logging.info(f&quot;Attempt {attempt}/{max_retries}: Calling LLM API...&quot;)
+            return api_func()
+        except Exception as err:
+            logging.warning(f&quot;Attempt {attempt} failed: {err}&quot;)
+            if attempt == max_retries:
+                logging.error(&quot;Max retries reached. Escalating exception.&quot;)
+                raise err
+
+            time.sleep(delay)
+            delay *= backoff_factor
+
+</code></pre>
+<hr />
+<h4>Follow-Up Questions &amp; Production Hardening</h4></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Interviewer Question: &quot;What if the API returns a 400 Bad Request or 401 Unauthorized? Will your function retry?&quot;</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Candidate Answer:</strong> No, non-transient client errors (\(4xx\)) should <strong>never</strong> be retried. A <code>400</code> indicates a malformed payload or invalid prompt parameters, and a <code>401</code> indicates authentication failure. Retrying these will yield identical failures, waste compute, and exhaust rate limits. Retries should strictly target <strong>transient network faults</strong> (\(502, 503, 504\)) and <strong>rate limits</strong> (\(429\)).</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Interviewer Question: &quot;How do you make this retry pattern resilient when scaling to thousands of concurrent users?&quot;</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Candidate Answer:</strong> Apply <strong>Full Jitter</strong> to the exponential delay. If thousands of worker threads encounter a micro-outage simultaneously, synchronized retries cause a "Thundering Herd" problem, repeatedly overloading the downstream API server at exact interval spikes. Jitter spreads out retry traffic across randomized time windows.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-production-grade-retry-implementation-wi">Production-Grade Retry Implementation (With Status Codes &amp; Jitter):</h2><pre><code class="language-python">import time
+import random
+import logging
+from typing import Callable, Any
+
+class HTTPClientError(Exception):
+    def __init__(self, status_code: int, message: str):
+        self.status_code = status_code
+        super().__init__(f&quot;HTTP {status_code}: {message}&quot;)
+
+class HTTPServerError(Exception):
+    def __init__(self, status_code: int, message: str):
+        self.status_code = status_code
+        super().__init__(f&quot;HTTP {status_code}: {message}&quot;)
+
+def execute_production_resilient_retry(
+    api_func: Callable[[], Any],
+    max_retries: int = 4,
+    base_delay: float = 1.0,
+    max_delay: float = 16.0
+) -&gt; Any:
+    &quot;&quot;&quot;
+    Production retry pattern with 4xx filtering, exponential backoff, and full jitter.
+    &quot;&quot;&quot;
+    for attempt in range(1, max_retries + 1):
+        try:
+            return api_func()
+        except HTTPClientError as e:
+            # 4xx errors are client-side errors (bad params, auth issues); terminate retries immediately
+            logging.error(f&quot;[NON-RETRYABLE] Client error encounterd: {e}&quot;)
+            raise e
+        except (HTTPServerError, TimeoutError, ConnectionError) as e:
+            # 5xx errors and network drops are transient; proceed with retries
+            if attempt == max_retries:
+                logging.error(f&quot;[FAILED] Exhausted all {max_retries} retry attempts.&quot;)
+                raise e
+
+            # Calculate Exponential Backoff with Full Jitter
+            calculated_delay = min(max_delay, base_delay * (2 ** (attempt - 1)))
+            jittered_delay = random.uniform(0, calculated_delay)
+
+            logging.warning(
+                f&quot;[RETRY {attempt}/{max_retries}] Transient failure ({e}). &quot;
+                f&quot;Retrying in {jittered_delay:.2f} seconds...&quot;
+            )
+            time.sleep(jittered_delay)
+
+</code></pre>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Problem 2: Response Caching, Cost Optimization &amp; Cache Invalidation</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><h4>Base Question:</h4>
+<p>Frequent identical user queries significantly inflate LLM API billing and increase latency. How do you implement a caching system to mitigate this?</p>
+<h4>Candidate Approach &amp; Code Solution:</h4>
+<p>Implement a query-level key-value lookup. Hashing the normalized prompt string generates a cache key to return pre-computed responses instantly.</p>
+<pre><code class="language-python">import hashlib
+from typing import Dict, Optional
+
+class SimpleLLMCache:
+    def __init__(self):
+        self._cache: Dict[str, str] = {}
+
+    def _generate_key(self, query: str) -&gt; str:
+        # Normalize whitespace and lower string before hashing
+        normalized_query = &quot; &quot;.join(query.strip().lower().split())
+        return hashlib.sha256(normalized_query.encode('utf-8')).hexdigest()
+
+    def get(self, query: str) -&gt; Optional[str]:
+        key = self._generate_key(query)
+        return self._cache.get(key)
+
+    def set(self, query: str, response: str) -&gt; None:
+        key = self._generate_key(query)
+        self._cache[key] = response
+
+</code></pre>
+<hr />
+<h4>Follow-Up Questions &amp; Production Hardening</h4></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Interviewer Question: &quot;What are the key limitations of relying on an in-memory dictionary cache in production?&quot;</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Candidate Answer:</strong></li>
+<li><strong>Memory Volatility:</strong> In-memory caches clear when the service container restarts or crashes.</li>
+<li><strong>Instance Isolation:</strong> Modern applications deploy across multiple stateless server instances (e.g., Kubernetes pods). In-memory dicts create isolated, inconsistent local caches, resulting in duplicate LLM calls across pods.</li>
+<li><strong>Fix:</strong> Use a centralized distributed cache like <strong>Redis</strong>, paired with an LRU (Least Recently Used) eviction policy to control memory footprint.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Interviewer Question: &quot;Would you blindly cache every LLM response?&quot;</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Candidate Answer:</strong> No. Caching non-deterministic or real-time context queries (e.g., <em>"What is the current stock price of Apple?"</em>, <em>"Generate a personalized greeting for User X"</em>) causes stale, invalid outputs.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-caching-invalidation-strategy-matrix">Caching Invalidation Strategy Matrix:</h2><table>
+<thead>
+<tr>
+<th>Query Type</th>
+<th>Caching Decision</th>
+<th>Invalidation / TTL Strategy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Static Knowledge</strong> (e.g., <em>"Explain backpropagation"</em>)</td>
+<td><strong>Cache</strong></td>
+<td>Long TTL (e.g., 30 Days)</td>
+</tr>
+<tr>
+<td><strong>Semi-Static Docs</strong> (e.g., Enterprise HR policies)</td>
+<td><strong>Cache</strong></td>
+<td>Medium TTL (e.g., 24 Hours) + Event-Driven Invalidation when document updates</td>
+</tr>
+<tr>
+<td><strong>Real-time / Dynamic Context</strong> (e.g., Live feeds, stock prices)</td>
+<td><strong>Do Not Cache</strong></td>
+<td>TTL = <code>0</code> (Bypass Cache entirely)</td>
+</tr>
+<tr>
+<td><strong>Personalized User Session</strong></td>
+<td><strong>Cache with Session Scope</strong></td>
+<td>Key composed of <code>hash(user_id + prompt)</code> + Short TTL (e.g., 15 mins)</td>
+</tr>
+</tbody>
+</table>
+<div class="qa" id="q7"><div class="qa-h"><span class="qa-n">Q7</span><div class="qa-q">Problem 3: Context Window Constraints &amp; Document Chunking</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><h4>Base Question:</h4>
+<p>Large documents often exceed the context window of an LLM. How do you split raw text into chunks, and why is chunk overlap necessary?</p>
+<h4>Candidate Approach &amp; Code Solution:</h4>
+<p>Implement a sliding-window text chunker using configurable character limits and overlap intervals to maintain continuity across chunk boundaries.</p>
+<pre><code class="language-python">from typing import List
+
+def chunk_text_with_overlap(text: str, chunk_size: int, chunk_overlap: int) -&gt; List[str]:
+    &quot;&quot;&quot;
+    Splits text into overlapping chunks using character-level sliding windows.
+    &quot;&quot;&quot;
+    if chunk_overlap &gt;= chunk_size:
+        raise ValueError(&quot;chunk_overlap must be strictly less than chunk_size&quot;)
+
+    chunks = []
+    start = 0
+    text_length = len(text)
+
+    while start &lt; text_length:
+        end = start + chunk_size
+        chunk = text[start:end]
+        chunks.append(chunk)
+
+        # Advance the window by stride (size - overlap)
+        start += (chunk_size - chunk_overlap)
+
+    return chunks
+
+# Test Execution
+sample_doc = &quot;Generative AI systems require scalable data pipelines and effective chunking strategies.&quot;
+chunks = chunk_text_with_overlap(sample_doc, chunk_size=30, chunk_overlap=10)
+
+</code></pre>
+<hr />
+<h4>Follow-Up Questions &amp; Production Hardening</h4></div></div></div>
+<div class="qa" id="q8"><div class="qa-h"><span class="qa-n">Q8</span><div class="qa-q">Interviewer Question: &quot;Why is chunk overlap critical for retrieval accuracy?&quot;</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Candidate Answer:</strong> Text chunking creates artificial boundaries. If a critical semantic fact spans across the boundary of Chunk A and Chunk B (e.g., a entity subject in Chunk A and its primary action verb in Chunk B), splitting without overlap fragments the context. Embedding models will lose the core context of both fragments. Overlap preserves semantic continuity across contiguous chunks.</li>
+</ul></div></div></div>
+<div class="qa" id="q9"><div class="qa-h"><span class="qa-n">Q9</span><div class="qa-q">Interviewer Question: &quot;Is fixed-character chunking optimal for all document types?&quot;</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Candidate Answer:</strong> No. Fixed-character splitting ignores semantic structure, often cutting sentences or code blocks mid-word.</li>
+<li><strong>Recursive Character Splitting:</strong> Hierarchy-aware splitting that attempts to preserve structural boundaries by splitting sequentially on <code>\n\n</code> (paragraphs), <code>\n</code> (lines), <code></code> (words), and finally <code>""</code> (characters).</li>
+<li><strong>Semantic Chunking:</strong> Computes similarity between adjacent sentences using embeddings, placing split points only where semantic distance spikes significantly.</li>
+</ul>
+<pre><code class="language-python">import re
+from typing import List
+
+def recursive_character_tokenizer_concept(text: str, max_chunk_size: int) -&gt; List[str]:
+    &quot;&quot;&quot;
+    Splits content primarily on paragraph delimiters, falling back to lower-level
+    separators only when paragraph blocks exceed max_chunk_size.
+    &quot;&quot;&quot;
+    paragraphs = text.split(&quot;\n\n&quot;)
+    final_chunks = []
+    current_chunk = []
+    current_length = 0
+
+    for para in paragraphs:
+        if current_length + len(para) &lt;= max_chunk_size:
+            current_chunk.append(para)
+            current_length += len(para) + 2  # account for delimiter
+        else:
+            if current_chunk:
+                final_chunks.append(&quot;\n\n&quot;.join(current_chunk))
+            current_chunk = [para]
+            current_length = len(para)
+
+    if current_chunk:
+        final_chunks.append(&quot;\n\n&quot;.join(current_chunk))
+
+    return final_chunks
+
+</code></pre></div></div></div>
+<div class="qa" id="q10"><div class="qa-h"><span class="qa-n">Q10</span><div class="qa-q">Problem 4: Retrieval Diversity &amp; Re-Ranking Pipeline</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><h4>Base Question:</h4>
+<p>A vector database returns the top 20 candidate documents based on cosine similarity, but you must pass only the 5 most relevant chunks to the LLM context. Write a function to extract top results.</p>
+<h4>Candidate Code Solution (Initial Sorting):</h4>
+<pre><code class="language-python">from typing import List, Dict, Any
+
+def get_top_k_documents(retrieved_docs: List[Dict[str, Any]], top_k: int = 5) -&gt; List[Dict[str, Any]]:
+    &quot;&quot;&quot;
+    Sorts retrieved vector search results by similarity score and returns top_k.
+    &quot;&quot;&quot;
+    sorted_docs = sorted(retrieved_docs, key=lambda x: x.get(&quot;score&quot;, 0.0), reverse=True)
+    return sorted_docs[:top_k]
+
+</code></pre>
+<hr />
+<h4>Follow-Up Questions &amp; Production Hardening</h4></div></div></div>
+<div class="qa" id="q11"><div class="qa-h"><span class="qa-n">Q11</span><div class="qa-q">Interviewer Question: &quot;What if the top 5 retrieved documents are near-identical copies of each other?&quot;</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Candidate Answer:</strong> High vector similarity does not guarantee information diversity. If a database contains repeated policy updates or redundant log entries, standard cosine sorting returns \(5\) near-duplicate chunks. This consumes valuable context window space without adding useful information.</li>
+</ul></div></div></div>
+<div class="qa" id="q12"><div class="qa-h"><span class="qa-n">Q12</span><div class="qa-q">Interviewer Question: &quot;How do you solve this near-duplicate retrieval issue in production?&quot;</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Candidate Answer:</strong> Implement a <strong>Two-Stage Retrieval Architecture</strong> utilizing <strong>Over-Retrieval + Re-Ranking</strong>.
+1. <strong>Stage 1 (High Recall):</strong> Retrieve an expanded candidate set (e.g., Top \(K=30\)) from the vector store using fast approximate nearest neighbors (ANN).
+2. <strong>Stage 2 (High Precision &amp; Diversity):</strong> Pass candidates through a <strong>Cross-Encoder Re-Ranker</strong> (e.g., <code>Cohere Rerank</code> or <code>bge-reranker-large</code>) or run Maximal Marginal Relevance (MMR) to maximize information coverage while penalizing redundant text embeddings.</li>
+</ul>
+<pre><code>                    [ User Query ]
+                          │
+                          ▼
+             [ Stage 1: Vector Search ]
+              (Fast ANN, High Recall)
+                          │
+                          ▼
+            [ Top 30 Candidate Documents ]
+                          │
+                          ▼
+              [ Stage 2: Cross-Encoder ]
+            (Contextual Re-Ranking &amp; MMR)
+                          │
+                          ▼
+         [ Top 5 Diverse &amp; Relevant Chunks ]
+                          │
+                          ▼
+                     [ LLM Context ]
+
+</code></pre></div></div></div>
+<h2 class="prep-sec" id="s-re-ranking-diversity-implementation-conc">Re-Ranking &amp; Diversity Implementation Concept:</h2><pre><code class="language-python">from typing import List, Dict, Any
+
+def mock_cross_encoder_rerank(query: str, documents: List[str]) -&gt; List[float]:
+    &quot;&quot;&quot;Simulates a Cross-Encoder scoring relevant context directly against query.&quot;&quot;&quot;
+    # Cross-encoders evaluate Query + Document jointly, producing accurate relevance scores
+    return [round(0.95 - (i * 0.05), 2) for i in range(len(documents))]
+
+def execute_two_stage_retrieval(
+    query: str, 
+    raw_vector_candidates: List[Dict[str, Any]], 
+    final_top_k: int = 5
+) -&gt; List[Dict[str, Any]]:
+    &quot;&quot;&quot;
+    Over-retrieves candidate chunks, scores them via re-ranker, and returns top diversity set.
+    &quot;&quot;&quot;
+    # 1. Extract text payloads from over-retrieved vector store candidates
+    doc_texts = [doc[&quot;text&quot;] for doc in raw_vector_candidates]
+
+    # 2. Compute true contextual relevance scores via re-ranker
+    rerank_scores = mock_cross_encoder_rerank(query, doc_texts)
+
+    # 3. Attach new scores to document objects
+    for idx, doc in enumerate(raw_vector_candidates):
+        doc[&quot;rerank_score&quot;] = rerank_scores[idx]
+
+    # 4. Sort strictly by contextual re-ranker output
+    reranked_docs = sorted(raw_vector_candidates, key=lambda x: x[&quot;rerank_score&quot;], reverse=True)
+
+    return reranked_docs[:final_top_k]
+
+</code></pre>
+<div class="qa" id="q13"><div class="qa-h"><span class="qa-n">Q13</span><div class="qa-q">Problem 5: LLM Structured Output Parsing, Validation &amp; Guardrails</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><h4>Base Question:</h4>
+<p>An downstream service expects the LLM to return valid JSON, but the model occasionally returns malformed JSON, markdown formatting (<code>json ...</code>), or conversational prefix/suffix text. How do you handle this?</p>
+<h4>Candidate Approach &amp; Code Solution:</h4>
+<p>Extract the raw JSON string using regex patterns, parse it safely, and validate it against an expected model structure.</p>
+<pre><code class="language-python">import re
+import json
+from typing import Dict, Any
+
+def sanitize_and_parse_json(raw_llm_output: str) -&gt; Dict[str, Any]:
+    &quot;&quot;&quot;
+    Strips conversational text and markdown blocks to parse underlying JSON safely.
+    &quot;&quot;&quot;
+    # Pattern to extract content enclosed inside markdown json blocks or raw braces
+    json_pattern = r&quot;```(?:json)?\s*(\{.*?\})\s*```|(\{.*\})&quot;
+    match = re.search(json_pattern, raw_llm_output, re.DOTALL)
+
+    if match:
+        clean_json_str = match.group(1) or match.group(2)
+    else:
+        clean_json_str = raw_llm_output.strip()
+
+    try:
+        return json.loads(clean_json_str)
+    except json.JSONDecodeError as err:
+        raise ValueError(f&quot;Failed to parse extracted text into valid JSON: {err}&quot;)
+
+</code></pre>
+<hr />
+<h4>Follow-Up Questions &amp; Production Hardening</h4></div></div></div>
+<div class="qa" id="q14"><div class="qa-h"><span class="qa-n">Q14</span><div class="qa-q">Interviewer Question: &quot;What if the model repeatedly generates invalid JSON payloads even after retrying?&quot;</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Candidate Answer:</strong>
+1. <strong>Schema Enforcement:</strong> Use <strong>Pydantic</strong> to enforce strict structural and data-type validation beyond basic JSON syntax checks.
+2. <strong>Self-Correction Retry Loop:</strong> Pass the malformed generation and the specific validation error message back to the LLM in a targeted follow-up prompt, requesting a corrected payload.
+3. <strong>Graceful Fallbacks:</strong> If the model fails after \(N\) retry attempts, log the payload for monitoring, fire an alert, and trigger a structured fallback response to maintain upstream service stability.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-complete-structured-guardrail-implementa">Complete Structured Guardrail Implementation with Pydantic Validation:</h2><pre><code class="language-python">from pydantic import BaseModel, Field, ValidationError
+import json
+import logging
+
+# Define Expected Pydantic Output Schema
+class UserSentimentResponse(BaseModel):
+    sentiment: str = Field(description=&quot;Must be 'Positive', 'Negative', or 'Neutral'&quot;)
+    confidence_score: float = Field(ge=0.0, le=1.0)
+    key_topics: list[str]
+
+def validate_llm_response_schema(raw_response: str) -&gt; UserSentimentResponse:
+    &quot;&quot;&quot;
+    Parses and validates LLM generation against a deterministic Pydantic schema.
+    &quot;&quot;&quot;
+    # Parse raw string output to dictionary
+    parsed_json = sanitize_and_parse_json(raw_response)
+
+    # Enforce Pydantic validation rules
+    return UserSentimentResponse(**parsed_json)
+
+# Execution Sandbox Demonstrating Validation Fallback Handling
+if __name__ == &quot;__main__&quot;:
+    valid_mock_llm_output = &quot;&quot;&quot;
+    Here is the requested output:
+    ```json
+    {
+        &quot;sentiment&quot;: &quot;Positive&quot;,
+        &quot;confidence_score&quot;: 0.94,
+        &quot;key_topics&quot;: [&quot;latency&quot;, &quot;reliability&quot;, &quot;python&quot;]
+    }
+    ```
+    Hope this helps!
+    &quot;&quot;&quot;
+
+    invalid_mock_llm_output = &quot;&quot;&quot;
+    ```json
+    {
+        &quot;sentiment&quot;: &quot;InvalidSentimentChoice&quot;,
+        &quot;confidence_score&quot;: 1.5,
+        &quot;key_topics&quot;: &quot;NotAList&quot;
+    }
+    ```
+    &quot;&quot;&quot;
+
+    # Test 1: Successful Validation
+    try:
+        validated_data = validate_llm_response_schema(valid_mock_llm_output)
+        print(f&quot;[SUCCESS] Validated Structured Output: {validated_data}&quot;)
+    except Exception as e:
+        print(f&quot;[FAILED] {e}&quot;)
+
+    # Test 2: Validation Failure Handling
+    try:
+        validated_data = validate_llm_response_schema(invalid_mock_llm_output)
+    except ValidationError as val_err:
+        logging.error(f&quot;[SCHEMA VALIDATION ERROR] Output violated bounds:\n{val_err}&quot;)
+        # Route to Self-Correction Loop or Return Fallback System Payload
+
+</code></pre>
+<h2 class="prep-sec" id="s-3-executive-checklist-for-senior-gen-ai-"><span class="n">03</span>Executive Checklist for Senior Gen AI Coding Rounds</h2><table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Key Objective</th>
+<th>Candidate Action Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Step 1: Clarify Assumptions</strong></td>
+<td>Scope production edge cases before typing code.</td>
+<td>Ask: <em>"What are the scaling constraints? Should I handle network timeouts, rate limits, or non-200 HTTP statuses?"</em></td>
+</tr>
+<tr>
+<td><strong>Step 2: Verbalize System Trade-offs</strong></td>
+<td>Prevent silent implementation choices.</td>
+<td>Explain aloud: <em>"I am selecting an in-memory dictionary for this prototype, but for multi-instance production, we must swap this with Redis."</em></td>
+</tr>
+<tr>
+<td><strong>Step 3: Guard Edge Cases</strong></td>
+<td>Write failure-tolerant logic.</td>
+<td>Enforce explicit input validation, handle empty vectors, set explicit HTTP timeouts, and filter non-retryable statuses (\(4xx\)).</td>
+</tr>
+<tr>
+<td><strong>Step 4: Bridge Code &amp; Architecture</strong></td>
+<td>Connect raw Python functions to cloud infrastructure.</td>
+<td>Link your functions to logging tools, monitoring frameworks, cache invalidation policies, and fallback strategies.</td>
+</tr>
+</tbody>
+</table>
+<pre><code>
+</code></pre>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-prep/wipro-coding-production"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

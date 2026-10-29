@@ -191,6 +191,89 @@ Hands-on labs built from Ajeetkumar’s Colab notebooks (free Groq key). Each la
 | 16 | [LangChain Classic: Reading Old Code](https://learn24-lilac.vercel.app/langchain-course/lab16-langchain-classic) | Understand the old LangChain style you meet in tutorials. |
 | 17 | [LangGraph Basics: the Engine behind Agents](https://learn24-lilac.vercel.app/langchain-course/lab17-langgraph-basics) | Learn LangGraph, the engine under create_agent. |
 
+### 🎯 Interview Prep (39 practice pages)
+
+Crack GenAI and Agentic AI interviews: 145 must-know questions, 18 assignments with solutions and 20 real company interviews (TCS, Infosys, Wipro, Deloitte, EY, PwC, EPAM, Google), 1,032 questions in practice mode. Every page has a practice mode: answers stay hidden until you try, then you rate yourself (knew it / partly / review again). Sources: [Assignments with solutions](https://github.com/ajeetkumarAI/GenAI_Assignment_with_Solution) and [Company interview question bank](https://github.com/ajeetkumarAI/Company-Specific-Gen-AI-Agentic-AI-Interview-Question-Answer-Bank).
+
+**Module 1 · Start Here: Must-Know Questions**
+
+| # | Page | What is inside |
+|---|---|---|
+| 1 | [GenAI Must-Know: 145 Interview Questions](https://learn24-lilac.vercel.app/interview-prep/must-know-145) | The questions asked in almost every GenAI interview, with answers and self-rating. |
+
+**Module 2 · Assignments · Part A: Foundations**
+
+| # | Page | What is inside |
+|---|---|---|
+| 1 | [Assignment 01: NLP Basics & Text Preprocessing](https://learn24-lilac.vercel.app/interview-prep/assignment-01-nlp-basics-text-preprocessing) | 25 questions with solutions · 8 must-know · 4 coding tasks. |
+| 2 | [Assignment 02: Text Representation & Word Embeddings](https://learn24-lilac.vercel.app/interview-prep/assignment-02-text-representation-word-embeddings) | 23 questions with solutions · 10 must-know · 3 coding tasks. |
+| 3 | [Assignment 03: Neural Network Fundamentals](https://learn24-lilac.vercel.app/interview-prep/assignment-03-neural-network-fundamentals) | 26 questions with solutions · 8 must-know · 3 coding tasks. |
+| 4 | [Assignment 04: Sequence Models: RNN, LSTM, GRU](https://learn24-lilac.vercel.app/interview-prep/assignment-04-sequence-models-rnn-lstm-gru) | 22 questions with solutions · 6 must-know · 2 coding tasks. |
+
+**Module 3 · Assignments · Part B: Transformers & LLMs**
+
+| # | Page | What is inside |
+|---|---|---|
+| 1 | [Assignment 05: Attention & Transformer Architecture](https://learn24-lilac.vercel.app/interview-prep/assignment-05-attention-transformer-architecture) | 21 questions with solutions · 9 must-know · 1 coding tasks. |
+| 2 | [Assignment 06: Modern Transformer Variants & BERT](https://learn24-lilac.vercel.app/interview-prep/assignment-06-modern-transformer-variants-bert) | 18 questions with solutions · 6 must-know. |
+| 3 | [Assignment 07: LLM Fundamentals](https://learn24-lilac.vercel.app/interview-prep/assignment-07-llm-fundamentals) | 22 questions with solutions · 11 must-know. |
+| 4 | [Assignment 08: Hugging Face Transformers](https://learn24-lilac.vercel.app/interview-prep/assignment-08-hugging-face-transformers) | 14 questions with solutions · 2 must-know · 7 coding tasks. |
+| 5 | [Assignment 09: Prompt Engineering & Generation Parameters](https://learn24-lilac.vercel.app/interview-prep/assignment-09-prompt-engineering-generation-parameters) | 18 questions with solutions · 9 must-know. |
+
+**Module 4 · Assignments · Part C: Building GenAI Apps**
+
+| # | Page | What is inside |
+|---|---|---|
+| 1 | [Assignment 10: LangChain & LCEL](https://learn24-lilac.vercel.app/interview-prep/assignment-10-langchain-lcel) | 18 questions with solutions · 7 must-know · 5 coding tasks. |
+| 2 | [Assignment 11: RAG & Vector Databases](https://learn24-lilac.vercel.app/interview-prep/assignment-11-rag-vector-databases) | 30 questions with solutions · 17 must-know · 3 coding tasks. |
+| 3 | [Assignment 12: Agents: Tools, LangGraph, CrewAI, MCP](https://learn24-lilac.vercel.app/interview-prep/assignment-12-agents-tools-langgraph-crewai-mcp) | 26 questions with solutions · 14 must-know · 3 coding tasks. |
+| 4 | [Assignment 13: Fine-tuning LLMs](https://learn24-lilac.vercel.app/interview-prep/assignment-13-fine-tuning-llms) | 14 questions with solutions · 6 must-know · 1 coding tasks. |
+| 5 | [Assignment 14: Evaluation of LLMs & RAG](https://learn24-lilac.vercel.app/interview-prep/assignment-14-evaluation-of-llms-rag) | 10 questions with solutions · 5 must-know. |
+| 6 | [Assignment 15: LLMOps, Deployment & Safety](https://learn24-lilac.vercel.app/interview-prep/assignment-15-llmops-deployment-safety) | 15 questions with solutions · 8 must-know. |
+
+**Module 5 · Assignments · Parts D & E: Scenarios & Engineering**
+
+| # | Page | What is inside |
+|---|---|---|
+| 1 | [Assignment 16: System Design & Scenario Questions](https://learn24-lilac.vercel.app/interview-prep/assignment-16-system-design-scenario-questions) | 16 questions with solutions · 7 must-know. |
+| 2 | [Assignment 17: Project & Behavioural Questions](https://learn24-lilac.vercel.app/interview-prep/assignment-17-project-behavioural-questions) | 10 questions with solutions · 4 must-know. |
+| 3 | [Assignment 18: Python & ML Essentials for GenAI Engineers](https://learn24-lilac.vercel.app/interview-prep/assignment-18-python-ml-essentials-for-genai-engineers) | 16 questions with solutions · 8 must-know · 4 coding tasks. |
+
+**Module 6 · Company Interviews: TCS, Infosys, Wipro**
+
+| # | Page | What is inside |
+|---|---|---|
+| 1 | [TCS: GenAI Engineer, Complete Q&A](https://learn24-lilac.vercel.app/interview-prep/tcs-genai-complete) | 14 real questions with detailed answers. |
+| 2 | [TCS: GenAI Engineer Q&A Guide](https://learn24-lilac.vercel.app/interview-prep/tcs-genai-guide) | 14 real questions with detailed answers. |
+| 3 | [TCS: Coding & Concurrency Round](https://learn24-lilac.vercel.app/interview-prep/tcs-coding-concurrency) | 9 real questions with detailed answers. |
+| 4 | [Infosys: GenAI Interview Experience](https://learn24-lilac.vercel.app/interview-prep/infosys-genai-experience) | 11 real questions with detailed answers. |
+| 5 | [Infosys: GenAI Engineer Q&A](https://learn24-lilac.vercel.app/interview-prep/infosys-genai-engineer) | 8 real questions with detailed answers. |
+| 6 | [Infosys: Senior GenAI Engineer, Final Round](https://learn24-lilac.vercel.app/interview-prep/infosys-senior-final-round) | 4 real questions with detailed answers. |
+| 7 | [Wipro: GenAI Engineer Walk-In](https://learn24-lilac.vercel.app/interview-prep/wipro-walk-in) | 6 real questions with detailed answers. |
+| 8 | [Wipro: Coding & Production Systems Round](https://learn24-lilac.vercel.app/interview-prep/wipro-coding-production) | 14 real questions with detailed answers. |
+
+**Module 7 · Company Interviews: Deloitte, EY, PwC**
+
+| # | Page | What is inside |
+|---|---|---|
+| 1 | [Deloitte: GenAI Engineer, Technical Round](https://learn24-lilac.vercel.app/interview-prep/deloitte-genai-technical) | 10 real questions with detailed answers. |
+| 2 | [Deloitte: Agentic AI Consultant](https://learn24-lilac.vercel.app/interview-prep/deloitte-agentic-ai-consultant) | 5 real questions with detailed answers. |
+| 3 | [EY: GenAI Engineer Q&A](https://learn24-lilac.vercel.app/interview-prep/ey-genai-engineer) | 7 real questions with detailed answers. |
+| 4 | [EY: Scenarios, Case Study & Live Coding](https://learn24-lilac.vercel.app/interview-prep/ey-scenarios-case-study) | 6 real questions with detailed answers. |
+| 5 | [PwC: GenAI Engineer Walk-In](https://learn24-lilac.vercel.app/interview-prep/pwc-walk-in) | 8 real questions with detailed answers. |
+| 6 | [PwC: Walk-In (Selected Candidate)](https://learn24-lilac.vercel.app/interview-prep/pwc-walk-in-selected) | 5 real questions with detailed answers. |
+
+**Module 8 · Company Interviews: Google, EPAM & Specialist**
+
+| # | Page | What is inside |
+|---|---|---|
+| 1 | [Google Cloud AI Engineer: Prescreening Prep Guide](https://learn24-lilac.vercel.app/interview-prep/google-cloud-prescreening-guide) | 46 real questions with detailed answers. |
+| 2 | [Google Cloud AI Engineer: Prescreening Round](https://learn24-lilac.vercel.app/interview-prep/google-cloud-prescreening) | 21 real questions with detailed answers. |
+| 3 | [Google AI Engineer: 300-Question Bank](https://learn24-lilac.vercel.app/interview-prep/google-ai-engineer-300) | 298 real questions with detailed answers. |
+| 4 | [EPAM: Senior AI Engineer](https://learn24-lilac.vercel.app/interview-prep/epam-senior-ai-engineer) | 10 real questions with detailed answers. |
+| 5 | [MCP: Senior Architecture Interview](https://learn24-lilac.vercel.app/interview-prep/mcp-senior-architecture) | 4 real questions with detailed answers. |
+| 6 | [NLP: Real Candidate-Reported Questions](https://learn24-lilac.vercel.app/interview-prep/nlp-real-questions) | 43 real questions with detailed answers. |
+
 ### 🧩 AI Frameworks
 | Notes | Level | What you'll learn |
 |---|---|---|

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Infosys: GenAI Interview Experience · Interview Prep · Learn24</title>
+<meta name="description" content="Infosys: GenAI Interview Experience: 11 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Infosys: GenAI Interview Experience · Learn24">
+<meta property="og:description" content="Infosys: GenAI Interview Experience: 11 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="infosys-genai-experience" data-lesson="interview-prep/infosys-genai-experience">
+  <div class="kicker">Interview Prep · Company interview · Infosys</div>
+  <h1>Infosys: GenAI Interview Experience</h1>
+  <div class="meta"><span>❓ 11 questions</span><span>🏢 Infosys</span></div>
+  <p class="lead">Infosys Gen AI Interview Experience (2026-2027) — Complete Transcribed Questions &amp; Answers. Real questions from the interview, with detailed answers. Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="https://github.com/ajeetkumarAI/Company-Specific-Gen-AI-Agentic-AI-Interview-Question-Answer-Bank/blob/main/Infosis/interview1.md" target=_blank rel=noopener>Source on GitHub ↗</a></div>
+<h2 class="prep-sec" id="s-1-introduction-project-discussion-agenti"><span class="n">01</span>Introduction, Project Discussion &amp; Agentic Workflows</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Tell me about yourself and what exactly are you working on currently?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Project Overview:</strong> Discussed hands-on experience building production-grade Generative AI applications, focusing on architectural design, RAG implementations, and agentic workflows.</li>
+<li><strong>Individual Contribution:</strong> Explained personal ownership in designing the orchestration layer, integrating external tools, and managing backend execution flows.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">You mentioned Agentic AI. What exactly is Agentic AI in your application?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Definition &amp; Core Logic:</strong> An AI agent goes beyond simple single-step text generation by using an LLM as a central reasoning engine to evaluate inputs, determine required actions, invoke external tools or APIs, receive feedback, and continue execution loops autonomously until the task is complete.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Who decides which tool to call, and what if the model selects the wrong tool?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Tool Orchestration:</strong> The model selects appropriate tools based on the task prompt and available tool descriptions, while the application's orchestration layer strictly controls which tools are exposed and what permissions they hold.</li>
+<li><strong>Handling Incorrect Tool Selection (Production Scenarios):</strong></li>
+<li>Use clear, explicit <strong>tool descriptions</strong> and parameter schemas (e.g., Pydantic).</li>
+<li>Implement <strong>restricted tool access</strong> and strict input/output validation.</li>
+<li>Build robust <strong>fallback handling</strong> and loop limits so the agent fails gracefully or asks for clarification rather than cascading errors.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-2-model-context-protocol-mcp"><span class="n">02</span>Model Context Protocol (MCP)</h2>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Have you worked with MCP? Explain MCP in your own words.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Definition:</strong> The <strong>Model Context Protocol (MCP)</strong> is an open standard that provides a standardized way for AI applications (model hosts) to connect with external tools, data sources, and context providers.</li>
+<li><strong>Components:</strong> MCP servers expose capabilities like tools, resources, and prompts, which an MCP host can dynamically discover and connect to.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">What is the difference between normal function calling and MCP?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Traditional Function Calling:</strong> Implemented directly and custom-built between a specific monolithic application and its hardcoded functions.</li>
+<li><strong>Model Context Protocol (MCP):</strong> Provides a universal, standardized protocol layer. Instead of custom point-to-point integrations for every tool and application, MCP decouples the client from external capabilities, allowing any MCP-compatible host to dynamically discover and plug into various MCP servers seamlessly.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-rag-vs-fine-tuning"><span class="n">03</span>RAG vs. Fine-Tuning</h2>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">When would you choose fine-tuning over RAG, and can you use both?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>RAG vs. Fine-Tuning:</strong> They solve different problems and are not mutually exclusive competitors.</li>
+<li><strong>Use RAG:</strong> When the model needs access to external, private, and frequently changing enterprise knowledge without retraining.</li>
+<li>
+<p><strong>Use Fine-Tuning:</strong> When you need to modify the model's fundamental behavior, tone, style, formatting rules, or specialized domain-specific task capabilities.</p>
+</li>
+<li>
+<p><strong>Combining Both:</strong> Yes, you can use both simultaneously—for example, deploying a fine-tuned model optimized for domain tone that is also grounded via real-time context retrieved through a RAG pipeline.</p>
+</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-4-llm-rag-evaluation"><span class="n">04</span>LLM &amp; RAG Evaluation</h2>
+<div class="qa" id="q7"><div class="qa-h"><span class="qa-n">Q7</span><div class="qa-q">How do you know your Gen AI application is actually getting better? (Offline vs. Production Evaluation)</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Multi-Level Evaluation:</strong> Relying solely on user satisfaction ("users are happy") is insufficient. Evaluation must be systematic:</li>
+<li><strong>Retrieval Layer:</strong> Separately evaluate the retriever using precision@K, recall@K, and ranking metrics.</li>
+<li>
+<p><strong>Generation Layer:</strong> Evaluate generated outputs against retrieved context using metrics like faithfulness, relevance, and correctness.</p>
+</li>
+<li>
+<p><strong>Handling Discrepancies (Offline Benchmarks vs. Production Realities):</strong></p>
+</li>
+<li>If offline evaluation scores look great but users still complain, it means benchmark datasets do not reflect real-world user distribution.</li>
+<li><strong>Resolution:</strong> Capture actual production failure traces, difficult queries, edge cases, and user feedback, and continuously feed those real-world examples back into the evaluation test suite.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-5-python-engineering-backend-fundamental"><span class="n">05</span>Python Engineering &amp; Backend Fundamentals</h2>
+<div class="qa" id="q8"><div class="qa-h"><span class="qa-n">Q8</span><div class="qa-q">Why would you use async programming in an AI application? Suppose your application has to call three independent APIs—would you call them sequentially or concurrently?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Async Programming:</strong> Essential in AI backends to handle I/O-bound operations efficiently without blocking the event loop while waiting on external network calls.</li>
+<li><strong>Concurrent Execution:</strong> For three independent API calls (e.g., fetching user data, querying a vector DB, and checking order status), use <strong>concurrent/asynchronous execution</strong> (e.g., <code>asyncio.gather</code>) instead of sequential calls to drastically reduce overall latency and waiting time.</li>
+</ul></div></div></div>
+<div class="qa" id="q9"><div class="qa-h"><span class="qa-n">Q9</span><div class="qa-q">What is the difference between concurrency and parallelism, and where does the Python GIL become relevant?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Concurrency vs. Parallelism:</strong> Concurrency is about dealing with lots of things at once (task switching, ideal for I/O-bound tasks), while parallelism is about doing lots of things at the exact same instant (true multi-core execution, required for CPU-bound math like embeddings or text chunking).</li>
+<li><strong>Python GIL (Global Interpreter Lock):</strong> A mutex in CPython that prevents multiple native threads from executing Python bytecodes at once. It becomes relevant in multi-threaded applications because it restricts CPU-bound parallel processing, necessitating the use of <code>multiprocessing</code> for heavy CPU workloads.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-6-advanced-agentic-scenarios-production-"><span class="n">06</span>Advanced Agentic Scenarios &amp; Production Guardrails</h2>
+<div class="qa" id="q10"><div class="qa-h"><span class="qa-n">Q10</span><div class="qa-q">Scenario: Imagine your agent has access to 10 tools. The user asks a simple question, but the agent starts calling 5 different tools. How would you control this?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Tool Selection Controls:</strong> Having access to tools does not mean the agent should use all of them blindly.</li>
+<li>Implement strict <strong>tool selection constraints</strong>, routing logic, and system prompt instructions that guide the agent on when a tool is genuinely necessary.</li>
+<li>Use <strong>deterministic routing</strong> for known, repetitive workflows to bypass unnecessary LLM reasoning steps.</li>
+<li>Set strict <strong>iteration limits</strong> and timeout thresholds on tool calls to prevent runaway loops.</li>
+</ul></div></div></div>
+<div class="qa" id="q11"><div class="qa-h"><span class="qa-n">Q11</span><div class="qa-q">Would you completely trust the LLM to perform a sensitive action like deleting a customer record?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>No.</strong> Unrestricted LLM power over production systems introduces severe operational and security risks.</li>
+<li><strong>Production Safeguards:</strong> Enforce application-level authorization, role-based access control (RBAC), and mandatory <strong>Human-in-the-Loop (HITL) approvals</strong> before any state-changing, destructive, or sensitive action (like data deletion or financial transactions) is executed.</li>
+</ul></div></div></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-prep/infosys-genai-experience"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

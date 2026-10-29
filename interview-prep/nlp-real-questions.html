@@ -1,0 +1,981 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NLP: Real Candidate-Reported Questions · Interview Prep · Learn24</title>
+<meta name="description" content="NLP: Real Candidate-Reported Questions: 43 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="NLP: Real Candidate-Reported Questions · Learn24">
+<meta property="og:description" content="NLP: Real Candidate-Reported Questions: 43 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="nlp-real-questions" data-lesson="interview-prep/nlp-real-questions">
+  <div class="kicker">Interview Prep · Company interview · NLP (multiple companies)</div>
+  <h1>NLP: Real Candidate-Reported Questions</h1>
+  <div class="meta"><span>❓ 43 questions</span><span>🏢 NLP (multiple companies)</span></div>
+  <p class="lead">NLP Interview Questions — Verified Candidate-Reported Questions. Real questions from the interview, with detailed answers. Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="https://github.com/ajeetkumarAI/Company-Specific-Gen-AI-Agentic-AI-Interview-Question-Answer-Bank/blob/main/NLP_Interview_Real_Time_Ques.md" target=_blank rel=noopener>Source on GitHub ↗</a></div>
+<h2 class="prep-sec" id="s-research-standard">Research Standard</h2><p>This document contains NLP questions that were <strong>reported by candidates as being asked in actual interviews or technical interview rounds which are collected from candidates and open source platforms</strong>.</p>
+<h2 class="prep-sec" id="s-evidence-sources-used">Evidence sources used</h2><ul>
+<li><strong>ZS Associates — Data Science Associate:</strong> detailed first-person interview experience covering NLP preprocessing, feature engineering, Word2Vec, TF-IDF, N-grams, model selection, deep learning and the end-to-end NLP lifecycle.</li>
+<li><strong>Zycus — AI/Machine Learning Engineer:</strong> candidate-reported questions on embeddings, Skip-gram, CBOW, GloVe, Word2Vec and sequence modeling.</li>
+<li><strong>Zee Entertainment — Data Scientist:</strong> candidate-reported questions on term-document matrix, TF-IDF, word embeddings, text-to-numeric conversion, LSTM and evaluation metrics.</li>
+<li><strong>American Express — NLP Data Scientist:</strong> candidate-reported preprocessing and regex question involving unidecode errors, punctuation and numbers.</li>
+<li><strong>JPMorganChase — NLP Summer:</strong> candidate-reported RNN, Transformer and self-attention questions.</li>
+<li><strong>IBM — NLP Researcher:</strong> candidate-reported RAG system design question.</li>
+<li><strong>KnowDis Data Science — Data Scientist:</strong> 2025 candidate report covering RNN, LSTM, Transformer components, positional embeddings, multi-head attention, encoder/decoder, masked decoder, autoregressive LLMs and DistilBERT.</li>
+<li><strong>Level AI — Machine Learning Engineer - NLP:</strong> 2025 candidate report covering self-attention vs multi-head attention, Sentence Transformers, positional embeddings, RoPE, decoder inputs/outputs, beam search and RAG.</li>
+<li><strong>Dimensionless Technologies — NLP Intern:</strong> candidate-reported NLU/NLG question.</li>
+</ul>
+<blockquote>
+<p><strong>Important:</strong> "Verified" here means that a candidate/interview report explicitly contains the question or clearly reports that topic being asked. It does <strong>not</strong> mean the question is asked in every interview.</p>
+<p><strong>Part 8 below is different from Parts 1–7.</strong> It is not tied to a specific named company/candidate report. It covers practical, applied preprocessing questions (lowercasing, stopwords, live-text-cleaning).</p>
+</blockquote>
+<h2 class="prep-sec" id="s-part-1-nlp-preprocessing-and-classical-n">Part 1 — NLP Preprocessing and Classical NLP</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">How will you clean and preprocess text data?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> ZS Associates — Data Science Associate</p>
+<p>I would first understand the task and then build a task-specific preprocessing pipeline.</p>
+<p>Typical steps are:</p>
+<ol>
+<li>Remove or normalize unwanted HTML, URLs and special characters.</li>
+<li>Handle punctuation appropriately.</li>
+<li>Handle numbers based on whether they contain useful information.</li>
+<li>Normalize case if appropriate.</li>
+<li>Tokenize the text.</li>
+<li>Handle spelling variations, contractions and abbreviations if required.</li>
+<li>Apply stemming or lemmatization when appropriate.</li>
+<li>Remove stopwords only when they are not useful for the task.</li>
+<li>Convert the processed text into numerical features such as TF-IDF, n-grams or embeddings.</li>
+</ol>
+<p>The important point is that I would not blindly remove every number, punctuation mark or stopword because those can carry useful information.</p></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">You removed all numeric values from the text. Could numeric values contain useful information?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> ZS Associates — Data Science Associate</p>
+<p>Yes.</p>
+<p>Numbers can contain useful information depending on the problem.</p>
+<p>For example:</p>
+<pre><code class="language-text">1 star due to functional performance digital watch
+2 star due to asthetic look
+Iphone 17 pro worth 5 star
+Iphone 17 worth 4 star
+Apple watch 2.0 5 star
+2026 internship
+5 years experience
+20% discount
+iPhone 15 3 star
+COVID-19
+</code></pre>
+<p>Removing all numbers could remove useful predictive signals.</p>
+<p>Instead, I would determine whether numbers have semantic value and either:</p>
+<ul>
+<li>preserve them,</li>
+<li>normalize them,</li>
+<li>replace them with special tokens, or</li>
+<li>remove them only when they are irrelevant.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Is there a better approach than dropping all non-alphabetic characters?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> ZS Associates — Data Science Associate</p>
+<p>Yes.</p>
+<p>Instead of applying something like:</p>
+<pre><code class="language-python">re.sub('[^a-zA-Z]', ' ', text)
+</code></pre>
+<p>blindly, I would decide what should be retained based on the task.</p>
+<p>For example:</p>
+<pre><code class="language-text">COVID-19
+20%
+₹999
+C++
+Python 3.12
+</code></pre>
+<p>can contain useful information.</p>
+<p>A better approach is to selectively normalize unwanted characters while preserving meaningful tokens.</p></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Why did you use stemming instead of lemmatization?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> ZS Associates — Data Science Associate</p>
+<p>Stemming is generally faster and simpler because it uses heuristic rules to reduce words to a root-like form.</p>
+<p>Lemmatization attempts to return a valid dictionary/base form and generally uses more linguistic information.</p>
+<p>Example:</p>
+<pre><code class="language-text">Studies → studi       # stemming example
+Studies → study       # lemmatization
+</code></pre>
+<p>I would choose based on the task, dataset size, accuracy requirements and computational constraints.</p></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">When is lemmatization helpful compared with stemming?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> ZS Associates — Data Science Associate</p>
+<p>Lemmatization is useful when maintaining a linguistically meaningful base word is important.</p>
+<p>For example:</p>
+<pre><code class="language-text">better → good
+studies → study
+running → run
+</code></pre>
+<p>Stemming may produce crude forms that are not valid words.</p>
+<p>For simple large-scale text classification where speed is important, stemming can still be useful.</p></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">How would you handle punctuation and numbers in NLP preprocessing?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> American Express — NLP Data Scientist</p>
+<p>I would not automatically remove everything.</p>
+<p>I would first determine whether punctuation or numbers contain information for the task.</p>
+<p>For example, in sentiment analysis:</p>
+<pre><code class="language-text">Great!!!
+</code></pre>
+<p>the punctuation may contain useful sentiment information.</p>
+<p>Similarly:</p>
+<pre><code class="language-text">₹999
+5-star
+20%
+</code></pre>
+<p>may be important in a product-review problem.</p>
+<p>The preprocessing rule should therefore be task-specific.</p></div></div></div>
+<div class="qa" id="q7"><div class="qa-h"><span class="qa-n">Q7</span><div class="qa-q">How would you handle unidecode errors?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> American Express — NLP Data Scientist</p>
+<p>I would first inspect the source text and encoding.</p>
+<p>A practical approach is:</p>
+<ol>
+<li>Ensure the input has the expected Unicode encoding.</li>
+<li>Normalize Unicode when required.</li>
+<li>Handle malformed characters.</li>
+<li>Apply transliteration only when appropriate.</li>
+<li>Validate the output after normalization.</li>
+</ol>
+<p>I would avoid silently converting every character because that can destroy information in multilingual text.</p></div></div></div>
+<div class="qa" id="q8"><div class="qa-h"><span class="qa-n">Q8</span><div class="qa-q">How will you vectorize text? What methods do you know?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> ZS Associates — Data Science Associate</p>
+<p>Common approaches include:</p>
+<h3>Traditional representations</h3>
+<ul>
+<li>One-hot encoding</li>
+<li>Bag of Words</li>
+<li>TF-IDF</li>
+<li>N-grams</li>
+</ul>
+<h3>Dense representations</h3>
+<ul>
+<li>Word2Vec</li>
+<li>GloVe</li>
+<li>FastText</li>
+<li>Sentence embeddings</li>
+<li>Transformer embeddings</li>
+</ul>
+<p>The choice depends on the problem, dataset size, semantic requirements and model architecture.</p></div></div></div>
+<h2 class="prep-sec" id="s-part-2-tf-idf-bow-and-n-grams">Part 2 — TF-IDF, BoW and N-Grams</h2>
+<div class="qa" id="q9"><div class="qa-h"><span class="qa-n">Q9</span><div class="qa-q">Did you try Bag of Words, TF-IDF and N-grams? How did they perform?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> ZS Associates — Data Science Associate</p>
+<p>These are useful baseline representations.</p>
+<h3>Bag of Words</h3>
+<p>Represents a document using word frequencies.</p>
+<h3>TF-IDF</h3>
+<p>Weights terms according to their importance within a document relative to the corpus.</p>
+<h3>N-grams</h3>
+<p>Capture sequences of words.</p>
+<p>For example:</p>
+<pre><code class="language-text">&quot;I love NLP&quot;
+</code></pre>
+<p>Bigrams:</p>
+<pre><code class="language-text">I love
+love NLP
+</code></pre>
+<p>I would compare them experimentally using the same train/validation setup and evaluation metrics rather than assuming one will always perform best.</p></div></div></div>
+<div class="qa" id="q10"><div class="qa-h"><span class="qa-n">Q10</span><div class="qa-q">What is a Term-Document Matrix?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> Zee Entertainment — Data Scientist</p>
+<p>A Term-Document Matrix represents the relationship between terms and documents.</p>
+<p>Typically:</p>
+<ul>
+<li>Rows represent terms.</li>
+<li>Columns represent documents.</li>
+<li>Values represent frequency or another weighting such as TF-IDF.</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-text">             Doc1   Doc2
+NLP           2      1
+Python        1      3
+AI            0      2
+</code></pre>
+<p>It provides a numerical representation of text that can be used by traditional ML algorithms.</p></div></div></div>
+<div class="qa" id="q11"><div class="qa-h"><span class="qa-n">Q11</span><div class="qa-q">How did you convert text into numerical representation?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> Zee Entertainment — Data Scientist</p>
+<p>I would choose the representation based on the task.</p>
+<p>For a classical ML baseline:</p>
+<pre><code class="language-text">Text
+ ↓
+Tokenization
+ ↓
+TF-IDF / BoW
+ ↓
+ML classifier
+</code></pre>
+<p>For semantic tasks:</p>
+<pre><code class="language-text">Text
+ ↓
+Embedding model
+ ↓
+Dense vector
+ ↓
+Similarity / classifier / downstream model
+</code></pre>
+<p>For modern NLP:</p>
+<pre><code class="language-text">Text
+ ↓
+Transformer tokenizer
+ ↓
+Transformer model
+ ↓
+Contextual representation
+</code></pre></div></div></div>
+<div class="qa" id="q12"><div class="qa-h"><span class="qa-n">Q12</span><div class="qa-q">Why can averaging Word2Vec vectors lose information?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> ZS Associates — Data Science Associate</p>
+<p>Suppose we represent a sentence by averaging all word vectors.</p>
+<p>The result loses:</p>
+<ul>
+<li>Word order</li>
+<li>Syntactic structure</li>
+<li>Token-level context</li>
+<li>Some information about which words are important</li>
+</ul>
+<p>For example:</p>
+<pre><code class="language-text">&quot;dog bites man&quot;
+</code></pre>
+<p>and</p>
+<pre><code class="language-text">&quot;man bites dog&quot;
+</code></pre>
+<p>can produce similar averaged representations.</p>
+<p>Better approaches include:</p>
+<ul>
+<li>TF-IDF-weighted embeddings</li>
+<li>RNN/LSTM</li>
+<li>CNN</li>
+<li>Transformer encoders</li>
+<li>Sentence Transformer models</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-part-3-word-embeddings">Part 3 — Word Embeddings</h2>
+<div class="qa" id="q13"><div class="qa-h"><span class="qa-n">Q13</span><div class="qa-q">What are word embeddings?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> Zee Entertainment / Zycus interview reports</p>
+<p>Word embeddings represent words as dense numerical vectors.</p>
+<p>The vectors are learned so that words appearing in similar contexts tend to have related representations.</p>
+<p>Examples:</p>
+<pre><code class="language-text">king
+queen
+doctor
+hospital
+</code></pre>
+<p>Unlike one-hot vectors, embeddings can capture relationships between words.</p></div></div></div>
+<div class="qa" id="q14"><div class="qa-h"><span class="qa-n">Q14</span><div class="qa-q">What is Word2Vec?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> ZS Associates / Zycus</p>
+<p>Word2Vec is a neural approach for learning word embeddings from context.</p>
+<p>It has two major architectures:</p>
+<pre><code class="language-text">CBOW
+Skip-gram
+</code></pre>
+<p>CBOW predicts a target word from surrounding context.</p>
+<p>Skip-gram predicts surrounding context words from a target word.</p></div></div></div>
+<div class="qa" id="q15"><div class="qa-h"><span class="qa-n">Q15</span><div class="qa-q">What is Skip-gram?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> Zycus — AI/Machine Learning Engineer</p>
+<p>Skip-gram takes a target word and tries to predict nearby context words.</p>
+<p>Example:</p>
+<pre><code class="language-text">&quot;The cat sat on the mat&quot;
+</code></pre>
+<p>For target:</p>
+<pre><code class="language-text">cat
+</code></pre>
+<p>the model may learn to predict nearby words such as:</p>
+<pre><code class="language-text">the
+sat
+</code></pre>
+<p>The model learns useful word representations as a consequence of this prediction task.</p></div></div></div>
+<div class="qa" id="q16"><div class="qa-h"><span class="qa-n">Q16</span><div class="qa-q">What is CBOW?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> Zycus — AI/Machine Learning Engineer</p>
+<p>CBOW stands for Continuous Bag of Words.</p>
+<p>It predicts the target word from surrounding context.</p>
+<p>Example:</p>
+<pre><code class="language-text">The cat ___ on the mat
+</code></pre>
+<p>The surrounding words are used to predict:</p>
+<pre><code class="language-text">sat
+</code></pre>
+<p>CBOW and Skip-gram are two different Word2Vec training objectives.</p></div></div></div>
+<div class="qa" id="q17"><div class="qa-h"><span class="qa-n">Q17</span><div class="qa-q">What is the difference between CBOW and Skip-gram?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> Zycus — AI/Machine Learning Engineer</p>
+<pre><code class="language-text">CBOW:
+Context → Target
+
+Skip-gram:
+Target → Context
+</code></pre>
+<p>CBOW generally trains faster because it predicts a target from context.</p>
+<p>Skip-gram can be useful for learning representations of less frequent words because it generates multiple context-prediction examples.</p></div></div></div>
+<div class="qa" id="q18"><div class="qa-h"><span class="qa-n">Q18</span><div class="qa-q">Did you use pretrained Word2Vec or train it on your own data?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> ZS Associates — Data Science Associate</p>
+<p>It depends on the domain and data.</p>
+<h3>Pretrained embeddings</h3>
+<p>Advantages:</p>
+<ul>
+<li>Already trained on large corpora.</li>
+<li>Useful when my dataset is small.</li>
+<li>Can provide stronger general semantic representations.</li>
+</ul>
+<h3>Training on domain data</h3>
+<p>Advantages:</p>
+<ul>
+<li>Can capture domain-specific vocabulary and usage.</li>
+<li>Useful when the application contains specialized terminology.</li>
+</ul>
+<p>I would compare the alternatives using validation performance rather than assuming pretrained embeddings are always better.</p></div></div></div>
+<div class="qa" id="q19"><div class="qa-h"><span class="qa-n">Q19</span><div class="qa-q">Would pretrained embeddings perform better?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> ZS Associates — Data Science Associate</p>
+<p>Not necessarily.</p>
+<p>Performance depends on:</p>
+<ul>
+<li>Domain similarity</li>
+<li>Corpus size</li>
+<li>Vocabulary</li>
+<li>Task</li>
+<li>Embedding quality</li>
+<li>Amount of training data</li>
+</ul>
+<p>For a specialized domain, an embedding trained on domain-specific text can sometimes capture terminology better.</p>
+<p>The correct approach is to evaluate both alternatives.</p></div></div></div>
+<div class="qa" id="q20"><div class="qa-h"><span class="qa-n">Q20</span><div class="qa-q">What is the difference between Word2Vec and GloVe?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> Zycus — AI/Machine Learning Engineer</p>
+<p>Both learn dense word representations but use different training approaches.</p>
+<h3>Word2Vec</h3>
+<p>Learns embeddings through prediction tasks:</p>
+<pre><code class="language-text">CBOW
+Skip-gram
+</code></pre>
+<h3>GloVe</h3>
+<p>Uses global word co-occurrence statistics to learn vectors.</p>
+<p>A useful interview summary is:</p>
+<pre><code class="language-text">Word2Vec → predictive context-based training
+GloVe    → global co-occurrence statistics
+</code></pre></div></div></div>
+<h2 class="prep-sec" id="s-part-4-nlp-modeling-and-evaluation">Part 4 — NLP Modeling and Evaluation</h2>
+<div class="qa" id="q21"><div class="qa-h"><span class="qa-n">Q21</span><div class="qa-q">What models did you try, and what were the results?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> ZS Associates — Data Science Associate</p>
+<p>I would compare models systematically.</p>
+<p>For example:</p>
+<pre><code class="language-text">TF-IDF
+   ↓
+Logistic Regression
+   ↓
+Naive Bayes
+   ↓
+SVM
+</code></pre>
+<p>Then compare them using appropriate metrics.</p>
+<p>For an imbalanced classification problem, I would not rely only on accuracy.</p>
+<p>I would examine:</p>
+<ul>
+<li>Precision</li>
+<li>Recall</li>
+<li>F1-score</li>
+<li>Confusion matrix</li>
+<li>Class-wise performance</li>
+</ul></div></div></div>
+<div class="qa" id="q22"><div class="qa-h"><span class="qa-n">Q22</span><div class="qa-q">How did you handle class imbalance?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> ZS Associates — Data Science Associate</p>
+<p>First, I would measure the class distribution.</p>
+<p>Possible approaches include:</p>
+<ul>
+<li>Class weights</li>
+<li>Oversampling</li>
+<li>Undersampling</li>
+<li>Data augmentation</li>
+<li>Threshold adjustment</li>
+</ul>
+<p>I would evaluate using metrics appropriate for imbalance, such as:</p>
+<pre><code class="language-text">Precision
+Recall
+F1-score
+PR-AUC
+</code></pre>
+<p>I would also inspect per-class performance.</p></div></div></div>
+<div class="qa" id="q23"><div class="qa-h"><span class="qa-n">Q23</span><div class="qa-q">How could you improve the model metrics?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> ZS Associates — Data Science Associate</p>
+<p>I would investigate the problem systematically:</p>
+<pre><code class="language-text">Data quality
+↓
+Label quality
+↓
+Class imbalance
+↓
+Preprocessing
+↓
+Feature engineering
+↓
+Representation
+↓
+Model
+↓
+Hyperparameters
+↓
+Error analysis
+</code></pre>
+<p>I would inspect false positives and false negatives to understand why the model fails.</p></div></div></div>
+<div class="qa" id="q24"><div class="qa-h"><span class="qa-n">Q24</span><div class="qa-q">Could Deep Learning improve the results?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> ZS Associates — Data Science Associate</p>
+<p>Potentially, but not automatically.</p>
+<p>Deep learning may help when:</p>
+<ul>
+<li>There is enough training data.</li>
+<li>The task depends on complex context.</li>
+<li>Traditional representations are insufficient.</li>
+<li>We need learned semantic representations.</li>
+</ul>
+<p>Possible models include:</p>
+<ul>
+<li>CNN</li>
+<li>RNN</li>
+<li>LSTM</li>
+<li>Transformer</li>
+</ul>
+<p>I would compare against a strong classical baseline rather than assuming deep learning is always better.</p></div></div></div>
+<h2 class="prep-sec" id="s-part-5-rnn-and-lstm">Part 5 — RNN and LSTM</h2>
+<div class="qa" id="q25"><div class="qa-h"><span class="qa-n">Q25</span><div class="qa-q">How do RNNs work?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> JPMorganChase — NLP Summer</p>
+<p>An RNN processes a sequence one element at a time and maintains a hidden state.</p>
+<p>Conceptually:</p>
+<pre><code class="language-text">x1 → RNN → h1
+x2 → RNN → h2
+x3 → RNN → h3
+</code></pre>
+<p>The hidden state carries information from previous tokens.</p>
+<p>This makes RNNs suitable for sequential data.</p></div></div></div>
+<div class="qa" id="q26"><div class="qa-h"><span class="qa-n">Q26</span><div class="qa-q">What are the problems with RNNs?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> KnowDis — Data Scientist</p>
+<p>Major issues include:</p>
+<ul>
+<li>Vanishing gradients</li>
+<li>Exploding gradients</li>
+<li>Difficulty learning long-term dependencies</li>
+<li>Sequential computation</li>
+</ul>
+<p>LSTM and GRU architectures were designed to improve the handling of long-term dependencies.</p></div></div></div>
+<div class="qa" id="q27"><div class="qa-h"><span class="qa-n">Q27</span><div class="qa-q">How can you solve RNN problems without moving directly to LSTM?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> KnowDis — Data Scientist</p>
+<p>Possible techniques include:</p>
+<ul>
+<li>Gradient clipping for exploding gradients.</li>
+<li>Better initialization.</li>
+<li>Appropriate activation functions.</li>
+<li>Architectural changes such as gated mechanisms.</li>
+<li>Careful sequence handling and truncated backpropagation.</li>
+</ul>
+<p>For long-term dependencies, LSTM/GRU or Transformers are often more practical.</p></div></div></div>
+<div class="qa" id="q28"><div class="qa-h"><span class="qa-n">Q28</span><div class="qa-q">Explain LSTM architecture.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> Zee Entertainment / Zycus interview reports</p>
+<p>LSTM stands for Long Short-Term Memory.</p>
+<p>An LSTM contains:</p>
+<pre><code class="language-text">Forget Gate
+Input Gate
+Output Gate
+Cell State
+Hidden State
+</code></pre>
+<p>The gates control what information should be:</p>
+<pre><code class="language-text">forgotten
+stored
+exposed
+</code></pre>
+<p>This helps reduce the long-term dependency problems of a vanilla RNN.</p></div></div></div>
+<h2 class="prep-sec" id="s-part-6-transformers">Part 6 — Transformers</h2>
+<div class="qa" id="q29"><div class="qa-h"><span class="qa-n">Q29</span><div class="qa-q">How do Transformers work?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> JPMorganChase — NLP Summer</p>
+<p>A Transformer processes tokens using attention rather than recurrence.</p>
+<p>A simplified Transformer flow is:</p>
+<pre><code class="language-text">Input Tokens
+     ↓
+Token Embeddings
+     +
+Positional Information
+     ↓
+Self-Attention
+     ↓
+Feed Forward Network
+     ↓
+Repeated Transformer Layers
+     ↓
+Output Representation
+</code></pre>
+<p>The architecture enables much more parallel computation than traditional RNNs.</p></div></div></div>
+<div class="qa" id="q30"><div class="qa-h"><span class="qa-n">Q30</span><div class="qa-q">Explain self-attention.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> JPMorganChase — NLP Summer</p>
+<p>Self-attention allows each token to determine how much attention it should give to other tokens in the sequence.</p>
+<p>It uses:</p>
+<pre><code class="language-text">Query
+Key
+Value
+</code></pre>
+<p>The standard attention calculation is:</p>
+<pre><code class="language-text">Attention(Q,K,V)
+=
+softmax(QKᵀ / √dₖ)V
+</code></pre>
+<p>This allows the model to build contextual representations.</p></div></div></div>
+<div class="qa" id="q31"><div class="qa-h"><span class="qa-n">Q31</span><div class="qa-q">What is the difference between self-attention and multi-head attention?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> Level AI — Machine Learning Engineer - NLP</p>
+<p>Self-attention calculates attention across the sequence.</p>
+<p>Multi-head attention runs multiple attention heads in parallel.</p>
+<p>Each head can learn different relationships.</p>
+<p>Conceptually:</p>
+<pre><code class="language-text">Input
+ ↓
+Head 1 → relationship type 1
+Head 2 → relationship type 2
+Head 3 → relationship type 3
+...
+ ↓
+Concatenate
+ ↓
+Linear projection
+</code></pre>
+<p>This allows the model to capture different types of relationships simultaneously.</p></div></div></div>
+<div class="qa" id="q32"><div class="qa-h"><span class="qa-n">Q32</span><div class="qa-q">What is positional embedding and why is it needed?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> KnowDis / Level AI</p>
+<p>Transformers do not inherently process tokens sequentially like RNNs.</p>
+<p>Therefore, the model needs information about token positions.</p>
+<p>For example:</p>
+<pre><code class="language-text">dog bites man
+</code></pre>
+<p>is different from:</p>
+<pre><code class="language-text">man bites dog
+</code></pre>
+<p>Positional information helps the model distinguish these orders.</p></div></div></div>
+<div class="qa" id="q33"><div class="qa-h"><span class="qa-n">Q33</span><div class="qa-q">What are the components of a Transformer?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> KnowDis — Data Scientist</p>
+<p>Important components include:</p>
+<pre><code class="language-text">Token embeddings
+Positional information
+Multi-head attention
+Feed-forward network
+Residual connections
+Layer normalization
+</code></pre>
+<p>The exact structure differs between encoder-only, decoder-only and encoder-decoder Transformer architectures.</p></div></div></div>
+<div class="qa" id="q34"><div class="qa-h"><span class="qa-n">Q34</span><div class="qa-q">What is the difference between Transformer encoder and decoder?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> KnowDis — Data Scientist</p>
+<h3>Encoder</h3>
+<p>Primarily builds contextual representations from input tokens.</p>
+<p>Used in architectures such as:</p>
+<pre><code class="language-text">BERT
+</code></pre>
+<h3>Decoder</h3>
+<p>Generates tokens autoregressively in decoder-only models such as:</p>
+<pre><code class="language-text">GPT-style models
+</code></pre>
+<h3>Encoder-decoder</h3>
+<p>Uses an encoder to process input and a decoder to generate output.</p>
+<p>Examples include many sequence-to-sequence Transformer architectures.</p></div></div></div>
+<div class="qa" id="q35"><div class="qa-h"><span class="qa-n">Q35</span><div class="qa-q">What is a masked decoder?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> KnowDis — Data Scientist</p>
+<p>A decoder used for autoregressive generation applies a causal mask so that a token cannot attend to future tokens.</p>
+<p>For example:</p>
+<pre><code class="language-text">I love machine learning
+</code></pre>
+<p>When predicting:</p>
+<pre><code class="language-text">machine
+</code></pre>
+<p>the model can use:</p>
+<pre><code class="language-text">I love
+</code></pre>
+<p>but should not use future tokens:</p>
+<pre><code class="language-text">learning
+</code></pre>
+<p>This prevents information leakage from future positions during training.</p></div></div></div>
+<div class="qa" id="q36"><div class="qa-h"><span class="qa-n">Q36</span><div class="qa-q">What are autoregressive LLMs?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> KnowDis — Data Scientist</p>
+<p>An autoregressive language model predicts the next token based on previous tokens.</p>
+<p>Example:</p>
+<pre><code class="language-text">Input:
+&quot;I love&quot;
+
+Prediction:
+&quot;machine&quot;
+
+Then:
+&quot;I love machine&quot;
+
+Prediction:
+&quot;learning&quot;
+</code></pre>
+<p>This process continues token by token.</p>
+<p>Decoder-only Transformer models commonly use this objective.</p></div></div></div>
+<h2 class="prep-sec" id="s-part-7-modern-nlp-genai">Part 7 — Modern NLP / GenAI</h2>
+<div class="qa" id="q37"><div class="qa-h"><span class="qa-n">Q37</span><div class="qa-q">What are Sentence Transformers?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> Level AI — Machine Learning Engineer - NLP</p>
+<p>Sentence Transformers are models designed to produce dense vector representations for sentences or larger text units.</p>
+<p>They are commonly used for:</p>
+<ul>
+<li>Semantic similarity</li>
+<li>Semantic search</li>
+<li>Clustering</li>
+<li>Retrieval</li>
+<li>Duplicate detection</li>
+</ul>
+<p>For example:</p>
+<pre><code class="language-text">&quot;I bought a car.&quot;
+&quot;I purchased an automobile.&quot;
+</code></pre>
+<p>can receive similar sentence embeddings despite different wording.</p></div></div></div>
+<div class="qa" id="q38"><div class="qa-h"><span class="qa-n">Q38</span><div class="qa-q">What are the details you consider when building a RAG system?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> IBM — NLP Researcher; Level AI — Machine Learning Engineer - NLP</p>
+<p>I would consider the complete pipeline:</p>
+<pre><code class="language-text">Documents
+   ↓
+Parsing
+   ↓
+Chunking
+   ↓
+Embedding
+   ↓
+Vector / Hybrid Index
+   ↓
+Retrieval
+   ↓
+Optional reranking
+   ↓
+Context construction
+   ↓
+LLM
+   ↓
+Answer
+</code></pre>
+<p>Important design considerations include:</p>
+<ul>
+<li>Chunk size</li>
+<li>Chunk overlap</li>
+<li>Embedding model</li>
+<li>Retrieval strategy</li>
+<li>Top-k</li>
+<li>Metadata filtering</li>
+<li>Reranking</li>
+<li>Context limits</li>
+<li>Citation/grounding</li>
+<li>Evaluation</li>
+<li>Latency</li>
+<li>Cost</li>
+</ul></div></div></div>
+<div class="qa" id="q39"><div class="qa-h"><span class="qa-n">Q39</span><div class="qa-q">How would you design an NLP search system?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> KnowDis — Machine Learning Engineer interview</p>
+<p>A practical search system can contain:</p>
+<pre><code class="language-text">User Query
+   ↓
+Query preprocessing
+   ↓
+Candidate retrieval
+   ↓
+Keyword / BM25 / vector search
+   ↓
+Optional reranking
+   ↓
+Top results
+</code></pre>
+<p>For semantic search, embeddings can be used to retrieve documents based on meaning rather than exact keyword overlap.</p>
+<p>A production system may combine:</p>
+<pre><code class="language-text">Keyword search + semantic/vector search
+</code></pre></div></div></div>
+<div class="qa" id="q40"><div class="qa-h"><span class="qa-n">Q40</span><div class="qa-q">How would you approach an NLP case study where text must be classified into categories?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Source:</strong> ZS Associates — Data Science Associate</p>
+<p>I would approach it as an end-to-end ML problem:</p>
+<pre><code class="language-text">1. Understand the business objective
+2. Inspect and label data
+3. Explore the data
+4. Check class distribution
+5. Clean and preprocess text
+6. Engineer useful features
+7. Split data correctly
+8. Build a baseline
+9. Compare TF-IDF / n-grams / embeddings
+10. Train multiple models
+11. Evaluate using appropriate metrics
+12. Perform error analysis
+13. Tune the best approach
+14. Deploy
+15. Monitor and retrain
+</code></pre>
+<p>The important part is explaining <strong>why</strong> each decision was made.</p></div></div></div>
+<h2 class="prep-sec" id="s-part-8-practical-preprocessing-questions">Part 8 — Practical Preprocessing Questions: Casing, Stopwords, and Live-Coding a Real Messy String</h2>
+<h2 class="prep-sec" id="s-41-why-do-you-do-text-normalization-why-"><span class="n">41</span>Why do you do text normalization? Why do you want to lowercase? In real-time we get different forms of a word — lower or upper case — that we cannot control. Do you think keeping different-case words gives better understanding?</h2><h3>Answer: [TODO]</h3>
+<div class="qa" id="q41"><div class="qa-h"><span class="qa-n">Q41</span><div class="qa-q">Why remove stopwords? In real time, the user is going to use stopwords. If you remove them from the training pipeline, then at inference/production time stopwords are still going to appear in the input — but the machine was never trained on them. How do you handle this?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><h3>Answer: [TODO]</h3>
+<p><strong>Why remove stopwords in the first place:</strong> words like "the," "is," "a," "and" occur in almost every document regardless of class/topic, so they add little discriminative value for tasks like topic classification — removing them shrinks the vocabulary, reduces noise, and speeds up training.</p>
+<p><strong>Why you should not always remove them:</strong> the classic counter-example is negation-sensitive tasks:</p>
+<pre><code class="language-text">&quot;The movie was not good at all.&quot;
+→ after naive stopword removal: &quot;movie good&quot;
+</code></pre>
+<p>The review is negative, but stripping "not," "was," "at," "all" flips the apparent sentiment to positive — this is why stopword removal has to be a task-dependent decision, not a blanket step.</p></div></div></div>
+<div class="qa" id="q42"><div class="qa-h"><span class="qa-n">Q42</span><div class="qa-q">When should you remove stopwords, and when should you not? List down some practical applications.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Remove stopwords when the task cares about topic/frequency signal, not exact wording or word order:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Application</th>
+<th>Why removal helps</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Document/topic classification (news category, spam vs ham)</td>
+<td>Stopwords occur at similar frequency across all classes, so they carry no discriminative value; removing them shrinks the vocabulary and speeds up training.</td>
+</tr>
+<tr>
+<td>Search engines / information retrieval (classic keyword/BM25-style)</td>
+<td>Prevents high-frequency words like "the," "of," "to" from dominating relevance scoring; keeps the focus on content words.</td>
+</tr>
+<tr>
+<td>Topic modeling (LDA, clustering)</td>
+<td>Topics are defined by content words; stopwords would appear in every topic equally and just add noise.</td>
+</tr>
+<tr>
+<td>Keyword extraction / extractive summarization with TF-IDF</td>
+<td>High-frequency stopwords would otherwise get inflated raw counts and drown out genuinely important terms.</td>
+</tr>
+<tr>
+<td>Word clouds / text visualization</td>
+<td>Removing stopwords surfaces the words that are actually informative about the content.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Do NOT remove stopwords when meaning depends on function words, negation, or word order:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Application</th>
+<th>Why removal hurts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sentiment analysis</td>
+<td>"not good" → "good" flips polarity outright; negation words are stopwords in most default lists.</td>
+</tr>
+<tr>
+<td>Machine translation</td>
+<td>Function words carry grammatical structure needed to produce correct target-language syntax.</td>
+</tr>
+<tr>
+<td>Text generation / language modeling</td>
+<td>The model needs to produce fluent, grammatical sequences — stopwords are part of the sequence being modeled, not noise to discard.</td>
+</tr>
+<tr>
+<td>Named Entity Recognition / POS tagging</td>
+<td>Function words provide syntactic context that helps identify entity boundaries and part-of-speech roles.</td>
+</tr>
+<tr>
+<td>Question answering</td>
+<td>"What is the capital of France?" — stripping "is," "of" can remove structure needed to correctly interpret the question type.</td>
+</tr>
+<tr>
+<td>Any pipeline feeding a pretrained Transformer (BERT, GPT, sentence embeddings)</td>
+<td>These models were pretrained on natural, un-stripped text; feeding them artificially stopword-stripped input creates a mismatch with pretraining and typically hurts rather than helps performance.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>One-line interview summary:</strong> <em>"Remove stopwords for frequency/topic-based classical pipelines where function words are pure noise; keep them for anything sequence-, negation-, or grammar-sensitive — and virtually always keep them when feeding a pretrained Transformer, since removal creates a mismatch with how that model was pretrained."</em></p></div></div></div>
+<div class="qa" id="q43"><div class="qa-h"><span class="qa-n">Q43</span><div class="qa-q">Live-coding task: clean this exact messy, real-world string end-to-end.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><h3>Given</h3>
+<pre><code class="language-python">raw_text = &quot;&quot;&quot;
+Heyyyy!!! I justtt bought this product from @Amazon on 15/09/2026 😍. TBH, it's sooo goodddd!!! The price was ₹1,999.99 &amp; I got 20% OFF!!! But the delivery took 3 days... idk why they were sooo slow :/ Plz check ur order carefully b4 buying. I can't say it's 100% perfect, but I'd definitely recommend it!!! BTW, customer service was gr8 &amp; they replied ASAP. This product is MUCHHH better than the previous one!!! #AmazingDeal #WorthIt
+&quot;&quot;&quot;
+</code></pre>
+<h3>Task</h3>
+<p>Perform the following NLP preprocessing steps:</p>
+<ul>
+<li>Remove mentions such as <code>@Amazon</code></li>
+<li>Remove hashtags such as <code>#AmazingDeal</code>, <code>#WorthIt</code></li>
+<li>Convert text to lowercase</li>
+<li>Expand contractions (<code>it's</code> → <code>it is</code>, <code>can't</code> → <code>cannot</code>, <code>I'd</code> → <code>I would</code>)</li>
+<li>Normalize repeated characters (<code>Heyyyy</code> → <code>Hey</code>, <code>justtt</code> → <code>just</code>, <code>sooo</code> → <code>so</code>, <code>goodddd</code> → <code>good</code>, <code>MUCHHH</code> → <code>much</code>)</li>
+<li>Expand common chat abbreviations (<code>TBH</code> → <code>to be honest</code>, <code>idk</code> → <code>I do not know</code>, <code>Plz</code> → <code>please</code>, <code>ur</code> → <code>your</code>, <code>b4</code> → <code>before</code>, <code>BTW</code> → <code>by the way</code>, <code>gr8</code> → <code>great</code>, <code>ASAP</code> → <code>as soon as possible</code>)</li>
+<li>Remove emojis</li>
+<li>Remove punctuation and special characters</li>
+<li>Remove numbers</li>
+<li>Normalize extra spaces</li>
+<li>Tokenize the final text into words</li>
+</ul>
+<h3>Expected clean text</h3>
+<pre><code class="language-python">clean_text = &quot;&quot;&quot;hey i just bought this product on it is to be honest it is so good the price was and i got off but the delivery took days i do not know why they were so slow please check your order carefully before buying i cannot say it is perfect but i would definitely recommend it by the way customer service was great and they replied as soon as possible this product is much better than the previous one&quot;&quot;&quot;
+</code></pre>
+<h3>Approach — order matters</h3>
+<ol>
+<li><strong>Expand contractions and chat abbreviations first</strong>, while punctuation like apostrophes and word boundaries are still intact.</li>
+<li><strong>Remove mentions (<code>@word</code>) and hashtags (<code>#word</code>)</strong> before stripping punctuation, since <code>@</code>/<code>#</code> are the anchor characters being matched.</li>
+<li><strong>Remove emojis.</strong></li>
+<li><strong>Normalize repeated characters</strong> (<code>sooo</code> → <code>so</code>, <code>MUCHHH</code> → <code>much</code>) before lowercasing/punctuation removal, while the run-length pattern is still clean.</li>
+<li><strong>Lowercase.</strong></li>
+<li><strong>Remove currency amounts, dates, percentages and remaining numbers.</strong></li>
+<li><strong>Remove punctuation/special characters</strong> (keep letters and spaces only).</li>
+<li><strong>Collapse extra whitespace.</strong></li>
+<li><strong>Tokenize.</strong></li>
+</ol>
+<h3>Solution</h3>
+<pre><code class="language-python">import re
+
+def clean_text_fn(text: str) -&gt; str:
+    # 1. Expand contractions (before punctuation is stripped)
+    contractions = {
+        r&quot;\bit's\b&quot;: &quot;it is&quot;,
+        r&quot;\bcan't\b&quot;: &quot;cannot&quot;,
+        r&quot;\bi'd\b&quot;: &quot;i would&quot;,
+        r&quot;\bi'm\b&quot;: &quot;i am&quot;,
+        r&quot;\bwon't\b&quot;: &quot;will not&quot;,
+        r&quot;\bdon't\b&quot;: &quot;do not&quot;,
+    }
+    for pattern, repl in contractions.items():
+        text = re.sub(pattern, repl, text, flags=re.IGNORECASE)
+
+    # 2. Expand common chat abbreviations (word-boundary matched, case-insensitive)
+    abbreviations = {
+        r&quot;\btbh\b&quot;: &quot;to be honest&quot;,
+        r&quot;\bidk\b&quot;: &quot;i do not know&quot;,
+        r&quot;\bplz\b&quot;: &quot;please&quot;,
+        r&quot;\bur\b&quot;: &quot;your&quot;,
+        r&quot;\bb4\b&quot;: &quot;before&quot;,
+        r&quot;\bbtw\b&quot;: &quot;by the way&quot;,
+        r&quot;\bgr8\b&quot;: &quot;great&quot;,
+        r&quot;\basap\b&quot;: &quot;as soon as possible&quot;,
+    }
+    for pattern, repl in abbreviations.items():
+        text = re.sub(pattern, repl, text, flags=re.IGNORECASE)
+
+    # 3. Remove mentions and hashtags
+    text = re.sub(r&quot;@\w+&quot;, &quot;&quot;, text)
+    text = re.sub(r&quot;#\w+&quot;, &quot;&quot;, text)
+
+    # 4. Remove emojis (broad Unicode emoji ranges)
+    emoji_pattern = re.compile(
+        &quot;[&quot;
+        &quot;\U0001F300-\U0001FAFF&quot;  # symbols &amp; pictographs, emoticons, transport, supplemental
+        &quot;\U00002700-\U000027BF&quot;  # dingbats
+        &quot;\U0001F1E0-\U0001F1FF&quot;  # flags
+        &quot;]+&quot;,
+        flags=re.UNICODE,
+    )
+    text = emoji_pattern.sub(&quot;&quot;, text)
+
+    # 5. Normalize repeated characters: 3+ repeats of a letter -&gt; collapse to 1
+    #    (&quot;sooo&quot; -&gt; &quot;so&quot;, &quot;goodddd&quot; -&gt; &quot;good&quot;, &quot;MUCHHH&quot; -&gt; &quot;much&quot;)
+    text = re.sub(r&quot;(.)\1{2,}&quot;, r&quot;\1&quot;, text)
+
+    # 6. Lowercase
+    text = text.lower()
+
+    # 7. Remove currency amounts / dates / percentages / remaining numbers
+    text = re.sub(r&quot;[₹$€]\s?[\d,]+\.?\d*&quot;, &quot; &quot;, text)   # currency amounts
+    text = re.sub(r&quot;\d+/\d+/\d+&quot;, &quot; &quot;, text)             # dates
+    text = re.sub(r&quot;\d+%&quot;, &quot; &quot;, text)                    # percentages
+    text = re.sub(r&quot;\d+&quot;, &quot; &quot;, text)                     # remaining standalone numbers
+
+    # 8. Remove punctuation / special characters (keep letters and spaces only)
+    text = re.sub(r&quot;[^a-z\s]&quot;, &quot; &quot;, text)
+
+    # 9. Collapse extra whitespace
+    text = re.sub(r&quot;\s+&quot;, &quot; &quot;, text).strip()
+
+    return text
+
+
+def tokenize(text: str) -&gt; list[str]:
+    return text.split()
+
+
+cleaned = clean_text_fn(raw_text)
+tokens = tokenize(cleaned)
+
+print(cleaned)
+print(tokens)
+</code></pre>
+<h3>Output (matches <code>clean_text</code> above)</h3>
+<pre><code class="language-text">hey i just bought this product on it is to be honest it is so good the price was and i got off but the delivery took days i do not know why they were so slow please check your order carefully before buying i cannot say it is perfect but i would definitely recommend it by the way customer service was great and they replied as soon as possible this product is much better than the previous one
+</code></pre>
+<h3>Common follow-up questions after this task</h3>
+<pre><code class="language-text">Why expand contractions/abbreviations before removing punctuation instead of after?
+Why normalize repeated characters before lowercasing?
+How would this regex distinguish &quot;sooo&quot; (elongation) from a genuine word like &quot;wooord&quot; if one existed?
+How would you scale this to millions of rows? (vectorized string ops, spaCy pipe, multiprocessing)
+How would you adapt this for a language where \b word boundaries don't behave the same way (e.g. Chinese, Thai)?
+What would you change if this text were feeding into a Transformer instead of TF-IDF?
+   (Direction: keep more of the original text — a cased Transformer tokenizer handles
+    casing/subwords itself, and over-aggressive cleaning can remove signal the
+    pretrained model would otherwise use.)
+How would you unit-test this function?
+</code></pre></div></div></div>
+<h2 class="prep-sec" id="s-high-priority-follow-up-questions">High-Priority Follow-Up Questions</h2><p>These are not separate generic questions; they are especially useful because real interviews often drill deeper into the candidate's previous answer.</p>
+<h2 class="prep-sec" id="s-if-you-say-i-used-tf-idf">If you say &quot;I used TF-IDF&quot;</h2><p>Be ready for:</p>
+<pre><code class="language-text">Why TF-IDF?
+Why not BoW?
+Why not Word2Vec?
+What is IDF?
+Why do common words get lower weight?
+What happens with unseen words?
+Did you use unigrams or bigrams?
+How did you choose max_features?
+How did you avoid data leakage?
+</code></pre>
+<h2 class="prep-sec" id="s-if-you-say-i-used-word2vec">If you say &quot;I used Word2Vec&quot;</h2><p>Be ready for:</p>
+<pre><code class="language-text">CBOW vs Skip-gram?
+Pretrained or trained yourself?
+Why?
+What is the context window?
+How are embeddings learned?
+What happens with unknown words?
+Why average the vectors?
+What information is lost by averaging?
+Why not use an LSTM/Transformer?
+</code></pre>
+<h2 class="prep-sec" id="s-if-you-say-i-used-lstm">If you say &quot;I used LSTM&quot;</h2><p>Be ready for:</p>
+<pre><code class="language-text">Why LSTM?
+Why not RNN?
+What is vanishing gradient?
+What are the gates?
+What is cell state?
+What is hidden state?
+How does forget gate work?
+Why not Transformer?
+</code></pre>
+<h2 class="prep-sec" id="s-if-you-say-i-used-transformer">If you say &quot;I used Transformer&quot;</h2><p>Be ready for:</p>
+<pre><code class="language-text">Why Transformer?
+What is self-attention?
+What are Q, K and V?
+Why divide by sqrt(dk)?
+What is multi-head attention?
+Why positional encoding?
+Encoder vs decoder?
+What is causal masking?
+How does autoregressive generation work?
+</code></pre>
+<h2 class="prep-sec" id="s-if-you-say-i-built-rag">If you say &quot;I built RAG&quot;</h2><p>Be ready for:</p>
+<pre><code class="language-text">Why RAG?
+How did you chunk documents?
+Why that chunk size?
+Which embedding model?
+Why that embedding model?
+How many chunks did you retrieve?
+Why top-k?
+Vector search vs keyword search?
+Did you rerank?
+How did you evaluate retrieval?
+How did you evaluate the final answer?
+How did you reduce hallucination?
+</code></pre>
+<h2 class="prep-sec" id="s-if-you-say-i-lowercased-the-text-or-i-re">If you say &quot;I lowercased the text&quot; or &quot;I removed stopwords&quot;</h2><p>Be ready for:</p>
+<pre><code class="language-text">Why lowercase? What if case is meaningful for this task?
+What happens to a user query typed in all caps or mixed case?
+Do modern Transformer tokenizers need manual lowercasing?
+Why remove stopwords? What if the task is sentiment or negation-sensitive?
+Does removing stopwords in training cause a mismatch at inference? (No — same pipeline both places.
+   The real risk is training/serving pipeline drift, not the model &quot;never seeing&quot; stopwords.)
+When would you NOT remove stopwords?
+</code></pre>
+<h2 class="prep-sec" id="s-most-important-20-to-memorize-first">Most Important 20 to Memorize First</h2><p>If you have limited preparation time, prioritize these verified questions:</p>
+<pre><code class="language-text">1. How will you clean and preprocess text?
+2. Should numbers always be removed?
+3. Stemming vs lemmatization?
+4. Why stemming instead of lemmatization?
+5. How do you vectorize text?
+6. BoW vs TF-IDF vs N-grams?
+7. What is a Term-Document Matrix?
+8. What are word embeddings?
+9. What is Word2Vec?
+10. CBOW vs Skip-gram?
+11. Word2Vec vs GloVe?
+12. Why can averaging word vectors lose information?
+13. How do you handle class imbalance?
+14. How do you improve NLP model metrics?
+15. How does RNN work?
+16. What are the problems with RNN?
+17. Explain LSTM architecture.
+18. How does a Transformer work?
+19. Explain self-attention and multi-head attention.
+20. How would you design a RAG system?
+</code></pre>
+<p>These 20 cover the major themes that recur across the verified candidate reports: <strong>preprocessing, representation, embeddings, sequence models, Transformers and modern RAG</strong>.</p>
+<p><strong>If you also have time for practical/applied depth, add these from Part 8:</strong></p>
+<pre><code class="language-text">21. Why lowercase, and when does case carry real signal instead of noise?
+22. Why remove stopwords, and does removing them in training cause an inference mismatch? (It doesn't — explain why.)
+23. When should you remove stopwords vs keep them? List practical applications on both sides.
+24. Live-code an end-to-end cleaning pipeline for a messy, emoji/hashtag/abbreviation-filled real string.
+</code></pre>
+<h2 class="prep-sec" id="s-source-evidence">Source Evidence</h2>
+<h2 class="prep-sec" id="s-s1-zs-associates-data-science-associate">[S1] ZS Associates — Data Science Associate</h2><p>Candidate reported a complete NLP classification interview, including preprocessing, numeric-value handling, stemming vs lemmatization, Word2Vec, pretrained embeddings, BoW, TF-IDF, N-grams, averaged embeddings, model selection, deep learning and metric improvement.</p>
+<h2 class="prep-sec" id="s-s2-zycus-ai-machine-learning-engineer">[S2] Zycus — AI/Machine Learning Engineer</h2><p>Candidate reported questions on embeddings, Skip-gram, CBOW, GloVe, Word2Vec, latent-space representation and sequence modeling.</p>
+<h2 class="prep-sec" id="s-s3-zee-entertainment-data-scientist">[S3] Zee Entertainment — Data Scientist</h2><p>Candidate reported questions on text-to-numeric conversion, Term-Document Matrix, TF-IDF, word embeddings, precision/recall and LSTM architecture.</p>
+<h2 class="prep-sec" id="s-s4-american-express-nlp-data-scientist">[S4] American Express — NLP Data Scientist</h2><p>Candidate reported a regex and preprocessing question involving unidecode errors, punctuation and numbers.</p>
+<h2 class="prep-sec" id="s-s5-jpmorganchase-nlp-summer">[S5] JPMorganChase — NLP Summer</h2><p>Candidate reported questions on RNNs, Transformers and self-attention.</p>
+<h2 class="prep-sec" id="s-s6-ibm-nlp-researcher">[S6] IBM — NLP Researcher</h2><p>Candidate reported a question about designing a RAG system, including retrievers and generator considerations.</p>
+<h2 class="prep-sec" id="s-s7-knowdis-data-science-data-scientist">[S7] KnowDis Data Science — Data Scientist</h2><p>Candidate reported questions on RNN problems, LSTM gates, Transformer components, positional embeddings, multi-head attention, encoder/decoder architecture, masked decoders, autoregressive LLMs and DistilBERT.</p>
+<h2 class="prep-sec" id="s-s8-level-ai-machine-learning-engineer-nl">[S8] Level AI — Machine Learning Engineer - NLP</h2><p>Candidate reported questions on self-attention vs multi-head attention, Sentence Transformers, positional embeddings, RoPE, decoder behavior, beam search and RAG.</p>
+<h2 class="prep-sec" id="s-s9-dimensionless-technologies-nlp-intern">[S9] Dimensionless Technologies — NLP Intern</h2><p>Candidate reported the question: "What is NLU and NLG?"</p>
+<h2 class="prep-sec" id="s-s10-part-8-practical-preprocessing-quest">[S10] Part 8 — Practical preprocessing questions (casing, stopwords, live-coding cleanup)</h2><p>Not tied to a single named candidate report.</p>
+<h2 class="prep-sec" id="s-research-note">Research Note</h2><p>This document intentionally does <strong>not</strong> claim that these questions are guaranteed to appear in every NLP interview.</p>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-prep/nlp-real-questions"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

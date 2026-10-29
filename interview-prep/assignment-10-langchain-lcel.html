@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Assignment 10: LangChain &amp; LCEL · Interview Prep · Learn24</title>
+<meta name="description" content="18 interview-style questions on LangChain &amp; LCEL with full solutions, must-know flags and hands-on coding tasks.">
+<meta property="og:title" content="Assignment 10: LangChain &amp; LCEL · Learn24">
+<meta property="og:description" content="18 interview-style questions on LangChain &amp; LCEL with full solutions, must-know flags and hands-on coding tasks.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="assignment-10-langchain-lcel" data-lesson="interview-prep/assignment-10-langchain-lcel">
+  <div class="kicker">Interview Prep · Part C — Building GenAI Applications</div>
+  <h1>Assignment 10: LangChain &amp; LCEL</h1>
+  <div class="meta"><span>❓ 18 questions</span><span>★ 7 must-know</span><span>💻 5 coding tasks</span></div>
+  <p class="lead">Assignment 10 of 18 on <b>LangChain &amp; LCEL</b>. ★ marks the must-know questions asked very often in GenAI / ML interviews; 💻 marks hands-on coding tasks to write and run. Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="files/Assignment_10_LangChain_LCEL.pdf" download>⬇ Assignment PDF</a><a class="btn ghost" href="files/Assignment_10_LangChain_LCEL_Solutions.pdf" download>⬇ Solutions PDF</a><a class="btn ghost" href="https://github.com/ajeetkumarAI/GenAI_Assignment_with_Solution" target=_blank rel=noopener>GitHub ↗</a><p class="prep-rel">📚 Learn it first: <a href="../genai-course/s29-langchain-lcel.html">Dynamic Prompting with LangChain</a> · <a href="../genai-course/s30-conversational-chains.html">Conversational Chains &amp; Tracing</a> · <a href="../langchain-course/lab01-chat-models.html">LLMs &amp; Chat Models</a> · <a href="../langchain-course/lab02-prompt-templates.html">Prompt Templates</a> · <a href="../langchain-course/lab03-output-parsers.html">Output Parsers &amp; Structured Output</a> · <a href="../langchain-course/lab04-lcel-chains.html">Chains with LCEL &amp; Runnables</a> · <a href="../langchain-course/lab05-memory-chat-history.html">Memory &amp; Chat History</a></p></div>
+<div class="qa" id="q1" data-star=1><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">What is LangChain and how does it help build LLM applications? What are its main components?<div class=qa-tags><span class="star">★ Must-know</span></div></div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><b>LangChain</b> is an open-source framework (Python/JS) for building applications powered by LLMs. It provides standard interfaces and ready-made integrations so you can connect LLMs with prompts, data, tools and memory, and switch providers easily.</p><p><b>Main components:</b></p><ul><li><b>Models</b> – chat models / LLMs (OpenAI, Anthropic, Gemini, Ollama, Hugging Face) and embedding models.</li><li><b>Prompts</b> – PromptTemplate, ChatPromptTemplate, few-shot templates.</li><li><b>Output parsers</b> – convert text into strings, JSON, Pydantic objects.</li><li><b>Chains / LCEL</b> – compose steps with the `|` operator.</li><li><b>Document loaders, text splitters, vector stores, retrievers</b> – for RAG.</li><li><b>Memory / message history.</b></li><li><b>Tools and agents</b> – let the LLM call functions/APIs (agents now built mainly with <b>LangGraph</b>).</li><li>Ecosystem: <b>LangSmith</b> (tracing, evaluation), LangGraph (stateful agents), LangServe.</li></ul></div></div></div>
+<div class="qa" id="q2" data-code=1><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Initialize an LLM / chat model (OpenAI or open-source) and ask one question.<div class=qa-tags><span class="code">💻 Code</span></div></div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code># pip install langchain langchain-openai
+import os
+from langchain_openai import ChatOpenAI
+os.environ["OPENAI_API_KEY"] = "sk-..."          # better: load from .env
+llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+response = llm.invoke("What is Retrieval-Augmented Generation in one sentence?")
+print(response.content)
+# Open-source alternative running locally with Ollama
+# from langchain_ollama import ChatOllama
+# llm = ChatOllama(model="llama3.1")</code></pre></div></div></div>
+<div class="qa" id="q3" data-code=1><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Create a prompt template with two input variables.<div class=qa-tags><span class="code">💻 Code</span></div></div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code>from langchain_core.prompts import PromptTemplate, ChatPromptTemplate
+prompt = PromptTemplate.from_template(
+    "Explain {topic} to a {audience} in 3 bullet points.")
+print(prompt.format(topic="vector databases", audience="10-year-old"))
+# Chat version with a system message
+chat_prompt = ChatPromptTemplate.from_messages([
+    ("system", "You are an expert teacher."),
+    ("human", "Explain {topic} to a {audience}.")])
+print(llm.invoke(chat_prompt.invoke({"topic": "LoRA", "audience": "manager"})).content)</code></pre></div></div></div>
+<div class="qa" id="q4" data-star=1><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">What is LCEL (LangChain Expression Language)? Build a chain: prompt | model | output_parser. (Why did LCEL replace the legacy LLMChain?)<div class=qa-tags><span class="star">★ Must-know</span></div></div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><b>LCEL (LangChain Expression Language)</b> is a declarative way to compose components with the <b>pipe operator `|`</b>. Every component is a <b>Runnable</b> with the same interface (invoke, stream, batch, ainvoke), so the output of one step flows into the next.</p><pre><code>from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from langchain_openai import ChatOpenAI
+prompt = ChatPromptTemplate.from_template("Write a one-line tagline for a {product}.")
+model = ChatOpenAI(model="gpt-4o-mini")
+chain = prompt | model | StrOutputParser()
+print(chain.invoke({"product": "AI-powered fraud detection system"}))</code></pre><p><b>Why LCEL replaced LLMChain:</b> LLMChain was a rigid class for one prompt + one LLM and is now deprecated. LCEL chains automatically get <b>streaming, async, batch/parallel execution,</b> <b>retries/fallbacks, and LangSmith tracing</b>, are easier to compose and customize, and work with any Runnable.</p></div></div></div>
+<div class="qa" id="q5" data-star=1><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">What is the difference between invoke, stream and batch?<div class=qa-tags><span class="star">★ Must-know</span></div></div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul><li><b>invoke(input)</b> – runs the chain on <b>one input</b> and returns the <b>complete output</b> when finished.</li><li><b>stream(input)</b> – runs on one input and <b>yields output chunks (tokens) as they are</b> <b>generated</b> → lower perceived latency for chat UIs.</li><li><b>batch([inputs])</b> – runs on a <b>list of inputs in parallel</b> (configurable `max_concurrency`) and returns a list of outputs → efficient bulk processing.</li></ul><p>(Async versions: ainvoke, astream, abatch.)</p><pre><code>chain.invoke({"product": "phone"})
+for chunk in chain.stream({"product": "phone"}):
+    print(chunk, end="", flush=True)
+chain.batch([{"product": "phone"}, {"product": "laptop"}], config={"max_concurrency": 5})</code></pre></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">What are output parsers? Name a few (StrOutputParser, JsonOutputParser, PydanticOutputParser) and their purposes.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><b>Output parsers</b> convert the raw model output (an AIMessage / text) into a <b>usable structure</b>, and can also inject <b>format instructions</b> into the prompt.</p><ul><li><b>StrOutputParser</b> – extracts plain text content from the message.</li><li><b>JsonOutputParser</b> – parses JSON (optionally against a Pydantic schema); supports streaming partial JSON.</li><li><b>PydanticOutputParser</b> – parses and <b>validates</b> into a Pydantic object.</li><li><b>CommaSeparatedListOutputParser</b> – returns a Python list.</li><li><b>DatetimeOutputParser, EnumOutputParser, XMLOutputParser.</b></li><li><b>OutputFixingParser / RetryOutputParser</b> – ask the LLM to fix malformed output.</li></ul><p>For models with native tool calling, `llm.with_structured_output(Schema)` is the preferred modern approach.</p></div></div></div>
+<div class="qa" id="q7"><div class="qa-h"><span class="qa-n">Q7</span><div class="qa-q">What is parallelism in LCEL (RunnableParallel)? What are RunnablePassthrough and RunnableLambda?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul><li><b>RunnableParallel</b> – runs several runnables <b>at the same time on the same input</b> and returns a dict of their outputs. (A plain dict in a chain is converted to RunnableParallel automatically.)</li><li><b>RunnablePassthrough</b> – passes the input through <b>unchanged</b> (often used to forward the user's question alongside retrieved context); `.assign()` adds new keys.</li><li><b>RunnableLambda</b> – wraps any <b>Python function</b> as a runnable.</li></ul><pre><code>from langchain_core.runnables import RunnableParallel, RunnablePassthrough, RunnableLambda
+joke = ChatPromptTemplate.from_template("Tell a joke about {topic}") | llm | StrOutputParser()
+poem = ChatPromptTemplate.from_template("Write a 2-line poem about {topic}") | llm |
+    StrOutputParser()
+both = RunnableParallel(joke=joke, poem=poem)
+print(both.invoke({"topic": "data science"}))
+# Typical RAG usage
+rag_inputs = {"context": retriever | RunnableLambda(lambda docs: "\n\n".join(d.page_content for d
+    in docs)),
+              "question": RunnablePassthrough()}</code></pre></div></div></div>
+<div class="qa" id="q8"><div class="qa-h"><span class="qa-n">Q8</span><div class="qa-q">What is a Document in LangChain? What are document loaders? Name a few.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul><li><b>Document</b> – LangChain's basic unit of text: an object with <b>`page_content`</b> (the text) and <b>`metadata`</b> (dict – source file, page number, URL, author, etc.). Metadata is used for citations and filtering.</li></ul><pre><code>from langchain_core.documents import Document
+doc = Document(page_content="LoRA reduces trainable parameters.", metadata={"source": "notes.pdf",
+    "page": 3})</code></pre><ul><li><b>Document loaders</b> read data from a source and return a list of Documents.</li></ul><p>Examples: <b>TextLoader</b>, <b>PyPDFLoader</b> / PyMuPDFLoader, <b>CSVLoader</b>, <b>DirectoryLoader</b>, <b>WebBaseLoader</b> (web pages), Docx2txtLoader / UnstructuredWordDocumentLoader, UnstructuredExcelLoader, JSONLoader, YoutubeLoader, NotionDBLoader, GoogleDriveLoader, S3 loaders.</p></div></div></div>
+<div class="qa" id="q9" data-code=1><div class="qa-h"><span class="qa-n">Q9</span><div class="qa-q">Load a .txt, a .pdf and a .csv file as LangChain documents.<div class=qa-tags><span class="code">💻 Code</span></div></div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code># pip install langchain-community pypdf
+from langchain_community.document_loaders import TextLoader, PyPDFLoader, CSVLoader
+txt_docs = TextLoader("notes.txt", encoding="utf-8").load()
+print(len(txt_docs), txt_docs[0].metadata)        # 1 Document
+pdf_docs = PyPDFLoader("report.pdf").load()        # one Document per page
+print(len(pdf_docs), pdf_docs[0].metadata)        # {'source': 'report.pdf', 'page': 0}
+csv_docs = CSVLoader("customers.csv").load()       # one Document per row
+print(csv_docs[0].page_content)                    # "name: Ravi\ncity: Pune ..."</code></pre></div></div></div>
+<div class="qa" id="q10" data-code=1><div class="qa-h"><span class="qa-n">Q10</span><div class="qa-q">Load all .pdf files and all .txt files in a folder (DirectoryLoader).<div class=qa-tags><span class="code">💻 Code</span></div></div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code>from langchain_community.document_loaders import DirectoryLoader, PyPDFLoader, TextLoader
+# All PDFs in a folder (including sub-folders)
+pdf_loader = DirectoryLoader("data/", glob="**/*.pdf", loader_cls=PyPDFLoader,
+                             show_progress=True)
+pdf_docs = pdf_loader.load()
+# All text files
+txt_loader = DirectoryLoader("data/", glob="**/*.txt", loader_cls=TextLoader,
+                             loader_kwargs={"encoding": "utf-8"})
+txt_docs = txt_loader.load()
+print(len(pdf_docs), len(txt_docs))
+# Alternative for PDFs: PyPDFDirectoryLoader("data/")</code></pre></div></div></div>
+<div class="qa" id="q11" data-star=1><div class="qa-h"><span class="qa-n">Q11</span><div class="qa-q">How do you split documents? Explain RecursiveCharacterTextSplitter, chunk_size and chunk_overlap. Split a document into 1000-character chunks.<div class=qa-tags><span class="star">★ Must-know</span></div></div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><b>RecursiveCharacterTextSplitter</b> (the recommended default) tries to split on a hierarchy of separators – paragraphs "\n\n", then lines "\n", then spaces " ", then characters – so chunks keep natural boundaries while staying under the size limit.</p><ul><li><b>chunk_size</b> – maximum size of each chunk (characters by default, or tokens with `from_tiktoken_encoder`).</li><li><b>chunk_overlap</b> – number of characters repeated between consecutive chunks so that sentences/ideas cut at a boundary are not lost (typically 10–20% of chunk_size).</li></ul><pre><code>from langchain_text_splitters import RecursiveCharacterTextSplitter
+splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+chunks = splitter.split_documents(pdf_docs)       # or split_text(long_string)
+print(len(chunks), len(chunks[0].page_content))   # each chunk &lt;= 1000 characters</code></pre><p>Other splitters: CharacterTextSplitter, TokenTextSplitter, MarkdownHeaderTextSplitter, HTMLHeaderTextSplitter, language-aware code splitters, SemanticChunker.</p></div></div></div>
+<div class="qa" id="q12" data-star=1><div class="qa-h"><span class="qa-n">Q12</span><div class="qa-q">How do you summarize a document larger than the context window? Explain stuff, map_reduce and refine.<div class=qa-tags><span class="star">★ Must-know</span></div></div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p>When a document is larger than the context window, split it into chunks and use one of these strategies:</p><ul><li><b>Stuff</b> – put <b>all chunks into one prompt</b> and summarize once. Simplest, one LLM call, best quality – but only works if everything fits in the context window.</li><li><b>Map-Reduce</b> – <b>Map:</b> summarize each chunk <b>independently (in parallel)</b>. <b>Reduce:</b> combine the chunk summaries into a final summary (recursively if still too long). Scales to very large documents and is fast; may lose connections between chunks.</li><li><b>Refine</b> – summarize the first chunk, then <b>iteratively update the running summary</b> with each next chunk ("here is the existing summary, refine it with this new text"). Keeps context flowing, but is <b>sequential (slow)</b> and later chunks can dominate.</li></ul><pre><code>from langchain_classic.chains.summarize import load_summarize_chain   # langchain&lt;1.0: from
+    langchain.chains.summarize
+chain = load_summarize_chain(llm, chain_type="map_reduce")
+print(chain.invoke({"input_documents": chunks})["output_text"])</code></pre><p>(Today you can also use LangGraph map-reduce, or a long-context model with "stuff" when the document fits.)</p></div></div></div>
+<div class="qa" id="q13" data-star=1><div class="qa-h"><span class="qa-n">Q13</span><div class="qa-q">How do you make an LLM remember previous conversations?<div class=qa-tags><span class="star">★ Must-know</span></div></div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p>LLMs are <b>stateless</b> – each API call is independent. To "remember", the application must <b>store</b> <b>the conversation and send relevant history back with each new request</b>. Approaches:</p><ul><li>Send the <b>full message history</b> (short chats).</li><li>Keep only the <b>last k messages</b> (window) to control tokens.</li><li><b>Summarize</b> older messages and keep the summary + recent messages.</li><li>Store long-term facts in a <b>vector store or database</b> and retrieve relevant memories (long-term memory).</li><li>In LangChain: `RunnableWithMessageHistory` with a chat-history store (in-memory, Redis, SQL); in LangGraph: <b>checkpointers</b> keyed by `thread_id`.</li></ul></div></div></div>
+<div class="qa" id="q14"><div class="qa-h"><span class="qa-n">Q14</span><div class="qa-q">Explain the memory types: buffer, buffer-window (what is &#x27;k&#x27;?), summary and summary-buffer memory. Write code for one of them.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul><li><b>ConversationBufferMemory</b> – stores the <b>entire conversation verbatim</b>. Simple, but tokens grow without limit.</li><li><b>ConversationBufferWindowMemory</b> – keeps only the <b>last k interactions</b>; <b>k = number of</b> <b>recent human–AI exchanges</b> kept (k=2 → last 2 question–answer pairs). Older messages are dropped.</li><li><b>ConversationSummaryMemory</b> – uses an LLM to keep a <b>running summary</b> of the whole conversation instead of raw messages. Good for long chats; costs extra LLM calls and loses detail.</li><li><b>ConversationSummaryBufferMemory</b> – hybrid: keeps <b>recent messages verbatim</b> and <b>summarizes older ones</b> once the buffer exceeds `max_token_limit`.</li></ul><pre><code># Legacy API, still asked in interviews. In LangChain 1.x it lives in the
+# langchain-classic package (pip install langchain-classic); in langchain&lt;1.0 use
+# "from langchain.chains ..." and "from langchain.memory ..." instead.
+from langchain_classic.chains import ConversationChain
+from langchain_classic.memory import (ConversationBufferMemory, ConversationBufferWindowMemory,
+                              ConversationSummaryMemory, ConversationSummaryBufferMemory)
+memory = ConversationBufferWindowMemory(k=2)
+# memory = ConversationBufferMemory()
+# memory = ConversationSummaryMemory(llm=llm)
+# memory = ConversationSummaryBufferMemory(llm=llm, max_token_limit=200)
+conv = ConversationChain(llm=llm, memory=memory, verbose=True)
+conv.invoke({"input": "Hi, I'm Ravi and I work on fraud detection."})
+conv.invoke({"input": "I like LangGraph."})
+conv.invoke({"input": "What is my name?"})
+print(memory.load_memory_variables({}))</code></pre></div></div></div>
+<div class="qa" id="q15"><div class="qa-h"><span class="qa-n">Q15</span><div class="qa-q">How is conversation memory handled in current LangChain/LangGraph (message history, checkpointers)?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p>The legacy Memory classes are deprecated. Current approaches:</p><p><b>1. RunnableWithMessageHistory (LCEL):</b></p><pre><code>from langchain_core.chat_history import InMemoryChatMessageHistory
+from langchain_core.runnables.history import RunnableWithMessageHistory
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+prompt = ChatPromptTemplate.from_messages([("system", "You are helpful."),
+    MessagesPlaceholder("history"), ("human", "{input}")])
+store = {}
+def get_history(session_id):
+    return store.setdefault(session_id, InMemoryChatMessageHistory())
+chat = RunnableWithMessageHistory(prompt | llm, get_history,
+                                  input_messages_key="input", history_messages_key="history")
+chat.invoke({"input": "My name is Ravi"}, config={"configurable": {"session_id": "u1"}})</code></pre><p><b>2. LangGraph checkpointers (recommended for agents):</b></p><pre><code>from langgraph.checkpoint.memory import MemorySaver
+from langgraph.prebuilt import create_react_agent
+agent = create_react_agent(llm, tools=[], checkpointer=MemorySaver())
+cfg = {"configurable": {"thread_id": "user-1"}}
+agent.invoke({"messages": [("user", "Hi, I'm Ravi")]}, cfg)
+agent.invoke({"messages": [("user", "What's my name?")]}, cfg)   # remembers</code></pre><p>Use SQLite/Postgres/Redis checkpointers in production; trim or summarize messages to control tokens; LangGraph <b>Store</b> for long-term, cross-thread memory.</p></div></div></div>
+<div class="qa" id="q16"><div class="qa-h"><span class="qa-n">Q16</span><div class="qa-q">How do you use the Hugging Face pipeline inside LangChain?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code># pip install langchain-huggingface transformers
+from langchain_huggingface import HuggingFacePipeline, ChatHuggingFace
+llm = HuggingFacePipeline.from_model_id(
+    model_id="Qwen/Qwen2.5-0.5B-Instruct",
+    task="text-generation",
+    pipeline_kwargs={"max_new_tokens": 128, "temperature": 0.1, "do_sample": True})
+print(llm.invoke("What is LangChain?"))
+chat = ChatHuggingFace(llm=llm)        # applies the model's chat template
+chain = prompt | chat | StrOutputParser()
+# Or wrap an existing transformers pipeline
+from transformers import pipeline
+pipe = pipeline("text-generation", model="gpt2", max_new_tokens=50)
+llm2 = HuggingFacePipeline(pipeline=pipe)
+# Hosted inference instead of local: HuggingFaceEndpoint(repo_id=..., huggingfacehub_api_token=...)</code></pre></div></div></div>
+<div class="qa" id="q17" data-code=1><div class="qa-h"><span class="qa-n">Q17</span><div class="qa-q">Use one chain as a tool inside another chain or agent.<div class=qa-tags><span class="code">💻 Code</span></div></div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code>from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.tools import tool
+summary_chain = (ChatPromptTemplate.from_template("Summarize in 2 lines:\n{text}")
+                 | llm | StrOutputParser())
+# Option 1: convert the runnable directly
+summarize_tool = summary_chain.as_tool(
+    name="summarizer", description="Summarizes a long piece of text.")
+# Option 2: wrap it in a @tool function
+@tool
+def summarize(text: str) -&gt; str:
+    '''Summarize a long piece of text in two lines.'''
+    return summary_chain.invoke({"text": text})
+from langgraph.prebuilt import create_react_agent
+agent = create_react_agent(llm, tools=[summarize])
+agent.invoke({"messages": [("user", "Summarize this: &lt;long text&gt;")]})</code></pre><p>The agent sees the tool's name and description and decides when to call the chain.</p></div></div></div>
+<div class="qa" id="q18" data-star=1><div class="qa-h"><span class="qa-n">Q18</span><div class="qa-q">How do you handle long conversation memory without exceeding the context window or inflating token cost?<div class=qa-tags><span class="star">★ Must-know</span><span>Asked: Wipro</span></div></div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul><li><b>Sliding window:</b> send only the last k turns (buffer-window memory).</li><li><b>Summarization:</b> keep a running summary of older turns + the recent turns verbatim (summary-buffer memory); re-summarize when a token budget is exceeded.</li><li><b>Token-based trimming:</b> `trim_messages` with a max-token budget, always keeping the system prompt.</li><li><b>Long-term memory store:</b> extract important facts (user preferences, decisions) into a database/vector store and <b>retrieve only the relevant memories</b> for each new question.</li><li><b>Structured state:</b> keep key fields (customer_id, current order, intent) in application state instead of re-sending the whole chat.</li><li><b>Prompt caching</b> for the stable prefix to cut cost.</li><li>Persist history per session (Redis/Postgres, LangGraph checkpointer) with TTL and privacy controls.</li></ul></div></div></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-prep/assignment-10-langchain-lcel"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Assignment 18: Python &amp; ML Essentials for GenAI Engineers · Interview Prep · Learn24</title>
+<meta name="description" content="16 interview-style questions on Python &amp; ML Essentials for GenAI Engineers with full solutions, must-know flags and hands-on coding tasks.">
+<meta property="og:title" content="Assignment 18: Python &amp; ML Essentials for GenAI Engineers · Learn24">
+<meta property="og:description" content="16 interview-style questions on Python &amp; ML Essentials for GenAI Engineers with full solutions, must-know flags and hands-on coding tasks.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="assignment-18-python-ml-essentials-for-genai-engineers" data-lesson="interview-prep/assignment-18-python-ml-essentials-for-genai-engineers">
+  <div class="kicker">Interview Prep · Part E — Engineering Essentials</div>
+  <h1>Assignment 18: Python &amp; ML Essentials for GenAI Engineers</h1>
+  <div class="meta"><span>❓ 16 questions</span><span>★ 8 must-know</span><span>💻 4 coding tasks</span></div>
+  <p class="lead">Assignment 18 of 18 on <b>Python &amp; ML Essentials for GenAI Engineers</b>. ★ marks the must-know questions asked very often in GenAI / ML interviews; 💻 marks hands-on coding tasks to write and run. Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="files/Assignment_18_Python_ML_Essentials_for_GenAI_Engineers.pdf" download>⬇ Assignment PDF</a><a class="btn ghost" href="files/Assignment_18_Python_ML_Essentials_for_GenAI_Engineers_Solutions.pdf" download>⬇ Solutions PDF</a><a class="btn ghost" href="https://github.com/ajeetkumarAI/GenAI_Assignment_with_Solution" target=_blank rel=noopener>GitHub ↗</a><p class="prep-rel">📚 Learn it first: <a href="../genai-course/s03-environment-setup.html">Environment Setup</a></p></div>
+<div class="qa" id="q1" data-star=1><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">What is the difference between multithreading and multiprocessing in Python? What is the GIL, and how does it affect GenAI backends?<div class=qa-tags><span class="star">★ Must-know</span><span>Asked: TCS, Infosys</span></div></div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul><li><b>GIL (Global Interpreter Lock):</b> in CPython, only <b>one thread executes Python bytecode</b> <b>at a time</b> per process. It simplifies memory management but limits CPU parallelism with threads. (Python 3.13+ offers an experimental free-threaded build without the GIL.)</li><li><b>Multithreading:</b> multiple threads in one process, shared memory. Because the GIL is <b>released during I/O</b> (network calls, file reads), threads work well for <b>I/O-bound</b> tasks – e.g. calling LLM APIs, vector DB, HTTP requests in parallel. Not useful for CPU-heavy Python code.</li><li><b>Multiprocessing:</b> separate processes, each with its own interpreter and GIL → <b>true</b> <b>parallelism on multiple cores</b> for <b>CPU-bound</b> work – PDF parsing, OCR, chunking, local embedding computation, data processing. Costs: more memory, inter-process communication overhead.</li></ul><p><b>GenAI backend practice:</b> most work is I/O-bound (waiting for LLM/API responses) → use <b>async</b> <b>(asyncio/FastAPI)</b> or threads; push CPU-heavy ingestion to process pools or separate workers; heavy model inference runs in optimized C++/CUDA code (vLLM, PyTorch) which releases the GIL.</p></div></div></div>
+<div class="qa" id="q2" data-star=1><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Concurrency vs parallelism: why use async programming in an AI application? If you must call three independent APIs, would you call them one by one?<div class=qa-tags><span class="star">★ Must-know</span><span>Asked: Infosys</span></div></div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul><li><b>Concurrency</b> – handling many tasks <b>in overlapping time</b> (switching while waiting); one core can do it. <b>Parallelism</b> – tasks literally <b>running at the same time</b> on multiple cores.</li><li>LLM apps spend most time <b>waiting on network I/O</b>. With <b>async</b>, while one request waits, the event loop serves others → much higher throughput with fewer resources; FastAPI is built on this.</li><li><b>Three independent API calls: don't call them sequentially</b> (total = sum of latencies, e.g. 2 + 3 + 1 = 6 s). Run them <b>concurrently</b> (total ≈ slowest call, ~3 s):</li></ul><pre><code>import asyncio, httpx
+async def fetch(client, url):
+    r = await client.get(url, timeout=10)
+    r.raise_for_status()
+    return r.json()
+async def main():
+    async with httpx.AsyncClient() as client:
+        weather, news, stock = await asyncio.gather(
+            fetch(client, "https://api.example.com/weather"),
+            fetch(client, "https://api.example.com/news"),
+            fetch(client, "https://api.example.com/stock"),
+            return_exceptions=True)          # one failure doesn't cancel the others
+    return weather, news, stock
+asyncio.run(main())</code></pre><p>Only call sequentially when one call depends on another's result.</p></div></div></div>
+<div class="qa" id="q3" data-star=1><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">What are generators and decorators in Python? How do generators relate to streaming LLM responses?<div class=qa-tags><span class="star">★ Must-know</span><span>Asked: TCS, Google</span></div></div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul><li><b>Generator:</b> a function that uses <b>`yield`</b> to produce values <b>one at a time, lazily</b>, keeping its state between calls – memory-efficient for large/infinite data.</li><li><b>Decorator:</b> a function that <b>wraps another function</b> to add behaviour (logging, timing, retries, caching, auth) without changing its code; applied with `@decorator`.</li><li><b>Streaming:</b> LLM APIs return tokens as a stream; a generator <b>yields each chunk as it</b> <b>arrives</b>, and a web framework (FastAPI `StreamingResponse`, SSE) sends it to the user immediately → low perceived latency.</li></ul><pre><code>import time, functools
+def timed(func):                       # decorator
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        start = time.perf_counter()
+        result = func(*args, **kwargs)
+        print(f"{func.__name__} took {time.perf_counter() - start:.2f}s")
+        return result
+    return wrapper
+def stream_answer(llm, question):      # generator
+    for chunk in llm.stream(question): # LangChain chat model streaming
+        yield chunk.content
+# FastAPI streaming endpoint
+from fastapi import FastAPI
+from fastapi.responses import StreamingResponse
+app = FastAPI()
+@app.get("/chat")
+def chat(q: str):
+    return StreamingResponse(stream_answer(llm, q), media_type="text/plain")</code></pre></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">How do you process very large data (e.g. millions of rows or huge files) in Python without Out-Of-Memory errors?<div class=qa-tags><span>Asked: TCS</span></div></div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul><li><b>Stream/iterate instead of loading everything:</b> read files line by line, use <b>generators</b>; `pd.read_csv(..., chunksize=100_000)` and process chunk by chunk.</li><li><b>Batch processing</b> for embeddings/LLM calls (e.g. 100 documents per batch) and write results incrementally to disk/DB.</li><li><b>Efficient dtypes</b> (category, int32, float32), load only needed columns (`usecols`).</li><li><b>Columnar/lazy tools:</b> Polars (lazy mode), DuckDB, PyArrow/Parquet, Dask or Spark for distributed data.</li><li><b>Memory-mapped files</b> / NumPy memmap for large arrays; vector DBs instead of in-memory embedding arrays.</li><li>Free memory (`del`, avoid unnecessary copies), and profile with `memory_profiler`/`tracemalloc`.</li><li>Scale out with queues and workers rather than one giant process.</li></ul></div></div></div>
+<div class="qa" id="q5" data-code=1><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Write a Python function that calls an LLM API with exponential backoff retries (with jitter) for transient errors.<div class=qa-tags><span class="code">💻 Code</span><span>Asked: Wipro, EPAM</span></div></div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code>import random, time
+class TransientError(Exception):
+    '''Timeouts, HTTP 429 or 5xx errors.'''
+def call_with_backoff(fn, *args, max_retries=5, base_delay=1.0, max_delay=30.0, **kwargs):
+    for attempt in range(max_retries + 1):
+        try:
+            return fn(*args, **kwargs)
+        except TransientError as e:
+            if attempt == max_retries:
+                raise                                   # give up after last attempt
+            delay = min(max_delay, base_delay * (2 ** attempt))   # 1, 2, 4, 8, 16...
+            delay = random.uniform(0, delay)            # "full jitter" avoids thundering herd
+            print(f"Attempt {attempt + 1} failed ({e}); retrying in {delay:.1f}s")
+            time.sleep(delay)
+# Usage with the OpenAI SDK
+# from openai import OpenAI, RateLimitError, APITimeoutError, InternalServerError
+# def ask(prompt):
+#     try:
+#         return client.chat.completions.create(model="gpt-4o-mini",
+#                    messages=[{"role": "user", "content": prompt}], timeout=30)
+#     except (RateLimitError, APITimeoutError, InternalServerError) as e:
+#         raise TransientError(e)
+# call_with_backoff(ask, "Hello")</code></pre><p>Key points for the interviewer: retry <b>only transient errors</b> (not 400/401), cap the attempts and the delay, add <b>jitter</b>, respect `Retry-After`, set timeouts, and make the operation idempotent. In production use the `tenacity` library or the SDK's built-in `max_retries`.</p></div></div></div>
+<div class="qa" id="q6" data-code=1><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Implement an in-memory cache (with TTL) for LLM queries so identical requests don&#x27;t call the API again.<div class=qa-tags><span class="code">💻 Code</span><span>Asked: Wipro</span></div></div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code>import hashlib, json, time
+class LLMCache:
+    def __init__(self, ttl_seconds=3600, max_size=10_000):
+        self.ttl, self.max_size, self.store = ttl_seconds, max_size, {}
+    def _key(self, model, prompt, **params):
+        raw = json.dumps({"model": model, "prompt": prompt, **params}, sort_keys=True)
+        return hashlib.sha256(raw.encode()).hexdigest()
+    def get(self, model, prompt, **params):
+        k = self._key(model, prompt, **params)
+        item = self.store.get(k)
+        if item and time.time() - item[1] &lt; self.ttl:
+            return item[0]
+        self.store.pop(k, None)                  # expired or missing
+        return None
+    def set(self, model, prompt, response, **params):
+        if len(self.store) &gt;= self.max_size:     # simple eviction: drop oldest
+            oldest = min(self.store, key=lambda k: self.store[k][1])
+            del self.store[oldest]
+        self.store[self._key(model, prompt, **params)] = (response, time.time())
+cache = LLMCache(ttl_seconds=600)
+def cached_llm(prompt, model="gpt-4o-mini", temperature=0):
+    hit = cache.get(model, prompt, temperature=temperature)
+    if hit is not None:
+        return hit
+    response = call_llm(prompt, model=model, temperature=temperature)   # your API call
+    cache.set(model, prompt, response, temperature=temperature)
+    return response</code></pre><p>Notes: the key includes model and parameters; only cache deterministic (temperature 0) requests; in production use <b>Redis</b> (shared across servers, built-in TTL) and consider semantic caching for similar questions. `functools.lru_cache` works for simple cases but has no TTL.</p></div></div></div>
+<div class="qa" id="q7" data-star=1><div class="qa-h"><span class="qa-n">Q7</span><div class="qa-q">Why is FastAPI preferred for GenAI backends, and how does Pydantic fit in?<div class=qa-tags><span class="star">★ Must-know</span><span>Asked: EPAM, Google</span></div></div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><b>FastAPI:</b></p><ul><li><b>Async-native</b> (ASGI) → handles many concurrent I/O-bound LLM/API calls efficiently.</li><li>Easy <b>streaming</b> (StreamingResponse/SSE) for token-by-token output.</li><li><b>Automatic validation and OpenAPI/Swagger docs</b> from type hints; very fast; dependency injection for auth, DB sessions, rate limiting.</li></ul><p><b>Pydantic:</b> defines <b>typed data models</b> used for request/response validation (rejects bad input with clear errors), settings management, and – very important in GenAI – <b>validating LLM</b> <b>structured outputs</b> (JSON → Pydantic object, retry if invalid). LangChain `with_structured_output` and tool schemas use Pydantic.</p><pre><code>from fastapi import FastAPI
+from pydantic import BaseModel, Field
+class AskRequest(BaseModel):
+    question: str = Field(min_length=3, max_length=2000)
+    session_id: str
+class AskResponse(BaseModel):
+    answer: str
+    sources: list[str]
+app = FastAPI()
+@app.post("/ask", response_model=AskResponse)
+async def ask(req: AskRequest):
+    result = await rag_chain.ainvoke(req.question)
+    return AskResponse(answer=result["answer"],
+                       sources=[d.metadata["source"] for d in result["docs"]])</code></pre></div></div></div>
+<div class="qa" id="q8"><div class="qa-h"><span class="qa-n">Q8</span><div class="qa-q">Quick-fire Python: list vs tuple, shallow vs deep copy, and what is a context manager?<div class=qa-tags><span>Asked: Google</span></div></div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul><li><b>List vs tuple:</b> list is <b>mutable</b> (append/modify), tuple is <b>immutable</b>, slightly faster and smaller, <b>hashable</b> (usable as dict keys/set elements if its items are hashable). Use tuples for fixed records.</li><li><b>Shallow vs deep copy:</b> a <b>shallow copy</b> (`copy.copy`, `list.copy()`, slicing) creates a new outer object but <b>shares the nested objects</b>; a <b>deep copy</b> (`copy.deepcopy`) recursively copies everything.</li></ul><pre><code>import copy
+a = [[1, 2], [3]]
+s = copy.copy(a); d = copy.deepcopy(a)
+a[0].append(99)
+print(s[0], d[0])   # [1, 2, 99] [1, 2]</code></pre><ul><li><b>Context manager:</b> an object that sets up and <b>guarantees cleanup</b> of a resource using `with` (implements `__enter__`/`__exit__`, or `@contextlib.contextmanager`). Examples: files, DB connections, locks, `httpx.AsyncClient`, timing blocks. Cleanup runs even if an exception occurs.</li></ul></div></div></div>
+<div class="qa" id="q9" data-code=1><div class="qa-h"><span class="qa-n">Q9</span><div class="qa-q">Pandas: given a DataFrame with columns &#x27;Student&#x27; and &#x27;Marks&#x27;, mark students with marks below 30 as &#x27;Fail&#x27; (others &#x27;Pass&#x27;) in a new column &#x27;Result&#x27;, and list the failed students.<div class=qa-tags><span class="code">💻 Code</span><span>Asked: PwC</span></div></div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code>import pandas as pd
+import numpy as np
+df = pd.DataFrame({"Student": ["Asha", "Ravi", "Neha", "Kiran"],
+                   "Marks": [72, 25, 29, 30]})
+df["Result"] = np.where(df["Marks"] &lt; 30, "Fail", "Pass")
+# alternative: df.loc[df["Marks"] &lt; 30, "Result"] = "Fail"
+failed = df[df["Marks"] &lt; 30]
+print(df)
+#   Student  Marks Result
+# 0    Asha     72   Pass
+# 1    Ravi     25   Fail
+# 2    Neha     29   Fail
+# 3   Kiran     30   Pass
+print(failed["Student"].tolist())   # ['Ravi', 'Neha']</code></pre><p>Mention vectorized operations (`np.where`, boolean masks) instead of row loops (`iterrows`) for performance.</p></div></div></div>
+<div class="qa" id="q10" data-code=1><div class="qa-h"><span class="qa-n">Q10</span><div class="qa-q">SQL: find the second-highest salary, and find duplicate records in a table.<div class=qa-tags><span class="code">💻 Code</span><span>Asked: Google</span></div></div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code>-- Second-highest distinct salary
+SELECT MAX(salary) AS second_highest
+FROM employees
+WHERE salary &lt; (SELECT MAX(salary) FROM employees);
+-- Using a window function (works for Nth highest; handles ties)
+SELECT DISTINCT salary
+FROM (SELECT salary, DENSE_RANK() OVER (ORDER BY salary DESC) AS rnk
+      FROM employees) t
+WHERE rnk = 2;
+-- Duplicate records (same email)
+SELECT email, COUNT(*) AS cnt
+FROM customers
+GROUP BY email
+HAVING COUNT(*) &gt; 1;
+-- Show the full duplicate rows
+SELECT * FROM (
+  SELECT c.*, ROW_NUMBER() OVER (PARTITION BY email ORDER BY id) AS rn
+  FROM customers c) t
+WHERE rn &gt; 1;</code></pre><p>Know the difference: INNER JOIN returns only matching rows; LEFT JOIN returns all rows of the left table with NULLs where there is no match.</p></div></div></div>
+<div class="qa" id="q11" data-star=1><div class="qa-h"><span class="qa-n">Q11</span><div class="qa-q">Precision vs recall vs F1 score – when is recall more important than precision?<div class=qa-tags><span class="star">★ Must-know</span><span>Asked: Google</span></div></div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul><li><b>Precision</b> = TP / (TP + FP) – of everything the model flagged, how much was correct. ("When I say fraud, am I right?")</li><li><b>Recall</b> = TP / (TP + FN) – of all actual positives, how many did we catch. ("Did I catch all frauds?")</li><li><b>F1</b> = 2 × P × R / (P + R) – harmonic mean; useful for imbalanced data when both matter.</li></ul><p><b>Recall matters more</b> when <b>missing a positive is costly</b>: fraud detection, cancer screening, security threats, <b>RAG retrieval</b> (missing the relevant chunk means a wrong answer).</p><p><b>Precision matters more</b> when <b>false alarms are costly</b>: spam filtering (losing real emails), blocking customer transactions, recommending content. Tune the decision <b>threshold</b> to trade them off; use PR-AUC for imbalanced problems; accuracy is misleading when 99% of transactions are legitimate.</p></div></div></div>
+<div class="qa" id="q12" data-star=1><div class="qa-h"><span class="qa-n">Q12</span><div class="qa-q">What is overfitting, and what is data leakage? How do you prevent each?<div class=qa-tags><span class="star">★ Must-know</span><span>Asked: Google</span></div></div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul><li><b>Overfitting:</b> the model memorizes training data (including noise) – great training score, poor validation/test score. <b>Prevent:</b> more data, simpler model, regularization (L1/L2, dropout), early stopping, cross-validation, data augmentation, feature selection.</li><li><b>Data leakage:</b> information that would <b>not be available at prediction time</b> leaks into training, giving unrealistically good validation results that collapse in production. Examples: fitting the scaler/TF-IDF on the full dataset before splitting; features computed from the future (e.g. "chargeback flag" when predicting fraud at transaction time); duplicates across train and test; random split on time-series data.</li></ul><p><b>Prevent leakage:</b> split first, then fit preprocessing on train only (sklearn <b>Pipelines</b>); time-based splits for temporal data; group-aware splits (same customer not in both); careful feature review.</p><ul><li><b>Cross-validation (k-fold):</b> train/evaluate k times on different splits for a more reliable estimate.</li></ul></div></div></div>
+<div class="qa" id="q13" data-star=1><div class="qa-h"><span class="qa-n">Q13</span><div class="qa-q">How do you handle class imbalance (e.g. 1% fraud vs 99% normal transactions)?<div class=qa-tags><span class="star">★ Must-know</span><span>Asked: NLP interview rounds, Google</span></div></div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul><li><b>Right metrics:</b> precision, recall, F1, <b>PR-AUC</b>, confusion matrix – not accuracy (99% accuracy by predicting "not fraud" always).</li><li><b>Resampling:</b> undersample the majority, oversample the minority, <b>SMOTE</b> (synthetic samples) – only on the training set.</li><li><b>Class weights / cost-sensitive learning:</b> `class_weight="balanced"`, `scale_pos_weight` in XGBoost, focal loss for deep learning.</li><li><b>Threshold tuning</b> based on business cost of FP vs FN.</li><li><b>Better features</b> and anomaly-detection approaches (Isolation Forest, autoencoders).</li><li>For text: data augmentation (back-translation, LLM paraphrasing), more labelled minority examples.</li><li>Use <b>stratified</b> splits so each fold has minority examples.</li></ul></div></div></div>
+<div class="qa" id="q14"><div class="qa-h"><span class="qa-n">Q14</span><div class="qa-q">How do you detect and handle outliers before feeding data into ML or embedding models?<div class=qa-tags><span>Asked: PwC</span></div></div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><b>Detect:</b></p><ul><li>Statistical: <b>IQR rule</b> (below Q1 − 1.5·IQR or above Q3 + 1.5·IQR), <b>z-score</b> &gt; 3.</li><li>Visual: box plots, histograms, scatter plots.</li><li>Model-based: <b>Isolation Forest</b>, LOF, DBSCAN; for text/embeddings – points far from cluster centroids, unusually long/short documents, wrong language, garbage OCR text.</li></ul><p><b>Handle (depends on cause):</b></p><ul><li>Data errors → <b>fix or remove</b>.</li><li>Genuine extreme values → <b>cap/winsorize</b>, log-transform, or use robust models/scalers (RobustScaler, tree models).</li><li>In fraud, outliers are often <b>the signal</b> – don't remove them; model them.</li></ul><p>For RAG ingestion: filter empty/boilerplate chunks, duplicated pages and corrupted OCR before embedding.</p></div></div></div>
+<div class="qa" id="q15"><div class="qa-h"><span class="qa-n">Q15</span><div class="qa-q">Why are traditional ML concepts (classification vs regression, loss functions, metrics) still asked in GenAI interviews?<div class=qa-tags><span>Asked: PwC</span></div></div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p>Because GenAI systems are built on and around them:</p><ul><li>LLMs are trained by minimizing a <b>loss function</b> (cross-entropy on next-token prediction); fine-tuning, RLHF/DPO and embedding training all rely on losses and optimization.</li><li>Many GenAI products still contain <b>classical ML tasks</b>: intent classification, routing, re-ranking, fraud scoring, anomaly detection, evaluation classifiers.</li><li><b>Evaluation</b> needs ML thinking: precision/recall for retrieval and guardrails, train/test splits, overfitting, leakage, statistical significance in A/B tests.</li><li>Production issues (drift, imbalance, bias, monitoring) are classic MLOps topics.</li></ul><p>It shows the candidate understands *why* models behave as they do, not just how to call an API.</p><p><b>Quick definitions:</b> classification predicts a <b>category</b> (fraud / not fraud, uses cross-entropy); regression predicts a <b>number</b> (transaction amount, uses MSE/MAE).</p></div></div></div>
+<div class="qa" id="q16" data-star=1><div class="qa-h"><span class="qa-n">Q16</span><div class="qa-q">What is data drift vs model (concept) drift vs training–serving skew? Batch vs online inference?<div class=qa-tags><span class="star">★ Must-know</span><span>Asked: Google</span></div></div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul><li><b>Data drift:</b> the <b>input distribution changes</b> over time (new product names, new customer segment, users start asking about a new policy) while the relationship may stay the same.</li><li><b>Concept/model drift:</b> the <b>relationship between inputs and the target changes</b> (fraudsters change tactics, so old patterns no longer indicate fraud) → model accuracy decays.</li><li><b>Training–serving skew:</b> features/preprocessing at serving time <b>differ from training</b> (different tokenization, missing feature, different scaler) – a bug, not a change in the world.</li></ul><p><b>Detect/handle:</b> monitor input statistics (PSI, KS test, embedding-distribution shift), prediction distributions and live metrics; retrain or update the knowledge base; share one feature/preprocessing pipeline between training and serving.</p><ul><li><b>Batch inference:</b> predictions for many records <b>on a schedule</b> (nightly scoring, bulk document summarization) – cheap, high throughput, not real-time.</li><li><b>Online (real-time) inference:</b> prediction <b>per request with low latency</b> (chatbot, transaction fraud check at payment time) – needs always-on serving and scaling.</li></ul></div></div></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-prep/assignment-18-python-ml-essentials-for-genai-engineers"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

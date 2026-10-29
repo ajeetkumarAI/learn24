@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TCS: GenAI Engineer, Complete Q&amp;A · Interview Prep · Learn24</title>
+<meta name="description" content="TCS: GenAI Engineer, Complete Q&amp;A: 14 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="TCS: GenAI Engineer, Complete Q&amp;A · Learn24">
+<meta property="og:description" content="TCS: GenAI Engineer, Complete Q&amp;A: 14 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="tcs-genai-complete" data-lesson="interview-prep/tcs-genai-complete">
+  <div class="kicker">Interview Prep · Company interview · TCS</div>
+  <h1>TCS: GenAI Engineer, Complete Q&amp;A</h1>
+  <div class="meta"><span>❓ 14 questions</span><span>🏢 TCS</span></div>
+  <p class="lead">TCS Generative AI Engineer Interview (2026-2027) - Complete Question &amp; Answer Set. Real questions from the interview, with detailed answers. Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="https://github.com/ajeetkumarAI/Company-Specific-Gen-AI-Agentic-AI-Interview-Question-Answer-Bank/blob/main/TCS/interview1.md" target=_blank rel=noopener>Source on GitHub ↗</a></div>
+<h2 class="prep-sec" id="s-1-project-deep-dive-core-architecture"><span class="n">01</span>Project Deep-Dive &amp; Core Architecture</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Explain your Generative AI project architecture from end to end.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Use Case:</strong> Enterprise Knowledge Base / Policy Assistant that answers user queries based on internal domain documents.</li>
+<li><strong>Architecture Flow:</strong>
+  1. <strong>Ingestion &amp; Preprocessing:</strong> Parsing PDFs, Markdown, or Word documents; cleaning noise/metadata.
+  2. <strong>Chunking &amp; Embedding:</strong> Splitting documents into manageable text chunks and generating dense vector embeddings using models like <code>text-embedding-3-small</code> or <code>bge-large-en</code>.
+  3. <strong>Vector Database:</strong> Storing embeddings alongside document metadata (e.g., page number, file name, access permissions) in a vector store like Pinecone, Qdrant, or FAISS.
+  4. <strong>Retrieval Phase:</strong> Generating query embeddings, executing dense semantic retrieval (Top-K similarity search), and applying reranking (e.g., Cohere Rerank) to filter the top 3–5 chunks.
+  5. <strong>Generation Phase:</strong> Injecting retrieved context into a structured prompt, passing it to the generator LLM (e.g., Claude 3.5 Sonnet or GPT-4o), and enforcing response schemas or citations.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Why did you choose RAG over using a standalone LLM or Fine-Tuning?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Compared to Standalone LLM:</strong> Standalone base models lack access to private, real-time, or domain-specific company data and are prone to hallucinations when asked about internal documents.</li>
+<li><strong>Compared to Fine-Tuning:</strong></li>
+<li><strong>Dynamic Knowledge Updating:</strong> RAG updates its knowledge base instantaneously whenever new files are uploaded, whereas Fine-Tuning requires costly and time-consuming GPU retraining runs.</li>
+<li><strong>Verifiability &amp; Citations:</strong> RAG allows strict source attribution by citing chunk metadata; fine-tuned model weights store knowledge implicitly without verifiable source references.</li>
+<li><strong>Cost Efficiency &amp; Access Control:</strong> Fine-tuning base weights cannot enforce user-level security permissions, while RAG can easily enforce Role-Based Access Control (RBAC) metadata filters during vector retrieval.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-2-rag-pipeline-retrieval-optimization"><span class="n">02</span>RAG Pipeline &amp; Retrieval Optimization</h2>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">What chunking strategy did you use, and why?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Fixed-size Chunking (with overlap):</strong> e.g., 500-token chunks with a 50-token overlap. Simple, but can break semantic sentences across boundaries.</li>
+<li><strong>Recursive Character Text Chunking:</strong> Splits text hierarchically using double line breaks (<code>\n\n</code>), single line breaks (<code>\n</code>), spaces, and characters. This preserves logical paragraphs and complete thought structures.</li>
+<li><strong>Semantic Chunking:</strong> Calculates embedding distances between adjacent sentences and creates split boundaries when vector similarity drops below a predefined threshold, ensuring each chunk contains a single coherent concept.</li>
+<li><strong>Parent-Child / Hierarchical Chunking:</strong> Uses small child chunks (e.g., 100–150 tokens) for precise vector distance calculation during search, but returns the larger parent block (e.g., 1000 tokens) to the generator model to provide rich context.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">How do you evaluate retrieval quality? Explain Precision@K, Recall@K, and MRR.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Precision@K:</strong> Measures the proportion of relevant chunks within the top \(K\) retrieved chunks:
+  \[\text{Precision@K} = \frac{\text{Number of Relevant Chunks in Top } K}{K}\]</li>
+<li><strong>Recall@K:</strong> Measures the fraction of all truly relevant chunks in the database that were successfully retrieved in the top \(K\):
+  \[\text{Recall@K} = \frac{\text{Number of Relevant Chunks in Top } K}{\text{Total Number of Relevant Chunks in Dataset}}\]</li>
+<li><strong>Mean Reciprocal Rank (MRR):</strong> Evaluates the position of the <em>first</em> relevant result across multiple test queries:
+  \[\text{MRR} = \frac{1}{\vert{}Q\vert{}} \sum_{i=1}^{\vert{}Q\vert{}} \frac{1}{\text{rank}_i}\]
+  where \(\text{rank}_i\) is the 1-based position of the first relevant chunk returned for query \(i\).</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-llm-parameters-prompts-hallucination-m"><span class="n">03</span>LLM Parameters, Prompts &amp; Hallucination Mitigation</h2>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">What is the difference between System Prompt and User Prompt?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>System Prompt:</strong> Sets the global behavior, role boundaries, tone, constraints, and safety guardrails for the model (e.g., <em>"You are an internal corporate support assistant. Only answer queries using the provided context."</em>). It carries higher structural priority in model instructions.</li>
+<li><strong>User Prompt:</strong> The dynamic, variable query or input provided by the end-user during a specific conversation turn (e.g., <em>"What is our company's parental leave policy?"</em>).</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">How do LLM parameters like Temperature, Top-P, and Top-K affect generation?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Temperature:</strong> Controls output randomness by flattening or steepening the Softmax probability distribution over tokens.</li>
+<li><strong>Low Temperature (\(0.0 - 0.2\)):</strong> Makes outputs deterministic and factual (ideal for RAG/code).</li>
+<li><strong>High Temperature (\(0.7 - 1.0\)):</strong> Increases output creativity and variability.</li>
+<li><strong>Top-P (Nucleus Sampling):</strong> Selects tokens from the smallest cumulative probability set whose sum equals \(P\) (e.g., Top-P = \(0.9\) samples from tokens making up the top \(90\%\) probability mass).</li>
+<li><strong>Top-K Sampling:</strong> Restricts token choices strictly to the top \(K\) most probable next tokens, discarding all others.</li>
+</ul></div></div></div>
+<div class="qa" id="q7"><div class="qa-h"><span class="qa-n">Q7</span><div class="qa-q">How do you detect and reduce LLM hallucinations in a production system?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ol>
+<li><strong>RAG Grounding:</strong> Restrict the system prompt to explicitly state: <em>"Answer strictly based on the context. If the answer is not contained within the context, state 'I do not have enough information to answer.'"</em></li>
+<li><strong>Self-Correction &amp; Reranking:</strong> Run a lightweight secondary LLM step or evaluator to verify if every assertion in the output is supported by the context before returning the response.</li>
+<li><strong>Guardrails &amp; Structured Outputs:</strong> Enforce Pydantic output parsing or frameworks like NeMo Guardrails to reject ungrounded generations.</li>
+<li><strong>Lower Temperature:</strong> Set temperature to \(0.0\) to minimize creative divergence.</li>
+</ol></div></div></div>
+<h2 class="prep-sec" id="s-4-agentic-ai-tool-integration"><span class="n">04</span>Agentic AI &amp; Tool Integration</h2>
+<div class="qa" id="q8"><div class="qa-h"><span class="qa-n">Q8</span><div class="qa-q">What is Agentic AI, and how does it differ from standard Generative AI?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Standard Generative AI:</strong> Single-turn input-to-output mapping (e.g., drafting an email or generating a single response from a prompt).</li>
+<li><strong>Agentic AI:</strong> Autonomous systems capable of multi-step planning, tool selection, environment interaction, and self-correction to achieve complex end goals without step-by-step human intervention.</li>
+</ul></div></div></div>
+<div class="qa" id="q9"><div class="qa-h"><span class="qa-n">Q9</span><div class="qa-q">How would you design an AI Agent with external tools?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>Uses the <strong>ReAct (Reasoning + Acting)</strong> framework:
+  1. <strong>Thought:</strong> The agent breaks down the problem and determines which tool is needed.
+  2. <strong>Action:</strong> The agent outputs a structured tool invocation request (e.g., calling a REST API or executing an SQL query).
+  3. <strong>Observation:</strong> The environment runs the tool and returns the response back into the context window.
+  4. <strong>Iteration:</strong> The agent evaluates the output and decides the next action or presents the final answer.</li>
+</ul></div></div></div>
+<div class="qa" id="q10"><div class="qa-h"><span class="qa-n">Q10</span><div class="qa-q">How do you prevent AI Agents from getting trapped in infinite execution loops?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ol>
+<li><strong>Max Iteration Limits:</strong> Enforce strict execution step counters (<code>max_iterations = 5</code>).</li>
+<li><strong>State &amp; Duplicate Action Tracking:</strong> Maintain an action log; if the agent attempts the exact same tool call with identical parameters twice in a row, interrupt execution.</li>
+<li><strong>Fallback &amp; Graceful Timeout Handlers:</strong> Implement system timeouts that force the agent into a human-in-the-loop or default error message state if task completion takes too long.</li>
+</ol></div></div></div>
+<h2 class="prep-sec" id="s-5-python-core-system-performance"><span class="n">05</span>Python Core &amp; System Performance</h2>
+<div class="qa" id="q11"><div class="qa-h"><span class="qa-n">Q11</span><div class="qa-q">What is the difference between Multithreading and Multiprocessing in Python?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Multithreading (<code>threading</code> module):</strong></li>
+<li>Multiple threads run within the same process memory space.</li>
+<li>Subject to Python's Global Interpreter Lock (GIL), meaning threads cannot run CPU-bound code in parallel across multiple CPU cores.</li>
+<li><strong>Best for:</strong> I/O-bound tasks (e.g., asynchronous API calls, fetching data from vector DBs).</li>
+<li><strong>Multiprocessing (<code>multiprocessing</code> module):</strong></li>
+<li>Creates separate process instances, each with its own memory space and Python interpreter instance.</li>
+<li>Bypasses the GIL, enabling true parallel execution across multi-core CPUs.</li>
+<li><strong>Best for:</strong> CPU-bound tasks (e.g., tokenization, chunking, data processing, heavy local model inference).</li>
+</ul></div></div></div>
+<div class="qa" id="q12"><div class="qa-h"><span class="qa-n">Q12</span><div class="qa-q">What is the Python Global Interpreter Lock (GIL)?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>The <strong>GIL</strong> is a mutex (mutual exclusion lock) used by the CPython interpreter to ensure that only one thread executes Python bytecode at any given moment.</li>
+<li>It prevents race conditions and ensures memory safety in CPython's reference-counting garbage collection system, but limits Python multithreading from leveraging multi-core parallel computing for heavy mathematical or CPU computations.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-6-production-operations-monitoring-debug"><span class="n">06</span>Production Operations, Monitoring &amp; Debugging</h2>
+<div class="qa" id="q13"><div class="qa-h"><span class="qa-n">Q13</span><div class="qa-q">How do you debug high latency issues in a RAG pipeline?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ol>
+<li><strong>Add End-to-End Tracing:</strong> Integrate observability platforms like LangSmith, Arize Phoenix, or OpenTelemetry to measure latency at each individual pipeline step:
+   \[\text{Total Latency} = T_{\text{embedding}} + T_{\text{vector\_search}} + T_{\text{reranking}} + T_{\text{LLM\_TTFT}} + T_{\text{generation}}\]</li>
+<li><strong>Identify the Bottleneck:</strong>
+   * <strong>If Vector Retrieval is slow:</strong> Optimize database indexing (e.g., switch from exact search to approximate nearest neighbor HNSW), or cache frequent embedding results.
+   * <strong>If Generation is slow:</strong> Enable streaming responses (Time to First Token - TTFT), use smaller/quantized LLMs, or adopt prompt caching strategies.</li>
+</ol></div></div></div>
+<div class="qa" id="q14"><div class="qa-h"><span class="qa-n">Q14</span><div class="qa-q">What metrics should you continuously monitor for a production Gen AI application?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>System Metrics:</strong> Latency (TTFT, Total Response Time), API Error Rates, GPU Memory/Compute Utilization, Token Throughput (tokens/sec).</li>
+<li><strong>Quality &amp; RAG Metrics:</strong> Context Relevance, Answer Groundedness (Faithfulness), User Feedback (Thumbs Up / Thumbs Down ratios).</li>
+<li><strong>Operational &amp; Cost Metrics:</strong> Daily Token Consumption (Input vs. Output tokens), API Cost Per User Query, Guardrail Trigger Rates (blocked prompt injections / toxic inputs).</li>
+</ul></div></div></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-prep/tcs-genai-complete"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

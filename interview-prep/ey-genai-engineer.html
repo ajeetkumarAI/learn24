@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EY: GenAI Engineer Q&amp;A · Interview Prep · Learn24</title>
+<meta name="description" content="EY: GenAI Engineer Q&amp;A: 7 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="EY: GenAI Engineer Q&amp;A · Learn24">
+<meta property="og:description" content="EY: GenAI Engineer Q&amp;A: 7 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="ey-genai-engineer" data-lesson="interview-prep/ey-genai-engineer">
+  <div class="kicker">Interview Prep · Company interview · EY</div>
+  <h1>EY: GenAI Engineer Q&amp;A</h1>
+  <div class="meta"><span>❓ 7 questions</span><span>🏢 EY</span></div>
+  <p class="lead">EY Generative AI Engineer Interview (2026-2027) — Questions &amp; Answers Guide. Real questions from the interview, with detailed answers. Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="https://github.com/ajeetkumarAI/Company-Specific-Gen-AI-Agentic-AI-Interview-Question-Answer-Bank/blob/main/EY/interview.md" target=_blank rel=noopener>Source on GitHub ↗</a></div>
+<h2 class="prep-sec" id="s-1-technical-scenario-round-production-de"><span class="n">01</span>Technical Scenario Round: Production Debugging &amp; System Design</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Scenario: Your RAG-based chatbot for a client is confidently returning information that does not exist in the knowledge base (hallucination). The client is upset. How do you diagnose and fix this in production today?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ol>
+<li>
+<p><strong>Isolate Retrieval vs. Generation Failure:</strong>
+* Determine if the retrieval step failed to fetch the right context chunks, or if the LLM received the correct context but ignored/hallucinated beyond it.
+* Inspect retrieval similarity scores and log the raw context chunks passed to the LLM for failing queries.</p>
+</li>
+<li>
+<p><strong>Mitigate LLM Hallucinations (Prompt Engineering &amp; Grounding Constraints):</strong>
+* Tighten system prompts with explicit <strong>grounding instructions</strong> and strict refusal rules (e.g., <em>"Answer ONLY using the provided context. If the answer is not present, state 'I do not have this information'"</em>).</p>
+</li>
+<li>
+<p><strong>Implement Light Guardrails &amp; Automated Checks:</strong>
+* Introduce a fast, cheap <strong>groundedness check</strong> (a lightweight classifier or small model evaluator) that compares the generated response against retrieved chunks before serving it to the user.</p>
+</li>
+<li>
+<p><strong>Immediate Fallback Mechanism:</strong>
+* If the groundedness score falls below a set safety threshold, intercept the output and trigger a safe fallback message (<em>"I cannot find this information in the official documents"</em>) rather than serving confident, false statements.</p>
+</li>
+</ol></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Scenario: Your knowledge base expanded from 10,000 documents to 5 million documents. Latency has crashed, and API/infrastructure costs are spiking. How do you scale this architecture?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ol>
+<li>
+<p><strong>Vector Database Optimization &amp; Indexing:</strong>
+* Migrate to a production-grade, distributed vector database (e.g., Pinecone, Weaviate, or tuned PGVector).
+* Tune <strong>Approximate Nearest Neighbor (ANN)</strong> index parameters (HNSW/IVF) to trade a negligible fraction of recall for massive speed gains.</p>
+</li>
+<li>
+<p><strong>Pre-Filtering with Metadata:</strong>
+* Implement <strong>metadata pre-filtering</strong> so the vector search space is partitioned before dense similarity execution rather than filtered post-retrieval.</p>
+</li>
+<li>
+<p><strong>Tiered / Hybrid Retrieval Architecture:</strong>
+* Implement a two-tiered retrieval pipeline: run a fast, low-cost sparse keyword search (BM25) first to narrow millions of docs down to candidate subsets, then apply dense vector search and cross-encoder reranking on top candidates.</p>
+</li>
+<li>
+<p><strong>Caching Strategy:</strong>
+* Implement semantic caching (e.g., Redis) to serve repeated or semantically equivalent user queries directly from cache without hitting the vector database or LLM.</p>
+</li>
+</ol></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Scenario: Your Gen AI feature was approved for a $2,000/month API budget, but costs hit $18,000/month and are rising. How do you analyze and optimize cost consumption?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ol>
+<li>
+<p><strong>Model Routing &amp; Cascading:</strong>
+* Replace one-size-fits-all calls to expensive frontier models (e.g., GPT-4 class) with <strong>intelligent routing</strong>. Route simple extraction, classification, or summarization tasks to smaller, lower-cost models (e.g., GPT-4o-mini, Claude Haiku, or fine-tuned SLMs).</p>
+</li>
+<li>
+<p><strong>Prompt Payload Reduction:</strong>
+* Inspect prompt sizes to ensure full, un-chunked raw documents are not being injected into context when small, precise retrieved chunks suffice.</p>
+</li>
+<li>
+<p><strong>Caching &amp; Deduplication:</strong>
+* Enable <strong>prompt caching</strong> provided by LLM vendors and deploy semantic caching at the backend layer to eliminate duplicate LLM calls.</p>
+</li>
+<li>
+<p><strong>Batch Processing:</strong>
+* Offload non-real-time asynchronous tasks (e.g., nightly report generation, data indexing summary jobs) to batch processing APIs, which typically offer 50% cost discounts.</p>
+</li>
+</ol></div></div></div>
+<h2 class="prep-sec" id="s-2-case-study-round-enterprise-rag-archit"><span class="n">02</span>Case Study Round: Enterprise RAG Architecture Design</h2>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Case Study: Design an internal AI tool for employees to query 3,000 HR and policy PDF documents (updated weekly). Requirements: Strict multi-department access control (e.g., Legal can only view Legal policies, HR can only view HR policies; zero data leakage between departments). Walk through the end-to-end design.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code>[ Ingestion Pipeline ]
+  PDF Documents (3,000) ──&gt; Chunking ──&gt; Tag Metadata (dept_id) ──&gt; Delta Re-Embedding (Weekly Changes)
+
+[ Query &amp; Retrieval Pipeline ]
+  User Query + User Identity (RBAC) ──&gt; Pre-Retrieval Metadata Filter ──&gt; Scoped Vector Search ──&gt; Relevant Chunks
+
+[ Generation &amp; Guardrail Layer ]
+  Scoped Chunks ──&gt; System Prompt + Citation Instructions ──&gt; Grounded Response with Citations
+
+[ Continuous Evaluation ]
+  Periodic Automated Test Suite ──&gt; Check Answer Accuracy &amp; Verify Access Control / Zero Leakage
+
+</code></pre>
+<ol>
+<li>
+<p><strong>Ingestion Layer:</strong>
+* Chunk PDF documents and attach strict <strong>department access metadata tags</strong> (<code>dept_id</code>, <code>access_level</code>) to every vector chunk at ingestion time.
+* Implement <strong>delta/incremental re-indexing</strong> for weekly document updates, re-embedding only added or modified PDFs instead of re-processing the entire 3,000-document store.</p>
+</li>
+<li>
+<p><strong>Pre-Retrieval Access Control (Critical):</strong>
+* Enforce <strong>pre-retrieval filtering</strong>: the vector database query must be scoped directly to match the requesting user's validated RBAC (Role-Based Access Control) permissions.
+* <em>Never rely on the LLM prompt to restrict or hide sensitive data.</em> Unfiltered context chunks must never enter the model prompt if the user lacks explicit permissions.</p>
+</li>
+<li>
+<p><strong>Generation Layer:</strong>
+* Inject retrieved, permission-verified chunks into the prompt with strict formatting rules requiring explicit source document citations so users can verify outputs.</p>
+</li>
+<li>
+<p><strong>Evaluation &amp; Compliance Monitoring:</strong>
+* Run continuous test suites per department to systematically verify output accuracy and test against permission bypass/data leakage risks, treating access bugs as critical compliance violations.</p>
+</li>
+</ol></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Follow-Up: How do you handle overlapping policies (e.g., a document relevant to both Legal and HR departments) without duplicating data?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Multi-Tag Metadata Association:</strong> Tag overlapping document chunks with a multi-value array or list of authorized departments (<code>departments: ["Legal", "HR"]</code>) instead of duplicating storage entries.</li>
+<li><strong>Filter Operator Logic:</strong> Update the pre-retrieval vector search filter condition from an exact match (<code>department == user_dept</code>) to an inclusion match (<code>user_dept IN metadata.departments</code>).</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-client-facing-behavioral-round"><span class="n">03</span>Client-Facing &amp; Behavioral Round</h2>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Client Scenario: A non-technical client insists their chatbot must be 100% accurate and &quot;never make a mistake.&quot; How do you explain that this expectation is unrealistic without losing their confidence?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Avoid Technical Jargon:</strong> Frame the explanation around <strong>risk management and operational guardrails</strong> rather than raw AI limitations or model mathematics.</li>
+<li><strong>Analogy &amp; Reality Framing:</strong> Explain that no complex system—human or AI—is 100% error-free. Just as human specialists require review processes, AI systems require governance structures.</li>
+<li><strong>Focus on Containment &amp; Guardrails:</strong> Shift the conversation to how the engineering team mitigates risks:</li>
+<li>Automated groundedness filters.</li>
+<li>Explicit fallback routines when confidence is low.</li>
+<li>Human-in-the-Loop escalation paths for high-stakes decisions.</li>
+</ul></div></div></div>
+<div class="qa" id="q7"><div class="qa-h"><span class="qa-n">Q7</span><div class="qa-q">Standard Behavioral Scenarios</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Scope Changes Mid-Project:</strong> Handled by prioritizing core deliverables, evaluating trade-offs with stakeholders, establishing clear change-control documentation, and re-baselining delivery timelines transparently.</li>
+<li><strong>Technical Disagreements with Teammates:</strong> Resolved through objective benchmarking, running isolated proof-of-concept (PoC) tests, comparing metric trade-offs (e.g., latency vs. accuracy vs. cost), and aligning on common enterprise goals.</li>
+<li><strong>Staying Up-to-Date with AI Advances:</strong> Continuously follow research papers, major open-source repository releases, hands-on prototyping, and industry-standard engineering benchmarks.</li>
+</ul></div></div></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-prep/ey-genai-engineer"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

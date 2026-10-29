@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EY: Scenarios, Case Study &amp; Live Coding · Interview Prep · Learn24</title>
+<meta name="description" content="EY: Scenarios, Case Study &amp; Live Coding: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="EY: Scenarios, Case Study &amp; Live Coding · Learn24">
+<meta property="og:description" content="EY: Scenarios, Case Study &amp; Live Coding: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="ey-scenarios-case-study" data-lesson="interview-prep/ey-scenarios-case-study">
+  <div class="kicker">Interview Prep · Company interview · EY</div>
+  <h1>EY: Scenarios, Case Study &amp; Live Coding</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 EY</span></div>
+  <p class="lead">EY (Ernst &amp; Young) Generative AI Engineer Interview Guide. Real questions from the interview, with detailed answers. Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="https://github.com/ajeetkumarAI/Company-Specific-Gen-AI-Agentic-AI-Interview-Question-Answer-Bank/blob/main/EY/interview2.md" target=_blank rel=noopener>Source on GitHub ↗</a></div>
+<h2 class="prep-sec" id="s-1-candidate-background-loop-summary"><span class="n">01</span>Candidate Background &amp; Loop Summary</h2><ul>
+<li><strong>Role &amp; Company:</strong> Generative AI Engineer at EY (Client-Facing Consulting Role).</li>
+<li><strong>Interview Loop Structure (4 Rounds):</strong>
+  1. <strong>Recruiter Screening:</strong> Initial background check, compensation alignment, and logistics (Standard).
+  2. <strong>Technical Scenario &amp; Troubleshooting Round (45 Mins):</strong> Whiteboard/oral scenario reasoning focused on live incident response, production debugging, latency/cost optimization, and scaling.
+  3. <strong>Enterprise Case Study Round (60 Mins):</strong> End-to-end system design of an internal HR policy chatbot serving 3,000+ PDFs across departments with zero security/access-control leaks.
+  4. <strong>Client-Facing &amp; Behavioral Round:</strong> Translating complex technical constraints (e.g., non-determinism, hallucinations) to non-technical stakeholders, handling scope changes, and managing technical disagreements.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-technical-scenarios-live-production-in"><span class="n">02</span>Technical Scenarios &amp; Live Production Incident Response</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Scenario 1: A production RAG chatbot is confidently hallucinating information that does not exist in the knowledge base. The client is escalatng. How do you diagnose and fix this in production today?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><h4>Diagnostic &amp; Fix Workflow</h4>
+<pre><code>
+</code></pre>
+<pre><code>           [ Production Incident: High Hallucination ]
+                               │
+                               ▼
+                 [ Isolate Failure Point ]
+                               │
+    ┌──────────────────────────┴──────────────────────────┐
+    ▼                                                     ▼
+</code></pre>
+<pre><code>
+[ Retrieval Failure Check ]                           [ Generation Failure Check ]
+(Query vector logs: Are valid                        (Are valid chunks present in prompt,
+chunks retrieved in top-K?)                          but ignored by the model?)
+│                                                     │
+▼                                                     ▼
+• Apply Hybrid Search (BM25 + Dense)                  • Enforce Strict System Guardrails
+• Adjust chunking parameters                          • Add Groundedness Evaluator
+• Tune HNSW index recall                              • Trigger Fallback (&quot;I don't know&quot;)
+
+</code></pre>
+<ol>
+<li>
+<p><strong>Isolate Retrieval Failure vs. Generation Failure:</strong>
+   * Query the production vector logs for the failing requests.
+   * If the correct context chunks are <strong>not</strong> present in the top-\(K\) candidates, the issue is a <strong>retrieval failure</strong> (fix chunking, embeddings, or search scoring).
+   * If correct chunks <strong>are</strong> present but the model invents external facts, the issue is a <strong>generation failure</strong> (model ungroundedness).</p>
+</li>
+<li>
+<p><strong>Immediate Production Mitigation (Generation Failure):</strong>
+   * <strong>Prompts &amp; Boundaries:</strong> Tighten the system prompt with explicit constraints (e.g., <em>"Answer ONLY using the provided <code>&lt;context&gt;</code> tags. If the exact answer is not contained within, respond with 'I do not have sufficient information to answer this question.'"</em>).
+   * <strong>Groundedness Guardrail (LLM-as-a-Judge / Light Classifier):</strong> Insert an inline check (e.g., automated entailment step or small classifier) between model output generation and user response delivery.</p>
+</li>
+<li>
+<p><strong>Fallback Implementation:</strong>
+   * If the calculated groundedness score falls below a safety threshold (e.g., \(&lt;0.85\)), suppress the completion and return a safe fallback: <em>"I am sorry, but I cannot find a verified reference in the knowledge base to answer this query."</em></p>
+</li>
+</ol>
+<blockquote>
+<p><strong>Key Takeaway:</strong> It is significantly better for a client-facing consulting solution to under-perform visibly with a safe fallback than to deliver false information confidently.</p>
+</blockquote></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Scenario 2: The knowledge base grew from 10,000 documents to 5,000,000 documents. Retrieval latency crashed, and hosting costs spiked. How do you re-architect the system?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><h4>Architectural Interventions</h4>
+<ol>
+<li><strong>Metadata Pre-Filtering:</strong> Do not run raw vector similarity across the entire 5-million vector index. Apply structured metadata pre-filters (e.g., <code>tenant_id</code>, <code>department</code>, <code>document_type</code>, <code>date_range</code>) to shrink the search space before vector computation occurs.</li>
+<li><strong>HNSW Index Parameter Tuning:</strong>
+   * Adjust <strong>HNSW (Hierarchical Navigable Small World)</strong> parameters such as \(M\) (number of bi-directional links per node) and <code>efSearch</code> (size of the dynamic candidate list during search) to trade off fractional recall gains for massive speed improvements.</li>
+<li><strong>Tiered / Two-Stage Retrieval:</strong>
+   * <strong>Stage 1 (Coarse &amp; Cheap):</strong> Execute BM25 / Sparse keyword search or inverted index lookup to trim the 5,000,000 document space down to top 500 candidate chunks.
+   * <strong>Stage 2 (Fine &amp; Semantic):</strong> Run dense vector similarity and cross-encoder reranking <em>only</em> over those top 500 candidate chunks.</li>
+<li><strong>Vector Database Sharding &amp; Semantic Caching:</strong> Migrate to scalable vector databases (e.g., Pinecone, Weaviate, Qdrant, or sharded pgvector) and implement a <strong>Semantic Cache (Redis)</strong> to serve frequent user queries instantly without hitting vector indices or LLM APIs.</li>
+</ol></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Scenario 3: A Gen AI feature was approved for a $2,000/month LLM API budget. Current spend is hitting $18,000/month and rising. How do you audit and optimize this?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><h4>Cost Audit &amp; Optimization Strategy</h4>
+<ol>
+<li><strong>Model Tiering &amp; Dynamic Query Routing:</strong> Stop using frontier models (e.g., GPT-4o, Claude 3.5 Sonnet) for basic classification, summarization, or simple retrieval synthesis. Route requests dynamically based on query complexity:
+   * <strong>Simple Queries:</strong> Route to smaller, distilled models (e.g., GPT-4o-mini, Llama 3.1 8B, Claude 3 Haiku).
+   * <strong>Complex Queries:</strong> Route to high-reasoning frontier models.</li>
+<li><strong>Context Window Optimization:</strong> Audit prompt construction logs. Ensure entire multi-page documents are not passed in every API payload when only 3 retrieved chunks (e.g., 1,200 tokens) are necessary.</li>
+<li><strong>Eliminate Duplicate API Calls via Caching:</strong> Implement exact-match prompt caching and semantic response caching (e.g., Redis VL, GPTCache) to intercept identical or highly similar user queries.</li>
+<li><strong>Batch Processing:</strong> For non-real-time workloads (such as nightly evaluation runs or document summarizations), utilize OpenAI / Anthropic <strong>Batch APIs</strong> to obtain a 50% cost discount.</li>
+</ol></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Case Study: Enterprise HR Chatbot System Design</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><h3>Client Requirements</h3>
+<ul>
+<li><strong>Scale:</strong> 3,000 internal HR PDF documents, updated weekly.</li>
+<li><strong>Security &amp; Isolation:</strong> Role-Based Access Control (RBAC)—Legal team must only access Legal documents; HR team must only access HR documents. Zero cross-department information leakage allowed.</li>
+</ul>
+<hr />
+<h3>Complete System Design</h3>
+<pre><code>
+</code></pre>
+<pre><code>     ┌─────────────────────────────────────────────────────────────┐
+     │                     INGESTION PIPELINE                      │
+     └─────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+                   [ Weekly Modified Document Loader ]
+                                    │
+                                    ▼
+                   [ Chunking &amp; Department Metadata Tagging ]
+                     (e.g., metadata={"dept": ["HR", "Legal"]})
+                                    │
+                                    ▼
+                   [ Embedded &amp; Indexed Vector Store ]
+                                    │
+                                    │
+     ┌──────────────────────────────┴──────────────────────────────┐
+     │                     RETRIEVAL &amp; SECURITY                    │
+     └─────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+                   [ User Authenticated JWT Input ]
+                                    │
+                                    ▼
+                   [ Pre-Retrieval Metadata Filter ]
+                     (Query scope restricted BEFORE vector search)
+                                    │
+                                    ▼
+                   [ Scoped Vector Database Search ]
+                                    │
+                                    ▼
+                   [ Cross-Encoder Reranker ]
+                                    │
+                                    │
+     ┌──────────────────────────────┴──────────────────────────────┐
+     │                    SYNTHESIS &amp; EVALUATION                   │
+     └─────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+                   [ Grounded LLM Prompt Generation ]
+                     (With document citations)
+                                    │
+                                    ▼
+                   [ Offline Evaluation Suite (RAGAS) ]
+</code></pre>
+<pre><code>
+</code></pre>
+<hr />
+<h3>Layer-by-Layer Breakdown</h3>
+<h4>1. Ingestion Layer</h4>
+<ul>
+<li><strong>Delta Processing:</strong> Instead of re-indexing 3,000 documents weekly, run a file hash comparison (SHA-256) during the weekly cron job to process and embed <strong>only newly added or updated files</strong>.</li>
+<li><strong>Metadata Attachment:</strong> Attach explicit access arrays during chunking:
+  ```json
+  {
+    "chunk_id": "pdf_882_chunk_4",
+    "text": "Medical leave rollover policies...",
+    "allowed_departments": ["HR", "Legal"]
+  }</li>
+</ul>
+<pre><code>
+#### 2. Retrieval &amp; Security Layer (Pre-Retrieval RBAC)
+
+* **Pre-Search Filtering:** Never rely on system prompts to enforce data access boundaries (e.g., *&quot;Do not reveal legal docs to HR&quot;*).
+* **Scoped Execution:** Embed user identity assertions (JWT tokens) at the API Gateway level. Filter vector searches directly at the database query layer:
+```python
+# Scoped Vector Search Example
+user_department = user_jwt.get(&quot;department&quot;)  # e.g., &quot;HR&quot;
+
+vector_db.query(
+    vector=query_embedding,
+    top_k=5,
+    filter={&quot;allowed_departments&quot;: {&quot;$in&quot;: [user_department]}}
+)
+
+</code></pre>
+<ul>
+<li><strong>Overlapping Policies Handling:</strong> If a document applies to both HR and Legal, tag <code>allowed_departments</code> with <code>["HR", "Legal"]</code> and use <code>$in</code> operator matching instead of exact single-string equality.</li>
+</ul>
+<h4>3. Generation &amp; Citation Layer</h4>
+<ul>
+<li>Enforce strict inline source citation mapping (<code>[Doc Name, Page Number]</code>) inside the prompt template so employees can independently verify retrieved policies against raw PDFs.</li>
+</ul>
+<h4>4. Evaluation &amp; Compliance Layer</h4>
+<ul>
+<li>Construct a benchmark evaluation set across departments. Run automated nightly regression pipelines testing for both <strong>Answer Correctness</strong> (RAGAS) and <strong>Security Leakage</strong> (attempting cross-department unauthorized queries).</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-4-client-facing-communication-behavioral"><span class="n">04</span>Client-Facing Communication &amp; Behavioral Scenarios</h2>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Scenario 1: The client insists their chatbot must be 100% accurate and never make a mistake. How do you handle this without jargon?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><h4>Approach &amp; Script</h4>
+<p>Avoid deep neural network theory, mathematical loss functions, or probability distribution jargon. Frame the conversation entirely around <strong>Risk Management and Containment</strong>:</p>
+<blockquote>
+<p><em>"In enterprise software, no automated system—or human workforce—operates at 100% flawless accuracy. Generative models operate probabilistically, similar to hiring a highly capable analyst.</em>
+<em>Our engineering focus is not promising theoretical perfection; it is building </em><em>Guardrails, Isolation Filters, and Monitoring Loops</em><em> around the system. When the model encounters an ambiguous request or an out-of-scope query, our guardrails catch it, prevent raw guessing, and fail safely by routing the user to a human operator or returning a verified fallback response."</em></p>
+</blockquote></div></div></div>
+<h2 class="prep-sec" id="s-core-interview-themes-for-ey-consulting-">Core Interview Themes for EY Consulting Roles</h2><ol>
+<li><strong>Deterministic Security Over Model Promises:</strong> Never trust an LLM to enforce access control or privacy rules through system prompt instructions alone. Enforce security hard-stops at the infrastructure/database metadata layer.</li>
+<li><strong>Translate Limitations to Risk Trade-offs:</strong> When communicating technical limitations to clients, frame them in terms of business impact, risk containment, and operational fallback mechanisms.</li>
+<li><strong>Close Every System Design with Telemetry:</strong> Conclude system design answers by stating how you will measure, evaluate (e.g., RAGAS/DeepEval), and trace (e.g., LangSmith/Phoenix) the proposed fix in production.</li>
+</ol>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Live Python Challenge: Enterprise RAG Cost Router &amp; Guardrail Engine</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">import hashlib
+import time
+from typing import Dict, Any, Optional
+
+class EnterpriseRAGRouter:
+    &quot;&quot;&quot;
+    Production-grade Query Router, Caching Engine, and Cost Guardrail.
+    Demonstrates dynamic model selection, query sanitization, and fallback rules.
+    &quot;&quot;&quot;
+    def __init__(self, cost_threshold_usd: float = 0.05):
+        self.cost_threshold = cost_threshold_usd
+        self.response_cache: Dict[str, str] = {}
+
+    def _hash_prompt(self, prompt: str) -&gt; str:
+        &quot;&quot;&quot;Generates SHA-256 key for exact prompt caching.&quot;&quot;&quot;
+        return hashlib.sha256(prompt.strip().lower().encode('utf-8')).hexdigest()
+
+    def route_query_by_complexity(self, user_query: str) -&gt; Dict[str, Any]:
+        &quot;&quot;&quot;
+        Dynamically selects model tier based on token length and query scope
+        to optimize cloud LLM spend.
+        &quot;&quot;&quot;
+        word_count = len(user_query.split())
+
+        # Simple/Short query -&gt; Light, inexpensive model
+        if word_count &lt; 15 and not any(kw in user_query.lower() for kw in [&quot;analyze&quot;, &quot;compare&quot;, &quot;synthesize&quot;]):
+            return {
+                &quot;selected_model&quot;: &quot;gpt-4o-mini&quot;,
+                &quot;estimated_cost_per_1k_tokens&quot;: 0.00015,
+                &quot;tier&quot;: &quot;Low-Cost Tier&quot;
+            }
+        # Complex query -&gt; High-capacity reasoning engine
+        else:
+            return {
+                &quot;selected_model&quot;: &quot;gpt-4o&quot;,
+                &quot;estimated_cost_per_1k_tokens&quot;: 0.0025,
+                &quot;tier&quot;: &quot;Frontier Tier&quot;
+            }
+
+    def execute_rag_pipeline(self, user_query: str, user_dept: str, retrieved_chunks: list) -&gt; str:
+        &quot;&quot;&quot;
+        Executes query caching, groundedness check, and fallback isolation.
+        &quot;&quot;&quot;
+        cache_key = self._hash_prompt(f&quot;{user_dept}:{user_query}&quot;)
+
+        # 1. Exact Cache Hit
+        if cache_key in self.response_cache:
+            return f&quot;[CACHE HIT] {self.response_cache[cache_key]}&quot;
+
+        # 2. Check Retrieval Groundedness
+        if not retrieved_chunks:
+            # Fallback instead of allowing hallucination
+            return &quot;I am sorry, but I do not have access to verified context to answer this query.&quot;
+
+        # 3. Determine Routing
+        routing_info = self.route_query_by_complexity(user_query)
+
+        # Simulate LLM Generation
+        generated_response = (
+            f&quot;[Served via {routing_info['selected_model']}] &quot;
+            f&quot;Based on policy docs: {retrieved_chunks[0]}&quot;
+        )
+
+        # Update Cache
+        self.response_cache[cache_key] = generated_response
+        return generated_response
+
+# --- Example Production Execution ---
+if __name__ == &quot;__main__&quot;:
+    router = EnterpriseRAGRouter()
+
+    # Example 1: Missing context triggers safe fallback
+    res1 = router.execute_rag_pipeline(
+        user_query=&quot;What is the 2026 sabbatical policy?&quot;,
+        user_dept=&quot;HR&quot;,
+        retrieved_chunks=[]
+    )
+    print(&quot;Execution 1:&quot;, res1)
+
+    # Example 2: Valid context triggers dynamic low-cost routing
+    res2 = router.execute_rag_pipeline(
+        user_query=&quot;What is the travel allowance limit?&quot;,
+        user_dept=&quot;Finance&quot;,
+        retrieved_chunks=[&quot;Travel allowance limit is $100 per day for meals.&quot;]
+    )
+    print(&quot;Execution 2:&quot;, res2)
+
+    # Example 3: Subsequent identical request hits cache
+    res3 = router.execute_rag_pipeline(
+        user_query=&quot;What is the travel allowance limit?&quot;,
+        user_dept=&quot;Finance&quot;,
+        retrieved_chunks=[&quot;Travel allowance limit is $100 per day for meals.&quot;]
+    )
+    print(&quot;Execution 3:&quot;, res3)
+
+</code></pre></div></div></div>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-prep/ey-scenarios-case-study"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>
