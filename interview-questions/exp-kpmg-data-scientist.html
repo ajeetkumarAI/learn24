@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>KPMG: Data Scientist (GenAI focus) · Company Interview Questions · Learn24</title>
+<meta name="description" content="KPMG: Data Scientist (GenAI focus): 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="KPMG: Data Scientist (GenAI focus) · Learn24">
+<meta property="og:description" content="KPMG: Data Scientist (GenAI focus): 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-kpmg-data-scientist" data-lesson="interview-questions/exp-kpmg-data-scientist">
+  <div class="kicker">Company Interview Questions · Consulting &amp; Big 4</div>
+  <h1>KPMG: Data Scientist (GenAI focus)</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 KPMG</span><span>🆕 Recent reports</span></div>
+  <p class="lead">KPMG: Data Scientist (GenAI focus) Interview Experiences (2025–26). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from four public candidate reports for KPMG Data Scientist roles (August 2025 – April 2026), including one GenAI-focused role. The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Data Scientist; Data Scientist (GenAI); GenAI Consultant / Assistant Manager listings in India</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>Usually one main interview (plus HR); about 2 months from application in one case</td>
+</tr>
+<tr>
+<td><strong>Topics</strong></td>
+<td>Imbalanced data, model evaluation, time series, Bayesian methods, <strong>price / cost optimisation</strong>, why KPMG</td>
+</tr>
+<tr>
+<td><strong>Observation</strong></td>
+<td>"GenAI is a major focus"; they want people who can <strong>apply AI</strong> to client problems</td>
+</tr>
+<tr>
+<td><strong>Outcomes</strong></td>
+<td>1 offer (declined), 3 not selected</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li>A fit-focused conversation (why KPMG, why this role), then ML fundamentals, then a business problem such as pricing optimisation.</li>
+<li>Interview quality varies by interviewer. Steer towards practical, applied answers.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">How would you approach price and cost optimisation for a client? What data do you need?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Clarify the objective:</strong> maximise margin or revenue, or hit a volume target? What constraints apply (minimum margin, competitor parity, contracts)?</li>
+<li><strong>Data:</strong></li>
+<li>Transaction history (price, quantity, discounts).</li>
+<li>Product attributes and cost (COGS).</li>
+<li>Competitor prices.</li>
+<li>Seasonality, promotions and channel.</li>
+<li>Customer segments.</li>
+<li>Inventory.</li>
+<li><strong>Method:</strong>
+  1. Estimate <strong>price elasticity</strong> per product or segment (log-log regression, or hierarchical Bayesian for sparse products).
+  2. Model demand = f(price, competitor price, season...).
+  3. <strong>Optimise</strong> price within the constraints (grid search or linear/non-linear programming).
+  4. Validate with <strong>A/B or regional tests</strong>.</li>
+<li><strong>Cost side:</strong> analyse spend by supplier and category, find outliers, and compare against should-cost models.</li>
+<li><strong>Deliver:</strong> a pricing recommendation dashboard with the expected impact and its risks.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">How do you handle imbalanced data?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Metrics first:</strong> PR-AUC, F1, recall at a fixed precision. Never accuracy.</li>
+<li><strong>Data level:</strong> undersample the majority class, oversample (SMOTE) <strong>only on the training folds</strong>, collect more minority data.</li>
+<li><strong>Algorithm level:</strong> class weights (<code>class_weight="balanced"</code>, <code>scale_pos_weight</code>), focal loss, anomaly detection for extreme rarity.</li>
+<li><strong>Decision level:</strong> tune the threshold on business costs, and calibrate probabilities.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">How do you evaluate a predictive model properly?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>A split that matches reality:</strong> time-based for forecasting and fraud; grouped by customer to avoid leakage.</li>
+<li><strong>A metric tied to the decision:</strong> RMSE or MAPE (forecasting), AUC/PR-AUC/F1 (classification), plus <strong>calibration</strong>.</li>
+<li><strong>Compare against a baseline</strong> (naïve forecast, a rule, last-period value).</li>
+<li><strong>Error analysis by segment,</strong> stability over time, and an explainability check.</li>
+<li><strong>Business evaluation:</strong> expected savings or revenue at the chosen threshold.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">How do you approach a time-series forecasting problem?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Explore:</strong> trend, seasonality (daily, weekly, annual), holidays, structural breaks, missing data.</li>
+<li><strong>Baselines:</strong> naïve, seasonal naïve, moving average.</li>
+<li><strong>Models:</strong></li>
+<li>Statistical: ETS, ARIMA/SARIMA, Prophet.</li>
+<li>ML: LightGBM with lag, rolling and calendar features, which works across many series.</li>
+<li>Deep learning: N-BEATS or TFT for large panels.</li>
+<li><strong>Validation:</strong> rolling-origin (walk-forward) backtesting. Never shuffle.</li>
+<li><strong>Metrics:</strong> MAPE/sMAPE, WAPE, MASE; prediction intervals for planning.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">When would you use Bayesian methods in a business problem?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Small or sparse data,</strong> where priors stabilise the estimates: hierarchical models for many stores or products sharing information.</li>
+<li><strong>When you need uncertainty:</strong> credible intervals for decisions (inventory, pricing risk).</li>
+<li><strong>Bayesian A/B testing:</strong> "the probability that B beats A is 96%", which is easier for business teams to read; it also allows continuous monitoring.</li>
+<li><strong>Tools:</strong> PyMC, Stan, NumPyro. Mention the trade-off: more compute, and you must justify the priors.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Why KPMG, and how would you apply GenAI for KPMG clients?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Why:</strong> "I want to solve varied, high-impact client problems in regulated industries, where trust and governance matter. KPMG's audit, tax and advisory work is exactly where responsible GenAI adds value."</li>
+<li><strong>Use cases to mention:</strong></li>
+<li>Contract and policy review with RAG and citations.</li>
+<li>Audit-evidence summarisation.</li>
+<li>Tax-query assistants.</li>
+<li>Risk and compliance monitoring.</li>
+<li>Finance-close automation with agents and human approval.</li>
+<li><strong>Emphasise</strong> governance: data privacy, explainability, human review and audit trails.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare-for-kpmg"><span class="n">03</span>How to prepare for KPMG</h2><ul>
+<li>Prepare an answer to <strong>"why KPMG"</strong> grounded in its service lines.</li>
+<li>Revise imbalanced learning, evaluation, forecasting and Bayesian basics.</li>
+<li>Have 2–3 GenAI client use cases with risk controls ready.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.glassdoor.com/Interview/KPMG-Interview-E2867-RVW99324230.htm">Glassdoor: KPMG Data Scientist interview reviews (2025–26)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-kpmg-data-scientist"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

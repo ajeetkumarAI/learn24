@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mastercard &amp; Visa: Data Scientist · Company Interview Questions · Learn24</title>
+<meta name="description" content="Mastercard &amp; Visa: Data Scientist: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Mastercard &amp; Visa: Data Scientist · Learn24">
+<meta property="og:description" content="Mastercard &amp; Visa: Data Scientist: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-mastercard-visa" data-lesson="interview-questions/exp-mastercard-visa">
+  <div class="kicker">Company Interview Questions · Banking &amp; Fintech</div>
+  <h1>Mastercard &amp; Visa: Data Scientist</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 Mastercard &amp; Visa</span><span>🆕 Recent reports</span></div>
+  <p class="lead">Mastercard &amp; Visa: Data Scientist Interview Experiences (2025–26). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from public candidate reports: Mastercard Data Scientist (New Delhi, offer; Gurgaon, April 2025; a 4-round process with a business case and programming test, offer, May 2025; Dublin, 2026) and Visa Data Science (Washington DC super day, September 2025; CodeSignal tests, 2025–26). The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Mastercard</th>
+<th>Visa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Data Scientist / Data Scientist I</td>
+<td>Data Scientist</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>HR screen → 2 technical (<strong>business case</strong> + programming test) → culture and values. Campus: a single interview</td>
+<td>Online coding (CodeSignal: data prep + ML model) → phone screen → <strong>super day</strong> (4 interviews)</td>
+</tr>
+<tr>
+<td><strong>Reported questions</strong></td>
+<td>How precision and recall change with the threshold; <strong>derive loss functions</strong>; gradient descent; <strong>why log loss</strong>; explain a customer-segmentation project</td>
+<td>Which unsupervised methods you have used; fraud, risk and personalisation cases; find the middle of an array</td>
+</tr>
+<tr>
+<td><strong>Outcomes</strong></td>
+<td>2 offers, 2 not selected</td>
+<td>Not selected in these reports (little feedback)</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Payments context:</strong> fraud, authorisation, merchant analytics, segmentation and personalisation.</li>
+<li><strong>Visa's online test</strong> scores you immediately, so practise timed data preparation and modelling.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">How do precision and recall change as you move the classification threshold?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Raise the threshold:</strong> fewer positives are predicted, so <strong>precision usually rises</strong> and <strong>recall falls</strong>.</li>
+<li><strong>Lower it:</strong> more positives, so recall rises and precision falls.</li>
+<li>The PR curve traces this trade-off. Choose the threshold by <strong>business cost</strong> (fraud loss vs declined good transactions) or by a target (e.g. recall ≥ 80% at the highest precision).</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Why do we use log loss for classification instead of MSE?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Log loss = the negative log-likelihood</strong> of a Bernoulli model. It is the principled maximum-likelihood objective for probabilities.</li>
+<li>With a sigmoid output it is <strong>convex</strong> in the weights (MSE + sigmoid is not), and its gradients don't vanish when the model is confidently wrong. Gradient (p − y)·x gives strong corrections.</li>
+<li>It <strong>heavily penalises confident mistakes</strong> and encourages calibrated probabilities.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Derive the gradient-descent update for logistic regression.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Loss:</strong> L = −(1/n) Σ [y log p + (1−y) log(1−p)], with p = σ(wᵀx).</li>
+<li><strong>Using</strong> dσ/dz = σ(1−σ): ∂L/∂w = (1/n) Σ (p − y) x.</li>
+<li><strong>Update:</strong> w ← w − η · (1/n) Xᵀ(p − y). Add λw for L2.</li>
+<li><strong>Shortcomings to mention:</strong> sensitivity to the learning rate, feature scaling, and slow convergence on ill-conditioned data. Second-order methods (Newton/IRLS, L-BFGS) converge faster for small d.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Explain a customer-segmentation project end to end.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Goal:</strong> segment cardholders for targeted offers.</li>
+<li><strong>Features:</strong> RFM, category mix (travel, dining, groceries), channel (online/POS), cross-border share, tenure. Log-transform skewed spend, then standardise.</li>
+<li><strong>Method:</strong> k-means (choose k with the elbow, silhouette and <em>business interpretability</em>) or a GMM; PCA for visualisation.</li>
+<li><strong>Personas:</strong> "frequent travellers", "online shoppers", "essentials-only", "dormant".</li>
+<li><strong>Validation:</strong> stability across months; uplift from a targeted campaign A/B test (e.g. +12% activation in the travel segment).</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Which unsupervised methods have you used, and for what?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Clustering:</strong> k-means (segments), DBSCAN (density-based, finds outliers), hierarchical (taxonomies).</li>
+<li><strong>Dimensionality reduction:</strong> PCA (compression, denoising), t-SNE/UMAP (visualisation).</li>
+<li><strong>Anomaly detection:</strong> Isolation Forest, autoencoders (reconstruction error for fraud).</li>
+<li><strong>Topic modelling / embeddings:</strong> LDA, or embeddings + clustering on complaint text.</li>
+<li><strong>Association rules:</strong> market-basket analysis.</li>
+<li>For each, say <strong>why it fits</strong> and how you <strong>validated it without labels</strong>.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Design a fraud-detection model for card-not-present (online) transactions.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Signals:</strong> device fingerprint, IP/geo mismatch, email age, velocity per card/device/merchant, basket and amount anomalies, merchant risk, 3-D Secure result.</li>
+<li><strong>Model:</strong> gradient boosting plus graph features (shared devices/cards), with a real-time feature store; a latency budget under 50 ms.</li>
+<li><strong>Labels:</strong> chargebacks (delayed) and confirmed fraud; handle label delay and class imbalance.</li>
+<li><strong>Decision:</strong> approve / step-up (3DS/OTP) / decline, with thresholds by merchant risk.</li>
+<li><strong>Monitoring:</strong> fraud basis points, false-decline rate, drift; weekly retraining; explainability reason codes.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare"><span class="n">03</span>How to prepare</h2><ul>
+<li><strong>Mastercard:</strong> derive losses and gradients, explain threshold effects, and present a segmentation or business case clearly.</li>
+<li><strong>Visa:</strong> timed CodeSignal practice (pandas preparation + sklearn model) and payments cases (fraud, risk, personalisation).</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.glassdoor.ca/Interview/Mastercard-Interview-E3677-RVW98541477.htm">Glassdoor: Mastercard Data Scientist interview reviews (2025–26)</a></li>
+<li><a href="https://www.glassdoor.com/Interview/Visa-Inc-Interview-E3035-RVW100068672.htm">Glassdoor: Visa data science interview reviews (2025–26)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-mastercard-visa"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

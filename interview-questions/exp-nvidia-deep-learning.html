@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NVIDIA: Deep Learning Engineer · Company Interview Questions · Learn24</title>
+<meta name="description" content="NVIDIA: Deep Learning Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="NVIDIA: Deep Learning Engineer · Learn24">
+<meta property="og:description" content="NVIDIA: Deep Learning Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-nvidia-deep-learning" data-lesson="interview-questions/exp-nvidia-deep-learning">
+  <div class="kicker">Company Interview Questions · Big Tech</div>
+  <h1>NVIDIA: Deep Learning Engineer</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 NVIDIA</span><span>🆕 Recent reports</span></div>
+  <p class="lead">NVIDIA: Deep Learning Engineer &amp; DL Algorithm Engineer Interview Experiences (2025). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from public candidate reports: NVIDIA <strong>Deep Learning Engineer</strong> (Santa Clara, June 2025, HM round) and <strong>Deep Learning Algorithm Engineer</strong> (Santa Clara, May 2025, 4 rounds via referral), with older reports for context. The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Roles</strong></td>
+<td>Deep Learning Engineer; Deep Learning Algorithm Engineer</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>HM round (DL fundamentals + recent Transformer advances + parallel training + optimisation); others: 4 rounds of coding + parallelism + resume deep dives</td>
+</tr>
+<tr>
+<td><strong>Reported questions</strong></td>
+<td><strong>Implement multi-head self-attention from scratch</strong>; what is <strong>tensor parallelism</strong>; activation functions; regularisation</td>
+</tr>
+<tr>
+<td><strong>Timeline</strong></td>
+<td>About 2 months; each round's result took about a week</td>
+</tr>
+<tr>
+<td><strong>Outcome</strong></td>
+<td>No offer in these reports; interviewers described as friendly and well structured</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li>Expect <strong>systems-level DL</strong>: distributed training, memory, kernels and precision, as well as architectures.</li>
+<li>Coding can be in PyTorch/NumPy (attention, layers) as well as classic DSA.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Implement multi-head self-attention from scratch (PyTorch).</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">import torch, torch.nn as nn, math
+
+class MHSA(nn.Module):
+    def __init__(self, d_model, n_heads, causal=False):
+        super().__init__()
+        assert d_model % n_heads == 0
+        self.h, self.dk, self.causal = n_heads, d_model // n_heads, causal
+        self.qkv = nn.Linear(d_model, 3 * d_model); self.out = nn.Linear(d_model, d_model)
+    def forward(self, x):                       # x: (B, T, C)
+        B, T, C = x.shape
+        q, k, v = self.qkv(x).split(C, dim=-1)
+        q, k, v = (t.view(B, T, self.h, self.dk).transpose(1, 2) for t in (q, k, v))   # (B,h,T,dk)
+        att = q @ k.transpose(-2, -1) / math.sqrt(self.dk)
+        if self.causal:
+            mask = torch.triu(torch.ones(T, T, dtype=torch.bool, device=x.device), 1)
+            att = att.masked_fill(mask, float(&quot;-inf&quot;))
+        y = att.softmax(-1) @ v                 # (B,h,T,dk)
+        return self.out(y.transpose(1, 2).reshape(B, T, C))
+</code></pre>
+<ul>
+<li>Discuss the O(T²) memory, <strong>FlashAttention</strong> (tiled, IO-aware, no T×T matrix in HBM), <code>F.scaled_dot_product_attention</code>, and GQA/MQA for a smaller KV cache.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">What is tensor parallelism, and how does it differ from data and pipeline parallelism?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Data parallelism (DDP):</strong> each GPU holds a full model copy and processes a different batch; gradients are <strong>all-reduced</strong>. <strong>FSDP/ZeRO</strong> also shards the parameters, gradients and optimiser states.</li>
+<li><strong>Tensor parallelism (Megatron-LM):</strong> split <strong>individual weight matrices</strong> across GPUs.</li>
+<li>For an MLP, split the first linear layer column-wise and the second row-wise, so only one all-reduce is needed per block.</li>
+<li>Attention heads are split across GPUs.</li>
+<li>It needs fast interconnect (NVLink), so it is usually used within a node.</li>
+<li><strong>Pipeline parallelism:</strong> split <strong>layers</strong> into stages across GPUs, with micro-batches to reduce "bubbles" (GPipe, 1F1B).</li>
+<li><strong>Sequence / context parallelism</strong> splits long sequences. Large LLM training combines all of these (<strong>3D/4D parallelism</strong>).</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Why do we need activation functions? Compare the common ones.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>Without non-linearity, stacked layers collapse into a single linear map, so activations give networks their expressive power.</li>
+<li><strong>Sigmoid/tanh:</strong> saturate and cause vanishing gradients; sigmoid is now mostly used for gates and outputs.</li>
+<li><strong>ReLU:</strong> cheap and non-saturating for x &gt; 0, but can produce dead units.</li>
+<li><strong>GELU / SiLU (Swish):</strong> smooth, used in Transformers.</li>
+<li><strong>SwiGLU</strong> (gated) is used in modern LLMs (Llama) for better quality per FLOP.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Which regularisation methods do you know for deep networks?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Weight decay</strong> (L2; decoupled in AdamW), <strong>dropout</strong>, <strong>data augmentation</strong> (mixup, cutmix, random erasing), <strong>label smoothing</strong>, <strong>early stopping</strong>, <strong>stochastic depth</strong>.</li>
+<li><strong>Normalisation</strong> (batch/layer norm) has a regularising side effect.</li>
+<li><strong>For LLM fine-tuning:</strong> a low learning rate, LoRA, fewer epochs, mixing in general data.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">How do mixed precision (FP16/BF16/FP8) and gradient checkpointing help training?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Mixed precision:</strong> compute in FP16/BF16 on Tensor Cores (2–4× faster, half the memory) with FP32 master weights.</li>
+<li><strong>FP16</strong> needs <strong>loss scaling</strong> to avoid underflow.</li>
+<li><strong>BF16</strong> has the FP32 exponent range, so it is more stable.</li>
+<li><strong>FP8</strong> (Hopper/Blackwell, Transformer Engine) adds per-tensor scaling for further speed.</li>
+<li><strong>Gradient (activation) checkpointing:</strong> don't store all activations; recompute them in the backward pass. This trades about 30% extra compute for large memory savings, so you can use bigger batches or models.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Recent Transformer advances: what changed after the original 2017 design?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Pre-norm</strong> and <strong>RMSNorm</strong> for stability; <strong>RoPE</strong> positional encoding; <strong>SwiGLU</strong> feed-forward layers.</li>
+<li><strong>GQA/MQA</strong> for an efficient KV cache; <strong>FlashAttention</strong> kernels; <strong>sliding-window or sparse attention</strong> for long context.</li>
+<li><strong>Mixture-of-Experts</strong> (Mixtral, DeepSeek) for more parameters at a similar compute per token.</li>
+<li><strong>Inference:</strong> speculative decoding, paged KV cache (vLLM), quantization (FP8/INT4).</li>
+<li><strong>Training:</strong> scaling laws, better data mixtures, RLHF, DPO and RL with verifiable rewards for reasoning.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare-for-nvidia"><span class="n">03</span>How to prepare for NVIDIA</h2><ul>
+<li>Implement attention, LayerNorm and a Transformer block <strong>from scratch</strong> in PyTorch.</li>
+<li>Learn distributed training (DDP, FSDP, TP, PP), mixed precision and memory maths (parameters + gradients + optimiser states).</li>
+<li>Know CUDA and GPU basics: memory hierarchy, kernel fusion, why FlashAttention is fast.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.jointaro.com/interviews/companies/nvidia/experiences/deep-learning-engineer-santa-clara-ca-june-27-2025-no-offer-positive-22beb48a">Taro: NVIDIA Deep Learning Engineer, Santa Clara (Jun 2025)</a></li>
+<li><a href="https://static.glassdoor.ca/Interview/NVIDIA-Deep-Learning-Algorithm-Engineer-Interview-Questions-EI_IE7633.0,6_KO7,39.htm">Glassdoor: NVIDIA Deep Learning Algorithm Engineer reviews</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-nvidia-deep-learning"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

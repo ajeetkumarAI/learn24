@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Uber: Machine Learning Engineer · Company Interview Questions · Learn24</title>
+<meta name="description" content="Uber: Machine Learning Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Uber: Machine Learning Engineer · Learn24">
+<meta property="og:description" content="Uber: Machine Learning Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-uber-mle" data-lesson="interview-questions/exp-uber-mle">
+  <div class="kicker">Company Interview Questions · Product &amp; Retail Tech</div>
+  <h1>Uber: Machine Learning Engineer</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 Uber</span><span>🆕 Recent reports</span></div>
+  <p class="lead">Uber: Machine Learning Engineer Interview Process and Questions. Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Based on a public Uber MLE interview guide compiled from candidate reports, plus public candidate reviews. The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Machine Learning Engineer (Bengaluru, Hyderabad, global)</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>Resume screen → recruiter → 1–2 technical screens (coding + ML) → loop of 4–5 × 45–60 minutes: coding and data, applied ML, <strong>ML system design</strong>, product and collaboration, behavioural → hiring committee</td>
+</tr>
+<tr>
+<td><strong>Timeline</strong></td>
+<td>About 3–6 weeks</td>
+</tr>
+<tr>
+<td><strong>Themes</strong></td>
+<td>Real-time ETA, demand, driver-acceptance prediction, marketplace experiments, drift, safe frequent model updates</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Coding:</strong> practical Python (rolling metrics, near-duplicate events, word-ladder BFS, gradient descent from scratch).</li>
+<li><strong>ML design:</strong> marketplace problems with <strong>latency, observability and failure handling</strong>.</li>
+<li><strong>Behavioural:</strong> production incidents, disagreements with PMs, technical debt.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Design a model to predict whether a driver will accept a ride request.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Label:</strong> accept/decline (or timeout) per request. Mind the selection bias: only dispatched offers are logged.</li>
+<li><strong>Features:</strong></li>
+<li>Pickup distance and ETA; trip length and direction (towards home?).</li>
+<li>Surge level; time and day.</li>
+<li>The driver's acceptance history, hours online, earnings so far.</li>
+<li>Rider rating; pickup area type (airport).</li>
+<li><strong>Model:</strong> gradient boosting (or a two-tower model for driver–request matching), calibrated probabilities.</li>
+<li><strong>Use:</strong> the dispatch optimiser maximises expected matches = Σ P(accept) × value; avoid over-offering to the same drivers.</li>
+<li><strong>Evaluation:</strong> log-loss and AUC offline; online A/B on match rate, pickup ETA, cancellation, driver earnings fairness.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">How do you monitor a newly deployed ETA model?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Accuracy:</strong> MAE/MAPE against actual trip times (delayed labels arrive after the trip) by city, hour, distance band; the share of trips more than X minutes late.</li>
+<li><strong>Input drift:</strong> distributions of traffic, GPS quality, new road closures; <strong>prediction drift</strong> against the previous model.</li>
+<li><strong>System:</strong> p99 latency, error rate, fallback rate (to a heuristic), feature staleness.</li>
+<li><strong>Business:</strong> cancellations, rider complaints, driver idle time.</li>
+<li><strong>Alerts and rollback:</strong> shadow first, then canary; automatic rollback if MAE regresses by more than a threshold.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Why can the same algorithm on the same dataset give different results?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Randomness:</strong> weight initialisation, data shuffling, dropout, bagging/feature subsampling, train/test split seeds.</li>
+<li><strong>Non-determinism:</strong> GPU kernels (atomic adds), multithreading, floating-point order of operations.</li>
+<li><strong>Different hyperparameters</strong> or library versions; data-order effects with early stopping.</li>
+<li><strong>Fixes:</strong> set seeds, use deterministic flags, pin versions; report <strong>mean ± std over several seeds</strong>.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Implement gradient descent from scratch to fit a line.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">import numpy as np
+def fit_line(x, y, lr=0.01, epochs=2000):
+    w = b = 0.0; n = len(x)
+    for _ in range(epochs):
+        y_hat = w * x + b
+        dw = (2 / n) * np.dot(y_hat - y, x); db = (2 / n) * np.sum(y_hat - y)
+        w -= lr * dw; b -= lr * db
+    return w, b
+x = np.array([1, 2, 3, 4.]); y = np.array([3, 5, 7, 9.])
+print(fit_line(x, y))   # ≈ (2, 1)
+</code></pre>
+<ul>
+<li>Discuss the learning rate choice, feature scaling and convergence checks (when the loss stops improving).</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Design an experimentation framework for a two-sided marketplace.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>The problem:</strong> <strong>interference</strong>. Treating some riders changes the drivers available to control riders, which biases user-level A/B tests.</li>
+<li><strong>Designs:</strong></li>
+<li><strong>Switchback</strong> tests: randomise by city-region × time window.</li>
+<li><strong>Geo/cluster randomisation.</strong></li>
+<li>Driver-side vs rider-side randomisation depending on the feature.</li>
+<li><strong>Metrics:</strong> marketplace health (match rate, wait time, surge frequency, earnings per hour, cancellations) plus guardrails.</li>
+<li><strong>Analysis:</strong> account for carry-over between windows, use cluster-robust standard errors, run long enough to cover weekly cycles.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Behavioural: describe a model that caused a production issue and how you handled it.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Answer (STAR):</strong></p>
+<ul>
+<li><strong>Situation:</strong> "A new pricing model inflated fares in one city after a holiday-calendar bug."</li>
+<li><strong>Action:</strong> "I detected it from an alert on fare distribution, rolled back within 20 minutes, quantified the affected trips, worked with ops on refunds, and added a calendar unit test plus a canary gate."</li>
+<li><strong>Result:</strong> "There were no repeat incidents, and the postmortem became the team's release checklist."</li>
+<li>Show <strong>speed, ownership, transparency and prevention</strong>.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare-for-uber"><span class="n">03</span>How to prepare for Uber</h2><ul>
+<li>Practise <strong>marketplace ML design</strong> (ETA, demand, matching, pricing) with latency and failure modes.</li>
+<li>Practical Python coding (rolling windows, BFS, dedup) plus ML from scratch.</li>
+<li>Learn experimentation under interference (switchbacks).</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://interviewquery.com/interview-guides/uber-machine-learning-engineer">Interview Query: Uber Machine Learning Engineer guide</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-uber-mle"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

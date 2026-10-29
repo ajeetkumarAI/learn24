@@ -239,9 +239,9 @@ Hands-on labs built from Ajeetkumar’s Colab notebooks (free Groq key). Each la
 | 2 | [Assignment 17: Project & Behavioural Questions](https://learn24-lilac.vercel.app/assignments/assignment-17-project-behavioural-questions) | 10 questions with solutions · 4 must-know. |
 | 3 | [Assignment 18: Python & ML Essentials for GenAI Engineers](https://learn24-lilac.vercel.app/assignments/assignment-18-python-ml-essentials-for-genai-engineers) | 16 questions with solutions · 8 must-know · 4 coding tasks. |
 
-### 🏢 Company Interview Questions (34 practice pages)
+### 🏢 Company Interview Questions (88 practice pages, 124 companies)
 
-664 real interview questions with detailed answers from 34 company pages: TCS, Infosys, Wipro, Deloitte, EY, PwC, EPAM, Google, plus new 2025 experiences from Accenture, Capgemini, IBM, Fractal, Amazon, Walmart, Flipkart, Zomato, JPMorgan, Amex and more, in practice mode. Answers stay hidden until you try, then you rate yourself (knew it / partly / review again).
+989 interview questions with detailed answers across 124 companies and 88 pages: real transcribed rounds from TCS, Infosys, Wipro, Deloitte, EY, PwC, EPAM and Google, plus recent interview experiences grouped by sector. Pick a company below, then practise with answers hidden. Answers stay hidden until you try, then you rate yourself (knew it / partly / review again). Use **🏢 Pick a company** at the top of the section to filter by company or sector.
 
 **Module 1 · IT Services: TCS, Infosys, Wipro**
 
@@ -278,29 +278,135 @@ Hands-on labs built from Ajeetkumar’s Colab notebooks (free Groq key). Each la
 | 19 | [MCP: Senior Architecture Interview](https://learn24-lilac.vercel.app/interview-questions/mcp-senior-architecture) | 4 real questions with detailed answers. |
 | 20 | [NLP: Real Candidate-Reported Questions](https://learn24-lilac.vercel.app/interview-questions/nlp-real-questions) | 43 real questions with detailed answers. |
 
-**Module 4 · 🆕 2025 Experiences: Services, Consulting & Analytics**
+**Module 4 · Experiences: IT Services**
 
 | # | Page | What is inside |
 |---|---|---|
 | 21 | [Accenture: GenAI & AI/ML Engineer (2025)](https://learn24-lilac.vercel.app/interview-questions/exp-accenture-2025) | Rounds, reported questions and 10 model answers. |
 | 22 | [Capgemini: GenAI Engineer, 5 Reports (2025)](https://learn24-lilac.vercel.app/interview-questions/exp-capgemini-2025) | Rounds, reported questions and 10 model answers. |
-| 23 | [Deloitte: GenAI Engineer Reports (2025)](https://learn24-lilac.vercel.app/interview-questions/exp-deloitte-2025) | Rounds, reported questions and 8 model answers. |
-| 24 | [IBM: AI Engineer, Bengaluru (2025)](https://learn24-lilac.vercel.app/interview-questions/exp-ibm-2025) | Rounds, reported questions and 8 model answers. |
-| 25 | [LTIMindtree & HCLTech: GenAI / ML Engineer](https://learn24-lilac.vercel.app/interview-questions/exp-ltimindtree-hcltech-2025) | Rounds, reported questions and 10 model answers. |
-| 26 | [Fractal: Sr Data Scientist, GenAI (2025, Offer)](https://learn24-lilac.vercel.app/interview-questions/exp-fractal-2025) | Rounds, reported questions and 10 model answers. |
-| 27 | [Tiger Analytics: GenAI Engineer](https://learn24-lilac.vercel.app/interview-questions/exp-tiger-analytics) | Rounds, reported questions and 10 model answers. |
+| 23 | [Coforge & Hexaware: GenAI Interviews](https://learn24-lilac.vercel.app/interview-questions/exp-coforge-hexaware) | Rounds, reported questions and 6 model answers. |
+| 24 | [Cognizant: GenC (AI/ML Track) Interview](https://learn24-lilac.vercel.app/interview-questions/exp-cognizant-genc-ai) | Rounds, reported questions and 6 model answers. |
+| 25 | [IBM: AI Engineer, Bengaluru (2025)](https://learn24-lilac.vercel.app/interview-questions/exp-ibm-2025) | Rounds, reported questions and 8 model answers. |
+| 26 | [LTIMindtree & HCLTech: GenAI / ML Engineer](https://learn24-lilac.vercel.app/interview-questions/exp-ltimindtree-hcltech-2025) | Rounds, reported questions and 10 model answers. |
+| 27 | [Mphasis & Persistent: GenAI / AI-ML Engineer](https://learn24-lilac.vercel.app/interview-questions/exp-mphasis-persistent) | Rounds, reported questions and 6 model answers. |
+| 28 | [NTT DATA & Virtusa: GenAI Engineer](https://learn24-lilac.vercel.app/interview-questions/exp-ntt-data-virtusa) | Rounds, reported questions and 6 model answers. |
+| 29 | [Publicis Sapient: Senior Associate Data Scientist](https://learn24-lilac.vercel.app/interview-questions/exp-publicis-sapient-ds) | Rounds, reported questions and 6 model answers. |
+| 30 | [Tech Mahindra: AI Engineer, Noida (Offer)](https://learn24-lilac.vercel.app/interview-questions/exp-tech-mahindra-ai-engineer) | Rounds, reported questions and 6 model answers. |
+| 31 | [Zensar, Birlasoft & GlobalLogic: AI / GenAI Engineer](https://learn24-lilac.vercel.app/interview-questions/exp-zensar-birlasoft-globallogic) | Rounds, reported questions and 6 model answers. |
 
-**Module 5 · 🆕 2025 Experiences: Big Tech, Product & Banking**
+**Module 5 · Experiences: Consulting & Big 4**
 
 | # | Page | What is inside |
 |---|---|---|
-| 28 | [Amazon: Applied Scientist (2025)](https://learn24-lilac.vercel.app/interview-questions/exp-amazon-applied-scientist) | Rounds, reported questions and 8 model answers. |
-| 29 | [Google: ML Engineer & AI Engineer, India (2025)](https://learn24-lilac.vercel.app/interview-questions/exp-google-mle-2025) | Rounds, reported questions and 7 model answers. |
-| 30 | [Walmart Global Tech: Data Scientist (2025)](https://learn24-lilac.vercel.app/interview-questions/exp-walmart-data-scientist-2025) | Rounds, reported questions and 9 model answers. |
-| 31 | [Flipkart: Data Scientist 2, 6 Rounds (Offer)](https://learn24-lilac.vercel.app/interview-questions/exp-flipkart-ds2) | Rounds, reported questions and 8 model answers. |
-| 32 | [Zomato: ML Engineer, Campus (2025, Offer)](https://learn24-lilac.vercel.app/interview-questions/exp-zomato-mle-2025) | Rounds, reported questions and 7 model answers. |
-| 33 | [JPMorgan & Amex: AI / Data Science (2025)](https://learn24-lilac.vercel.app/interview-questions/exp-jpmorgan-amex-2025) | Rounds, reported questions and 7 model answers. |
-| 34 | [Qualcomm DS & Community Reports: LLM Engineer Rounds](https://learn24-lilac.vercel.app/interview-questions/exp-qualcomm-community-2025) | Rounds, reported questions and 9 model answers. |
+| 32 | [BCG X: AI/ML Engineer & Forward-Deployed DS](https://learn24-lilac.vercel.app/interview-questions/exp-bcg-x) | Rounds, reported questions and 6 model answers. |
+| 33 | [Deloitte: GenAI Engineer Reports (2025)](https://learn24-lilac.vercel.app/interview-questions/exp-deloitte-2025) | Rounds, reported questions and 8 model answers. |
+| 34 | [KPMG: Data Scientist (GenAI focus)](https://learn24-lilac.vercel.app/interview-questions/exp-kpmg-data-scientist) | Rounds, reported questions and 6 model answers. |
+| 35 | [QuantumBlack (McKinsey): Data Scientist](https://learn24-lilac.vercel.app/interview-questions/exp-quantumblack-mckinsey) | Rounds, reported questions and 6 model answers. |
+
+**Module 6 · Experiences: Big Tech**
+
+| # | Page | What is inside |
+|---|---|---|
+| 36 | [Adobe: Machine Learning Engineer](https://learn24-lilac.vercel.app/interview-questions/exp-adobe-mle) | Rounds, reported questions and 6 model answers. |
+| 37 | [Airbnb & TikTok: Machine Learning Engineer](https://learn24-lilac.vercel.app/interview-questions/exp-airbnb-tiktok) | Rounds, reported questions and 6 model answers. |
+| 38 | [Amazon: Applied Scientist (2025)](https://learn24-lilac.vercel.app/interview-questions/exp-amazon-applied-scientist) | Rounds, reported questions and 8 model answers. |
+| 39 | [Apple & LinkedIn: ML / AI Engineer](https://learn24-lilac.vercel.app/interview-questions/exp-apple-linkedin) | Rounds, reported questions and 6 model answers. |
+| 40 | [Google: ML Engineer & AI Engineer, India (2025)](https://learn24-lilac.vercel.app/interview-questions/exp-google-mle-2025) | Rounds, reported questions and 7 model answers. |
+| 41 | [Meta: Machine Learning Engineer](https://learn24-lilac.vercel.app/interview-questions/exp-meta-mle-2025) | Rounds, reported questions and 6 model answers. |
+| 42 | [Microsoft: Applied Scientist & Data Scientist](https://learn24-lilac.vercel.app/interview-questions/exp-microsoft-applied-scientist) | Rounds, reported questions and 6 model answers. |
+| 43 | [NVIDIA: Deep Learning Engineer](https://learn24-lilac.vercel.app/interview-questions/exp-nvidia-deep-learning) | Rounds, reported questions and 6 model answers. |
+| 44 | [Oracle & Salesforce: AI / ML Engineer](https://learn24-lilac.vercel.app/interview-questions/exp-oracle-salesforce) | Rounds, reported questions and 6 model answers. |
+| 45 | [Spotify & Netflix: Machine Learning Engineer](https://learn24-lilac.vercel.app/interview-questions/exp-spotify-netflix) | Rounds, reported questions and 6 model answers. |
+
+**Module 7 · Experiences: Product & Retail Tech**
+
+| # | Page | What is inside |
+|---|---|---|
+| 46 | [Dream11 & MakeMyTrip: Data Scientist](https://learn24-lilac.vercel.app/interview-questions/exp-dream11-makemytrip) | Rounds, reported questions and 6 model answers. |
+| 47 | [Flipkart: Data Scientist 2, 6 Rounds (Offer)](https://learn24-lilac.vercel.app/interview-questions/exp-flipkart-ds2) | Rounds, reported questions and 8 model answers. |
+| 48 | [InMobi & ShareChat: AI/ML Engineer](https://learn24-lilac.vercel.app/interview-questions/exp-inmobi-sharechat) | Rounds, reported questions and 6 model answers. |
+| 49 | [Myntra & Meesho: Data Scientist / Analyst](https://learn24-lilac.vercel.app/interview-questions/exp-myntra-meesho) | Rounds, reported questions and 6 model answers. |
+| 50 | [Ola & CRED: Data Science](https://learn24-lilac.vercel.app/interview-questions/exp-ola-cred) | Rounds, reported questions and 6 model answers. |
+| 51 | [Swiggy: Data Science (Campus 2025)](https://learn24-lilac.vercel.app/interview-questions/exp-swiggy-data-science) | Rounds, reported questions and 6 model answers. |
+| 52 | [Target & Lowe's (India): Data Scientist / Engineer](https://learn24-lilac.vercel.app/interview-questions/exp-target-lowes) | Rounds, reported questions and 6 model answers. |
+| 53 | [Uber: Machine Learning Engineer](https://learn24-lilac.vercel.app/interview-questions/exp-uber-mle) | Rounds, reported questions and 6 model answers. |
+| 54 | [Walmart Global Tech: Data Scientist (2025)](https://learn24-lilac.vercel.app/interview-questions/exp-walmart-data-scientist-2025) | Rounds, reported questions and 9 model answers. |
+| 55 | [Zepto & Nykaa: Data Scientist / Engineering](https://learn24-lilac.vercel.app/interview-questions/exp-zepto-nykaa) | Rounds, reported questions and 6 model answers. |
+| 56 | [Zomato: ML Engineer, Campus (2025, Offer)](https://learn24-lilac.vercel.app/interview-questions/exp-zomato-mle-2025) | Rounds, reported questions and 7 model answers. |
+
+**Module 8 · Experiences: Banking & Fintech**
+
+| # | Page | What is inside |
+|---|---|---|
+| 57 | [Barclays & HSBC: Data Scientist](https://learn24-lilac.vercel.app/interview-questions/exp-barclays-hsbc) | Rounds, reported questions and 6 model answers. |
+| 58 | [Citi: Data Scientist & GenAI](https://learn24-lilac.vercel.app/interview-questions/exp-citi-data-scientist) | Rounds, reported questions and 6 model answers. |
+| 59 | [Goldman Sachs & Morgan Stanley: Engineering (ML) Interviews](https://learn24-lilac.vercel.app/interview-questions/exp-goldman-morgan-stanley) | Rounds, reported questions and 6 model answers. |
+| 60 | [JPMorgan & Amex: AI / Data Science (2025)](https://learn24-lilac.vercel.app/interview-questions/exp-jpmorgan-amex-2025) | Rounds, reported questions and 7 model answers. |
+| 61 | [Mastercard & Visa: Data Scientist](https://learn24-lilac.vercel.app/interview-questions/exp-mastercard-visa) | Rounds, reported questions and 6 model answers. |
+| 62 | [PayPal, Razorpay & Paytm: Data Science / ML](https://learn24-lilac.vercel.app/interview-questions/exp-paypal-razorpay-paytm) | Rounds, reported questions and 7 model answers. |
+| 63 | [PhonePe: Decision Scientist](https://learn24-lilac.vercel.app/interview-questions/exp-phonepe-decision-scientist) | Rounds, reported questions and 6 model answers. |
+| 64 | [Wells Fargo & Deutsche Bank: Data / Analytics](https://learn24-lilac.vercel.app/interview-questions/exp-wellsfargo-deutsche) | Rounds, reported questions and 6 model answers. |
+
+**Module 9 · Experiences: Analytics & AI Firms**
+
+| # | Page | What is inside |
+|---|---|---|
+| 65 | [Fractal: Sr Data Scientist, GenAI (2025, Offer)](https://learn24-lilac.vercel.app/interview-questions/exp-fractal-2025) | Rounds, reported questions and 10 model answers. |
+| 66 | [Genpact & EXL: GenAI Data Scientist](https://learn24-lilac.vercel.app/interview-questions/exp-genpact-exl) | Rounds, reported questions and 6 model answers. |
+| 67 | [LatentView & Affine: Analytics / Data Science](https://learn24-lilac.vercel.app/interview-questions/exp-latentview-affine) | Rounds, reported questions and 6 model answers. |
+| 68 | [Mu Sigma: Data Scientist](https://learn24-lilac.vercel.app/interview-questions/exp-mu-sigma) | Rounds, reported questions and 6 model answers. |
+| 69 | [Tiger Analytics: GenAI Engineer](https://learn24-lilac.vercel.app/interview-questions/exp-tiger-analytics) | Rounds, reported questions and 10 model answers. |
+| 70 | [Tredence, Quantiphi, Gramener & Sigmoid: Data / AI](https://learn24-lilac.vercel.app/interview-questions/exp-tredence-quantiphi-gramener-sigmoid) | Rounds, reported questions and 6 model answers. |
+| 71 | [ZS Associates: Data Science Associate](https://learn24-lilac.vercel.app/interview-questions/exp-zs-associates) | Rounds, reported questions and 7 model answers. |
+
+**Module 10 · Experiences: Semiconductors & Hardware**
+
+| # | Page | What is inside |
+|---|---|---|
+| 72 | [Cisco & Synopsys: ML / AI Engineer](https://learn24-lilac.vercel.app/interview-questions/exp-cisco-synopsys) | Rounds, reported questions and 6 model answers. |
+| 73 | [Intel & AMD: AI Engineer](https://learn24-lilac.vercel.app/interview-questions/exp-intel-amd) | Rounds, reported questions and 6 model answers. |
+| 74 | [Qualcomm DS & Community Reports: LLM Engineer Rounds](https://learn24-lilac.vercel.app/interview-questions/exp-qualcomm-community-2025) | Rounds, reported questions and 9 model answers. |
+| 75 | [Samsung R&D & Micron: AI / ML Engineer](https://learn24-lilac.vercel.app/interview-questions/exp-samsung-micron) | Rounds, reported questions and 6 model answers. |
+
+**Module 11 · Experiences: Telecom, Auto & Industry**
+
+| # | Page | What is inside |
+|---|---|---|
+| 76 | [Bosch, Siemens & Honeywell: AI Engineer](https://learn24-lilac.vercel.app/interview-questions/exp-bosch-siemens-honeywell) | Rounds, reported questions and 6 model answers. |
+| 77 | [Ericsson: AI Engineer (Campus)](https://learn24-lilac.vercel.app/interview-questions/exp-ericsson-ai-engineer) | Rounds, reported questions and 6 model answers. |
+| 78 | [Jio Platforms & Airtel: AI / GenAI Engineer](https://learn24-lilac.vercel.app/interview-questions/exp-jio-airtel) | Rounds, reported questions and 6 model answers. |
+| 79 | [Mercedes-Benz R&D India & Philips: AI / Data Scientist](https://learn24-lilac.vercel.app/interview-questions/exp-mercedes-philips) | Rounds, reported questions and 6 model answers. |
+
+**Module 12 · Experiences: Healthcare & Pharma**
+
+| # | Page | What is inside |
+|---|---|---|
+| 80 | [Novartis, GE HealthCare, Optum & IQVIA: Data Science](https://learn24-lilac.vercel.app/interview-questions/exp-novartis-ge-optum-iqvia) | Rounds, reported questions and 6 model answers. |
+
+**Module 13 · Experiences: SaaS & Enterprise Software**
+
+| # | Page | What is inside |
+|---|---|---|
+| 81 | [Atlassian & Intuit: Machine Learning Engineer](https://learn24-lilac.vercel.app/interview-questions/exp-atlassian-intuit) | Rounds, reported questions and 5 model answers. |
+| 82 | [Databricks & Snowflake: AI / ML Engineer](https://learn24-lilac.vercel.app/interview-questions/exp-databricks-snowflake) | Rounds, reported questions and 6 model answers. |
+| 83 | [ServiceNow & SAP Labs: ML / AI Engineer](https://learn24-lilac.vercel.app/interview-questions/exp-servicenow-sap) | Rounds, reported questions and 6 model answers. |
+| 84 | [Zoho, Freshworks & Postman: ML / Engineering](https://learn24-lilac.vercel.app/interview-questions/exp-zoho-freshworks-postman) | Rounds, reported questions and 6 model answers. |
+
+**Module 14 · Experiences: AI Labs & Startups**
+
+| # | Page | What is inside |
+|---|---|---|
+| 85 | [Cohere, Glean & Perplexity: ML Engineer](https://learn24-lilac.vercel.app/interview-questions/exp-cohere-glean-perplexity) | Rounds, reported questions and 6 model answers. |
+| 86 | [Krutrim & Sarvam AI: Indian AI Labs](https://learn24-lilac.vercel.app/interview-questions/exp-krutrim-sarvam) | Rounds, reported questions and 6 model answers. |
+| 87 | [OpenAI: Software Engineer](https://learn24-lilac.vercel.app/interview-questions/exp-openai-swe) | Rounds, reported questions and 6 model answers. |
+
+**Module 15 · Experiences: Global & Others**
+
+| # | Page | What is inside |
+|---|---|---|
+| 88 | [Shell, Unilever & Tesco: Data Roles (Bengaluru)](https://learn24-lilac.vercel.app/interview-questions/exp-shell-unilever-tesco) | Rounds, reported questions and 6 model answers. |
+
+Companies covered: AMD, Accenture, Adobe, Affine, Airbnb, Airtel, Amazon, American Express, Apple, Atlassian, BCG X, Barclays, Birlasoft, Bosch, CRED, Capgemini, Cisco, Citi, Coforge, Cognizant, Cohere, Databricks, Deloitte, Deutsche Bank, Dream11, EPAM, EXL, EY, Ericsson, Flipkart, Fractal, Freshworks, GE HealthCare, Genpact, Glean, GlobalLogic, Goldman Sachs, Google, Gramener, HCLTech, HSBC, Hexaware, Honeywell, IBM, IQVIA, InMobi, Infosys, Intel, Intuit, JPMorgan Chase, Jio Platforms, KPMG, Krutrim, LTIMindtree, LatentView, LinkedIn, Lowe's, MCP deep-dive, MakeMyTrip, Mastercard, McKinsey QuantumBlack, Meesho, Mercedes-Benz R&D, Meta, Micron, Microsoft, Morgan Stanley, Mphasis, Mu Sigma, Myntra, NLP (several companies), NTT DATA, NVIDIA, Netflix, Novartis, Nykaa, Ola, OpenAI, Optum, Oracle, PayPal, Paytm, Perplexity, Persistent Systems, Philips, PhonePe, Postman, Publicis Sapient, PwC, Qualcomm, Quantiphi, Razorpay, SAP Labs, Salesforce, Samsung R&D, Sarvam AI, ServiceNow, ShareChat, Shell, Siemens, Sigmoid, Snowflake, Spotify, Swiggy, Synopsys, TCS, Target, Tech Mahindra, Tesco, Tiger Analytics, TikTok, Tredence, Uber, Unilever, Virtusa, Visa, Walmart Global Tech, Wells Fargo, Wipro, ZS Associates, Zensar, Zepto, Zoho, Zomato.
 
 ### 💼 Live AI Jobs
 

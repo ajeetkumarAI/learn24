@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Intel &amp; AMD: AI Engineer · Company Interview Questions · Learn24</title>
+<meta name="description" content="Intel &amp; AMD: AI Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Intel &amp; AMD: AI Engineer · Learn24">
+<meta property="og:description" content="Intel &amp; AMD: AI Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-intel-amd" data-lesson="interview-questions/exp-intel-amd">
+  <div class="kicker">Company Interview Questions · Semiconductors &amp; Hardware</div>
+  <h1>Intel &amp; AMD: AI Engineer</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 Intel &amp; AMD</span><span>🆕 Recent reports</span></div>
+  <p class="lead">Intel &amp; AMD: AI Engineer Interview Experiences (2025). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from a public Intel <strong>AI Engineer</strong> report (Bengaluru, January 2025: two panelists, background switch discussion, projects, SQL in a notepad) and public AMD AI Engineer review summaries (behavioural + technical, a LeetCode-medium problem, AI/ML concepts; rated 3/5 difficulty). The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Intel</th>
+<th>AMD</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>AI Engineer</td>
+<td>AI Engineer</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>Introduction → why you switched fields → project and resume review → <strong>SQL written in a notepad</strong></td>
+<td>Behavioural (experience) + technical (LeetCode medium + AI/ML concepts)</td>
+</tr>
+<tr>
+<td><strong>Outcome</strong></td>
+<td>Not selected (rated positive)</td>
+<td>Reviews positive overall</td>
+</tr>
+<tr>
+<td><strong>Domain</strong></td>
+<td>AI PCs (NPUs), OpenVINO, Gaudi accelerators</td>
+<td>ROCm, Instinct GPUs, AI software stack</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Hardware companies' AI teams</strong> value <strong>efficient inference</strong>: quantization, compilers and runtimes, profiling.</li>
+<li>Expect fundamentals (SQL, DSA) plus a project deep dive. Write code without an IDE.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">How do you optimise a deep-learning model to run fast on a CPU or NPU (e.g. an AI PC)?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Convert and compile:</strong> export to ONNX, then use a vendor runtime/compiler (OpenVINO for Intel CPUs, GPUs and NPUs; ONNX Runtime with an execution provider). These fuse operators and choose optimised kernels.</li>
+<li><strong>Quantize:</strong> INT8 post-training quantization with calibration data (or quantization-aware training if accuracy drops); INT4 weight-only for LLMs.</li>
+<li><strong>Model choices:</strong> a smaller or distilled model, pruning, static shapes, batch size tuned to the latency target.</li>
+<li><strong>Measure:</strong> latency (p50/p95), throughput and power on the target device, plus the change in accuracy against FP32.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Write SQL (no IDE): the top 2 products by sales in each region.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-sql">SELECT region, product, total
+FROM (
+  SELECT region, product, SUM(amount) AS total,
+         ROW_NUMBER() OVER (PARTITION BY region ORDER BY SUM(amount) DESC) AS rn
+  FROM sales GROUP BY region, product
+) t
+WHERE rn &lt;= 2;
+</code></pre>
+<ul>
+<li>Practise writing SQL <strong>by hand</strong>: interviewers check syntax and logic without autocomplete.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">You switched from another field into AI. How do you answer &quot;why the switch?&quot;</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Connect your past to AI:</strong> "In electronics I worked with signal data and saw how ML could automate defect detection. That led me to build a CNN classifier for PCB defects at 94% accuracy."</li>
+<li><strong>Show deliberate learning:</strong> courses, projects, a deployed demo, open-source work.</li>
+<li><strong>Turn it into an advantage:</strong> domain knowledge (hardware, finance, healthcare) helps you frame problems better than pure ML generalists.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">What is ROCm, and how does it compare to CUDA for ML engineers?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>ROCm</strong> is AMD's open GPU compute stack (HIP programming model, libraries such as rocBLAS and MIOpen) with PyTorch and JAX support. <strong>CUDA</strong> is NVIDIA's proprietary equivalent, with the most mature ecosystem.</li>
+<li><strong>For ML engineers:</strong> most PyTorch code runs on both, since PyTorch builds for ROCm. Custom CUDA kernels can be ported with <strong>HIPify</strong>. Performance depends on library maturity for specific operators.</li>
+<li><strong>Inference stacks</strong> (vLLM, ONNX Runtime) support both. Benchmark <em>your</em> model, because results vary.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">LeetCode medium: merge overlapping intervals.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">def merge(intervals):
+    intervals.sort(key=lambda x: x[0]); out = []
+    for s, e in intervals:
+        if out and s &lt;= out[-1][1]: out[-1][1] = max(out[-1][1], e)
+        else: out.append([s, e])
+    return out
+</code></pre>
+<ul>
+<li>Sort by start, then sweep: O(n log n).</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Explain INT8 quantization: how it works and how you keep accuracy.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>Map floats to 8-bit integers: q = round(x / scale) + zero_point. Use <strong>per-channel</strong> scales for weights and per-tensor scales for activations.</li>
+<li><strong>Calibration:</strong> run representative data to choose activation ranges (min-max, percentile, entropy/KL).</li>
+<li><strong>Keep accuracy:</strong> leave sensitive layers (first and last, attention softmax) in FP16, use SmoothQuant for LLM activations with outliers, or use quantization-aware training.</li>
+<li><strong>Validate</strong> on the full evaluation set. A typical drop is under 1% for CNNs and varies for LLMs.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare"><span class="n">03</span>How to prepare</h2><ul>
+<li>Know <strong>inference optimisation on hardware</strong> (OpenVINO, ONNX Runtime, ROCm, quantization).</li>
+<li>Hand-write SQL and medium DSA.</li>
+<li>Prepare a clear story about your path into AI and your best project.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.jointaro.com/interviews/companies/intel/experiences/ai-engineer-bengaluru-january-1-2025-no-offer-positive-8b6c8def">Taro: Intel AI Engineer, Bengaluru (Jan 2025)</a></li>
+<li><a href="https://clear.glassdoor.nl/Interview/AMD-AI-Engineer-Interview-Questions-EI_IE15.0,3_KO4,15.htm">Glassdoor: AMD AI Engineer interview summary</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-intel-amd"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

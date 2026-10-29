@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Meta: Machine Learning Engineer · Company Interview Questions · Learn24</title>
+<meta name="description" content="Meta: Machine Learning Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Meta: Machine Learning Engineer · Learn24">
+<meta property="og:description" content="Meta: Machine Learning Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-meta-mle-2025" data-lesson="interview-questions/exp-meta-mle-2025">
+  <div class="kicker">Company Interview Questions · Big Tech</div>
+  <h1>Meta: Machine Learning Engineer</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 Meta</span><span>🆕 Recent reports</span></div>
+  <p class="lead">Meta: Machine Learning Engineer Interview Experiences (2025). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from public candidate reports for Meta Machine Learning Engineer roles: London (September 2025, offer received and declined) and Seattle (July 2025; 3 of 4 interviewers reportedly voted to hire, no offer). The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Machine Learning Engineer (E4/E5)</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>HR call → coding round 1 (2 problems) → coding round 2 (2 harder problems) → behavioural → <strong>ML system design</strong></td>
+</tr>
+<tr>
+<td><strong>Reported questions</strong></td>
+<td>Implement an <strong>LRU cache</strong>; design a <strong>news-feed ranking</strong> system; "have you maintained an end-to-end ML pipeline in production?"</td>
+</tr>
+<tr>
+<td><strong>Outcome</strong></td>
+<td>London: offer (declined); Seattle: no offer despite mostly positive votes</td>
+</tr>
+<tr>
+<td><strong>Lesson</strong></td>
+<td>Every round counts: one weak signal can sink a strong loop</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Coding:</strong> 2 problems in about 40 minutes, so speed <strong>and</strong> clean edge-case handling matter.</li>
+<li><strong>ML system design:</strong> end to end (data → features → model → serving → monitoring → scale → ethics).</li>
+<li><strong>Behavioural:</strong> ownership, conflict, leadership, with STAR stories.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Implement an LRU cache with O(1) get and put.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">from collections import OrderedDict
+
+class LRUCache:
+    def __init__(self, capacity: int):
+        self.cap, self.d = capacity, OrderedDict()
+    def get(self, key):
+        if key not in self.d: return -1
+        self.d.move_to_end(key); return self.d[key]
+    def put(self, key, value):
+        if key in self.d: self.d.move_to_end(key)
+        self.d[key] = value
+        if len(self.d) &gt; self.cap: self.d.popitem(last=False)
+</code></pre>
+<ul>
+<li>Mention the classic version: a <strong>hash map + doubly-linked list</strong> (move a node to the head on access, evict the tail), which interviewers may ask you to write without <code>OrderedDict</code>.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Design a ranking system for a news feed.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Goal:</strong> maximise long-term meaningful engagement (not just clicks), with integrity constraints.</li>
+<li><strong>Stages:</strong>
+  1. <strong>Candidate generation:</strong> recent posts from friends, groups and pages plus recommended content (two-tower embeddings, ANN), giving thousands of candidates.
+  2. <strong>Light ranker:</strong> a cheap model trims to hundreds.
+  3. <strong>Heavy ranker:</strong> a multi-task deep model (DLRM-style) predicts P(like), P(comment), P(share), P(hide/report) and dwell time, combined with a <strong>value function</strong> of weighted predictions.
+  4. <strong>Re-ranking:</strong> diversity, freshness, creator fairness, integrity filters, ad insertion.</li>
+<li><strong>Features:</strong> user–author affinity, content embeddings, recency, engagement velocity, context (device, time).</li>
+<li><strong>Training:</strong> logged impressions; handle <strong>position bias</strong>; daily or online updates.</li>
+<li><strong>Evaluation:</strong> offline NDCG and AUC per task → online A/B on engagement <strong>and</strong> guardrails (reports, time well spent).</li>
+<li><strong>Serving and scale:</strong> feature store, caching, under 200 ms end to end; monitor drift and feedback loops.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Have you maintained an end-to-end ML pipeline in production? What did &quot;maintaining&quot; involve?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Answer (show operational ownership):</strong></p>
+<ul>
+<li><strong>Data:</strong> scheduled ingestion with data-quality checks (schema, nulls, distributions) and alerts.</li>
+<li><strong>Training:</strong> automated weekly retraining, experiment tracking, and an evaluation gate against the current model.</li>
+<li><strong>Deployment:</strong> model registry, canary release, rollback.</li>
+<li><strong>Monitoring:</strong> feature drift (PSI), prediction drift, latency, business KPIs, and label-delayed performance tracking.</li>
+<li><strong>Incidents:</strong> "An upstream logging change broke a feature. Our drift alert fired, we rolled back within an hour, and we added a data contract."</li>
+<li>Interviewers want evidence that you <strong>owned it after launch</strong>, not just trained a notebook model.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Coding: find the k most frequent elements.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">from collections import Counter
+import heapq
+
+def top_k(nums, k):
+    return [x for x, _ in heapq.nlargest(k, Counter(nums).items(), key=lambda t: t[1])]
+</code></pre>
+<ul>
+<li>O(n log k) with a heap. Bucket sort by frequency gives O(n). Discuss ties and streaming variants (Count-Min Sketch).</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">How do you handle position bias in ranking training data?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>Users click higher positions more regardless of relevance, so naïve training learns "position = relevance".</li>
+<li><strong>Fixes:</strong></li>
+<li>Add position as a feature during training, and set it to a constant at serving.</li>
+<li><strong>Inverse propensity weighting</strong> using estimated examination probabilities (from randomisation or result swaps).</li>
+<li>Click models such as cascade or DBN.</li>
+<li>Small exploration traffic to collect less-biased data.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Behavioural: tell me about a time you took ownership beyond your role.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Answer (STAR):</strong></p>
+<ul>
+<li><strong>Situation:</strong> "Our model's online gains disappeared after launch; nobody owned the logging pipeline."</li>
+<li><strong>Action:</strong> "I traced it to a mismatch between training and serving features, wrote a parity test, and set up a weekly cross-team review with the data platform team."</li>
+<li><strong>Result:</strong> "We recovered the +2.1% engagement lift, and the parity test caught two later issues before launch."</li>
+<li>Meta values <strong>move fast with ownership</strong> and impact backed by metrics.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare-for-meta"><span class="n">03</span>How to prepare for Meta</h2><ul>
+<li>Practise solving <strong>2 medium LeetCode problems in 40 minutes</strong> (hash maps, heaps, graphs, design problems like LRU).</li>
+<li>Practise ML system design for <strong>feeds, ads, recommendations and integrity</strong>.</li>
+<li>Prepare 5–6 STAR stories (conflict, ownership, failure, influence).</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.jointaro.com/interviews/companies/meta/experiences/machine-learning-engineer-london-england-september-25-2025-declined-offer-positive-e26180cf">Taro: Meta MLE, London (Sep 2025)</a></li>
+<li><a href="https://www.jointaro.com/interviews/companies/meta/experiences/machine-learning-engineer-seattle-wa-july-23-2025-no-offer-positive-23ebf94f">Taro: Meta MLE, Seattle (Jul 2025)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-meta-mle-2025"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

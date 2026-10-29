@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>QuantumBlack (McKinsey): Data Scientist · Company Interview Questions · Learn24</title>
+<meta name="description" content="QuantumBlack (McKinsey): Data Scientist: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="QuantumBlack (McKinsey): Data Scientist · Learn24">
+<meta property="og:description" content="QuantumBlack (McKinsey): Data Scientist: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-quantumblack-mckinsey" data-lesson="interview-questions/exp-quantumblack-mckinsey">
+  <div class="kicker">Company Interview Questions · Consulting &amp; Big 4</div>
+  <h1>QuantumBlack (McKinsey): Data Scientist</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 McKinsey QuantumBlack</span><span>🆕 Recent reports</span></div>
+  <p class="lead">QuantumBlack (McKinsey): Data Scientist Interview Process and Questions. Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from a public interview guide that aggregates seven QuantumBlack Data Scientist candidate reports, plus public candidate threads. The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Data Scientist / Senior Data Scientist (QuantumBlack, AI by McKinsey)</td>
+</tr>
+<tr>
+<td><strong>Stages</strong></td>
+<td>Online assessment → recruiter / HR screen → technical coding and data screen → ML, GenAI and project deep dives → <strong>collaborative case</strong> + final rounds with a director</td>
+</tr>
+<tr>
+<td><strong>Online assessment</strong></td>
+<td>Easy coding problem, a notebook task (clean data, build train/test helpers, fit a random forest), about 20 MCQs on git, ML, stats and GenAI</td>
+</tr>
+<tr>
+<td><strong>Timeline</strong></td>
+<td>About 2–2.5 months</td>
+</tr>
+<tr>
+<td><strong>Outcomes in reports</strong></td>
+<td>Mixed: 1 offer, several rejections, 1 withdrawal</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Technical screen:</strong> easy–medium algorithms, pandas, SQL (joins, duplicates); once, "how would you troubleshoot an API returning a 500 error?"</li>
+<li><strong>Deep dives:</strong> classical ML (bagging vs boosting, bias-variance, multicollinearity, PCA + k-means), GenAI concepts, the impact of your projects.</li>
+<li><strong>Case:</strong> end-to-end and collaborative: frame the problem → EDA → model → interpretation (often <strong>churn</strong>), plus a product-metric question.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">What is the difference between k-fold and stratified k-fold cross-validation?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>K-fold:</strong> split the data into k equal folds; train on k−1 and validate on the remaining one, rotating through all k.</li>
+<li><strong>Stratified k-fold:</strong> each fold keeps the <strong>same class proportions</strong> as the full dataset. This is essential for imbalanced classification, otherwise some folds may have very few positives.</li>
+<li><strong>Others:</strong> GroupKFold (no leakage across users or patients) and TimeSeriesSplit (forward-chaining) for temporal data.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Bagging vs boosting: how do they differ?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Bagging (random forest):</strong> trains many models <strong>in parallel</strong> on bootstrap samples (plus feature subsampling) and averages them. It <strong>reduces variance</strong> and is robust and hard to overfit.</li>
+<li><strong>Boosting (XGBoost, LightGBM, CatBoost):</strong> trains models <strong>sequentially</strong>, each fixing the previous errors (fitting gradients of the loss). It <strong>reduces bias</strong>, is often more accurate on tabular data, but needs tuning (learning rate, depth, early stopping) and can overfit noise.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Case: how would you predict customer churn from a dataset? Walk through end to end.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ol>
+<li><strong>Frame it:</strong> what counts as churn (no purchase in 60 days? contract cancelled?), the prediction horizon, the intervention budget, and the success metric (retained revenue).</li>
+<li><strong>EDA:</strong> churn rate, cohorts, tenure curves, usage trends, complaints, price changes. Check for leakage (cancellation-request fields).</li>
+<li><strong>Features:</strong> recency/frequency/monetary (RFM), usage deltas, support tickets, plan changes, payment failures.</li>
+<li><strong>Model:</strong> logistic baseline → gradient boosting; time-based validation; PR-AUC and lift@top-10%; calibrate.</li>
+<li><strong>Interpret:</strong> SHAP drivers; segment personas.</li>
+<li><strong>Act:</strong> target by <strong>uplift</strong> (who will respond to an offer), not just risk; run a controlled experiment; monitor.</li>
+</ol></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Average comments per user dropped 10% last month. How would you investigate?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Is it real?</strong> Check logging and instrumentation changes, bots or spam filters, and the definition (active users vs all users).</li>
+<li><strong>Decompose:</strong> comments per user = (comments / active commenters) × (commenters / users). Which part dropped?</li>
+<li><strong>Segment:</strong> platform (iOS/Android/web), region, new vs existing users, content type, app version.</li>
+<li><strong>Look for causes:</strong> a product change (comment-box UI, ranking), seasonality, an influx of new users (mix shift), an outage, competitor events.</li>
+<li><strong>Confirm</strong> with an experiment or a natural comparison, quantify the impact, and recommend a fix.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">How would you troubleshoot an API that returns HTTP 500 errors?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>A 500 is a server-side error.</strong> Read the <strong>server logs and stack traces</strong> for the failing requests and correlate them with timestamps and request IDs.</li>
+<li><strong>Reproduce</strong> with the same payload (curl/Postman), then check recent deploys, config or secret changes, and dependency health (DB, downstream APIs, model endpoint: timeouts, OOM).</li>
+<li><strong>Check inputs:</strong> unexpected nulls or types that crash the handler. Add validation that returns a 4xx instead.</li>
+<li><strong>Mitigate</strong> (roll back, or scale up if the cause is resource exhaustion), fix the root cause, and add alerts and tests.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">How do you handle multicollinearity in regression?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Detect:</strong> a correlation matrix, <strong>VIF</strong> above 5–10, and unstable coefficients that flip sign.</li>
+<li><strong>Effects:</strong> inflated variances, so the coefficients become uninterpretable. Predictions may still be fine.</li>
+<li><strong>Fix:</strong></li>
+<li>Drop or combine correlated features.</li>
+<li>Use domain-driven feature selection.</li>
+<li><strong>Ridge</strong> regularisation.</li>
+<li>PCA (at the cost of interpretability).</li>
+<li>Centre interaction terms.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare-for-quantumblack"><span class="n">03</span>How to prepare for QuantumBlack</h2><ul>
+<li>Practise a <strong>timed notebook</strong>: clean data → train/test helpers → random forest → evaluate, in about 60 minutes.</li>
+<li>Rehearse a collaborative <strong>churn case</strong> out loud, structured like a consultant.</li>
+<li>Revise ML theory (CV variants, bagging vs boosting, bias-variance, multicollinearity) and SQL (duplicates, top-N per group).</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.interviewquery.com/interview-guides/quantumblack-data-science-interview-questions">Interview Query: QuantumBlack Data Science interview guide</a></li>
+<li><a href="https://www.preplounge.com/consulting-forum/quantumblack-data-scientist-interviews-23653">PrepLounge: QuantumBlack data scientist interviews (forum)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-quantumblack-mckinsey"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

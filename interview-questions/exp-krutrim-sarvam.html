@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Krutrim &amp; Sarvam AI: Indian AI Labs · Company Interview Questions · Learn24</title>
+<meta name="description" content="Krutrim &amp; Sarvam AI: Indian AI Labs: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Krutrim &amp; Sarvam AI: Indian AI Labs · Learn24">
+<meta property="og:description" content="Krutrim &amp; Sarvam AI: Indian AI Labs: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-krutrim-sarvam" data-lesson="interview-questions/exp-krutrim-sarvam">
+  <div class="kicker">Company Interview Questions · AI Labs &amp; Startups</div>
+  <h1>Krutrim &amp; Sarvam AI: Indian AI Labs</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 Krutrim &amp; Sarvam AI</span><span>🆕 Recent reports</span></div>
+  <p class="lead">Krutrim &amp; Sarvam AI: Indian AI Lab Interviews (ML / AI Engineer). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from a public Krutrim <strong>AI Intern</strong> report (Bengaluru, university hiring, offer accepted: technical round with two Research Scientist-3 interviewers + HR) and public Sarvam AI ML Engineer role descriptions (speech and dubbing, vision, inference optimisation) with community discussion noting research-heavy, low-DSA interviews. The questions are paraphrased, and the model answers are written by Learn24. Sarvam's specific round structure was not public in the sources we found, so treat that part as <strong>likely focus areas</strong>.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Krutrim (Ola)</th>
+<th>Sarvam AI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>AI Intern; ML / Research roles</td>
+<td>ML Engineer (speech/dubbing, vision/VLM, Studio), 3–6 years' experience for mid roles</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>Technical (deep dive on <strong>your previous work</strong>) → HR (why Krutrim; a hard situation you worked through)</td>
+<td>Not public; candidates report a focus on depth and real work over LeetCode</td>
+</tr>
+<tr>
+<td><strong>Focus areas</strong></td>
+<td>Your research or projects, LLM fundamentals</td>
+<td><strong>Indic LLMs, speech (ASR/TTS), translation, evaluation of non-deterministic output, GPU inference optimisation</strong></td>
+</tr>
+<tr>
+<td><strong>Outcome</strong></td>
+<td>Offer accepted (rated easy)</td>
+<td>n/a</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Indian foundation-model labs</strong> probe <strong>depth in your own work</strong>: what you built, why, what failed and what you measured.</li>
+<li>Expect Indic-language specifics: tokenisation, scarce data, code-mixing, speech.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Why do Indic languages need special handling in LLMs?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Tokenisation:</strong> English-centric BPE splits Devanagari and Tamil text into many tokens, which raises cost and latency and lowers quality. Indic-aware tokenisers (larger vocabularies, script-specific merges) cut the token count 2–4×.</li>
+<li><strong>Data scarcity and quality:</strong> less web text, so use translation-augmented, synthetic and curated data, and careful deduplication.</li>
+<li><strong>Code-mixing and transliteration:</strong> Hinglish in Latin script ("kal milte hain"). Train on romanised text too.</li>
+<li><strong>Evaluation:</strong> benchmarks such as IndicGLUE, IndicXTREME, FLORES for translation, and human evaluation by native speakers.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">How would you evaluate a speech-to-speech dubbing pipeline (ASR → translation → TTS)?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Per component:</strong></li>
+<li>ASR: <strong>WER/CER</strong>.</li>
+<li>Translation: BLEU/chrF/COMET plus human adequacy and fluency.</li>
+<li>TTS: <strong>MOS</strong>, intelligibility (ASR on the TTS output), <strong>speaker-similarity cosine</strong> of voice embeddings.</li>
+<li><strong>End to end:</strong></li>
+<li>Lip-sync and timing alignment.</li>
+<li>Preservation of emotion and prosody.</li>
+<li>Naturalness ratings.</li>
+<li>Error propagation analysis.</li>
+<li><strong>Non-determinism:</strong> fix seeds, sample several outputs, report distributions; use <strong>A/B preference tests</strong> against global baselines.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">How do you optimise LLM inference on GPUs?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Serving engine:</strong> vLLM / TensorRT-LLM / SGLang with <strong>continuous batching</strong>, a <strong>paged KV cache</strong>, prefix caching.</li>
+<li><strong>Model:</strong> FP8/INT8/INT4 quantization (AWQ, GPTQ), GQA, speculative decoding (a small draft model), distillation.</li>
+<li><strong>Kernels:</strong> FlashAttention, fused ops, CUDA graphs.</li>
+<li><strong>Measure:</strong> time to first token, tokens per second per GPU, p99 latency, cost per 1M tokens; profile with Nsight. Tune batch size against latency targets.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Tell us about your previous work in depth (Krutrim technical round).</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Answer (structure for research or engineering work):</strong></p>
+<ol>
+<li><strong>Problem and why it matters</strong> (one sentence).</li>
+<li><strong>What existed before</strong> and its limitation.</li>
+<li><strong>Your approach:</strong> the key idea, the architecture, the data, <em>why</em> it should work.</li>
+<li><strong>Experiments:</strong> baselines, ablations, metrics, <strong>negative results</strong>.</li>
+<li><strong>What you'd do next.</strong>
+- Research scientists will dig into <strong>ablations and failure cases</strong>, so be honest about what didn't work.</li>
+</ol></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Why do you want to join an Indian AI lab rather than a big tech company?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>"I want to build models for <strong>a billion users in their own languages</strong>, problems global labs under-serve: Indic speech, low-resource translation, voice-first interfaces."</li>
+<li>"Smaller teams mean ownership across data, training and deployment."</li>
+<li>Mention specific products (Sarvam's Indic models and voice stack; Krutrim's multilingual models and cloud) to show genuine interest.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">How would you build an Indic-language RAG assistant for government-scheme questions?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Corpus:</strong> scheme PDFs in several languages → OCR as needed → chunk by section → <strong>multilingual embeddings</strong> (e.g. BGE-M3, LaBSE-style).</li>
+<li><strong>Query:</strong> speech input (ASR) in the user's language → retrieve across languages → answer in the user's language with an Indic-capable LLM → optional TTS.</li>
+<li><strong>Guardrails:</strong> cite the scheme clause; "I don't know" with a helpline fallback; simple vocabulary.</li>
+<li><strong>Evaluation:</strong> questions written by native speakers per language; faithfulness plus comprehension testing with real users.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare"><span class="n">03</span>How to prepare</h2><ul>
+<li>Know your own projects deeply: ablations, failures, numbers.</li>
+<li>Learn Indic NLP and speech basics (tokenisation, ASR/TTS metrics), and LLM inference optimisation.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.glassdoor.ie/Interview/Krutrim-Interview-E9741167-RVW103620343.htm">Glassdoor: Krutrim AI Intern, Bengaluru</a></li>
+<li><a href="https://www.grapevine.in/round1/job-interview/48c7bee4-d677-49f6-aaa3-7dadd84e79b4">Round1 (Grapevine): Sarvam AI ML Engineer role and focus areas</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-krutrim-sarvam"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

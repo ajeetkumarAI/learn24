@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Citi: Data Scientist &amp; GenAI · Company Interview Questions · Learn24</title>
+<meta name="description" content="Citi: Data Scientist &amp; GenAI: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Citi: Data Scientist &amp; GenAI · Learn24">
+<meta property="og:description" content="Citi: Data Scientist &amp; GenAI: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-citi-data-scientist" data-lesson="interview-questions/exp-citi-data-scientist">
+  <div class="kicker">Company Interview Questions · Banking &amp; Fintech</div>
+  <h1>Citi: Data Scientist &amp; GenAI</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 Citi</span><span>🆕 Recent reports</span></div>
+  <p class="lead">Citi: Data Scientist &amp; GenAI Interview Experiences (2024–26). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from four public candidate reports for Citi Data Scientist roles: Bengaluru (November 2025, GenAI/RAG focus), December 2025 (offer accepted), Shanghai (April 2026, case-study presentation) and October 2024. Citi's India GenAI openings (e.g. Senior Data Scientist – Gen AI Engineer, Pune and Bengaluru) give context. The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Roles</strong></td>
+<td>Data Scientist; Senior Data Scientist – Gen AI Engineer (AVP); Gen AI Analyst</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>Online aptitude / reasoning / data-interpretation test → 2 technical rounds → HR. Other locations: technical → <strong>case-study presentation</strong> → values and leadership fit</td>
+</tr>
+<tr>
+<td><strong>Reported topics</strong></td>
+<td>Decision trees, <strong>RAG system design</strong>, vector DBs, LLMs, batch normalisation, optimising an RL algorithm, ML and DL coursework, resume projects</td>
+</tr>
+<tr>
+<td><strong>Outcomes</strong></td>
+<td>1 offer (rated easy, "terminology heavy"); 3 not selected (Bengaluru rated difficult)</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Technical rounds</strong> combine classic ML (trees), deep learning (batch norm) and <strong>GenAI system design</strong> (RAG + vector DB).</li>
+<li>Banking context matters: explainability, data privacy and model risk governance.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">How does a decision tree decide where to split? How do you stop it overfitting?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Classification:</strong> choose the feature and threshold that maximise impurity reduction.</li>
+<li><strong>Gini</strong> = 1 − Σpᵢ², or <strong>entropy</strong> = −Σpᵢ log pᵢ, weighted by child sizes (information gain).</li>
+<li><strong>Regression:</strong> minimise the variance (MSE) of the children.</li>
+<li><strong>Greedy and recursive:</strong> it continues until a stopping criterion is met.</li>
+<li><strong>Control overfitting:</strong></li>
+<li><code>max_depth</code>, <code>min_samples_leaf</code>, <code>min_samples_split</code>.</li>
+<li>Cost-complexity <strong>pruning</strong> (ccp_alpha).</li>
+<li>Or ensembles: random forests (bagging) and gradient boosting.</li>
+<li><strong>In banking:</strong> shallow trees and scorecards are favoured for <strong>explainability</strong> to regulators.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Design a RAG system for internal banking policies and procedures.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Ingestion:</strong> policy PDFs and SOPs → layout-aware parsing → clause-level chunks with metadata (policy ID, version, effective date, business unit, classification) → embeddings → vector DB, plus BM25.</li>
+<li><strong>Access control:</strong> entitlement filters at retrieval (users see only the policies for their business unit and classification).</li>
+<li><strong>Query:</strong> rewrite → hybrid search → cross-encoder re-rank → <strong>latest effective version only</strong> → grounded answer with <strong>clause citations</strong>.</li>
+<li><strong>Guardrails:</strong></li>
+<li>No financial advice to customers.</li>
+<li>PII redaction.</li>
+<li>"Not found" when retrieval confidence is low.</li>
+<li>Prompt-injection filtering.</li>
+<li><strong>Governance:</strong></li>
+<li>A model inventory entry and validation (model risk management).</li>
+<li>An evaluation set signed off by compliance.</li>
+<li>Audit logs, periodic review, and data residency on a private model endpoint.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">What is a vector database and how would you choose one for a bank?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>What it does:</strong> stores embeddings with ANN indexes (HNSW, IVF-PQ) for fast similarity search, plus metadata filtering.</li>
+<li><strong>Bank criteria:</strong></li>
+<li><strong>On-premises or private-cloud deployment.</strong></li>
+<li>Encryption at rest and in transit.</li>
+<li>RBAC and attribute filters.</li>
+<li>Audit logs.</li>
+<li>High availability and backups.</li>
+<li>Scale (millions of chunks).</li>
+<li>Hybrid search.</li>
+<li>Vendor approval.</li>
+<li><strong>Options:</strong> pgvector (inside an approved Postgres), Elasticsearch/OpenSearch (often already approved), Milvus, Qdrant (self-hosted), Azure AI Search with private endpoints.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Explain batch normalisation and why it helps.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>For each mini-batch, normalise the activations to mean 0 and variance 1, then apply a learned scale γ and shift β.</li>
+<li><strong>Benefits:</strong></li>
+<li>Stabilises the distribution of layer inputs.</li>
+<li>Allows higher learning rates and faster convergence.</li>
+<li>Reduces sensitivity to initialisation.</li>
+<li>Has a mild regularising effect.</li>
+<li><strong>Inference:</strong> uses running averages of the mean and variance.</li>
+<li><strong>Limitations:</strong> depends on batch size (small batches hurt), so Transformers use <strong>LayerNorm</strong>.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">How would you optimise a reinforcement-learning algorithm that trains slowly or unstably?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Stability:</strong></li>
+<li>Target networks and experience replay (DQN).</li>
+<li>Clipped objectives (PPO).</li>
+<li>Gradient clipping.</li>
+<li>Normalised observations and rewards.</li>
+<li>Entropy bonus for exploration.</li>
+<li><strong>Sample efficiency:</strong></li>
+<li>Prioritised replay.</li>
+<li>Off-policy algorithms (SAC, TD3).</li>
+<li>Reward shaping (carefully).</li>
+<li>Imitation learning or pre-training on logged data.</li>
+<li><strong>Speed:</strong> vectorised and parallel environments, a smaller network, tuned hyperparameters (learning rate, γ, batch size), and tracking learning curves over several seeds.</li>
+<li><strong>Banking use cases:</strong> dynamic pricing, collections strategy, trade execution. Mention offline RL and the need for safe policy evaluation.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Case-study presentation: how do you structure a 15-minute data-science case presentation for senior stakeholders?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ol>
+<li><strong>Executive summary first</strong> (1 slide): the problem, the recommendation, the impact.</li>
+<li><strong>Context and data</strong> (2 slides).</li>
+<li><strong>Approach</strong> (2–3 slides): keep it simple, explain why.</li>
+<li><strong>Results</strong> (2 slides): metrics and business impact in money terms.</li>
+<li><strong>Risks and next steps</strong> (1 slide): limitations, monitoring, governance.
+- Leave time for questions. Executives probe <strong>assumptions and risk</strong>, not hyperparameters.</li>
+</ol></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare-for-citi"><span class="n">03</span>How to prepare for Citi</h2><ul>
+<li>Revise classic ML (trees, ensembles) and DL basics (batch norm, optimisers).</li>
+<li>Prepare a <strong>bank-grade RAG design</strong> with entitlements, citations and model risk governance.</li>
+<li>Expect an aptitude and data-interpretation online test in India.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.glassdoor.ca/Interview/Citi-Interview-E8843-RVW91793692.htm">Glassdoor: Citi Data Scientist interview reviews (2024–26)</a></li>
+<li><a href="https://jobs.citi.com/job/pune/sr-data-scientist-gen-ai-engineer-assistant-vice-president/287/83221190928">Citi careers: Senior Data Scientist – Gen AI Engineer (Pune)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-citi-data-scientist"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

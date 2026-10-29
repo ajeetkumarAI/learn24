@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cohere, Glean &amp; Perplexity: ML Engineer · Company Interview Questions · Learn24</title>
+<meta name="description" content="Cohere, Glean &amp; Perplexity: ML Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Cohere, Glean &amp; Perplexity: ML Engineer · Learn24">
+<meta property="og:description" content="Cohere, Glean &amp; Perplexity: ML Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-cohere-glean-perplexity" data-lesson="interview-questions/exp-cohere-glean-perplexity">
+  <div class="kicker">Company Interview Questions · AI Labs &amp; Startups</div>
+  <h1>Cohere, Glean &amp; Perplexity: ML Engineer</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 Cohere &amp; Glean &amp; Perplexity</span><span>🆕 Recent reports</span></div>
+  <p class="lead">Cohere, Glean &amp; Perplexity: ML Engineer Interview Formats (2025). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from public candidate-thread summaries: Cohere <strong>MLE</strong> (system design, NumPy ML coding, research presentation, post-training expertise), Glean <strong>ML onsite</strong> in San Francisco (ML design, an AI assignment, coding) and a Perplexity <strong>MLE HR screen</strong> that unexpectedly included <strong>Transformer positional-encoding</strong> questions. The full thread details were behind logins, so the answers here target the reported formats. The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Cohere</th>
+<th>Glean</th>
+<th>Perplexity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Machine Learning Engineer</td>
+<td>Machine Learning Engineer</td>
+<td>ML Engineer</td>
+</tr>
+<tr>
+<td><strong>Reported format</strong></td>
+<td>System design · <strong>ML coding in NumPy</strong> · research presentation · post-training depth</td>
+<td>ML design · <strong>AI take-home / assignment</strong> · coding</td>
+<td>HR screen with technical questions (positional encoding)</td>
+</tr>
+<tr>
+<td><strong>Signal</strong></td>
+<td>LLM training and post-training depth</td>
+<td>Enterprise search and RAG</td>
+<td>Transformer fundamentals even in early screens</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>LLM-native startups</strong> test <strong>first-principles understanding</strong>: implement pieces in NumPy and explain post-training (SFT, RLHF, DPO).</li>
+<li><strong>Enterprise search (Glean):</strong> retrieval, ranking, permissions and evaluation.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">In NumPy, implement softmax cross-entropy with a numerically stable gradient.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">import numpy as np
+def softmax_xent(logits, y):            # logits (N, C), y (N,) int labels
+    z = logits - logits.max(axis=1, keepdims=True)          # stability
+    p = np.exp(z); p /= p.sum(axis=1, keepdims=True)
+    N = len(y)
+    loss = -np.log(p[np.arange(N), y] + 1e-12).mean()
+    grad = p.copy(); grad[np.arange(N), y] -= 1; grad /= N  # dL/dlogits = p - onehot
+    return loss, grad
+</code></pre>
+<ul>
+<li>Mention log-sum-exp, why subtracting the maximum doesn't change the softmax, and checking the gradient numerically.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Explain post-training: SFT → preference optimisation → RL. What can go wrong?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>SFT:</strong> curated instruction–response data teaches format and helpfulness. Data quality beats quantity.</li>
+<li><strong>Preference optimisation:</strong> RLHF (reward model + PPO with KL) or <strong>DPO/IPO/KTO</strong> on chosen-vs-rejected pairs, aligning tone, safety and helpfulness.</li>
+<li><strong>RL with verifiable rewards:</strong> maths and code unit tests (GRPO-style) improve reasoning.</li>
+<li><strong>Failure modes:</strong></li>
+<li><strong>Reward hacking.</strong></li>
+<li>Verbosity bias.</li>
+<li>Over-refusal.</li>
+<li>Mode collapse (lost diversity).</li>
+<li>Catastrophic forgetting.</li>
+<li>Benchmark contamination.</li>
+<li><strong>Mitigations:</strong> KL regularisation, length-controlled evaluation, diverse preference data, held-out human evaluations.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Perplexity screen: why do Transformers need positional encoding, and how does RoPE work?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>Attention is <strong>permutation-invariant</strong>, so without position information token order is lost.</li>
+<li><strong>RoPE:</strong> rotate each 2-D pair of Q/K dimensions by an angle θ·position, so the dot product q_m · k_n depends on (m − n): <strong>relative position</strong> comes for free and extends to longer contexts (with NTK/YaRN scaling).</li>
+<li><strong>Alternatives:</strong> sinusoidal (fixed, added), learned absolute (bounded length), ALiBi (a linear bias by distance).</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Glean ML design: design permission-aware enterprise search across Slack, Drive, Jira and email.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Connectors</strong> ingest content and <strong>ACLs</strong> incrementally (webhooks plus crawls); normalise into a unified document schema with metadata (owner, time, source, people graph).</li>
+<li><strong>Index:</strong> BM25 plus dense embeddings; a knowledge graph of people, documents and activity. Permission filtering at <strong>query time</strong> using ACL sets (pre-filtered search).</li>
+<li><strong>Ranking:</strong></li>
+<li>A learning-to-rank model with text relevance, freshness, personal signals (my team's docs), popularity, authority.</li>
+<li>A cross-encoder for the top results.</li>
+<li><strong>Assistant:</strong> RAG over the permitted results with citations.</li>
+<li><strong>Evaluation:</strong> click models, NDCG on judged queries, answer faithfulness; strict tests that <strong>ACL leaks never occur</strong>.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Research presentation: how should you present your work to an LLM research team?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Contribution first:</strong> "We improved X by Y% at Z cost."</li>
+<li><strong>Setup:</strong> data, model size, baselines. Be precise about compute.</li>
+<li><strong>Results</strong> with <strong>ablations</strong> and error bars; failure cases.</li>
+<li><strong>Why it works</strong> (hypothesis plus evidence) and its limits.</li>
+<li><strong>Next steps</strong> and how it would scale.</li>
+<li>Expect hard questions on confounders and evaluation validity. Welcome them.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">AI take-home: build a small RAG evaluation harness. What would you include?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>A dataset</strong> of about 50–100 questions with reference answers and gold document IDs.</li>
+<li><strong>Retrieval metrics:</strong> recall@k, MRR against the gold documents.</li>
+<li><strong>Generation metrics:</strong> faithfulness (an LLM judge plus claim-level checks), correctness against the reference, citation accuracy.</li>
+<li><strong>Reports:</strong> per-question failures grouped by type (retrieval miss vs generation error), latency and cost.</li>
+<li><strong>Engineering:</strong> a config-driven CLI, caching of LLM calls, deterministic seeds, a clear README with results and next steps.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare"><span class="n">03</span>How to prepare</h2><ul>
+<li>Implement core pieces in NumPy (softmax, attention, layer norm, optimisers).</li>
+<li>Know post-training methods and their failure modes deeply.</li>
+<li>For Glean-like roles: enterprise search, ranking, ACLs, and RAG evaluation.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.1point3acres.com/interview/thread/1174454">1Point3Acres: Cohere MLE interview (summary)</a></li>
+<li><a href="https://www.1point3acres.com/interview/thread/1177034">1Point3Acres: Glean ML onsite (summary)</a></li>
+<li><a href="https://www.1point3acres.com/interview/thread/1145318">1Point3Acres: Perplexity MLE HR screen (summary)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-cohere-glean-perplexity"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

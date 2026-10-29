@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Coforge &amp; Hexaware: GenAI Interviews · Company Interview Questions · Learn24</title>
+<meta name="description" content="Coforge &amp; Hexaware: GenAI Interviews: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Coforge &amp; Hexaware: GenAI Interviews · Learn24">
+<meta property="og:description" content="Coforge &amp; Hexaware: GenAI Interviews: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-coforge-hexaware" data-lesson="interview-questions/exp-coforge-hexaware">
+  <div class="kicker">Company Interview Questions · IT Services</div>
+  <h1>Coforge &amp; Hexaware: GenAI Interviews</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 Coforge &amp; Hexaware</span><span>🆕 Recent reports</span></div>
+  <p class="lead">Coforge &amp; Hexaware: GenAI Interview Experiences (2026). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from public candidate reports: Hexaware <strong>Gen AI Data Scientist</strong> (Bengaluru, June 2026, offer) and a Coforge <strong>technical manager</strong> role with a GenAI panel (Chennai/Pune, April 2026). The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Hexaware</th>
+<th>Coforge</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Gen AI Data Scientist</td>
+<td>QA / Technical Manager (GenAI panel)</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>L1: theory + basic coding; L2: mostly Python + GenAI and agentic AI</td>
+<td>Two leadership panels (Pune director; Chennai GenAI panel)</td>
+</tr>
+<tr>
+<td><strong>Key questions</strong></td>
+<td>Chunking strategies, hybrid search, self-attention</td>
+<td>How you use GenAI day to day and in frameworks; what you built (LangChain, RAG)</td>
+</tr>
+<tr>
+<td><strong>Outcome</strong></td>
+<td>Offer accepted; panel supportive, difficulty fairly high</td>
+<td>Not selected; candidate felt the GenAI panel was one-sided</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Hexaware L1:</strong> short theory plus basic coding. <strong>L2:</strong> heavier Python coding plus GenAI and agentic AI depth.</li>
+<li><strong>Coforge:</strong> leadership panels judge practical GenAI usage and architecture opinions. Be ready to discuss <strong>trade-offs</strong> calmly when an interviewer pushes a different view.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Which chunking strategies do you know, and when do you use each?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Fixed-size + overlap</strong> (e.g. 512 tokens, 10–15% overlap): simple and a good baseline.</li>
+<li><strong>Recursive character / structure-aware:</strong> split on headings → paragraphs → sentences, keeping sections whole. Best for documentation and policies.</li>
+<li><strong>Semantic chunking:</strong> split where adjacent-sentence embedding similarity drops. Gives cleaner topics, at extra cost.</li>
+<li><strong>Document-specific:</strong> keep tables and code blocks whole; slide-level or page-level for PDFs.</li>
+<li><strong>Parent–child / small-to-big:</strong> retrieve small chunks, send the parent section to the LLM.</li>
+<li><strong>Pick by evaluation:</strong> measure recall@k and faithfulness for 2–3 strategies on your own Q&amp;A set.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">What is hybrid search and why does it beat pure vector search?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Hybrid = sparse (BM25 keywords) + dense (embeddings)</strong>, with results fused using <strong>Reciprocal Rank Fusion</strong>: score = Σ 1/(k + rank).</li>
+<li><strong>Dense</strong> search catches meaning and synonyms. <strong>Sparse</strong> search catches exact terms: product codes, names, error IDs, acronyms. Embeddings often miss these.</li>
+<li>Add a <strong>cross-encoder re-ranker</strong> on the fused top 50 for the best precision.</li>
+<li>Available in Azure AI Search, Elasticsearch/OpenSearch, Weaviate, Qdrant and Pinecone (sparse-dense).</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Explain self-attention step by step.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ol>
+<li>For each token embedding x, compute <strong>Q = xW_Q, K = xW_K, V = xW_V</strong>.</li>
+<li><strong>Scores:</strong> QKᵀ, the similarity of each query with every key.</li>
+<li><strong>Scale</strong> by √d_k so the softmax doesn't saturate, then apply a <strong>mask</strong> (causal or padding).</li>
+<li><strong>Softmax</strong> turns the scores into attention weights that sum to 1.</li>
+<li><strong>Output</strong> = weights × V: each token's new representation mixes information from the relevant tokens.
+- Cost is O(n²·d) in sequence length, which is why long context is expensive. FlashAttention and sparse or linear attention help.</li>
+</ol></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Coforge panel: how do you use GenAI in your day-to-day work and frameworks?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Answer (practical and specific):</strong></p>
+<ul>
+<li><strong>Engineering productivity:</strong> Copilot-style code assistants for tests and boilerplate, always reviewed; LLMs for test-case generation from requirements in QA.</li>
+<li><strong>Frameworks:</strong> LangChain/LangGraph for RAG and agents, LlamaIndex for ingestion, RAGAS for evaluation, LangSmith for tracing.</li>
+<li><strong>What I built:</strong> "A RAG assistant over 2,000 test-strategy documents. Hybrid search plus a re-ranker; it cut test-planning time by about 30%."</li>
+<li><strong>If challenged:</strong> "There are several valid designs. I chose X because of constraints A and B; I'd switch to Y if latency or cost mattered more." Stay calm and evidence-based.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Python: group words that are anagrams of each other.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">from collections import defaultdict
+
+def group_anagrams(words):
+    g = defaultdict(list)
+    for w in words:
+        g[&quot;&quot;.join(sorted(w))].append(w)
+    return list(g.values())
+
+print(group_anagrams([&quot;eat&quot;, &quot;tea&quot;, &quot;tan&quot;, &quot;ate&quot;, &quot;nat&quot;, &quot;bat&quot;]))
+</code></pre>
+<ul>
+<li>O(n · k log k) for k-length words. Using a 26-letter count tuple as the key gives O(n·k).</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">What is agentic AI, and how would you make an agent reliable?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Agentic AI:</strong> an LLM that plans, calls tools, observes the results and iterates towards a goal, often with memory and several cooperating agents.</li>
+<li><strong>Reliability checklist:</strong></li>
+<li>Few, well-described tools with strict schemas.</li>
+<li>A step and time limit.</li>
+<li>Retries with validation.</li>
+<li>A deterministic workflow where the path is known.</li>
+<li>Human approval for side effects.</li>
+<li>Tracing of every step.</li>
+<li>A trajectory evaluation set.</li>
+<li>Fallback to a human when unsure.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare"><span class="n">03</span>How to prepare</h2><ul>
+<li><strong>Hexaware:</strong> expect real Python coding in L2, plus RAG retrieval details (chunking, hybrid search) and attention maths.</li>
+<li><strong>Coforge leadership:</strong> prepare crisp opinions on RAG architecture trade-offs and examples of GenAI improving delivery.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.glassdoor.com/Interview/Hexaware-Technologies-Interview-E29098-RVW104361598.htm">Glassdoor: Hexaware Gen AI Data Scientist, Bengaluru (2026)</a></li>
+<li><a href="https://www.glassdoor.ca/Interview/Coforge-Interview-E36319-RVW103605613.htm">Glassdoor: Coforge GenAI panel (2026)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-coforge-hexaware"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>InMobi &amp; ShareChat: AI/ML Engineer · Company Interview Questions · Learn24</title>
+<meta name="description" content="InMobi &amp; ShareChat: AI/ML Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="InMobi &amp; ShareChat: AI/ML Engineer · Learn24">
+<meta property="og:description" content="InMobi &amp; ShareChat: AI/ML Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-inmobi-sharechat" data-lesson="interview-questions/exp-inmobi-sharechat">
+  <div class="kicker">Company Interview Questions · Product &amp; Retail Tech</div>
+  <h1>InMobi &amp; ShareChat: AI/ML Engineer</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 InMobi &amp; ShareChat</span><span>🆕 Recent reports</span></div>
+  <p class="lead">InMobi &amp; ShareChat: AI/ML Engineer Interview Experiences. Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from public candidate reports: InMobi <strong>AI/ML Engineer</strong> (Bengaluru, February 2025, university hiring: online assessment + 4 interviews) and ShareChat <strong>ML Engineer</strong> (Gurgaon, 2024, offer declined; Bengaluru report with hard coding rounds). The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>InMobi</th>
+<th>ShareChat</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>AI/ML Engineer</td>
+<td>ML Engineer</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>Online assessment (3 DSA) → 2 technical (coding + ML algorithms and architectures) → technical head → HR</td>
+<td>HackerEarth online assessment (3 problems: range XOR → segment tree, minimum insertions → LCS) → live pair-coding (4 problems)</td>
+</tr>
+<tr>
+<td><strong>Topics</strong></td>
+<td><strong>Transformers and LLMs</strong> (project-based), probability and statistics</td>
+<td>DSA-heavy plus some maths; candidates found the DSA focus surprising for an ML role</td>
+</tr>
+<tr>
+<td><strong>Outcome</strong></td>
+<td>Not selected</td>
+<td>Gurgaon: offer declined; Bengaluru: not selected</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Ad-tech and social-media ML:</strong> CTR prediction, recommendations, content moderation, creator ranking.</li>
+<li>Both companies keep a <strong>strong DSA bar</strong>. Don't skip LeetCode medium–hard.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Range XOR queries on an array with updates. Which data structure?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Static array:</strong> a prefix XOR, px[i] = a[0]^…^a[i−1], so XOR(l..r) = px[r+1] ^ px[l]. O(1) per query.</li>
+<li><strong>With updates:</strong> a <strong>Fenwick tree</strong> or <strong>segment tree</strong> storing XOR. O(log n) per update and query.</li>
+</ul>
+<pre><code class="language-python">class BIT:
+    def __init__(self, n): self.n, self.t = n, [0] * (n + 1)
+    def upd(self, i, v):          # xor v at index i (0-based)
+        i += 1
+        while i &lt;= self.n: self.t[i] ^= v; i += i &amp; -i
+    def pre(self, i):             # xor of [0, i)
+        r = 0
+        while i: r ^= self.t[i]; i -= i &amp; -i
+        return r
+    def query(self, l, r): return self.pre(r + 1) ^ self.pre(l)
+</code></pre>
+<ul>
+<li>To set a value instead of XOR-ing it in, apply <code>upd(i, old ^ new)</code>.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Minimum insertions to make string A follow a target order, solved with LCS.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>If the goal is to turn A into a supersequence of the alphabet order (or of string B) with the fewest insertions: <strong>answer = len(B) − LCS(A, B)</strong>, since the characters in the LCS already line up and the others must be inserted.</li>
+</ul>
+<pre><code class="language-python">def lcs(a, b):
+    dp = [0] * (len(b) + 1)
+    for x in a:
+        prev = 0
+        for j, y in enumerate(b, 1):
+            cur = dp[j]
+            dp[j] = prev + 1 if x == y else max(dp[j], dp[j - 1])
+            prev = cur
+    return dp[-1]
+</code></pre>
+<ul>
+<li>O(|A|·|B|) time with O(|B|) space.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Design a CTR-prediction model for mobile ads.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Features:</strong></li>
+<li>User: device, OS, geo, app category, time of day, user embeddings.</li>
+<li>Ad: creative, advertiser, format.</li>
+<li>Context: placement, frequency caps.</li>
+<li><strong>Crosses:</strong> user × ad category.</li>
+<li><strong>Models:</strong> logistic regression with hashing as a baseline → <strong>FM / DeepFM / DCN</strong> for feature interactions; train on billions of impressions, update daily or online.</li>
+<li><strong>Calibration</strong> is essential, because bids depend on pCTR × value. Monitor with log-loss and calibration plots.</li>
+<li><strong>Challenges:</strong> extreme imbalance (CTR about 1%), delayed conversions, privacy changes (limited IDs), fraud.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Your project used LLMs. Explain how the Transformer decoder generates text, and its main costs.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>The flow:</strong> tokens → embeddings + positions → N decoder blocks (causal self-attention + MLP) → logits → sampling → append → repeat.</li>
+<li><strong>Costs:</strong></li>
+<li><strong>Prefill</strong> (processing the prompt) is compute-bound.</li>
+<li><strong>Decode</strong> is memory-bandwidth-bound and proportional to the number of output tokens.</li>
+<li>The <strong>KV cache</strong> grows with batch × sequence × layers.</li>
+<li><strong>Optimisations:</strong> batching (continuous), quantization, FlashAttention, GQA, speculative decoding, shorter prompts.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Probability: two cards are drawn without replacement. What is the probability both are aces?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>(4/52) × (3/51) = 12/2652 = <strong>1/221 ≈ 0.0045</strong>.</li>
+<li><strong>General approach:</strong> the multiplication rule for dependent events, or combinations: C(4,2)/C(52,2) = 6/1326 = 1/221.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">How would you rank posts in a regional-language social feed (ShareChat-style)?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Candidates:</strong> the user's language and region, followed creators, trending items, content similar to past engagement (multilingual embeddings).</li>
+<li><strong>Ranker:</strong> multi-task prediction of P(like), P(share), P(watch time), P(report); a value function weights them, and integrity filters remove harmful or spam content.</li>
+<li><strong>Language:</strong> Indic multilingual models (IndicBERT, MuRIL) for text; video and audio embeddings.</li>
+<li><strong>Creator fairness</strong> and freshness boosts; cold start for new creators via exploration.</li>
+<li><strong>Metrics:</strong> daily active users, session time, shares, retention; guardrails on reports and blocks.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare"><span class="n">03</span>How to prepare</h2><ul>
+<li><strong>DSA is decisive at both:</strong> segment and Fenwick trees, DP (LCS), graphs, in timed practice.</li>
+<li><strong>InMobi:</strong> ad-tech ML (CTR, calibration) and probability. <strong>ShareChat:</strong> feed ranking and multilingual content ML.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.glassdoor.ca/Interview/InMobi-Interview-E373348-RVW95961859.htm">Glassdoor: InMobi AI/ML Engineer, Bengaluru (Feb 2025)</a></li>
+<li><a href="https://www.glassdoor.co.in/Interview/ShareChat-Interview-E1776417-RVW91468341.htm">Glassdoor: ShareChat ML Engineer reviews</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-inmobi-sharechat"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

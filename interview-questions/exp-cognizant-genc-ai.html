@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cognizant: GenC (AI/ML Track) Interview · Company Interview Questions · Learn24</title>
+<meta name="description" content="Cognizant: GenC (AI/ML Track) Interview: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Cognizant: GenC (AI/ML Track) Interview · Learn24">
+<meta property="og:description" content="Cognizant: GenC (AI/ML Track) Interview: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-cognizant-genc-ai" data-lesson="interview-questions/exp-cognizant-genc-ai">
+  <div class="kicker">Company Interview Questions · IT Services</div>
+  <h1>Cognizant: GenC (AI/ML Track) Interview</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 Cognizant</span><span>🆕 Recent reports</span></div>
+  <p class="lead">Cognizant: GenC (AI/ML Track) and GenAI Interview Experience (2025–26). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from public candidate reports for Cognizant GenC (Generation Cognizant) interviews, including candidates with AI/ML backgrounds (Chennai, March 2025 – June 2026). The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Roles</strong></td>
+<td>GenC / GenC Next (fresher and early career); Python / AI-ML cluster</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>Online assessment (aptitude, logical, verbal, basic coding) → technical interview → HR</td>
+</tr>
+<tr>
+<td><strong>What gets asked</strong></td>
+<td>Python coding, OOP, DBMS / SQL joins, OS, basic ML, a deep dive into your projects</td>
+</tr>
+<tr>
+<td><strong>Reported outcomes</strong></td>
+<td>Offers for candidates who were strong on projects and fundamentals; several rejections after short technical rounds</td>
+</tr>
+<tr>
+<td><strong>Tip</strong></td>
+<td>The interviewer follows your <strong>resume</strong>: if you list ML, Python or SQL, expect questions on them</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Online assessment:</strong> aptitude, reasoning, verbal ability and 1–2 easy coding problems.</li>
+<li><strong>Technical:</strong> easy coding (prime check, merge sort, string reversal), OOP and SOLID principles, DBMS and SQL joins, OS basics, and a detailed walk-through of your project.</li>
+<li><strong>HR:</strong> relocation, shift flexibility, why Cognizant.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Write a function that checks whether a number is prime.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">def is_prime(n: int) -&gt; bool:
+    if n &lt; 2: return False
+    if n % 2 == 0: return n == 2
+    i = 3
+    while i * i &lt;= n:
+        if n % i == 0: return False
+        i += 2
+    return True
+</code></pre>
+<ul>
+<li>Checking divisors only up to √n gives O(√n). For many numbers at once, mention the <strong>Sieve of Eratosthenes</strong>, which is O(n log log n).</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Implement merge sort and give its complexity.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">def merge_sort(a):
+    if len(a) &lt;= 1: return a
+    m = len(a) // 2
+    L, R = merge_sort(a[:m]), merge_sort(a[m:])
+    out, i, j = [], 0, 0
+    while i &lt; len(L) and j &lt; len(R):
+        if L[i] &lt;= R[j]: out.append(L[i]); i += 1
+        else: out.append(R[j]); j += 1
+    return out + L[i:] + R[j:]
+</code></pre>
+<ul>
+<li>O(n log n) in every case, O(n) extra space, and <strong>stable</strong> (equal items keep their order). Quicksort averages O(n log n) and sorts in place, but its worst case is O(n²).</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Explain the four pillars of OOP, and what a wrapper class is.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Encapsulation:</strong> bundle data with the methods that use it, and hide the internals behind a clear interface.</li>
+<li><strong>Abstraction:</strong> expose <em>what</em> an object does, not <em>how</em> (abstract classes and interfaces).</li>
+<li><strong>Inheritance:</strong> a child class reuses and extends a parent class.</li>
+<li><strong>Polymorphism:</strong> one interface, many implementations (method overriding, duck typing in Python).</li>
+<li><strong>Wrapper class (Java):</strong> an object version of a primitive (<code>int</code> → <code>Integer</code>) so it can be used in collections; autoboxing converts between them. In Python the general idea is a class that wraps another object to add behaviour, such as a decorator or adapter.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">What are SQL joins? Write a query for employees without a department.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>INNER JOIN</strong> returns matching rows only. <strong>LEFT JOIN</strong> returns all left rows plus matches (NULL where there is none). <strong>RIGHT JOIN</strong> is the mirror image. <strong>FULL OUTER JOIN</strong> returns all rows from both sides.</li>
+</ul>
+<pre><code class="language-sql">SELECT e.emp_id, e.name
+FROM employees e
+LEFT JOIN departments d ON d.dept_id = e.dept_id
+WHERE d.dept_id IS NULL;
+</code></pre>
+<ul>
+<li>This is the "anti-join" pattern. <code>NOT EXISTS</code> is an alternative that handles NULLs more safely than <code>NOT IN</code>.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Explain your AI/ML project in depth.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Answer (a 3-minute structure):</strong></p>
+<ol>
+<li><strong>Problem and data:</strong> "Predict loan default from 50k applications with 30 features."</li>
+<li><strong>Approach:</strong> cleaning (missing values, outliers), features, a baseline logistic regression, then XGBoost, with stratified cross-validation.</li>
+<li><strong>Result:</strong> "AUC 0.84 against a 0.76 baseline; recall of 0.71 at 0.8 precision."</li>
+<li><strong>Your part:</strong> "I built the feature pipeline and the Streamlit demo."</li>
+<li><strong>What you'd improve:</strong> "Calibration, SHAP explanations and deployment with FastAPI."
+- Expect follow-ups such as "why XGBoost?", "how did you handle imbalance?" and "what is AUC?". Know every line of your resume.</li>
+</ol></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">What is the difference between supervised and unsupervised learning? Give examples.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Supervised:</strong> you learn from labelled examples (X → y).</li>
+<li>Classification: spam detection, churn.</li>
+<li>Regression: price prediction.</li>
+<li>Algorithms: linear and logistic regression, decision trees, random forests, SVM, neural networks.</li>
+<li><strong>Unsupervised:</strong> there are no labels; you find structure in the data.</li>
+<li>Clustering: customer segments with k-means.</li>
+<li>Dimensionality reduction: PCA.</li>
+<li>Anomaly detection.</li>
+<li><strong>Also mention:</strong> semi-supervised learning, self-supervised learning (how LLMs are pre-trained), and reinforcement learning (rewards).</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare-for-cognizant"><span class="n">03</span>How to prepare for Cognizant</h2><ul>
+<li>Practise easy coding in Python <strong>and</strong> be ready to switch languages. One candidate who applied for the Python cluster was interviewed on Java.</li>
+<li>Revise OOP, SOLID, DBMS normalisation, joins and OS basics (process vs thread, deadlock).</li>
+<li>Rehearse your project explanation with numbers. It is often the deciding factor.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.glassdoor.ca/Interview/Cognizant-Interview-E8014-RVW96273117.htm">Glassdoor: Cognizant GenC interview reviews (AI/ML background, 2025–26)</a></li>
+<li><a href="https://www.glassdoor.com/Interview/Cognizant-Interview-E8014-RVW101913639.htm">Glassdoor: Cognizant GenC reviews</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-cognizant-genc-ai"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

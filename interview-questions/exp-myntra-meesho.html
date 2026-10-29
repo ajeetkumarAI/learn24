@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Myntra &amp; Meesho: Data Scientist / Analyst · Company Interview Questions · Learn24</title>
+<meta name="description" content="Myntra &amp; Meesho: Data Scientist / Analyst: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Myntra &amp; Meesho: Data Scientist / Analyst · Learn24">
+<meta property="og:description" content="Myntra &amp; Meesho: Data Scientist / Analyst: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-myntra-meesho" data-lesson="interview-questions/exp-myntra-meesho">
+  <div class="kicker">Company Interview Questions · Product &amp; Retail Tech</div>
+  <h1>Myntra &amp; Meesho: Data Scientist / Analyst</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 Myntra &amp; Meesho</span><span>🆕 Recent reports</span></div>
+  <p class="lead">Myntra &amp; Meesho: Data Scientist / Analyst Interview Experiences. Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from a public Myntra <strong>Data Analyst Intern</strong> report (Bengaluru, August 2025, offer) and a public Meesho Data Scientist interview guide that aggregates six candidate reports (including a DS2 recommendation case). The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Myntra</th>
+<th>Meesho</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Data Analyst Intern; Data Scientist (guide)</td>
+<td>Data Scientist / Data Scientist 2</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>Technical (SQL, Python, Excel, scenario problems; about 6–7 medium SQL questions) → HR (culture, communication)</td>
+<td>(Online assessment: stats, SQL, 1 PySpark) → technical (45–90 min: DSA, SQL, stats, ML) → ML depth on resume projects → case (DS2: <strong>recommendation system</strong> design)</td>
+</tr>
+<tr>
+<td><strong>Outcome</strong></td>
+<td>Offer accepted</td>
+<td>3 of 6 candidates stopped at round 1; none reported offers</td>
+</tr>
+<tr>
+<td><strong>Note</strong></td>
+<td>Practical SQL decides the result</td>
+<td><strong>DSA is often the hardest part</strong>; derive the maths behind your projects</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>E-commerce data science:</strong> recommendations, search ranking, pricing, returns prediction, seller analytics.</li>
+<li><strong>Meesho's</strong> guide-reported questions: combination sum, asteroid collision, union-find, logistic regression from scratch; chi-square, Type I/II errors; PySpark lazy evaluation and anti-joins; LoRA vs QLoRA.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Meesho DS2 case: design a product recommendation system for a value-commerce app.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Users:</strong> many are first-time internet shoppers with sparse histories, so handle <strong>cold start</strong> with popularity by region and category, plus onboarding preferences.</li>
+<li><strong>Pipeline:</strong>
+  1. <strong>Candidate generation:</strong> item-to-item co-view/co-buy, two-tower embeddings, trending in the user's region and price band.
+  2. <strong>Ranking:</strong> a GBM or DNN predicts P(click), P(order) and P(return); combine into expected value = P(order) × margin × (1 − P(return)).
+  3. <strong>Re-ranking:</strong> diversity, seller fairness, price band, out-of-stock filtering.</li>
+<li><strong>Evaluation:</strong> offline recall@k and NDCG; online A/B on orders per user, GMV and return rate (a guardrail).</li>
+<li><strong>Serving:</strong> precompute candidates, run real-time ranking under 100 ms, refresh features hourly.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">What is the difference between LoRA and QLoRA?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>LoRA:</strong> freeze the base model and train low-rank adapters (ΔW = BA) on chosen layers. The base runs in FP16/BF16.</li>
+<li><strong>QLoRA:</strong> the same adapters, but the frozen base is <strong>quantized to 4-bit (NF4)</strong> with double quantization and paged optimisers. A 7–70B model can be fine-tuned on a single GPU.</li>
+<li><strong>Trade-off:</strong> QLoRA uses far less memory and is slightly slower; quality is usually close to LoRA.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">PySpark: what is lazy evaluation, and what are left semi and left anti joins?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Lazy evaluation:</strong> transformations (<code>filter</code>, <code>select</code>, <code>join</code>) build a logical plan. Nothing runs until an <strong>action</strong> (<code>count</code>, <code>collect</code>, <code>write</code>). That lets the Catalyst optimiser push down filters and combine stages.</li>
+<li><strong>Left semi join:</strong> returns the left rows <strong>that have a match</strong> (columns from the left only), like <code>EXISTS</code>.</li>
+<li><strong>Left anti join:</strong> returns the left rows <strong>with no match</strong>, like <code>NOT EXISTS</code>. Example: users who never ordered.</li>
+</ul>
+<pre><code class="language-python">active = users.join(orders, &quot;user_id&quot;, &quot;left_semi&quot;)
+never_ordered = users.join(orders, &quot;user_id&quot;, &quot;left_anti&quot;)
+</code></pre></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Type I vs Type II error, and how power relates to the p-value threshold.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Type I (α):</strong> a false positive, rejecting a true null hypothesis (shipping a feature that does nothing).</li>
+<li><strong>Type II (β):</strong> a false negative, missing a real effect. <strong>Power = 1 − β.</strong></li>
+<li>A <strong>lower α</strong> (stricter p-value threshold) lowers power, unless you increase the sample size. Power also rises with the effect size and lower variance.</li>
+<li>Plan the sample size <strong>before</strong> the test, with α = 0.05 and power 0.8 as typical values.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Myntra SQL: find the top 3 brands by revenue in each category, excluding returned orders.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-sql">WITH rev AS (
+  SELECT p.category, p.brand, SUM(oi.price * oi.qty) AS revenue
+  FROM order_items oi
+  JOIN products p ON p.product_id = oi.product_id
+  LEFT JOIN returns r ON r.order_item_id = oi.order_item_id
+  WHERE r.order_item_id IS NULL
+  GROUP BY p.category, p.brand
+)
+SELECT category, brand, revenue
+FROM (SELECT rev.*, DENSE_RANK() OVER (PARTITION BY category ORDER BY revenue DESC) AS rk FROM rev) t
+WHERE rk &lt;= 3;
+</code></pre></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Coding: the asteroid collision problem.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">def asteroid_collision(a):
+    st = []
+    for x in a:
+        while st and x &lt; 0 &lt; st[-1]:
+            if st[-1] &lt; -x: st.pop(); continue
+            if st[-1] == -x: st.pop()
+            break
+        else:
+            st.append(x)
+    return st
+print(asteroid_collision([5, 10, -5]))   # [5, 10]
+</code></pre>
+<ul>
+<li>Use a stack for asteroids moving right. Each element is pushed and popped at most once, so it is O(n).</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare"><span class="n">03</span>How to prepare</h2><ul>
+<li><strong>Myntra (analyst / DS):</strong> fast, accurate SQL; Excel and pandas for scenarios; clear business communication.</li>
+<li><strong>Meesho:</strong> medium–hard DSA, statistics depth, PySpark basics, and recommendation design for sparse, price-sensitive users.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.glassdoor.co.uk/Interview/Myntra-Interview-E508705-RVW101116117.htm">Glassdoor: Myntra Data Analyst Intern (Aug 2025)</a></li>
+<li><a href="https://www.interviewquery.com/interview-guides/meesho-data-scientist">Interview Query: Meesho Data Scientist guide</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-myntra-meesho"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

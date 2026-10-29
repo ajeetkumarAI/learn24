@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Zoho, Freshworks &amp; Postman: ML / Engineering · Company Interview Questions · Learn24</title>
+<meta name="description" content="Zoho, Freshworks &amp; Postman: ML / Engineering: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Zoho, Freshworks &amp; Postman: ML / Engineering · Learn24">
+<meta property="og:description" content="Zoho, Freshworks &amp; Postman: ML / Engineering: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-zoho-freshworks-postman" data-lesson="interview-questions/exp-zoho-freshworks-postman">
+  <div class="kicker">Company Interview Questions · SaaS &amp; Enterprise Software</div>
+  <h1>Zoho, Freshworks &amp; Postman: ML / Engineering</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 Zoho &amp; Freshworks &amp; Postman</span><span>🆕 Recent reports</span></div>
+  <p class="lead">Zoho, Freshworks &amp; Postman: ML / Engineering Interview Experiences (2025–26). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from public candidate reports: Zoho <strong>ML Engineer</strong> (several reports, including a June 2025 campus drive: aptitude + C → 6 LeetCode-medium problems → system design for railway booking with an RAC waitlist → technical + HR), Freshworks <strong>Lead ML Engineer</strong> (Bengaluru, May 2026: DSA round with a project discussion) and Postman Senior Engineer (Bengaluru, August 2025: system design + machine coding). The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Zoho</th>
+<th>Freshworks</th>
+<th>Postman</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>ML Engineer</td>
+<td>Lead ML Engineer</td>
+<td>Senior Engineer (platform; AI features)</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>Up to 6 short Python DSA rounds → 2 technical (core ML + DSA) → HR; campus: aptitude → 6 coding → system design → tech + HR</td>
+<td>DSA round with a staff MLE: project challenges, then coding</td>
+<td>System design (high-throughput, near real-time service) + <strong>machine coding</strong> on a real problem</td>
+</tr>
+<tr>
+<td><strong>Reported questions</strong></td>
+<td>Why Zoho and why ML; <strong>how Transformers work</strong>; Zoho's AI products; maths and polynomial problems</td>
+<td><strong>Top-k frequent elements, ties broken by the smaller number</strong></td>
+<td>Practical coding and design</td>
+</tr>
+<tr>
+<td><strong>Outcome</strong></td>
+<td>Varied</td>
+<td>Not selected (rated difficult)</td>
+<td>Positive, quick process</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Zoho is famous for many rounds of coding</strong> (often in C or Python) plus system design, even for ML roles.</li>
+<li><strong>Freshworks and Postman:</strong> a strong engineering bar (clean code, design) on top of ML.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Top-k frequent elements, breaking ties by the smaller number.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">from collections import Counter
+def top_k(nums, k):
+    c = Counter(nums)
+    return [x for x, _ in sorted(c.items(), key=lambda kv: (-kv[1], kv[0]))[:k]]
+print(top_k([4, 1, 1, 2, 2, 3], 2))   # [1, 2]
+</code></pre>
+<ul>
+<li>A sort with the key (−frequency, value) is O(n log n). For large n and small k, use a heap with the same tuple ordering. State how ties are handled before you code.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Zoho system design: railway booking with an RAC (Reservation Against Cancellation) waitlist.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Entities:</strong> Train, Coach and Berth, Booking (CONFIRMED / RAC / WL), Passenger.</li>
+<li><strong>Logic:</strong></li>
+<li>Book: if a berth is free → CONFIRMED; else if RAC slots remain → RAC (two passengers share a side-lower berth); else → WL queue.</li>
+<li><strong>Cancel a confirmed ticket:</strong> the first RAC passenger is promoted to CONFIRMED (gets the berth), and the first WL passenger moves to RAC.</li>
+<li>Cancel RAC: promote the first WL passenger to RAC.</li>
+</ul>
+<pre><code class="language-python">from collections import deque
+class Train:
+    def __init__(self, berths, rac):
+        self.free, self.rac_cap = list(range(berths)), rac
+        self.conf, self.rac, self.wl = {}, deque(), deque()
+    def book(self, pid):
+        if self.free: self.conf[pid] = self.free.pop(); return &quot;CNF&quot;
+        if len(self.rac) &lt; self.rac_cap: self.rac.append(pid); return &quot;RAC&quot;
+        self.wl.append(pid); return &quot;WL&quot;
+    def cancel(self, pid):
+        if pid in self.conf:
+            berth = self.conf.pop(pid)
+            if self.rac:
+                self.conf[self.rac.popleft()] = berth
+                if self.wl: self.rac.append(self.wl.popleft())
+            else: self.free.append(berth)
+        elif pid in self.rac:
+            self.rac.remove(pid)
+            if self.wl: self.rac.append(self.wl.popleft())
+        elif pid in self.wl: self.wl.remove(pid)
+</code></pre>
+<ul>
+<li><strong>Discuss:</strong> concurrency (locking per train and date), persistence, berth preferences, and charts.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">How do Transformer models work? Describe the architecture.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>Token + positional embeddings → N layers of <strong>multi-head self-attention</strong> (each token weighs all the others) + <strong>feed-forward network</strong>, with residual connections and layer norm.</li>
+<li><strong>Encoder-only</strong> (BERT) for understanding; <strong>decoder-only</strong> (GPT) for generation with a causal mask; <strong>encoder-decoder</strong> (T5) for sequence-to-sequence tasks.</li>
+<li><strong>Why it works:</strong> parallel training, long-range context, and scaling with data and compute (pre-training then fine-tuning).</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Postman: design a high-throughput, near-real-time event-processing service (e.g. API monitoring results).</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Ingest:</strong> a stateless HTTP/gRPC API → validate → write to a <strong>partitioned log</strong> (Kafka, keyed by workspace or monitor ID for ordering).</li>
+<li><strong>Process:</strong> a consumer group of stream processors (aggregations, alert rules) with exactly-once or idempotent writes; windowed metrics (p95 latency per monitor).</li>
+<li><strong>Store:</strong> a time-series DB for metrics, an OLAP store (ClickHouse) for analytics, Redis for the latest status.</li>
+<li><strong>Alerting:</strong> a rule engine + notification fan-out with deduplication and rate limits.</li>
+<li><strong>Scale and reliability:</strong> back-pressure, DLQs, autoscaling on consumer lag, multi-AZ deployment.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Freshworks: how would you add an AI copilot to a helpdesk product?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Features:</strong> reply suggestions (RAG over the KB + past tickets), ticket summarisation, auto-triage (category, priority, sentiment), a customer-facing bot with handoff.</li>
+<li><strong>Multi-tenant concerns:</strong> strict <strong>tenant isolation</strong> in retrieval, per-tenant configuration, cost controls, model routing by plan tier.</li>
+<li><strong>Quality:</strong> acceptance rate of suggestions, resolution time, CSAT; an evaluation set per vertical.</li>
+<li><strong>Safety:</strong> PII redaction, no cross-tenant leakage, agent approval before sending.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Why Zoho, and why ML?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Zoho:</strong> "I like that Zoho builds its own stack end to end, including private AI (Zia) running on its own infrastructure. That privacy-first approach matters to business customers, and owning the full stack means deep engineering problems."</li>
+<li><strong>ML:</strong> connect it to a real problem you solved, and to what you want to build next (for example, document intelligence for Zoho's business apps).</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare"><span class="n">03</span>How to prepare</h2><ul>
+<li><strong>Zoho:</strong> many timed coding problems (logic, maths, strings), plus low-level design (railway, parking, library) with working code.</li>
+<li><strong>Freshworks and Postman:</strong> DSA with clean tie-handling, system design for real-time services, SaaS AI copilot design.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.glassdoor.ca/Interview/Zoho-Machine-Learning-Engineer-Interview-Questions-EI_IE328604.0,4_KO5,30.htm">Glassdoor: Zoho Machine Learning Engineer interview reviews</a></li>
+<li><a href="https://www.glassdoor.ca/Interview/Freshworks-Interview-E1680273-RVW103973946.htm">Glassdoor: Freshworks Lead MLE, Bengaluru (2026)</a></li>
+<li><a href="https://www.glassdoor.co.uk/Interview/Postman-Senior-Engineer-Interview-Questions-EI_IE1926052.0,7_KO8,23.htm">Glassdoor: Postman Senior Engineer, Bengaluru (Aug 2025)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-zoho-freshworks-postman"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

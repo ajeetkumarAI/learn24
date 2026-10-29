@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Target &amp; Lowe&#x27;s (India): Data Scientist / Engineer · Company Interview Questions · Learn24</title>
+<meta name="description" content="Target &amp; Lowe&#x27;s (India): Data Scientist / Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Target &amp; Lowe&#x27;s (India): Data Scientist / Engineer · Learn24">
+<meta property="og:description" content="Target &amp; Lowe&#x27;s (India): Data Scientist / Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-target-lowes" data-lesson="interview-questions/exp-target-lowes">
+  <div class="kicker">Company Interview Questions · Product &amp; Retail Tech</div>
+  <h1>Target &amp; Lowe&#x27;s (India): Data Scientist / Engineer</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 Target &amp; Lowe&#x27;s</span><span>🆕 Recent reports</span></div>
+  <p class="lead">Target &amp; Lowe&#x27;s (India): Data Scientist / Data Engineer Interview Experiences (2025). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from public candidate reports: Target <strong>Data Scientist</strong> (Bengaluru, September and December 2025: DSA + ML/DS rounds, some with MLOps) and Lowe's <strong>Data Engineer</strong> (Bengaluru, July 2025: SQL, Spark, data lakes, Databricks, Python). The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Target (Bengaluru)</th>
+<th>Lowe's (Bengaluru)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Data Scientist</td>
+<td>Data Engineer</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>Round 1 in person: DSA problem solving; later rounds on Zoom: ML and DS (30–60 min each); some MLOps</td>
+<td>Not specified; SQL + Spark + Python</td>
+</tr>
+<tr>
+<td><strong>Notes</strong></td>
+<td>"Interviewers expect you to know <strong>everything you mention in great detail</strong>"; clean code, edge cases, complexity</td>
+<td>Join types on a sample table; discuss a current Databricks issue</td>
+</tr>
+<tr>
+<td><strong>Outcome</strong></td>
+<td>Not stated</td>
+<td>Not selected (rated positive)</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Retail tech centres in India</strong> (Target, Lowe's, Walmart, Tesco) work on demand forecasting, pricing, supply chain, personalisation and search.</li>
+<li>DS loops combine <strong>DSA + ML depth + MLOps</strong>; DE loops focus on <strong>SQL + Spark + lakehouse</strong>.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">How would you forecast weekly demand for thousands of SKUs across stores?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Hierarchy:</strong> SKU × store × week, with reconciliation across levels (store → region; SKU → category).</li>
+<li><strong>Features:</strong> lags, rolling means, seasonality, holidays and events, <strong>price and promotions</strong>, weather, stock-outs (to correct censored demand), new-store flags.</li>
+<li><strong>Models:</strong> a global <strong>LightGBM</strong> across series (scales well), or deep models (TFT) for rich covariates; baselines are seasonal naïve and ETS.</li>
+<li><strong>Validation:</strong> rolling-origin backtests; metrics <strong>WAPE</strong> and bias; error by velocity segment (fast vs slow movers).</li>
+<li><strong>Ops:</strong> weekly retraining, monitoring, and planner overrides with a feedback loop.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">MLOps: how do you take a model from notebook to production reliably?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Code:</strong> modular packages, config files, unit tests; data validation (Great Expectations / pandera).</li>
+<li><strong>Tracking and registry:</strong> MLflow for experiments; a model registry with stages and approvals.</li>
+<li><strong>Pipelines:</strong> orchestrated training and batch scoring (Airflow, Kubeflow, Databricks Jobs); a feature store for consistency.</li>
+<li><strong>Deployment:</strong> batch (scheduled) or real-time (a container + autoscaling); CI/CD with an evaluation gate.</li>
+<li><strong>Monitoring:</strong> data and prediction drift, performance on delayed labels, latency and cost; automatic alerts and retraining triggers.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Spark architecture: driver, executors, and what happens on a shuffle?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Driver:</strong> builds the DAG from transformations, the Catalyst optimiser plans stages, and the scheduler assigns <strong>tasks</strong> to <strong>executors</strong> (JVMs on worker nodes) that process <strong>partitions</strong> in parallel.</li>
+<li><strong>Narrow transformations</strong> (map, filter) stay within a partition; <strong>wide</strong> ones (groupBy, join) trigger a <strong>shuffle</strong>: data is redistributed across the network by key, which is expensive.</li>
+<li><strong>Optimise:</strong> broadcast small tables, filter early, choose partition counts sensibly, handle skew (salting, AQE skew-join), cache reused DataFrames.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Data lake vs data warehouse vs lakehouse.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Data lake:</strong> cheap object storage of raw files in any format (schema-on-read). Flexible, but it can become a "swamp" without governance.</li>
+<li><strong>Warehouse:</strong> structured, schema-on-write, fast SQL, strong governance; more costly and less flexible for ML.</li>
+<li><strong>Lakehouse:</strong> open table formats (<strong>Delta / Iceberg / Hudi</strong>) on a lake add ACID transactions, schema enforcement, time travel and fast SQL, so BI and ML work on one copy of the data.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Explain join types on a sample table, and a common pitfall.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>orders(customer_id)</strong> vs <strong>customers(customer_id)</strong>: INNER (customers with orders), LEFT (all orders, plus customer info where it exists), RIGHT, FULL OUTER (reconciliation).</li>
+<li><strong>Pitfall:</strong> <strong>duplicate keys</strong> on both sides multiply rows (a many-to-many explosion). Check key uniqueness before joining, and deduplicate or aggregate first.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Python: flatten a nested list and remove duplicates while keeping order.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">def flatten(xs):
+    for x in xs:
+        if isinstance(x, list): yield from flatten(x)
+        else: yield x
+print(list(dict.fromkeys(flatten([1, [2, [3, 1]], 4, [2]]))))   # [1, 2, 3, 4]
+</code></pre></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare"><span class="n">03</span>How to prepare</h2><ul>
+<li><strong>Target DS:</strong> DSA with clean code, deep knowledge of everything on your resume, MLOps basics, retail forecasting and personalisation.</li>
+<li><strong>Lowe's DE:</strong> SQL joins and window functions, Spark internals, lakehouse concepts, Databricks troubleshooting stories.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.glassdoor.com.au/Interview/Target-Data-Scientist-Interview-Questions-EI_IE194.0,6_KO7,21.htm">Glassdoor: Target Data Scientist, Bengaluru (2025)</a></li>
+<li><a href="https://www.jointaro.com/interviews/companies/lowes/experiences/data-engineer-bangalore-rural-karnataka-july-23-2025-no-offer-positive-2e487776/">Taro: Lowe's Data Engineer, Bengaluru (Jul 2025)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-target-lowes"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

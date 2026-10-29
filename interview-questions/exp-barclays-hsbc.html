@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Barclays &amp; HSBC: Data Scientist · Company Interview Questions · Learn24</title>
+<meta name="description" content="Barclays &amp; HSBC: Data Scientist: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Barclays &amp; HSBC: Data Scientist · Learn24">
+<meta property="og:description" content="Barclays &amp; HSBC: Data Scientist: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-barclays-hsbc" data-lesson="interview-questions/exp-barclays-hsbc">
+  <div class="kicker">Company Interview Questions · Banking &amp; Fintech</div>
+  <h1>Barclays &amp; HSBC: Data Scientist</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 Barclays &amp; HSBC</span><span>🆕 Recent reports</span></div>
+  <p class="lead">Barclays &amp; HSBC: Data Scientist / Data Science Intern Interviews (2025–26). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from public candidate reports: four Barclays Data Scientist reports (New York, May 2025, offer; a referral with 4 rounds covering ML, GenAI, RAG, MCP and agentic AI, May 2026, offer declined; Pune, February 2026) and an HSBC Data Science / Software Engineering intern report (Bengaluru campus, September 2025). The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Barclays</th>
+<th>HSBC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Data Scientist</td>
+<td>Intern – Data Science / Software Engineering</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>3 technical (2 easy Python problems + discussion; ML / GenAI / projects) + managerial. Others: culture → technical (SQL HackerRank) → HM</td>
+<td>Psychometric test (45–50 questions) → on-campus technical</td>
+</tr>
+<tr>
+<td><strong>Reported topics</strong></td>
+<td>Python, SQL, detailed ML algorithms, <strong>RAG, MCP, agentic AI</strong>, resume projects, prioritising urgent tasks</td>
+<td>pandas merge + plot, palindrome, reverse a substring, character frequency, <strong>RANK()</strong>, <strong>UNION vs UNION ALL</strong>, joins</td>
+</tr>
+<tr>
+<td><strong>Outcomes</strong></td>
+<td>2 offers (1 declined); 2 not selected</td>
+<td>Not selected</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Barclays:</strong> practical Python/SQL, then discussions of ML and GenAI depth. Cultural fit is weighted heavily.</li>
+<li><strong>HSBC (campus):</strong> pandas, strings and SQL fundamentals, plus motivation questions ("why ML/AI?").</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">SQL: explain RANK(), DENSE_RANK() and ROW_NUMBER().</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-sql">SELECT name, salary,
+       ROW_NUMBER() OVER (ORDER BY salary DESC) AS rn,     -- 1,2,3,4 (unique)
+       RANK()       OVER (ORDER BY salary DESC) AS rk,     -- 1,2,2,4 (gaps after ties)
+       DENSE_RANK() OVER (ORDER BY salary DESC) AS drk     -- 1,2,2,3 (no gaps)
+FROM employees;
+</code></pre>
+<ul>
+<li>Add <code>PARTITION BY dept</code> for per-group rankings, e.g. the top 3 salaries per department.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">What is the difference between UNION and UNION ALL?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>UNION</strong> combines results and <strong>removes duplicates</strong>, which needs a sort or hash, so it is slower.</li>
+<li><strong>UNION ALL</strong> keeps all rows, including duplicates, and is faster.</li>
+<li>Both require the same number of columns with compatible types. Use UNION ALL unless you truly need deduplication.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">pandas: merge two tables and plot the result.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">import pandas as pd, matplotlib.pyplot as plt
+orders = pd.read_csv(&quot;orders.csv&quot;); customers = pd.read_csv(&quot;customers.csv&quot;)
+df = orders.merge(customers, on=&quot;customer_id&quot;, how=&quot;left&quot;, validate=&quot;many_to_one&quot;)
+monthly = (df.assign(month=pd.to_datetime(df.order_date).dt.to_period(&quot;M&quot;).astype(str))
+             .groupby([&quot;month&quot;, &quot;segment&quot;]).amount.sum().unstack(fill_value=0))
+monthly.plot(kind=&quot;line&quot;, marker=&quot;o&quot;, figsize=(8, 4), title=&quot;Revenue by segment&quot;); plt.tight_layout(); plt.show()
+</code></pre>
+<ul>
+<li>Mention <code>how=</code> options, <code>validate=</code> to catch duplicate keys, and checking for unmatched rows (<code>indicator=True</code>).</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Count the frequency of each character, and check whether a string is a palindrome.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">from collections import Counter
+s = &quot;Madam, I'm Adam&quot;
+clean = &quot;&quot;.join(ch.lower() for ch in s if ch.isalnum())
+print(Counter(clean))                 # character frequencies
+print(clean == clean[::-1])           # palindrome check -&gt; True
+def reverse_sub(s, i, j): return s[:i] + s[i:j+1][::-1] + s[j+1:]   # reverse s[i..j]
+</code></pre></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Barclays: what is MCP, and how does it relate to agentic AI in a bank?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>MCP (Model Context Protocol):</strong> a standard for exposing <strong>tools, resources and prompts</strong> to LLM apps through servers, so any compatible agent can discover and call them.</li>
+<li><strong>In a bank:</strong></li>
+<li>Wrap internal systems (customer lookup, transaction history, policy search) as MCP servers with <strong>strict authentication, scopes and audit</strong>.</li>
+<li>Agents compose them for tasks such as complaint triage or KYC refresh.</li>
+<li><strong>Controls:</strong></li>
+<li>Read-only by default.</li>
+<li>Human approval for any action that changes money or records.</li>
+<li>PII minimisation.</li>
+<li>Logging of every tool call.</li>
+<li>Treat tool outputs as untrusted (prompt-injection risk).</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">How do you prioritise several urgent tasks at once?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Clarify impact and deadlines</strong> with stakeholders. Use an impact × urgency matrix.</li>
+<li><strong>Communicate trade-offs early:</strong> "I can deliver A today and B tomorrow. Is that acceptable?"</li>
+<li><strong>Unblock others first,</strong> time-box investigations, and automate repeated work.</li>
+<li><strong>Example:</strong> "During quarter-end, I triaged three data requests by regulatory deadline, delivered the regulator's one first, and agreed new dates for the others. All three landed on time."</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare"><span class="n">03</span>How to prepare</h2><ul>
+<li><strong>Barclays:</strong> easy–medium Python/SQL, ML algorithm details and GenAI architecture (RAG, MCP, agents). Prepare culture-fit stories.</li>
+<li><strong>HSBC:</strong> pandas, string manipulation, SQL window functions and set operations, plus a clear "why data science" answer.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://static.glassdoor.com.ar/Interview/Barclays-Interview-E3456-RVW97666441.htm">Glassdoor: Barclays Data Scientist interview reviews (2025–26)</a></li>
+<li><a href="https://www.jointaro.com/interviews/companies/hsbc/experiences/intern-data-sciencesoftware-engineer-bengaluru-karnataka-september-1-2025-no-offer-neutral-864ed31b">Taro: HSBC Data Science intern, Bengaluru (Sep 2025)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-barclays-hsbc"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

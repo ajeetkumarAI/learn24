@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Goldman Sachs &amp; Morgan Stanley: Engineering (ML) Interviews · Company Interview Questions · Learn24</title>
+<meta name="description" content="Goldman Sachs &amp; Morgan Stanley: Engineering (ML) Interviews: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Goldman Sachs &amp; Morgan Stanley: Engineering (ML) Interviews · Learn24">
+<meta property="og:description" content="Goldman Sachs &amp; Morgan Stanley: Engineering (ML) Interviews: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-goldman-morgan-stanley" data-lesson="interview-questions/exp-goldman-morgan-stanley">
+  <div class="kicker">Company Interview Questions · Banking &amp; Fintech</div>
+  <h1>Goldman Sachs &amp; Morgan Stanley: Engineering (ML) Interviews</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 Goldman Sachs &amp; Morgan Stanley</span><span>🆕 Recent reports</span></div>
+  <p class="lead">Goldman Sachs &amp; Morgan Stanley: Engineering Analyst (ML) and Tech Interviews (2025). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from public candidate reports: Goldman Sachs <strong>Engineering Analyst</strong> with an ML-focused round (Bengaluru, June 2025, waitlisted) and other Bengaluru reports (2025), plus Morgan Stanley technology intern reports (Bengaluru and Mumbai, 2025) that show the coding bar. The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Goldman Sachs</th>
+<th>Morgan Stanley</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Engineering Analyst (ML team); Engineering Analyst</td>
+<td>Technology / SDE intern; GenAI developer roles listed</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>R1: <strong>ML + DSA</strong> (explain and code parts of your model; HashMap, in-order/post-order traversal, sorting); R2: one coding problem (in-order variant). Others: OA (DP, graphs) → 3 technical/HR rounds</td>
+<td>OA (SHL) → technical → HR; or technical → culture fit</td>
+</tr>
+<tr>
+<td><strong>Reported questions</strong></td>
+<td>Retrieve values from a dataset, ML terminology, BST insert, print the tree boundary</td>
+<td>Quicksort complexity, linked lists, OS basics, <strong>design Uber</strong></td>
+</tr>
+<tr>
+<td><strong>Outcome</strong></td>
+<td>Waitlisted, then not selected; others not selected</td>
+<td>Not selected (interns)</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>The DSA bar is high</strong> at both banks. Even ML-team roles include tree and hash-map problems.</li>
+<li><strong>ML round (GS):</strong> explain your model and write parts of it live. Know your code.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Print the boundary (outer layer) of a binary tree anticlockwise.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">def boundary(root):
+    if not root: return []
+    is_leaf = lambda n: not n.left and not n.right
+    res = [root.val] if not is_leaf(root) else []
+    n = root.left                                   # left boundary (top-down, no leaves)
+    while n:
+        if not is_leaf(n): res.append(n.val)
+        n = n.left or n.right
+    def leaves(n):
+        if not n: return
+        if is_leaf(n): res.append(n.val); return
+        leaves(n.left); leaves(n.right)
+    leaves(root)
+    right, n = [], root.right                       # right boundary (bottom-up, no leaves)
+    while n:
+        if not is_leaf(n): right.append(n.val)
+        n = n.right or n.left
+    return res + right[::-1]
+</code></pre></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Insert a value into a binary search tree.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">def insert(root, val):
+    if not root: return Node(val)
+    if val &lt; root.val: root.left = insert(root.left, val)
+    else: root.right = insert(root.right, val)
+    return root
+</code></pre>
+<ul>
+<li>O(h) time: O(log n) when balanced, O(n) when skewed. Mention self-balancing trees (AVL, red-black).</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Explain your ML model and write its core training code.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Framing:</strong> "Default prediction with gradient boosting. Features: payment history, utilisation, tenure. Target: 90+ days past due within 12 months."</li>
+<li><strong>Code skeleton:</strong></li>
+</ul>
+<pre><code class="language-python">from sklearn.model_selection import train_test_split
+from sklearn.metrics import roc_auc_score
+import lightgbm as lgb
+Xtr, Xte, ytr, yte = train_test_split(X, y, test_size=.2, stratify=y, random_state=0)
+m = lgb.LGBMClassifier(n_estimators=500, learning_rate=.05, num_leaves=31, class_weight=&quot;balanced&quot;)
+m.fit(Xtr, ytr, eval_set=[(Xte, yte)], callbacks=[lgb.early_stopping(50)])
+print(&quot;AUC&quot;, roc_auc_score(yte, m.predict_proba(Xte)[:, 1]))
+</code></pre>
+<ul>
+<li>Be ready to explain <strong>every parameter</strong>, the validation choice and the feature importance.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Quicksort: what is its time complexity, and how do you avoid the worst case?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Average O(n log n), worst case O(n²)</strong> when the pivots are consistently the smallest or largest (for example, sorted input with a first-element pivot).</li>
+<li><strong>Avoid it:</strong> random pivot, median-of-three, introsort (switch to heapsort at a recursion-depth limit), and three-way partitioning for many duplicates.</li>
+<li>It sorts in place (O(log n) stack) and is not stable.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">High-level design: design a ride-hailing system like Uber.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Core services:</strong></li>
+<li>Rider and driver apps.</li>
+<li><strong>Location service</strong> (drivers send GPS every ~4 s, stored in a geo-index: geohash or quadtree, in Redis).</li>
+<li><strong>Matching service</strong> (find nearby available drivers, ranked by ETA).</li>
+<li>Trip service (state machine).</li>
+<li>Pricing (surge = f(demand/supply per zone)).</li>
+<li>Payments.</li>
+<li>Notifications.</li>
+<li><strong>Data:</strong> a trips DB (SQL for consistency), location data (in-memory plus a time-series store), Kafka for events.</li>
+<li><strong>Scale:</strong> partition by city or region, WebSockets for live updates, idempotent payment APIs.</li>
+<li><strong>ML hooks:</strong> ETA prediction, surge forecasting, fraud detection, driver–rider matching optimisation.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">ML terminology quick-fire: precision, recall, AUC, regularisation, cross-validation, feature leakage.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Precision</strong> = TP/(TP+FP). <strong>Recall</strong> = TP/(TP+FN).</li>
+<li><strong>AUC</strong> = the probability that a random positive ranks above a random negative.</li>
+<li><strong>Regularisation</strong> penalises complexity (L1/L2) to reduce overfitting.</li>
+<li><strong>Cross-validation</strong> rotates validation folds for a robust estimate.</li>
+<li><strong>Leakage</strong> means a feature contains information unavailable at prediction time, which inflates offline scores.</li>
+<li>Give <strong>one-line definitions plus an example</strong> each; quick-fire rounds reward crispness.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare"><span class="n">03</span>How to prepare</h2><ul>
+<li><strong>DSA:</strong> trees (traversals, boundary, BST operations), hash maps, DP and graphs at medium level, timed.</li>
+<li><strong>ML:</strong> be able to code and explain your own model end to end.</li>
+<li><strong>Design:</strong> one classic system design (Uber, BookMyShow) at a high level.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.glassdoor.co.uk/Interview/Goldman-Sachs-Interview-E2800-RVW97985971.htm">Glassdoor: Goldman Sachs Engineering Analyst reviews (Bengaluru 2025)</a></li>
+<li><a href="https://www.glassdoor.com/Interview/Morgan-Stanley-Interview-E2282-RVW102802147.htm">Glassdoor: Morgan Stanley technology interview reviews (2025)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-goldman-morgan-stanley"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

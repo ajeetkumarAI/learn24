@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ola &amp; CRED: Data Science · Company Interview Questions · Learn24</title>
+<meta name="description" content="Ola &amp; CRED: Data Science: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Ola &amp; CRED: Data Science · Learn24">
+<meta property="og:description" content="Ola &amp; CRED: Data Science: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-ola-cred" data-lesson="interview-questions/exp-ola-cred">
+  <div class="kicker">Company Interview Questions · Product &amp; Retail Tech</div>
+  <h1>Ola &amp; CRED: Data Science</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 Ola &amp; CRED</span><span>🆕 Recent reports</span></div>
+  <p class="lead">Ola &amp; CRED: Data Science Interview Experiences and Questions. Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from public Ola <strong>Data Science</strong> interview reviews (ML/DL deep dives on past projects; linear regression cost function, gradient descent, trees, NLP, DSA; difficulty 3.7/5) and a public CRED Data Scientist question guide (DSA, SQL, ML, product sense, business cases; e.g. the hard <strong>paired products</strong> SQL). The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Ola</th>
+<th>CRED</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Data Scientist</td>
+<td>Data Scientist</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>First round: in-depth ML/DL on resume projects; others: coding + ML (video interviews)</td>
+<td>Guide: DSA, SQL (hard), ML, <strong>product sense and metrics</strong>, business cases</td>
+</tr>
+<tr>
+<td><strong>Reported questions</strong></td>
+<td>Linear regression + cost function, gradient descent, tree models, NLP, DSA coding</td>
+<td><strong>Top 5 product pairs bought together</strong>, moving average, churn, A/B significance, data-project hurdles, portfolio pipeline architecture</td>
+</tr>
+<tr>
+<td><strong>Note</strong></td>
+<td>HR rescheduled several times; the interviewer gave hints</td>
+<td>Product thinking is weighted heavily</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Mobility (Ola):</strong> pricing/surge, ETA, demand forecasting, driver allocation, fraud.</li>
+<li><strong>Fintech rewards (CRED):</strong> user engagement, credit-card payment behaviour, rewards economics, risk.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Linear regression: define the cost function and derive the gradient-descent update.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Model:</strong> ŷ = Xw + b. <strong>Cost (MSE):</strong> J(w, b) = (1/2n) Σ (ŷᵢ − yᵢ)².</li>
+<li><strong>Gradients:</strong> ∂J/∂w = (1/n) Xᵀ(ŷ − y), ∂J/∂b = (1/n) Σ (ŷᵢ − yᵢ).</li>
+<li><strong>Update:</strong> w ← w − α ∂J/∂w; b ← b − α ∂J/∂b. Scale the features for faster convergence. The closed form is w = (XᵀX)⁻¹Xᵀy.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">CRED SQL (hard): find the top 5 product pairs most often bought together by the same user.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-sql">WITH up AS (                                   -- distinct user-product purchases
+  SELECT DISTINCT p.user_id, pr.name
+  FROM purchases p JOIN products pr ON pr.id = p.product_id
+)
+SELECT a.name AS product_1, b.name AS product_2, COUNT(*) AS together
+FROM up a JOIN up b
+  ON a.user_id = b.user_id AND a.name &lt; b.name   -- each unordered pair once, alphabetical
+GROUP BY a.name, b.name
+ORDER BY together DESC, product_1, product_2
+LIMIT 5;
+</code></pre>
+<ul>
+<li><strong>At scale:</strong> the self-join explodes for heavy users, so cap the products per user, pre-aggregate, or approximate with sampling or MinHash. State the ordering convention the question asks for (this one wants the alphabetically first item listed second, so swap the output columns if needed).</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Product sense: how would you measure the success of CRED&#x27;s rewards programme?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>North star:</strong> monthly active payers paying bills <strong>on time through CRED</strong> (core behaviour), plus retention.</li>
+<li><strong>Supporting metrics:</strong></li>
+<li>Reward redemption rate.</li>
+<li>Repeat payments.</li>
+<li>Payment value share.</li>
+<li>Engagement with new features.</li>
+<li>Referral rate.</li>
+<li><strong>Economics:</strong> reward cost per incremental active payer, LTV/CAC, and the margin from partners.</li>
+<li><strong>Guardrails:</strong> fraud and abuse rates, user complaints, payment failure rates.</li>
+<li><strong>Causality:</strong> holdout groups for reward changes; cohort analysis.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">How does Ola&#x27;s surge pricing work conceptually, and how would you model it?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Idea:</strong> when <strong>demand exceeds supply</strong> in a zone and time window, raise the price multiplier to reduce demand and attract drivers, restoring wait times.</li>
+<li><strong>Model:</strong>
+  1. Forecast demand and supply per zone for the next 15–30 minutes (gradient boosting or spatio-temporal models using events, weather, time).
+  2. Estimate demand elasticity to price.
+  3. Choose a multiplier that meets a target ETA or fulfilment rate, with caps and smoothing (no sudden jumps) and fairness constraints.</li>
+<li><strong>Evaluate:</strong> completed rides, ETA, cancellations, driver earnings, rider complaints; switchback experiments.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Explain a tree-based algorithm you used: why random forest or XGBoost over logistic regression?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Trees capture</strong> non-linearities and interactions automatically, handle mixed feature types and missing values (XGBoost), and need no scaling.</li>
+<li><strong>Logistic regression</strong> is more interpretable and well calibrated, and better with sparse high-dimensional text or very little data.</li>
+<li><strong>Choice:</strong> cross-validated performance plus the need for explainability. Use SHAP to explain the tree models.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Describe hurdles you faced in a data project and how you overcame them.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Data access delays:</strong> "I built the pipeline against a sample schema while approvals were pending, so I was ready on day 1 of access."</li>
+<li><strong>Unclear metric definitions:</strong> "I aligned with the PM on a written definition doc."</li>
+<li><strong>Model–business mismatch:</strong> "High AUC, but ops couldn't act on 30% of the flags. I retuned the threshold to the ops team's capacity."</li>
+<li>Each hurdle should show <strong>proactiveness and measurable impact</strong>.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare"><span class="n">03</span>How to prepare</h2><ul>
+<li><strong>Ola:</strong> ML maths (regression, gradient descent, trees), NLP basics, DSA; mobility case studies.</li>
+<li><strong>CRED:</strong> hard SQL (self-joins, pairs, windows), product sense and metrics, rewards and fintech business cases.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://static.glassdoor.co.in/Interview/Ola-Data-Science-Interview-Questions-EI_IE587383.0,3_KO4,16.htm">Glassdoor: Ola Data Science interview reviews</a></li>
+<li><a href="https://interviewquery.com/interview-guides/cred-data-scientist">Interview Query: CRED Data Scientist guide</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-ola-cred"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

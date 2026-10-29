@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tech Mahindra: AI Engineer, Noida (Offer) · Company Interview Questions · Learn24</title>
+<meta name="description" content="Tech Mahindra: AI Engineer, Noida (Offer): 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Tech Mahindra: AI Engineer, Noida (Offer) · Learn24">
+<meta property="og:description" content="Tech Mahindra: AI Engineer, Noida (Offer): 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-tech-mahindra-ai-engineer" data-lesson="interview-questions/exp-tech-mahindra-ai-engineer">
+  <div class="kicker">Company Interview Questions · IT Services</div>
+  <h1>Tech Mahindra: AI Engineer, Noida (Offer)</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 Tech Mahindra</span><span>🆕 Recent reports</span></div>
+  <p class="lead">Tech Mahindra: AI Engineer Interview Experience (Noida, 2025, Offer). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from a public candidate report for a Tech Mahindra AI Engineer role in Noida (October 2025, offer accepted) and a public question-bank guide for Tech Mahindra ML roles. The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>AI Engineer</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>3: technical 1 → technical 2 → <strong>client round</strong></td>
+</tr>
+<tr>
+<td><strong>Focus</strong></td>
+<td>Basic Python, applying AI in your project, Transformer architecture, cloud technologies (client round)</td>
+</tr>
+<tr>
+<td><strong>Outcome</strong></td>
+<td>Offer accepted; rated positive and of average difficulty</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Technical 1:</strong> basic Python coding, then "how did you implement AI in your project?" and follow-ups.</li>
+<li><strong>Technical 2:</strong> Transformer architecture plus project depth.</li>
+<li><strong>Client round:</strong> the client checks which <strong>cloud services</strong> you have used (Azure, AWS or GCP) and how you would run the solution in their environment.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">How did you implement AI in your project? Walk through the pipeline.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Business problem → data → model → serving → monitoring.</strong></li>
+<li><strong>Example:</strong> "An email-triage assistant for a telecom client.</li>
+<li>Emails go through PII masking and are then classified into 12 intents by a fine-tuned DistilBERT.</li>
+<li>For complex cases, a GPT-4o-mini RAG step drafts a reply from the knowledge base.</li>
+<li>The service runs on FastAPI in Azure App Service and is monitored with Application Insights.</li>
+<li>Outcome: 38% fewer manual touches and 2 minutes saved per email."</li>
+<li>Always say <strong>why</strong> each component was chosen and what you measured.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Explain the Transformer architecture briefly.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Embeddings:</strong> tokens become embeddings, and positional encodings are added.</li>
+<li><strong>N blocks</strong>, each containing <strong>multi-head self-attention</strong> (softmax(QKᵀ/√d)V) and a <strong>feed-forward network</strong>, with residual connections and layer norm around both.</li>
+<li><strong>Variants:</strong> encoders (BERT) understand text, decoders (GPT) generate it with a causal mask, and encoder-decoders (T5) translate or summarise.</li>
+<li><strong>Why it is powerful:</strong> parallel training, long-range context, and it scales to LLMs.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Client round: which cloud services would you use to deploy a GenAI app on Azure?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Models:</strong> Azure OpenAI (private endpoint) or Azure AI Foundry for open models.</li>
+<li><strong>Retrieval:</strong> Azure AI Search (hybrid + semantic ranker), with Blob Storage for documents.</li>
+<li><strong>Compute:</strong> Azure Container Apps, AKS or App Service running FastAPI; Functions for ingestion jobs.</li>
+<li><strong>Security:</strong> Entra ID authentication, Key Vault for secrets, VNet with private endpoints, and Content Safety filters.</li>
+<li><strong>Operations:</strong> Application Insights / Azure Monitor, plus a CI/CD pipeline in Azure DevOps or GitHub Actions.</li>
+<li><strong>On AWS:</strong> Bedrock, OpenSearch, ECS or Lambda, Secrets Manager, CloudWatch.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Python: return all primes up to n.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">def primes_upto(n):
+    if n &lt; 2: return []
+    sieve = [True] * (n + 1); sieve[0] = sieve[1] = False
+    for i in range(2, int(n ** 0.5) + 1):
+        if sieve[i]:
+            sieve[i*i::i] = [False] * len(sieve[i*i::i])
+    return [i for i, p in enumerate(sieve) if p]
+</code></pre>
+<ul>
+<li>The Sieve of Eratosthenes runs in O(n log log n). Return an empty list when n &lt; 2.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">How would you predict customer churn for a telecom client?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Label:</strong> the customer churned within the next 30 or 60 days.</li>
+<li><strong>Features:</strong> tenure, plan, ARPU trend, data usage drop, complaints and support calls, payment delays, network quality in the customer's area.</li>
+<li><strong>Model:</strong> a gradient-boosted tree with time-based validation, judged on PR-AUC, and lift in the top decile.</li>
+<li><strong>Action:</strong> give retention offers to the high-risk, high-value segment; measure <strong>uplift</strong> with a control group, not just accuracy.</li>
+<li><strong>Explain</strong> the drivers with SHAP for the business team.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">How do you clean missing values in a dataset?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">import pandas as pd
+df = pd.read_csv(&quot;customers.csv&quot;)
+print(df.isna().mean().sort_values(ascending=False))            # missing ratio
+df[&quot;income_missing&quot;] = df[&quot;income&quot;].isna().astype(int)          # keep the signal
+df[&quot;income&quot;] = df[&quot;income&quot;].fillna(df[&quot;income&quot;].median())
+df[&quot;city&quot;] = df[&quot;city&quot;].fillna(&quot;Unknown&quot;)
+df = df.dropna(subset=[&quot;customer_id&quot;])                          # critical key
+</code></pre>
+<ul>
+<li><strong>Strategy:</strong> understand <em>why</em> values are missing (completely at random, at random, or not at random). Drop a column if more than ~60% is missing and it isn't useful. Impute with median or mode, or use model-based imputation (KNN, iterative). Fit imputers on the training data only.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare-for-tech-mahindra"><span class="n">03</span>How to prepare for Tech Mahindra</h2><ul>
+<li>Know your project's AI part end to end. That is where round 1 goes.</li>
+<li>Revise Transformers and one cloud stack thoroughly. The <strong>client round</strong> checks practical cloud experience.</li>
+<li>Practise easy Python and pandas cleaning tasks.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.glassdoor.sg/Interview/Tech-Mahindra-Interview-E135932-RVW100746365.htm">Glassdoor: Tech Mahindra AI Engineer, Noida (Oct 2025)</a></li>
+<li><a href="https://www.interviewquery.com/interview-guides/tech-mahindra-machine-learning-engineer">Interview Query: Tech Mahindra ML Engineer question guide</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-tech-mahindra-ai-engineer"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

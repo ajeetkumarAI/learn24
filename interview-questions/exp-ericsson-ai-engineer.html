@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ericsson: AI Engineer (Campus) · Company Interview Questions · Learn24</title>
+<meta name="description" content="Ericsson: AI Engineer (Campus): 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Ericsson: AI Engineer (Campus) · Learn24">
+<meta property="og:description" content="Ericsson: AI Engineer (Campus): 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-ericsson-ai-engineer" data-lesson="interview-questions/exp-ericsson-ai-engineer">
+  <div class="kicker">Company Interview Questions · Telecom, Auto &amp; Industry</div>
+  <h1>Ericsson: AI Engineer (Campus)</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 Ericsson</span><span>🆕 Recent reports</span></div>
+  <p class="lead">Ericsson: AI Engineer Interview Experience (Campus, 2025). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from a public Ericsson <strong>AI Engineer</strong> report (Tirupati campus, November 2025: one interview focused on your projects and the technologies behind them) plus context from Ericsson's telecom-AI work. The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>AI Engineer (graduate / campus)</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>One interview: project deep dive → probing the technologies used</td>
+</tr>
+<tr>
+<td><strong>Outcome</strong></td>
+<td>Not selected; the candidate <strong>struggled to articulate details</strong> clearly</td>
+</tr>
+<tr>
+<td><strong>Domain</strong></td>
+<td>Network AI: anomaly detection, traffic forecasting, energy saving, intent-based networks, GenAI for operations</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Project + technology depth:</strong> if you list LSTM, Docker or FastAPI, expect "how does it work and why did you choose it?"</li>
+<li><strong>Communication counts:</strong> practise explaining technical details clearly and simply.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">You used an LSTM in your project. Explain how it works and why you chose it.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>LSTM cell:</strong> a cell state (long-term memory) plus three gates:</li>
+<li><strong>Forget gate:</strong> what to drop.</li>
+<li><strong>Input gate:</strong> what new information to add.</li>
+<li><strong>Output gate:</strong> what to expose as the hidden state.</li>
+<li><strong>Why it helps:</strong> the additive cell-state updates let gradients flow over long sequences, which avoids the vanishing gradients of plain RNNs.</li>
+<li><strong>Why I chose it:</strong> "Network KPI time series with daily and weekly patterns; the LSTM beat ARIMA by 12% MAPE." Also mention that <strong>Temporal CNNs or Transformers</strong> are alternatives, and why you didn't use them (data size, latency).</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">How would you detect anomalies in network KPIs (latency, packet loss, throughput)?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Baselines:</strong> seasonal decomposition (STL) and residual z-scores per cell or site; EWMA control charts.</li>
+<li><strong>ML:</strong> Isolation Forest on multivariate KPIs; LSTM/Transformer forecasters, flagging large residuals; autoencoders on KPI vectors.</li>
+<li><strong>Practicalities:</strong> a different seasonality per site, alert fatigue (aggregate and correlate alarms), root-cause hints (neighbouring cells, config changes).</li>
+<li><strong>Evaluate</strong> with labelled incidents (precision and recall of alerts, time to detect).</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">You used Docker. What problem does it solve, and how is it different from a VM?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Docker</strong> packages an app with its dependencies into an <strong>image</strong>; containers run it consistently anywhere ("works on my machine" solved).</li>
+<li><strong>vs VM:</strong> containers share the host OS kernel, so they are lightweight and start in seconds. VMs virtualise the hardware with a full guest OS, giving stronger isolation but at a heavier cost.</li>
+<li><strong>In ML:</strong> reproducible training and serving environments, easy deployment to Kubernetes.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">How can GenAI help telecom network operations?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>NOC copilot:</strong> summarise alarms and incidents, suggest likely root causes from past tickets (RAG), draft change plans.</li>
+<li><strong>Natural-language intent → configuration:</strong> translate operator intents into validated configuration templates (with human approval and simulation).</li>
+<li><strong>Knowledge assistants</strong> over 3GPP standards and vendor documents.</li>
+<li><strong>Guardrails:</strong> never push config changes without validation; audit trails; strict access control.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">How do you explain your project clearly in an interview?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Answer (3-minute template):</strong></p>
+<ol>
+<li><strong>One sentence:</strong> "I built an LSTM model that forecasts cell-tower traffic 24 hours ahead to save energy."</li>
+<li><strong>Data:</strong> source, size, preprocessing (two sentences).</li>
+<li><strong>Model:</strong> why LSTM, its key parameters, the baseline comparison.</li>
+<li><strong>Result:</strong> "MAPE 8.4% against 9.6% for ARIMA, enabling sleep mode at off-peak sites."</li>
+<li><strong>Your role and learnings.</strong>
+- <strong>Rehearse aloud</strong> and record yourself. Clarity was the deciding factor in this report.</li>
+</ol></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">What is 5G network slicing, and where might ML help?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Slicing:</strong> logically separate virtual networks on shared infrastructure, each with guaranteed characteristics (e.g. low-latency for industrial IoT, high-bandwidth for video).</li>
+<li><strong>ML uses:</strong> forecasting slice demand, dynamic resource allocation (RL), SLA violation prediction, anomaly detection per slice.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare-for-ericsson"><span class="n">03</span>How to prepare for Ericsson</h2><ul>
+<li>Know <strong>every technology on your resume</strong> deeply (LSTM, Docker, frameworks).</li>
+<li>Practise a crisp project pitch, and learn telecom-AI basics (KPI anomaly detection, forecasting, slicing).</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://static.glassdoor.at/Interview/Ericsson-Interview-E3472-RVW101816393.htm">Glassdoor: Ericsson AI Engineer (campus, Nov 2025)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-ericsson-ai-engineer"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

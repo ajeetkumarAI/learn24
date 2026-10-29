@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dream11 &amp; MakeMyTrip: Data Scientist · Company Interview Questions · Learn24</title>
+<meta name="description" content="Dream11 &amp; MakeMyTrip: Data Scientist: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Dream11 &amp; MakeMyTrip: Data Scientist · Learn24">
+<meta property="og:description" content="Dream11 &amp; MakeMyTrip: Data Scientist: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-dream11-makemytrip" data-lesson="interview-questions/exp-dream11-makemytrip">
+  <div class="kicker">Company Interview Questions · Product &amp; Retail Tech</div>
+  <h1>Dream11 &amp; MakeMyTrip: Data Scientist</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 Dream11 &amp; MakeMyTrip</span><span>🆕 Recent reports</span></div>
+  <p class="lead">Dream11 &amp; MakeMyTrip: Data Scientist Interview Experiences. Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from a public Dream11 <strong>Senior Data Scientist</strong> report (Mumbai, July 2025: 3 rounds) and a public MakeMyTrip Data Scientist process guide. The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Dream11</th>
+<th>MakeMyTrip</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Senior Data Scientist</td>
+<td>Data Scientist</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>ML breadth + <strong>A/B testing</strong> + resume → system design → hiring manager</td>
+<td>Technical screen → progressively harder technical assessments → <strong>case study</strong> → managerial</td>
+</tr>
+<tr>
+<td><strong>Reported questions</strong></td>
+<td>Explain <strong>entropy</strong> with examples; <strong>design a system to predict prices for digital art</strong></td>
+<td>Stack using queues, reverse a linked list, max path sum; bias-variance for random forests, gradient boosting intuition, ranking metrics, drift; hotel-conversion data; A/B test for a recommender</td>
+</tr>
+<tr>
+<td><strong>Outcome</strong></td>
+<td>Not selected (rated moderate)</td>
+<td>Guide-based</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Dream11:</strong> open-ended problems plus experimentation (gaming and fantasy-sports engagement).</li>
+<li><strong>MakeMyTrip:</strong> DSA + ML fundamentals + travel case studies (conversion, recommendations).</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Explain entropy, with examples. Where is it used in ML?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Entropy</strong> H(X) = −Σ p(x) log₂ p(x) measures <strong>uncertainty</strong>.</li>
+<li>A fair coin has H = 1 bit; a biased (0.9/0.1) coin has H ≈ 0.47; a certain outcome has H = 0.</li>
+<li><strong>Uses:</strong></li>
+<li>Decision-tree splits (<strong>information gain</strong> = parent entropy − weighted child entropy).</li>
+<li><strong>Cross-entropy loss</strong> for classification.</li>
+<li><strong>KL divergence</strong> (distillation, VAEs, RLHF penalties).</li>
+<li>Uncertainty sampling in active learning.</li>
+<li>Perplexity = 2^H for language models.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Design a system that predicts prices for digital art (NFT-style marketplace).</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Target:</strong> the expected sale price (or price range) for a listing. The heavy-tailed distribution calls for log-price regression or quantiles.</li>
+<li><strong>Features:</strong></li>
+<li><strong>Artist:</strong> past sales, followers, volume.</li>
+<li><strong>Collection:</strong> floor price, rarity traits, trend.</li>
+<li><strong>Item:</strong> image embeddings (CLIP), trait rarity scores.</li>
+<li><strong>Market:</strong> overall volume, crypto price, time.</li>
+<li><strong>Model:</strong> gradient boosting on tabular features plus image embeddings; quantile regression (P10/P50/P90) to show the uncertainty.</li>
+<li><strong>Pitfalls:</strong> wash trading (filter suspicious sales), very little data for new artists (use hierarchical priors by collection), market regime shifts (time-based validation, frequent retraining).</li>
+<li><strong>Evaluation:</strong> MAPE on log price, interval coverage; product impact on listing success and time to sale.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Design an A/B test for a new recommendation algorithm on a travel app.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Unit:</strong> the user, split 50/50. The primary metric is <strong>booking conversion</strong> (sessions → bookings) or revenue per user; guardrails are cancellations, latency and complaints.</li>
+<li><strong>Duration:</strong> at least 2 full weeks to cover weekday and weekend patterns (travel intent varies); compute the sample size from the baseline conversion and the minimum detectable effect.</li>
+<li><strong>Pitfalls:</strong></li>
+<li>Novelty effects.</li>
+<li>Seasonality (holidays).</li>
+<li><strong>Long consideration windows</strong> (users browse for days), so attribute bookings within N days.</li>
+<li><strong>Analysis:</strong> conversion lift with confidence intervals; segment by new vs returning users and by domestic vs international.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Intuition behind gradient boosting.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>Build an <strong>additive model</strong> F(x) = Σ ηₘ hₘ(x) of shallow trees. Each new tree fits the <strong>negative gradient of the loss</strong> (the residuals for MSE) of the current model, so every step corrects the remaining error.</li>
+<li><strong>The learning rate η</strong> shrinks each step: a smaller η with more trees generalises better.</li>
+<li><strong>Regularisation:</strong> tree depth, subsampling (stochastic GB), column sampling, L1/L2 on leaf weights (XGBoost), early stopping.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Which metrics evaluate a ranking model, and when do you use each?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Precision@k / Recall@k:</strong> binary relevance with a fixed list length.</li>
+<li><strong>MRR:</strong> where the <em>first</em> relevant item appears (search with one right answer).</li>
+<li><strong>NDCG@k:</strong> graded relevance with position discounting (hotel lists, feeds).</li>
+<li><strong>MAP:</strong> averages precision over all relevant items.</li>
+<li><strong>Online:</strong> CTR, conversion, revenue per search, and <strong>time to first click</strong>.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Coding: implement a stack using queues.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">from collections import deque
+class Stack:
+    def __init__(self): self.q = deque()
+    def push(self, x):
+        self.q.append(x)
+        for _ in range(len(self.q) - 1): self.q.append(self.q.popleft())   # rotate so x is at the front
+    def pop(self): return self.q.popleft()
+    def top(self): return self.q[0]
+    def empty(self): return not self.q
+</code></pre>
+<ul>
+<li>Push is O(n) and pop is O(1). The alternative makes push O(1) and pop O(n).</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare"><span class="n">03</span>How to prepare</h2><ul>
+<li><strong>Dream11:</strong> information theory basics, A/B testing depth, open-ended ML system design.</li>
+<li><strong>MakeMyTrip:</strong> DSA (linked lists, trees), ML fundamentals, travel funnel case studies and ranking metrics.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.glassdoor.co.in/Interview/Dream11-Interview-E493359-RVW100511709.htm">Glassdoor: Dream11 Senior Data Scientist, Mumbai (Jul 2025)</a></li>
+<li><a href="https://dataford.io/interview-guides/makemytrip/data-scientist">Dataford: MakeMyTrip Data Scientist guide</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-dream11-makemytrip"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

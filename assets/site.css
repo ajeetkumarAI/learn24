@@ -134,3 +134,25 @@ footer .links a{color:var(--muted)}
 @keyframes jbp2{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--green) 60%,transparent)}70%,100%{box-shadow:0 0 0 7px transparent}}
 @media (prefers-reduced-motion:reduce){.jobs-pill .lv{animation:none}}
 @media (max-width:760px){.jobs-pill{margin-left:auto}.top .l24-theme{margin-left:8px}}
+
+/* company picker (interview questions) */
+.co-wrap{margin-top:6px;margin-bottom:8px}
+.co-pick{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.co-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.co-h h2{margin:0;font-size:20px}.co-n{font-size:13.5px;color:var(--muted)}
+.co-row{display:flex;gap:8px;margin:12px 0 10px;flex-wrap:wrap}
+.co-q{flex:1 1 240px;min-width:0;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--text);font:inherit;font-size:15px}
+.co-sel{flex:0 1 220px;min-width:0;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--text);font:inherit;font-size:14.5px}
+.co-q:focus,.co-sel:focus{outline:2px solid var(--c);outline-offset:1px}
+.co-sec,.co-chips{display:flex;flex-wrap:wrap;gap:6px}
+.co-sec{margin-bottom:10px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin;padding-bottom:4px}
+.co-sec button{flex:none}
+.co-sec button,.co-chips button{font:inherit;font-size:13.5px;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--text);border-radius:999px;padding:5px 11px;display:inline-flex;gap:6px;align-items:center}
+.co-sec button{font-size:12.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.co-sec button.on,.co-chips button.on{background:color-mix(in srgb,var(--c) 22%,transparent);border-color:var(--c);color:var(--text);font-weight:600}
+.co-chips button i{font-style:normal;font-size:11.5px;opacity:.7;font-family:var(--mono)}
+.co-chips{max-height:168px;overflow:auto}
+.co-res{margin-top:12px;font-size:14.5px;color:var(--muted)}
+.co-res b{color:var(--text)}
+.co-clear{margin-left:8px;font:inherit;font-size:13px;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--text);border-radius:8px;padding:3px 9px}
+.lesson[hidden],.module[hidden],.co-chips button[hidden]{display:none!important}

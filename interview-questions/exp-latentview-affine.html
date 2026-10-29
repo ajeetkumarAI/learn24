@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LatentView &amp; Affine: Analytics / Data Science · Company Interview Questions · Learn24</title>
+<meta name="description" content="LatentView &amp; Affine: Analytics / Data Science: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="LatentView &amp; Affine: Analytics / Data Science · Learn24">
+<meta property="og:description" content="LatentView &amp; Affine: Analytics / Data Science: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-latentview-affine" data-lesson="interview-questions/exp-latentview-affine">
+  <div class="kicker">Company Interview Questions · Analytics &amp; AI Firms</div>
+  <h1>LatentView &amp; Affine: Analytics / Data Science</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 LatentView &amp; Affine</span><span>🆕 Recent reports</span></div>
+  <p class="lead">LatentView &amp; Affine: Analytics / Data Science Interview Experiences (2025–26). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from public candidate reports for LatentView Analytics <strong>Assistant Manager</strong> roles (Bengaluru, April 2025: marketing analytics, a Python data-cleaning task; Chennai, 2026, offer; Bengaluru, 2026) and a public Affine Data Scientist question guide. The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>LatentView</th>
+<th>Affine</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Assistant Manager (analytics / DS)</td>
+<td>Data Scientist</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>One in-person panel (shortlisted candidates); others not detailed</td>
+<td>Guide: DSA, ML, probability, SQL and A/B testing questions</td>
+</tr>
+<tr>
+<td><strong>Reported questions</strong></td>
+<td><strong>Data-cleaning methods with Python on a sample DataFrame</strong>; easier ML algorithm questions</td>
+<td>Share of high earners per department, moving average, cohort retention, churn, feature importance, A/B significance, neural network design</td>
+</tr>
+<tr>
+<td><strong>Outcome</strong></td>
+<td>1 offer (Chennai); 2 not selected</td>
+<td>Guide-based</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Analytics consultancies</strong> test <strong>practical data wrangling, SQL, stats and business framing</strong>.</li>
+<li>For managerial roles, expect stakeholder and delivery questions too.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Clean this DataFrame in Python. What steps and syntax would you use?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">import pandas as pd, numpy as np
+df = pd.read_csv(&quot;campaign.csv&quot;)
+df.columns = df.columns.str.strip().str.lower().str.replace(&quot; &quot;, &quot;_&quot;)     # tidy names
+df = df.drop_duplicates()
+df[&quot;date&quot;] = pd.to_datetime(df[&quot;date&quot;], errors=&quot;coerce&quot;, dayfirst=True)   # fix types
+df[&quot;spend&quot;] = pd.to_numeric(df[&quot;spend&quot;].astype(str).str.replace(r&quot;[₹,]&quot;, &quot;&quot;, regex=True), errors=&quot;coerce&quot;)
+df[&quot;channel&quot;] = df[&quot;channel&quot;].str.strip().str.title().replace({&quot;Fb&quot;: &quot;Facebook&quot;})
+df[&quot;spend_missing&quot;] = df[&quot;spend&quot;].isna().astype(int); df[&quot;spend&quot;] = df[&quot;spend&quot;].fillna(df.groupby(&quot;channel&quot;)[&quot;spend&quot;].transform(&quot;median&quot;))
+q1, q3 = df[&quot;spend&quot;].quantile([.25, .75]); df[&quot;spend&quot;] = df[&quot;spend&quot;].clip(upper=q3 + 1.5 * (q3 - q1))
+df = df.dropna(subset=[&quot;date&quot;, &quot;campaign_id&quot;])
+</code></pre>
+<ul>
+<li><strong>Explain each step:</strong> names, duplicates, types, standardised categories, missing values (with a flag), outliers, required keys. Then validate with <code>df.info()</code> and <code>describe()</code>.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">SQL: rank departments by the share of employees earning more than ₹20 LPA.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-sql">SELECT department,
+       AVG(CASE WHEN salary &gt; 2000000 THEN 1.0 ELSE 0 END) AS high_earner_share,
+       RANK() OVER (ORDER BY AVG(CASE WHEN salary &gt; 2000000 THEN 1.0 ELSE 0 END) DESC) AS rk
+FROM employees
+GROUP BY department
+HAVING COUNT(*) &gt;= 10;          -- avoid tiny departments dominating
+</code></pre></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">How would you measure the ROI of a marketing campaign?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Incrementality first:</strong> use a holdout or geo test, or a matched control, to estimate the <strong>incremental</strong> conversions and revenue caused by the campaign.</li>
+<li><strong>ROI</strong> = (incremental gross margin − campaign cost) / campaign cost.</li>
+<li><strong>Attribution for always-on channels:</strong> marketing-mix modelling (MMM) with adstock and saturation, or data-driven multi-touch attribution where tracking allows.</li>
+<li>Report confidence intervals and <strong>cost per incremental acquisition</strong>, and recommend a budget reallocation.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Is data separable? How would you check whether two classes are linearly separable?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Visual:</strong> pair plots or PCA/t-SNE for intuition.</li>
+<li><strong>Formal:</strong> fit a linear SVM with a very large C (a hard margin) or a perceptron. Zero training error means linearly separable. Linear programming feasibility is the exact test.</li>
+<li><strong>If not separable:</strong> kernels (RBF), feature crosses, trees or neural networks.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">As an assistant manager, how do you manage a client analytics project with a tight deadline?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Scope tightly:</strong> agree the 2–3 key questions and the deliverable format on day 1.</li>
+<li><strong>Plan:</strong> a work breakdown with owners, daily stand-ups, risks (data access) escalated early.</li>
+<li><strong>Quality:</strong> peer reviews of SQL and logic, sanity checks against known totals.</li>
+<li><strong>Communicate:</strong> a mid-point preview to the client; then the final story with insight, recommendation and impact.</li>
+<li>Show <strong>delivery + people management + client handling</strong>.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">A/B test: how do you decide whether a result is significant and worth shipping?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>Pre-register the metric, the minimum detectable effect, α and power, and the duration.</li>
+<li>Check for <strong>sample-ratio mismatch</strong>; compute the lift with a confidence interval (z-test or bootstrap).</li>
+<li>Significant <strong>and</strong> practically meaningful (above the MDE) <strong>and</strong> guardrails intact → ship. Otherwise iterate.</li>
+<li>Watch for peeking, novelty effects, and multiple comparisons.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare"><span class="n">03</span>How to prepare</h2><ul>
+<li>Practise <strong>pandas cleaning</strong> and SQL aggregations by hand.</li>
+<li>Revise A/B testing, marketing analytics (incrementality, MMM) and ML basics.</li>
+<li>For managerial roles, prepare delivery and stakeholder stories.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.glassdoor.fr/Entretien/LatentView-Analytics-Entretien-E435479-RVW97262857.htm">Glassdoor: LatentView Analytics Assistant Manager reviews (2025–26)</a></li>
+<li><a href="https://www.interviewquery.com/interview-guides/affine-data-scientist">Interview Query: Affine Analytics guide</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-latentview-affine"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

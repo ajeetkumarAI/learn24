@@ -22,7 +22,7 @@
   function lessonRow(t, l, i) {
     const d = isDone(t.id, l.id), soon = l.status !== 'live';
     const tag = soon ? 'div' : 'a';
-    return `<${tag} class="lesson${soon ? ' soon' : ''}${d ? ' done' : ''}" style="--c:${t.color}"${soon ? ' aria-disabled="true"' : ` href="${lessonHref(t, l)}"`}>
+    return `<${tag} class="lesson${soon ? ' soon' : ''}${d ? ' done' : ''}" style="--c:${t.color}"${l.companies ? ` data-co="${esc(l.companies.join('|'))}" data-sector="${esc(l.sector || '')}"` : ''}${soon ? ' aria-disabled="true"' : ` href="${lessonHref(t, l)}"`}>
       <span class="ix"${l.bonus ? ` title="${esc(l.bonusTitle || 'Visual lesson')}"` : ''}>${l.bonus ? '★' : (l.session || i + 1)}</span>
       <div style="min-width:0"><h4>${esc(l.title)}</h4><p>${esc(l.summary)}</p>
         <div class="tags"><span class="tag t">${esc(t.name)}</span>${l.tags.map(g => `<span class="tag">${esc(g)}</span>`).join('')}</div></div>
@@ -83,6 +83,63 @@
       <div class="mod-h" style="--c:${t.color}"><span class="mod-n">Module ${m.n}</span><div style="flex:1;min-width:0"><h2>${esc(m.title)}</h2><p>${esc(m.objective)} · ${m.label ? esc(m.label) : `${({ 'aws-saa': 'Days', 'langchain-course': 'Labs' })[t.id] || 'Sessions'} ${m.sessions[0]}–${m.sessions[m.sessions.length - 1]}`}</p></div>${t.nocheat ? '' : `<a class="cheat" href="${base}${t.id}/cheatsheet-m${m.n}.html">📄 Cheat sheet</a>`}</div>
       <div class="lessons">${t.lessons.filter(l => l.module === m.n).map((l, i) => lessonRow(t, l, i)).join('')}</div></section>`).join('')
       : `<section class="sec shell"><div class="lessons">${t.lessons.map((l, i) => lessonRow(t, l, i)).join('')}</div></section>`}`;
+    if (t.picker) companyPicker(t);
+  }
+
+  // Company picker: search or tap a company (or a sector) to show only its interview pages.
+  function companyPicker(t) {
+    const count = {}, sectorOf = {};
+    t.lessons.forEach(l => (l.companies || []).forEach(c => { count[c] = (count[c] || 0) + 1; sectorOf[c] = l.sector || 'Other'; }));
+    const names = Object.keys(count).sort((a, b) => a.localeCompare(b));
+    const sectors = [...new Set(t.lessons.map(l => l.sector).filter(Boolean))];
+    const box = document.createElement('section');
+    box.className = 'shell co-wrap'; box.style.setProperty('--c', t.color);
+    box.innerHTML = `<div class="co-pick"><div class="co-h"><h2>🏢 Pick a company</h2><span class="co-n">${names.length} companies · ${t.lessons.length} pages</span></div>
+      <div class="co-row"><input class="co-q" type="search" placeholder="Type a company, e.g. Amazon, TCS, Deloitte…" aria-label="Search companies" list="co-list">
+        <datalist id="co-list">${names.map(n => `<option value="${esc(n)}">`).join('')}</datalist>
+        <select class="co-sel" aria-label="Choose a company"><option value="">All companies</option>${names.map(n => `<option>${esc(n)}</option>`).join('')}</select></div>
+      <div class="co-sec">${['All', ...sectors].map(s => `<button type="button" data-s="${esc(s)}"${s === 'All' ? ' class="on"' : ''}>${esc(s)}</button>`).join('')}</div>
+      <div class="co-chips">${names.map(n => `<button type="button" data-c="${esc(n)}" data-s="${esc(sectorOf[n])}">${esc(n)}<i>${count[n]}</i></button>`).join('')}</div>
+      <div class="co-res" hidden></div></div>`;
+    document.querySelector('.topic-hero').after(box);
+    const q = box.querySelector('.co-q'), sel = box.querySelector('.co-sel'), res = box.querySelector('.co-res');
+    let co = '', sec = 'All';
+    function apply(scroll) {
+      const s = q.value.trim().toLowerCase();
+      box.querySelectorAll('.co-sec button').forEach(b => b.classList.toggle('on', b.dataset.s === sec));
+      box.querySelectorAll('.co-chips button').forEach(b => {
+        b.hidden = !((sec === 'All' || b.dataset.s === sec) && (!s || b.dataset.c.toLowerCase().includes(s)));
+        b.classList.toggle('on', b.dataset.c === co);
+      });
+      let shown = 0;
+      document.querySelectorAll('.module').forEach(m => {
+        let k = 0;
+        m.querySelectorAll('.lesson').forEach(r => {
+          const cs = (r.dataset.co || '').split('|');
+          const ok = co ? cs.includes(co) : (sec === 'All' || r.dataset.sector === sec);
+          r.hidden = !ok; if (ok) k++;
+        });
+        m.hidden = !k; shown += k;
+      });
+      sel.value = co;
+      res.hidden = !co && sec === 'All';
+      res.innerHTML = `Showing <b>${shown}</b> page${shown === 1 ? '' : 's'} for <b>${esc(co || sec)}</b> <button type="button" class="co-clear">✕ Show all</button>`;
+      try { history.replaceState(null, '', co ? '#company=' + encodeURIComponent(co) : location.pathname); } catch (e) {}
+      if (scroll && co) { const first = document.querySelector('.module:not([hidden])'); if (first) first.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    }
+    box.addEventListener('click', e => {
+      const b = e.target.closest('button'); if (!b) return;
+      if (b.classList.contains('co-clear')) { co = ''; sec = 'All'; q.value = ''; }
+      else if (b.dataset.c) co = co === b.dataset.c ? '' : b.dataset.c;
+      else if (b.dataset.s) { sec = b.dataset.s; co = ''; }
+      apply(!!b.dataset.c);
+    });
+    q.addEventListener('input', () => { const hit = names.find(n => n.toLowerCase() === q.value.trim().toLowerCase()); co = hit || ''; apply(!!hit); });
+    q.addEventListener('keydown', e => { if (e.key === 'Enter') { const hit = names.find(n => n.toLowerCase().includes(q.value.trim().toLowerCase())); if (hit) { co = hit; apply(true); } } });
+    sel.addEventListener('change', () => { co = sel.value; q.value = ''; apply(true); });
+    const h = decodeURIComponent((location.hash.match(/company=([^&]+)/) || [])[1] || '');
+    if (names.includes(h)) co = h;
+    apply(!!co);
   }
 
   // footer

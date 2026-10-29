@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ZS Associates: Data Science Associate · Company Interview Questions · Learn24</title>
+<meta name="description" content="ZS Associates: Data Science Associate: 7 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="ZS Associates: Data Science Associate · Learn24">
+<meta property="og:description" content="ZS Associates: Data Science Associate: 7 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-zs-associates" data-lesson="interview-questions/exp-zs-associates">
+  <div class="kicker">Company Interview Questions · Analytics &amp; AI Firms</div>
+  <h1>ZS Associates: Data Science Associate</h1>
+  <div class="meta"><span>❓ 7 questions</span><span>🏢 ZS Associates</span><span>🆕 Recent reports</span></div>
+  <p class="lead">ZS Associates: Data Science Associate Interview Experiences (2025–26). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from public candidate reports for ZS Associates Advance Data Science Associate roles (Bengaluru, February and May 2026; the May candidate received an offer), a Mumbai report (May 2025, selected) and a campus challenge report. The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Advance Data Science Associate / Data Science Associate</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>HackerRank online assessment (ML, stats, SQL, Python) → HR screen → <strong>ML classification case study</strong> (build a solution) → case debrief (resume + ML concepts) → final round (puzzles, ML, GenAI, AI frameworks)</td>
+</tr>
+<tr>
+<td><strong>Questions reported</strong></td>
+<td>Linear vs logistic regression, why ReLU, precision vs recall, <strong>evaluating a RAG app</strong>, MLflow, outliers, medium SQL, guesstimates</td>
+</tr>
+<tr>
+<td><strong>Outcomes</strong></td>
+<td>Offer (May 2026, rated difficult); selected (Mumbai 2025); 1 not selected</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Case study:</strong> you get a classification dataset, build a model, then <strong>defend it</strong> in the debrief.</li>
+<li><strong>Final round:</strong> puzzles and guesstimates (consulting DNA) plus GenAI concepts and AI frameworks.</li>
+<li>ZS is a pharma and healthcare analytics leader, so domain examples help.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">What is the difference between linear and logistic regression?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><table>
+<thead>
+<tr>
+<th></th>
+<th>Linear regression</th>
+<th>Logistic regression</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Target</td>
+<td>Continuous</td>
+<td>Binary (or multi-class with softmax)</td>
+</tr>
+<tr>
+<td>Output</td>
+<td>ŷ = wᵀx + b, unbounded</td>
+<td>p = σ(wᵀx + b) in (0, 1)</td>
+</tr>
+<tr>
+<td>Loss</td>
+<td>MSE (least squares)</td>
+<td>Log-loss (cross-entropy)</td>
+</tr>
+<tr>
+<td>Interpretation</td>
+<td>Coefficient = change in y</td>
+<td>Coefficient = change in <strong>log-odds</strong> (exp → odds ratio)</td>
+</tr>
+<tr>
+<td>Assumptions</td>
+<td>Linearity, homoscedastic errors</td>
+<td>Linear in the log-odds; independent observations</td>
+</tr>
+</tbody>
+</table></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Why is ReLU preferred in neural networks?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>No saturation for positive inputs:</strong> the gradient is 1, which avoids the vanishing gradients of sigmoid and tanh, so deep networks train faster.</li>
+<li><strong>Cheap</strong> to compute (max(0, x)), and produces <strong>sparse activations</strong>.</li>
+<li><strong>Downside:</strong> "dying ReLU" (units stuck at 0). Fixes are Leaky ReLU, PReLU, ELU and GELU/SiLU (used in Transformers), plus a good initialisation (He) and learning rate.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Precision vs recall: when do you prioritise each? (Give a pharma example.)</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Precision:</strong> when false positives are costly. For example, flagging physicians for an expensive field-sales visit means we want flagged doctors to really be high-potential.</li>
+<li><strong>Recall:</strong> when misses are costly. For example, detecting adverse-event mentions in medical text, where missing one is a compliance risk.</li>
+<li><strong>Balance</strong> with F1 or a cost-weighted threshold, and show the precision-recall curve to stakeholders so they can choose the operating point.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">How do you evaluate a RAG application?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Retrieval:</strong> recall@k, MRR, context precision (are the retrieved chunks relevant?).</li>
+<li><strong>Generation:</strong> <strong>faithfulness</strong> (claims supported by the context), answer relevance, correctness against ground truth.</li>
+<li><strong>Tools:</strong> RAGAS, DeepEval, TruLens, LangSmith evaluations; a golden set of 100+ questions written with domain experts.</li>
+<li><strong>Online:</strong> user feedback, citation click-through, escalation rate, latency and cost.</li>
+<li><strong>Regression testing:</strong> re-run the suite on every prompt, model or index change.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">What is MLflow and how do you use it?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>An open-source platform for the ML lifecycle:</li>
+<li><strong>Tracking:</strong> log parameters, metrics and artefacts per run, and compare experiments.</li>
+<li><strong>Projects:</strong> reproducible runs.</li>
+<li><strong>Models:</strong> a standard packaging format, served via REST.</li>
+<li><strong>Model Registry:</strong> versions plus stages (staging/production), approvals and lineage.</li>
+<li><strong>Usage:</strong> <code>mlflow.autolog()</code> in training, register the best model, and deploy from the registry in CI/CD. Newer versions also trace and evaluate LLM apps.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">How do you treat outliers in a modelling dataset?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Investigate first:</strong> an error (fix or remove) or a real extreme (keep it; it may be important).</li>
+<li><strong>Detect:</strong> IQR rule, z-score (on roughly normal data), visual checks, Isolation Forest for multivariate outliers.</li>
+<li><strong>Treat:</strong> cap/winsorise, log transform, robust scalers or losses (Huber), tree-based models.</li>
+<li><strong>Document</strong> the impact on metrics, and never "clean away" the signal you're trying to predict.</li>
+</ul></div></div></div>
+<div class="qa" id="q7"><div class="qa-h"><span class="qa-n">Q7</span><div class="qa-q">Guesstimate: how many diabetes patients visit endocrinologists in Bengaluru each month?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Answer (show your structure):</strong></p>
+<ul>
+<li>Bengaluru population about 1.4 crore → adults about 70% ≈ 98 lakh.</li>
+<li>Diabetes prevalence in urban adults about 12% → about 11.8 lakh diabetics; about 60% diagnosed ≈ 7 lakh.</li>
+<li>Share seeing an <strong>endocrinologist</strong> (rather than a GP) about 20% ≈ 1.4 lakh patients; visits every 3 months → <strong>about 47,000 visits a month</strong>.</li>
+<li>State your assumptions and sanity-check them: about 300 endocrinologists × about 160 visits a month ≈ 48,000. That matches.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare-for-zs"><span class="n">03</span>How to prepare for ZS</h2><ul>
+<li>Practise a <strong>2–3 hour classification case</strong>: clean, model, evaluate, then present your choices clearly.</li>
+<li>Revise ML basics and SQL; prepare puzzles and guesstimates.</li>
+<li>Know RAG evaluation and MLflow. GenAI is now part of the final round.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.glassdoor.com/Interview/ZS-Associates-Interview-E115506-RVW102980959.htm">Glassdoor: ZS Associates Advance Data Science Associate, Bengaluru (2026)</a></li>
+<li><a href="https://www.glassdoor.ie/Interview/ZS-Associates-Interview-E115506-RVW97853647.htm">Glassdoor: ZS Associates Mumbai and campus reports (2025)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-zs-associates"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

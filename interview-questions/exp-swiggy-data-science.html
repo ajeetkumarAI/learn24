@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Swiggy: Data Science (Campus 2025) · Company Interview Questions · Learn24</title>
+<meta name="description" content="Swiggy: Data Science (Campus 2025): 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Swiggy: Data Science (Campus 2025) · Learn24">
+<meta property="og:description" content="Swiggy: Data Science (Campus 2025): 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-swiggy-data-science" data-lesson="interview-questions/exp-swiggy-data-science">
+  <div class="kicker">Company Interview Questions · Product &amp; Retail Tech</div>
+  <h1>Swiggy: Data Science (Campus 2025)</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 Swiggy</span><span>🆕 Recent reports</span></div>
+  <p class="lead">Swiggy: Data Science Interview Experience (Campus, 2025). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from a public candidate report for a Swiggy <strong>Data Science Intern</strong> role through on-campus hiring at an IIIT (August 2025) and a public Swiggy ML Engineer question guide. The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Data Science Intern (campus); Data Scientist 1 / ML Engineer (guides)</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>Resume shortlist → Python + SQL interview (1 each) → technical deep dive with a DS-II (regularisation, ML concepts tied to projects) → HR (design an <strong>autocomplete / search</strong> feature)</td>
+</tr>
+<tr>
+<td><strong>Outcome</strong></td>
+<td>Not selected; no feedback received</td>
+</tr>
+<tr>
+<td><strong>Domain</strong></td>
+<td>Delivery-time prediction, search and ranking, dynamic pricing, fraud (Dine-Out / Instamart)</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Python + SQL:</strong> one problem each, practical and medium level.</li>
+<li><strong>Technical:</strong> verbal ML depth connected to your projects (regularisation, bias-variance, metrics).</li>
+<li><strong>HR with a twist:</strong> even this round had a design question: autocomplete with a <strong>prefix trie</strong>.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Design an autocomplete for Swiggy search (restaurants and dishes).</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Data structure:</strong> a <strong>trie</strong> of normalised queries, where each node stores the top-k completions by popularity. Lookup is O(prefix length).</li>
+<li><strong>Ranking signals:</strong> global popularity, <strong>location</strong> (only serviceable restaurants nearby), time of day, the user's history, open/closed status, freshness of trends.</li>
+<li><strong>Robustness:</strong> typo tolerance (edit distance or n-gram index), transliteration ("paneer" vs "panir"), synonyms ("biryani" ≈ "biriyani").</li>
+<li><strong>Serving:</strong> precomputed top-k per prefix per city in Redis; a latency budget under 50 ms; update the counts in near real time from logs.</li>
+<li><strong>Evaluation:</strong> keystrokes saved, CTR on suggestions, search-to-order conversion; A/B test ranking changes.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Explain L1 vs L2 regularisation and when to use each.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>L2 (Ridge):</strong> penalty λΣw². Shrinks weights smoothly and handles correlated features. The usual default.</li>
+<li><strong>L1 (Lasso):</strong> penalty λΣ|w|. Produces <strong>sparse</strong> weights (feature selection), good with many irrelevant features.</li>
+<li><strong>Elastic Net</strong> mixes both. In neural networks, <strong>weight decay</strong> (L2) plus dropout.</li>
+<li>Tune λ by cross-validation and standardise features first.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">How would you predict food delivery time (ETA)?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Decompose:</strong> preparation time + rider assignment wait + rider to restaurant + restaurant to customer.</li>
+<li><strong>Features:</strong></li>
+<li>Restaurant prep history by dish and time of day.</li>
+<li>Current kitchen load.</li>
+<li>Rider availability.</li>
+<li>Distance and road-graph ETA.</li>
+<li>Traffic, weather, rain flags.</li>
+<li>Festival days.</li>
+<li><strong>Model:</strong> gradient boosting per component, or one model with quantile loss. Predict <strong>P50 and P90</strong> so you can promise conservatively.</li>
+<li><strong>Metrics:</strong> MAE, plus the share of orders delivered later than promised (customer trust). Monitor by city and zone; retrain often.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">SQL: find each customer&#x27;s most frequently ordered cuisine.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-sql">WITH c AS (
+  SELECT o.customer_id, r.cuisine, COUNT(*) AS n,
+         RANK() OVER (PARTITION BY o.customer_id ORDER BY COUNT(*) DESC) AS rk
+  FROM orders o JOIN restaurants r ON r.restaurant_id = o.restaurant_id
+  GROUP BY o.customer_id, r.cuisine
+)
+SELECT customer_id, cuisine, n FROM c WHERE rk = 1;
+</code></pre>
+<ul>
+<li>A window function over an aggregate works in a single CTE. <code>RANK</code> keeps ties; use <code>ROW_NUMBER</code> to pick exactly one.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">How would you identify genuine customers vs fake or abusive accounts on a dine-in offer?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Signals:</strong> device and payment reuse across accounts, new accounts that redeem immediately, mismatches between location and restaurant, repeated maximum-discount bills, reviews posted only by linked accounts.</li>
+<li><strong>Methods:</strong> velocity rules, a <strong>graph</strong> of shared identifiers (connected components), an anomaly score, then a supervised model once labels exist.</li>
+<li><strong>Action:</strong> limit offers for risky clusters and require verification. Measure the false-positive impact on genuine users.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Python: return the top-k most-ordered dishes from a list of orders.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">from collections import Counter
+def top_dishes(orders, k=3):
+    return Counter(d for o in orders for d in o[&quot;items&quot;]).most_common(k)
+</code></pre>
+<ul>
+<li>O(n) to count plus O(m log k) for the top k. Mention streaming with a heap if the data is huge.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare-for-swiggy"><span class="n">03</span>How to prepare for Swiggy</h2><ul>
+<li>Practise <strong>search, ranking and ETA</strong> design, which is core to food-tech.</li>
+<li>Be strong on ML fundamentals tied to your own projects.</li>
+<li>Medium SQL with window functions; easy–medium Python.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://leetcode.com/discuss/interview-experience/7047478">LeetCode Discuss: Swiggy Data Science (on-campus, Aug 2025)</a></li>
+<li><a href="https://www.interviewquery.com/interview-guides/swiggy-machine-learning-engineer">Interview Query: Swiggy ML Engineer guide</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-swiggy-data-science"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

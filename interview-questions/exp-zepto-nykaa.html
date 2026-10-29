@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Zepto &amp; Nykaa: Data Scientist / Engineering · Company Interview Questions · Learn24</title>
+<meta name="description" content="Zepto &amp; Nykaa: Data Scientist / Engineering: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Zepto &amp; Nykaa: Data Scientist / Engineering · Learn24">
+<meta property="og:description" content="Zepto &amp; Nykaa: Data Scientist / Engineering: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-zepto-nykaa" data-lesson="interview-questions/exp-zepto-nykaa">
+  <div class="kicker">Company Interview Questions · Product &amp; Retail Tech</div>
+  <h1>Zepto &amp; Nykaa: Data Scientist / Engineering</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 Zepto &amp; Nykaa</span><span>🆕 Recent reports</span></div>
+  <p class="lead">Zepto &amp; Nykaa: Data Scientist / Engineering Interview Experiences (2025–26). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from a public Zepto <strong>Data Scientist</strong> report (August 2025, offer declined: an EDA + modelling task on product data) and a public Nykaa SDE-1 report (Gurgaon, March 2026) that shows the coding bar. The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Zepto</th>
+<th>Nykaa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Data Scientist</td>
+<td>SDE-1 Backend (tech bar reference)</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>Hands-on: <strong>EDA on a dataset (product ID, rating, brand, return rate) → build a model</strong> + why Zepto</td>
+<td>Round 1: merge two sorted arrays; the interviewer wanted only the optimal approach</td>
+</tr>
+<tr>
+<td><strong>Outcome</strong></td>
+<td>Offer received, declined</td>
+<td>Not selected</td>
+</tr>
+<tr>
+<td><strong>Domain</strong></td>
+<td>Quick commerce: demand forecasting per dark store, ETA, assortment, returns</td>
+<td>Beauty e-commerce: recommendations, search, personalisation</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Quick commerce DS</strong> is very practical: messy product data, fast EDA, a sensible model and <strong>business takeaways</strong>.</li>
+<li><strong>Coding rounds:</strong> go straight to the optimal solution when asked, and explain trade-offs briefly.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Zepto task: EDA on products (product ID, rating, brand, return rate), then build a model. What would you do?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">import pandas as pd, numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.metrics import mean_absolute_error
+df = pd.read_csv(&quot;products.csv&quot;)
+print(df.describe(), df.isna().mean(), df.brand.value_counts().head(10), sep=&quot;\n&quot;)
+print(df.groupby(&quot;brand&quot;)[&quot;return_rate&quot;].agg([&quot;mean&quot;, &quot;count&quot;]).query(&quot;count &gt;= 20&quot;).sort_values(&quot;mean&quot;).tail(10))
+print(df[[&quot;rating&quot;, &quot;return_rate&quot;]].corr())
+# model: predict return rate from rating + brand (target-encoded with smoothing) to flag risky listings
+brand_stats = df.groupby(&quot;brand&quot;)[&quot;return_rate&quot;].agg([&quot;mean&quot;, &quot;count&quot;]); gm = df.return_rate.mean()
+df[&quot;brand_te&quot;] = df.brand.map((brand_stats[&quot;mean&quot;] * brand_stats[&quot;count&quot;] + gm * 20) / (brand_stats[&quot;count&quot;] + 20))
+X, y = df[[&quot;rating&quot;, &quot;brand_te&quot;]], df[&quot;return_rate&quot;]
+Xtr, Xte, ytr, yte = train_test_split(X, y, test_size=.2, random_state=0)
+m = GradientBoostingRegressor().fit(Xtr, ytr); print(&quot;MAE&quot;, mean_absolute_error(yte, m.predict(Xte)))
+</code></pre>
+<ul>
+<li><strong>Framing:</strong> predict the <strong>return rate</strong> (or a high-return flag) to act on: delist, fix product descriptions, renegotiate with brands.</li>
+<li><strong>Note:</strong> target encoding must be computed <strong>inside the CV folds</strong> to avoid leakage. The quick version above is for illustration; say so in the interview.</li>
+<li><strong>Insights to present:</strong> brands with high return rates and low ratings, the rating–return correlation, and recommended actions.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Why do you want to join Zepto?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>"Quick commerce is an ML-dense business. Ten-minute delivery depends on accurate <strong>dark-store demand forecasts</strong>, assortment, rider ETAs and dynamic pricing. Small model gains turn directly into fresher stock, less waste and faster delivery."</li>
+<li>Show that you know the operations (dark stores, SKU counts, peak hours) and what you would improve first.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Forecast hourly demand per SKU per dark store. How?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Features:</strong> hour of day, day of week, holidays, weather/rain, promotions, price, local events, recent sales lags, stock-outs (censored demand).</li>
+<li><strong>Model:</strong> a global LightGBM across SKU-store series with hierarchical reconciliation; quantile predictions (P50/P90) drive <strong>safety stock</strong>.</li>
+<li><strong>Decisions:</strong> replenishment orders and the assortment per store. Evaluate on <strong>WAPE</strong> plus business metrics (stock-out rate, wastage for perishables).</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Merge two sorted arrays in place (nums1 has room at the end).</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">def merge(nums1, m, nums2, n):
+    i, j, k = m - 1, n - 1, m + n - 1
+    while j &gt;= 0:
+        if i &gt;= 0 and nums1[i] &gt; nums2[j]: nums1[k] = nums1[i]; i -= 1
+        else: nums1[k] = nums2[j]; j -= 1
+        k -= 1
+</code></pre>
+<ul>
+<li><strong>Fill from the back:</strong> O(m + n) time, O(1) extra space. That is the optimal answer the interviewer wanted.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Design product recommendations for a beauty e-commerce app (Nykaa-style).</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Signals:</strong> skin type and tone, concerns (from a profile or quiz), browsing and purchase history, ratings and reviews, price affinity, brand loyalty, replenishment cycles (repeat purchases).</li>
+<li><strong>Approaches:</strong> "frequently bought together" (co-purchase), embeddings of products from descriptions and images, a personalised ranker; <strong>replenishment reminders</strong> timed to usage (a 60-day serum).</li>
+<li><strong>Constraints:</strong> cold start for new launches, shade matching (avoid wrong-shade returns), sponsored placements balanced against relevance.</li>
+<li><strong>Metrics:</strong> conversion, AOV, repeat rate, <strong>return rate</strong>.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">How do you handle a high return rate as a data scientist?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Diagnose:</strong> returns by reason code, product, brand, size/shade, seller, delivery delay, customer segment.</li>
+<li><strong>Models:</strong> a return-risk score per order (pre-dispatch) or per listing.</li>
+<li><strong>Actions:</strong> better size/shade guidance, image and description fixes, seller quality programmes, policy tweaks for serial returners. A/B test them.</li>
+<li><strong>Measure:</strong> return rate, net revenue after returns, customer satisfaction.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare"><span class="n">03</span>How to prepare</h2><ul>
+<li><strong>Zepto:</strong> a fast, clean EDA → model → business insight workflow on product and order data; forecasting for dark stores.</li>
+<li><strong>Nykaa:</strong> optimal-solution DSA and personalisation/recommendation design.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.glassdoor.co.nz/Interview/Zepto-Interview-E4152210-RVW99166129.htm">Glassdoor: Zepto Data Scientist (Aug 2025)</a></li>
+<li><a href="https://www.glassdoor.co.in/Interview/Nykaa-Interview-E3950094-RVW103244131.htm">Glassdoor: Nykaa SDE-1 (Mar 2026)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-zepto-nykaa"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

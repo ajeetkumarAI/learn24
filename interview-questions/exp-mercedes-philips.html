@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mercedes-Benz R&amp;D India &amp; Philips: AI / Data Scientist · Company Interview Questions · Learn24</title>
+<meta name="description" content="Mercedes-Benz R&amp;D India &amp; Philips: AI / Data Scientist: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Mercedes-Benz R&amp;D India &amp; Philips: AI / Data Scientist · Learn24">
+<meta property="og:description" content="Mercedes-Benz R&amp;D India &amp; Philips: AI / Data Scientist: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-mercedes-philips" data-lesson="interview-questions/exp-mercedes-philips">
+  <div class="kicker">Company Interview Questions · Telecom, Auto &amp; Industry</div>
+  <h1>Mercedes-Benz R&amp;D India &amp; Philips: AI / Data Scientist</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 Mercedes-Benz R&amp;D &amp; Philips</span><span>🆕 Recent reports</span></div>
+  <p class="lead">Mercedes-Benz R&amp;D India &amp; Philips: AI / Data Scientist Interviews. Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from a public Mercedes-Benz Research and Development India (MBRDI, Bengaluru) report with ML-focused rounds (resume deep dive → domain questions → a scenario on modelling a CNN, with no coding round) and a public Philips Data Scientist process guide. The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Mercedes-Benz R&amp;D India</th>
+<th>Philips</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>AI / Applied Data Scientist (ML-focused report)</td>
+<td>Data Scientist</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>3: resume deep dive → general domain → <strong>scenario: how would you model a CNN?</strong> (no coding)</td>
+<td>Recruiter → technical assessment (MCQ + coding: maths, programming, ML) → technical interviews → managerial → sometimes a <strong>presentation + Q&amp;A</strong></td>
+</tr>
+<tr>
+<td><strong>Reported questions</strong></td>
+<td>What a CNN is, backpropagation, <strong>how to choose the batch size</strong></td>
+<td>Supervised vs unsupervised, overfitting, feature engineering, confusion matrix, CLT, Type I/II, normality checks, longitudinal data, logistic coefficients for categorical variables</td>
+</tr>
+<tr>
+<td><strong>Domain</strong></td>
+<td>Driver assistance, perception, in-car voice assistants, manufacturing analytics</td>
+<td>Medical imaging, patient monitoring, healthcare analytics</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Automotive AI:</strong> perception (CNNs and transformers on camera, lidar and radar), safety, edge inference.</li>
+<li><strong>Health-tech:</strong> statistics depth, regulated validation, explaining methods clearly.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Scenario: design a CNN to classify road signs from dash-cam images.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Data:</strong> cropped sign images across lighting, weather and occlusion; class balance; augmentation (brightness, blur, small rotations, <strong>no horizontal flips</strong> for asymmetric signs).</li>
+<li><strong>Model:</strong> a pre-trained lightweight backbone (MobileNet/EfficientNet) for <strong>edge deployment</strong>; replace the head with N classes; fine-tune with AdamW and cosine learning-rate decay.</li>
+<li><strong>Evaluation:</strong> per-class recall (safety-critical classes such as STOP are weighted), a confusion matrix, robustness tests (night, rain), latency on the target hardware.</li>
+<li><strong>Deployment:</strong> quantize to INT8 and validate; monitor field data for drift (new sign designs).</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">How do you choose the batch size?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Memory:</strong> the largest batch that fits on the GPU (activations scale with batch × resolution); gradient accumulation can simulate bigger batches.</li>
+<li><strong>Optimisation:</strong> large batches give smoother gradients and better throughput, but <strong>may generalise worse</strong> and need learning-rate scaling (the linear scaling rule plus warm-up). Small batches add noise that can help generalisation but train more slowly.</li>
+<li><strong>BatchNorm</strong> needs reasonably large batches (or use Group/LayerNorm).</li>
+<li><strong>In practice:</strong> tune the batch size together with the learning rate; common choices are 32–256 for vision fine-tuning.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Philips: how do you check whether data is normally distributed?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Visual:</strong> a histogram/KDE and a <strong>Q-Q plot</strong> (points on the line suggest normality).</li>
+<li><strong>Tests:</strong> Shapiro–Wilk (small n), D'Agostino K², Anderson–Darling. With large samples, tiny deviations become "significant", so rely more on plots and effect size.</li>
+<li><strong>If not normal:</strong> transform (log, Box-Cox), use non-parametric tests (Mann–Whitney, Wilcoxon) or bootstrap.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">How do you interpret logistic regression coefficients for a categorical variable?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>One-hot encode with a <strong>reference category</strong>. Each coefficient β is the change in <strong>log-odds</strong> relative to the reference, holding other variables constant.</li>
+<li>exp(β) is the <strong>odds ratio</strong>. For example, β = 0.69 for "smoker" vs "non-smoker" means about 2× the odds of the outcome.</li>
+<li>Check the confidence intervals; changing the reference category changes the coefficients, but not the model's predictions.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">How do you handle longitudinal (repeated-measures) patient data?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Don't treat visits as independent</strong> (that underestimates the variance and leaks across splits). Split <strong>by patient</strong>.</li>
+<li><strong>Models:</strong></li>
+<li>Mixed-effects models (random intercepts and slopes per patient).</li>
+<li>GEE.</li>
+<li>Survival models for time-to-event.</li>
+<li>Sequence models (RNN/Transformer) for event histories.</li>
+<li><strong>Missing visits:</strong> distinguish missing-at-random from dropout due to health status; use multiple imputation or models that handle irregular time.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">What does a confusion matrix tell you, and which metrics come from it?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>A table of actual vs predicted classes: <strong>TP, FP, FN, TN</strong> (N×N for multi-class).</li>
+<li><strong>Metrics:</strong></li>
+<li>Accuracy.</li>
+<li>Precision.</li>
+<li><strong>Recall / sensitivity.</strong></li>
+<li><strong>Specificity</strong> (TN/(TN+FP)), which is important in medicine.</li>
+<li>F1.</li>
+<li>Positive and negative predictive values, which depend on prevalence.</li>
+<li>Use it to spot <strong>which classes get confused</strong> and to set thresholds based on clinical cost.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare"><span class="n">03</span>How to prepare</h2><ul>
+<li><strong>MBRDI:</strong> CNN design and training choices (batch size, augmentation, edge deployment) and backprop fundamentals.</li>
+<li><strong>Philips:</strong> statistics depth (normality, CLT, errors, longitudinal data) and a project presentation.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.glassdoor.com/Interview/Mercedes-Benz-Research-and-Development-India-Interview-E237590-RVW98337695.htm">Glassdoor: Mercedes-Benz R&amp;D India interview reviews</a></li>
+<li><a href="https://www.interviewquery.com/interview-guides/philips-data-scientist">Interview Query: Philips Data Scientist guide</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-mercedes-philips"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cisco &amp; Synopsys: ML / AI Engineer · Company Interview Questions · Learn24</title>
+<meta name="description" content="Cisco &amp; Synopsys: ML / AI Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Cisco &amp; Synopsys: ML / AI Engineer · Learn24">
+<meta property="og:description" content="Cisco &amp; Synopsys: ML / AI Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-cisco-synopsys" data-lesson="interview-questions/exp-cisco-synopsys">
+  <div class="kicker">Company Interview Questions · Semiconductors &amp; Hardware</div>
+  <h1>Cisco &amp; Synopsys: ML / AI Engineer</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 Cisco &amp; Synopsys</span><span>🆕 Recent reports</span></div>
+  <p class="lead">Cisco &amp; Synopsys: ML / AI Engineer Interviews (2025). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from a public Cisco <strong>ML/AI Engineer</strong> report (San Jose, October 2025: one round on DS and LLMs, find the reward calculation in an agent-framework repo, improve SLM reasoning) and a public Synopsys question-bank guide (DSA-heavy, then ML). The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Cisco</th>
+<th>Synopsys</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>ML/AI Engineer</td>
+<td>ML Engineer / Product Engineer – ML</td>
+</tr>
+<tr>
+<td><strong>Format</strong></td>
+<td>One round: DS + LLM concepts + <strong>code-reading task in an agent repo</strong></td>
+<td>Guide: DSA (most questions), ML (churn, feature importance, NN design, recommendations), stats</td>
+</tr>
+<tr>
+<td><strong>Outcome</strong></td>
+<td>Not selected</td>
+<td>Guide-based</td>
+</tr>
+<tr>
+<td><strong>Signal</strong></td>
+<td>Can you navigate <strong>real codebases</strong> and reason about RL/agents?</td>
+<td>EDA and chip-design AI context</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Code reading is a skill:</strong> expect to find things in an unfamiliar repo quickly (search, trace call graphs).</li>
+<li><strong>SLM reasoning:</strong> distillation, RL fine-tuning, prompting and tool use.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Given an agent-framework repository, how do you find where the reward is calculated?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ol>
+<li><strong>Search first:</strong> <code>grep -rn "reward" --include=*.py</code>, plus terms like <code>score</code>, <code>return</code>, <code>advantage</code>.</li>
+<li><strong>Start from the entry point</strong> (training script or <code>main</code>) and follow the loop: environment <code>step()</code> → reward, or trajectory → <strong>reward model / verifier</strong> call.</li>
+<li><strong>Check configs</strong> (YAML) for reward function names, then jump to their definitions in the IDE.</li>
+<li><strong>Confirm by running</strong> a small test with logging or a breakpoint to watch where the reward value is created.
+- Explain your <strong>systematic navigation</strong>; interviewers care about the method as much as finding the line.</li>
+</ol></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">How would you make a small language model (SLM) better at reasoning?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Distillation:</strong> fine-tune on <strong>reasoning traces</strong> (chain of thought) from a larger teacher model; filter for correct answers (rejection sampling).</li>
+<li><strong>RL with verifiable rewards:</strong> maths and code tasks with automatic checkers (GRPO/PPO), plus format rewards. Watch for reward hacking.</li>
+<li><strong>Data quality:</strong> curriculum (easy → hard), deduplication, decontamination.</li>
+<li><strong>Inference-time:</strong> self-consistency (majority vote), verifier re-ranking, tool use (a calculator or code interpreter), extra "thinking" tokens.</li>
+<li><strong>Evaluate</strong> on GSM8K, MATH and held-out domain tasks; check the calibration of the final answers.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">How does reward modelling work in RLHF, and what are its pitfalls?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>Train a model to score responses so that r(chosen) &gt; r(rejected) (Bradley–Terry loss) on human preference pairs; then optimise the policy against it with a KL penalty.</li>
+<li><strong>Pitfalls:</strong></li>
+<li><strong>Reward hacking:</strong> exploiting quirks such as length or flattery.</li>
+<li>Distribution shift as the policy improves.</li>
+<li>Noisy or biased preference labels.</li>
+<li>Overoptimisation (Goodhart's law).</li>
+<li><strong>Mitigations:</strong> ensembles, regular reward-model refreshes, length normalisation, human audits.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Feature importance: how do you determine which features matter most?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Model-based:</strong> tree gain or split counts (biased towards high-cardinality features), coefficients for scaled linear models.</li>
+<li><strong>Permutation importance:</strong> the drop in the validation metric when a feature is shuffled. Model-agnostic, but correlated features split the importance.</li>
+<li><strong>SHAP:</strong> consistent per-prediction attributions; global importance is the mean |SHAP|.</li>
+<li><strong>Caveat:</strong> importance is not causality. Check stability across folds and deal with correlated groups.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Where can ML help in chip design (EDA)?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Design-space exploration:</strong> RL or Bayesian optimisation to tune synthesis and place-and-route parameters for power, performance and area.</li>
+<li><strong>Prediction:</strong> estimate timing, congestion and power early, from netlist and graph features (GNNs), to avoid slow full runs.</li>
+<li><strong>Verification:</strong> prioritise test cases, cluster failures, analyse logs with LLMs.</li>
+<li><strong>GenAI copilots:</strong> RTL code assistants, documentation Q&amp;A, script generation for EDA tools.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">DSA: find the k-th largest element in an array.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">import heapq
+def kth_largest(nums, k):
+    h = nums[:k]; heapq.heapify(h)
+    for x in nums[k:]:
+        if x &gt; h[0]: heapq.heapreplace(h, x)
+    return h[0]
+</code></pre>
+<ul>
+<li>A min-heap of size k gives O(n log k). Quickselect averages O(n).</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare"><span class="n">03</span>How to prepare</h2><ul>
+<li><strong>Cisco:</strong> practise <strong>reading unfamiliar code</strong> (agent or RL repos), RLHF and reward basics, SLM improvement strategies.</li>
+<li><strong>Synopsys:</strong> a solid DSA base, ML fundamentals, and awareness of AI in EDA.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.glassdoor.co.in/Interview/Cisco-Interview-E1425-RVW100867980.htm">Glassdoor: Cisco ML/AI Engineer (Oct 2025)</a></li>
+<li><a href="https://www.interviewquery.com/interview-guides/synopsys-machine-learning-engineer">Interview Query: Synopsys question guide</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-cisco-synopsys"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

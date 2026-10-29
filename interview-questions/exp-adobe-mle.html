@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Adobe: Machine Learning Engineer · Company Interview Questions · Learn24</title>
+<meta name="description" content="Adobe: Machine Learning Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Adobe: Machine Learning Engineer · Learn24">
+<meta property="og:description" content="Adobe: Machine Learning Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-adobe-mle" data-lesson="interview-questions/exp-adobe-mle">
+  <div class="kicker">Company Interview Questions · Big Tech</div>
+  <h1>Adobe: Machine Learning Engineer</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 Adobe</span><span>🆕 Recent reports</span></div>
+  <p class="lead">Adobe: Machine Learning Engineer Interview Experiences (2025–26). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from public candidate reports for Adobe ML Engineer roles: a full-time MLE (October 2025, offer received and declined) and three MLE Intern reports (San Jose and others, October 2025 – March 2026). The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Roles</strong></td>
+<td>Machine Learning Engineer; MLE Intern</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>HackerRank (90 min: MCQs + 1 problem-solving + <strong>2 ML coding tasks</strong>, 30 min each) → technical interview (75 min: resume + hands-on) → behavioural</td>
+</tr>
+<tr>
+<td><strong>Reported tasks</strong></td>
+<td>Build a DNN for <strong>image classification</strong> and one for <strong>phrase classification</strong>; <strong>implement KNN from scratch</strong> in a plain text area; easy LeetCode + maths</td>
+</tr>
+<tr>
+<td><strong>Outcome</strong></td>
+<td>Full-time: offer (declined); interns: no offers in these reports</td>
+</tr>
+<tr>
+<td><strong>Insight</strong></td>
+<td>The full-time candidate felt "LeetCode-only" prep is outdated and <strong>domain judgement</strong> matters more</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Practical ML coding</strong> under time limits: be fluent in PyTorch or Keras for a quick classifier.</li>
+<li>Writing code <strong>without an IDE</strong> (a text area) is common, so practise from memory.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">In 30 minutes, build an image classifier (PyTorch). What&#x27;s your minimal, correct approach?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">import torch, torch.nn as nn, torchvision as tv
+from torch.utils.data import DataLoader
+
+tf = tv.transforms.Compose([tv.transforms.Resize((64, 64)), tv.transforms.ToTensor(),
+                            tv.transforms.Normalize([.5] * 3, [.5] * 3)])
+train = tv.datasets.ImageFolder(&quot;data/train&quot;, tf); val = tv.datasets.ImageFolder(&quot;data/val&quot;, tf)
+dl, vl = DataLoader(train, 64, shuffle=True), DataLoader(val, 128)
+model = tv.models.resnet18(weights=&quot;IMAGENET1K_V1&quot;); model.fc = nn.Linear(512, len(train.classes))   # transfer learning
+opt, lossf = torch.optim.AdamW(model.parameters(), 1e-3), nn.CrossEntropyLoss()
+for epoch in range(3):
+    model.train()
+    for x, y in dl:
+        opt.zero_grad(); lossf(model(x), y).backward(); opt.step()
+    model.eval(); correct = total = 0
+    with torch.no_grad():
+        for x, y in vl: correct += (model(x).argmax(1) == y).sum().item(); total += len(y)
+    print(epoch, correct / total)
+</code></pre>
+<ul>
+<li><strong>Transfer learning</strong> from a pre-trained backbone is the fastest route to good accuracy. Mention augmentation, a learning-rate schedule and class imbalance if you have time.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Build a phrase (text) classifier quickly. What would you do?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Baseline (2 minutes):</strong> TF-IDF + logistic regression. It is often strong.</li>
+<li><strong>DNN:</strong> an embedding layer → mean pool (or a BiLSTM/CNN) → dense → softmax. Or <strong>fine-tune DistilBERT</strong> if a GPU and time allow.</li>
+</ul>
+<pre><code class="language-python">import torch.nn as nn
+class TextClf(nn.Module):
+    def __init__(self, vocab, n_cls, d=128):
+        super().__init__(); self.emb = nn.EmbeddingBag(vocab, d, mode=&quot;mean&quot;); self.fc = nn.Linear(d, n_cls)
+    def forward(self, ids, offsets): return self.fc(self.emb(ids, offsets))
+</code></pre>
+<ul>
+<li>Report macro-F1 for imbalanced classes and show a confusion matrix.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Implement KNN from scratch (by hand, no IDE).</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">import numpy as np
+from collections import Counter
+
+def knn(Xtr, ytr, Xte, k=3):
+    out = []
+    for x in Xte:
+        d = np.linalg.norm(Xtr - x, axis=1)
+        nn_idx = np.argsort(d)[:k]
+        out.append(Counter(ytr[nn_idx]).most_common(1)[0][0])
+    return np.array(out)
+</code></pre>
+<ul>
+<li>State the complexity (O(n·d) per query), the need to <strong>scale features</strong>, choosing k, ties, and faster search (KD-tree, FAISS).</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">How does Adobe-style generative AI (e.g. Firefly) differ from generic image generation? What would you consider as an MLE?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Commercially safe training data</strong> (licensed or owned content) and <strong>content credentials</strong> (C2PA provenance) are key differentiators.</li>
+<li><strong>Controllability:</strong> inpainting, outpainting, style and structure reference, editing that fits creative workflows (Photoshop's Generative Fill).</li>
+<li><strong>MLE concerns:</strong></li>
+<li>Latency and cost of diffusion inference: fewer sampling steps, distillation (LCM, consistency models), batching, GPU scheduling.</li>
+<li>Safety filters.</li>
+<li>Evaluation (FID/CLIP score plus human creative ratings).</li>
+<li>Personalisation without leaking IP.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Why might pure LeetCode prep be insufficient for an ML engineer role, and what is &quot;domain judgement&quot;?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>Real ML work depends on <strong>choosing the right problem framing, data, metrics and trade-offs</strong>: knowing when a simple model wins, spotting leakage, defining the evaluation and planning deployment.</li>
+<li><strong>Domain judgement</strong> means connecting the ML to the product (for creative tools: user intent, quality perception, latency tolerance), and <strong>debugging models</strong> (error analysis, data issues).</li>
+<li>Prepare <strong>ML case discussions</strong> and past-project trade-offs, not just algorithms.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Behavioural: what did you do in your previous role, and where do you want to be in 3 years?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Past:</strong> a concise impact story with metrics (2–3 minutes). Highlight a decision you owned.</li>
+<li><strong>Future:</strong> "Grow into an ML engineer who owns end-to-end features: model, serving and evaluation. I'm especially interested in generative imaging and the inference efficiency that makes it usable inside creative apps."</li>
+<li>Tie your goals to <strong>Adobe's products</strong> (Firefly, Express, Document Cloud AI Assistant).</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare-for-adobe"><span class="n">03</span>How to prepare for Adobe</h2><ul>
+<li>Practise <strong>30-minute ML builds</strong> (an image classifier and a text classifier) from memory.</li>
+<li>Write KNN, logistic regression and k-means by hand.</li>
+<li>Prepare to discuss creative-AI product trade-offs and generative-model inference.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.jointaro.com/interviews/companies/adobe/experiences/machine-learning-engineer-october-10-2025-declined-offer-positive-8cd590c4">Taro: Adobe Machine Learning Engineer (Oct 2025, offer)</a></li>
+<li><a href="https://www.glassdoor.co.in/Interview/Adobe-Interview-E1090-RVW103333007.htm">Glassdoor: Adobe MLE Intern reviews (2025–26)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-adobe-mle"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

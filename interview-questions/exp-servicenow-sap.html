@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ServiceNow &amp; SAP Labs: ML / AI Engineer · Company Interview Questions · Learn24</title>
+<meta name="description" content="ServiceNow &amp; SAP Labs: ML / AI Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="ServiceNow &amp; SAP Labs: ML / AI Engineer · Learn24">
+<meta property="og:description" content="ServiceNow &amp; SAP Labs: ML / AI Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-servicenow-sap" data-lesson="interview-questions/exp-servicenow-sap">
+  <div class="kicker">Company Interview Questions · SaaS &amp; Enterprise Software</div>
+  <h1>ServiceNow &amp; SAP Labs: ML / AI Engineer</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 ServiceNow &amp; SAP Labs</span><span>🆕 Recent reports</span></div>
+  <p class="lead">ServiceNow &amp; SAP Labs: ML / AI Engineer Interview Experiences (2025–26). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from public candidate reports: ServiceNow <strong>Senior ML Engineer</strong> (Hyderabad, July 2025: went straight to Python coding with a stock-selection profit problem) and SAP <strong>Software Engineer</strong> reports (Mangalore, 2025, with an AI/ML resume; 2026, where AI and RAG projects mattered). The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>ServiceNow</th>
+<th>SAP Labs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Senior Machine Learning Engineer</td>
+<td>Software Engineer (AI/ML profile); AI developer roles</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>Python coding first (one candidate got no ML/NLP/GenAI questions)</td>
+<td>Online assessment (2 basic array/string problems) → technical 1 (screen-share your project + ML basics) → technical 2 → managerial (SAP products: S/4HANA, ERP)</td>
+</tr>
+<tr>
+<td><strong>Outcome</strong></td>
+<td>Not selected (rated negative)</td>
+<td>Mixed; "candidates with <strong>built AI projects</strong> have a better chance"</td>
+</tr>
+<tr>
+<td><strong>Domain</strong></td>
+<td>Now Assist (GenAI for ITSM), agentic workflows</td>
+<td>Joule copilot, Business AI on ERP data</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Enterprise SaaS AI:</strong> copilots inside workflows (tickets, HR cases, ERP processes), with strict permissions.</li>
+<li>Coding can dominate even senior ML loops, so keep Python DSA sharp.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">ServiceNow coding: choose stocks to maximise profit within a budget (each stock has a cost and an expected profit).</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">def max_profit(costs, profits, budget):          # 0/1 knapsack
+    dp = [0] * (budget + 1)
+    for c, p in zip(costs, profits):
+        for b in range(budget, c - 1, -1):
+            dp[b] = max(dp[b], dp[b - c] + p)
+    return dp[budget]
+print(max_profit([5, 4, 6, 3], [10, 40, 30, 50], 10))   # 90
+</code></pre>
+<ul>
+<li>This is <strong>0/1 knapsack</strong>: O(n·B) time, O(B) space. If the problem is instead "buy and sell one stock over time", it is a single pass tracking the minimum price.</li>
+<li><strong>Clarify assumptions first</strong> (integer costs? one share each?). The candidate's frustration came from mismatched assumptions.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">How would you build a GenAI assistant that resolves IT tickets automatically?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Inputs:</strong> the ticket text, the user's role, CMDB (asset) data, past resolved tickets, the knowledge base.</li>
+<li><strong>Flow:</strong>
+  1. Classify the category and priority.
+  2. Retrieve similar resolved tickets and KB articles (hybrid search).
+  3. Draft a resolution or a suggested action.
+  4. For <strong>safe automations</strong> (password reset, access request), call workflow tools <strong>with approval policies</strong>.</li>
+<li><strong>Guardrails:</strong> role-based tool permissions, a human agent in the loop for changes, an audit trail.</li>
+<li><strong>Metrics:</strong> deflection rate, mean time to resolve, reopen rate, agent acceptance of suggestions.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">SAP: explain the types of machine learning with business examples.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Supervised:</strong> predict labelled outcomes, such as invoice approval (classification) or demand forecasting (regression).</li>
+<li><strong>Unsupervised:</strong> find structure, such as vendor clustering or anomaly detection in journal entries.</li>
+<li><strong>Reinforcement:</strong> learn by reward, such as inventory replenishment policies or dynamic pricing.</li>
+<li><strong>Self-supervised / foundation models:</strong> LLMs for document understanding, a copilot over ERP data.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">How do you ground an LLM copilot on ERP data safely?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Structured data:</strong> use <strong>tools/APIs</strong> (OData services) or text-to-SQL over a curated semantic layer, rather than dumping tables into prompts.</li>
+<li><strong>Unstructured data:</strong> RAG over policies and documentation.</li>
+<li><strong>Authorisation:</strong> enforce the <strong>user's existing business roles</strong> on every tool call; never give the model broader access than the user has.</li>
+<li><strong>Accuracy:</strong> calculations go through deterministic services; answers cite the source records; confirmation before posting transactions.</li>
+<li><strong>Compliance:</strong> data residency, audit logs, no customer data used for training without consent.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Walk through your project on a screen share. How do you make it effective?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>Open with <strong>a 30-second summary</strong> (problem, users, result), then show the <strong>architecture diagram</strong>, then a <strong>live demo</strong> of the core flow, then the code for one interesting part (for example, the retrieval logic).</li>
+<li>Have a fallback (screenshots or video) if the demo fails. Know your repo structure well enough to navigate instantly.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">What do you know about S/4HANA, and why might that matter for an AI role at SAP?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>S/4HANA</strong> is SAP's ERP suite on the in-memory HANA database, covering finance, supply chain, procurement and manufacturing.</li>
+<li><strong>For AI:</strong> it is the system of record that copilots and predictions act on (cash-flow forecasting, invoice matching, supply-risk prediction). Understanding <strong>business processes</strong> (order-to-cash, procure-to-pay) lets you build AI that fits real workflows.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare"><span class="n">03</span>How to prepare</h2><ul>
+<li><strong>ServiceNow:</strong> Python DSA (DP/knapsack, arrays), and be ready to clarify problem assumptions.</li>
+<li><strong>SAP:</strong> a built AI/RAG project you can demo, ML basics, and basic knowledge of SAP products and processes.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.jointaro.com/interviews/companies/servicenow/experiences/senior-machine-learning-engineer-hyderabad-july-1-2025-no-offer-negative-bedb342e">Taro: ServiceNow Senior MLE, Hyderabad (Jul 2025)</a></li>
+<li><a href="https://www.glassdoor.co.uk/Interview/SAP-Interview-E10471-RVW101389282.htm">Glassdoor: SAP Software Engineer reviews (AI/ML profiles, 2025–26)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-servicenow-sap"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

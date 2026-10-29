@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PhonePe: Decision Scientist · Company Interview Questions · Learn24</title>
+<meta name="description" content="PhonePe: Decision Scientist: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="PhonePe: Decision Scientist · Learn24">
+<meta property="og:description" content="PhonePe: Decision Scientist: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-phonepe-decision-scientist" data-lesson="interview-questions/exp-phonepe-decision-scientist">
+  <div class="kicker">Company Interview Questions · Banking &amp; Fintech</div>
+  <h1>PhonePe: Decision Scientist</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 PhonePe</span><span>🆕 Recent reports</span></div>
+  <p class="lead">PhonePe: Decision Scientist Interview Experiences (2024–25). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from public candidate reports for PhonePe Decision Scientist roles: Bengaluru (September 2024, 3 rounds) and July 2025 (5 rounds: SQL coding + 4 interviews). The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Decision Scientist (data science / analytics)</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>SQL coding → technical (SQL + resume) → <strong>root cause analysis (RCA)</strong> + SQL → case studies → associate director (incl. data modelling)</td>
+</tr>
+<tr>
+<td><strong>Reported tasks</strong></td>
+<td>Easy–medium SQL, RCA problems, case studies, <strong>design 5 tables for a BookMyShow-like app</strong></td>
+</tr>
+<tr>
+<td><strong>Outcomes</strong></td>
+<td>Not selected in both reports (rated difficult / negative)</td>
+</tr>
+<tr>
+<td><strong>Lesson</strong></td>
+<td>SQL fluency + structured RCA thinking decide this loop</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>SQL is everywhere:</strong> joins, window functions, aggregations, often under time pressure.</li>
+<li><strong>RCA:</strong> "UPI success rate dropped 2% yesterday. Why?" Structure beats guessing.</li>
+<li><strong>Data modelling:</strong> schema design for a product.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">RCA: UPI payment success rate dropped from 97% to 94% yesterday. How do you investigate?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ol>
+<li><strong>Validate:</strong> a logging or definition change? A partial-day effect? Compare with the same weekday last week.</li>
+<li><strong>Segment the drop:</strong>
+   - <strong>Bank</strong> (issuer or remitter): one bank's server down?
+   - <strong>PSP/app version</strong>, <strong>OS</strong>, <strong>merchant category</strong>, <strong>transaction type</strong> (P2P vs P2M), <strong>amount band</strong>, <strong>geography</strong>, <strong>hour</strong>.</li>
+<li><strong>Error codes:</strong> timeouts vs declines vs "insufficient funds" (user behaviour) vs technical failures.</li>
+<li><strong>External events:</strong> NPCI incidents, bank maintenance windows, festivals with traffic spikes.</li>
+<li><strong>Quantify</strong> each contributor (contribution to the delta), then recommend: route around a failing bank, alert the partner, add retries, fix the app bug.</li>
+<li><strong>Prevent:</strong> anomaly alerts by bank and error code.</li>
+</ol></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Design 5 core tables for a ticket-booking app like BookMyShow.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-sql">users(user_id PK, name, phone UNIQUE, email, city, created_at)
+theatres(theatre_id PK, name, city, address)
+screens_seats(seat_id PK, theatre_id FK, screen_no, row_label, seat_no, seat_type)
+shows(show_id PK, movie_id FK, theatre_id FK, screen_no, start_time, base_price)
+bookings(booking_id PK, user_id FK, show_id FK, status, amount, payment_id, created_at)
+booking_seats(booking_id FK, seat_id FK, show_id FK, PRIMARY KEY(show_id, seat_id))  -- prevents double booking
+</code></pre>
+<ul>
+<li>Plus <code>movies(movie_id, title, language, duration, rating)</code>.</li>
+<li>Explain the <strong>unique (show_id, seat_id)</strong> constraint and seat <strong>locking</strong> with a TTL during payment. Index <code>shows(theatre_id, start_time)</code>.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">SQL: find users whose number of transactions dropped more than 50% month over month.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-sql">WITH m AS (
+  SELECT user_id, DATE_TRUNC('month', txn_time) AS mon, COUNT(*) AS n
+  FROM txns GROUP BY 1, 2
+), w AS (
+  SELECT user_id, mon, n, LAG(n) OVER (PARTITION BY user_id ORDER BY mon) AS prev_n FROM m
+)
+SELECT user_id, mon, prev_n, n
+FROM w WHERE prev_n IS NOT NULL AND n &lt; 0.5 * prev_n;
+</code></pre>
+<ul>
+<li>Note that users with <strong>zero</strong> transactions in a month have no row, so join to a calendar (or user × month grid) to catch full drop-offs.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Case: how would you measure the success of a new cashback campaign?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Goal:</strong> incremental transactions or users, not just total redemptions.</li>
+<li><strong>Design:</strong> a randomised holdout (or geo test); a primary metric (incremental transacting users, GMV); guardrails (cost per incremental user, fraud/abuse, post-campaign retention).</li>
+<li><strong>Analysis:</strong> lift vs holdout with confidence intervals; ROI = incremental margin − cashback cost; check <strong>cannibalisation</strong> and pull-forward effects; segment by new vs existing users.</li>
+<li><strong>Recommendation:</strong> continue for the segments with positive ROI and stop elsewhere.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">How would you detect fraud or abuse in a cashback or referral programme?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Signals:</strong></li>
+<li>Many accounts on one device.</li>
+<li>Shared bank accounts or UPI handles.</li>
+<li>Rapid sign-up → redeem → dormant patterns.</li>
+<li>Circular P2P transfers.</li>
+<li>Emulator or rooted-device flags.</li>
+<li><strong>Methods:</strong> rules for known patterns, a graph (connected components on device/bank/phone links), anomaly scores, and a supervised model once labels exist.</li>
+<li><strong>Actions:</strong> hold rewards for review, set velocity limits, require KYC for higher tiers. Track the false-positive impact on genuine users.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Explain the difference between WHERE and HAVING, and between INNER and LEFT JOIN with a filter.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>WHERE</strong> filters rows <strong>before</strong> aggregation; <strong>HAVING</strong> filters groups <strong>after</strong> aggregation (e.g. <code>HAVING COUNT(*) &gt; 5</code>).</li>
+<li><strong>Pitfall:</strong> <code>LEFT JOIN b ... WHERE b.col = 'x'</code> turns it into an inner join (rows with NULLs are dropped). Put the condition in the <strong>ON</strong> clause to keep the unmatched left rows.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare-for-phonepe"><span class="n">03</span>How to prepare for PhonePe</h2><ul>
+<li>Do daily timed <strong>SQL practice</strong> (window functions, LAG/LEAD, cohorts, deduplication).</li>
+<li>Practise <strong>RCA frameworks</strong> on payment metrics (success rate, GMV, active users).</li>
+<li>Practise schema design for 2–3 consumer apps; know constraints, indexes and locking.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.glassdoor.com/Interview/PhonePe-Interview-E2289138-RVW91125452.htm">Glassdoor: PhonePe Decision Scientist interview reviews (2024–25)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-phonepe-decision-scientist"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

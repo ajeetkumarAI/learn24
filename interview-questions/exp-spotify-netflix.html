@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Spotify &amp; Netflix: Machine Learning Engineer · Company Interview Questions · Learn24</title>
+<meta name="description" content="Spotify &amp; Netflix: Machine Learning Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Spotify &amp; Netflix: Machine Learning Engineer · Learn24">
+<meta property="og:description" content="Spotify &amp; Netflix: Machine Learning Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-spotify-netflix" data-lesson="interview-questions/exp-spotify-netflix">
+  <div class="kicker">Company Interview Questions · Big Tech</div>
+  <h1>Spotify &amp; Netflix: Machine Learning Engineer</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 Spotify &amp; Netflix</span><span>🆕 Recent reports</span></div>
+  <p class="lead">Spotify &amp; Netflix: Machine Learning Engineer Interview Experiences (2025). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from public candidate reports: Spotify <strong>MLE</strong> (London, April 2025: levelled from Senior to MLE2; final round of 5 interviews, mostly case studies) and Netflix <strong>MLE</strong> (United States, January 2025: recruiter call + interview with ML questions and LeetCode-medium coding). The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Spotify</th>
+<th>Netflix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Machine Learning Engineer (MLE2)</td>
+<td>Machine Learning Engineer</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>Recruiter → final loop of 5: <strong>4 case studies + a values interview</strong> (little ML theory, one SQL question)</td>
+<td>Recruiter → interview: general ML + medium coding</td>
+</tr>
+<tr>
+<td><strong>Reported questions</strong></td>
+<td>Backend for an ML recommender; a pipeline ranking the most popular artists per country; <strong>forecast monthly active users</strong>; recommend <strong>one song per user</strong></td>
+<td>ML fundamentals; LeetCode medium</td>
+</tr>
+<tr>
+<td><strong>Outcome</strong></td>
+<td>Not selected</td>
+<td>Not selected (no follow-up)</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Streaming companies</strong> test <strong>recommendation systems, data pipelines and forecasting</strong> through practical case studies.</li>
+<li><strong>Netflix</strong> culture interviews (freedom and responsibility) matter at later stages.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Recommend exactly one song per user per day. How would you design it?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>One slot means very high precision.</strong> Optimise for P(listen &gt; 30 s) × P(save/like), with diversity across days.</li>
+<li><strong>Candidates:</strong> collaborative filtering (user–track embeddings), content audio embeddings, the user's recent genres, new releases from followed artists, and exploration.</li>
+<li><strong>Ranker:</strong> a multi-objective model with features such as user taste vectors, time of day, context (workout, commute), track freshness and popularity.</li>
+<li><strong>Exploration:</strong> a bandit (Thompson sampling) to learn from feedback and avoid repetitive picks; never repeat a recently skipped track.</li>
+<li><strong>Evaluation:</strong> offline replay on logged data (counterfactual); online A/B on listen-through, saves and long-term retention.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Build a data pipeline that ranks the most popular artists in each country daily.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Ingest:</strong> stream events (play, skip, duration, country, artist_id) → Kafka → a raw table partitioned by date.</li>
+<li><strong>Daily batch (Spark or SQL):</strong></li>
+</ul>
+<pre><code class="language-sql">WITH plays AS (
+  SELECT country, artist_id, COUNT(*) AS streams, COUNT(DISTINCT user_id) AS listeners
+  FROM play_events
+  WHERE event_date = DATE '2025-04-01' AND ms_played &gt;= 30000      -- count qualified streams
+  GROUP BY country, artist_id
+)
+SELECT country, artist_id, streams, listeners,
+       RANK() OVER (PARTITION BY country ORDER BY listeners DESC, streams DESC) AS rk
+FROM plays QUALIFY rk &lt;= 50;
+</code></pre>
+<ul>
+<li><strong>Quality:</strong> deduplicate events, filter bots and fraud (stream farming), handle late data, <strong>data quality checks</strong> (volume anomalies).</li>
+<li><strong>Serve:</strong> write to a table and a cache for the "Top Artists" API; backfill and an idempotent rerun strategy.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Forecast monthly active users (MAU).</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Decompose:</strong> MAU = retained users + new users + resurrected users, and forecast each with cohort retention curves and acquisition drivers (marketing spend, seasonality, market launches).</li>
+<li><strong>Models:</strong> cohort-based survival curves plus a time-series model (Prophet or ARIMA) for new users; scenario inputs for planned launches.</li>
+<li><strong>Validate:</strong> backtest; provide intervals; explain the drivers to finance and product.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Design the backend that serves an ML recommendation model.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Offline:</strong> train embeddings and candidate indexes daily; push to a model registry and an <strong>ANN index</strong> (e.g. ScaNN/FAISS).</li>
+<li><strong>Online request:</strong> API → fetch user features (feature store) → candidate retrieval (ANN) → ranking model service (batching, GPU or CPU) → business rules → response, all under 100 ms.</li>
+<li><strong>Caching:</strong> precompute recommendations for most users, compute in real time only on context change.</li>
+<li><strong>Reliability:</strong> fallbacks (popular items), timeouts, canaries; <strong>logging impressions</strong> for training and evaluation.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Netflix: how do you evaluate a recommender beyond accuracy?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Online:</strong> long-term engagement (hours viewed, retention, churn reduction), not just clicks.</li>
+<li><strong>Offline:</strong> NDCG and recall, plus <strong>diversity, novelty, coverage</strong> (long-tail exposure) and calibration to the user's taste mix.</li>
+<li><strong>Interleaving experiments</strong> are more sensitive than A/B for ranking comparisons.</li>
+<li><strong>Guardrails:</strong> no over-concentration on a few titles, fairness to new content.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Coding (medium): design a hit counter for the last 5 minutes.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">from collections import deque
+class HitCounter:
+    def __init__(self, window=300): self.q, self.w = deque(), window
+    def hit(self, t): self.q.append(t)
+    def get_hits(self, t):
+        while self.q and self.q[0] &lt;= t - self.w: self.q.popleft()
+        return len(self.q)
+</code></pre>
+<ul>
+<li>For high volume, use 300 buckets of (timestamp, count) in a circular array, which needs O(1) memory per second.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare"><span class="n">03</span>How to prepare</h2><ul>
+<li><strong>Spotify:</strong> practise <strong>case studies</strong> (recommenders, pipelines, forecasting) end to end, plus SQL.</li>
+<li><strong>Netflix:</strong> ML fundamentals, medium coding, recommendation evaluation, and the culture memo.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.jointaro.com/interviews/companies/spotify/experiences/machine-learning-engineer-london-england-april-1-2025-no-offer-positive-3dcc19df/">Taro: Spotify MLE, London (Apr 2025)</a></li>
+<li><a href="https://www.jointaro.com/interviews/companies/netflix/experiences/machine-learning-engineer-united-states-january-1-2025-no-offer-neutral-b80c174a/">Taro: Netflix MLE, United States (Jan 2025)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-spotify-netflix"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

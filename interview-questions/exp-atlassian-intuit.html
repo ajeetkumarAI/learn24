@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Atlassian &amp; Intuit: Machine Learning Engineer · Company Interview Questions · Learn24</title>
+<meta name="description" content="Atlassian &amp; Intuit: Machine Learning Engineer: 5 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Atlassian &amp; Intuit: Machine Learning Engineer · Learn24">
+<meta property="og:description" content="Atlassian &amp; Intuit: Machine Learning Engineer: 5 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-atlassian-intuit" data-lesson="interview-questions/exp-atlassian-intuit">
+  <div class="kicker">Company Interview Questions · SaaS &amp; Enterprise Software</div>
+  <h1>Atlassian &amp; Intuit: Machine Learning Engineer</h1>
+  <div class="meta"><span>❓ 5 questions</span><span>🏢 Atlassian &amp; Intuit</span><span>🆕 Recent reports</span></div>
+  <p class="lead">Atlassian &amp; Intuit: Machine Learning Engineer Interview Experiences (2025). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from a public Atlassian <strong>MLE II</strong> report (April 2025, employee referral, about 4 weeks) and a public Intuit MLE technical phone-screen summary (project discussion + LeetCode-style coding). The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Atlassian</th>
+<th>Intuit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Machine Learning Engineer II</td>
+<td>Machine Learning Engineer</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>Phase 1 (elimination): ML round = project (30 min) + ML system design (30 min). Phase 2: <strong>DSA coding (60 min, runnable code + unit tests)</strong> + <strong>code design (60 min)</strong> + ML system design</td>
+<td>Technical phone screen: project discussion + LeetCode-style coding → onsite</td>
+</tr>
+<tr>
+<td><strong>Reported questions</strong></td>
+<td>Design a <strong>Confluence article recommender</strong>; a stock price fluctuation variant; a <strong>cinema scheduling</strong> code-design problem</td>
+<td>Project deep dive + a coding challenge</td>
+</tr>
+<tr>
+<td><strong>Note</strong></td>
+<td>"The MLE bar is similar to SDE"</td>
+<td>Expect craft-style rounds later</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Atlassian's code design</strong> round values clean object-oriented design, edge cases and <strong>tests</strong>, not just algorithms.</li>
+<li><strong>ML design</strong> is tied to the team's product (Confluence, Jira).</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Design a system that recommends Confluence articles to users.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Contexts:</strong> the home feed ("for you"), "related pages" on a page, and search-adjacent suggestions.</li>
+<li><strong>Signals:</strong> the user's space and team membership, recently viewed or edited pages, Jira issues they work on, collaborators, page popularity and freshness, <strong>permissions</strong> (never recommend pages the user can't see).</li>
+<li><strong>Candidates:</strong> co-view graph (item-to-item), content embeddings (title + body), pages from the user's team and spaces, trending pages.</li>
+<li><strong>Ranker:</strong> GBM or a two-tower model predicting P(click) and P(dwell longer than 30 s); diversity and freshness re-ranking.</li>
+<li><strong>Cold start:</strong> new users get team and space popular pages; new pages get content similarity plus exploration.</li>
+<li><strong>Evaluation:</strong> offline recall@k / NDCG on held-out views; online CTR, dwell time and return visits; guardrails on latency and permission leaks (zero tolerance).</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Data structure: track stock prices with updates and corrections; support current, max and min price.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">import heapq
+class StockPrice:
+    def __init__(self):
+        self.p, self.latest = {}, 0
+        self.maxh, self.minh = [], []
+    def update(self, t, price):
+        self.p[t] = price; self.latest = max(self.latest, t)
+        heapq.heappush(self.maxh, (-price, t)); heapq.heappush(self.minh, (price, t))
+    def current(self): return self.p[self.latest]
+    def maximum(self):
+        while -self.maxh[0][0] != self.p[self.maxh[0][1]]: heapq.heappop(self.maxh)   # lazy delete stale
+        return -self.maxh[0][0]
+    def minimum(self):
+        while self.minh[0][0] != self.p[self.minh[0][1]]: heapq.heappop(self.minh)
+        return self.minh[0][0]
+</code></pre>
+<ul>
+<li>Two heaps with <strong>lazy deletion</strong>: O(log n) amortised. Add unit tests for corrections at the same timestamp.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Code design: can a new movie fit into a day&#x27;s schedule (open 10:00, last end 23:00, setup and cleanup inside the duration)?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">from dataclasses import dataclass
+OPEN, CLOSE = 10 * 60, 23 * 60
+@dataclass(frozen=True)
+class Show: start: int; duration: int          # minutes since midnight
+def can_schedule(shows: list[Show], duration: int) -&gt; int | None:
+    &quot;&quot;&quot;Return the earliest start minute that fits, or None.&quot;&quot;&quot;
+    slots = sorted(shows, key=lambda s: s.start); t = OPEN
+    for s in slots:
+        if s.start - t &gt;= duration: return t
+        t = max(t, s.start + s.duration)
+    return t if CLOSE - t &gt;= duration else None
+
+assert can_schedule([Show(600, 120), Show(780, 90)], 60) == 720
+assert can_schedule([Show(600, 780)], 30) is None
+</code></pre>
+<ul>
+<li><strong>Discuss:</strong> validation (overlapping existing shows), multiple screens (a list per screen), time zones, <strong>extensibility</strong> (a pluggable rule set), and tests for boundary cases (exactly fits at 23:00).</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Tell me about challenges in a past ML project and how you handled them.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Answer (a structure that works):</strong></p>
+<ul>
+<li><strong>Challenge 1 (data):</strong> "Labels were noisy. 15% disagreement found by an audit." <strong>Action:</strong> relabelling guidelines plus confident learning to flag likely errors. <strong>Result:</strong> +4 F1.</li>
+<li><strong>Challenge 2 (serving):</strong> "p95 latency was 400 ms." <strong>Action:</strong> distilled the model and cached embeddings. <strong>Result:</strong> 80 ms.</li>
+<li>Keep each one to <em>challenge → decision → measurable result</em>, and be ready for "why not X?" follow-ups.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Intuit: how would you build an ML model to categorise financial transactions for small businesses?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Inputs:</strong> merchant name and description text, amount, MCC code, date, the user's past categorisations, the business type.</li>
+<li><strong>Model:</strong> text embeddings + tabular features → a classifier; <strong>personalisation</strong> from user corrections (a per-user override memory or fine-tuning).</li>
+<li><strong>Cold start:</strong> global model priors by merchant; active learning that asks users about low-confidence items.</li>
+<li><strong>Metrics:</strong> accuracy and macro-F1 by category, correction rate, time saved.</li>
+<li><strong>Trust:</strong> explanations ("categorised as Travel because of the merchant 'IndiGo'"), easy undo, privacy controls.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare"><span class="n">03</span>How to prepare</h2><ul>
+<li><strong>Atlassian:</strong> runnable DSA with unit tests in 60 minutes, OO code design, product-specific ML design.</li>
+<li><strong>Intuit:</strong> project depth, LeetCode medium, fintech ML (categorisation, fraud, forecasting).</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.glassdoor.ca/Interview/Atlassian-Machine-Learning-Engineer-II-Interview-Questions-EI_IE115699.0,9_KO10,38.htm">Glassdoor: Atlassian MLE II interview (Apr 2025)</a></li>
+<li><a href="https://www.1point3acres.com/interview/thread/1085832">1Point3Acres: Intuit MLE phone screen (summary)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-atlassian-intuit"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

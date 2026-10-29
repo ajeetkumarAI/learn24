@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Oracle &amp; Salesforce: AI / ML Engineer · Company Interview Questions · Learn24</title>
+<meta name="description" content="Oracle &amp; Salesforce: AI / ML Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Oracle &amp; Salesforce: AI / ML Engineer · Learn24">
+<meta property="og:description" content="Oracle &amp; Salesforce: AI / ML Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-oracle-salesforce" data-lesson="interview-questions/exp-oracle-salesforce">
+  <div class="kicker">Company Interview Questions · Big Tech</div>
+  <h1>Oracle &amp; Salesforce: AI / ML Engineer</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 Oracle &amp; Salesforce</span><span>🆕 Recent reports</span></div>
+  <p class="lead">Oracle &amp; Salesforce: AI / ML Engineer Interview Experiences (2025). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from public candidate reports: Oracle <strong>Software Engineer – AI</strong> (Pune, November 2025, offer) and Oracle <strong>AI Engineer</strong> (May 2025), plus a public process guide for Salesforce ML Engineer roles. The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Oracle</th>
+<th>Salesforce</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Software Engineer – AI; AI Engineer</td>
+<td>Machine Learning Engineer / AI Engineer</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>HackerRank (AI, LLMs, aptitude, coding) → face-to-face coding → managerial. AI Engineer: online assessment (MCQs on ML, SQL, probability + 2 Python problems) → VP one-to-one</td>
+<td>HackerRank (about 3 h, Python + ML) → HM intro → about 5 onsite rounds (design, coding, managerial) → possible <strong>project presentation</strong></td>
+</tr>
+<tr>
+<td><strong>Reported questions</strong></td>
+<td>String rotation, anagram check, <strong>SQL self-join</strong>, identical binary trees; why are you switching?</td>
+<td>RAG and its uses, LLM experience, monitoring models in production, prompt engineering approach</td>
+</tr>
+<tr>
+<td><strong>Outcome</strong></td>
+<td>Pune SE-AI: offer accepted</td>
+<td>Guide-based (no single report)</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Oracle:</strong> classic DSA + SQL plus AI MCQs, then managerial. Solid fundamentals win.</li>
+<li><strong>Salesforce:</strong> ML system design + coding + a presentation, with a focus on <strong>enterprise AI (Agentforce/Einstein)</strong>, trust and data security.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Check whether one string is a rotation of another.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">def is_rotation(a: str, b: str) -&gt; bool:
+    return len(a) == len(b) and b in (a + a)
+
+print(is_rotation(&quot;waterbottle&quot;, &quot;erbottlewat&quot;))  # True
+</code></pre>
+<ul>
+<li>Every rotation of <code>a</code> is a substring of <code>a + a</code>. That is O(n) with KMP, and Python's <code>in</code> is efficient in practice.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Check whether two binary trees are structurally identical (same shape and values).</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">def same_tree(p, q):
+    if not p or not q: return p is q
+    return p.val == q.val and same_tree(p.left, q.left) and same_tree(p.right, q.right)
+</code></pre>
+<ul>
+<li>O(n) time, O(h) recursion depth. For "structure only", drop the value comparison.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">SQL self-join: list employees alongside their manager&#x27;s name.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-sql">SELECT e.name AS employee, m.name AS manager
+FROM employees e
+LEFT JOIN employees m ON m.emp_id = e.manager_id;
+</code></pre>
+<ul>
+<li>A <strong>self-join</strong> joins a table to itself with aliases. Use LEFT JOIN so the CEO (no manager) still appears. A follow-up asks for employees who earn more than their manager: add <code>WHERE e.salary &gt; m.salary</code>.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Salesforce: explain RAG and where it fits in a CRM.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>RAG</strong> grounds LLM answers in retrieved enterprise data, which reduces hallucination and keeps answers current.</li>
+<li><strong>CRM uses:</strong></li>
+<li>A service agent answers cases from knowledge articles and past resolutions.</li>
+<li>Sales gets account summaries from opportunities, emails and calls.</li>
+<li>Field-service troubleshooting.</li>
+<li><strong>Trust layer:</strong> respect record-level sharing rules at retrieval, mask PII before the LLM, apply zero-data-retention with the model provider, log audits, and filter toxicity. Cite the source records.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">How do you evaluate and monitor ML or LLM models in production?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Online metrics:</strong> business KPIs (case deflection, conversion), user feedback, latency and error rates, cost per request.</li>
+<li><strong>Model health:</strong> input and output drift, prediction-distribution shifts, data-quality checks, performance on delayed labels.</li>
+<li><strong>LLM-specific:</strong> sampled LLM-judge scores (faithfulness, helpfulness), refusal and toxicity rates, prompt-injection attempts, retrieval hit rate.</li>
+<li><strong>Process:</strong> dashboards, alerts against SLOs, shadow and canary releases, periodic re-evaluation on a golden set, rollback plans.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Oracle managerial: why do you want to switch companies?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>Stay positive and forward-looking: "I've built strong foundations in X at my current company. I'm looking for larger-scale AI problems, like the OCI GenAI services and AI features in Oracle Database (vector search, Select AI), where I can work closer to the platform."</li>
+<li><strong>Avoid</strong> criticising your current employer. Connect your skills to the team's work.</li>
+<li>Have a clear <strong>expected salary</strong> range, based on research, ready.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare"><span class="n">03</span>How to prepare</h2><ul>
+<li><strong>Oracle:</strong> revise DSA basics (strings, trees), SQL joins and self-joins, and AI MCQs (ML, probability, LLM basics).</li>
+<li><strong>Salesforce:</strong> prepare an enterprise RAG/agent design with a <strong>trust layer</strong>, plus a 15-minute project presentation.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.jointaro.com/interviews/companies/oracle/experiences/software-engineer-ai-pune-maharashtra-november-19-2025-accepted-offer-neutral-f4671835">Taro: Oracle Software Engineer – AI, Pune (Nov 2025, offer)</a></li>
+<li><a href="https://static.glassdoor.com.ar/Interview/Oracle-AI-Engineer-Interview-Questions-EI_IE1737.0,6_KO7,18.htm">Glassdoor: Oracle AI Engineer interview reviews</a></li>
+<li><a href="https://interviewquery.com/interview-guides/salesforce-machine-learning-engineer">Interview Query: Salesforce ML Engineer guide</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-oracle-salesforce"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BCG X: AI/ML Engineer &amp; Forward-Deployed DS · Company Interview Questions · Learn24</title>
+<meta name="description" content="BCG X: AI/ML Engineer &amp; Forward-Deployed DS: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="BCG X: AI/ML Engineer &amp; Forward-Deployed DS · Learn24">
+<meta property="og:description" content="BCG X: AI/ML Engineer &amp; Forward-Deployed DS: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-bcg-x" data-lesson="interview-questions/exp-bcg-x">
+  <div class="kicker">Company Interview Questions · Consulting &amp; Big 4</div>
+  <h1>BCG X: AI/ML Engineer &amp; Forward-Deployed DS</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 BCG X</span><span>🆕 Recent reports</span></div>
+  <p class="lead">BCG X: AI/ML Engineer &amp; Forward-Deployed Data Scientist Interview Process. Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from public interview guides for BCG X AI/ML Engineer and Data Scientist roles and a public candidate thread about the BCG X Forward-Deployed AI Scientist final round. The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Roles</strong></td>
+<td>AI/ML Engineer; Data Scientist; Forward-Deployed AI Scientist / Engineer</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>Recruiter screen (sometimes a one-way video with behavioural questions) → timed online coding + ML quiz (CodeSignal / HackerRank) → technical deep dive and system design → partner / culture interviews</td>
+</tr>
+<tr>
+<td><strong>Final round (forward-deployed)</strong></td>
+<td>3 × 45-minute virtual interviews: background + a <strong>business case</strong>, higher-level than a typical DS interview</td>
+</tr>
+<tr>
+<td><strong>What they judge</strong></td>
+<td>Could they put you <strong>in front of a client</strong>? Business framing, ROI, adoption, communication</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Coding:</strong> practical Python, such as flattening nested JSON, median imputation, averaging a column that doesn't fit in memory.</li>
+<li><strong>ML / system design:</strong> podcast search, fraud alerts by SMS, making contracts searchable, real-time recommendations, churn insights for executives.</li>
+<li><strong>Case:</strong> frame → data → baseline → metrics → recommendation → <strong>implementation and adoption</strong>.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Flatten a nested JSON object into a single-level dictionary.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">def flatten(obj, parent=&quot;&quot;, sep=&quot;.&quot;):
+    out = {}
+    if isinstance(obj, dict):
+        for k, v in obj.items():
+            out.update(flatten(v, f&quot;{parent}{sep}{k}&quot; if parent else k, sep))
+    elif isinstance(obj, list):
+        for i, v in enumerate(obj):
+            out.update(flatten(v, f&quot;{parent}{sep}{i}&quot; if parent else str(i), sep))
+    else:
+        out[parent] = obj
+    return out
+
+print(flatten({&quot;a&quot;: 1, &quot;b&quot;: {&quot;c&quot;: 2, &quot;d&quot;: [3, 4]}}))  # {'a':1,'b.c':2,'b.d.0':3,'b.d.1':4}
+</code></pre></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Compute the average of a column in a CSV that is too large for memory.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">import pandas as pd
+
+total, count = 0.0, 0
+for chunk in pd.read_csv(&quot;big.csv&quot;, usecols=[&quot;amount&quot;], chunksize=1_000_000):
+    s = chunk[&quot;amount&quot;].dropna()
+    total += s.sum(); count += len(s)
+print(total / count)
+</code></pre>
+<ul>
+<li>Stream in chunks, keeping a running sum and count. <strong>Alternatives:</strong> DuckDB (<code>SELECT avg(amount) FROM 'big.csv'</code>), Polars lazy scan, or Spark for distributed data. For a running variance, use Welford's algorithm.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Design a pipeline that makes unstructured client documents (contracts, scanned reports) searchable.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Ingest:</strong> connectors (SharePoint, S3) → file-type detection → <strong>OCR</strong> for scans (Azure Document Intelligence or Textract) → layout-aware parsing (tables, clauses).</li>
+<li><strong>Enrich:</strong> extract metadata (parties, dates, contract type) with an LLM using structured output; detect and redact PII.</li>
+<li><strong>Index:</strong> chunks by clause or section → embeddings + BM25 → a hybrid index with metadata filters and <strong>document-level ACLs</strong>.</li>
+<li><strong>Serve:</strong> search UI + RAG Q&amp;A with citations; a re-ranker; "find all contracts with auto-renewal clauses" via metadata plus semantic search.</li>
+<li><strong>Govern:</strong> audit logs, retention policy, an evaluation set built with client SMEs; measure time saved per review.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Design a bank fraud-detection system that alerts customers by text message.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Real-time scoring</strong> at authorisation: features (velocity, merchant risk, geo-distance, device) from an online feature store, a GBM model, a latency budget under 100 ms.</li>
+<li><strong>Decision tiers:</strong> approve / <strong>SMS confirmation</strong> ("Reply YES if this ₹24,999 purchase was you") / decline.</li>
+<li><strong>SMS flow:</strong> send through a gateway, hold the transaction for N minutes; YES approves, NO blocks the card and opens a case; no reply follows the default policy.</li>
+<li><strong>Feedback loop:</strong> customer replies and chargebacks become labels; retrain regularly; monitor false-positive rates by segment.</li>
+<li><strong>Risks:</strong> SMS phishing (never include links), delivery delays, fairness across customer groups.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Case: a retailer wants AI to reduce churn in its subscription business. How do you approach it as a consultant?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ol>
+<li><strong>Frame the value:</strong> churn rate, revenue at risk, the cost of retention offers. "A 1-point churn reduction ≈ ₹X crore a year."</li>
+<li><strong>Hypotheses:</strong> price sensitivity, poor onboarding, delivery issues, competitor offers.</li>
+<li><strong>Data:</strong> subscriptions, usage, support tickets, NPS, delivery performance.</li>
+<li><strong>Approach:</strong> a churn-risk + <strong>uplift</strong> model → segment-specific actions (onboarding fixes, targeted offers, service recovery).</li>
+<li><strong>Metrics:</strong> retained revenue, offer ROI, and a controlled pilot in 2 regions.</li>
+<li><strong>Adoption:</strong> who uses the scores (the CRM team), workflow integration, a dashboard, training, and governance for model refresh.
+- Keep the technical detail light and <strong>tie every step to client value</strong>.</li>
+</ol></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Why BCG X, and why a client-facing, forward-deployed role?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>"I enjoy turning ambiguous business problems into shipped AI products. A forward-deployed role puts me close to the client's real constraints and users, where impact is measured, not assumed."</li>
+<li><strong>Show evidence:</strong> a time you handled ambiguity, brought stakeholders along, and drove <strong>adoption</strong> (not just model accuracy).</li>
+<li><strong>Ask good questions back:</strong> how teams split between BCG X engineers and consultants, and how success is measured after go-live.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare-for-bcg-x"><span class="n">03</span>How to prepare for BCG X</h2><ul>
+<li>Practise <strong>consulting-style cases</strong> with an AI twist: framing, ROI, adoption and risks.</li>
+<li>Do timed practical Python (data wrangling) and ML system design.</li>
+<li>Prepare crisp behavioural stories for the one-way video round (for example "a time you received tough feedback").</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.interviewquery.com/interview-guides/boston-consulting-group-machine-learning-engineer">Interview Query: BCG X AI/ML Engineer interview guide</a></li>
+<li><a href="https://www.preplounge.com/consulting-forum/forward-deployed-ai-scientist-data-scientist-bcgx-final-round-of-interviews-25070">PrepLounge: BCG X forward-deployed AI scientist final round (forum)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-bcg-x"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

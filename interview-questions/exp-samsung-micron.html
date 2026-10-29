@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Samsung R&amp;D &amp; Micron: AI / ML Engineer · Company Interview Questions · Learn24</title>
+<meta name="description" content="Samsung R&amp;D &amp; Micron: AI / ML Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Samsung R&amp;D &amp; Micron: AI / ML Engineer · Learn24">
+<meta property="og:description" content="Samsung R&amp;D &amp; Micron: AI / ML Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-samsung-micron" data-lesson="interview-questions/exp-samsung-micron">
+  <div class="kicker">Company Interview Questions · Semiconductors &amp; Hardware</div>
+  <h1>Samsung R&amp;D &amp; Micron: AI / ML Engineer</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 Samsung R&amp;D &amp; Micron</span><span>🆕 Recent reports</span></div>
+  <p class="lead">Samsung R&amp;D &amp; Micron: AI / ML Engineer Interview Experiences. Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from public candidate reports: Samsung R&amp;D Institute India – Bangalore (August 2024 technical round on DSA, system design and projects; a 3-hour coding test → technical → HR with an offer; an August 2025 intern interview focused on AI work) and Micron <strong>ML Engineer</strong> (Pune, November 2024, networking-heavy questions). The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Samsung R&amp;D (SRI-B)</th>
+<th>Micron</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Software / AI engineer; intern</td>
+<td>ML Engineer</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td><strong>3-hour coding test</strong> (DP / graph heavy) → technical (DSA, system design, projects) → HR</td>
+<td>One interview: strengths and weaknesses, mostly <strong>computer networks</strong></td>
+</tr>
+<tr>
+<td><strong>Outcome</strong></td>
+<td>Offer (coding-test route); positive feedback</td>
+<td>Not selected (rated positive)</td>
+</tr>
+<tr>
+<td><strong>Tip</strong></td>
+<td>Clear explanation of your resume projects and their concepts</td>
+<td>Expect CS fundamentals beyond ML</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Samsung's coding test</strong> is famous for hard DP and graph problems with no library shortcuts. Practise implementing BFS, DFS and DP from scratch.</li>
+<li><strong>Micron</strong> probes core CS (networking, OS) even for ML roles in manufacturing analytics.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Samsung-style DP: what is the minimum cost path in a grid (moves right or down)?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">def min_path(grid):
+    R, C = len(grid), len(grid[0]); dp = [0] * C
+    for r in range(R):
+        for c in range(C):
+            if r == 0 and c == 0: dp[c] = grid[0][0]
+            elif r == 0: dp[c] = dp[c-1] + grid[r][c]
+            elif c == 0: dp[c] = dp[c] + grid[r][c]
+            else: dp[c] = min(dp[c], dp[c-1]) + grid[r][c]
+    return dp[-1]
+</code></pre>
+<ul>
+<li>O(R·C) time and O(C) space with a rolling array. For four-direction moves with non-negative weights, switch to <strong>Dijkstra</strong>.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Graph: count the number of islands (connected components) in a grid.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">def islands(g):
+    R, C = len(g), len(g[0]); seen = set(); n = 0
+    for r in range(R):
+        for c in range(C):
+            if g[r][c] == 1 and (r, c) not in seen:
+                n += 1; stack = [(r, c)]; seen.add((r, c))
+                while stack:
+                    x, y = stack.pop()
+                    for dx, dy in ((1,0),(-1,0),(0,1),(0,-1)):
+                        a, b = x + dx, y + dy
+                        if 0 &lt;= a &lt; R and 0 &lt;= b &lt; C and g[a][b] == 1 and (a, b) not in seen:
+                            seen.add((a, b)); stack.append((a, b))
+    return n
+</code></pre></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Micron networking: what happens when you type a URL into the browser?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ol>
+<li><strong>DNS</strong> resolution (browser cache → OS → resolver → root/TLD/authoritative servers) gives the IP address.</li>
+<li><strong>TCP</strong> three-way handshake (SYN, SYN-ACK, ACK), then the <strong>TLS</strong> handshake for HTTPS (certificate check, key exchange).</li>
+<li><strong>HTTP</strong> request → server (load balancer → web server/app) → response.</li>
+<li>The browser parses HTML, fetches CSS/JS/images (more requests, often HTTP/2 multiplexed), and renders.
+- Know the <strong>OSI/TCP-IP layers</strong>, TCP vs UDP, ports, and what a subnet mask is.</li>
+</ol></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">TCP vs UDP: when would an ML system use each?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>TCP:</strong> reliable, ordered, connection-based (handshake, retransmission, congestion control). Used for APIs, model serving (HTTP/gRPC) and database connections.</li>
+<li><strong>UDP:</strong> connectionless with no delivery guarantee, lower latency. Used for real-time video and audio, telemetry streams, DNS, QUIC (HTTP/3 builds reliability on top of UDP).</li>
+<li><strong>Example:</strong> factory sensor telemetry might use UDP or MQTT for speed; model inference APIs use TCP.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">How would you use ML for wafer defect detection in semiconductor manufacturing?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Data:</strong> wafer maps and SEM images, process parameters (temperature, pressure, tool ID), test results.</li>
+<li><strong>Vision:</strong> CNN/ViT classification of defect patterns (center, edge-ring, scratch, random); segmentation to locate defects. Handle <strong>class imbalance</strong> and rare new defect types (anomaly detection, few-shot learning).</li>
+<li><strong>Tabular:</strong> gradient boosting on process parameters to predict yield; SHAP to find root-cause parameters.</li>
+<li><strong>Ops:</strong> the model runs at the edge near the tools, engineers give feedback, and the model is retrained as processes change (drift).</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">What are your strengths and weaknesses? (Micron HR-style)</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Strength with evidence:</strong> "I debug systematically. I traced a 6% accuracy drop to a sensor calibration change by comparing feature distributions across shifts."</li>
+<li><strong>A real weakness with a fix:</strong> "I used to over-polish before sharing. Now I share a rough version after day two to get feedback early."</li>
+<li>Keep it honest, specific and short.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare"><span class="n">03</span>How to prepare</h2><ul>
+<li><strong>Samsung:</strong> a 3-hour coding-test simulation with DP and graphs, implemented from scratch; clear explanations of your projects.</li>
+<li><strong>Micron:</strong> CS fundamentals (networks, OS) plus ML for manufacturing (vision, yield, anomaly detection).</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.glassdoor.com/Interview/Samsung-R-and-D-Institute-India-Bangalore-Interview-E520007-RVW97517030.htm">Glassdoor: Samsung R&amp;D Institute India – Bangalore interview reviews</a></li>
+<li><a href="https://www.jointaro.com/interviews/companies/micron-technology/experiences/ml-engineer-pune-maharashtra-november-20-2024-no-offer-positive-09f51b3a">Taro: Micron ML Engineer, Pune (Nov 2024)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-samsung-micron"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

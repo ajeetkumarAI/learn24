@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Databricks &amp; Snowflake: AI / ML Engineer · Company Interview Questions · Learn24</title>
+<meta name="description" content="Databricks &amp; Snowflake: AI / ML Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Databricks &amp; Snowflake: AI / ML Engineer · Learn24">
+<meta property="og:description" content="Databricks &amp; Snowflake: AI / ML Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-databricks-snowflake" data-lesson="interview-questions/exp-databricks-snowflake">
+  <div class="kicker">Company Interview Questions · SaaS &amp; Enterprise Software</div>
+  <h1>Databricks &amp; Snowflake: AI / ML Engineer</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 Databricks &amp; Snowflake</span><span>🆕 Recent reports</span></div>
+  <p class="lead">Databricks &amp; Snowflake: AI / ML Engineer Interview Process. Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from a public Databricks AI Engineer process guide, a public candidate summary of a 6-round Databricks <strong>AI Engineer – Forward Deployed</strong> process (about 1.5 months, not selected) and a public Snowflake ML intern review. The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Databricks</th>
+<th>Snowflake</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>AI Engineer; AI Engineer – Forward Deployed; ML Engineer</td>
+<td>ML Intern / ML Engineer</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>Recruiter → technical phone screen (ML + algorithms) → <strong>take-home</strong> → onsite (deep dive, system design, behavioural) → stakeholder interview</td>
+<td>Resume screen → recruiter → coding + SQL assessment → technical interviews (ML fundamentals, real-world ML, <strong>using Snowflake tools</strong>)</td>
+</tr>
+<tr>
+<td><strong>Topics</strong></td>
+<td>SQL (monthly users/transactions, moving averages, optimisation), DSA, churn, A/B tests; GenAI on the Lakehouse</td>
+<td>Data manipulation, ML fundamentals, practical approach</td>
+</tr>
+<tr>
+<td><strong>Note</strong></td>
+<td>Research Databricks' AI products (Mosaic AI, Unity Catalog, vector search) before the recruiter call</td>
+<td>Practical skills over theory</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Data-platform companies</strong> expect <strong>SQL fluency + ML + platform thinking</strong> (data governance, scale, cost).</li>
+<li><strong>Forward-deployed roles</strong> add customer-facing problem solving: build GenAI apps on the customer's data.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">SQL: monthly active users, transaction count and total order amount for 2025.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-sql">SELECT DATE_TRUNC('month', t.created_at) AS month,
+       COUNT(DISTINCT t.user_id)          AS active_users,
+       COUNT(*)                           AS transactions,
+       SUM(t.quantity * p.price)          AS order_amount
+FROM transactions t
+JOIN products p ON p.id = t.product_id
+WHERE t.created_at &gt;= DATE '2025-01-01' AND t.created_at &lt; DATE '2026-01-01'
+GROUP BY 1 ORDER BY 1;
+</code></pre>
+<ul>
+<li>A <strong>sargable</strong> date range (no function on the column in WHERE) lets the engine prune partitions.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">How would you build a production RAG app on a lakehouse platform?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Data:</strong> documents in Delta tables governed by a catalog (lineage, ACLs); an incremental pipeline for parse → chunk → embed.</li>
+<li><strong>Vector index:</strong> synced from the Delta table (it updates automatically as data changes), filtered by permissions.</li>
+<li><strong>App:</strong> chain/agent code logged as a model (MLflow), served behind an endpoint with <strong>guardrails</strong> and an AI gateway (rate limits, usage tracking).</li>
+<li><strong>Evaluation:</strong> MLflow LLM evaluation / an LLM judge on a curated set; tracing in production; feedback tables.</li>
+<li><strong>Governance:</strong> one permission model for data and AI assets; PII tagging; cost monitoring.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">How do you optimise a slow SQL query on a large table?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ol>
+<li><strong>Read the query plan:</strong> full scans? Shuffles? Skew?</li>
+<li><strong>Prune data:</strong> partition/clustering keys, date filters, select only the needed columns (columnar formats).</li>
+<li><strong>Joins:</strong> broadcast small tables, filter before joining, avoid exploding many-to-many joins, handle skewed keys (salting).</li>
+<li><strong>Aggregations:</strong> pre-aggregate or materialise; avoid <code>SELECT DISTINCT</code> on huge sets when not needed.</li>
+<li><strong>Caching / Z-ordering / clustering</strong>; check file sizes (compact small files).</li>
+</ol></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Take-home: what makes a strong AI engineering submission?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Working end to end:</strong> a clear entry point, reproducible environment (requirements file and a Makefile), sample run.</li>
+<li><strong>Correctness and tests:</strong> unit tests on key functions, an evaluation script with metrics.</li>
+<li><strong>Clean code:</strong> modules, typed functions, configuration over hard-coding, logging.</li>
+<li><strong>README:</strong> the problem, the approach and its trade-offs, results, limitations, "what I'd do with more time".</li>
+<li>Respect the time box. Polish matters more than extra features.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Forward-deployed: a customer wants a &quot;chat with our data&quot; assistant. How do you scope it?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ol>
+<li><strong>Users and questions:</strong> collect 30 real questions; split them into document Q&amp;A (RAG) and <strong>analytics questions</strong> (text-to-SQL).</li>
+<li><strong>Data readiness:</strong> where the data lives, quality, permissions, semantic definitions (metrics layer).</li>
+<li><strong>Approach:</strong> RAG for documents; <strong>text-to-SQL</strong> with a curated semantic layer, few-shot examples, query validation and row-level security for tables.</li>
+<li><strong>Success metrics:</strong> answer accuracy on the question set, time saved, adoption.</li>
+<li><strong>Plan:</strong> a 2-week proof of concept → pilot with one team → production hardening (monitoring, evaluation, governance).</li>
+</ol></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Snowflake: how would you use the warehouse&#x27;s own tools for ML?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Feature engineering in SQL / Snowpark (Python DataFrames)</strong> inside the warehouse, so data never moves.</li>
+<li><strong>Training:</strong> Snowpark ML or a model registry; UDFs or containers for inference.</li>
+<li><strong>LLM functions</strong> (Cortex-style) for summarisation and classification over tables; vector search for RAG.</li>
+<li><strong>Governance:</strong> role-based access, masking policies on PII, cost control via warehouse sizing.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare"><span class="n">03</span>How to prepare</h2><ul>
+<li><strong>SQL</strong> at a high level (window functions, optimisation) plus ML fundamentals.</li>
+<li>Know the platform concepts: lakehouse, Delta, catalogs and governance, vector search, model serving.</li>
+<li>For forward-deployed roles, practise customer-scoping cases and a polished take-home.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.interviewquery.com/prep-guides/databricks-ai-engineer">Interview Query: Databricks AI Engineer guide</a></li>
+<li><a href="https://www.1point3acres.com/interview/thread/1166124">1Point3Acres: Databricks AI Engineer – Forward Deployed (summary)</a></li>
+<li><a href="https://www.glassdoor.com.au/Interview/Snowflake-Machine-Learning-Intern-Interview-Questions-EI_IE928471.0,9_KO10,33.htm">Glassdoor: Snowflake ML Intern interview</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-databricks-snowflake"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

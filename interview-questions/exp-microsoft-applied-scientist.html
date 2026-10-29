@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Microsoft: Applied Scientist &amp; Data Scientist · Company Interview Questions · Learn24</title>
+<meta name="description" content="Microsoft: Applied Scientist &amp; Data Scientist: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Microsoft: Applied Scientist &amp; Data Scientist · Learn24">
+<meta property="og:description" content="Microsoft: Applied Scientist &amp; Data Scientist: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-microsoft-applied-scientist" data-lesson="interview-questions/exp-microsoft-applied-scientist">
+  <div class="kicker">Company Interview Questions · Big Tech</div>
+  <h1>Microsoft: Applied Scientist &amp; Data Scientist</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 Microsoft</span><span>🆕 Recent reports</span></div>
+  <p class="lead">Microsoft: Applied Scientist &amp; Data Scientist Interview Experiences (2025). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from public candidate reports: Microsoft <strong>Applied Scientist</strong> tech screens (an LLM system design with the hiring manager; a MAIDAP 30-minute screen, Redmond, September 2025) and a <strong>New Grad Data Scientist</strong> loop (online assessment in October 2025, onsite in November, offer in December 2025). The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Roles</strong></td>
+<td>Applied Scientist; Data Scientist (new grad); AI Engineer</td>
+</tr>
+<tr>
+<td><strong>Rounds (DS new grad)</strong></td>
+<td>HackerRank online assessment (1 LeetCode + 1 data-processing problem) → 3 onsite rounds: behavioural + KNN/PCA; research projects + <strong>code a precision-recall curve</strong>; resume + rapid-fire LLM fundamentals</td>
+</tr>
+<tr>
+<td><strong>Applied Scientist screens</strong></td>
+<td>60-minute HM screen: <strong>design a RAG system that generates slides from a prompt</strong>; MAIDAP: <strong>prove that binary cross-entropy is convex</strong></td>
+</tr>
+<tr>
+<td><strong>Outcome</strong></td>
+<td>DS new grad: offer about a month after the onsite</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li>Most questions <strong>connect back to your resume</strong>. Know your research and projects deeply.</li>
+<li>Expect LLM system design (copilot-style products), ML maths proofs and practical coding (plots, metrics).</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Design a RAG system that generates a slide deck from a user&#x27;s prompt.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Clarify:</strong> the input (topic plus optional documents), the output (PPTX/JSON slides with title, bullets, images, notes), enterprise data access, latency budget (under 30 s), and brand templates.</li>
+<li><strong>Pipeline:</strong>
+  1. <strong>Intent and outline:</strong> the LLM produces a structured outline (sections, slide count) as JSON.
+  2. <strong>Retrieval per section:</strong> hybrid search over the user's permitted documents (SharePoint/Graph) → re-rank → top passages.
+  3. <strong>Slide generation:</strong> the LLM fills a <strong>slide schema</strong> (title, 3–5 bullets, speaker notes, citation IDs, a suggested visual) per section, with sections run <strong>in parallel</strong>.
+  4. <strong>Rendering:</strong> map the JSON to the template (python-pptx / Office.js), insert charts or images, keep the brand theme.
+  5. <strong>Review loop:</strong> the user edits, and "regenerate slide 4" re-runs only that slide.</li>
+<li><strong>Quality:</strong></li>
+<li>Faithfulness: every bullet must cite a source.</li>
+<li>No overflow (bullet length limits).</li>
+<li>Human ratings.</li>
+<li>A rubric for an LLM judge.</li>
+<li><strong>Safety and scale:</strong> access control respected at retrieval, PII filters, caching of document embeddings, cost control (a smaller model for the outline, a larger one for content).</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Prove that binary cross-entropy is convex in the logistic-regression weights.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>The loss for one example is ℓ(w) = −y log σ(z) − (1−y) log(1−σ(z)), with z = wᵀx.</li>
+<li><strong>Gradient:</strong> ∇ℓ = (σ(z) − y) x.</li>
+<li><strong>Hessian:</strong> ∇²ℓ = σ(z)(1 − σ(z)) x xᵀ.</li>
+<li>σ(z)(1−σ(z)) ≥ 0 and x xᵀ is <strong>positive semi-definite</strong>, since vᵀ(x xᵀ)v = (xᵀv)² ≥ 0. So the Hessian is PSD.</li>
+<li>The sum over examples (plus an optional L2 term λ‖w‖², whose Hessian is 2λI) stays PSD, so the <strong>loss is convex</strong>, and with L2 strictly convex. Any local minimum is global.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Compute and plot a precision-recall curve from scratch.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">import numpy as np, matplotlib.pyplot as plt
+
+def pr_curve(y, s):
+    order = np.argsort(-s); y = np.asarray(y)[order]
+    tp = np.cumsum(y); fp = np.cumsum(1 - y)
+    precision = tp / (tp + fp); recall = tp / y.sum()
+    return np.r_[1, precision], np.r_[0, recall]
+
+y = np.array([1, 0, 1, 1, 0, 0, 1, 0]); s = np.array([.9, .8, .7, .6, .55, .4, .35, .1])
+p, r = pr_curve(y, s)
+ap = np.sum((r[1:] - r[:-1]) * p[1:])          # average precision (step-wise)
+plt.step(r, p, where=&quot;post&quot;); plt.xlabel(&quot;Recall&quot;); plt.ylabel(&quot;Precision&quot;); plt.title(f&quot;AP={ap:.2f}&quot;); plt.show()
+</code></pre>
+<ul>
+<li>Sort by score descending and use the cumulative TP/FP counts. AP is the area under the step curve. Mention <code>sklearn.metrics.precision_recall_curve</code> for checking.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Explain KNN and PCA. What are their trade-offs?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>KNN:</strong> non-parametric; predicts from the k nearest neighbours.</li>
+<li>Simple, no training, handles multi-class.</li>
+<li><strong>But:</strong> slow at prediction (O(n·d)), sensitive to scale and irrelevant features, suffers from the curse of dimensionality. Choose k by cross-validation.</li>
+<li><strong>PCA:</strong> linear projection onto the directions of maximum variance.</li>
+<li>Reduces noise and dimensionality, speeds up models, aids visualisation.</li>
+<li><strong>But:</strong> linear only, the components are hard to interpret, it is scale-sensitive, and it ignores labels.</li>
+<li><strong>Together:</strong> PCA before KNN often helps, because distances become more meaningful in fewer dimensions.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Rapid-fire LLM fundamentals: what is the context window, the KV cache and temperature, and why do models hallucinate?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Context window:</strong> the maximum number of tokens the model attends to (prompt + output). Longer windows are costlier and can suffer "lost in the middle".</li>
+<li><strong>KV cache:</strong> stores past attention keys and values during generation, so each new token needs only incremental compute. Memory grows with sequence length × layers × heads.</li>
+<li><strong>Temperature:</strong> scales the logits. Lower is more deterministic; higher is more diverse.</li>
+<li><strong>Hallucination:</strong> the model is trained to produce <em>plausible</em> continuations, not verified facts, and gaps in its knowledge or ambiguous prompts lead to confident errors. Mitigate with grounding (RAG), tools and verification.</li>
+<li><strong>Fine-tuning vs RAG:</strong> fine-tuning teaches behaviour and format; RAG supplies fresh, citable knowledge.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Behavioural: tell me about a conflict with a teammate and how you resolved it.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Answer (STAR):</strong></p>
+<ul>
+<li><strong>Situation:</strong> "My teammate wanted to fine-tune a model; I believed RAG would meet the deadline and keep the data fresh."</li>
+<li><strong>Action:</strong> "I suggested we each prototype for two days on the same 50-question evaluation set, and we agreed on the metrics in advance."</li>
+<li><strong>Result:</strong> "RAG scored 0.86 against 0.81 for fine-tuning, at a fifth of the cost. We shipped RAG and used his fine-tuning work later for a classification step."</li>
+<li>Microsoft values a <strong>growth mindset</strong> and collaboration. Show that you listened, used data and kept the relationship strong.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare-for-microsoft"><span class="n">03</span>How to prepare for Microsoft</h2><ul>
+<li>Prepare <strong>LLM product system design</strong> (copilots, RAG over enterprise data, Graph permissions).</li>
+<li>Be able to <strong>derive</strong> ML maths (convexity, gradients) and code metrics and plots without libraries.</li>
+<li>Rehearse resume deep dives and growth-mindset behavioural stories.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://static.glassdoor.at/Interview/Microsoft-Applied-Scientist-Interview-Questions-EI_IE1651.0,9_KO10,27_IP2.htm">Glassdoor: Microsoft Applied Scientist interview reviews</a></li>
+<li><a href="https://prachub.com/interview-experiences/microsoft-new-grad-data-scientist-interview-experience-three-back-to-back-rounds-offer-a-month-later">PracHub: Microsoft New Grad Data Scientist (offer)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-microsoft-applied-scientist"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wells Fargo &amp; Deutsche Bank: Data / Analytics · Company Interview Questions · Learn24</title>
+<meta name="description" content="Wells Fargo &amp; Deutsche Bank: Data / Analytics: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Wells Fargo &amp; Deutsche Bank: Data / Analytics · Learn24">
+<meta property="og:description" content="Wells Fargo &amp; Deutsche Bank: Data / Analytics: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-wellsfargo-deutsche" data-lesson="interview-questions/exp-wellsfargo-deutsche">
+  <div class="kicker">Company Interview Questions · Banking &amp; Fintech</div>
+  <h1>Wells Fargo &amp; Deutsche Bank: Data / Analytics</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 Wells Fargo &amp; Deutsche Bank</span><span>🆕 Recent reports</span></div>
+  <p class="lead">Wells Fargo &amp; Deutsche Bank: Data / Analytics Interview Experiences (2025–26). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from public candidate reports: Wells Fargo <strong>Data Engineer</strong> (Bengaluru, July 2025: ROW_NUMBER vs ROWID in Oracle) and Deutsche Bank <strong>Data Analyst</strong> (Mumbai, May 2026, offer: 4 rounds; Bengaluru campus, April 2025: Dijkstra; Birmingham, August 2025, offer: third-highest salary). Public guides list Data Science Consultant openings at Wells Fargo India. The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Wells Fargo</th>
+<th>Deutsche Bank</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Data Engineer; Data Science Consultant openings</td>
+<td>Data Analyst</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>Technical (Oracle SQL internals)</td>
+<td>Resume + projects → technical (tools, architecture, problem solving) → <strong>hands-on SQL + Python</strong> → Head of Analytics (communication, goals, fit)</td>
+</tr>
+<tr>
+<td><strong>Reported questions</strong></td>
+<td><strong>ROW_NUMBER vs ROWID</strong></td>
+<td>Joins, window functions, CTEs, query optimisation; pandas; automation; <strong>third-highest salary</strong>; Dijkstra (campus)</td>
+</tr>
+<tr>
+<td><strong>Outcome</strong></td>
+<td>Not selected</td>
+<td>2 offers, 1 not selected</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Bank data roles</strong> demand <strong>strong SQL</strong>, plus Python/pandas, automation and stakeholder communication.</li>
+<li>Campus panels may switch languages (C++ → Python), so be fluent in Python syntax.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">What is the difference between ROW_NUMBER() and ROWID in Oracle?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>ROWID:</strong> a <strong>physical address</strong> pseudocolumn identifying where a row is stored (data object, file, block, slot). It is fast for direct access, unique per row in a table, but can change after operations such as table moves or export/import. Not for business logic.</li>
+<li><strong>ROW_NUMBER():</strong> an <strong>analytic function</strong> that assigns a sequential number to rows in a result set based on <code>OVER (PARTITION BY ... ORDER BY ...)</code>. Used for ranking, top-N per group and deduplication.</li>
+<li><strong>Also:</strong> <strong>ROWNUM</strong> is a pseudocolumn assigned <em>before</em> ORDER BY, a classic pitfall for top-N queries.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Find the third-highest salary.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-sql">SELECT DISTINCT salary
+FROM (SELECT salary, DENSE_RANK() OVER (ORDER BY salary DESC) AS rk FROM employees) t
+WHERE rk = 3;
+-- alternative: SELECT salary FROM employees ORDER BY salary DESC OFFSET 2 ROWS FETCH NEXT 1 ROW ONLY;  (ties differ!)
+</code></pre>
+<ul>
+<li>Explain the difference with ties: <code>DENSE_RANK</code> gives the third <strong>distinct</strong> salary; OFFSET gives the third <strong>row</strong>.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Use a CTE + window function to compute each customer&#x27;s running balance.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-sql">WITH tx AS (
+  SELECT customer_id, txn_date,
+         CASE WHEN type = 'CREDIT' THEN amount ELSE -amount END AS signed_amt
+  FROM transactions
+)
+SELECT customer_id, txn_date, signed_amt,
+       SUM(signed_amt) OVER (PARTITION BY customer_id ORDER BY txn_date
+                             ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS running_balance
+FROM tx;
+</code></pre></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">How do you optimise a slow SQL query in a bank&#x27;s reporting system?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Read the execution plan:</strong> full scans, bad join orders, sorts spilling to disk.</li>
+<li><strong>Indexes</strong> on the join and filter columns (composite, in the right column order); avoid functions on indexed columns in WHERE.</li>
+<li><strong>Reduce data early:</strong> filter before joining, select only the needed columns, pre-aggregate.</li>
+<li><strong>Partition</strong> large fact tables by date; use materialised views for repeated reports; update statistics.</li>
+<li><strong>Measure</strong> before and after, and keep correctness checks (row counts, totals).</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Dijkstra&#x27;s shortest path: implement it in Python.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">import heapq
+def dijkstra(graph, src):                 # graph: {u: [(v, w), ...]}
+    dist = {src: 0}; pq = [(0, src)]
+    while pq:
+        d, u = heapq.heappop(pq)
+        if d &gt; dist.get(u, float(&quot;inf&quot;)): continue
+        for v, w in graph.get(u, []):
+            nd = d + w
+            if nd &lt; dist.get(v, float(&quot;inf&quot;)):
+                dist[v] = nd; heapq.heappush(pq, (nd, v))
+    return dist
+</code></pre>
+<ul>
+<li>O((V + E) log V) with a binary heap; it needs <strong>non-negative</strong> weights (otherwise use Bellman-Ford).</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Tell me about an automation you built and its business impact.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Answer (STAR):</strong></p>
+<ul>
+<li>"Monthly regulatory reports took 3 days of manual Excel work. I built a Python + SQL pipeline (pandas, templated outputs, validation checks) scheduled in Airflow."</li>
+<li>"The time dropped to 2 hours with automated reconciliation against source totals. Errors went from about 4 a month to 0, and the team re-used the framework for 5 other reports."</li>
+<li>Banks value <strong>control, accuracy and auditability</strong>, so mention the validation checks and documentation.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare"><span class="n">03</span>How to prepare</h2><ul>
+<li><strong>SQL mastery:</strong> window functions, CTEs, optimisation, Oracle specifics (ROWNUM, ROWID).</li>
+<li>Python/pandas for data handling and automation; one graph algorithm (Dijkstra/BFS).</li>
+<li>Stakeholder and impact stories for the final round.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.jointaro.com/interviews/companies/wells-fargo/experiences/data-engineer-bengaluru-karnataka-july-30-2025-no-offer-negative-ea411117">Taro: Wells Fargo Data Engineer, Bengaluru (Jul 2025)</a></li>
+<li><a href="https://www.glassdoor.es/Entrevista/Deutsche-Bank-Entrevista-E3150-RVW96900609.htm">Glassdoor: Deutsche Bank Data Analyst reviews (2025–26)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-wellsfargo-deutsche"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

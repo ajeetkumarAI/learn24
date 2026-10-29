@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NTT DATA &amp; Virtusa: GenAI Engineer · Company Interview Questions · Learn24</title>
+<meta name="description" content="NTT DATA &amp; Virtusa: GenAI Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="NTT DATA &amp; Virtusa: GenAI Engineer · Learn24">
+<meta property="og:description" content="NTT DATA &amp; Virtusa: GenAI Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-ntt-data-virtusa" data-lesson="interview-questions/exp-ntt-data-virtusa">
+  <div class="kicker">Company Interview Questions · IT Services</div>
+  <h1>NTT DATA &amp; Virtusa: GenAI Engineer</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 NTT DATA &amp; Virtusa</span><span>🆕 Recent reports</span></div>
+  <p class="lead">NTT DATA &amp; Virtusa: GenAI Engineer Interview Experiences (2024–25). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from public candidate reports: NTT DATA (Chennai in-person, August 2025, AI agent focus; Hyderabad online, November 2024, ML + GenAI) and Virtusa <strong>Gen AI Engineer</strong> (August 2025). The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>NTT DATA</th>
+<th>Virtusa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Gen AI / AI agent engineer; ML engineer</td>
+<td>Gen AI Engineer</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>HR → technical (in person at the Chennai office)</td>
+<td>One interview (HR + technical); rescheduled 3 times</td>
+</tr>
+<tr>
+<td><strong>Key topics</strong></td>
+<td>Deploying an agent with MVC architecture, connecting an agent to components, caching; choosing ML algorithms</td>
+<td>A project deep dive, an Armstrong-number function, LLMs, AWS, deployment, chunking</td>
+</tr>
+<tr>
+<td><strong>Outcome</strong></td>
+<td>Not stated</td>
+<td>Not selected; candidate reported poor coordination</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>NTT DATA:</strong> practical <strong>agent architecture</strong> and integration questions, plus ML algorithm selection ("when <em>not</em> to use X").</li>
+<li><strong>Virtusa:</strong> a mix of an easy coding problem, LLM/AWS deployment and RAG chunking. Expect follow-ups on your project's cloud setup.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">How would you deploy an AI agent using an MVC architecture?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Model layer:</strong> domain data and state, meaning conversation and session state, a tool registry, and the persistence behind them (DB, vector store, checkpointer).</li>
+<li><strong>Controller:</strong> the API layer (FastAPI). It receives requests, authenticates, loads state, <strong>invokes the agent runtime</strong> (LangGraph or an agent executor), streams the result, and saves state.</li>
+<li><strong>View:</strong> the UI (React chat, Teams or Slack bot) rendering streamed tokens, tool-progress events and citations.</li>
+<li><strong>Agent runtime as a service:</strong> keep it stateless behind the controller. Tools call downstream APIs through adapters.</li>
+<li><strong>Deploy:</strong> containers on Kubernetes or Container Apps, autoscaled. Use Redis for session cache, queues for long tasks, and observability (traces per step).</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">How does an agent connect to other components, and how do you manage caching?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Connections:</strong> tools wrap internal APIs and databases (with typed schemas); MCP servers expose tools in a standard way; message queues hand off long-running work; webhooks deliver callbacks.</li>
+<li><strong>Caching layers:</strong></li>
+<li><strong>LLM response / semantic cache:</strong> a hash or embedding of (prompt + context) → answer, with a TTL.</li>
+<li><strong>Tool-result cache:</strong> e.g. order status for 60 s.</li>
+<li><strong>Retrieval cache</strong> for frequent queries.</li>
+<li><strong>Provider prompt caching</strong> for long static system prompts.</li>
+<li><strong>Invalidation:</strong> TTLs plus event-based busting when the source data changes. Never cache per-user sensitive data across users.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">How do you choose an ML algorithm, and when should you avoid it?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th>Use when</th>
+<th>Avoid when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Linear / logistic regression</td>
+<td>Need interpretability, linear-ish signal, a baseline</td>
+<td>Strong non-linear interactions</td>
+</tr>
+<tr>
+<td>Decision tree / random forest</td>
+<td>Tabular data, mixed types, quick strong baseline</td>
+<td>Need smooth extrapolation; very high-dimensional sparse text</td>
+</tr>
+<tr>
+<td>Gradient boosting (XGBoost, LightGBM)</td>
+<td>Best for tabular data</td>
+<td>Tiny data (overfits), strict latency on huge ensembles</td>
+</tr>
+<tr>
+<td>KNN</td>
+<td>Small data, simple similarity</td>
+<td>Large n or high dimensions (slow, curse of dimensionality)</td>
+</tr>
+<tr>
+<td>SVM</td>
+<td>Medium data, clear margins, text</td>
+<td>Very large datasets</td>
+</tr>
+<tr>
+<td>Neural nets / Transformers</td>
+<td>Text, images, audio, lots of data</td>
+<td>Small tabular datasets, need full explainability</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Always start with a simple baseline and let <strong>cross-validated metrics</strong> decide.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">Write a function to check for an Armstrong number.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">def is_armstrong(n: int) -&gt; bool:
+    digits = str(n)
+    k = len(digits)
+    return n == sum(int(d) ** k for d in digits)
+
+print([x for x in range(1, 1000) if is_armstrong(x)])  # 1..9, 153, 370, 371, 407
+</code></pre>
+<ul>
+<li>An Armstrong (narcissistic) number equals the sum of its digits, each raised to the power of the number of digits.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">How do you deploy an LLM application on AWS?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Model:</strong> Amazon <strong>Bedrock</strong> (Claude, Llama, Titan) with IAM-scoped access, or SageMaker endpoints for self-hosted models.</li>
+<li><strong>Retrieval:</strong> Bedrock Knowledge Bases or OpenSearch Serverless (vector), with documents in S3.</li>
+<li><strong>App:</strong> FastAPI on ECS Fargate or Lambda behind API Gateway; Cognito for authentication.</li>
+<li><strong>Security and ops:</strong> Secrets Manager, a VPC with PrivateLink, Bedrock Guardrails, CloudWatch logs and metrics, cost alarms.</li>
+<li><strong>CI/CD:</strong> CodePipeline or GitHub Actions, with an evaluation gate before deploy.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Which chunk size would you choose, and how do you decide?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Typical range:</strong> 300–1,000 tokens with 10–20% overlap. Smaller chunks give precise retrieval but may lose context; larger chunks carry more context, add noise and cost more.</li>
+<li><strong>Decide with data:</strong> test 256 / 512 / 1,024 chunks on your evaluation set and compare recall@k, faithfulness and latency. Respect document structure (sections, tables).</li>
+<li>Combine with metadata, re-ranking or parent-document retrieval to get both precision and context.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare"><span class="n">03</span>How to prepare</h2><ul>
+<li><strong>NTT DATA:</strong> be able to draw an agent's deployment architecture (API, runtime, tools, cache, state) and to defend algorithm choices.</li>
+<li><strong>Virtusa:</strong> prepare an AWS deployment story for your GenAI project and RAG chunking trade-offs. Keep calm if the scheduling is messy.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://clear.glassdoor.nl/Interview/NTT-DATA-Gen-AI-Engineer-Interview-Questions-EI_IE7649.0,8_KO9,24.htm">Glassdoor: NTT DATA Gen AI Engineer reviews (Chennai 2025, Hyderabad 2024)</a></li>
+<li><a href="https://www.glassdoor.com/Interview/Virtusa-Interview-E29396-RVW99345059.htm">Glassdoor: Virtusa Gen AI Engineer (Aug 2025)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-ntt-data-virtusa"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

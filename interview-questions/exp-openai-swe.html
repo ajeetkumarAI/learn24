@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>OpenAI: Software Engineer · Company Interview Questions · Learn24</title>
+<meta name="description" content="OpenAI: Software Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="OpenAI: Software Engineer · Learn24">
+<meta property="og:description" content="OpenAI: Software Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-openai-swe" data-lesson="interview-questions/exp-openai-swe">
+  <div class="kicker">Company Interview Questions · AI Labs &amp; Startups</div>
+  <h1>OpenAI: Software Engineer</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 OpenAI</span><span>🆕 Recent reports</span></div>
+  <p class="lead">OpenAI: Software Engineer Interview Experiences (2025–26). Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from four public candidate reports for OpenAI Software Engineer roles (San Francisco and others, August 2025 – May 2026; one offer). The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Software Engineer (applied / product / infrastructure teams)</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>HR screen → phone screen (coding + system design) → onsite: coding, design, <strong>project deep dive</strong>, behavioural</td>
+</tr>
+<tr>
+<td><strong>Coding style</strong></td>
+<td><strong>Practical, multi-part problems with tests</strong> (not classic LeetCode): e.g. a 5-part infectious-disease simulation; one candidate got "longest substring without repeating characters"</td>
+</tr>
+<tr>
+<td><strong>System design</strong></td>
+<td>e.g. <strong>design Slack</strong>, with deep dives</td>
+</tr>
+<tr>
+<td><strong>Outcomes</strong></td>
+<td>1 offer; 3 not selected; "be fast at coding", "manage time across parts"</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Speed plus correctness:</strong> you must finish several parts of a problem within an hour, with working code.</li>
+<li><strong>Design:</strong> real-time messaging and API-scale systems; for AI teams, LLM serving and evaluation.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Multi-part coding: simulate disease spread on a grid (an infected cell infects its neighbours each day). How long until everyone is infected?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">from collections import deque
+def days_to_infect(grid):          # 1 = infected, 0 = healthy, -1 = empty
+    R, C = len(grid), len(grid[0]); q = deque(); healthy = 0
+    for r in range(R):
+        for c in range(C):
+            if grid[r][c] == 1: q.append((r, c, 0))
+            elif grid[r][c] == 0: healthy += 1
+    days = 0
+    while q:
+        r, c, d = q.popleft(); days = max(days, d)
+        for dr, dc in ((1,0),(-1,0),(0,1),(0,-1)):
+            nr, nc = r + dr, c + dc
+            if 0 &lt;= nr &lt; R and 0 &lt;= nc &lt; C and grid[nr][nc] == 0:
+                grid[nr][nc] = 1; healthy -= 1; q.append((nr, nc, d + 1))
+    return days if healthy == 0 else -1
+</code></pre>
+<ul>
+<li><strong>Multi-source BFS</strong>, O(R·C).</li>
+<li><strong>Typical follow-up parts:</strong> recovery after k days, immunity, probabilistic infection, very large sparse grids (use a hash set), tracking the per-day count. <strong>Write modular code</strong> so each new part is a small change.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Longest substring without repeating characters.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">def length_of_longest(s):
+    pos, start, best = {}, 0, 0
+    for i, ch in enumerate(s):
+        if pos.get(ch, -1) &gt;= start: start = pos[ch] + 1
+        pos[ch] = i; best = max(best, i - start + 1)
+    return best
+</code></pre>
+<ul>
+<li>A sliding window, O(n). Explain it before coding, then test edge cases ("", "aaaa", "abba").</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Design Slack (real-time team messaging).</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Requirements:</strong> channels and DMs, message ordering, presence, notifications, search, files; millions of concurrent connections.</li>
+<li><strong>Architecture:</strong></li>
+<li>Clients ↔ <strong>WebSocket gateway</strong> fleet (connection state in Redis).</li>
+<li>The message service writes to a <strong>partitioned store</strong> keyed by channel_id (Cassandra/Scylla, or sharded Postgres), with ordering by per-channel sequence IDs.</li>
+<li>Fan-out through a <strong>pub/sub</strong> layer (Kafka plus in-memory channel subscriptions) to the gateways holding channel members.</li>
+<li><strong>Offline users:</strong> push notifications; unread counts per user per channel.</li>
+<li><strong>Search:</strong> async indexing into Elasticsearch with ACL filtering.</li>
+<li><strong>Scale and reliability:</strong> hot-channel handling (sharded fan-out), idempotent message IDs from clients, backpressure, multi-region with channel home regions.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">How would you design the serving layer for a large LLM API?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>The front door:</strong> API gateway → auth and <strong>rate limiting</strong> per organisation and tier (token buckets on requests and tokens).</li>
+<li><strong>Router:</strong> choose the model or deployment by capacity, region and priority; queue with fair scheduling.</li>
+<li><strong>Inference servers:</strong> continuous batching, paged KV cache, <strong>prefix caching</strong> for shared system prompts, streaming via SSE.</li>
+<li><strong>Reliability:</strong> autoscaling on GPU queue depth, failover across clusters, graceful degradation (shed low-priority traffic).</li>
+<li><strong>Observability and billing:</strong> token metering, per-request traces, abuse and safety monitoring.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">Project deep dive: what do interviewers look for?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Ownership:</strong> what <em>you</em> designed and decided, not the team.</li>
+<li><strong>Technical depth:</strong> why this architecture? What broke at scale? How did you measure it?</li>
+<li><strong>Trade-offs and mistakes:</strong> what you'd change now.</li>
+<li><strong>Impact:</strong> users, latency, cost, reliability numbers.</li>
+<li>Prepare one project you can discuss for <strong>45 minutes</strong> without running out of depth.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Behavioural: tell me about a time you moved fast without breaking things.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><p><strong>Answer (STAR):</strong></p>
+<ul>
+<li>"We had to ship a streaming API in two weeks. I cut scope to the core path, wrote contract tests first, used a feature flag, and ran a 1% canary with automatic rollback on error-rate alerts. We launched on time with no incidents, then iterated on the deferred features."</li>
+<li>OpenAI values <strong>speed with safety</strong>, clear communication and mission alignment.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare-for-openai"><span class="n">03</span>How to prepare for OpenAI</h2><ul>
+<li>Practise <strong>multi-part practical coding</strong> under a 60-minute limit (simulation, parsing, in-memory databases, rate limiters) with tests.</li>
+<li>Prepare system design for real-time systems and LLM serving.</li>
+<li>Have one deep project story and strong behavioural examples.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.glassdoor.ie/Interview/OpenAI-Interview-E2210885-RVW99439283.htm">Glassdoor: OpenAI Software Engineer interview reviews (2025–26)</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-openai-swe"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

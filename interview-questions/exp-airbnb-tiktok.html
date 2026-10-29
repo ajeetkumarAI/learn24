@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Airbnb &amp; TikTok: Machine Learning Engineer · Company Interview Questions · Learn24</title>
+<meta name="description" content="Airbnb &amp; TikTok: Machine Learning Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="Airbnb &amp; TikTok: Machine Learning Engineer · Learn24">
+<meta property="og:description" content="Airbnb &amp; TikTok: Machine Learning Engineer: 6 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-airbnb-tiktok" data-lesson="interview-questions/exp-airbnb-tiktok">
+  <div class="kicker">Company Interview Questions · Big Tech</div>
+  <h1>Airbnb &amp; TikTok: Machine Learning Engineer</h1>
+  <div class="meta"><span>❓ 6 questions</span><span>🏢 Airbnb &amp; TikTok</span><span>🆕 Recent reports</span></div>
+  <p class="lead">Airbnb &amp; TikTok: Machine Learning Engineer Interview Process and Questions. Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from a public Airbnb MLE interview guide (recruiter → HackerRank ML coding → 4-round virtual onsite: data-manipulation coding, ML system design, <strong>model debugging</strong>, core values) and public TikTok MLE candidate summaries (Sydney, March 2025; Singapore, July 2025: 1–2 LeetCode problems per round plus ML/DL basics). The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Airbnb</th>
+<th>TikTok</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Machine Learning Engineer (L4/L5)</td>
+<td>Machine Learning Engineer</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>Recruiter (30–45 min) → ML coding + concepts (45 min, pandas, gradient boosting, features, evaluation) → onsite ×4 → hiring committee</td>
+<td>HR screen → 2 technical rounds (first ML-focused); each with 1–2 LeetCode problems (arrays, hash maps, trees) + ML/DL questions</td>
+</tr>
+<tr>
+<td><strong>Example questions</strong></td>
+<td>Type-ahead recommender, video recommendations, unsafe-content detector, <strong>fine-tune vs RAG for an internal chatbot</strong>, fraud with imbalanced data, when SVMs beat deep learning</td>
+<td>Valid parentheses generation, longest substring without repeats, search in a rotated sorted array, ML/DL basics</td>
+</tr>
+<tr>
+<td><strong>Culture</strong></td>
+<td>Core-values round</td>
+<td>Fast-paced, competitive</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Airbnb's model-debugging round</strong> is distinctive: given a model behaving unexpectedly, diagnose it systematically.</li>
+<li><strong>TikTok</strong> interleaves DSA with recommendation/ML fundamentals in each round.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Airbnb: should we fine-tune an LLM or use RAG for an internal employee chatbot?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>RAG first:</strong> internal knowledge changes often (policies, docs), needs <strong>citations and access control</strong>, and RAG is cheaper and faster to iterate.</li>
+<li><strong>Fine-tune when:</strong> you need a consistent style or format, domain jargon the base model handles poorly, lower latency or cost at high volume (a smaller fine-tuned model), or tool-use patterns specific to your systems.</li>
+<li><strong>Often both:</strong> RAG for knowledge plus a light LoRA fine-tune for tone and format.</li>
+<li><strong>Decide with an evaluation set:</strong> accuracy, faithfulness, latency, cost and maintenance burden.</li>
+</ul></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Model debugging: offline AUC is 0.90, but online the model hurts bookings. What do you check?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ol>
+<li><strong>Training/serving skew:</strong> feature values computed differently online, stale features, missing defaults. Compare feature distributions online vs offline.</li>
+<li><strong>Leakage offline:</strong> a feature that wasn't available at prediction time.</li>
+<li><strong>Objective mismatch:</strong> optimised clicks, not bookings; position bias in the training data.</li>
+<li><strong>Distribution shift:</strong> seasonality, new markets, or a new UI.</li>
+<li><strong>Experiment issues:</strong> sample-ratio mismatch, a bug in the treatment, interference.
+- Fix the root cause, then add parity tests and online monitoring.</li>
+</ol></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">Design an unsafe-content detector for listings and messages.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Policies first:</strong> define the categories (scams, discrimination, explicit content, off-platform payment requests) with examples.</li>
+<li><strong>Models:</strong> multimodal classifiers (text + images); LLM-based classification for nuanced cases; rules for known patterns (phone numbers, payment links).</li>
+<li><strong>Thresholds by severity:</strong> auto-block high-confidence severe cases, send ambiguous ones to human review, warn on low-severity issues.</li>
+<li><strong>Feedback loop:</strong> reviewer labels → retraining; adversarial evolution (scammers adapt), so monitor new patterns.</li>
+<li><strong>Metrics:</strong> precision and recall per category, review-queue load, time to action, false-positive appeals.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">When would an SVM beat deep learning?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Small to medium tabular or text datasets</strong> with good features (TF-IDF): SVMs (linear or kernel) are strong, fast to train and less prone to overfitting than large neural networks.</li>
+<li><strong>High-dimensional sparse data</strong> with clear margins (text classification).</li>
+<li>Need for <strong>convex optimisation</strong>, few hyperparameters, or limited compute.</li>
+<li>Deep learning wins with large data, raw inputs (images, audio) and when representation learning is needed.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">TikTok: generate all valid combinations of n pairs of parentheses.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">def gen(n):
+    out = []
+    def bt(s, o, c):
+        if len(s) == 2 * n: out.append(s); return
+        if o &lt; n: bt(s + &quot;(&quot;, o + 1, c)
+        if c &lt; o: bt(s + &quot;)&quot;, o, c + 1)
+    bt(&quot;&quot;, 0, 0); return out
+print(gen(3))   # ['((()))','(()())','(())()','()(())','()()()']
+</code></pre>
+<ul>
+<li>Backtracking with the counts of open and close brackets. The number of results is the n-th Catalan number.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">Search in a rotated sorted array.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-python">def search(a, t):
+    lo, hi = 0, len(a) - 1
+    while lo &lt;= hi:
+        m = (lo + hi) // 2
+        if a[m] == t: return m
+        if a[lo] &lt;= a[m]:                     # left half sorted
+            if a[lo] &lt;= t &lt; a[m]: hi = m - 1
+            else: lo = m + 1
+        else:                                 # right half sorted
+            if a[m] &lt; t &lt;= a[hi]: lo = m + 1
+            else: hi = m - 1
+    return -1
+</code></pre>
+<ul>
+<li>O(log n): one half is always sorted, so decide which side the target lies on.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare"><span class="n">03</span>How to prepare</h2><ul>
+<li><strong>Airbnb:</strong> pandas coding, ML system design, a <strong>systematic debugging framework</strong>, and core-values stories.</li>
+<li><strong>TikTok:</strong> LeetCode medium (backtracking, binary search, sliding window) plus recommendation and DL basics.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://interviewquery.com/interview-guides/airbnb-machine-learning-engineer">Interview Query: Airbnb ML Engineer guide</a></li>
+<li><a href="https://www.jointaro.com/interviews/companies/tiktok/work-experiences/machine-learning-engineer-september-20-2025-3-95a5579d">Taro: TikTok ML Engineer interview and work summaries</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-airbnb-tiktok"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>

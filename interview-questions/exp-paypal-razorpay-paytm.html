@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PayPal, Razorpay &amp; Paytm: Data Science / ML · Company Interview Questions · Learn24</title>
+<meta name="description" content="PayPal, Razorpay &amp; Paytm: Data Science / ML: 7 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta property="og:title" content="PayPal, Razorpay &amp; Paytm: Data Science / ML · Learn24">
+<meta property="og:description" content="PayPal, Razorpay &amp; Paytm: Data Science / ML: 7 real interview questions with detailed answers, in a practice mode with self-rating.">
+<meta name="theme-color" content="#0d1420">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%237cb4ff%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22monospace%22 font-size=%2215%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%230b111c%22%3E24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/article.css">
+<style>:root{--ac:#ff8fab} .prep-start{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px} .prep-start a{text-decoration:none} .prep-rel{font-size:14.5px;color:var(--muted);margin:10px 0 0} .prep-rel a{white-space:nowrap} details.prep-intro{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0;background:var(--panel)} details.prep-intro summary{cursor:pointer;font-weight:600} h2.prep-sec{scroll-margin-top:150px}</style>
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme.js"></script>
+
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="layout">
+<article class="prep" data-page="exp-paypal-razorpay-paytm" data-lesson="interview-questions/exp-paypal-razorpay-paytm">
+  <div class="kicker">Company Interview Questions · Banking &amp; Fintech</div>
+  <h1>PayPal, Razorpay &amp; Paytm: Data Science / ML</h1>
+  <div class="meta"><span>❓ 7 questions</span><span>🏢 PayPal &amp; Razorpay &amp; Paytm</span><span>🆕 Recent reports</span></div>
+  <p class="lead">PayPal, Razorpay &amp; Paytm: Data Science / ML Interview Experiences. Rounds, real reported questions and model answers, compiled from public candidate reports (sources at the end). Practice mode hides every answer: say your answer first, press <b>Show answer</b>, then rate yourself. Use <b>🔁 Review again</b> to build your revision list and <b>🎲 Random question</b> for a quick drill.</p>
+  <div class="prep-start"><a class="btn ghost" href="../assignments/must-know-145.html">★ Must-know 145</a><a class="btn ghost" href="../assignments/index.html">📝 Assignments</a></div>
+<details class="prep-intro" open><summary>About this interview</summary><p>Compiled from public candidate reports for PayPal Data Science roles (Bengaluru campus, November 2025; Santa Clara, October 2025) and public interview-process guides for Razorpay Data Scientist and Paytm ML roles. The questions are paraphrased, and the model answers are written by Learn24.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>PayPal</th>
+<th>Razorpay</th>
+<th>Paytm</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Data Science Intern / Data Scientist</td>
+<td>Data Scientist</td>
+<td>ML Engineer / Data Scientist</td>
+</tr>
+<tr>
+<td><strong>Rounds</strong></td>
+<td>Online test → shortlist → 1-hour interview; or recruiter → 1 hour (30 min coding + 30 min ML concepts)</td>
+<td>Recruiter → technical video call → 3–5 onsite rounds (DS, engineering, product) → leadership (may present a case)</td>
+<td>Guide: DSA, SQL and ML-heavy question bank</td>
+</tr>
+<tr>
+<td><strong>Topics</strong></td>
+<td>AI, ML, <strong>RAG</strong>, stats, probability, GenAI, genetic algorithms; build a regression model from raw data</td>
+<td>Overfitting, model evaluation, p-values, <strong>A/B testing</strong>, CLT, bagging vs boosting, cohort retention SQL</td>
+<td>Churn, feature importance, recommendations, A/B significance</td>
+</tr>
+<tr>
+<td><strong>Basis</strong></td>
+<td>Candidate reports</td>
+<td>Process guide</td>
+<td>Question guide</td>
+</tr>
+</tbody>
+</table></details><h2 class="prep-sec" id="s-1-rounds-at-a-glance"><span class="n">01</span>Rounds at a glance</h2><ul>
+<li><strong>Fintech data science = risk + growth:</strong> fraud, credit, payments success rates, merchant analytics and experimentation.</li>
+<li>Expect <strong>statistics and A/B testing</strong> at Razorpay and Paytm, and GenAI/RAG questions increasingly at PayPal.</li>
+</ul>
+<h2 class="prep-sec" id="s-2-questions-and-model-answers"><span class="n">02</span>Questions and model answers</h2>
+<div class="qa" id="q1"><div class="qa-h"><span class="qa-n">Q1</span><div class="qa-q">Build a regression model from raw data. Walk through the cleaning and modelling.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ol>
+<li><strong>Understand the target and the grain</strong> (e.g. predict monthly merchant volume). Check duplicates, the date range and leakage.</li>
+<li><strong>Clean:</strong>
+   - Fix data types.
+   - Handle missing values (median + indicator) and outliers (cap or log).
+   - Encode categoricals.
+   - Use time-aware splits.</li>
+<li><strong>Baseline:</strong> last value or mean; then linear/Ridge regression; then gradient boosting.</li>
+<li><strong>Evaluate:</strong> RMSE/MAE (and MAPE if the scale varies); residual plots; error by segment.</li>
+<li><strong>Explain:</strong> coefficients or SHAP; document the assumptions.</li>
+</ol></div></div></div>
+<div class="qa" id="q2"><div class="qa-h"><span class="qa-n">Q2</span><div class="qa-q">Design and analyse an A/B test for a new checkout flow.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Hypothesis and metric:</strong> the primary metric is payment success rate; guardrails are latency, refunds and support tickets.</li>
+<li><strong>Sample size:</strong> from the baseline rate, the minimum detectable effect, α = 0.05 and power 0.8. Randomise by <strong>user</strong> (not session), run full weeks, and avoid peeking (or use sequential testing).</li>
+<li><strong>Analysis:</strong></li>
+<li>Two-proportion z-test or a bootstrap confidence interval.</li>
+<li>Check for sample-ratio mismatch.</li>
+<li>Segment checks (device, bank).</li>
+<li>CUPED for variance reduction.</li>
+<li><strong>Decide:</strong> ship if the lift is significant <strong>and</strong> the guardrails hold. Report the effect size with its confidence interval.</li>
+</ul></div></div></div>
+<div class="qa" id="q3"><div class="qa-h"><span class="qa-n">Q3</span><div class="qa-q">What does the Central Limit Theorem say, and why does it matter?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li>For independent, identically distributed samples with finite variance, the <strong>sampling distribution of the mean</strong> approaches a normal distribution N(μ, σ²/n) as n grows, regardless of the underlying distribution.</li>
+<li><strong>Why it matters:</strong> it justifies z/t tests and confidence intervals for means and proportions in A/B tests, even for skewed metrics such as revenue, given enough samples.</li>
+<li><strong>Caveats:</strong> heavy tails need larger n (or bootstrap / log transforms), and dependent samples break the assumption.</li>
+</ul></div></div></div>
+<div class="qa" id="q4"><div class="qa-h"><span class="qa-n">Q4</span><div class="qa-q">z-test vs t-test: when do you use each?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>z-test:</strong> the population variance is known, or the sample is large (n &gt; ~30, by the CLT). Proportions in large A/B tests use z-tests.</li>
+<li><strong>t-test:</strong> the variance is unknown and estimated from a small sample, using the t distribution with heavier tails. Use <strong>Welch's t-test</strong> when variances are unequal; use a paired t-test for before/after on the same units.</li>
+</ul></div></div></div>
+<div class="qa" id="q5"><div class="qa-h"><span class="qa-n">Q5</span><div class="qa-q">SQL: compute monthly cohort retention for merchants.</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><pre><code class="language-sql">WITH first_month AS (
+  SELECT merchant_id, DATE_TRUNC('month', MIN(txn_date)) AS cohort
+  FROM transactions GROUP BY merchant_id
+), activity AS (
+  SELECT DISTINCT merchant_id, DATE_TRUNC('month', txn_date) AS active_month FROM transactions
+)
+SELECT f.cohort,
+       (EXTRACT(YEAR FROM a.active_month) - EXTRACT(YEAR FROM f.cohort)) * 12
+         + EXTRACT(MONTH FROM a.active_month) - EXTRACT(MONTH FROM f.cohort) AS month_n,
+       COUNT(DISTINCT a.merchant_id) AS active
+FROM first_month f JOIN activity a USING (merchant_id)
+GROUP BY 1, 2 ORDER BY 1, 2;
+</code></pre>
+<ul>
+<li>Divide by the cohort size at month 0 to get retention percentages, and plot them as a heatmap.</li>
+</ul></div></div></div>
+<div class="qa" id="q6"><div class="qa-h"><span class="qa-n">Q6</span><div class="qa-q">PayPal: how would you use RAG to help fraud investigators?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>Corpus:</strong> fraud playbooks, past case notes, policy rules, typology write-ups.</li>
+<li><strong>Assistant flow:</strong>
+  1. The investigator opens a case.
+  2. The system retrieves similar past cases (embedding similarity over case summaries) and the relevant playbook steps.
+  3. The LLM drafts a case summary, a suggested next action and the evidence checklist, <strong>with citations</strong>.</li>
+<li><strong>Controls:</strong></li>
+<li>The LLM never decides alone; the human investigator approves.</li>
+<li>PII is minimised; access is role-based.</li>
+<li>Audit logs.</li>
+<li>An evaluation of summary faithfulness and time-to-resolution.</li>
+<li><strong>Impact metric:</strong> cases handled per investigator per day, plus decision consistency.</li>
+</ul></div></div></div>
+<div class="qa" id="q7"><div class="qa-h"><span class="qa-n">Q7</span><div class="qa-q">What is a genetic algorithm? Where might it be used?</div><span class="qa-st" aria-hidden="true"></span></div><div class="qa-b"><div class="qa-ans"><ul>
+<li><strong>An evolutionary optimisation method:</strong>
+  1. Keep a <strong>population</strong> of candidate solutions.
+  2. Evaluate their <strong>fitness</strong>.
+  3. <strong>Select</strong> the best, apply <strong>crossover</strong> (combine parents) and <strong>mutation</strong> (random changes).
+  4. Repeat for many generations.</li>
+<li><strong>Good for</strong> non-differentiable, combinatorial search: feature selection, hyperparameter search, scheduling, routing.</li>
+<li><strong>Trade-offs:</strong> no gradient needed, but slow and stochastic. Alternatives are Bayesian optimisation or simulated annealing.</li>
+</ul></div></div></div>
+<h2 class="prep-sec" id="s-3-how-to-prepare"><span class="n">03</span>How to prepare</h2><ul>
+<li><strong>Statistics and experimentation:</strong> CLT, z/t tests, p-values, power, A/B pitfalls.</li>
+<li><strong>SQL:</strong> cohorts, moving averages, window functions.</li>
+<li><strong>ML for fintech:</strong> fraud, churn, credit; for PayPal also RAG/GenAI basics.</li>
+</ul>
+<h2 class="prep-sec" id="s-sources">Sources</h2><ul>
+<li><a href="https://www.glassdoor.sg/Interview/PayPal-Data-Science-Intern-Interview-Questions-EI_IE9848.0,6_KO7,26.htm">Glassdoor: PayPal Data Science interview reviews (2025)</a></li>
+<li><a href="https://www.interviewquery.com/interview-guides/razorpay-data-scientist">Interview Query: Razorpay Data Scientist guide</a></li>
+<li><a href="https://www.interviewquery.com/interview-guides/paytm-ml-engineer">Interview Query: Paytm guides</a></li>
+</ul>
+  <div class="credit"><span>Created by <b>Ajeetkumar</b></span></div>
+</article>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4></aside>
+</div>
+<script src="../assets/article.js"></script>
+<script src="../assets/data.js"></script>
+<script src="../assets/lesson.js" data-lesson="interview-questions/exp-paypal-razorpay-paytm"></script>
+<script src="../assets/prep.js"></script>
+</body>
+</html>
