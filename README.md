@@ -308,6 +308,22 @@ Coding-interview prep in the style of LeetCode and GeeksforGeeks, built for lear
 
 Every reference solution was checked against every test in all four languages (Java and C++ compiled and run, Python and JavaScript run both natively and in the browser runner). Solving problems earns XP, the 🧩 Problem solver badge, the **DSA Problem Solver** certificate (30 problems) and ticks on the **DSA in 8 weeks** roadmap.
 
+## 📄 Resume builder (`/resume`)
+
+A free, ATS-friendly resume builder for AI, data and software roles, built into Learn24. No sign-up: everything is stored in the visitor's browser (`localStorage` key `learn24-resume`).
+
+- **8 templates:** ATS Pro, Classic, Modern, Banner, Minimal, Compact, Executive (header band, Executive Summary, Core Competencies grid) and Two-column (tinted sidebar). Layout styles are adapted from Ajeetkumar's Data Science Resume Bundle. Colour, font, size, spacing and margins are adjustable.
+- **9 sample resumes** (fictional people) by level: intern/fresher, analyst, GenAI engineer, ML engineer, data engineer, BFSI data scientist, career switcher and principal/lead. Each opens in a matching template.
+- **Project story format:** optional Domain and Type fields, and bullets that start with `Problem:`, `Scope:`, `Solution:` or `Impact:` get a bold label.
+- **ATS match:** paste a job description to see the matched and missing skills (168-skill dictionary with aliases), other repeated words, and format checks. Missing skills can be added with one click.
+- **Resume score:** a 100-point checklist covering contact details, headline, summary, bullet quality (action verbs, numbers, length, weak phrases), skills, dates, length and ATS-safety. Each suggestion has a "Fix →" link.
+- **Bullet ideas:** action verbs, bullet templates by role, and a Problem → Impact template.
+- **Cover letter:** a draft generated from the resume and the job description, editable and exportable to PDF.
+- **Learn24 import:** ready resume bullets for the 10 portfolio projects and AI-901 labs 3–6, earned certificates, the DSA solved count, and the AI-901 mock score. Project and lab pages have an "Add this project to my resume" button (`resume/index.html#import=<topic>/<lesson>`).
+- **Export:** text-based PDF (print to A4), JSON (re-importable; JSON Resume files are also accepted) and plain text. Multiple resume versions can be kept: duplicate one to tailor it per job.
+
+Build: `python3 build_resume.py` writes `assets/resume-data.json` and `resume/index.html`. The app itself is `assets/resume.js` and `assets/resume.css`.
+
 ## 🔥 Practise & grow (engagement features)
 
 | Feature | Page | What it does |

@@ -15,7 +15,7 @@
   head.className = 'top';
   head.innerHTML = `<div class="shell"><a class="brand" href="${base}index.html" aria-label="${esc(D.site.name)} home">Learn<span class="n">24</span></a>
     <nav class="nav" aria-label="Topics">${D.topics.map(t => `<a href="${base}${t.id}/index.html"${document.body.dataset.topic === t.id ? ' aria-current="page"' : ''}>${esc(SHORT[t.id] || t.name)}</a>`).join('')}
-      <a class="nav-x" href="${base}start.html"${page === 'start' ? ' aria-current="page"' : ''}>Start here</a><a class="nav-x" href="${base}glossary.html"${page === 'glossary' ? ' aria-current="page"' : ''}>Glossary</a></nav>
+      <a class="nav-x" href="${base}start.html"${page === 'start' ? ' aria-current="page"' : ''}>Start here</a><a class="nav-x" href="${base}glossary.html"${page === 'glossary' ? ' aria-current="page"' : ''}>Glossary</a><a class="nav-x" href="${base}resume/index.html"${page === 'resume' ? ' aria-current="page"' : ''}>Resume</a></nav>
     ${(() => { try { const m = JSON.parse(localStorage.getItem('learn24-me') || '{}'), days = m.days || {}; let n = 0; const d = new Date(); const k = x => new Date(x.getTime() - x.getTimezoneOffset() * 6e4).toISOString().slice(0, 10); if (!days[k(d)]) d.setDate(d.getDate() - 1); while (days[k(d)]) { n++; d.setDate(d.getDate() - 1); } return `<a class="streak-pill" href="${base}daily/index.html" title="Daily challenge streak">🔥 ${n}</a>`; } catch (e) { return ''; } })()}
     <a class="jobs-pill" href="${base}jobs/index.html"${page === 'jobs' ? ' aria-current="page"' : ''}><span class="lv"></span>Jobs</a></div>`;
   document.body.prepend(head);
@@ -52,6 +52,7 @@
         <a href="${base}roadmaps/index.html"><i>🗺️</i><b>Career roadmaps</b><span>Week-by-week plans: fresher, switcher, DSA, product company, banking.</span></a>
         <a href="${base}dsa/problems/index.html"><i>🧩</i><b>DSA practice</b><span>90 coding problems with a code editor, 4 languages and visualizers.</span></a>
         <a href="${base}projects/index.html"><i>🛠️</i><b>Portfolio projects</b><span>10 job-ready projects with code and resume lines.</span></a>
+        <a href="${base}resume/index.html"><i>📄</i><b>Resume builder</b><span>ATS-friendly templates, job-description match, score and PDF. Free, no sign-up.</span></a>
         <a href="${base}certificate/index.html"><i>🎓</i><b>Certificates</b><span>Finish a track and add it to LinkedIn.</span></a>
       </div>
     </section>
