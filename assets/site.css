@@ -27,6 +27,8 @@ img{max-width:100%}
 .nav a:hover{color:var(--fg);background:var(--panel)}
 .nav a[aria-current="page"]{color:var(--fg);background:var(--panel2)}
 @media (max-width:760px){.nav{display:none}}
+.rs-pill{display:none!important}@media (max-width:760px){.rs-pill{display:inline-flex!important;padding-inline:10px;margin-left:auto!important;border-color:var(--accent)!important}.rs-pill+.jobs-pill{margin-left:6px}}
+@media (max-width:440px){.top .shell{gap:8px}.rs-pill{padding-inline:8px!important}}
 .top .l24-theme{margin-left:8px}
 @media (max-width:760px){.top .l24-theme{margin-left:auto}}
 .nav .nav-x{color:var(--fg)}

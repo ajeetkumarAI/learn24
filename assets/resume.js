@@ -20,7 +20,8 @@
   const TEMPLATES = [['ats', 'ATS Pro', 'Left-aligned, coloured small-caps headings. The safest choice for job portals.', true], ['classic', 'Classic', 'Centred header, ruled headings. Safe for every ATS.', true],
     ['modern', 'Modern', 'Accent name and heading bars. ATS-friendly.', true], ['banner', 'Banner', 'Full-width colour header and filled section bars. ATS-friendly.', true],
     ['minimal', 'Minimal', 'Clean, airy, small-caps headings. ATS-friendly.', true], ['compact', 'Compact', 'Dense layout that fits more on one page (internships, freshers). ATS-friendly.', true],
-    ['executive', 'Executive', 'Dark header band, Executive Summary and a Core Competencies grid. For 8+ years.', true], ['sidebar', 'Two-column', 'Tinted side column for skills, education and certifications. Looks great, but some ATS read columns poorly.', false]];
+    ['executive', 'Executive', 'Dark header band, Executive Summary and a Core Competencies grid. For 8+ years.', true],
+    ['elegant', 'Elegant', 'Centred serif header with fine rules. Great for senior and leadership roles. ATS-friendly.', true], ['bold', 'Bold', 'Large name, accent top border and tinted section labels. ATS-friendly.', true], ['sidebar', 'Two-column', 'Tinted side column for skills, education and certifications. Looks great, but some ATS read columns poorly.', false]];
   const COLORS = ['#1f4e8c', '#0e7a52', '#7a2e8c', '#b4462c', '#0b6e86', '#333f50', '#a6266e', '#8a6d00'];
   const FONTS = { plex: '"IBM Plex Sans", Arial, sans-serif', arial: 'Arial, Helvetica, sans-serif', georgia: 'Georgia, "Times New Roman", serif', times: '"Times New Roman", Times, serif', calibri: 'Calibri, Carlito, Arial, sans-serif' };
   const blankDoc = name => ({ name, updated: Date.now(), jd: '', cover: { company: '', role: '', manager: '', why: '', text: '' },
@@ -28,14 +29,14 @@
     data: { basics: { name: '', title: '', email: '', phone: '', location: '', links: [{ label: 'LinkedIn', url: '' }, { label: 'GitHub', url: '' }] }, summary: '',
       sections: [{ id: uid(), type: 'experience', title: 'Experience', items: [] }, { id: uid(), type: 'projects', title: 'Projects', items: [] }, { id: uid(), type: 'skills', title: 'Skills', items: [] },
         { id: uid(), type: 'education', title: 'Education', items: [] }, { id: uid(), type: 'certs', title: 'Certifications', items: [] }] } });
-  let DATA = null, ST = LS.get(KEY, null), doc = null, tab = 'content', zoom = 0, saveT = null, prevT = null;
+  let DATA = null, ST = LS.get(KEY, null), doc = null, tab = 'content', zoom = 0, saveT = null, prevT = null, lvl = LS.get('learn24-resume-lvl', '1-3');
 
   fetch(base + 'assets/resume-data.json').then(r => r.json()).then(d => { DATA = d; init(); }).catch(() => { app.innerHTML = '<p>Could not load the resume builder data. Please refresh.</p>'; });
 
   // ------------------------------------------------ state
   function init() {
     if (!ST || !ST.docs || !Object.keys(ST.docs).length) {
-      const id = uid(); ST = { active: id, docs: { [id]: fromSample('GenAI Engineer (3 yrs)', 'My resume') } };
+      const id = uid(); ST = { active: id, docs: { [id]: Object.assign(fromSample('1-3:genai', 'My resume'), { sample: '1-3:genai' }) } };
     }
     if (!ST.docs[ST.active]) ST.active = Object.keys(ST.docs)[0];
     doc = ST.docs[ST.active];
@@ -47,7 +48,7 @@
     const s = clone(DATA.samples[key]), d = blankDoc(name || key);
     d.data.basics = Object.assign(d.data.basics, s.basics); d.data.summary = s.summary;
     d.data.sections = s.sections.map(x => ({ id: uid(), type: x.type, title: x.title, items: x.items }));
-    if (s.tpl) d.design.template = s.tpl;
+    if (s.design) Object.assign(d.design, s.design);
     return d;
   }
   const save = () => { doc.updated = Date.now(); clearTimeout(saveT); saveT = setTimeout(() => LS.set(KEY, ST), 250); };
@@ -108,10 +109,8 @@
   function contentPane() {
     const d = doc.data, b = d.basics;
     return `
-    <div class="rb-card rb-quick"><b>Quick start</b>
-      <div class="rb-row"><select id="rb-sample">${Object.keys(DATA.samples).map(k => `<option>${esc(k)}</option>`).join('')}</select><button type="button" class="rb-b" data-a="sample">Load sample</button>
-      <button type="button" class="rb-b" data-a="l24">⭐ Import from Learn24</button><button type="button" class="rb-b" data-a="clear">Start blank</button></div>
-      <small>Samples use fictional people and pick a matching template. Replace every detail with your own.</small></div>
+    ${gallery()}
+    <div class="rb-card rb-row rb-quick2"><button type="button" class="rb-b" data-a="l24">⭐ Import from Learn24</button><button type="button" class="rb-b" data-a="clear">Start blank</button></div>
     <div class="rb-card"><h3>Personal details</h3><div class="rb-grid">
       ${fld('basics.name', 'Full name', b.name)}${fld('basics.title', 'Headline (target role)', b.title, false, 'e.g. GenAI Engineer')}${fld('basics.email', 'Email', b.email)}${fld('basics.phone', 'Phone', b.phone)}${fld('basics.location', 'City, Country', b.location)}</div>
       <div class="rb-links">${b.links.map((l, i) => `<div class="rb-row">${fld(`basics.links.${i}.label`, 'Label', l.label)}${fld(`basics.links.${i}.url`, 'URL', l.url, false, 'linkedin.com/in/you')}<button type="button" class="rb-i" data-a="link-del" data-i="${i}" aria-label="Remove link">✕</button></div>`).join('')}
@@ -131,6 +130,14 @@
         <div class="rb-grid">${FIELDS[s.type].map(([f, lab, ta]) => fld(`sections.${si}.items.${ii}.${f}`, lab, it[f] || '', !!ta)).join('')}</div>
         ${FIELDS[s.type].some(f => f[0] === 'bullets') ? `<button type="button" class="rb-add" data-a="ideas" data-k="sections.${si}.items.${ii}.bullets">💡 Bullet ideas & action verbs</button>` : ''}</div>`).join('')}
       <button type="button" class="rb-add" data-a="it-add" data-s="${si}">＋ Add ${esc(TYPES[s.type].toLowerCase().replace(/s$/, ''))}</button></div>`;
+  }
+  function gallery() {
+    const L = DATA.levels.find(x => x.id === lvl) || DATA.levels[1], tn = Object.fromEntries(TEMPLATES.map(t => [t[0], t[1]]));
+    const list = Object.entries(DATA.samples).filter(([, v]) => v.level === L.id);
+    return `<div class="rb-card rb-gal"><h3>📚 Ready-made resumes <small>${Object.keys(DATA.samples).length} templates · 6 roles × 6 experience levels</small></h3>
+      <div class="rb-lv" role="tablist" aria-label="Experience level">${DATA.levels.map(x => `<button type="button" role="tab" data-a="lvl" data-l="${x.id}" aria-selected="${x.id === L.id}">${esc(x.name)}</button>`).join('')}</div>
+      <p class="rb-tip">${esc(L.blurb)} Each template comes with skills, projects and bullets for that level. Pick one, then replace every detail with your own.</p>
+      <div class="rb-gcs">${list.map(([k, v]) => `<button type="button" class="rb-gc${doc.sample === k ? ' on' : ''}" data-a="sample" data-id="${k}"><i class="tp tp-${v.tpl}" style="--k:${v.design.accent}"></i><b>${esc(v.role)}</b><small>${esc(v.basics.title.split(' | ').slice(1).join(' · '))}</small><em>${esc(tn[v.tpl] || v.tpl)} design</em></button>`).join('')}</div></div>`;
   }
   const itemLabel = (t, it) => ({ experience: [it.role, it.org].filter(Boolean).join(' · '), projects: it.name, education: [it.degree, it.school].filter(Boolean).join(' · '), skills: it.name, certs: it.name, list: (it.text || '').slice(0, 50), custom: it.title })[t];
 
@@ -154,6 +161,7 @@
     else if (k.startsWith('cover.')) setPath(doc, k, v);
     else if (k === 'jd') { doc.jd = v; }
     else setPath(doc.data, k, v);
+    if (!k.startsWith('design.') && k !== 'jd') doc.edited = 1;
     save();
     if (k === 'summary') sumCount();
     if (/sections\.\d+\.items\.\d+\.(role|org|name|degree|school|title|text)$/.test(k)) { const card = el.closest('.rb-item'); if (card) { const [, si, ii] = k.match(/sections\.(\d+)\.items\.(\d+)/); const s = doc.data.sections[si]; card.querySelector('.rb-ih b').textContent = itemLabel(s.type, s.items[ii]) || 'New entry'; } }
@@ -166,7 +174,9 @@
     const swap = (arr, i, j) => { [arr[i], arr[j]] = [arr[j], arr[i]]; };
     const re = () => { save(); drawEditor(); drawPreview(); };
     switch (a) {
-      case 'sample': if (confirm('Replace this resume with the sample? (Duplicate it first if you want to keep it.)')) { const d = fromSample(app.querySelector('#rb-sample').value, doc.name); d.design = Object.assign({}, doc.design, { template: d.design.template }); ST.docs[ST.active] = doc = d; re(); } break;
+      case 'lvl': lvl = b.dataset.l; LS.set('learn24-resume-lvl', lvl); drawEditor(); break;
+      case 'sample': { const id = b.dataset.id, fresh = doc.sample && !doc.edited; if (fresh || confirm('Replace the content of this resume with the “' + DATA.samples[id].label + '” template? (Use ＋ New first if you want to keep this one.)')) {
+        const d = fromSample(id, doc.name), g = d.design; d.design = Object.assign({}, doc.design, { template: g.template, accent: g.accent, font: g.font, size: g.size }); d.sample = id; ST.docs[ST.active] = doc = d; re(); toast('Loaded: ' + DATA.samples[id].label); } break; }
       case 'clear': if (confirm('Clear all content in this resume?')) { const d = blankDoc(doc.name); d.design = doc.design; ST.docs[ST.active] = doc = d; re(); } break;
       case 'l24': importModal(); break;
       case 'link-add': doc.data.basics.links.push({ label: 'Portfolio', url: '' }); re(); break;
@@ -275,10 +285,10 @@
   function newModal() {
     modal(`<h3>New resume</h3><p>Start from a blank page or a sample, or duplicate the current one to tailor it for a job.</p><div class="rb-grid">
       <label class="rb-f"><span>Name</span><input id="rb-nn" value="Resume ${Object.keys(ST.docs).length + 1}"></label>
-      <label class="rb-f"><span>Start from</span><select id="rb-ns"><option value="">Blank</option>${Object.keys(DATA.samples).map(k => `<option>${esc(k)}</option>`).join('')}</select></label></div>
+      <label class="rb-f"><span>Start from</span><select id="rb-ns"><option value="">Blank</option>${DATA.levels.map(L => `<optgroup label="${esc(L.name)}">${Object.entries(DATA.samples).filter(([, v]) => v.level === L.id).map(([k, v]) => `<option value="${k}">${esc(v.label)}</option>`).join('')}</optgroup>`).join('')}</select></label></div>
       <div class="rb-row"><button type="button" class="rb-b rb-pri" id="rb-nok">Create</button></div>`);
     app.querySelector('#rb-nok').onclick = () => { const id = uid(), s = app.querySelector('#rb-ns').value, n = app.querySelector('#rb-nn').value.trim() || 'Resume';
-      ST.docs[id] = s ? fromSample(s, n) : blankDoc(n); ST.active = id; doc = ST.docs[id]; save(); paintDocs(); closeModal(); tab = 'content'; drawEditor(); drawPreview(); };
+      ST.docs[id] = s ? Object.assign(fromSample(s, n), { sample: s }) : blankDoc(n); ST.active = id; doc = ST.docs[id]; save(); paintDocs(); closeModal(); tab = 'content'; drawEditor(); drawPreview(); };
   }
   function ideasModal(k) {
     const target = () => app.querySelector(`[data-k="${k}"]`);

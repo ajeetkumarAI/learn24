@@ -14,10 +14,10 @@
   const head = document.createElement('header');
   head.className = 'top';
   head.innerHTML = `<div class="shell"><a class="brand" href="${base}index.html" aria-label="${esc(D.site.name)} home">Learn<span class="n">24</span></a>
-    <nav class="nav" aria-label="Topics">${D.topics.map(t => `<a href="${base}${t.id}/index.html"${document.body.dataset.topic === t.id ? ' aria-current="page"' : ''}>${esc(SHORT[t.id] || t.name)}</a>`).join('')}
-      <a class="nav-x" href="${base}start.html"${page === 'start' ? ' aria-current="page"' : ''}>Start here</a><a class="nav-x" href="${base}glossary.html"${page === 'glossary' ? ' aria-current="page"' : ''}>Glossary</a><a class="nav-x" href="${base}resume/index.html"${page === 'resume' ? ' aria-current="page"' : ''}>Resume</a></nav>
+    <nav class="nav" aria-label="Topics">${D.topics.map(t => `<a href="${base}${t.id}/index.html"${document.body.dataset.topic === t.id ? ' aria-current="page"' : ''}>${esc(SHORT[t.id] || t.name)}</a>` + (t.id === 'genai-course' ? `<a href="${base}resume/index.html"${page === 'resume' ? ' aria-current="page"' : ''}>📄 Resume</a>` : '')).join('')}
+      <a class="nav-x" href="${base}start.html"${page === 'start' ? ' aria-current="page"' : ''}>Start here</a><a class="nav-x" href="${base}glossary.html"${page === 'glossary' ? ' aria-current="page"' : ''}>Glossary</a></nav>
     ${(() => { try { const m = JSON.parse(localStorage.getItem('learn24-me') || '{}'), days = m.days || {}; let n = 0; const d = new Date(); const k = x => new Date(x.getTime() - x.getTimezoneOffset() * 6e4).toISOString().slice(0, 10); if (!days[k(d)]) d.setDate(d.getDate() - 1); while (days[k(d)]) { n++; d.setDate(d.getDate() - 1); } return `<a class="streak-pill" href="${base}daily/index.html" title="Daily challenge streak">🔥 ${n}</a>`; } catch (e) { return ''; } })()}
-    <a class="jobs-pill" href="${base}jobs/index.html"${page === 'jobs' ? ' aria-current="page"' : ''}><span class="lv"></span>Jobs</a></div>`;
+    <a class="jobs-pill rs-pill" href="${base}resume/index.html" aria-label="Resume builder">📄</a><a class="jobs-pill" href="${base}jobs/index.html"${page === 'jobs' ? ' aria-current="page"' : ''}><span class="lv"></span>Jobs</a></div>`;
   document.body.prepend(head);
 
   function lessonRow(t, l, i) {

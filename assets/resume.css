@@ -81,6 +81,24 @@
 .tp-executive{background-image:linear-gradient(#fff,#fff),linear-gradient(#26304a,#26304a),linear-gradient(var(--k),var(--k)),linear-gradient(90deg,#c9ced8 0 9px,transparent 9px 12px,#e2e6ec 12px),linear-gradient(90deg,#c9ced8 0 9px,transparent 9px 12px,#e2e6ec 12px),linear-gradient(var(--k),var(--k)),repeating-linear-gradient(#e2e6ec 0 2px,transparent 2px 5px);background-size:20px 3px,100% 15px,36px 1px,36px 2px,36px 2px,36px 1px,36px 10px;background-position:5px 5px,0 0,5px 21px,5px 25px,5px 29px,5px 36px,5px 40px}
 .tp-sidebar{background-image:linear-gradient(var(--k),var(--k)),repeating-linear-gradient(#cfd8e6 0 2px,transparent 2px 5px),linear-gradient(#e7eef8,#e7eef8),repeating-linear-gradient(#e2e6ec 0 2px,transparent 2px 5px);background-size:22px 4px,10px 30px,15px 100%,22px 40px;background-position:19px 5px,3px 16px,0 0,19px 15px}
 
+/* ready-made gallery */
+.rb-lv{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:4px}
+.rb-lv button{font:inherit;font-size:13px;font-weight:600;color:var(--muted);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:5px 11px;cursor:pointer}
+.rb-lv button[aria-selected=true]{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.rb-lv button:hover{border-color:var(--accent)}
+.rb-gcs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.rb-gc{font:inherit;text-align:left;display:grid;grid-template-columns:46px minmax(0,1fr);grid-template-rows:auto auto 1fr;column-gap:10px;row-gap:1px;padding:9px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--fg);cursor:pointer}
+.rb-gc:hover{border-color:var(--accent)}
+.rb-gc.on{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.rb-gc .tp{grid-row:1/4}
+.rb-gc b{font-size:13.5px;line-height:1.3}
+.rb-gc small{font-size:12px;color:var(--muted);line-height:1.3}
+.rb-gc em{font-style:normal;font-size:11.5px;color:var(--accent);font-weight:600;align-self:end}
+.rb-quick2{margin-top:-4px}
+.tp-elegant{background-image:linear-gradient(#333,#333),linear-gradient(#999,#999),linear-gradient(#bbb,#bbb),repeating-linear-gradient(#e2e6ec 0 2px,transparent 2px 5px),linear-gradient(#bbb,#bbb),repeating-linear-gradient(#e2e6ec 0 2px,transparent 2px 5px);background-size:20px 3px,26px 1px,36px 1px,36px 12px,36px 1px,36px 12px;background-position:center 7px,center 13px,5px 19px,5px 24px,5px 39px,5px 44px}
+.tp-bold{background-image:linear-gradient(var(--k),var(--k)),linear-gradient(var(--k),var(--k)),linear-gradient(90deg,var(--k) 0 2px,#dfe6f1 2px),repeating-linear-gradient(#e2e6ec 0 2px,transparent 2px 5px),linear-gradient(90deg,var(--k) 0 2px,#dfe6f1 2px),repeating-linear-gradient(#e2e6ec 0 2px,transparent 2px 5px);background-size:100% 3px,28px 6px,36px 4px,36px 10px,36px 4px,36px 10px;background-position:0 0,5px 7px,5px 19px,5px 26px,5px 39px,5px 46px}
+@media (max-width:560px){.rb-gcs{grid-template-columns:minmax(0,1fr)}}
+
 .rb-sw{width:28px;height:28px;border-radius:50%;border:2px solid var(--panel);box-shadow:0 0 0 1px var(--line);cursor:pointer;padding:0}
 .rb-sw.on{box-shadow:0 0 0 2px var(--fg)}
 
@@ -235,6 +253,21 @@
 .tpl-sidebar .r-side .r-row{display:block}
 .tpl-sidebar .r-side .r-row>*{display:block;margin:0}
 .tpl-sidebar .r-side .r-org::before{content:none}
+
+/* Elegant */
+.tpl-elegant .r-head{text-align:center;padding-bottom:.5em;border-bottom:1px solid #bbb}
+.tpl-elegant .r-head h1{font-weight:400;letter-spacing:.08em;text-transform:uppercase;font-size:1.95em}
+.tpl-elegant .r-title{color:var(--r-ac);font-weight:400;font-style:italic}
+.tpl-elegant .r-sec h2{text-align:center;font-weight:400;letter-spacing:.22em;color:var(--r-ac);border-bottom:1px solid #ccc;padding-bottom:.15em}
+.tpl-elegant li::marker{color:#999}
+/* Bold */
+.tpl-bold .r-head{border-top:7px solid var(--r-ac);margin:calc(-1 * var(--r-mg)) calc(-1 * var(--r-mg)) calc(1em * var(--r-sp));padding:calc(var(--r-mg) * .8) var(--r-mg) 0}
+.tpl-bold .r-head h1{font-size:2.6em;color:var(--r-ac);font-weight:800;letter-spacing:-.02em}
+.tpl-bold .r-title{color:var(--r-ink);font-weight:700}
+.tpl-bold .r-sec h2{background:color-mix(in srgb,var(--r-ac) 11%,#fff);border-left:4px solid var(--r-ac);color:var(--r-ac);padding:.15em .55em}
+.tpl-bold .r-skills .r-skill b{color:var(--r-ac)}
+/* Executive layout also applies to Elegant/Bold competency grids at senior levels */
+.tpl-elegant .r-skills .r-skill,.tpl-bold .r-skills .r-skill{display:grid;grid-template-columns:28% 1fr;gap:.6em;padding:.15em 0;margin:0}
 
 /* ============ print: only the document ============ */
 @media print{
